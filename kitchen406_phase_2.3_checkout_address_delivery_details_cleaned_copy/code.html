@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-variant": "#e4e2df",
+            "secondary-container": "#eae1dc",
+            "error": "#ba1a1a",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-background": "#1b1c1a",
+            "on-secondary-container": "#69635f",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#635d59",
+            "surface-tint": "#904d16",
+            "on-primary-fixed": "#311300",
+            "outline": "#867368",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#ffb786",
+            "on-tertiary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface": "#fbf9f6",
+            "primary-fixed": "#ffdcc6",
+            "on-tertiary-container": "#fffbff",
+            "tertiary-fixed": "#ebe0d9",
+            "tertiary": "#625b55",
+            "on-surface-variant": "#53443a",
+            "on-tertiary-fixed": "#201b16",
+            "error-container": "#ffdad6",
+            "primary-container": "#ab622b",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "inverse-on-surface": "#f2f0ed",
+            "on-primary-fixed-variant": "#723600",
+            "background": "#fbf9f6",
+            "surface-bright": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "primary": "#8d4a14",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#4b4642",
+            "outline-variant": "#d9c2b5",
+            "secondary-fixed": "#eae1dc",
+            "on-secondary-fixed": "#1f1b18",
+            "surface-container": "#efeeeb",
+            "primary-fixed-dim": "#ffb786",
+            "surface-container-high": "#eae8e5",
+            "inverse-surface": "#30312f",
+            "tertiary-container": "#7b736d"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "margin-mobile": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            margin: "3rem",
+            gutter: "1.5rem",
+            "space-xl": "2.5rem"
+          },
+          fontFamily: {
+            "body-sm": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            display: ["Playfair Display"]
+          },
+          fontSize: {
+            "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+            "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "600" }],
+            "headline-lg-mobile": ["26px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "500" }],
+            "price-md": ["15px", { lineHeight: "20px", fontWeight: "600" }],
+            "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+            "display-mobile": ["34px", { lineHeight: "42px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "headline-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.015em", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "title-sm": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+            "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "price-lg": ["20px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            display: ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "500" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Global Header -->
+<header class="fixed top-0 w-full z-40 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(38,34,31,0.04)]">
+<div class="h-20 max-w-[1240px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-lg">
+<a class="flex items-center gap-space-sm" data-path="checkout-address-delivery" href="#">
+<img alt="Kitchen406 logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJuW_BnxCzrbZoN17J3fN3eJkGB6tBmaGSIE1y_Pw4H9ia11dprJFhUt5G8gi8Cnu92br-2Ry-pChlEWLafl5-hEtuaU5hj37w0-f_5yRpm2sw__sSQ6FF-25p74HFuTrJajC6B447IRm5rKnhRSzzB0GxRryf-WakJVwhPLhEaqeCmPmljiq2sb7we2KLll4lYMNjmdnI2-ufWAYSUqr1qSRBq3kyhRSPt98_60w_Gxal5_OFB-wfiA"/>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-medium">Kitchen406</span>
+</a>
+<nav class="hidden md:flex items-center gap-space-lg" data-active-classes="text-on-surface font-semibold">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+</nav>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="hidden sm:flex items-center bg-surface-container-low rounded-lg px-space-md py-space-xs gap-space-xs shadow-inner">
+<span class="material-symbols-outlined text-secondary text-[20px]">search</span>
+<input aria-label="Search breads and pastries" class="bg-transparent text-body-sm font-body-sm text-on-surface placeholder:text-secondary focus:outline-none w-36 lg:w-56 border-0 p-0" placeholder="Search breads, pastries..." type="text"/>
+</div>
+<a aria-label="View Cart with 4 items" class="relative flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary text-on-primary font-label-sm text-label-sm w-5 h-5 rounded-full flex items-center justify-center font-bold">4</span>
+</a>
+<div aria-label="Customer account profile" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-title-sm cursor-pointer" title="Signed in Customer">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Style Scaffolding -->
+<style>
+    .soft-shadow {
+      box-shadow: 0 4px 20px -2px rgba(38, 34, 31, 0.05), 0 2px 6px -1px rgba(38, 34, 31, 0.02);
+    }
+    .lifted-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .lifted-card:hover {
+      box-shadow: 0 8px 24px -4px rgba(38, 34, 31, 0.08), 0 2px 8px -2px rgba(38, 34, 31, 0.04);
+    }
+    .pulse-subtle {
+      animation: pulseSubtle 2.2s infinite ease-in-out;
+    }
+    @keyframes pulseSubtle {
+      0%, 100% { opacity: 0.95; transform: scale(1); }
+      50% { opacity: 0.75; transform: scale(1.02); }
+    }
+  </style>
+<!-- Checkout Stepper Bar -->
+<section class="w-full bg-surface-container-low/70 border-b-0 py-5">
+<div class="max-w-[1240px] mx-auto px-margin-mobile lg:px-margin">
+<!-- Desktop Stepper Line -->
+<nav aria-label="Checkout Progress" class="flex flex-wrap items-center justify-between gap-y-3 font-title-sm text-title-sm">
+<div class="flex items-center gap-space-sm text-on-surface-variant">
+<span class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center font-bold text-label-sm text-primary">✓</span>
+<span class="font-body-md text-body-md">1. Cart</span>
+</div>
+<span class="text-tertiary-fixed-dim select-none hidden sm:inline">———</span>
+<div class="flex items-center gap-space-sm text-on-surface-variant">
+<span class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center font-bold text-label-sm text-primary">✓</span>
+<span class="font-body-md text-body-md">2. Fulfillment <span class="text-secondary text-body-sm hidden md:inline">(Fri, Oct 16 · Courier)</span></span>
+</div>
+<span class="text-tertiary-fixed-dim select-none hidden sm:inline">———</span>
+<!-- Active Step -->
+<div class="flex items-center gap-space-sm text-primary font-semibold">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-sm shadow-sm">3</span>
+<span class="font-title-sm text-title-sm" id="stepperStep3Label">3. Address &amp; Delivery</span>
+</div>
+<span class="text-tertiary-fixed-dim select-none hidden sm:inline">———</span>
+<div class="flex items-center gap-space-sm text-tertiary">
+<span class="w-6 h-6 rounded-full bg-surface-container text-tertiary flex items-center justify-center font-bold text-label-sm">4</span>
+<span class="font-body-md text-body-md">4. Review</span>
+</div>
+<span class="text-tertiary-fixed-dim select-none hidden sm:inline">———</span>
+<div class="flex items-center gap-space-sm text-tertiary">
+<span class="w-6 h-6 rounded-full bg-surface-container text-tertiary flex items-center justify-center font-bold text-label-sm">5</span>
+<span class="font-body-md text-body-md">5. Payment</span>
+</div>
+</nav>
+<!-- Compact Fulfillment Reminder Strip -->
+<div class="mt-4 pt-3.5 flex flex-wrap items-center justify-between gap-space-sm text-body-sm font-body-sm bg-surface-container-lowest px-space-md py-space-sm rounded-lg soft-shadow" id="fulfillmentContextStrip">
+<div class="flex items-center gap-space-sm text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">local_shipping</span>
+<span id="fulfillmentContextText">Your fulfillment: <strong class="font-semibold text-on-surface">Delivery • Friday, October 16, 2026</strong></span>
+</div>
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md underline underline-offset-4 cursor-pointer transition-colors" id="btnSwitchFulfillment">
+          Change to pickup →
+        </button>
+</div>
+</div>
+</section>
+<!-- Main Grid Layout (65% / 35%) -->
+<section class="max-w-[1240px] mx-auto px-margin-mobile lg:px-margin py-8 w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+<!-- ========================================== -->
+<!-- LEFT COLUMN: PRIMARY CHECKOUT CONTENT (65%) -->
+<!-- ========================================== -->
+<div class="lg:col-span-8 flex flex-col gap-8 min-w-0">
+<!-- Title Block -->
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold block mb-1">Step 3 of 5</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight" id="pageSectionTitle">Delivery details</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1" id="pageSectionSubtitle">Confirm where you'd like to receive your order.</p>
+</div>
+<!-- ============================== -->
+<!-- MODE A: COURIER DELIVERY VIEW  -->
+<!-- ============================== -->
+<div class="flex flex-col gap-8" id="courierDeliveryContainer">
+<!-- 1. ADDRESS SELECTION MODULE -->
+<div class="bg-surface-container-lowest p-6 rounded-xl soft-shadow flex flex-col gap-5">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Choose a delivery address</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Select a saved address or add a new one.</p>
+</div>
+<button class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant font-semibold px-3 py-1.5 rounded bg-primary-fixed/40 hover:bg-primary-fixed/80 transition-colors" id="btnOpenAddAddress">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add new address</span>
+</button>
+</div>
+<!-- Address Cards Grid / Stack -->
+<div class="flex flex-col gap-3.5" id="addressCardsList">
+<!-- Card 1: Default / Home (Selected) -->
+<div class="address-item-card cursor-pointer p-4 rounded-lg bg-surface-container-low transition-all relative flex items-start gap-3.5" id="addrCard-1" onclick="selectAddress(1)">
+<div class="pt-0.5">
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary text-[11px] font-bold" id="radioIndicator-1">
+<span class="w-2 h-2 rounded-full bg-on-primary"></span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1 flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Home</span>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-fixed font-semibold px-2 py-0.5 rounded-full">Default</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Maria Clara Santos • <span class="text-on-surface-variant">+63 917 823 4567</span></p>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5">Unit 402, Oakridge Residences, A.S. Fortuna St.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Banilad, Mandaue City, 6014 Cebu</p>
+<p class="font-body-sm text-body-sm text-secondary italic mt-1 bg-surface/80 p-2 rounded">
+                    “Note: Please leave with condo lobby reception if not answering.”
+                  </p>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 rounded hover:bg-surface text-secondary hover:text-on-surface" onclick="event.stopPropagation(); openEditAddressModal(1);" title="Edit address" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Studio / Work -->
+<div class="address-item-card cursor-pointer p-4 rounded-lg bg-surface hover:bg-surface-container-low transition-all relative flex items-start gap-3.5" id="addrCard-2" onclick="selectAddress(2)">
+<div class="pt-0.5">
+<div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface text-[11px]" id="radioIndicator-2">
+<span class="w-2 h-2 rounded-full bg-transparent"></span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Work</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Maria Clara Santos • <span class="text-on-surface-variant">+63 917 823 4567</span></p>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5">Room 3B, The Company CEBU, IT Park</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lahug, Cebu City, 6000 Cebu</p>
+<p class="font-body-sm text-body-sm text-secondary italic mt-1 bg-surface/80 p-2 rounded">
+                    “Note: Front desk accepts food parcels 9am–6pm.”
+                  </p>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 rounded hover:bg-surface text-secondary hover:text-on-surface" onclick="event.stopPropagation(); openEditAddressModal(2);" title="Edit address" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty Address State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center p-8 bg-surface rounded-lg text-center" id="emptyAddressesView">
+<div class="w-12 h-12 rounded-full bg-secondary-container/60 flex items-center justify-center text-primary mb-3">
+<span class="material-symbols-outlined text-[24px]">location_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No saved addresses yet</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm mt-1 mb-4">
+                Add a delivery address to calculate automated courier dispatch and continue with your order.
+              </p>
+<button class="inline-flex items-center gap-2 font-label-md text-label-md bg-primary text-on-primary px-4 py-2 rounded-lg font-medium shadow-sm hover:bg-on-primary-fixed-variant transition-colors" onclick="toggleAddressForm(true)">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add delivery address</span>
+</button>
+</div>
+<!-- INLINE / MODAL ADD & EDIT FORM (Collapsible) -->
+<div class="hidden mt-2 p-5 bg-surface rounded-xl flex-col gap-4" id="addressFormPanel">
+<div class="flex items-center justify-between pb-2 border-b-0">
+<h4 class="font-title-md text-title-md text-on-surface" id="formHeaderTitle">Add a new delivery address</h4>
+<button class="text-secondary hover:text-on-surface p-1" onclick="toggleAddressForm(false)" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Form Fields -->
+<form class="space-y-4" id="addressFormElement" onsubmit="handleSaveAddress(event)">
+<!-- Label Pills -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1.5">Save address as</label>
+<div class="flex items-center gap-2">
+<button class="address-type-btn px-3.5 py-1 rounded-full text-label-md font-label-md bg-primary text-on-primary font-medium" data-type="Home" onclick="setLabelType('Home')" type="button">Home</button>
+<button class="address-type-btn px-3.5 py-1 rounded-full text-label-md font-label-md bg-surface-container text-on-surface-variant font-medium hover:bg-surface-variant" data-type="Work" onclick="setLabelType('Work')" type="button">Work</button>
+<button class="address-type-btn px-3.5 py-1 rounded-full text-label-md font-label-md bg-surface-container text-on-surface-variant font-medium hover:bg-surface-variant" data-type="Other" onclick="setLabelType('Other')" type="button">Other</button>
+</div>
+</div>
+<!-- Google Places Search Simulation -->
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1" for="addressSearchInput">Search street or landmark</label>
+<div class="flex items-center bg-surface-container-low rounded-lg px-3 py-2 gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">search</span>
+<input autocomplete="off" class="w-full bg-transparent text-body-sm font-body-sm text-on-surface focus:outline-none placeholder:text-secondary border-0 p-0" id="addressSearchInput" oninput="handleAddressSearch(this.value)" placeholder="Start typing: Oakridge, IT Park, BTC..."/>
+</div>
+<!-- Suggestions Dropdown -->
+<div class="hidden absolute left-0 right-0 top-full mt-1 bg-surface-container-lowest rounded-lg shadow-xl z-20 max-h-48 overflow-y-auto" id="addressSuggestionsDropdown">
+<div class="p-2.5 hover:bg-surface-container cursor-pointer text-body-sm font-body-sm flex items-start gap-2" onclick="selectSuggestion('Oakridge Residences, A.S. Fortuna St.', 'Banilad', 'Mandaue City', '6014')">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">location_on</span>
+<div>
+<div class="font-medium text-on-surface">Oakridge Residences, A.S. Fortuna St.</div>
+<div class="text-secondary text-body-sm">Banilad, Mandaue City, Cebu</div>
+</div>
+</div>
+<div class="p-2.5 hover:bg-surface-container cursor-pointer text-body-sm font-body-sm flex items-start gap-2" onclick="selectSuggestion('The Company CEBU, IT Park', 'Lahug', 'Cebu City', '6000')">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">location_on</span>
+<div>
+<div class="font-medium text-on-surface">The Company CEBU, Cebu IT Park</div>
+<div class="text-secondary text-body-sm">Lahug, Cebu City, Cebu</div>
+</div>
+</div>
+<div class="p-2.5 hover:bg-surface-container cursor-pointer text-body-sm font-body-sm flex items-start gap-2" onclick="selectSuggestion('Banilad Town Center (BTC), Gov. Cuenco Ave.', 'Banilad', 'Cebu City', '6000')">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">location_on</span>
+<div>
+<div class="font-medium text-on-surface">Banilad Town Center (BTC)</div>
+<div class="text-secondary text-body-sm">Gov. M. Cuenco Ave, Banilad, Cebu City</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Street / Unit Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Unit / Floor / Bldg <span class="text-error">*</span></label>
+<input class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputUnit" placeholder="e.g. Unit 402, Tower 2" required=""/>
+<span class="hidden text-error font-body-sm text-body-sm mt-1 block" id="errUnit">Unit details are required.</span>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Street Address <span class="text-error">*</span></label>
+<input class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputStreet" placeholder="e.g. 88 A.S. Fortuna St." required=""/>
+<span class="hidden text-error font-body-sm text-body-sm mt-1 block" id="errStreet">Street address is required.</span>
+</div>
+</div>
+<!-- Barangay & City -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Barangay <span class="text-error">*</span></label>
+<input class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputBarangay" placeholder="e.g. Banilad" required=""/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">City / Municipality <span class="text-error">*</span></label>
+<input class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputCity" placeholder="e.g. Mandaue City" required=""/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Postal Code</label>
+<input class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputPostal" placeholder="e.g. 6014"/>
+</div>
+</div>
+<!-- Delivery Instructions -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Rider instructions / landmark (optional)</label>
+<textarea class="w-full bg-surface-container-low px-3 py-2 rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none focus:bg-surface-container border-0" id="inputNotes" placeholder="e.g. Near corner pharmacy, ring doorbell 4B, lobby reception accepts pastry deliveries" rows="2"></textarea>
+</div>
+<!-- Buttons -->
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface" onclick="toggleAddressForm(false)" type="button">Cancel</button>
+<button class="px-5 py-2 rounded font-label-md text-label-md bg-primary text-on-primary font-medium hover:bg-on-primary-fixed-variant transition-colors shadow-sm" type="submit">Save address</button>
+</div>
+</form>
+</div>
+</div>
+<!-- 2. MAP & SERVICE AREA VERIFICATION MODULE -->
+<div class="bg-surface-container-lowest p-6 rounded-xl soft-shadow flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Confirm your delivery location</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Make sure the pin matches your delivery location.</p>
+</div>
+<span class="hidden sm:inline-flex items-center gap-1 font-label-sm text-label-sm bg-[#EBF0EC] text-[#2E5A35] font-semibold px-2.5 py-1 rounded-full" id="locStatusBadge">
+<span class="material-symbols-outlined text-[14px]">verified</span> Location confirmed
+              </span>
+</div>
+<!-- Stylized Metro Cebu Corridor SVG Map -->
+<div class="relative w-full h-64 md:h-72 rounded-xl overflow-hidden bg-[#EFECE6] flex items-center justify-center">
+<svg class="w-full h-full object-cover" fill="none" viewbox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+<!-- Coastline Waterbody (Mactan Channel) -->
+<path d="M520 0C535 80 500 160 540 240C560 280 600 300 680 320V0H520Z" fill="#E2DDD5"></path>
+<path d="M600 80C580 120 620 180 640 220" stroke="#CDC6BD" stroke-dasharray="4 4" stroke-width="2"></path>
+<text fill="#998F86" font-family="Plus Jakarta Sans" font-size="11" letter-spacing="1" x="610" y="40">MACTAN CHANNEL</text>
+<!-- Grid Road Lines / Cebu Arterials -->
+<path d="M40 280C140 240 260 210 420 180C500 160 580 130 650 110" stroke="#DFD7CD" stroke-width="6"></path>
+<!-- Gov. Cuenco corridor -->
+<path d="M120 40C160 110 240 160 310 210C350 240 400 300 440 320" stroke="#E6E0D6" stroke-width="8"></path>
+<!-- A.S. Fortuna St. -->
+<path d="M220 70C280 90 380 140 460 200" stroke="#D7CEC2" stroke-width="5"></path>
+<text fill="#8C8176" font-family="Plus Jakarta Sans" font-size="9" transform="rotate(18 245 85)" x="245" y="85">A.S. FORTUNA CORRIDOR</text>
+<!-- Route Connection Polyline between Kitchen406 and Oakridge -->
+<path class="pulse-subtle" d="M260 120 C 290 130, 310 145, 340 165" id="transitRouteLine" stroke="#B46931" stroke-dasharray="6 4" stroke-width="3.5"></path>
+<!-- Point A: Kitchen406 Atelier (Banilad) -->
+<g transform="translate(250, 110)">
+<circle cx="10" cy="10" fill="#B46931" fill-opacity="0.18" r="14"></circle>
+<circle cx="10" cy="10" fill="#8D4A14" r="7"></circle>
+<circle cx="10" cy="10" fill="#FFF" r="3"></circle>
+<rect fill="#1B1C1A" height="22" rx="4" width="118" x="24" y="0"></rect>
+<text fill="#FFF" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" x="32" y="15">Kitchen406</text>
+</g>
+<!-- Point B: Destination Pin (Selected Address) -->
+<g id="destinationPinGroup" transform="translate(330, 155)">
+<circle class="pulse-subtle" cx="10" cy="10" fill="#8D4A14" fill-opacity="0.25" r="16"></circle>
+<path d="M10 2C5.58 2 2 5.58 2 10C2 15 10 24 10 24C10 24 18 15 18 10C18 5.58 14.42 2 10 2ZM10 12C8.9 12 8 11.1 8 10C8 8.9 8.9 8 10 8C11.1 8 12 8.9 12 10C12 11.1 11.1 12 10 12Z" fill="#8D4A14"></path>
+<rect fill="#FBF9F6" height="22" rx="4" stroke="#D9C2B5" stroke-width="0.75" width="146" x="24" y="2"></rect>
+<text fill="#1B1C1A" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" id="mapDestinationLabel" x="32" y="17">Oakridge Residences</text>
+</g>
+<text fill="#998F86" font-family="Plus Jakarta Sans" font-size="10" x="30" y="300">METRO CEBU SERVICE REGION</text>
+</svg>
+<!-- Map Overlay Floating Stat Badge -->
+<div class="absolute bottom-3 left-3 bg-surface-container-lowest/90 backdrop-blur-md px-3.5 py-2 rounded-lg text-body-sm font-body-sm shadow-sm flex items-center gap-2 text-on-surface" id="mapMetricsOverlay">
+<span class="material-symbols-outlined text-primary text-[18px]">route</span>
+<span id="transitMetricsText"><strong>~4.2 km</strong> • Est. transit 18–25 mins</span>
+</div>
+</div>
+<!-- Service Area Status Banners (Dynamic via JS Inspector) -->
+<!-- 1. Success State -->
+<div class="p-3.5 rounded-lg bg-[#EBF0EC] text-[#24422A] flex items-start gap-3" id="serviceStatusSuccess">
+<span class="material-symbols-outlined text-[20px] text-[#2E5A35] mt-0.5">check_circle</span>
+<div class="text-body-sm font-body-sm"><strong class="font-semibold block text-on-surface">Delivery available</strong>Your selected address is within our delivery area.</div>
+</div>
+<!-- 2. Outside Delivery Zone Banner (Hidden by default) -->
+<div class="hidden p-3.5 rounded-lg bg-surface-container text-on-surface flex items-start justify-between gap-3" id="serviceStatusOutside">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-error text-[20px] mt-0.5">wrong_location</span>
+<div class="text-body-sm font-body-sm"><strong class="font-semibold text-error block">Delivery isn't available for this location</strong>Please choose another address or switch to pickup.</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="font-label-md text-label-md text-primary hover:underline" onclick="toggleAddressForm(true)">Choose another</button>
+<span class="text-tertiary-fixed-dim">|</span>
+<button class="font-label-md text-label-md font-semibold text-primary hover:underline" onclick="switchToPickup()">Switch to pickup</button>
+</div>
+</div>
+<!-- 3. Verification Error Banner (Hidden by default) -->
+<div class="hidden p-3.5 rounded-lg bg-error-container/60 text-on-surface flex items-start justify-between gap-3" id="serviceStatusError">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-error text-[20px] mt-0.5">error</span>
+<div class="text-body-sm font-body-sm">
+<strong class="font-semibold text-error block">We couldn't verify this address right now</strong>
+                  Network timeout checking geocode corridor.
+                </div>
+</div>
+<button class="font-label-md text-label-md text-error font-semibold hover:underline flex-shrink-0" onclick="mockRetryVerification()">Retry</button>
+</div>
+</div>
+<!-- 3. AUTOMATED THIRD-PARTY COURIER DISPATCH QUOTATION (Lalamove API Integration) -->
+<div class="bg-surface-container-lowest p-6 rounded-xl soft-shadow flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Delivery quotation</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Delivery fee for your selected address.</p>
+</div>
+</div>
+<!-- Standard Quote Card -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col gap-3" id="courierQuoteCard"><div class="flex flex-wrap items-center justify-between gap-3"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-primary shadow-sm"><span class="material-symbols-outlined text-[22px]">local_shipping</span></div><div><h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Delivery fee</h3><p class="font-body-sm text-body-sm text-on-surface-variant">Calculated for your selected delivery address.</p></div></div><div class="text-right"><div class="font-price-lg text-price-lg text-primary font-bold" id="courierFeeDisplay">₱95.00</div></div></div><p class="font-body-sm text-body-sm text-secondary pt-2 border-t-0 bg-surface/50 p-2 rounded">The delivery fee will be included in your order total.</p></div>
+<!-- Loading Spinner State (Hidden by default) -->
+<div class="hidden p-6 rounded-xl bg-surface-container-low flex-col items-center justify-center text-center gap-2.5" id="courierLoadingState">
+<span class="material-symbols-outlined text-primary text-[28px] animate-spin">progress_activity</span>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">Calculating delivery fee...</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Getting an automated courier quotation for your selected Cebu corridor.</div>
+</div>
+<!-- Failed Quotation State (Hidden by default) -->
+<div class="hidden p-4 rounded-xl bg-error-container/40 flex flex-wrap items-center justify-between gap-3" id="courierFailedState">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error text-[24px]">error_outline</span>
+<div>
+<div class="font-title-sm text-title-sm text-error font-semibold">Unable to calculate delivery fee</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">We couldn't retrieve a delivery quotation right now.</div>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded font-label-md text-label-md bg-error text-on-error font-medium hover:opacity-90" onclick="mockRetryQuote()">Retry quotation</button>
+</div>
+<!-- Fleet Unavailable State (Hidden by default) -->
+<div class="hidden p-4 rounded-xl bg-surface-container flex flex-wrap items-center justify-between gap-3" id="courierFleetUnavailableState">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[24px]">cloud_off</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">All courier partner slots booked for Friday morning</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">High morning demand. You may switch to Atelier Pickup for free.</div>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded font-label-md text-label-md bg-primary text-on-primary font-medium hover:bg-on-primary-fixed-variant" onclick="switchToPickup()">Switch to pickup</button>
+</div>
+</div>
+</div>
+<!-- ============================== -->
+<!-- MODE B: ATELIER PICKUP VIEW    -->
+<!-- ============================== -->
+<div class="hidden flex-col gap-6" id="pickupFlowContainer"><div class="bg-surface-container-lowest p-6 rounded-xl soft-shadow flex flex-col gap-5"><div class="flex items-center justify-between"><div><h2 class="font-headline-sm text-headline-sm text-on-surface">Pick up your order</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Pick up your order directly from Kitchen406.</p></div><span class="font-label-sm text-label-sm bg-[#EBF0EC] text-[#2E5A35] font-semibold px-2.5 py-1 rounded-full">Free Pickup</span></div><div class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-4"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center text-primary shadow-sm flex-shrink-0"><span class="material-symbols-outlined text-[26px]">storefront</span></div><div class="flex-1"><h3 class="font-title-md text-title-md text-on-surface font-semibold">Kitchen406</h3><p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Pickup address: [Pickup address provided by Kitchen406]</p><p class="font-body-sm text-body-sm text-secondary mt-1">Exact collection details and contact instructions will be sent upon order confirmation.</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t-0 bg-surface/70 p-3.5 rounded-lg"><div><div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Scheduled Date</div><div class="font-title-sm text-title-sm text-on-surface font-semibold mt-0.5">Friday, October 16, 2026</div></div><div><div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Fulfillment Fee</div><div class="font-title-sm text-title-sm text-[#2E5A35] font-bold mt-0.5">Pickup — Free (₱0.00)</div></div></div><div class="p-3 bg-surface-container rounded-lg font-body-sm text-body-sm text-on-surface-variant">Your order will be packed and ready on your selected date. No delivery fee is charged.</div></div><div class="flex items-center justify-start"><button class="text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md font-semibold underline underline-offset-4 flex items-center gap-1" onclick="switchToCourier()"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>Switch back to delivery</span></button></div></div></div>
+<!-- BOTTOM NAVIGATION ACTIONS -->
+<div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-0">
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2.5 rounded transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to fulfillment</span>
+</a>
+<button class="inline-flex items-center justify-center gap-2 font-label-md text-label-md bg-primary text-on-primary font-medium px-8 py-3.5 rounded-lg shadow-sm hover:bg-on-primary-fixed-variant transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" id="btnContinueReview" onclick="handleContinueReview()">
+<span>Continue to review</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- =========================================== -->
+<!-- RIGHT COLUMN: ORDER SUMMARY (35% SIDEBAR)   -->
+<!-- =========================================== -->
+<div class="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+<div class="bg-surface-container-lowest p-6 rounded-xl soft-shadow flex flex-col gap-5">
+<!-- Summary Header -->
+<div class="flex items-center justify-between pb-3 border-b-0">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Order summary</h2>
+<span class="font-label-sm text-label-sm bg-surface-container px-2.5 py-1 rounded-full text-secondary font-semibold">4 items</span>
+</div>
+<!-- Product Item List (Strict Continuity with Phase 2.1 & 2.2) -->
+<div class="flex flex-col gap-4">
+<!-- Item 1: Braided Chocolate Babka (Qty: 2) -->
+<div class="flex items-start gap-3">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Braided Chocolate Babka" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UsSrsnkdzjhs_Cv7qdNl-MhCy7PjNj-SIU4vUiRyrDEYtAvILoFpDkxqPKvRh8anX0ZdzaVwyM2H-IWFQgQDdVQpiEfjVf-Hs7FOYm09befqipaoBGedpZZueornymJ72MDgot6Yz4a-okSHmcgYf0H0NnTzgU6XtbVSt0Jv_j0IxKXUwg3tDA48cbp5E6E3UPJ0Vbn4VBMpFbmAGWoxEsSke2TpSHCJGgs-Nench7DlRl47gudsj0sg"/>
+<span class="absolute top-0 right-0 bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded-bl">2</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Braided Chocolate Babka</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Regular • 650g loaf</p>
+<div class="font-price-md text-price-md text-on-surface font-semibold mt-1">₱680.00</div>
+</div>
+</div>
+<!-- Item 2: Ube Halaya Croissant (Qty: 1) -->
+<div class="flex items-start gap-3">
+<div class="w-16 h-16 rounded-lg bg-surface-container flex-shrink-0 flex items-center justify-center text-primary relative">
+<span class="material-symbols-outlined text-[28px] opacity-75">bakery_dining</span>
+<span class="absolute top-0 right-0 bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded-bl">1</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Ube Halaya Croissant</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Small-batch laminated</p>
+<div class="font-price-md text-price-md text-on-surface font-semibold mt-1">₱190.00</div>
+</div>
+</div>
+<!-- Item 3: Japanese Shokupan Loaf (Qty: 1) -->
+<div class="flex items-start gap-3">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Japanese Shokupan Loaf" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8"/>
+<span class="absolute top-0 right-0 bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded-bl">1</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Japanese Shokupan Loaf</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">450g Standard • Sliced</p>
+<div class="font-price-md text-price-md text-on-surface font-semibold mt-1">₱280.00</div>
+</div>
+</div>
+</div>
+<!-- Cost Calculations -->
+<div class="pt-4 border-t-0 flex flex-col gap-2.5 font-body-md text-body-md text-on-surface-variant">
+<div class="flex justify-between">
+<span>Items Subtotal</span>
+<span class="font-medium text-on-surface">₱1,150.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm">
+<span class="flex items-center gap-1">
+                Fulfillment Batch
+              </span>
+<span class="text-on-surface font-medium" id="summaryFulfillmentDate">Fri, Oct 16, 2026</span>
+</div>
+<div class="flex justify-between items-center">
+<span>Delivery Fee</span>
+<span class="font-medium text-on-surface" id="summaryDeliveryFee">₱95.00</span>
+</div>
+<!-- Final Grand Total -->
+<div class="flex justify-between items-baseline pt-3 border-t-0 text-on-surface font-semibold">
+<span class="font-title-md text-title-md">Total</span>
+<span class="font-price-lg text-price-lg text-primary font-bold" id="summaryGrandTotal">₱1,245.00</span>
+</div>
+</div>
+<!-- Quiet Trust Badging -->
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- MOCK STATE INSPECTOR PANEL (Floating bottom-right)       -->
+<!-- Signature Dark Inspector with comprehensive prototype toggles -->
+<!-- ======================================================== -->
+<aside aria-label="Prototype state switcher" class="fixed bottom-4 right-4 z-50">
+<div class="bg-[#1c1d1f] text-neutral-200 rounded-lg p-3 text-xs shadow-2xl max-w-sm w-80 font-sans transition-all" id="inspectorDrawer">
+<!-- Inspector Header -->
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-neutral-700/60">
+<div class="flex items-center gap-1.5 font-semibold text-neutral-100">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>Phase 2.3 State Inspector</span>
+</div>
+<button class="text-neutral-400 hover:text-white p-0.5 text-xs" onclick="toggleInspectorCollapse()">
+<span class="material-symbols-outlined text-[16px]" id="inspectorCollapseIcon">expand_more</span>
+</button>
+</div>
+<!-- Inspector Body Controls -->
+<div class="space-y-3 max-h-[75vh] overflow-y-auto pr-1" id="inspectorContent">
+<!-- Group 1: Address Scenarios -->
+<div>
+<span class="text-[10px] tracking-wider uppercase text-neutral-400 font-bold block mb-1">1. Address Scenarios</span>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left active-state" onclick="applyState('saved-2')">
+              Default Saved (2)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('no-address')">
+              No Addresses (0)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('open-add')">
+              Open Add Form
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('open-edit')">
+              Open Edit Form
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left col-span-2" onclick="applyState('validation-error')">
+              Trigger Form Validation
+            </button>
+</div>
+</div>
+<!-- Group 2: Serviceability & Geocode -->
+<div>
+<span class="text-[10px] tracking-wider uppercase text-neutral-400 font-bold block mb-1">2. Serviceability Zone</span>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left active-state" onclick="applyState('service-ok')">
+              Available (Banilad)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('service-outside')">
+              Outside Zone (Danao)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('service-failed')">
+              Check Failed (API)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('service-verifying')">
+              Verifying Loader
+            </button>
+</div>
+</div>
+<!-- Group 3: Courier Quotation -->
+<div>
+<span class="text-[10px] tracking-wider uppercase text-neutral-400 font-bold block mb-1">3. Courier Quotation (Lalamove)</span>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left active-state" onclick="applyState('quote-ok')">
+              Quote OK (₱95.00)
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('quote-spinner')">
+              Calculating Spinner
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('quote-failed')">
+              Quote Failed
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="applyState('fleet-unavailable')">
+              Fleet Unavailable
+            </button>
+</div>
+</div>
+<!-- Group 4: Checkout Mode -->
+<div>
+<span class="text-[10px] tracking-wider uppercase text-neutral-400 font-bold block mb-1">4. Checkout Mode</span>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left active-state" onclick="switchToCourier()">Delivery</button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left" onclick="switchToPickup()">
+              Pickup Bypass
+            </button>
+<button class="state-btn bg-neutral-800 hover:bg-neutral-700 text-neutral-200 px-2 py-1 rounded text-left col-span-2" onclick="applyState('session-expired')">
+              Simulate Session Expired
+            </button>
+</div>
+</div>
+<!-- Reset Button -->
+<div class="pt-2 border-t border-neutral-700/60">
+<button class="w-full bg-primary/20 hover:bg-primary/40 text-primary-fixed font-semibold py-1 rounded text-center transition-colors" onclick="resetPrototypeState()">
+            Reset to initial state
+          </button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Interactive JavaScript -->
+<script>
+    // State storage
+    const state = {
+      fulfillmentMode: 'courier', // 'courier' | 'pickup'
+      selectedAddressId: 1,
+      hasAddresses: true,
+      serviceStatus: 'ok', // 'ok' | 'outside' | 'error' | 'verifying'
+      quoteStatus: 'ok', // 'ok' | 'loading' | 'failed' | 'fleet_unavailable'
+      deliveryFee: 95.00,
+      itemSubtotal: 1150.00,
+      isEditing: false
+    };
+
+    // Address selection
+    function selectAddress(id) {
+      state.selectedAddressId = id;
+      const card1 = document.getElementById('addrCard-1');
+      const card2 = document.getElementById('addrCard-2');
+      const radio1 = document.getElementById('radioIndicator-1');
+      const radio2 = document.getElementById('radioIndicator-2');
+      const mapLabel = document.getElementById('mapDestinationLabel');
+      const mapMetrics = document.getElementById('transitMetricsText');
+
+      if (id === 1) {
+        if (card1) card1.className = 'address-item-card cursor-pointer p-4 rounded-lg bg-surface-container-low transition-all relative flex items-start gap-3.5';
+        if (card2) card2.className = 'address-item-card cursor-pointer p-4 rounded-lg bg-surface hover:bg-surface-container-low transition-all relative flex items-start gap-3.5';
+        if (radio1) radio1.innerHTML = '<span class="w-2 h-2 rounded-full bg-on-primary"></span>';
+        if (radio1) radio1.className = 'w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary text-[11px] font-bold';
+        if (radio2) radio2.innerHTML = '<span class="w-2 h-2 rounded-full bg-transparent"></span>';
+        if (radio2) radio2.className = 'w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface text-[11px]';
+        if (mapLabel) mapLabel.textContent = 'Oakridge Residences';
+        if (mapMetrics) mapMetrics.innerHTML = '<strong>~4.2 km</strong> from Banilad oven &bull; Est. transit 18–25 mins';
+      } else {
+        if (card1) card1.className = 'address-item-card cursor-pointer p-4 rounded-lg bg-surface hover:bg-surface-container-low transition-all relative flex items-start gap-3.5';
+        if (card2) card2.className = 'address-item-card cursor-pointer p-4 rounded-lg bg-surface-container-low transition-all relative flex items-start gap-3.5';
+        if (radio2) radio2.innerHTML = '<span class="w-2 h-2 rounded-full bg-on-primary"></span>';
+        if (radio2) radio2.className = 'w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary text-[11px] font-bold';
+        if (radio1) radio1.innerHTML = '<span class="w-2 h-2 rounded-full bg-transparent"></span>';
+        if (radio1) radio1.className = 'w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface text-[11px]';
+        if (mapLabel) mapLabel.textContent = 'The Company IT Park';
+        if (mapMetrics) mapMetrics.innerHTML = '<strong>~3.8 km</strong> from Banilad oven &bull; Est. transit 15–20 mins';
+      }
+      updateCalculations();
+    }
+
+    // Toggle Address Add Form
+    function toggleAddressForm(show) {
+      const panel = document.getElementById('addressFormPanel');
+      if (!panel) return;
+      if (show) {
+        panel.classList.remove('hidden');
+        panel.classList.add('flex');
+        document.getElementById('formHeaderTitle').textContent = 'Add a new delivery address';
+        document.getElementById('addressFormElement').reset();
+        clearValidationErrors();
+      } else {
+        panel.classList.add('hidden');
+        panel.classList.remove('flex');
+        clearValidationErrors();
+      }
+    }
+
+    function openEditAddressModal(id) {
+      toggleAddressForm(true);
+      document.getElementById('formHeaderTitle').textContent = id === 1 ? 'Edit Home address' : 'Edit Studio / Work address';
+      if (id === 1) {
+        document.getElementById('inputUnit').value = 'Unit 402';
+        document.getElementById('inputStreet').value = 'Oakridge Residences, A.S. Fortuna St.';
+        document.getElementById('inputBarangay').value = 'Banilad';
+        document.getElementById('inputCity').value = 'Mandaue City';
+        document.getElementById('inputPostal').value = '6014';
+        document.getElementById('inputNotes').value = 'Please leave with condo lobby reception if not answering.';
+        setLabelType('Home');
+      } else {
+        document.getElementById('inputUnit').value = 'Room 3B';
+        document.getElementById('inputStreet').value = 'The Company CEBU, IT Park';
+        document.getElementById('inputBarangay').value = 'Lahug';
+        document.getElementById('inputCity').value = 'Cebu City';
+        document.getElementById('inputPostal').value = '6000';
+        document.getElementById('inputNotes').value = 'Front desk accepts food parcels 9am–6pm.';
+        setLabelType('Work');
+      }
+    }
+
+    function setLabelType(type) {
+      const buttons = document.querySelectorAll('.address-type-btn');
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-type') === type) {
+          btn.className = 'address-type-btn px-3.5 py-1 rounded-full text-label-md font-label-md bg-primary text-on-primary font-medium';
+        } else {
+          btn.className = 'address-type-btn px-3.5 py-1 rounded-full text-label-md font-label-md bg-surface-container text-on-surface-variant font-medium hover:bg-surface-variant';
+        }
+      });
+    }
+
+    function handleAddressSearch(val) {
+      const dd = document.getElementById('addressSuggestionsDropdown');
+      if (!dd) return;
+      if (val.trim().length > 1) {
+        dd.classList.remove('hidden');
+      } else {
+        dd.classList.add('hidden');
+      }
+    }
+
+    function selectSuggestion(street, barangay, city, postal) {
+      document.getElementById('inputStreet').value = street;
+      document.getElementById('inputBarangay').value = barangay;
+      document.getElementById('inputCity').value = city;
+      document.getElementById('inputPostal').value = postal;
+      document.getElementById('addressSuggestionsDropdown').classList.add('hidden');
+    }
+
+    function handleSaveAddress(e) {
+      e.preventDefault();
+      const unit = document.getElementById('inputUnit').value;
+      const street = document.getElementById('inputStreet').value;
+      if (!unit || !street) {
+        triggerValidationErrors();
+        return;
+      }
+      toggleAddressForm(false);
+      state.hasAddresses = true;
+      document.getElementById('emptyAddressesView').classList.add('hidden');
+      document.getElementById('emptyAddressesView').classList.remove('flex');
+      document.getElementById('addressCardsList').classList.remove('hidden');
+      selectAddress(1);
+    }
+
+    function triggerValidationErrors() {
+      const unit = document.getElementById('inputUnit');
+      const street = document.getElementById('inputStreet');
+      const errUnit = document.getElementById('errUnit');
+      const errStreet = document.getElementById('errStreet');
+      if (unit && !unit.value) {
+        unit.classList.add('bg-error-container/40');
+        if (errUnit) errUnit.classList.remove('hidden');
+      }
+      if (street && !street.value) {
+        street.classList.add('bg-error-container/40');
+        if (errStreet) errStreet.classList.remove('hidden');
+      }
+    }
+
+    function clearValidationErrors() {
+      const unit = document.getElementById('inputUnit');
+      const street = document.getElementById('inputStreet');
+      const errUnit = document.getElementById('errUnit');
+      const errStreet = document.getElementById('errStreet');
+      if (unit) unit.classList.remove('bg-error-container/40');
+      if (street) street.classList.remove('bg-error-container/40');
+      if (errUnit) errUnit.classList.add('hidden');
+      if (errStreet) errStreet.classList.add('hidden');
+    }
+
+    // Switch between Delivery and Pickup
+    function switchToPickup() {
+      state.fulfillmentMode = 'pickup';
+      document.getElementById('courierDeliveryContainer').classList.add('hidden');
+      document.getElementById('pickupFlowContainer').classList.remove('hidden');
+      document.getElementById('pickupFlowContainer').classList.add('flex');
+
+      document.getElementById('pageSectionTitle').textContent = 'Pickup details';
+      document.getElementById('pageSectionSubtitle').textContent = 'Review your pickup arrangements before continuing to review.';
+      document.getElementById('stepperStep3Label').textContent = '3. Pickup Details';
+
+      document.getElementById('fulfillmentContextText').innerHTML = 'Your fulfillment: <strong class="font-semibold text-on-surface">Kitchen406 Atelier Pickup &bull; Friday, Oct 16</strong> (Collection)';
+      document.getElementById('btnSwitchFulfillment').textContent = 'Switch to courier delivery →';
+      document.getElementById('btnSwitchFulfillment').onclick = switchToCourier;
+
+      updateCalculations();
+    }
+
+    function switchToCourier() {
+      state.fulfillmentMode = 'courier';
+      document.getElementById('pickupFlowContainer').classList.add('hidden');
+      document.getElementById('pickupFlowContainer').classList.remove('flex');
+      document.getElementById('courierDeliveryContainer').classList.remove('hidden');
+
+      document.getElementById('pageSectionTitle').textContent = 'Delivery details';
+      document.getElementById('pageSectionSubtitle').textContent = 'Confirm where you\'d like to receive your artisan bake batch.';
+      document.getElementById('stepperStep3Label').textContent = '3. Address & Delivery';
+
+      document.getElementById('fulfillmentContextText').innerHTML = 'Your fulfillment: <strong class="font-semibold text-on-surface">Courier Delivery &bull; Friday, October 16, 2026</strong> (Morning Dispatch corridor)';
+      document.getElementById('btnSwitchFulfillment').textContent = 'Change to pickup →';
+      document.getElementById('btnSwitchFulfillment').onclick = switchToPickup;
+
+      updateCalculations();
+    }
+
+    // Service Area & Quote Updates
+    function updateServiceStatus(status) {
+      state.serviceStatus = status;
+      const sSuccess = document.getElementById('serviceStatusSuccess');
+      const sOutside = document.getElementById('serviceStatusOutside');
+      const sError = document.getElementById('serviceStatusError');
+      const locBadge = document.getElementById('locStatusBadge');
+
+      [sSuccess, sOutside, sError].forEach(el => el.classList.add('hidden'));
+
+      if (status === 'ok') {
+        sSuccess.classList.remove('hidden');
+        locBadge.className = 'hidden sm:inline-flex items-center gap-1 font-label-sm text-label-sm bg-[#EBF0EC] text-[#2E5A35] font-semibold px-2.5 py-1 rounded-full';
+        locBadge.innerHTML = '<span class="material-symbols-outlined text-[14px]">verified</span> Location confirmed';
+      } else if (status === 'outside') {
+        sOutside.classList.remove('hidden');
+        locBadge.className = 'hidden sm:inline-flex items-center gap-1 font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold px-2.5 py-1 rounded-full';
+        locBadge.innerHTML = '<span class="material-symbols-outlined text-[14px]">close</span> Outside delivery zone';
+      } else if (status === 'error') {
+        sError.classList.remove('hidden');
+        locBadge.className = 'hidden sm:inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container text-secondary font-semibold px-2.5 py-1 rounded-full';
+        locBadge.innerHTML = '<span class="material-symbols-outlined text-[14px]">sync_problem</span> Verification failed';
+      } else if (status === 'verifying') {
+        locBadge.className = 'hidden sm:inline-flex items-center gap-1 font-label-sm text-label-sm bg-surface-container text-secondary font-semibold px-2.5 py-1 rounded-full';
+        locBadge.innerHTML = '<span class="material-symbols-outlined text-[14px] animate-spin">refresh</span> Verifying zone...';
+      }
+      updateCalculations();
+    }
+
+    function updateQuoteStatus(status) {
+      state.quoteStatus = status;
+      const qCard = document.getElementById('courierQuoteCard');
+      const qLoad = document.getElementById('courierLoadingState');
+      const qFail = document.getElementById('courierFailedState');
+      const qFleet = document.getElementById('courierFleetUnavailableState');
+
+      [qCard, qLoad, qFail, qFleet].forEach(el => el.classList.add('hidden'));
+
+      if (status === 'ok') {
+        qCard.classList.remove('hidden');
+      } else if (status === 'loading') {
+        qLoad.classList.remove('hidden');
+        qLoad.classList.add('flex');
+      } else if (status === 'failed') {
+        qFail.classList.remove('hidden');
+        qFail.classList.add('flex');
+      } else if (status === 'fleet_unavailable') {
+        qFleet.classList.remove('hidden');
+        qFleet.classList.add('flex');
+      }
+      updateCalculations();
+    }
+
+    function updateCalculations() {
+      const feeLabel = document.getElementById('summaryDeliveryFee');
+      const totalLabel = document.getElementById('summaryGrandTotal');
+      const continueBtn = document.getElementById('btnContinueReview');
+
+      let canProceed = true;
+
+      if (state.fulfillmentMode === 'pickup') {
+        feeLabel.textContent = '₱0.00 (Free)';
+        totalLabel.textContent = '₱' + state.itemSubtotal.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+        canProceed = true;
+      } else {
+        if (!state.hasAddresses) {
+          feeLabel.textContent = 'Pending address';
+          totalLabel.textContent = '₱' + state.itemSubtotal.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+          canProceed = false;
+        } else if (state.serviceStatus === 'outside' || state.serviceStatus === 'error' || state.serviceStatus === 'verifying') {
+          feeLabel.textContent = 'Address unserviceable';
+          totalLabel.textContent = '₱' + state.itemSubtotal.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+          canProceed = false;
+        } else if (state.quoteStatus === 'loading') {
+          feeLabel.textContent = 'Calculating...';
+          totalLabel.textContent = 'Calculating...';
+          canProceed = false;
+        } else if (state.quoteStatus === 'failed' || state.quoteStatus === 'fleet_unavailable') {
+          feeLabel.textContent = 'Quote pending';
+          totalLabel.textContent = '₱' + state.itemSubtotal.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+          canProceed = false;
+        } else {
+          feeLabel.textContent = '₱' + state.deliveryFee.toFixed(2);
+          const grand = state.itemSubtotal + state.deliveryFee;
+          totalLabel.textContent = '₱' + grand.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+          canProceed = true;
+        }
+      }
+
+      if (continueBtn) {
+        continueBtn.disabled = !canProceed;
+      }
+    }
+
+    function mockRetryVerification() {
+      updateServiceStatus('verifying');
+      setTimeout(() => {
+        updateServiceStatus('ok');
+      }, 700);
+    }
+
+    function mockRetryQuote() {
+      updateQuoteStatus('loading');
+      setTimeout(() => {
+        updateQuoteStatus('ok');
+      }, 800);
+    }
+
+    function handleContinueReview() {
+      alert("Advancing to Step 4: Checkout Review & QR Ph Payment preparation.");
+    }
+
+    // Mock Inspector State Controller
+    function applyState(action) {
+      // Clear visual button indicator inside inspector
+      document.querySelectorAll('#inspectorContent .state-btn').forEach(b => b.classList.remove('bg-primary', 'text-on-primary'));
+
+      if (action === 'saved-2') {
+        state.hasAddresses = true;
+        document.getElementById('emptyAddressesView').classList.add('hidden');
+        document.getElementById('addressCardsList').classList.remove('hidden');
+        toggleAddressForm(false);
+        switchToCourier();
+        updateServiceStatus('ok');
+        updateQuoteStatus('ok');
+      } else if (action === 'no-address') {
+        state.hasAddresses = false;
+        document.getElementById('addressCardsList').classList.add('hidden');
+        document.getElementById('emptyAddressesView').classList.remove('hidden');
+        document.getElementById('emptyAddressesView').classList.add('flex');
+        toggleAddressForm(false);
+        updateCalculations();
+      } else if (action === 'open-add') {
+        switchToCourier();
+        toggleAddressForm(true);
+      } else if (action === 'open-edit') {
+        switchToCourier();
+        openEditAddressModal(1);
+      } else if (action === 'validation-error') {
+        switchToCourier();
+        toggleAddressForm(true);
+        triggerValidationErrors();
+      } else if (action === 'service-ok') {
+        switchToCourier();
+        updateServiceStatus('ok');
+      } else if (action === 'service-outside') {
+        switchToCourier();
+        updateServiceStatus('outside');
+      } else if (action === 'service-failed') {
+        switchToCourier();
+        updateServiceStatus('error');
+      } else if (action === 'service-verifying') {
+        switchToCourier();
+        updateServiceStatus('verifying');
+      } else if (action === 'quote-ok') {
+        switchToCourier();
+        updateQuoteStatus('ok');
+      } else if (action === 'quote-spinner') {
+        switchToCourier();
+        updateQuoteStatus('loading');
+      } else if (action === 'quote-failed') {
+        switchToCourier();
+        updateQuoteStatus('failed');
+      } else if (action === 'fleet-unavailable') {
+        switchToCourier();
+        updateQuoteStatus('fleet_unavailable');
+      } else if (action === 'session-expired') {
+        alert("Session Expired Mock: Your fresh bake reservation has expired. In production, this redirects to Cart with updated inventory notice.");
+      }
+    }
+
+    function resetPrototypeState() {
+      applyState('saved-2');
+    }
+
+    let inspectorCollapsed = false;
+    function toggleInspectorCollapse() {
+      inspectorCollapsed = !inspectorCollapsed;
+      const content = document.getElementById('inspectorContent');
+      const icon = document.getElementById('inspectorCollapseIcon');
+      if (inspectorCollapsed) {
+        content.classList.add('hidden');
+        icon.textContent = 'expand_less';
+      } else {
+        content.classList.remove('hidden');
+        icon.textContent = 'expand_more';
+      }
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      selectAddress(1);
+      document.getElementById('btnSwitchFulfillment').onclick = switchToPickup;
+    });
+  </script>
+</div></main>
+<footer class="w-full bg-surface-container-low py-space-xl border-t border-surface-container">
+<div class="max-w-[1240px] mx-auto px-margin-mobile lg:px-margin flex flex-col md:flex-row items-center justify-between gap-space-lg">
+<div class="flex flex-col items-center md:items-start gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-medium">Kitchen406</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Home-based bakery in Metro Cebu.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-space-lg" data-active-classes="text-on-surface font-semibold">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy &amp; Terms</a>
+</nav>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-right">© Kitchen406. All rights reserved.</div>
+</div>
+</footer>
+</body></html>

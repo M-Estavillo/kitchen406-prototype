@@ -1,1 +1,0 @@
-import './globals.css';import type {Metadata} from 'next';export const metadata:Metadata={title:'Kitchen406 · Working prototype',description:'Ordering, production, and ingredient planning for Kitchen406.',icons:{icon:'/favicon.svg'}};export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}

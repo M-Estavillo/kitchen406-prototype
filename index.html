@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="app/tailwind-config.js"></script>
+<title>Shop · Kitchen406</title><link rel="stylesheet" href="app/styles.css"><link rel="stylesheet" href="app/commerce.css"></head><body class="bg-background font-body-md text-on-surface antialiased"><a class="skip-link" href="#page-root">Skip to content</a><div id="app-shell"><header class="fixed top-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-md">
+<div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Made-to-order breads and pastries · Available fulfillment dates confirmed during ordering</p>
+</div>
+<div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md shrink-0">
+
+<a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors" data-path="shop" href="#">Kitchen406</a>
+</div>
+<nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5">
+<a aria-current="page" class="transition-colors text-primary font-semibold border-b-2 border-primary pb-0.5" data-path="shop" href="#">Shop</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+</nav>
+<div class="flex items-center gap-space-sm lg:gap-space-md shrink-0">
+<div class="relative hidden sm:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span>
+<input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" aria-label="Search products" id="nav-search-input" placeholder="Search products..." type="text">
+</div>
+<!-- Auth View: Guest mode (Sign In link visible, avatar hidden) -->
+<a class="inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#" id="header-auth-signin">Sign In</a>
+<!-- Auth View: Signed In mode (Sign In hidden, user account avatar visible) -->
+<div class="hidden items-center gap-2" id="header-auth-user">
+<button class="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-title-sm text-title-sm" type="button">
+<span class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[15px]">person</span>
+</span>
+<span class="text-xs font-medium">Sign Out</span>
+</button>
+</div>
+<a class="font-title-sm text-title-sm text-on-surface-variant" href="#/orders">Orders</a><!-- Cart -->
+<a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" aria-label="View shopping bag" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="hidden absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none" id="header-cart-badge">2</span>
+</a>
+</div>
+</div>
+</header><div id="page-root" tabindex="-1"><div id="catalog-view"></div><div id="product-view" hidden></div><main id="commerce-view" class="commerce-view" hidden></main><section id="not-found-view" class="dialog-card" hidden><h1>Page not found</h1><a href="#/shop" class="btn">Browse the pantry</a></section></div><footer class="w-full bg-surface-container-low border-t border-surface-container">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl">
+<div class="max-w-md">
+<p class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Kitchen406</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Home-based bakery in Metro Cebu. Made-to-order breads, pastries, and pantry items.
+          </p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<p class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Pantry &amp; Bakery</p>
+<div class="flex flex-wrap gap-x-space-lg gap-y-space-xs">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cake Requests</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="fulfillment" href="#">How Fulfillment Works</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="terms-and-policies" href="#">Terms &amp; Policies</a>
+</div>
+</div>
+</div>
+<div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-outline">
+<p>© 2026 Kitchen406. All rights reserved.</p>
+</div>
+</div>
+</footer></div><div id="review-mount"></div>
+<div id="auth-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title" hidden><div class="dialog-card"><button class="dialog-close" data-auth-close aria-label="Close authentication">×</button><div id="auth-card-content"></div></div></div>
+<div id="notice-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="notice-title" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close notice">×</button><h2 id="notice-title"></h2><p id="notice-message"></p><button class="btn wide" style="margin-top:20px" data-close-modal>Continue browsing</button></div></div>
+<div id="photo-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Customer photo preview" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close photo">×</button><img id="photo-preview-image" alt="Customer photo" style="width:100%;margin-top:24px"></div></div>
+<aside id="mock-controls" aria-label="Prototype state inspector"><button id="mock-toggle" aria-expanded="false" aria-controls="mock-panel"><span class="material-symbols-outlined" aria-hidden="true">tune</span> Mock Controls</button><div id="mock-panel" hidden></div></aside>
+<div id="toast" role="status" hidden></div><div id="order-cancel-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cancel-order-title" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close cancellation">×</button><h2 id="cancel-order-title">Cancel this unpaid order?</h2><p>This cancels <strong id="cancel-order-reference"></strong> in the demo. Your bag is preserved.</p><div class="commerce-actions"><button class="btn" data-close-modal>Keep order</button><button class="btn primary" id="confirm-order-cancel">Cancel unpaid order</button></div></div></div>
+<script src="app/core.js"></script>
+<script src="app/templates.js"></script>
+<script src="app/products.js"></script>
+<script src="app/catalog.js"></script>
+<script src="app/product.js"></script>
+<script src="app/auth.js"></script>
+<script src="app/commerce-state.js"></script><script src="app/commerce-ui.js"></script><script src="app/checkout.js"></script><script src="app/maps-config.js"></script><script src="app/address-map.js"></script><script src="app/delivery-route.js"></script><script src="app/orders.js"></script><script src="app/commerce.js"></script><script src="app/app.js"></script>
+</body></html>

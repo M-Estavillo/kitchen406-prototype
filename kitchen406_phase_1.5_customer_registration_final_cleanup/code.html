@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Kitchen406 — Phase 1.5: Customer Registration</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <style>
+    @layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#8d4a14",
+            "primary-container": "#ab622b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            "on-primary-fixed": "#311300",
+            "background": "#fbf9f6",
+            "on-background": "#1b1c1a",
+            "surface": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "on-surface-variant": "#53443a",
+            "outline": "#867368",
+            "outline-variant": "#d9c2b5",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "secondary": "#635d59",
+            "secondary-container": "#eae1dc",
+            "on-secondary-fixed": "#1f1b18"
+          },
+          fontFamily: {
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "display": ["Playfair Display", "serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "title-md": ["Plus Jakarta Sans", "sans-serif"],
+            "title-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "price-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "price-md": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "margin": "3rem"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+  <!-- ==================== AUTHORITATIVE GLOBAL HEADER ==================== -->
+  <header class="fixed top-0 inset-x-0 z-30 bg-surface/90 backdrop-blur-md">
+    <div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center">
+      <p class="font-label-sm text-xs text-on-surface-variant tracking-wider uppercase">Baking fresh in Metro Cebu • Prepared to order with advance fulfillment dates</p>
+    </div>
+    <div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-md shrink-0">
+        <img alt="Kitchen406 Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XlfRoSMKjc1xtjXg5cl12eds1RaEkLzjymp3iy21OQCcNwsw6kQI0-qtFxxhnKnzvGllACYH_mWhWPfnGMpxa0dCDgPWu5px0JxJ2M05l7WRrGQOFxiJyquL_NXHkTxOzMPToCu1Bnv7Z_qHDbV6G8kOJbj0ZAxewbhbPeCbBkiZ4W-LWeN0MaLiqbsH8bdMhxdQTS7-FO9sGLQ0iEJJzSwrWyvCVKH6W4FUSoWpytpUtYaxFCfR2Yeg"/>
+        <a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors" data-path="shop" href="#">Kitchen406</a>
+      </div>
+      <nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5">
+        <a aria-current="page" class="transition-colors text-primary font-semibold border-b-2 border-primary pb-0.5" data-path="shop" href="#">Shop</a>
+        <a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+        <a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+        <a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+      </nav>
+      <div class="flex items-center gap-space-sm lg:gap-space-md shrink-0">
+        <div class="relative hidden sm:flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span>
+          <input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" placeholder="Search artisan bakes..." type="text"/>
+        </div>
+        <a class="hidden sm:inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#" id="headerSignInBtn" onclick="event.preventDefault(); openSignInModal();">Sign In</a>
+        <a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#">
+          <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+          <span class="absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none" id="headerCartCount">0</span>
+        </a>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 cursor-pointer hidden" id="headerAvatarBtn">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN STOREFRONT CONTENT (APPROVED BACKDROP) ==================== -->
+  <main class="w-full pt-20 bg-background">
+    <div class="flex flex-col w-full">
+      <!-- Breadcrumb Navigation -->
+      <section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-lg pb-space-sm">
+        <nav class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+          <a class="hover:text-primary transition-colors flex items-center gap-1" data-path="shop" href="#">
+            <span class="material-symbols-outlined text-[16px]">arrow_back</span> Shop
+          </a>
+          <span class="text-outline-variant">/</span>
+          <a class="hover:text-primary transition-colors" href="#">Breads</a>
+          <span class="text-outline-variant">/</span>
+          <span class="text-on-surface font-title-sm">Braided Chocolate Babka</span>
+        </nav>
+      </section>
+
+      <!-- Main Product Configuration -->
+      <section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pb-space-xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+          <!-- Left: Images -->
+          <div class="lg:col-span-7 flex flex-col gap-space-md">
+            <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm group">
+              <img alt="Braided Chocolate Babka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+              <div class="absolute top-4 left-4 flex flex-col items-start gap-2 z-10 pointer-events-none">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#EBF0EC] text-[#3D5941] shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span> Available • Fresh Batch
+                </span>
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#F8EDE3] text-[#935324] shadow-sm">
+                  <span class="material-symbols-outlined text-[14px]">calendar_month</span> Subscription Available
+                </span>
+              </div>
+            </div>
+            <div class="flex items-center gap-space-md">
+              <button class="thumb-btn active relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container ring-2 ring-primary transition-all" onclick="switchProductThumb('https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA', 0)">
+                <img alt="Braided Chocolate Babka loaf view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+              </button>
+              <button class="thumb-btn relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container opacity-70 hover:opacity-100 transition-all" onclick="switchProductThumb('https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c', 1)">
+                <img alt="Sliced bakery bread view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c"/>
+              </button>
+            </div>
+          </div>
+          <!-- Right: Details -->
+          <div class="lg:col-span-5 flex flex-col">
+            <div class="mb-space-xs flex items-center justify-between">
+              <span class="font-label-md text-xs font-semibold text-primary uppercase tracking-wider">Breads • Sweet &amp; Enriched</span>
+              <div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-xs">
+                <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="font-title-sm text-on-surface font-semibold">4.6</span>
+                <span>(18 reviews)</span>
+              </div>
+            </div>
+            <h1 class="font-headline-lg text-3xl md:text-4xl text-on-surface mb-2 font-serif font-medium">Braided Chocolate Babka</h1>
+            <div class="flex items-baseline gap-space-sm mb-space-md">
+              <span class="font-price-lg text-2xl font-semibold text-primary" id="productPriceDisplay">₱340</span>
+              <span class="font-body-sm text-xs text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded" id="productWeightBadge">650g Standard</span>
+            </div>
+            <p class="font-body-md text-sm text-on-surface-variant leading-relaxed mb-space-lg">
+              Soft, brioche-style braided loaf generously swirled with bittersweet Belgian chocolate ganache and crumbly streusel topping. Prepared fresh to order for your confirmed Metro Cebu fulfillment date.
+            </p>
+            <!-- Variants -->
+            <div class="mb-space-lg">
+              <label class="block font-title-sm text-xs font-semibold text-on-surface mb-space-xs">Select Loaf Size</label>
+              <div class="grid grid-cols-2 gap-space-sm">
+                <button class="flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all" id="variantBtnStd" onclick="selectVariant('standard')">
+                  <span class="font-title-sm text-sm font-semibold text-on-surface flex justify-between items-center">
+                    Standard Loaf
+                    <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                  </span>
+                  <span class="font-body-sm text-xs text-on-surface-variant">650g • Serves 4–6</span>
+                  <span class="font-title-sm text-sm font-semibold text-primary mt-1">₱340</span>
+                </button>
+                <button class="flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all" id="variantBtnLrg" onclick="selectVariant('large')">
+                  <span class="font-title-sm text-sm font-semibold text-on-surface flex justify-between items-center">
+                    Large Sharing
+                    <span class="material-symbols-outlined text-outline-variant text-[18px] opacity-40">radio_button_unchecked</span>
+                  </span>
+                  <span class="font-body-sm text-xs text-on-surface-variant">950g • Serves 8–10</span>
+                  <span class="font-title-sm text-sm font-semibold text-on-surface mt-1">₱480</span>
+                </button>
+              </div>
+            </div>
+            <!-- Stepper -->
+            <div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg mb-space-md">
+              <div class="flex items-center gap-space-xs">
+                <span class="font-label-md text-xs text-on-surface-variant uppercase font-semibold mr-2">Quantity</span>
+                <button aria-label="Decrease quantity" class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all shadow-sm" onclick="adjustQty(-1)">
+                  <span class="material-symbols-outlined text-[16px]">remove</span>
+                </button>
+                <span class="font-title-sm text-sm font-semibold text-on-surface w-8 text-center" id="qtyCounter">1</span>
+                <button aria-label="Increase quantity" class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all shadow-sm" onclick="adjustQty(1)">
+                  <span class="material-symbols-outlined text-[16px]">add</span>
+                </button>
+              </div>
+              <div class="text-right">
+                <span class="font-body-sm text-xs text-on-surface-variant block">Item Subtotal</span>
+                <span class="font-price-md text-base text-primary font-semibold" id="subtotalDisplay">₱340</span>
+              </div>
+            </div>
+            <!-- Add to Cart -->
+            <div class="flex flex-col gap-2 mb-space-lg">
+              <button class="w-full h-11 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-sm font-semibold rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-[0.99] transition-all" id="addToCartBtn" onclick="handleAddToCart()">
+                <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                <span>Add to Cart • <span id="btnPriceAmount">₱340</span></span>
+              </button>
+              <!-- Alerts -->
+              <div class="hidden p-3 bg-secondary-container text-on-secondary-fixed font-body-sm text-xs rounded-lg flex items-center justify-between" id="cartFeedbackAuthRequired">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">lock</span>
+                  <span>Sign in or register to complete checkout in Metro Cebu.</span>
+                </div>
+                <a class="underline font-semibold ml-2 shrink-0" href="#" onclick="event.preventDefault(); openRegModal('protected_action');">Register / Sign In</a>
+              </div>
+            </div>
+            <!-- Fulfillment Notice -->
+            <div class="p-space-md bg-surface-container-low rounded-lg mb-space-md flex gap-space-sm items-start">
+              <span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">local_shipping</span>
+              <div class="flex flex-col font-body-sm text-xs text-on-surface-variant">
+                <span class="font-title-sm text-xs font-semibold text-on-surface">Made to order • Scheduled fulfillment</span>
+                <p class="mt-0.5">Available fulfillment dates are selected during checkout. Please note same-day fulfillment is not supported.</p>
+              </div>
+            </div>
+            <!-- Subscription Callout -->
+            <div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant shadow-sm flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-[20px]">sync</span>
+                  <span class="font-title-sm text-xs font-semibold text-on-surface">Weekly Bread Subscription</span>
+                </div>
+                <span class="font-label-sm text-xs text-primary uppercase font-bold bg-primary-fixed px-2 py-0.5 rounded">Save 10%</span>
+              </div>
+              <p class="font-body-sm text-xs text-on-surface-variant">
+                Receive a fresh Braided Babka every week with our 4-Week Prepaid Plan. Automatic batch dispatch straight to your table.
+              </p>
+              <a class="font-title-sm text-xs font-semibold text-primary hover:underline self-start flex items-center gap-1 mt-1" data-path="subscriptions" href="#">
+                Explore 4-Week Plans <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customer Reviews Section -->
+      <section class="w-full bg-surface-container-low py-space-xl">
+        <div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin">
+          <div class="mb-space-xl">
+            <div class="flex items-center gap-2 text-primary font-label-md text-xs font-semibold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[18px]">verified</span>
+              <span>Artisan Community Feedback</span>
+            </div>
+            <h2 class="font-headline-lg text-2xl md:text-3xl text-on-surface font-serif font-medium">Customer reviews</h2>
+            <p class="font-body-md text-sm text-on-surface-variant mt-1">Verified feedback from completed Kitchen406 orders • 1 review per completed purchase item.</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+            <div class="lg:col-span-4 flex flex-col gap-space-lg">
+              <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <span class="font-display text-4xl font-serif text-on-surface leading-none">4.6</span>
+                  <span class="font-body-md text-sm text-outline">/ 5.0</span>
+                </div>
+                <div class="flex items-center gap-1 text-primary mb-2">
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">star_half</span>
+                  <span class="font-body-sm text-xs text-on-surface-variant ml-2">Based on 18 reviews</span>
+                </div>
+              </div>
+              <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+                <h3 class="font-headline-sm text-base font-serif font-semibold text-on-surface mb-2">Share your thoughts</h3>
+                <p class="font-body-md text-xs text-on-surface-variant mb-3">Purchased this bake from Kitchen406? Sign in to verify your purchase order and submit your review.</p>
+                <a class="inline-flex items-center justify-center w-full h-10 bg-surface-container text-on-surface font-title-sm text-xs font-semibold rounded-lg hover:bg-surface-container-high transition-colors" data-path="sign-in" href="#" onclick="event.preventDefault(); openSignInModal();">
+                  Sign In to Write a Review
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-8 flex flex-col gap-space-md">
+              <article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <div class="flex items-center gap-1 text-primary mb-1">
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    </div>
+                    <div class="flex items-center gap-2 font-label-sm text-xs text-outline">
+                      <span>Anonymous Customer</span> • <span class="text-[#3D5941]">From a completed Kitchen406 order</span>
+                    </div>
+                  </div>
+                  <span class="font-body-sm text-xs text-outline">Nov 12, 2025</span>
+                </div>
+                <div class="inline-block self-start font-body-sm text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Purchased: Standard Loaf (650g)</div>
+                <p class="font-body-md text-sm text-on-surface leading-relaxed mt-1">
+                  The chocolate swirl is intensely rich without feeling cloying, and warming a slice in the oven made the whole kitchen smell like heaven. Crumb structure was delightfully soft!
+                </p>
+              </article>
+              <article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <div class="flex items-center gap-1 text-primary mb-1">
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    </div>
+                    <div class="flex items-center gap-2 font-label-sm text-xs text-outline">
+                      <span>Anonymous Customer</span> • <span class="text-[#3D5941]">From a completed Kitchen406 order</span>
+                    </div>
+                  </div>
+                  <span class="font-body-sm text-xs text-outline">Nov 04, 2025</span>
+                </div>
+                <div class="inline-block self-start font-body-sm text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Purchased: Large Sharing Loaf (950g)</div>
+                <p class="font-body-md text-sm text-on-surface leading-relaxed mt-1">
+                  Shared this for our Sunday family brunch in Cebu City. The streusel on top gave it a distinct tactile crisp that pairs so well with pour-over coffee.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- More from Breads Pantry -->
+      <section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-space-xl">
+        <div class="flex items-center justify-between mb-space-lg">
+          <div>
+            <span class="font-label-md text-xs font-semibold text-primary uppercase tracking-wider">Related Batches</span>
+            <h2 class="font-headline-md text-xl md:text-2xl text-on-surface font-serif font-medium">More from our Breads Pantry</h2>
+          </div>
+          <a class="font-title-sm text-xs font-semibold text-primary hover:underline flex items-center gap-1" data-path="shop" href="#">
+            Explore All Breads <span class="material-symbols-outlined text-[16px]">east</span>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+          <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col group">
+            <div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+              <img alt="Japanese Shokupan Milk Bread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c"/>
+              <span class="absolute top-3 left-3 bg-[#EBF0EC] text-[#3D5941] text-xs font-semibold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Available</span>
+            </div>
+            <div class="p-space-md flex flex-col flex-1 justify-between">
+              <div>
+                <span class="font-label-sm text-xs text-outline uppercase">Daily Loaf</span>
+                <h3 class="font-title-md text-sm font-semibold text-on-surface mt-0.5">Japanese Shokupan Loaf</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">Pillowy soft Hokkaido milk pullman loaf with delicate golden crust.</p>
+              </div>
+              <div class="flex items-center justify-between mt-space-md pt-space-xs border-t border-surface-container">
+                <span class="font-price-md text-sm font-semibold text-primary">From ₱280</span>
+                <span class="font-body-sm text-xs text-on-surface-variant">450g / 850g</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col group">
+            <div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+              <img alt="Braided Cinnamon Babka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+              <span class="absolute top-3 left-3 bg-[#F8EDE3] text-[#935324] text-xs font-semibold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Subscription</span>
+            </div>
+            <div class="p-space-md flex flex-col flex-1 justify-between">
+              <div>
+                <span class="font-label-sm text-xs text-outline uppercase">Sweet &amp; Spiced</span>
+                <h3 class="font-title-md text-sm font-semibold text-on-surface mt-0.5">Spiced Cinnamon Swirl Loaf</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">Warm Saigon cinnamon, brown butter ribbon, and crunchy pecan crumble.</p>
+              </div>
+              <div class="flex items-center justify-between mt-space-md pt-space-xs border-t border-surface-container">
+                <span class="font-price-md text-sm font-semibold text-primary">₱320</span>
+                <span class="font-body-sm text-xs text-on-surface-variant">600g Loaf</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between p-space-lg bg-surface-container-low">
+            <div>
+              <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed mb-space-md">
+                <span class="material-symbols-outlined text-[20px]">cake</span>
+              </div>
+              <span class="font-label-sm text-xs text-primary uppercase font-bold tracking-wider">Custom Pantry Orders</span>
+              <h3 class="font-headline-sm text-base font-serif font-semibold text-on-surface mt-1">Hosting an intimate gathering?</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant mt-2">
+                We cater artisanal bread baskets, celebration Babka towers, and custom pastry boxes across Metro Cebu with advance scheduling.
+              </p>
+            </div>
+            <a class="inline-flex items-center gap-1 font-title-sm text-xs font-semibold text-primary hover:underline mt-space-md" data-path="custom-cakes" href="#">
+              Request Custom Catering <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ==================== AUTHORITATIVE GLOBAL FOOTER ==================== -->
+  <footer class="w-full bg-surface-container-low">
+    <div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg">
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl">
+        <div class="max-w-md">
+          <p class="font-headline-sm text-lg font-serif font-medium text-on-surface mb-space-xs">Kitchen406</p>
+          <p class="font-body-md text-xs text-on-surface-variant leading-relaxed">Home-based small-batch bakery in Metro Cebu. Thoughtfully crafted breads and pastries made with unhurried care and honest ingredients.</p>
+        </div>
+        <div class="flex flex-col gap-space-sm">
+          <p class="font-label-md text-xs font-semibold text-on-surface uppercase tracking-wider">Pantry &amp; Bakery</p>
+          <div class="flex flex-wrap gap-x-space-lg gap-y-space-xs">
+            <a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a>
+            <a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">4-Week Subscriptions</a>
+            <a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cake Requests</a>
+            <a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="fulfillment" href="#">How Fulfillment Works</a>
+            <a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="terms-and-policies" href="#">Terms &amp; Policies</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-xs text-outline border-t border-surface-container">
+        <p>Supporting QR Ph cashless checkout at order confirmation.</p>
+        <p>© 2025 Kitchen406. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- PHASE 1.5: AUTHENTICATION SHELL (REGISTRATION, SIGN IN & VERIFICATION) -->
+  <!-- ========================================================================= -->
+  <div class="fixed inset-0 z-40 bg-stone-950/40 backdrop-blur-[2px] flex items-center justify-center p-4 overflow-y-auto" id="registrationModalRoot">
+    <!-- Responsive Modal Card Dialog: Desktop width ~480-500px, Mobile responsive full width, max-height scrolling -->
+    <div class="w-[calc(100%-1.5rem)] sm:w-full max-w-lg mx-auto my-auto max-h-[92vh] overflow-y-auto rounded-lg border border-[#e8e2d9] bg-[#ffffff] shadow-2xl p-6 md:p-8 relative transition-all">
+      <!-- Close Button (X) -->
+      <button aria-label="Close modal" class="absolute top-4 right-4 md:top-5 md:right-5 w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors z-10" onclick="closeRegModal()" type="button">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+
+      <!-- ---------------- VIEW A: REGISTRATION FORM VIEW ---------------- -->
+      <div id="viewRegistrationForm">
+        <div class="mb-5 text-left pr-6">
+          <h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight" id="regModalTitle">Create your account</h2>
+          <p class="font-body-sm text-xs text-stone-600 mt-1 leading-normal" id="regModalSubtitle">Create an account to order, subscribe, request custom cakes, and keep track of your Kitchen406 purchases.</p>
+        </div>
+
+        <!-- Account Already Exists Banner -->
+        <div class="hidden mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="regBannerAccountExists">
+          <span class="material-symbols-outlined text-[18px] text-amber-700 shrink-0 mt-0.5">warning</span>
+          <div class="flex-1">
+            <p class="font-semibold text-amber-900">An account with this email already exists.</p>
+            <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <button class="font-semibold text-[#8D4A14] hover:underline" onclick="switchToSignIn('exists')" type="button">Sign in instead</button>
+              <span class="text-stone-300">•</span>
+              <button class="font-medium text-stone-600 hover:underline" onclick="showResetPasswordNote('exists')" type="button">Reset password</button>
+            </div>
+            <div class="hidden mt-2 p-2 bg-white/80 border border-amber-200 rounded text-[11px] text-stone-700" id="existsResetNote">
+              Enter your email in the Sign In view to trigger account password recovery.
+            </div>
+          </div>
+        </div>
+
+        <!-- Server / Network Error Banner -->
+        <div class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="regBannerServerError">
+          <span class="material-symbols-outlined text-[18px] text-rose-600 shrink-0 mt-0.5">error</span>
+          <div>
+            <p class="font-semibold">We couldn't create your account right now.</p>
+            <p class="text-rose-700 mt-0.5">Please check your connection and try again.</p>
+          </div>
+        </div>
+
+        <!-- Registration Form Fields -->
+        <form class="space-y-3.5" id="regForm" novalidate="" onsubmit="handleRegSubmit(event)">
+          <!-- Row: First Name & Last Name (Single-column on mobile ≤767px, 2 columns on tablet/desktop) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            <div>
+              <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regFirstName">First name</label>
+              <input autocomplete="given-name" class="w-full h-10 px-3 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regFirstName" name="firstName" oninput="clearRegError('firstName')" placeholder="Elena" type="text" value="Elena"/>
+              <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegFirstName">First name is required.</p>
+            </div>
+            <div>
+              <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regLastName">Last name</label>
+              <input autocomplete="family-name" class="w-full h-10 px-3 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regLastName" name="lastName" oninput="clearRegError('lastName')" placeholder="Ramos" type="text" value="Ramos"/>
+              <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegLastName">Last name is required.</p>
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regEmail">Email</label>
+            <input autocomplete="email" class="w-full h-10 px-3 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regEmail" name="email" oninput="clearRegError('email')" placeholder="elena.ramos@gmail.com" type="email" value="elena.ramos@gmail.com"/>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegEmail">Please enter a valid email address.</p>
+          </div>
+
+          <!-- Mobile Number with Understated Philippine Prefix -->
+          <div>
+            <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regMobile">Mobile number</label>
+            <div class="flex rounded-md border border-[#e8e2d9] focus-within:border-[#8D4A14] focus-within:ring-1 focus-within:ring-[#8D4A14] bg-white overflow-hidden transition-all" id="regMobileWrapper">
+              <span class="px-3 py-2 bg-stone-50 text-stone-600 text-sm border-r border-[#e8e2d9] select-none font-medium flex items-center shrink-0">+63</span>
+              <input autocomplete="tel" class="w-full h-10 px-3 bg-transparent font-body-sm text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regMobile" name="mobile" oninput="clearRegError('mobile')" placeholder="917 123 4567" type="tel" value="917 123 4567"/>
+            </div>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegMobile">Enter a valid mobile number.</p>
+          </div>
+
+          <!-- Password Field with Toggle (Secure Password, No 8-char rule) -->
+          <div>
+            <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regPassword">Password</label>
+            <div class="relative flex items-center">
+              <input autocomplete="new-password" class="w-full h-10 pl-3 pr-10 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regPassword" name="password" oninput="clearRegError('password')" placeholder="Enter your password" type="password" value="BakingMetroCebu2025!"/>
+              <button aria-label="Show password" class="absolute right-2.5 w-7 h-7 flex items-center justify-center text-stone-400 hover:text-stone-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" id="regPasswordToggleBtn" onclick="togglePassVisibility('regPassword', 'regPasswordEyeIcon')" type="button">
+                <span class="material-symbols-outlined text-[18px]" id="regPasswordEyeIcon">visibility</span>
+              </button>
+            </div>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegPassword">Password is required.</p>
+          </div>
+
+          <!-- Confirm Password Field with Toggle -->
+          <div>
+            <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="regConfirmPassword">Confirm password</label>
+            <div class="relative flex items-center">
+              <input autocomplete="new-password" class="w-full h-10 pl-3 pr-10 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed" id="regConfirmPassword" name="confirmPassword" oninput="clearRegError('confirmPassword')" placeholder="Re-enter your password" type="password" value="BakingMetroCebu2025!"/>
+              <button aria-label="Show password" class="absolute right-2.5 w-7 h-7 flex items-center justify-center text-stone-400 hover:text-stone-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" id="regConfirmPasswordToggleBtn" onclick="togglePassVisibility('regConfirmPassword', 'regConfirmPasswordEyeIcon')" type="button">
+                <span class="material-symbols-outlined text-[18px]" id="regConfirmPasswordEyeIcon">visibility</span>
+              </button>
+            </div>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errRegConfirmPassword">Passwords do not match.</p>
+          </div>
+
+          <!-- Primary Submit Button -->
+          <div class="pt-2">
+            <button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] active:bg-[#66340d] text-white font-medium text-sm rounded-md transition duration-150 flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed" id="regSubmitBtn" type="submit">
+              <span class="hidden" id="regSubmitSpinner">
+                <svg class="animate-spin h-4 w-4 text-white" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path></svg>
+              </span>
+              <span id="regSubmitBtnText">Create Account</span>
+            </button>
+          </div>
+
+          <!-- Cross-Link to Sign In -->
+          <div class="text-center pt-2 border-t border-stone-100">
+            <p class="font-body-sm text-xs text-stone-600">
+              Already have a Kitchen406 account?
+              <button class="font-semibold text-[#8D4A14] hover:underline ml-1" id="toSignInBtn" onclick="switchToSignIn()" type="button">Sign in</button>
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- ---------------- VIEW B: EMAIL VERIFICATION VIEW ---------------- -->
+      <div class="hidden flex flex-col items-center text-center py-2" id="viewEmailVerification">
+        <div class="w-14 h-14 rounded-full bg-[#f6ece3] text-[#8D4A14] flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-[28px]">mark_email_read</span>
+        </div>
+        <h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight mb-2">Check your email</h2>
+        <p class="font-body-sm text-stone-600 text-xs md:text-sm leading-relaxed max-w-sm mb-5">
+          We sent a verification link to <strong class="text-stone-900 font-semibold" id="verifyEmailDisplay">elena.ramos@gmail.com</strong>. Verify your email to activate your Kitchen406 account.
+        </p>
+
+        <!-- Status Feedback Area -->
+        <div class="w-full mb-4 min-h-[38px] flex items-center justify-center">
+          <div class="hidden text-xs text-stone-500 flex items-center justify-center gap-1.5 py-1.5" id="verifyStatusSending">
+            <svg class="animate-spin h-4 w-4 text-[#8D4A14]" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path></svg>
+            <span>Sending verification email…</span>
+          </div>
+          <div class="hidden w-full p-2.5 rounded bg-emerald-50 text-emerald-800 text-xs border border-emerald-200 text-center" id="verifyStatusSent">
+            Verification email sent. Please check your inbox.
+          </div>
+          <div class="hidden w-full p-2.5 rounded bg-rose-50 text-rose-800 text-xs border border-rose-200 text-center" id="verifyStatusError">
+            We couldn't resend the verification email. Please try again.
+          </div>
+        </div>
+
+        <div class="w-full space-y-2">
+          <button class="w-full py-2.5 border border-stone-300 text-stone-800 hover:bg-stone-50 rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2" id="resendVerificationBtn" onclick="handleResendVerification()" type="button">
+            <span class="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+            <span>Resend verification email</span>
+          </button>
+          <button class="w-full text-center text-xs text-stone-500 hover:text-stone-800 pt-2 transition-colors" onclick="switchToSignIn()" type="button">
+            Back to Sign In
+          </button>
+        </div>
+      </div>
+
+      <!-- ---------------- VIEW C: VERIFIED HANDOFF VIEW ---------------- -->
+      <div class="hidden flex flex-col items-center text-center py-3" id="viewVerifiedHandoff">
+        <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-[30px]">verified</span>
+        </div>
+        <h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight mb-2">Email verified</h2>
+        <p class="font-body-sm text-stone-600 text-xs md:text-sm leading-relaxed max-w-sm mb-6">
+          Your Kitchen406 account is now active. You can now sign in to complete orders and manage your bakery purchases.
+        </p>
+        <!-- VERIFIED DOES NOT AUTO-SIGN-IN: Clicking this switches to Phase 1.4 Sign In View -->
+        <button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] text-white font-medium text-sm rounded-md transition duration-150 shadow-sm flex items-center justify-center gap-2 cursor-pointer" onclick="switchToSignIn('verified_link')" type="button">
+          <span class="material-symbols-outlined text-[18px]">login</span>
+          <span>Sign In</span>
+        </button>
+      </div>
+
+      <!-- ---------------- VIEW D: PHASE 1.4 SIGN IN VIEW (In-Modal Handoff) ---------------- -->
+      <div class="hidden" id="viewSignInForm">
+        <div class="mb-5 text-left pr-6">
+          <h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight">Sign in to Kitchen406</h2>
+          <p class="font-body-sm text-xs text-stone-600 mt-1 leading-normal">Enter your details to track orders, manage subscriptions, or review completed bakes.</p>
+        </div>
+
+        <div class="hidden mb-4 p-3 bg-stone-100 border border-stone-200 text-stone-800 rounded-md font-body-sm text-xs flex items-start gap-2" id="signInInfoBanner">
+          <span class="material-symbols-outlined text-[18px] text-stone-600 shrink-0 mt-0.5">info</span>
+          <span id="signInInfoText">Please sign in with your account credentials.</span>
+        </div>
+
+        <form class="space-y-3.5" id="signInForm" novalidate="" onsubmit="handleSignInSubmit(event)">
+          <div>
+            <label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="signInEmail">Email</label>
+            <input autocomplete="email" class="w-full h-10 px-3 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all" id="signInEmail" name="email" placeholder="elena.ramos@gmail.com" type="email" value="elena.ramos@gmail.com"/>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errSignInEmail">Please enter your email address.</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block font-title-sm text-xs font-semibold text-stone-800 text-left" for="signInPassword">Password</label>
+              <button class="font-body-sm text-xs text-[#8D4A14] hover:underline" onclick="showResetPasswordNote('signin')" type="button">Forgot password?</button>
+            </div>
+            <div class="relative flex items-center">
+              <input autocomplete="current-password" class="w-full h-10 pl-3 pr-10 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all" id="signInPassword" name="password" placeholder="Enter your password" type="password" value="BakingMetroCebu2025!"/>
+              <button aria-label="Show password" class="absolute right-2.5 w-7 h-7 flex items-center justify-center text-stone-400 hover:text-stone-700 transition-colors" id="signInPasswordToggleBtn" onclick="togglePassVisibility('signInPassword', 'signInPasswordEyeIcon')" type="button">
+                <span class="material-symbols-outlined text-[18px]" id="signInPasswordEyeIcon">visibility</span>
+              </button>
+            </div>
+            <p class="hidden font-body-sm text-[11px] text-rose-600 mt-1 text-left" id="errSignInPassword">Password is required.</p>
+          </div>
+
+          <div class="pt-2">
+            <button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] active:bg-[#66340d] text-white font-medium text-sm rounded-md transition duration-150 flex items-center justify-center gap-2 shadow-sm cursor-pointer" id="signInSubmitBtn" type="submit">
+              <span class="material-symbols-outlined text-[18px]">login</span>
+              <span>Sign In</span>
+            </button>
+          </div>
+
+          <div class="text-center pt-2 border-t border-stone-100">
+            <p class="font-body-sm text-xs text-stone-600">
+              New to Kitchen406?
+              <button class="font-semibold text-[#8D4A14] hover:underline ml-1" onclick="switchToRegistration()" type="button">Create an account</button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FLOATING MOCK CONTROLS PANEL ("Phase 1.5 State Inspector") -->
+  <!-- ========================================================================= -->
+  <div class="fixed bottom-4 right-4 z-50 flex flex-col items-end">
+    <!-- Toggle Button -->
+    <button class="px-3 py-1.5 rounded-full bg-[#1e1e1e] text-stone-100 text-xs font-semibold flex items-center gap-1.5 shadow-xl hover:bg-black transition-all" onclick="toggleDevPanel()">
+      <span class="material-symbols-outlined text-[16px]">tune</span>
+      <span>Mock Controls</span>
+      <span class="material-symbols-outlined text-[14px]" id="devPanelChevron">expand_less</span>
+    </button>
+    <!-- Dev Drawer -->
+    <div class="mt-2 w-80 max-h-[82vh] overflow-y-auto bg-[#1e1e1e] rounded-lg shadow-2xl p-3.5 border border-stone-700 text-stone-200 space-y-3 text-xs" id="devPanelDrawer">
+      <div class="flex items-center justify-between border-b border-stone-700 pb-2">
+        <span class="font-bold text-stone-100">Phase 1.5 State Inspector</span>
+        <span class="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-emerald-900/80 text-emerald-300 border border-emerald-700">Live Demo</span>
+      </div>
+
+      <!-- Registration State -->
+      <div>
+        <label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Registration State</label>
+        <div class="grid grid-cols-3 gap-1">
+          <button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnRegDef" onclick="setRegScreenState('default')">Default</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnRegVal" onclick="setRegScreenState('validation')">Validation</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnRegLoad" onclick="setRegScreenState('loading')">Loading</button>
+        </div>
+        <div class="grid grid-cols-2 gap-1 mt-1">
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnRegExists" onclick="setRegScreenState('accountexists')">Account Exists</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnRegServ" onclick="setRegScreenState('servererror')">Server Error</button>
+        </div>
+      </div>
+
+      <!-- Verification State -->
+      <div>
+        <label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Verification State</label>
+        <div class="grid grid-cols-3 gap-1">
+          <button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnVerForm" onclick="setVerifState('form')">Form</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVerReq" onclick="setVerifState('required')">Required</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVerSend" onclick="setVerifState('sending')">Sending</button>
+        </div>
+        <div class="grid grid-cols-3 gap-1 mt-1">
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVerSent" onclick="setVerifState('sent')">Sent</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVerErr" onclick="setVerifState('resenderror')">Resend Error</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVerDone" onclick="setVerifState('verified')">Verified</button>
+        </div>
+      </div>
+
+      <!-- Entry Context -->
+      <div>
+        <label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Entry Context</label>
+        <div class="grid grid-cols-2 gap-1">
+          <button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnCtxSign" onclick="setRegEntryContext('signin_link')">Sign In Link</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnCtxProt" onclick="setRegEntryContext('protected_action')">Protected Action</button>
+        </div>
+      </div>
+
+      <!-- Modal Visibility -->
+      <div>
+        <label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Modal Visibility</label>
+        <div class="grid grid-cols-2 gap-1">
+          <button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnVisShow" onclick="showRegModal()">Show Modal</button>
+          <button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVisHide" onclick="closeRegModal()">Hide Modal</button>
+        </div>
+      </div>
+
+      <!-- Authentication State -->
+      <div class="pt-2 border-t border-stone-700">
+        <label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Authentication State</label>
+        <div class="grid grid-cols-2 gap-1">
+          <button class="p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnAuthGuest" onclick="setAuthState('guest')">Guest</button>
+          <button class="p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnAuthSigned" onclick="setAuthState('signedin')">Signed In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript Architecture (Zero alert() calls, True In-Modal Transitions) -->
+  <script>
+    const regState = {
+      screenState: 'default',
+      verificationState: 'form',
+      entryContext: 'signin_link',
+      isVisible: true,
+      auth: 'guest'
+    };
+
+    const storeState = {
+      selectedVariant: 'standard',
+      quantity: 1
+    };
+
+    const prices = { standard: 340, large: 480 };
+
+    // --- Dev Panel Drawer Toggle ---
+    function toggleDevPanel() {
+      const drawer = document.getElementById('devPanelDrawer');
+      const chev = document.getElementById('devPanelChevron');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        if (chev) chev.textContent = 'expand_less';
+      } else {
+        drawer.classList.add('hidden');
+        if (chev) chev.textContent = 'expand_more';
+      }
+    }
+
+    // --- Modal Visibility ---
+    function showRegModal() {
+      regState.isVisible = true;
+      const modal = document.getElementById('registrationModalRoot');
+      if (modal) modal.classList.remove('hidden');
+      updateModalVisButtons();
+    }
+
+    function closeRegModal() {
+      regState.isVisible = false;
+      const modal = document.getElementById('registrationModalRoot');
+      if (modal) modal.classList.add('hidden');
+      updateModalVisButtons();
+    }
+
+    function openRegModal(context) {
+      if (context) setRegEntryContext(context);
+      switchToRegistration();
+      showRegModal();
+    }
+
+    function openSignInModal() {
+      switchToSignIn();
+      showRegModal();
+    }
+
+    function updateModalVisButtons() {
+      const bShow = document.getElementById('btnVisShow');
+      const bHide = document.getElementById('btnVisHide');
+      if (regState.isVisible) {
+        if (bShow) bShow.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bHide) bHide.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      } else {
+        if (bHide) bHide.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bShow) bShow.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      }
+    }
+
+    // --- Password Visibility Toggles ---
+    function togglePassVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    // --- Validation Helper Functions ---
+    function clearRegError(field) {
+      const errMap = {
+        firstName: 'errRegFirstName',
+        lastName: 'errRegLastName',
+        email: 'errRegEmail',
+        mobile: 'errRegMobile',
+        password: 'errRegPassword',
+        confirmPassword: 'errRegConfirmPassword'
+      };
+      const inputMap = {
+        firstName: 'regFirstName',
+        lastName: 'regLastName',
+        email: 'regEmail',
+        mobile: 'regMobileWrapper',
+        password: 'regPassword',
+        confirmPassword: 'regConfirmPassword'
+      };
+      const errEl = document.getElementById(errMap[field]);
+      const inpEl = document.getElementById(inputMap[field]);
+      if (errEl) errEl.classList.add('hidden');
+      if (inpEl) {
+        inpEl.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500');
+        inpEl.classList.add('border-[#e8e2d9]');
+      }
+    }
+
+    function clearAllErrors() {
+      ['firstName', 'lastName', 'email', 'mobile', 'password', 'confirmPassword'].forEach(clearRegError);
+      const bannerExists = document.getElementById('regBannerAccountExists');
+      const bannerServer = document.getElementById('regBannerServerError');
+      const existsNote = document.getElementById('existsResetNote');
+      if (bannerExists) bannerExists.classList.add('hidden');
+      if (bannerServer) bannerServer.classList.add('hidden');
+      if (existsNote) existsNote.classList.add('hidden');
+    }
+
+    function setRegInputsDisabled(disabled) {
+      const fields = ['regFirstName', 'regLastName', 'regEmail', 'regMobile', 'regPassword', 'regConfirmPassword'];
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = disabled;
+      });
+      const pToggle1 = document.getElementById('regPasswordToggleBtn');
+      const pToggle2 = document.getElementById('regConfirmPasswordToggleBtn');
+      if (pToggle1) pToggle1.disabled = disabled;
+      if (pToggle2) pToggle2.disabled = disabled;
+    }
+
+    // --- Registration States ---
+    function setRegScreenState(mode) {
+      regState.screenState = mode;
+      clearAllErrors();
+      setVerifState('form');
+
+      const submitBtn = document.getElementById('regSubmitBtn');
+      const submitText = document.getElementById('regSubmitBtnText');
+      const submitSpinner = document.getElementById('regSubmitSpinner');
+
+      setRegInputsDisabled(false);
+      submitBtn.disabled = false;
+      submitSpinner.classList.add('hidden');
+      submitText.textContent = 'Create Account';
+
+      if (mode === 'default') {
+        document.getElementById('regFirstName').value = 'Elena';
+        document.getElementById('regLastName').value = 'Ramos';
+        document.getElementById('regEmail').value = 'elena.ramos@gmail.com';
+        document.getElementById('regMobile').value = '917 123 4567';
+        document.getElementById('regPassword').value = 'BakingMetroCebu2025!';
+        document.getElementById('regConfirmPassword').value = 'BakingMetroCebu2025!';
+      } else if (mode === 'validation') {
+        document.getElementById('regFirstName').value = '';
+        const fNameInp = document.getElementById('regFirstName');
+        fNameInp.classList.remove('border-[#e8e2d9]');
+        fNameInp.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        document.getElementById('errRegFirstName').classList.remove('hidden');
+
+        document.getElementById('regEmail').value = 'elena@invalid';
+        const emInp = document.getElementById('regEmail');
+        emInp.classList.remove('border-[#e8e2d9]');
+        emInp.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        document.getElementById('errRegEmail').classList.remove('hidden');
+
+        document.getElementById('regMobile').value = '';
+        const mobWrapper = document.getElementById('regMobileWrapper');
+        mobWrapper.classList.remove('border-[#e8e2d9]');
+        mobWrapper.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        document.getElementById('errRegMobile').textContent = 'Enter a valid mobile number.';
+        document.getElementById('errRegMobile').classList.remove('hidden');
+
+        document.getElementById('regConfirmPassword').value = 'mismatch123';
+        const confInp = document.getElementById('regConfirmPassword');
+        confInp.classList.remove('border-[#e8e2d9]');
+        confInp.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        document.getElementById('errRegConfirmPassword').classList.remove('hidden');
+      } else if (mode === 'loading') {
+        submitBtn.disabled = true;
+        submitSpinner.classList.remove('hidden');
+        submitText.textContent = 'Creating account…';
+        setRegInputsDisabled(true);
+      } else if (mode === 'accountexists') {
+        document.getElementById('regBannerAccountExists').classList.remove('hidden');
+      } else if (mode === 'servererror') {
+        document.getElementById('regBannerServerError').classList.remove('hidden');
+      }
+
+      const bDef = document.getElementById('btnRegDef');
+      const bVal = document.getElementById('btnRegVal');
+      const bLoad = document.getElementById('btnRegLoad');
+      const bExists = document.getElementById('btnRegExists');
+      const bServ = document.getElementById('btnRegServ');
+      [bDef, bVal, bLoad, bExists, bServ].forEach(b => {
+        if (b) b.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      });
+      if (mode === 'default' && bDef) bDef.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'validation' && bVal) bVal.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'loading' && bLoad) bLoad.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'accountexists' && bExists) bExists.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'servererror' && bServ) bServ.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+    }
+
+    // --- Verification & Shell Views ---
+    function setVerifState(mode) {
+      regState.verificationState = mode;
+
+      const vForm = document.getElementById('viewRegistrationForm');
+      const vEmail = document.getElementById('viewEmailVerification');
+      const vDone = document.getElementById('viewVerifiedHandoff');
+      const vSignIn = document.getElementById('viewSignInForm');
+
+      const sSending = document.getElementById('verifyStatusSending');
+      const sSent = document.getElementById('verifyStatusSent');
+      const sError = document.getElementById('verifyStatusError');
+
+      [sSending, sSent, sError].forEach(el => {
+        if (el) el.classList.add('hidden');
+      });
+
+      if (mode === 'form') {
+        vForm.classList.remove('hidden');
+        vEmail.classList.add('hidden');
+        vDone.classList.add('hidden');
+        vSignIn.classList.add('hidden');
+      } else if (mode === 'verified') {
+        vForm.classList.add('hidden');
+        vEmail.classList.add('hidden');
+        vDone.classList.remove('hidden');
+        vSignIn.classList.add('hidden');
+      } else if (mode === 'signin') {
+        vForm.classList.add('hidden');
+        vEmail.classList.add('hidden');
+        vDone.classList.add('hidden');
+        vSignIn.classList.remove('hidden');
+      } else {
+        vForm.classList.add('hidden');
+        vEmail.classList.remove('hidden');
+        vDone.classList.add('hidden');
+        vSignIn.classList.add('hidden');
+
+        const emailVal = document.getElementById('regEmail').value.trim() || 'elena.ramos@gmail.com';
+        document.getElementById('verifyEmailDisplay').textContent = emailVal;
+
+        if (mode === 'sending' && sSending) sSending.classList.remove('hidden');
+        if (mode === 'sent' && sSent) sSent.classList.remove('hidden');
+        if (mode === 'resenderror' && sError) sError.classList.remove('hidden');
+      }
+
+      const bForm = document.getElementById('btnVerForm');
+      const bReq = document.getElementById('btnVerReq');
+      const bSend = document.getElementById('btnVerSend');
+      const bSent = document.getElementById('btnVerSent');
+      const bErr = document.getElementById('btnVerErr');
+      const bDone = document.getElementById('btnVerDone');
+
+      [bForm, bReq, bSend, bSent, bErr, bDone].forEach(b => {
+        if (b) b.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      });
+      if (mode === 'form' && bForm) bForm.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'required' && bReq) bReq.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'sending' && bSend) bSend.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'sent' && bSent) bSent.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'resenderror' && bErr) bErr.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      if (mode === 'verified' && bDone) bDone.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+    }
+
+    // --- Entry Context ---
+    function setRegEntryContext(context) {
+      regState.entryContext = context;
+      const title = document.getElementById('regModalTitle');
+      const subtitle = document.getElementById('regModalSubtitle');
+      const bSign = document.getElementById('btnCtxSign');
+      const bProt = document.getElementById('btnCtxProt');
+
+      if (context === 'protected_action') {
+        if (title) title.textContent = 'Create an account to continue';
+        if (subtitle) subtitle.textContent = 'Create an account to continue with your purchase or community review.';
+        if (bProt) bProt.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bSign) bSign.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      } else {
+        if (title) title.textContent = 'Create your account';
+        if (subtitle) subtitle.textContent = 'Create an account to order, subscribe, request custom cakes, and keep track of your Kitchen406 purchases.';
+        if (bSign) bSign.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bProt) bProt.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      }
+    }
+
+    // --- Authentication State ---
+    function setAuthState(mode) {
+      regState.auth = mode;
+      const bGuest = document.getElementById('btnAuthGuest');
+      const bSigned = document.getElementById('btnAuthSigned');
+      const headerSign = document.getElementById('headerSignInBtn');
+      const headerAvatar = document.getElementById('headerAvatarBtn');
+      const cartCount = document.getElementById('headerCartCount');
+
+      if (mode === 'signedin') {
+        if (bSigned) bSigned.className = 'p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bGuest) bGuest.className = 'p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+        if (headerSign) headerSign.classList.add('hidden');
+        if (headerAvatar) headerAvatar.classList.remove('hidden');
+        if (cartCount) cartCount.textContent = '2';
+        closeRegModal();
+      } else {
+        if (bGuest) bGuest.className = 'p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bSigned) bSigned.className = 'p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+        if (headerSign) headerSign.classList.remove('hidden');
+        if (headerAvatar) headerAvatar.classList.add('hidden');
+        if (cartCount) cartCount.textContent = '0';
+      }
+    }
+
+    // --- In-Modal Shell Transitions (No alert() calls) ---
+    function switchToSignIn(reason) {
+      setVerifState('signin');
+      const banner = document.getElementById('signInInfoBanner');
+      const bannerText = document.getElementById('signInInfoText');
+      const emailField = document.getElementById('signInEmail');
+
+      if (reason === 'exists') {
+        const regEm = document.getElementById('regEmail').value.trim();
+        if (emailField && regEm) emailField.value = regEm;
+        if (banner && bannerText) {
+          bannerText.textContent = 'Account found. Enter your password to sign in.';
+          banner.classList.remove('hidden');
+        }
+      } else if (reason === 'verified_link') {
+        if (banner && bannerText) {
+          bannerText.textContent = 'Your email is verified. Please enter your password to sign in.';
+          banner.classList.remove('hidden');
+        }
+      } else {
+        if (banner) banner.classList.add('hidden');
+      }
+    }
+
+    function switchToRegistration() {
+      setVerifState('form');
+    }
+
+    function showResetPasswordNote(source) {
+      if (source === 'exists') {
+        const note = document.getElementById('existsResetNote');
+        if (note) note.classList.toggle('hidden');
+      } else {
+        const banner = document.getElementById('signInInfoBanner');
+        const bannerText = document.getElementById('signInInfoText');
+        if (banner && bannerText) {
+          bannerText.textContent = 'Password reset instructions are linked to registered Metro Cebu accounts.';
+          banner.classList.remove('hidden');
+        }
+      }
+    }
+
+    // --- Sign In Submission Handler ---
+    function handleSignInSubmit(e) {
+      if (e) e.preventDefault();
+      const email = document.getElementById('signInEmail').value.trim();
+      const pass = document.getElementById('signInPassword').value;
+      const errEmail = document.getElementById('errSignInEmail');
+      const errPass = document.getElementById('errSignInPassword');
+
+      let hasError = false;
+      if (!email) {
+        if (errEmail) errEmail.classList.remove('hidden');
+        hasError = true;
+      } else {
+        if (errEmail) errEmail.classList.add('hidden');
+      }
+
+      if (!pass) {
+        if (errPass) errPass.classList.remove('hidden');
+        hasError = true;
+      } else {
+        if (errPass) errPass.classList.add('hidden');
+      }
+
+      if (hasError) return;
+      setAuthState('signedin');
+    }
+
+    // --- Registration Submission Handler ---
+    function handleRegSubmit(e) {
+      if (e) e.preventDefault();
+      const fName = document.getElementById('regFirstName').value.trim();
+      const lName = document.getElementById('regLastName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const mobile = document.getElementById('regMobile').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const conf = document.getElementById('regConfirmPassword').value;
+
+      let hasError = false;
+      if (!fName) {
+        document.getElementById('errRegFirstName').classList.remove('hidden');
+        document.getElementById('regFirstName').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+      if (!lName) {
+        document.getElementById('errRegLastName').classList.remove('hidden');
+        document.getElementById('regLastName').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+      if (!email || !email.includes('@')) {
+        document.getElementById('errRegEmail').classList.remove('hidden');
+        document.getElementById('regEmail').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+      if (!mobile) {
+        document.getElementById('errRegMobile').textContent = 'Enter a valid mobile number.';
+        document.getElementById('errRegMobile').classList.remove('hidden');
+        document.getElementById('regMobileWrapper').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+      if (!pass) {
+        document.getElementById('errRegPassword').textContent = 'Password is required.';
+        document.getElementById('errRegPassword').classList.remove('hidden');
+        document.getElementById('regPassword').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+      if (!conf) {
+        document.getElementById('errRegConfirmPassword').textContent = 'Confirm password is required.';
+        document.getElementById('errRegConfirmPassword').classList.remove('hidden');
+        document.getElementById('regConfirmPassword').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      } else if (pass !== conf) {
+        document.getElementById('errRegConfirmPassword').textContent = 'Passwords do not match.';
+        document.getElementById('errRegConfirmPassword').classList.remove('hidden');
+        document.getElementById('regConfirmPassword').classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      setRegScreenState('loading');
+      setTimeout(() => {
+        setVerifState('sent');
+      }, 1000);
+    }
+
+    function handleResendVerification() {
+      setVerifState('sending');
+      setTimeout(() => {
+        setVerifState('sent');
+      }, 1200);
+    }
+
+    // --- Product Detail Helpers ---
+    function updatePricing() {
+      const base = storeState.selectedVariant === 'standard' ? prices.standard : prices.large;
+      const total = base * storeState.quantity;
+      document.getElementById('productPriceDisplay').textContent = '₱' + base;
+      document.getElementById('subtotalDisplay').textContent = '₱' + total;
+      document.getElementById('btnPriceAmount').textContent = '₱' + total;
+      document.getElementById('productWeightBadge').textContent = storeState.selectedVariant === 'standard' ? '650g Standard' : '950g Large';
+    }
+
+    function selectVariant(type) {
+      storeState.selectedVariant = type;
+      const stdBtn = document.getElementById('variantBtnStd');
+      const lrgBtn = document.getElementById('variantBtnLrg');
+      if (type === 'standard') {
+        stdBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all';
+        stdBtn.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+        stdBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-[18px]';
+        lrgBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all';
+        lrgBtn.querySelector('.material-symbols-outlined').textContent = 'radio_button_unchecked';
+        lrgBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      } else {
+        lrgBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all';
+        lrgBtn.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+        lrgBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-[18px]';
+        stdBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all';
+        stdBtn.querySelector('.material-symbols-outlined').textContent = 'radio_button_unchecked';
+        stdBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      }
+      updatePricing();
+    }
+
+    function adjustQty(delta) {
+      const next = storeState.quantity + delta;
+      if (next >= 1 && next <= 12) {
+        storeState.quantity = next;
+        document.getElementById('qtyCounter').textContent = next;
+        updatePricing();
+      }
+    }
+
+    function switchProductThumb(src, index) {
+      const mainImg = document.getElementById('mainProductImg');
+      if (mainImg) mainImg.src = src;
+      const btns = document.querySelectorAll('.thumb-btn');
+      btns.forEach((btn, i) => {
+        if (i === index) {
+          btn.classList.add('ring-2', 'ring-primary', 'opacity-100');
+          btn.classList.remove('opacity-70');
+        } else {
+          btn.classList.remove('ring-2', 'ring-primary', 'opacity-100');
+          btn.classList.add('opacity-70');
+        }
+      });
+    }
+
+    function handleAddToCart() {
+      if (regState.auth === 'guest') {
+        document.getElementById('cartFeedbackAuthRequired').classList.remove('hidden');
+        openRegModal('protected_action');
+      }
+    }
+  </script>
+</body>
+</html>

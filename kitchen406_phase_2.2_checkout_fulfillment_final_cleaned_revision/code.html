@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .btn-inspector {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #cfc5bd;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+    .btn-inspector:hover {
+      background-color: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+    .btn-inspector.active {
+      background-color: #8d4a14;
+      color: #ffffff;
+      font-weight: 600;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-variant": "#e4e2df",
+            "secondary-container": "#eae1dc",
+            "error": "#ba1a1a",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-background": "#1b1c1a",
+            "on-secondary-container": "#69635f",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#635d59",
+            "surface-tint": "#904d16",
+            "on-primary-fixed": "#311300",
+            "outline": "#867368",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#ffb786",
+            "on-tertiary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface": "#fbf9f6",
+            "primary-fixed": "#ffdcc6",
+            "on-tertiary-container": "#fffbff",
+            "tertiary-fixed": "#ebe0d9",
+            "tertiary": "#625b55",
+            "on-surface-variant": "#53443a",
+            "on-tertiary-fixed": "#201b16",
+            "error-container": "#ffdad6",
+            "primary-container": "#ab622b",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "inverse-on-surface": "#f2f0ed",
+            "on-primary-fixed-variant": "#723600",
+            "background": "#fbf9f6",
+            "surface-bright": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "primary": "#8d4a14",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#4b4642",
+            "outline-variant": "#d9c2b5",
+            "secondary-fixed": "#eae1dc",
+            "on-secondary-fixed": "#1f1b18",
+            "surface-container": "#efeeeb",
+            "primary-fixed-dim": "#ffb786",
+            "surface-container-high": "#eae8e5",
+            "inverse-surface": "#30312f",
+            "tertiary-container": "#7b736d"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "margin-mobile": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            margin: "3rem",
+            gutter: "1.5rem",
+            "space-xl": "2.5rem"
+          },
+          fontFamily: {
+            "body-sm": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            display: ["Playfair Display"]
+          },
+          fontSize: {
+            "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+            "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "600" }],
+            "headline-lg-mobile": ["26px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "500" }],
+            "price-md": ["15px", { lineHeight: "20px", fontWeight: "600" }],
+            "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+            "display-mobile": ["34px", { lineHeight: "42px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "headline-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.015em", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "title-sm": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+            "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "price-lg": ["20px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            display: ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "500" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+<!-- Global Header -->
+<header class="fixed top-0 w-full z-40 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(38,34,31,0.04)]">
+<div class="h-20 max-w-[1240px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-lg">
+<a class="flex items-center gap-space-sm" data-path="shop" href="#">
+<img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJuW_BnxCzrbZoN17J3fN3eJkGB6tBmaGSIE1y_Pw4H9ia11dprJFhUt5G8gi8Cnu92br-2Ry-pChlEWLafl5-hEtuaU5hj37w0-f_5yRpm2sw__sSQ6FF-25p74HFuTrJajC6B447IRm5rKnhRSzzB0GxRryf-WakJVwhPLhEaqeCmPmljiq2sb7we2KLll4lYMNjmdnI2-ufWAYSUqr1qSRBq3kyhRSPt98_60w_Gxal5_OFB-wfiA"/>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-medium">Kitchen406</span>
+</a>
+<nav class="hidden md:flex items-center gap-space-lg">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+</nav>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="hidden sm:flex items-center bg-surface-container-low rounded-lg px-space-md py-space-xs gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">search</span>
+<input class="bg-transparent text-body-sm font-body-sm text-on-surface placeholder:text-secondary focus:outline-none w-36 lg:w-56" placeholder="Search breads, pastries..." type="text"/>
+</div>
+<a aria-label="View Cart" class="relative flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary text-on-primary font-label-sm text-label-sm w-5 h-5 rounded-full flex items-center justify-center font-bold">4</span>
+</a>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full pt-20 bg-surface min-h-screen">
+<div class="flex flex-col w-full">
+<!-- Top Stepper Banner -->
+<div class="w-full bg-surface-container-low py-space-sm shadow-sm border-b border-surface-container">
+<div class="max-w-[1240px] mx-auto px-margin-mobile lg:px-margin">
+<div class="flex items-center justify-between overflow-x-auto py-1 scrollbar-none">
+<ol class="flex items-center gap-space-sm sm:gap-space-md min-w-max">
+<li class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">check</span>
+</span>
+<a class="font-title-sm text-title-sm text-secondary hover:text-on-surface transition-colors" data-path="cart" href="#">Cart</a>
+</li>
+<li class="text-outline-variant font-label-sm">/</li>
+<li class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-sm text-label-sm">2</span>
+<span class="font-title-sm text-title-sm text-on-surface">Fulfillment</span>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-label-sm text-label-sm tracking-wide">Step 2 of 4</span>
+</li>
+<li class="text-outline-variant font-label-sm">/</li>
+<li class="flex items-center gap-2" id="step-delivery-wrapper">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center font-label-sm text-label-sm" id="step-delivery-number">3</span>
+<span class="font-body-md text-body-md text-secondary" id="step-delivery-title">Delivery Details</span>
+<span class="hidden text-secondary text-body-sm font-body-sm italic" id="step-delivery-subtext">(Skipped for pickup)</span>
+</li>
+<li class="text-outline-variant font-label-sm">/</li>
+<li class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center font-label-sm text-label-sm" id="step-review-number">4</span>
+<span class="font-body-md text-body-md text-secondary">Review</span>
+</li>
+</ol>
+<div class="hidden sm:flex items-center gap-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+<span>Checkout · Kitchen406</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Layout -->
+<div class="w-full max-w-[1240px] mx-auto px-margin-mobile lg:px-margin py-space-xl">
+<!-- Guest Gate Overlay View -->
+<div class="hidden max-w-xl mx-auto my-12 bg-surface-container-lowest p-space-xl rounded-xl shadow-xl text-center" id="guest-gate-view">
+<div class="w-16 h-16 rounded-full bg-surface-container-low text-primary mx-auto flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[32px]">lock</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-space-xs">Sign in to continue checkout</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg max-w-md mx-auto">
+            Kitchen406 uses your account to keep your orders, checkout details, and fulfillment schedule together.
+          </p>
+<div class="flex flex-col gap-space-sm max-w-xs mx-auto">
+<button class="w-full h-11 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg transition-colors flex items-center justify-center gap-2" onclick="setAuthState('signed-in')" type="button">
+<span>Sign In</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="w-full h-11 bg-surface-container text-on-surface hover:bg-surface-container-high font-title-sm text-title-sm rounded-lg transition-colors" onclick="setAuthState('signed-in')" type="button">
+              Create Account
+            </button>
+<a class="font-body-sm text-body-sm text-secondary hover:text-on-surface mt-space-sm underline underline-offset-4" data-path="cart" href="#">
+              Return to Cart
+            </a>
+</div>
+</div>
+<!-- Active Checkout Form Screen -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start" id="checkout-fulfillment-container">
+<!-- Left Column: Fulfillment Methods, Date Picker, Guidance -->
+<section class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- Header & Explanatory Lead -->
+<div>
+<div class="flex items-center gap-2 mb-space-xs text-primary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px]">inventory_2</span>
+<span>Step 2 · Fulfillment &amp; Scheduling</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Choose your fulfillment</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-space-xs">
+                Pick a fulfillment method and an available date for your order.
+              </p>
+</div>
+<!-- Global Inline In-Page Alert Banner (Revalidation conflicts, missing fields) -->
+<div class="hidden rounded-lg p-space-md border" id="state-alert-banner">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] flex-shrink-0 mt-0.5" id="state-alert-icon">info</span>
+<div class="flex-1">
+<h4 class="font-title-sm text-title-sm" id="state-alert-title">Notice</h4>
+<p class="font-body-sm text-body-sm mt-0.5" id="state-alert-desc">Alert message description goes here.</p>
+</div>
+<button class="text-secondary hover:text-on-surface" onclick="dismissStateAlert()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Section A: Method Selection -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-title-md text-title-md text-on-surface">How would you like to receive your order?</h2>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded">Required</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Pickup Card -->
+<div class="cursor-pointer rounded-xl p-space-lg bg-surface-container-lowest shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between border border-transparent" id="method-card-pickup" onclick="selectFulfillmentMethod('pickup')">
+<div class="flex items-start justify-between mb-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">storefront</span>
+</div>
+<div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center" id="radio-indicator-pickup">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent" id="radio-dot-pickup"></div>
+</div>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Pickup</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs">
+                      Collect your order directly from Kitchen406.
+                    </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between border-t border-surface-container-low">
+<span class="font-label-sm text-label-sm px-2 py-1 rounded bg-[#EBF0EC] text-[#3D5941] font-semibold">
+                      Free
+                    </span>
+<span class="font-price-md text-price-md text-on-surface">₱0.00</span>
+</div>
+</div>
+<!-- Courier Delivery Card -->
+<div class="cursor-pointer rounded-xl p-space-lg bg-surface-container-lowest shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between border border-transparent" id="method-card-courier" onclick="selectFulfillmentMethod('courier')">
+<div class="flex items-start justify-between mb-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">local_shipping</span>
+</div>
+<div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center" id="radio-indicator-courier">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent" id="radio-dot-courier"></div>
+</div>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Courier Delivery</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs">
+                      Have your order delivered to your selected address.
+                    </p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between border-t border-surface-container-low">
+<span class="font-label-sm text-label-sm px-2 py-1 rounded bg-surface-container text-secondary">
+                      Delivery fee
+                    </span>
+<span class="font-body-sm text-body-sm text-secondary">Calculated next step</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section B: Date Picker Component -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Select your fulfillment date</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                    Choose an available date for your order.
+                  </p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded self-start sm:self-auto">Required</span>
+</div>
+<!-- Simplified Fulfillment Lead-in Explanation -->
+<div class="p-space-md rounded-lg bg-secondary-container/50 text-on-secondary-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0 mt-0.5">info</span>
+<p class="font-body-sm text-body-sm leading-relaxed">
+                  Kitchen406 prepares orders in advance. Available fulfillment dates depend on preparation time, production capacity, and product availability.
+                </p>
+</div>
+<!-- Calendar Shell -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm border border-surface-container-low relative min-h-[380px]" id="calendar-container-card">
+<!-- Calendar Navigation Header -->
+<div class="flex items-center justify-between pb-space-md border-b border-surface-container-low mb-space-md">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface" id="calendar-month-heading">October 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Previous month" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-surface" onclick="navigateCalendarMonth(-1)" type="button">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button aria-label="Next month" class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-surface" onclick="navigateCalendarMonth(1)" type="button">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Content Area (Holds grid or inline loading/error state) -->
+<div id="calendar-content-view">
+<!-- Calendar Days Header -->
+<div class="grid grid-cols-7 text-center font-label-sm text-label-sm text-secondary py-space-xs mb-space-xs bg-surface-container-low rounded-lg">
+<div>Su</div>
+<div>Mo</div>
+<div>Tu</div>
+<div>We</div>
+<div>Th</div>
+<div>Fr</div>
+<div>Sa</div>
+</div>
+<!-- Calendar Dates Grid -->
+<div class="grid grid-cols-7 gap-1.5 text-center" id="calendar-grid">
+<!-- Dynamically populated by renderCalendar() -->
+</div>
+</div>
+<!-- Inline Calendar Date Feedback Box -->
+<div class="hidden mt-space-md p-space-sm rounded-lg font-body-sm text-body-sm flex items-center gap-2" id="calendar-feedback-msg">
+<span class="material-symbols-outlined text-[18px] flex-shrink-0" id="calendar-feedback-icon">info</span>
+<span id="calendar-feedback-text">Select an active slot</span>
+</div>
+<!-- Calendar Legend -->
+<div class="mt-space-lg pt-space-md flex flex-wrap items-center gap-space-lg font-body-sm text-body-sm text-secondary bg-surface-container-low/50 p-space-sm rounded-lg" id="calendar-legend-block">
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-3.5 rounded bg-surface-container-lowest border border-surface-container-highest shadow-sm"></span>
+<span>Available</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-3.5 rounded bg-primary"></span>
+<span>Selected</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-3.5 rounded bg-surface-container text-secondary flex items-center justify-center text-[10px] line-through">12</span>
+<span>Unavailable</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-3.5 rounded bg-error-container text-error flex items-center justify-center text-[9px] font-bold">X</span>
+<span>Fully Booked</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section C: Selected Date & Fulfillment Confirmation Card -->
+<div class="rounded-xl p-space-lg bg-surface-container-low border border-surface-container" id="fulfillment-confirmation-box">
+<div class="flex items-start justify-between">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest text-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">verified</span>
+</div>
+<div>
+<h3 class="font-title-sm text-title-sm text-on-surface">Your fulfillment details</h3>
+<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 font-body-md text-body-md">
+<div>
+<span class="text-secondary font-body-sm text-body-sm">Method: </span>
+<strong class="text-on-surface" id="confirm-method-label">Courier Delivery</strong>
+</div>
+<div>
+<span class="text-secondary font-body-sm text-body-sm">Date: </span>
+<strong class="text-primary" id="confirm-date-label">Friday, October 16, 2026</strong>
+</div>
+</div>
+</div>
+</div>
+<button class="text-primary font-body-sm text-body-sm hover:underline" onclick="focusCalendar()" type="button">Change</button>
+</div>
+<div class="mt-space-md p-space-sm rounded-lg bg-surface-container-lowest font-body-sm text-body-sm text-secondary flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary flex-shrink-0 mt-0.5">lock_clock</span>
+<span>Your date will be rechecked before payment. Your order is confirmed only after successful checkout.</span>
+</div>
+</div>
+<!-- Section D: Contextual Method Guidance Panels (Strictly cleaned copy) -->
+<div>
+<!-- Pickup Guidance -->
+<div class="hidden p-space-lg rounded-xl bg-surface-container-lowest shadow-sm border border-surface-container-low" id="guidance-pickup">
+<div class="flex items-center gap-space-sm mb-space-xs text-on-surface">
+<span class="material-symbols-outlined text-primary text-[24px]">storefront</span>
+<h3 class="font-title-sm text-title-sm">Picking up your order</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  Your order will be prepared for collection on your selected date. Pickup does not include a delivery fee.
+                </p>
+</div>
+<!-- Courier Delivery Guidance -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm border border-surface-container-low" id="guidance-courier">
+<div class="flex items-center gap-space-sm mb-space-xs text-on-surface">
+<span class="material-symbols-outlined text-primary text-[24px]">local_shipping</span>
+<h3 class="font-title-sm text-title-sm">Delivery details come next</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  You'll select or confirm your delivery address and see the applicable delivery fee before reviewing your order.
+                </p>
+</div>
+</div>
+</section>
+<!-- Right Column: Sticky Order Summary & Proceed CTA -->
+<aside class="lg:col-span-4 sticky top-24 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm border border-surface-container-low">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container-low">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Order summary</h2>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded">4 items (3 products)</span>
+</div>
+<!-- Compact Cart items list matching Phase 2.1 Customer Cart -->
+<div class="flex flex-col gap-space-md my-space-md">
+<!-- Item 1: Chocolate Babka -->
+<div class="flex items-start gap-space-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container-low flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Golden braided chocolate babka loaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF9rvxBS91EF_flI3rC9hpNd-0nuT9ntsmyFWLfkazBYbok2N8htigwXrDNJV-dJcxrtpBMJ_nr6Rpg_JRIOMkJ0pojvKD1oEQyUju9i26huooXU1yiHOYGTodXivlXWWdq6K4jugIA6WTosBpEqMV6t-0hahvzTUI8-nMaz3TkGhn_c_3dDbTJVIcosUufH5zwdDkFb0SMgu36tU72HWe5QcoP3Q9Cwu6lEqHJNs"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-title-sm text-title-sm text-on-surface truncate">Braided Chocolate Babka</h4>
+<div class="font-body-sm text-body-sm text-secondary">Regular · 650g · Qty: 2</div>
+<div class="font-price-md text-price-md text-on-surface mt-0.5">₱680.00</div>
+</div>
+</div>
+<!-- Item 2: Ube Halaya Croissant -->
+<div class="flex items-start gap-space-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container-low flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Artisanal laminated butter croissant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdeNAPA6StIIIcgdShdYlCdGGHOzCH5EBr40j48hMD8QolFlLOTPGdZCLg2k02ZsGnU3vRjnFh9bgsHGYv3DGO-3U6jT6CvMTx3t_WjGBbdh22kcXLwVDTHQWjw0JqT8R5vn1Rm62BMOKgGtoZS0xDm0VOyvRL_yqVBRcMRQQOnioQyrio2nzFGhFsrM_i0l4-t-MbBga2HKj_uPLEy9FPRVIPD3hUvhxk7XIWaIo"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-title-sm text-title-sm text-on-surface truncate">Ube Halaya Croissant</h4>
+<div class="font-body-sm text-body-sm text-secondary">Single piece · Qty: 1</div>
+<div class="font-price-md text-price-md text-on-surface mt-0.5">₱190.00</div>
+</div>
+</div>
+<!-- Item 3: Japanese Shokupan Loaf -->
+<div class="flex items-start gap-space-sm">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container-low flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Japanese milk bread shokupan loaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnXmEyyE6WPvbiAhSbe4cvqwx_OJLhhAEIqkISp6Mjus6LG6wD1KcTucTVIiPFvf7lJ3oXBDLfL9CM4Nk6DA2XO9FW6qjxloVamkbreJJ2IDjLTNwu6NUUPVsrkuqQknlUoBXn-hjd0_pfat0vxaUJMHGqRa18EdxLkOmaA4ik2aGZ9P5XEXftdtMZJDTB5E6oHgaVO9ZzEupr-v6r7VNdgXZls0kLW5E4W3g_SAY"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-title-sm text-title-sm text-on-surface truncate">Japanese Shokupan Loaf</h4>
+<div class="font-body-sm text-body-sm text-secondary">450g Standard · Qty: 1</div>
+<div class="font-price-md text-price-md text-on-surface mt-0.5">₱280.00</div>
+</div>
+</div>
+</div>
+<!-- Cost breakdowns & Fulfillment Meta -->
+<div class="flex flex-col gap-space-xs pt-space-sm bg-surface-container-low/40 p-space-sm rounded-lg border border-surface-container-low">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-secondary">Merchandise Subtotal</span>
+<span class="font-title-sm text-title-sm text-on-surface">₱1,150.00</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-secondary">Fulfillment Method</span>
+<span class="font-semibold text-on-surface" id="summary-method-label">Courier Delivery</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-secondary">Fulfillment Date</span>
+<span class="font-semibold text-primary" id="summary-date-label">Fri, Oct 16, 2026</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-secondary">Delivery Fee</span>
+<span class="text-secondary italic" id="summary-fee-label">Calculated next step</span>
+</div>
+<div class="h-px bg-surface-container-highest my-1"></div>
+<div class="flex items-baseline justify-between">
+<span class="font-title-md text-title-md text-on-surface" id="summary-total-title">Estimated Total</span>
+<div class="text-right">
+<span class="font-price-lg text-price-lg text-on-surface" id="summary-total-label">Calculated next step</span>
+<span class="block text-[11px] text-secondary" id="summary-total-subnote">Final total calculated after address selection</span>
+</div>
+</div>
+</div>
+<!-- Checkout Actions -->
+<div class="mt-space-md flex flex-col gap-space-sm">
+<!-- Revalidation Error Notice Slot near CTA -->
+<div class="hidden p-space-sm rounded-lg bg-error-container text-on-error-container text-body-sm font-body-sm flex flex-col gap-1.5" id="cta-error-container">
+<div class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-error flex-shrink-0 mt-0.5">error</span>
+<span class="text-xs" id="cta-error-text">We couldn't verify your fulfillment details. Your selections are still here. Please try again.</span>
+</div>
+<button class="self-end text-xs font-semibold text-error hover:underline" onclick="handleProceedCheckout()" type="button">Try again</button>
+</div>
+<button class="w-full h-11 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed" id="btn-proceed" onclick="handleProceedCheckout()" type="button">
+<span class="material-symbols-outlined text-[18px] animate-spin hidden" id="btn-spinner">progress_activity</span>
+<span id="btn-proceed-text">Continue to delivery details</span>
+<span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1" id="btn-arrow">arrow_forward</span>
+</button>
+<p class="hidden text-center text-error font-body-sm text-body-sm" id="proceed-helper-text">
+                  Please select an available fulfillment date to proceed.
+                </p>
+<a class="w-full py-2.5 text-center text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors flex items-center justify-center gap-1" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Back to bag</span>
+</a>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full bg-surface-container-low py-space-xl border-t border-surface-container">
+<div class="max-w-[1240px] mx-auto px-margin-mobile lg:px-margin flex flex-col md:flex-row items-center justify-between gap-space-lg">
+<div class="flex flex-col items-center md:items-start gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-medium">Kitchen406</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Artisanal neighborhood bakery &amp; small-batch pantry.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-space-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy &amp; Terms</a>
+</nav>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-right">© 2024 Kitchen406. All rights reserved.</div>
+</div>
+</footer>
+<!-- Flow Transition Modal -->
+<div class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4" id="flow-modal">
+<div class="bg-surface-container-lowest max-w-md w-full p-space-xl rounded-xl shadow-2xl text-center">
+<div class="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-space-md">
+<span class="material-symbols-outlined text-[32px]" id="modal-icon">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs" id="modal-title">Proceeding to next step</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg" id="modal-desc">
+        Your fulfillment selection is confirmed.
+      </p>
+<div class="flex flex-col gap-2">
+<button class="w-full h-11 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:bg-primary-container transition-colors" onclick="closeFlowModal()" type="button">
+          Return to Fulfillment View
+        </button>
+</div>
+</div>
+</div>
+<!-- State Inspector Floating Launcher (Shown when minimized) -->
+<button class="hidden fixed bottom-4 right-4 z-50 bg-inverse-surface text-inverse-on-surface px-3 py-2 rounded-full shadow-2xl flex items-center gap-2 border border-secondary/50 text-xs font-semibold hover:bg-black transition-all" id="dev-inspector-launcher" onclick="toggleInspectorBody(true)" title="Open State Inspector">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span>State Inspector</span>
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+<!-- Interactive Dev State Inspector (Fixed Floating Bottom Right, Collapsible) -->
+<div class="fixed bottom-4 right-4 z-50 max-w-sm w-full bg-inverse-surface text-inverse-on-surface rounded-xl shadow-2xl p-space-md font-body-sm text-body-sm transition-all duration-300 border border-secondary/40" id="dev-inspector">
+<!-- Inspector Header / Toggle -->
+<div class="flex items-center justify-between pb-space-xs cursor-pointer select-none" onclick="toggleInspectorBody()">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="font-title-sm text-title-sm text-on-primary">Phase 2.2 State Inspector</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-[10px] bg-secondary px-1.5 py-0.5 rounded text-surface">Live Demo</span>
+<span class="material-symbols-outlined text-[18px]" id="inspector-chevron">expand_less</span>
+</div>
+</div>
+<!-- Demo Clock Notice -->
+<div class="py-1 px-2 rounded bg-white/5 border border-white/10 text-[11px] text-outline-variant flex items-center gap-1.5 my-1">
+<span class="material-symbols-outlined text-[13px] text-primary-fixed-dim">schedule</span>
+<span>Demo Clock: <strong class="text-surface-bright">Oct 14, 2026 (Asia/Manila)</strong></span>
+</div>
+<!-- Inspector Body -->
+<div class="flex flex-col gap-space-sm pt-space-xs mt-space-xs border-t border-secondary/40 max-h-[70vh] overflow-y-auto pr-1" id="inspector-body">
+<!-- A. Calendar Availability -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">A. Calendar Availability</label>
+<div class="grid grid-cols-3 gap-1">
+<button class="btn-inspector active" id="btn-cal-ready" onclick="setCalendarAvailability('ready')" type="button">Ready</button>
+<button class="btn-inspector" id="btn-cal-loading" onclick="setCalendarAvailability('loading')" type="button">Loading</button>
+<button class="btn-inspector" id="btn-cal-error" onclick="setCalendarAvailability('error')" type="button">Error</button>
+</div>
+</div>
+<!-- B. Continue / Revalidation -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">B. Continue / Revalidation</label>
+<div class="grid grid-cols-4 gap-1">
+<button class="btn-inspector active" id="btn-rev-idle" onclick="setRevalidationState('idle')" type="button">Idle</button>
+<button class="btn-inspector" id="btn-rev-checking" onclick="setRevalidationState('checking')" type="button">Checking</button>
+<button class="btn-inspector" id="btn-rev-conflict" onclick="setRevalidationState('conflict')" type="button">Conflict</button>
+<button class="btn-inspector" id="btn-rev-error" onclick="setRevalidationState('error')" type="button">Error</button>
+</div>
+</div>
+<!-- C. Authentication -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">C. Authentication</label>
+<div class="grid grid-cols-2 gap-1">
+<button class="btn-inspector active" id="btn-auth-signin" onclick="setAuthState('signed-in')" type="button">Signed In</button>
+<button class="btn-inspector" id="btn-auth-guest" onclick="setAuthState('guest-gate')" type="button">Guest Gate</button>
+</div>
+</div>
+<!-- D. Fulfillment Method -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">D. Fulfillment Method</label>
+<div class="grid grid-cols-3 gap-1">
+<button class="btn-inspector" id="btn-method-unselected" onclick="selectFulfillmentMethod('unselected')" type="button">Not Selected</button>
+<button class="btn-inspector" id="btn-method-pickup" onclick="selectFulfillmentMethod('pickup')" type="button">Pickup</button>
+<button class="btn-inspector active" id="btn-method-courier" onclick="selectFulfillmentMethod('courier')" type="button">Courier</button>
+</div>
+</div>
+<!-- E. Date Availability Scenario -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">E. Date Availability Scenario</label>
+<select class="w-full bg-surface-container text-on-surface rounded p-1.5 text-xs focus:outline-none" id="scenario-selector" onchange="applyDateScenario(this.value)">
+<option value="normal">Normal Availability</option>
+<option value="fully-booked">Fully Booked (Weekend)</option>
+<option value="blocked">Blocked Date (Maintenance)</option>
+<option value="cutoff">Lead-Time / Cutoff Passed</option>
+<option value="stock">Insufficient Stock</option>
+<option value="no-dates">No Available Dates Found</option>
+</select>
+</div>
+<!-- F. Form Validation Tests -->
+<div>
+<label class="block font-label-sm text-label-sm text-outline-variant mb-1 uppercase tracking-wider">F. Form Validation State</label>
+<div class="grid grid-cols-3 gap-1">
+<button class="btn-inspector active" id="btn-val-normal" onclick="setFormValidation('normal')" type="button">Normal</button>
+<button class="btn-inspector" id="btn-val-missing-method" onclick="setFormValidation('missing-method')" type="button">Missing Method</button>
+<button class="btn-inspector" id="btn-val-missing-date" onclick="setFormValidation('missing-date')" type="button">Missing Date</button>
+</div>
+</div>
+<!-- G. Utilities -->
+<div class="pt-2 border-t border-white/10 flex items-center justify-between">
+<button class="text-[11px] text-primary-fixed-dim hover:underline font-semibold" onclick="quickSelectDate(16)" type="button">
+          Select Fri Oct 16
+        </button>
+<div class="flex items-center gap-2">
+<button class="text-[11px] text-secondary-fixed-dim hover:underline" onclick="resetToDefaults()" type="button">
+            Reset Defaults
+          </button>
+<button class="text-[11px] text-secondary hover:text-white" onclick="toggleInspectorBody(false)" type="button">
+            Minimize
+          </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+    // Global State Configuration
+    const state = {
+      calendarState: 'ready', // ready | loading | error
+      revalidationState: 'idle', // idle | checking | conflict | error
+      auth: 'signed-in', // signed-in | guest-gate
+      method: 'courier', // courier | pickup | unselected
+      selectedDay: 16,
+      selectedMonthIndex: 9, // October
+      selectedYear: 2026,
+      currentMonthIndex: 9, // Calendar currently navigated to
+      currentYear: 2026,
+      scenario: 'normal',
+      formValidation: 'normal',
+      inspectorOpen: true,
+      demoDate: { year: 2026, month: 9, day: 14 } // Demo Clock: Oct 14, 2026
+    };
+
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    function init() {
+      renderCalendar();
+      updateMethodUI();
+      updateConfirmCard();
+      updateSummary();
+    }
+
+    // Toggle Inspector Collapse / Launch
+    function toggleInspectorBody(forceOpen) {
+      if (typeof forceOpen === 'boolean') {
+        state.inspectorOpen = forceOpen;
+      } else {
+        state.inspectorOpen = !state.inspectorOpen;
+      }
+      const inspector = document.getElementById('dev-inspector');
+      const launcher = document.getElementById('dev-inspector-launcher');
+      const chevron = document.getElementById('inspector-chevron');
+      const body = document.getElementById('inspector-body');
+
+      if (state.inspectorOpen) {
+        inspector.classList.remove('hidden');
+        launcher.classList.add('hidden');
+        body.classList.remove('hidden');
+        chevron.textContent = 'expand_less';
+      } else {
+        inspector.classList.add('hidden');
+        launcher.classList.remove('hidden');
+      }
+    }
+
+    // A. CALENDAR AVAILABILITY STATE (Ready / Loading / Error)
+    function setCalendarAvailability(calState) {
+      state.calendarState = calState;
+      document.querySelectorAll('#inspector-body [id^="btn-cal-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-cal-' + calState);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const contentView = document.getElementById('calendar-content-view');
+      const legend = document.getElementById('calendar-legend-block');
+      const feedback = document.getElementById('calendar-feedback-msg');
+
+      if (calState === 'loading') {
+        legend.classList.add('hidden');
+        feedback.classList.add('hidden');
+        contentView.innerHTML = `
+          <div class="h-64 flex flex-col items-center justify-center gap-3 text-center p-space-md">
+            <span class="material-symbols-outlined text-[36px] text-primary animate-spin">progress_activity</span>
+            <div class="font-title-sm text-title-sm text-on-surface">Checking available dates...</div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">We're checking which dates are available for your order.</p>
+          </div>
+        `;
+      } else if (calState === 'error') {
+        legend.classList.add('hidden');
+        feedback.classList.add('hidden');
+        contentView.innerHTML = `
+          <div class="h-64 flex flex-col items-center justify-center gap-3 text-center p-space-md">
+            <span class="material-symbols-outlined text-[36px] text-error">cloud_off</span>
+            <div class="font-title-sm text-title-sm text-on-surface">We couldn't load available dates</div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">Please try again to check fulfillment availability.</p>
+            <button class="mt-2 px-4 py-2 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg transition-colors flex items-center gap-2" onclick="setCalendarAvailability('ready')" type="button">
+              <span class="material-symbols-outlined text-[16px]">refresh</span>
+              <span>Try again</span>
+            </button>
+          </div>
+        `;
+      } else {
+        // Ready
+        legend.classList.remove('hidden');
+        contentView.innerHTML = `
+          <div class="grid grid-cols-7 text-center font-label-sm text-label-sm text-secondary py-space-xs mb-space-xs bg-surface-container-low rounded-lg">
+            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5 text-center" id="calendar-grid"></div>
+        `;
+        renderCalendar();
+      }
+    }
+
+    // B. CONTINUE / REVALIDATION STATE (Idle / Checking / Conflict / Error)
+    function setRevalidationState(revState) {
+      state.revalidationState = revState;
+      document.querySelectorAll('#inspector-body [id^="btn-rev-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-rev-' + revState);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const proceedBtn = document.getElementById('btn-proceed');
+      const proceedText = document.getElementById('btn-proceed-text');
+      const proceedSpinner = document.getElementById('btn-spinner');
+      const proceedArrow = document.getElementById('btn-arrow');
+      const ctaError = document.getElementById('cta-error-container');
+      const alertBanner = document.getElementById('state-alert-banner');
+      const alertTitle = document.getElementById('state-alert-title');
+      const alertDesc = document.getElementById('state-alert-desc');
+      const alertIcon = document.getElementById('state-alert-icon');
+
+      // Reset CTA inline error
+      ctaError.classList.add('hidden');
+
+      if (revState === 'checking') {
+        proceedBtn.disabled = true;
+        proceedSpinner.classList.remove('hidden');
+        proceedArrow.classList.add('hidden');
+        proceedText.textContent = "Checking availability...";
+        alertBanner.classList.add('hidden');
+      } else if (revState === 'conflict') {
+        // Date conflict: clear selection, show inline notice, update summary, disable CTA
+        state.selectedDay = null;
+        updateMethodUI();
+        renderCalendar();
+        updateConfirmCard();
+        updateSummary();
+
+        proceedSpinner.classList.add('hidden');
+        proceedArrow.classList.remove('hidden');
+
+        alertBanner.classList.remove('hidden');
+        alertBanner.className = 'rounded-lg p-space-md bg-secondary-container text-on-secondary-container border border-outline-variant flex items-start gap-space-sm';
+        alertIcon.textContent = 'warning';
+        alertIcon.className = 'material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5';
+        alertTitle.textContent = 'Availability Update';
+        alertDesc.textContent = 'Your selected date is no longer available. Please choose another date to continue.';
+      } else if (revState === 'error') {
+        proceedSpinner.classList.add('hidden');
+        proceedArrow.classList.remove('hidden');
+        updateMethodUI();
+
+        ctaError.classList.remove('hidden');
+      } else {
+        // Idle
+        proceedSpinner.classList.add('hidden');
+        proceedArrow.classList.remove('hidden');
+        updateMethodUI();
+        updateSummary();
+        alertBanner.classList.add('hidden');
+      }
+    }
+
+    // C. AUTHENTICATION (Signed In / Guest Gate)
+    function setAuthState(status) {
+      state.auth = status;
+      document.querySelectorAll('#inspector-body [id^="btn-auth-"]').forEach(btn => btn.classList.remove('active'));
+      if (status === 'signed-in') {
+        document.getElementById('btn-auth-signin').classList.add('active');
+        document.getElementById('guest-gate-view').classList.add('hidden');
+        document.getElementById('checkout-fulfillment-container').classList.remove('hidden');
+      } else {
+        document.getElementById('btn-auth-guest').classList.add('active');
+        document.getElementById('guest-gate-view').classList.remove('hidden');
+        document.getElementById('checkout-fulfillment-container').classList.add('hidden');
+      }
+    }
+
+    // D. FULFILLMENT METHOD (Not Selected / Pickup / Courier)
+    function selectFulfillmentMethod(method) {
+      state.method = method;
+      document.querySelectorAll('#inspector-body [id^="btn-method-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-method-' + method);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      updateMethodUI();
+      updateConfirmCard();
+      updateSummary();
+    }
+
+    function updateMethodUI() {
+      const pickupCard = document.getElementById('method-card-pickup');
+      const courierCard = document.getElementById('method-card-courier');
+      const dotPickup = document.getElementById('radio-dot-pickup');
+      const dotCourier = document.getElementById('radio-dot-courier');
+      const indicatorPickup = document.getElementById('radio-indicator-pickup');
+      const indicatorCourier = document.getElementById('radio-indicator-courier');
+
+      const guidancePickup = document.getElementById('guidance-pickup');
+      const guidanceCourier = document.getElementById('guidance-courier');
+      const stepDeliveryNumber = document.getElementById('step-delivery-number');
+      const stepDeliveryTitle = document.getElementById('step-delivery-title');
+      const stepDeliverySubtext = document.getElementById('step-delivery-subtext');
+      const stepReviewNumber = document.getElementById('step-review-number');
+      const proceedText = document.getElementById('btn-proceed-text');
+
+      pickupCard.className = "cursor-pointer rounded-xl p-space-lg bg-surface-container-lowest shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between border border-transparent";
+      courierCard.className = "cursor-pointer rounded-xl p-space-lg bg-surface-container-lowest shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between border border-transparent";
+
+      dotPickup.className = "w-2.5 h-2.5 rounded-full bg-transparent";
+      dotCourier.className = "w-2.5 h-2.5 rounded-full bg-transparent";
+      indicatorPickup.className = "w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center";
+      indicatorCourier.className = "w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center";
+
+      if (state.method === 'pickup') {
+        pickupCard.classList.add('ring-2', 'ring-primary', 'bg-surface-container-low/40', 'border-primary');
+        indicatorPickup.className = "w-5 h-5 rounded-full bg-primary flex items-center justify-center";
+        dotPickup.className = "w-2.5 h-2.5 rounded-full bg-on-primary";
+
+        guidancePickup.classList.remove('hidden');
+        guidanceCourier.classList.add('hidden');
+
+        stepDeliveryNumber.textContent = "—";
+        stepDeliveryTitle.classList.add('text-secondary', 'line-through');
+        stepDeliverySubtext.classList.remove('hidden');
+        stepReviewNumber.textContent = "3";
+
+        if (state.revalidationState !== 'checking') {
+          proceedText.textContent = "Continue to review";
+        }
+      } else if (state.method === 'courier') {
+        courierCard.classList.add('ring-2', 'ring-primary', 'bg-surface-container-low/40', 'border-primary');
+        indicatorCourier.className = "w-5 h-5 rounded-full bg-primary flex items-center justify-center";
+        dotCourier.className = "w-2.5 h-2.5 rounded-full bg-on-primary";
+
+        guidanceCourier.classList.remove('hidden');
+        guidancePickup.classList.add('hidden');
+
+        stepDeliveryNumber.textContent = "3";
+        stepDeliveryTitle.classList.remove('line-through');
+        stepDeliverySubtext.classList.add('hidden');
+        stepReviewNumber.textContent = "4";
+
+        if (state.revalidationState !== 'checking') {
+          proceedText.textContent = "Continue to delivery details";
+        }
+      } else {
+        guidancePickup.classList.add('hidden');
+        guidanceCourier.classList.add('hidden');
+        if (state.revalidationState !== 'checking') {
+          proceedText.textContent = "Select fulfillment to proceed";
+        }
+      }
+    }
+
+    // E. DATE AVAILABILITY SCENARIOS
+    function applyDateScenario(scenario) {
+      state.scenario = scenario;
+      if (scenario === 'no-dates') {
+        state.selectedDay = null;
+      } else if (scenario === 'cutoff') {
+        if (state.selectedDay && state.selectedDay < 18) {
+          state.selectedDay = 18;
+        }
+      } else {
+        if (!state.selectedDay) {
+          state.selectedDay = 16;
+        }
+      }
+      renderCalendar();
+      updateConfirmCard();
+      updateSummary();
+    }
+
+    // F. FORM VALIDATION
+    function setFormValidation(mode) {
+      state.formValidation = mode;
+      document.querySelectorAll('#inspector-body [id^="btn-val-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-val-' + (mode === 'normal' ? 'normal' : mode === 'missing-method' ? 'missing-method' : 'missing-date'));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const alertBanner = document.getElementById('state-alert-banner');
+      const alertTitle = document.getElementById('state-alert-title');
+      const alertDesc = document.getElementById('state-alert-desc');
+      const alertIcon = document.getElementById('state-alert-icon');
+
+      if (mode === 'missing-method') {
+        selectFulfillmentMethod('unselected');
+        alertBanner.classList.remove('hidden');
+        alertBanner.className = 'rounded-lg p-space-md bg-secondary-container text-on-secondary-container border border-outline-variant flex items-start gap-space-sm';
+        alertIcon.textContent = 'warning';
+        alertIcon.className = 'material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5';
+        alertTitle.textContent = 'Fulfillment method required';
+        alertDesc.textContent = 'Please choose either Pickup or Courier Delivery to continue.';
+      } else if (mode === 'missing-date') {
+        state.selectedDay = null;
+        renderCalendar();
+        updateConfirmCard();
+        updateSummary();
+        alertBanner.classList.remove('hidden');
+        alertBanner.className = 'rounded-lg p-space-md bg-secondary-container text-on-secondary-container border border-outline-variant flex items-start gap-space-sm';
+        alertIcon.textContent = 'calendar_today';
+        alertIcon.className = 'material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5';
+        alertTitle.textContent = 'Fulfillment date required';
+        alertDesc.textContent = 'Please select an available date on the calendar to proceed.';
+      } else {
+        if (state.method === 'unselected') selectFulfillmentMethod('courier');
+        if (!state.selectedDay) state.selectedDay = 16;
+        renderCalendar();
+        updateConfirmCard();
+        updateSummary();
+        alertBanner.classList.add('hidden');
+      }
+    }
+
+    function quickSelectDate(day) {
+      state.currentYear = 2026;
+      state.currentMonthIndex = 9;
+      state.selectedYear = 2026;
+      state.selectedMonthIndex = 9;
+      state.selectedDay = day;
+      renderCalendar();
+      updateConfirmCard();
+      updateSummary();
+      showFeedback(`Selected October ${day}, 2026`, false);
+    }
+
+    function resetToDefaults() {
+      state.calendarState = 'ready';
+      state.revalidationState = 'idle';
+      state.auth = 'signed-in';
+      state.method = 'courier';
+      state.selectedDay = 16;
+      state.selectedMonthIndex = 9;
+      state.selectedYear = 2026;
+      state.currentMonthIndex = 9;
+      state.currentYear = 2026;
+      state.scenario = 'normal';
+      state.formValidation = 'normal';
+
+      document.getElementById('scenario-selector').value = 'normal';
+      document.getElementById('state-alert-banner').classList.add('hidden');
+      document.getElementById('guest-gate-view').classList.add('hidden');
+      document.getElementById('checkout-fulfillment-container').classList.remove('hidden');
+
+      setCalendarAvailability('ready');
+      setRevalidationState('idle');
+      setAuthState('signed-in');
+      selectFulfillmentMethod('courier');
+      setFormValidation('normal');
+    }
+
+    function dismissStateAlert() {
+      document.getElementById('state-alert-banner').classList.add('hidden');
+    }
+
+    // Interactive Month Navigation (Fully supports any navigated month)
+    function navigateCalendarMonth(direction) {
+      state.currentMonthIndex += direction;
+      if (state.currentMonthIndex < 0) {
+        state.currentMonthIndex = 11;
+        state.currentYear -= 1;
+      } else if (state.currentMonthIndex > 11) {
+        state.currentMonthIndex = 0;
+        state.currentYear += 1;
+      }
+      renderCalendar();
+    }
+
+    // Dynamic Mock Availability Engine
+    function getDateAvailability(year, monthIndex, day) {
+      const demo = state.demoDate; // Oct 14, 2026
+      const isPastOrToday = (year < demo.year) ||
+        (year === demo.year && monthIndex < demo.month) ||
+        (year === demo.year && monthIndex === demo.month && day <= demo.day);
+
+      // Past or same-day lead time cutoff
+      if (isPastOrToday) {
+        return {
+          status: 'past',
+          label: 'Passed',
+          reason: 'Ordering is closed for this date.'
+        };
+      }
+
+      // Check scenario overrides
+      if (state.scenario === 'no-dates') {
+        return {
+          status: 'empty',
+          label: 'Unavailable',
+          reason: 'No available fulfillment dates found.'
+        };
+      }
+
+      // Day of week (0 Sun, 1 Mon, ... 6 Sat)
+      const dayOfWeek = new Date(year, monthIndex, day).getDay();
+
+      if (state.scenario === 'cutoff' && year === 2026 && monthIndex === 9 && day < 18) {
+        return {
+          status: 'cutoff',
+          label: 'Closed',
+          reason: 'Ordering is closed for this date.'
+        };
+      }
+
+      if (state.scenario === 'blocked' && year === 2026 && monthIndex === 9 && (day === 20 || day === 21 || day === 22)) {
+        return {
+          status: 'blocked',
+          label: 'Closed',
+          reason: 'Kitchen406 is not accepting orders for this date.'
+        };
+      }
+
+      if (state.scenario === 'stock' && year === 2026 && monthIndex === 9 && (day === 16 || day === 17)) {
+        return {
+          status: 'stock',
+          label: 'No Stock',
+          reason: 'One or more items in your bag are unavailable for this date.'
+        };
+      }
+
+      if (state.scenario === 'fully-booked' && (dayOfWeek === 0 || dayOfWeek === 6)) {
+        return {
+          status: 'fully-booked',
+          label: 'Booked',
+          reason: 'Kitchen406 has reached its standard-order capacity for this date.'
+        };
+      }
+
+      // Default schedule: Sundays are fully booked
+      if (dayOfWeek === 0) {
+        return {
+          status: 'fully-booked',
+          label: 'Booked',
+          reason: 'Kitchen406 has reached its standard-order capacity for this date.'
+        };
+      }
+
+      return {
+        status: 'available',
+        label: 'Open',
+        reason: 'Date available'
+      };
+    }
+
+    function renderCalendar() {
+      if (state.calendarState !== 'ready') return;
+
+      const heading = document.getElementById('calendar-month-heading');
+      heading.textContent = `${monthNames[state.currentMonthIndex]} ${state.currentYear}`;
+
+      const grid = document.getElementById('calendar-grid');
+      grid.innerHTML = '';
+
+      // Scenario: No available dates empty state
+      if (state.scenario === 'no-dates') {
+        grid.className = "col-span-7 py-10 flex flex-col items-center justify-center text-center p-space-md";
+        grid.innerHTML = `
+          <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary mb-2">
+            <span class="material-symbols-outlined text-[24px]">event_busy</span>
+          </div>
+          <h4 class="font-title-sm text-title-sm text-on-surface">No available dates found</h4>
+          <p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs mt-1">Try navigating to another month or return to your bag.</p>
+        `;
+        return;
+      }
+
+      grid.className = "grid grid-cols-7 gap-1.5 text-center";
+
+      const firstDayOfMonth = new Date(state.currentYear, state.currentMonthIndex, 1).getDay();
+      const totalDays = new Date(state.currentYear, state.currentMonthIndex + 1, 0).getDate();
+
+      // Empty lead-in days
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'h-12 rounded-lg opacity-20 pointer-events-none';
+        grid.appendChild(empty);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.setAttribute('data-day', day);
+
+        const availability = getDateAvailability(state.currentYear, state.currentMonthIndex, day);
+        const isSelected = (
+          state.selectedDay === day &&
+          state.selectedMonthIndex === state.currentMonthIndex &&
+          state.selectedYear === state.currentYear &&
+          availability.status === 'available'
+        );
+
+        if (isSelected) {
+          cell.className = 'h-12 rounded-lg bg-primary text-on-primary font-bold shadow-md flex flex-col items-center justify-center relative transition-transform transform scale-105';
+          cell.innerHTML = `<span>${day}</span><span class="w-1.5 h-1.5 rounded-full bg-surface mt-0.5"></span>`;
+          cell.onclick = () => handleDateClick(day, availability);
+        } else if (availability.status === 'available') {
+          cell.className = 'h-12 rounded-lg bg-surface hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm flex flex-col items-center justify-center transition-colors shadow-sm border border-surface-container-high';
+          cell.innerHTML = `<span>${day}</span><span class="text-[9px] text-[#3D5941] font-semibold tracking-tight">Open</span>`;
+          cell.onclick = () => handleDateClick(day, availability);
+        } else if (availability.status === 'fully-booked') {
+          cell.className = 'h-12 rounded-lg bg-surface-container/60 text-secondary/70 flex flex-col items-center justify-center cursor-not-allowed';
+          cell.innerHTML = `<span class="line-through">${day}</span><span class="text-[9px] text-error font-medium">Booked</span>`;
+          cell.onclick = () => showFeedback(availability.reason, true);
+        } else {
+          // Closed / Past / Stock / Blocked
+          cell.className = 'h-12 rounded-lg bg-surface-container-low text-secondary/40 flex flex-col items-center justify-center cursor-not-allowed';
+          cell.innerHTML = `<span class="line-through text-xs">${day}</span><span class="text-[9px] text-secondary/60">${availability.label}</span>`;
+          cell.onclick = () => showFeedback(availability.reason, true);
+        }
+
+        grid.appendChild(cell);
+      }
+    }
+
+    function handleDateClick(day, availability) {
+      if (availability.status !== 'available') {
+        showFeedback(availability.reason, true);
+        return;
+      }
+      state.selectedDay = day;
+      state.selectedMonthIndex = state.currentMonthIndex;
+      state.selectedYear = state.currentYear;
+      state.formValidation = 'normal';
+
+      renderCalendar();
+      updateConfirmCard();
+      updateSummary();
+      showFeedback(`Selected ${monthNames[state.currentMonthIndex]} ${day}, ${state.currentYear}`, false);
+    }
+
+    function showFeedback(text, isError) {
+      const box = document.getElementById('calendar-feedback-msg');
+      const msg = document.getElementById('calendar-feedback-text');
+      const icon = document.getElementById('calendar-feedback-icon');
+
+      box.classList.remove('hidden');
+      msg.textContent = text;
+      if (isError) {
+        box.className = 'mt-space-md p-space-sm rounded-lg bg-error-container text-on-error-container font-body-sm text-body-sm flex items-center gap-2 border border-error/20';
+        icon.textContent = 'block';
+        icon.className = 'material-symbols-outlined text-[18px] text-error flex-shrink-0';
+      } else {
+        box.className = 'mt-space-md p-space-sm rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-2 border border-surface-container-high';
+        icon.textContent = 'event_available';
+        icon.className = 'material-symbols-outlined text-[18px] text-primary flex-shrink-0';
+      }
+    }
+
+    function focusCalendar() {
+      document.getElementById('calendar-container-card').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateConfirmCard() {
+      const methodLabel = document.getElementById('confirm-method-label');
+      const dateLabel = document.getElementById('confirm-date-label');
+
+      if (state.method === 'pickup') {
+        methodLabel.textContent = "Pickup";
+      } else if (state.method === 'courier') {
+        methodLabel.textContent = "Courier Delivery";
+      } else {
+        methodLabel.textContent = "Not selected";
+      }
+
+      if (state.selectedDay) {
+        const dateObj = new Date(state.selectedYear, state.selectedMonthIndex, state.selectedDay);
+        const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+        dateLabel.textContent = `${dayName}, ${monthNames[state.selectedMonthIndex]} ${state.selectedDay}, ${state.selectedYear}`;
+      } else {
+        dateLabel.textContent = "Not selected";
+      }
+    }
+
+    function updateSummary() {
+      const sumMethod = document.getElementById('summary-method-label');
+      const sumDate = document.getElementById('summary-date-label');
+      const sumFee = document.getElementById('summary-fee-label');
+      const sumTotalTitle = document.getElementById('summary-total-title');
+      const sumTotal = document.getElementById('summary-total-label');
+      const sumTotalSubnote = document.getElementById('summary-total-subnote');
+      const proceedBtn = document.getElementById('btn-proceed');
+      const helperText = document.getElementById('proceed-helper-text');
+
+      // Update Method text & fee logic
+      if (state.method === 'pickup') {
+        sumMethod.textContent = 'Pickup (Kitchen406)';
+        sumFee.textContent = '₱0.00';
+        sumFee.className = 'font-semibold text-[#3D5941]';
+        sumTotalTitle.textContent = 'Total';
+        sumTotal.textContent = '₱1,150.00';
+        sumTotalSubnote.classList.add('hidden');
+      } else if (state.method === 'courier') {
+        sumMethod.textContent = 'Courier Delivery';
+        sumFee.textContent = 'Calculated next step';
+        sumFee.className = 'text-secondary italic';
+        sumTotalTitle.textContent = 'Estimated Total';
+        sumTotal.textContent = 'Calculated next step';
+        sumTotalSubnote.classList.remove('hidden');
+        sumTotalSubnote.textContent = 'Final total calculated after address selection';
+      } else {
+        sumMethod.textContent = 'Not selected';
+        sumFee.textContent = 'Selected above';
+        sumFee.className = 'text-secondary italic';
+        sumTotalTitle.textContent = 'Estimated Total';
+        sumTotal.textContent = '—';
+        sumTotalSubnote.classList.add('hidden');
+      }
+
+      // Update Date in Summary
+      if (state.selectedDay) {
+        const dateObj = new Date(state.selectedYear, state.selectedMonthIndex, state.selectedDay);
+        const shortDay = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+        const shortMonth = dateObj.toLocaleDateString('en-US', { month: 'short' });
+        sumDate.textContent = `${shortDay}, ${shortMonth} ${state.selectedDay}, ${state.selectedYear}`;
+      } else {
+        sumDate.textContent = 'Not selected';
+      }
+
+      // CTA Enable/Disable logic
+      const canProceed = Boolean(state.selectedDay && state.method !== 'unselected' && state.revalidationState !== 'checking');
+      if (canProceed) {
+        proceedBtn.disabled = false;
+        helperText.classList.add('hidden');
+      } else {
+        proceedBtn.disabled = true;
+        if (state.method === 'unselected' && !state.selectedDay) {
+          helperText.textContent = "Please choose a fulfillment method and an available date.";
+          helperText.classList.remove('hidden');
+        } else if (state.method === 'unselected') {
+          helperText.textContent = "Please select Pickup or Courier Delivery to proceed.";
+          helperText.classList.remove('hidden');
+        } else if (!state.selectedDay) {
+          helperText.textContent = "Please select an available fulfillment date to proceed.";
+          helperText.classList.remove('hidden');
+        } else {
+          helperText.classList.add('hidden');
+        }
+      }
+    }
+
+    function handleProceedCheckout() {
+      if (!state.selectedDay || state.method === 'unselected') {
+        updateSummary();
+        return;
+      }
+
+      // Trigger Checking simulation briefly if requested
+      const modal = document.getElementById('flow-modal');
+      const title = document.getElementById('modal-title');
+      const desc = document.getElementById('modal-desc');
+      const icon = document.getElementById('modal-icon');
+
+      if (state.method === 'courier') {
+        title.textContent = "Proceeding to Delivery Details";
+        desc.textContent = `Fulfillment scheduled for ${monthNames[state.selectedMonthIndex]} ${state.selectedDay}, ${state.selectedYear}. Address selection and delivery fee quotation screen triggers next.`;
+        icon.textContent = "local_shipping";
+      } else {
+        title.textContent = "Proceeding to Review & Payment";
+        desc.textContent = `Pickup scheduled for ${monthNames[state.selectedMonthIndex]} ${state.selectedDay}, ${state.selectedYear}. Direct to order review with ₱0.00 delivery fee.`;
+        icon.textContent = "storefront";
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeFlowModal() {
+      document.getElementById('flow-modal').classList.add('hidden');
+    }
+
+    init();
+  </script>
+</body></html>
