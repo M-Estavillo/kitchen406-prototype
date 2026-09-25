@@ -1,7 +1,0 @@
-import crypto from 'node:crypto';import {settings} from './runtime';
-export interface PaymentGateway {create(amount:number):Promise<{id:string;qr:string}>}
-export interface CourierGateway {quote(address:any):Promise<{fee:number;distance:number}>;book(fail:boolean):Promise<string>}
-export interface MarketingGateway {generate(context:{name:string;price?:number;availability?:string}):Promise<{caption:string;image:string}>}
-export const paymentGateway:PaymentGateway={async create(){return {id:'mock-paymongo-'+crypto.randomUUID(),qr:'/mock-qr.svg'}}};
-export const courierGateway:CourierGateway={async quote(a){const lat=Number(a.latitude),lon=Number(a.longitude);if(!Number.isFinite(lat)||!Number.isFinite(lon))throw new Error('Valid coordinates required');const distance=Math.sqrt(((lat-10.3157)*111)**2+((lon-123.8854)*109)**2)*1.25;if(distance>15)throw new Error('Address is outside the simulated 15 km service area');return {fee:Math.round((65+distance*12)*100)/100,distance:Math.round(distance*10)/10}},async book(fail){if(fail)throw new Error('Mock courier: no rider available');return 'mock-lalamove-'+crypto.randomUUID()}};
-export const marketingGateway:MarketingGateway={async generate(c){if(settings().aiFailure)throw new Error('Mock Gemini service unavailable');return {caption:`Fresh from Kitchen406: ${c.name}.${c.price!==undefined?' Available from ₱'+c.price.toFixed(2)+'.':''} ${c.availability??'Explore our made-to-order offerings.'} Plan ahead and order through Kitchen406.`,image:'/bakery.svg'}}};

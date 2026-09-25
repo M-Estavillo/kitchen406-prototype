@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#ffb786", "on-error": "#ffffff", "on-surface": "#1b1c1a", "primary": "#8d4a14", "inverse-surface": "#30312f", "primary-container": "#ab622b", "secondary-container": "#eae1dc", "primary-fixed": "#ffdcc6", "on-primary-container": "#fffbff", "on-primary-fixed": "#311300", "on-surface-variant": "#53443a", "surface-container-high": "#eae8e5", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#723600", "error-container": "#ffdad6", "surface-container": "#efeeeb", "surface-variant": "#e4e2df", "on-secondary": "#ffffff", "surface-container-highest": "#e4e2df", "surface-tint": "#904d16", "tertiary-container": "#7b736d", "outline-variant": "#d9c2b5", "on-secondary-fixed-variant": "#4b4642", "tertiary-fixed-dim": "#cfc5bd", "background": "#fbf9f6", "on-tertiary": "#ffffff", "surface-bright": "#fbf9f6", "tertiary-fixed": "#ebe0d9", "surface-dim": "#dbdad7", "on-background": "#1b1c1a", "on-tertiary-fixed": "#201b16", "on-error-container": "#93000a", "tertiary": "#625b55", "on-secondary-container": "#69635f", "secondary-fixed": "#eae1dc", "inverse-on-surface": "#f2f0ed", "primary-fixed-dim": "#ffb786", "secondary": "#635d59", "outline": "#867368", "secondary-fixed-dim": "#cdc5c0", "on-tertiary-container": "#fffbff", "error": "#ba1a1a", "surface": "#fbf9f6", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#4c4640", "surface-container-low": "#f5f3f0", "on-secondary-fixed": "#1f1b18" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-mobile": "1.25rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "space-xl": "2.5rem", "margin": "3rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem" }, "fontFamily": { "price-lg": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"], "display": ["Playfair Display"], "body-md": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "body-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Playfair Display"], "display-mobile": ["Playfair Display"], "price-md": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "title-sm": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"] }, "fontSize": { "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } };</script><meta content="web_standard" name="shell-type"/></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-md border-b border-surface-container-high/60"><div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors flex items-center gap-2" data-path="shop" href="#"><span class="font-bold">Kitchen406</span></a></div><nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5"><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-sm lg:gap-space-md shrink-0"><div class="relative hidden sm:flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span><input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" placeholder="Search artisan bakes..." type="text"/></div><a class="hidden sm:inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#">Sign In</a><a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none">4</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Toast Notification Container -->
+<div class="fixed bottom-6 left-6 z-50 flex flex-col gap-2 pointer-events-none transition-all duration-300" id="toast-container"></div>
+<!-- Main Bag Content Container -->
+<div class="max-w-[1240px] w-full mx-auto px-gutter-mobile lg:px-margin py-8 md:py-12">
+<!-- Breadcrumb & Header Meta -->
+<div class="flex flex-col gap-2 mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<a class="hover:text-primary transition-colors flex items-center gap-1" data-path="shop" href="#">
+<span>Shop</span>
+</a>
+<span class="text-outline-variant font-light">/</span>
+<span aria-current="page" class="text-on-surface font-semibold">Your Bag</span>
+</nav>
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mt-2">
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tight">Your bag</h1>
+<span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant font-label-md text-label-md" id="bag-count-badge">
+            4 items
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Review your items before choosing fulfillment details.
+        </p>
+</div>
+</div>
+<!-- MAIN VIEWPORT CONTAINER -->
+<div class="relative min-w-0" id="cart-content-root">
+<!-- ================= NORMAL / POPULATED VIEW ================= -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start" id="view-normal">
+<!-- LEFT COLUMN: CART ITEMS LIST (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Global Item Status Alert (Conditionally shown if unavailable or error) -->
+<div class="hidden p-4 rounded-lg bg-surface-container-high text-on-surface flex items-start gap-3 transition-all duration-200" id="global-cart-alert">
+<span class="material-symbols-outlined text-primary shrink-0 mt-0.5 text-[20px]">info</span>
+<div class="flex-1 text-body-sm font-body-sm text-on-surface">
+<span class="font-semibold text-on-surface" id="global-alert-text">Please review highlighted items</span>
+</div>
+</div>
+<!-- Cart Items Container -->
+<div class="flex flex-col gap-4" id="cart-items-list">
+<!-- Rendered via JS -->
+</div>
+<!-- Informational Callout Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+<!-- Notice 1: Availability -->
+<div class="p-5 rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span class="font-title-sm text-title-sm">Availability checked at checkout</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Items in your bag are not reserved yet. Availability is confirmed when you continue to checkout.
+              </p>
+</div>
+<!-- Notice 2: Scheduled fulfillment -->
+<div class="p-5 rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="font-title-sm text-title-sm">Scheduled fulfillment</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                You’ll choose an available fulfillment date during checkout. Same-day fulfillment is not available.
+              </p>
+</div>
+</div>
+<!-- Bottom Navigation / Continue shopping -->
+<div class="pt-4 flex items-center justify-between">
+<a class="inline-flex items-center gap-2 font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors py-2 group" data-path="shop" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span>Continue shopping</span>
+</a>
+</div>
+</div>
+<!-- RIGHT COLUMN: STICKY ORDER SUMMARY (4 cols) -->
+<div class="lg:col-span-4 lg:sticky lg:top-28">
+<div class="rounded-xl bg-surface-container-low p-6 md:p-7 flex flex-col gap-6 shadow-sm">
+<div class="flex items-center justify-between pb-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Order summary</h2>
+<span class="material-symbols-outlined text-outline text-[20px]">receipt_long</span>
+</div>
+<!-- Summary Calculations -->
+<div class="flex flex-col gap-3.5 font-body-md text-body-md">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span id="summary-items-label">Items (4)</span>
+<span class="text-on-surface font-title-sm text-title-sm" id="summary-items-total">₱1,150</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant gap-4">
+<span>Fulfillment</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant text-right">Selected during checkout</span>
+</div>
+<div class="h-px w-full bg-surface-container-highest my-1"></div>
+<div class="flex items-baseline justify-between pt-1">
+<span class="font-title-md text-title-md text-on-surface">Subtotal</span>
+<span class="font-price-lg text-price-lg text-primary" id="summary-final-subtotal">₱1,150</span>
+</div>
+</div>
+<!-- Operational Fee Notice -->
+<div class="p-3.5 rounded bg-surface-container font-body-sm text-body-sm text-on-surface-variant flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">local_shipping</span>
+<p class="text-xs leading-relaxed">
+                Delivery fees, if applicable, are calculated using your selected delivery address during checkout.
+              </p>
+</div>
+<!-- Checkout Action Buttons -->
+<div class="flex flex-col gap-3 pt-2">
+<button class="w-full h-12 px-6 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none cursor-pointer" id="btn-checkout" type="button">
+<span>Continue to checkout</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<p class="hidden text-center text-xs text-error font-body-sm" id="checkout-disabled-reason">
+                Review unavailable or invalid items before continuing.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= EMPTY CART STATE ================= -->
+<div class="hidden flex-col items-center justify-center text-center py-16 px-4" id="view-empty">
+<div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-on-surface-variant">
+<span class="material-symbols-outlined text-[38px] text-outline">shopping_bag</span>
+</div>
+<h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface mb-3">Your bag is empty</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mb-8">
+          Browse the shop and add products to your bag.
+        </p>
+<div class="flex flex-col sm:flex-row items-center gap-4">
+<a class="w-full sm:w-auto h-11 px-7 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm inline-flex items-center justify-center gap-2 transition-colors" data-path="shop" href="#">
+<span>Browse the shop</span>
+<span class="material-symbols-outlined text-[18px]">storefront</span>
+</a>
+<a class="w-full sm:w-auto h-11 px-7 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-sm text-title-sm inline-flex items-center justify-center gap-2 transition-colors" data-path="subscriptions" href="#">
+<span>Explore subscriptions</span>
+</a>
+</div>
+</div>
+<!-- ================= GUEST STATE (AUTH GATE) ================= -->
+<div class="hidden flex-col items-center justify-center text-center py-16 px-4" id="view-guest">
+<div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined text-[38px]">account_circle</span>
+</div>
+<h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface mb-3">Sign in to view your bag</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mb-8">
+          Sign in to access your cart and continue to checkout.
+        </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+<button class="w-full sm:w-auto h-11 px-8 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm inline-flex items-center justify-center gap-2 transition-colors" onclick="mockSetAuth('signed-in')">
+<span>Sign In</span>
+<span class="material-symbols-outlined text-[18px]">login</span>
+</button>
+<button class="w-full sm:w-auto h-11 px-8 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-sm text-title-sm inline-flex items-center justify-center transition-colors" onclick="mockSetAuth('signed-in')">
+<span>Create an account</span>
+</button>
+</div>
+<a class="mt-6 font-title-sm text-title-sm text-outline hover:text-on-surface transition-colors underline underline-offset-4" data-path="shop" href="#">
+          Continue browsing
+        </a>
+</div>
+<!-- ================= SKELETON LOADING STATE ================= -->
+<div class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 animate-pulse" id="view-loading">
+<div class="lg:col-span-8 flex flex-col gap-4">
+<!-- Skeleton Item 1 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex gap-4">
+<div class="w-28 h-28 rounded-lg bg-surface-container-high shrink-0"></div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div class="flex flex-col gap-2">
+<div class="h-5 bg-surface-container-high rounded w-3/5"></div>
+<div class="h-3 bg-surface-container-high rounded w-1/4"></div>
+</div>
+<div class="flex items-center justify-between">
+<div class="h-8 bg-surface-container-high rounded w-28"></div>
+<div class="h-6 bg-surface-container-high rounded w-16"></div>
+</div>
+</div>
+</div>
+<!-- Skeleton Item 2 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex gap-4">
+<div class="w-28 h-28 rounded-lg bg-surface-container-high shrink-0"></div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div class="flex flex-col gap-2">
+<div class="h-5 bg-surface-container-high rounded w-1/2"></div>
+<div class="h-3 bg-surface-container-high rounded w-1/3"></div>
+</div>
+<div class="flex items-center justify-between">
+<div class="h-8 bg-surface-container-high rounded w-28"></div>
+<div class="h-6 bg-surface-container-high rounded w-16"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Skeleton Summary -->
+<div class="lg:col-span-4">
+<div class="p-6 rounded-xl bg-surface-container-low flex flex-col gap-5">
+<div class="h-6 bg-surface-container-high rounded w-1/2"></div>
+<div class="space-y-3">
+<div class="h-4 bg-surface-container-high rounded w-full"></div>
+<div class="h-4 bg-surface-container-high rounded w-4/5"></div>
+</div>
+<div class="h-12 bg-surface-container-high rounded-lg w-full mt-4"></div>
+</div>
+</div>
+</div>
+<!-- ================= RETRIEVAL ERROR STATE ================= -->
+<div class="hidden flex-col items-center justify-center text-center py-16 px-4" id="view-error">
+<div class="w-20 h-20 rounded-full bg-error-container text-on-error-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[38px]">error_outline</span>
+</div>
+<h2 class="font-headline-lg text-headline-md md:text-headline-lg text-on-surface mb-3">We couldn't load your bag</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mb-8">
+          Please try again.
+        </p>
+<div class="flex flex-col sm:flex-row items-center gap-4">
+<button class="w-full sm:w-auto h-11 px-7 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm inline-flex items-center justify-center gap-2 transition-colors" onclick="mockSetPageState('normal')">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Try again</span>
+</button>
+<a class="w-full sm:w-auto h-11 px-7 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-title-sm text-title-sm inline-flex items-center justify-center transition-colors" data-path="shop" href="#">
+            Return to shop
+          </a>
+</div>
+</div>
+</div>
+</div>
+<!-- FLOATING COLLAPSIBLE DEV STATE INSPECTOR PANEL -->
+<div class="fixed bottom-4 right-4 z-50 transition-all duration-200" id="state-inspector">
+<!-- Collapse Toggle Button -->
+<button class="ml-auto flex items-center gap-2 bg-inverse-surface text-inverse-on-surface px-3 py-2 rounded-lg shadow-lg font-label-md text-label-md hover:bg-on-surface transition-colors cursor-pointer" id="inspector-toggle-btn" onclick="toggleInspector()">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed">tune</span>
+<span>Inspector</span>
+<span class="material-symbols-outlined text-[16px]" id="inspector-icon">expand_less</span>
+</button>
+<!-- Expanded Body -->
+<div class="hidden mt-2 w-80 bg-inverse-surface/95 backdrop-blur-md text-inverse-on-surface p-4 rounded-xl shadow-2xl border-none font-body-sm text-body-sm flex flex-col gap-4" id="inspector-body">
+<div class="flex items-center justify-between pb-2 border-b border-outline/30">
+<span class="font-title-sm text-title-sm text-primary-fixed font-semibold tracking-wide">State Inspector</span>
+<span class="text-xs px-1.5 py-0.5 rounded bg-surface-container-highest/20 text-tertiary-fixed font-mono">LIVE DEMO</span>
+</div>
+<!-- Control 1: View State -->
+<div class="flex flex-col gap-1.5">
+<span class="text-xs text-tertiary-fixed font-semibold">Page View State</span>
+<div class="grid grid-cols-4 gap-1">
+<button class="px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium" id="btn-state-normal" onclick="mockSetPageState('normal')">Normal</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-state-loading" onclick="mockSetPageState('loading')">Loading</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-state-error" onclick="mockSetPageState('error')">Error</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-state-empty" onclick="mockSetPageState('empty')">Empty</button>
+</div>
+</div>
+<!-- Control 2: Authentication -->
+<div class="flex flex-col gap-1.5">
+<span class="text-xs text-tertiary-fixed font-semibold">User Authentication</span>
+<div class="grid grid-cols-2 gap-1">
+<button class="px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium" id="btn-auth-signed" onclick="mockSetAuth('signed-in')">Signed In</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-auth-guest" onclick="mockSetAuth('guest')">Guest Gate</button>
+</div>
+</div>
+<!-- Control 3: Cart Condition Variations -->
+<div class="flex flex-col gap-1.5">
+<span class="text-xs text-tertiary-fixed font-semibold">Cart Scenario Condition</span>
+<div class="grid grid-cols-3 gap-1">
+<button class="px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium" id="btn-cond-avail" onclick="mockSetCondition('available')">All Available</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-cond-unavail" onclick="mockSetCondition('unavailable')">Item Sold Out</button>
+<button class="px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface" id="btn-cond-qty" onclick="mockSetCondition('invalid-qty')">Quantity Cap</button>
+</div>
+</div>
+<!-- Control 4: Fast Dev Actions -->
+<div class="flex items-center justify-between pt-2 border-t border-outline/30 text-xs">
+<button class="text-primary-fixed hover:underline flex items-center gap-1" onclick="mockAddSampleItem()">
+<span class="material-symbols-outlined text-[14px]">add</span> Add Item
+        </button>
+<button class="text-tertiary-fixed hover:underline flex items-center gap-1" onclick="mockResetCart()">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span> Reset Defaults
+        </button>
+</div>
+</div>
+</div>
+<!-- SCRIPT: COMPLETE CART STATE MANAGEMENT & REACTIVITY ENGINE -->
+<script>
+    // Initial State definition matching specifications (Total 4 items: 2 babka, 1 croissant, 1 shokupan = 4 items, ₱1,150 total)
+    const INITIAL_CART = [
+      {
+        id: "babka-1",
+        title: "Braided Chocolate Babka",
+        variant: "Regular · 650g",
+        price: 340,
+        quantity: 2,
+        image: "https://lh3.googleusercontent.com/aida/AEtjO1WYUIh4opsMoVHOlJ-JkFA97eaCvGwqve1veMuqNU6dk4fLyXjqp5JO24_jfnMTPlB20IXgBRv7qDUixbQrDFeXUYCsN4kHe6pKGBH31ja8StGpqIZYohCXS9FbgDjXhFIRFhke8sR9fwTe1B5FE3gbP9gpGaoJlHZuBp9bIgY-PAl3U3Qp4ldp1pF9tUYPeBvHCq9HQmUT5Pd2L4JEvZul8Irb9swPHK7HHDor9zIxj_OsKtU98km94g",
+        imageAlt: "Golden braided chocolate babka loaf with deep swirls of dark chocolate ganache on parchment paper, warm natural bakery light",
+        status: "available",
+        maxAllowed: 4
+      },
+      {
+        id: "croissant-1",
+        title: "Ube Halaya Croissant",
+        variant: "Single piece",
+        price: 190,
+        quantity: 1,
+        image: "placeholder",
+        imageAlt: "A golden flaky artisan laminated croissant with subtle purple sweet potato dusting, filled with authentic ube halaya crumb on a linen napkin in soft morning natural light",
+        status: "available",
+        maxAllowed: 5
+      },
+      {
+        id: "shokupan-1",
+        title: "Japanese Shokupan Loaf",
+        variant: "450g Standard",
+        price: 280,
+        quantity: 1,
+        image: "https://lh3.googleusercontent.com/aida/AEtjO1XX9Nh2ddiMq7y8RIyCyIceBmfIrO9orUGlEb143kqps2cCiYnCO7OzmxcXpJxSbNlBmVXTR_J-Zb56xkWYkMirIk3X51hpbrrz2fzUQlI4K9RICc83csfIMTITEtFyzQFskMzYz5HiHPEyZWQIUsp1Vnc5TEEX9rqSmGprUPvX8LsLOjerQvkUqKOvy3GgZA_mtH44o8FgqupZg2NajqhDjj9mvaTZQZ1LhxyE1q-qHQbPPmINdkUevIc",
+        imageAlt: "Japanese style milk bread loaf sliced with fluffy cloud-like crumb next to vintage ceramic butter dish and wooden knife",
+        status: "available",
+        maxAllowed: 3
+      }
+    ];
+
+    let cartState = JSON.parse(JSON.stringify(INITIAL_CART));
+    let lastRemovedItem = null;
+    let currentAuthState = "signed-in";
+    let currentPageState = "normal";
+    let currentCondition = "available";
+
+    function formatPHP(amount) {
+      return '₱' + Number(amount).toLocaleString('en-PH');
+    }
+
+    function renderCart() {
+      const vNormal = document.getElementById('view-normal');
+      const vEmpty = document.getElementById('view-empty');
+      const vGuest = document.getElementById('view-guest');
+      const vLoading = document.getElementById('view-loading');
+      const vError = document.getElementById('view-error');
+
+      [vNormal, vEmpty, vGuest, vLoading, vError].forEach(el => el.classList.add('hidden'));
+
+      if (currentAuthState === 'guest') {
+        vGuest.classList.remove('hidden');
+        updateHeaderBadge(0);
+        return;
+      }
+
+      if (currentPageState === 'loading') {
+        vLoading.classList.remove('hidden');
+        return;
+      }
+
+      if (currentPageState === 'error') {
+        vError.classList.remove('hidden');
+        return;
+      }
+
+      if (currentPageState === 'empty' || cartState.length === 0) {
+        vEmpty.classList.remove('hidden');
+        updateHeaderBadge(0);
+        return;
+      }
+
+      vNormal.classList.remove('hidden');
+
+      const itemsContainer = document.getElementById('cart-items-list');
+      itemsContainer.innerHTML = '';
+
+      let totalCount = 0;
+      let subtotal = 0;
+      let hasUnavailable = false;
+      let hasInvalidQty = false;
+
+      cartState.forEach(item => {
+        totalCount += item.quantity;
+        const lineTotal = item.price * item.quantity;
+        subtotal += lineTotal;
+
+        const isUnavailable = item.status === 'unavailable';
+        const isInvalid = item.status === 'invalid-qty';
+
+        if (isUnavailable) hasUnavailable = true;
+        if (isInvalid) hasInvalidQty = true;
+
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-xl transition-all duration-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
+          isUnavailable ? 'bg-surface-container-high/60 opacity-80' : 'bg-surface-container-low hover:bg-surface-container'
+        }`;
+
+        let imageMarkup = '';
+        if (item.image === 'placeholder') {
+          imageMarkup = `<div class="w-full h-full flex items-center justify-center bg-surface-container-high text-outline"><span class="material-symbols-outlined text-[32px]">bakery_dining</span></div>`;
+        } else {
+          imageMarkup = `<img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover rounded-lg ${isUnavailable ? 'grayscale' : ''}">`;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center gap-4 w-full sm:w-auto min-w-0">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-lg overflow-hidden bg-surface-container">
+              ${imageMarkup}
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-title-md text-title-md text-on-surface truncate">${item.title}</h3>
+                ${isUnavailable ? '<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-variant text-secondary">Unavailable</span>' : ''}
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">${item.variant}</p>
+              <p class="font-body-sm text-body-sm text-outline mt-0.5">${formatPHP(item.price)} each</p>
+              ${isUnavailable ? '<p class="text-xs text-error font-body-sm mt-1">Currently unavailable. Remove it before continuing.</p>' : ''}
+              ${isInvalid ? `<p class="text-xs text-error font-body-sm mt-1">Requested quantity unavailable. Please reduce it to continue.</p>` : ''}
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between w-full sm:w-auto sm:gap-8 pt-2 sm:pt-0 border-t sm:border-t-0 border-surface-container-highest">
+            <div class="flex items-center gap-2">
+              <div class="inline-flex items-center rounded-lg bg-surface-container p-1 ${isInvalid ? 'bg-error-container text-on-error-container' : ''}">
+                <button onclick="adjustQty('${item.id}', -1)" ${isUnavailable ? 'disabled' : ''} class="w-7 h-7 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-lowest disabled:opacity-30 disabled:pointer-events-none transition-colors" aria-label="Decrease quantity">
+                  <span class="material-symbols-outlined text-[16px]">remove</span>
+                </button>
+                <span class="w-8 text-center font-title-sm text-title-sm text-on-surface">${item.quantity}</span>
+                <button onclick="adjustQty('${item.id}', 1)" ${isUnavailable ? 'disabled' : ''} class="w-7 h-7 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-lowest disabled:opacity-30 disabled:pointer-events-none transition-colors" aria-label="Increase quantity">
+                  <span class="material-symbols-outlined text-[16px]">add</span>
+                </button>
+              </div>
+
+              <button onclick="removeItem('${item.id}')" class="text-body-sm font-body-sm text-outline hover:text-error transition-colors p-1.5 flex items-center" title="Remove item">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              </button>
+            </div>
+
+            <div class="text-right shrink-0">
+              <span class="font-title-md text-title-md ${isUnavailable ? 'text-outline line-through' : 'text-on-surface'}">${formatPHP(lineTotal)}</span>
+            </div>
+          </div>
+        `;
+
+        itemsContainer.appendChild(card);
+      });
+
+      document.getElementById('summary-items-label').textContent = `Items (${totalCount})`;
+      document.getElementById('summary-items-total').textContent = formatPHP(subtotal);
+      document.getElementById('summary-final-subtotal').textContent = formatPHP(subtotal);
+      document.getElementById('bag-count-badge').textContent = `${totalCount} ${totalCount === 1 ? 'item' : 'items'}`;
+
+      updateHeaderBadge(totalCount);
+
+      const btnCheckout = document.getElementById('btn-checkout');
+      const checkoutWarning = document.getElementById('checkout-disabled-reason');
+      const globalAlert = document.getElementById('global-cart-alert');
+      const globalAlertText = document.getElementById('global-alert-text');
+
+      if (hasUnavailable || hasInvalidQty) {
+        btnCheckout.disabled = true;
+        checkoutWarning.classList.remove('hidden');
+        globalAlert.classList.remove('hidden');
+
+        if (hasUnavailable && hasInvalidQty) {
+          globalAlertText.textContent = "Please resolve unavailable items and quantity limits before continuing.";
+        } else if (hasUnavailable) {
+          globalAlertText.textContent = "Currently unavailable. Remove it before continuing.";
+        } else {
+          globalAlertText.textContent = "Requested quantity unavailable. Please reduce it to continue.";
+        }
+      } else {
+        btnCheckout.disabled = false;
+        checkoutWarning.classList.add('hidden');
+        globalAlert.classList.add('hidden');
+      }
+    }
+
+    function updateHeaderBadge(count) {
+      const headerPill = document.querySelector('header a[data-path="cart"] span.bg-primary');
+      if (headerPill) {
+        headerPill.textContent = count;
+        headerPill.style.display = count > 0 ? 'flex' : 'none';
+      }
+    }
+
+    function adjustQty(id, delta) {
+      const item = cartState.find(i => i.id === id);
+      if (!item) return;
+
+      const newQty = item.quantity + delta;
+      if (newQty < 1) {
+        removeItem(id);
+        return;
+      }
+
+      item.quantity = newQty;
+      
+      if (item.status === 'invalid-qty' && item.quantity <= item.maxAllowed) {
+        item.status = 'available';
+      }
+
+      renderCart();
+    }
+
+    function removeItem(id) {
+      const idx = cartState.findIndex(i => i.id === id);
+      if (idx === -1) return;
+
+      lastRemovedItem = {
+        item: cartState[idx],
+        index: idx
+      };
+
+      const title = cartState[idx].title;
+      cartState.splice(idx, 1);
+      renderCart();
+      showToast(`${title} removed from your bag.`, true);
+    }
+
+    function undoRemove() {
+      if (!lastRemovedItem) return;
+      cartState.splice(lastRemovedItem.index, 0, lastRemovedItem.item);
+      const title = lastRemovedItem.item.title;
+      lastRemovedItem = null;
+      renderCart();
+      showToast(`Restored ${title} to bag.`);
+    }
+
+    function showToast(message, allowUndo = false) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = "pointer-events-auto flex items-center justify-between gap-4 px-4 py-3 rounded-lg bg-inverse-surface text-inverse-on-surface shadow-lg text-body-sm font-body-sm transition-all duration-300 transform translate-y-2 opacity-0";
+      
+      toast.innerHTML = `
+        <span>${message}</span>
+        ${allowUndo ? '<button onclick="undoRemove()" class="text-primary-fixed hover:text-primary font-semibold text-xs uppercase tracking-wider underline underline-offset-2 ml-2">Undo</button>' : ''}
+      `;
+
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4500);
+    }
+
+    function toggleInspector() {
+      const body = document.getElementById('inspector-body');
+      const icon = document.getElementById('inspector-icon');
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        icon.textContent = 'expand_more';
+      } else {
+        body.classList.add('hidden');
+        icon.textContent = 'expand_less';
+      }
+    }
+
+    function mockSetPageState(state) {
+      currentPageState = state;
+      ['normal', 'loading', 'error', 'empty'].forEach(s => {
+        const btn = document.getElementById(`btn-state-${s}`);
+        if (s === state) {
+          btn.className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        } else {
+          btn.className = "px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface";
+        }
+      });
+      renderCart();
+    }
+
+    function mockSetAuth(auth) {
+      currentAuthState = auth;
+      const bSigned = document.getElementById('btn-auth-signed');
+      const bGuest = document.getElementById('btn-auth-guest');
+      if (auth === 'signed-in') {
+        bSigned.className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        bGuest.className = "px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface";
+      } else {
+        bGuest.className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        bSigned.className = "px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface";
+      }
+      renderCart();
+    }
+
+    function mockSetCondition(cond) {
+      currentCondition = cond;
+      ['avail', 'unavail', 'qty'].forEach(key => {
+        const b = document.getElementById(`btn-cond-${key}`);
+        b.className = "px-2 py-1 rounded text-xs bg-inverse-surface/80 hover:bg-surface-container-highest/30 text-inverse-on-surface";
+      });
+
+      if (cond === 'available') {
+        document.getElementById('btn-cond-avail').className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        cartState.forEach(i => i.status = 'available');
+      } else if (cond === 'unavailable') {
+        document.getElementById('btn-cond-unavail').className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        if (cartState.length > 1) {
+          cartState[1].status = 'unavailable';
+        }
+      } else if (cond === 'invalid-qty') {
+        document.getElementById('btn-cond-qty').className = "px-2 py-1 rounded text-xs bg-primary-fixed text-on-primary-fixed font-medium";
+        if (cartState.length > 0) {
+          cartState[0].quantity = 8;
+          cartState[0].status = 'invalid-qty';
+        }
+      }
+      renderCart();
+    }
+
+    function mockAddSampleItem() {
+      const newItem = {
+        id: "pastry-" + Date.now(),
+        title: "Artisan Pastry Box",
+        variant: "Box of 4",
+        price: 360,
+        quantity: 1,
+        image: "placeholder",
+        imageAlt: "Freshly baked pastries in a neat box",
+        status: "available",
+        maxAllowed: 4
+      };
+      cartState.unshift(newItem);
+      if (currentPageState === 'empty') currentPageState = 'normal';
+      renderCart();
+      showToast("Added item to your bag.");
+    }
+
+    function mockResetCart() {
+      cartState = JSON.parse(JSON.stringify(INITIAL_CART));
+      currentPageState = "normal";
+      currentAuthState = "signed-in";
+      currentCondition = "available";
+      mockSetPageState('normal');
+      mockSetAuth('signed-in');
+      mockSetCondition('available');
+      showToast("Cart refreshed to defaults.");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+    });
+
+    document.getElementById('btn-checkout')?.addEventListener('click', () => {
+      showToast("Continuing to checkout...");
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-low border-t border-surface-container-high/60"><div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg"><div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl"><div class="max-w-md"><p class="font-headline-sm text-headline-sm text-on-surface font-semibold">Kitchen406</p></div><div class="flex flex-col gap-space-sm"><div class="flex flex-wrap gap-x-space-lg gap-y-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="terms" href="#">Terms</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="privacy" href="#">Privacy</a></div></div></div><div class="mt-space-xl pt-space-lg border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-outline"><p>Kitchen406. All rights reserved.</p></div></div></footer></body></html>

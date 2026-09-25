@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Kitchen406 — Artisan Bakery</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-background": "#1c1c19", "secondary": "#875218", "primary-fixed": "#ffdbcb", "inverse-on-surface": "#f3f0eb", "secondary-fixed": "#ffdcbf", "surface-container": "#f0ede9", "on-error": "#ffffff", "on-error-container": "#93000a", "tertiary-fixed-dim": "#cec5c0", "on-tertiary-container": "#dcd2cd", "tertiary-fixed": "#ebe0db", "primary": "#6f3312", "surface-container-highest": "#e5e2dd", "on-surface": "#1c1c19", "error-container": "#ffdad6", "tertiary": "#49433f", "outline": "#86736b", "secondary-fixed-dim": "#feb874", "on-primary-container": "#ffc9b0", "background": "#fcf9f4", "surface": "#fcf9f4", "surface-variant": "#e5e2dd", "primary-container": "#8c4a27", "error": "#ba1a1a", "on-primary": "#ffffff", "surface-bright": "#fcf9f4", "on-surface-variant": "#53433c", "secondary-container": "#feb874", "on-tertiary": "#ffffff", "surface-container-high": "#ebe8e3", "on-secondary-fixed": "#2d1600", "tertiary-container": "#615a56", "primary-fixed-dim": "#ffb693", "surface-dim": "#dcdad5", "surface-container-low": "#f6f3ee", "on-tertiary-fixed-variant": "#4c4642", "surface-container-lowest": "#ffffff", "on-primary-fixed": "#351000", "on-secondary-container": "#78470b", "inverse-primary": "#ffb693", "surface-tint": "#8f4c29", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#6a3b00", "on-tertiary-fixed": "#1f1b18", "on-primary-fixed-variant": "#723614", "inverse-surface": "#31302d", "outline-variant": "#d9c2b8" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-mobile": "1.25rem", "space-xl": "2.5rem", "space-md": "1rem", "gutter-mobile": "1rem", "space-2xl": "4rem", "space-sm": "0.5rem", "gutter": "1.5rem", "space-lg": "1.5rem", "margin": "2rem", "space-xs": "0.25rem", "space-3xl": "6rem" }, "fontFamily": { "label-md": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "display-lg-mobile": [ "Playfair Display" ], "label-lg": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "headline-lg-mobile": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ], "headline-sm": [ "Playfair Display" ], "label-sm": [ "Plus Jakarta Sans" ], "headline-lg": [ "Playfair Display" ], "display-lg": [ "Playfair Display" ], "headline-md": [ "Playfair Display" ] }, "fontSize": { "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "20px", "fontWeight": "400" } ], "display-lg-mobile": [ "38px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-md": [ "15px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "400" } ], "headline-sm": [ "22px", { "lineHeight": "30px", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" } ], "headline-lg": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "display-lg": [ "56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "headline-md": [ "28px", { "lineHeight": "36px", "fontWeight": "500" } ] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col selection:bg-secondary-fixed selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(43,38,35,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><img alt="Brand logo. - Primary color: #b46931
+- Font: playfairDisplay
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJuW_BnxCzrbZoN17J3fN3eJkGB6tBmaGSIE1y_Pw4H9ia11dprJFhUt5G8gi8Cnu92br-2Ry-pChlEWLafl5-hEtuaU5hj37w0-f_5yRpm2sw__sSQ6FF-25p74HFuTrJajC6B447IRm5rKnhRSzzB0GxRryf-WakJVwhPLhEaqeCmPmljiq2sb7we2KLll4lYMNjmdnI2-ufWAYSUqr1qSRBq3kyhRSPt98_60w_Gxal5_OFB-wfiA"/><a class="font-headline-sm text-headline-sm tracking-tight text-primary hover:text-primary-container transition-colors" data-path="shop" href="#">Kitchen406</a></div><nav class="hidden md:flex items-center gap-space-xl" data-active-classes="text-primary font-bold"><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md"><div class="relative hidden sm:block"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">search</span><input class="w-48 lg:w-56 pl-9 pr-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary-container transition-all" placeholder="Search sourdough, tarts..." type="search"/></div><a aria-label="Cart" class="relative p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[22px]">shopping_bag</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] leading-4 text-center font-bold flex items-center justify-center">2</span></a><a class="flex items-center gap-space-xs pl-space-xs pr-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors group" data-path="customer-orders" href="#" title="Authenticated as Maria S."><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="hidden lg:inline-block font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface">Orders</span></a></div></div></header><main class="w-full flex-1 pt-20 bg-surface"><div class="flex flex-col w-full">
+<!-- Main Container -->
+<div class="w-full max-w-[1240px] mx-auto px-margin-mobile sm:px-margin py-space-xl">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumbs" class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md mb-space-md">
+<a class="hover:text-primary transition-colors" data-path="shop" href="#">Home</a>
+<span class="text-outline-variant font-normal">/</span>
+<span class="hover:text-primary transition-colors cursor-pointer">My Account</span>
+<span class="text-outline-variant font-normal">/</span>
+<span class="text-on-surface font-semibold">Orders</span>
+</nav>
+<!-- Page Header & Visual Summary Bar -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg mb-space-lg">
+<div class="space-y-space-xs">
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Cebu City Kitchen Hub
+        </div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">My Orders</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Track your slow-crafted sourdough, weekly subscriptions, and bespoke celebrations in Metro Cebu.
+        </p>
+</div>
+<!-- Quick Summary Stats Chips -->
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-lowest px-4 py-2.5 rounded-xl shadow-sm flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Active Batch</div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">3 In Progress</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest px-4 py-2.5 rounded-xl shadow-sm flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">loyalty</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Subscription</div>
+<div class="font-label-lg text-label-lg font-bold text-primary">Cycle 2 of 4</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter & Navigation Control Strip -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm mb-space-lg space-y-space-md">
+<!-- Primary Category Tabs -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="tabs-container">
+<button class="tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-primary-container text-on-primary font-bold shadow-sm" data-tab="all" onclick="switchTab('all')">
+          All Orders <span class="ml-1 opacity-80" id="count-all">(7)</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface" data-tab="in-progress" onclick="switchTab('in-progress')">
+          In Progress <span class="ml-1 opacity-80" id="count-inprogress">(3)</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface" data-tab="completed" onclick="switchTab('completed')">
+          Completed <span class="ml-1 opacity-80" id="count-completed">(2)</span>
+</button>
+<button class="tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface" data-tab="needs-attention" onclick="switchTab('needs-attention')">
+          Needs Attention <span class="ml-1 px-1.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[10px]" id="count-attention">2</span>
+</button>
+</div>
+<!-- Search, Type Filter, Sort and Counter Row -->
+<div class="pt-space-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full pl-9 pr-8 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary-container transition-all" id="order-search-input" oninput="handleSearch(this.value)" placeholder="Search by order number, bread, or pastry..." type="search"/>
+<button class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" id="clear-search-btn" onclick="clearSearch()">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Controls: Filters & Sort -->
+<div class="flex flex-wrap items-center gap-space-sm justify-between lg:justify-end">
+<div class="flex items-center gap-2">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant whitespace-nowrap" for="filter-type">Type:</label>
+<select class="py-1.5 px-3 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary-container transition-all cursor-pointer" id="filter-type" onchange="handleTypeFilter(this.value)">
+<option value="all">All Types</option>
+<option value="Standard Order">Standard Orders</option>
+<option value="Subscription Delivery">Subscription Deliveries</option>
+<option value="Custom Cake">Custom Cakes</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant whitespace-nowrap" for="filter-sort">Sort:</label>
+<select class="py-1.5 px-3 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary-container transition-all cursor-pointer" id="filter-sort" onchange="handleSort(this.value)">
+<option value="newest">Newest First</option>
+<option value="oldest">Oldest First</option>
+<option value="fulfillment">Fulfillment Date</option>
+</select>
+</div>
+<div class="font-label-md text-label-md text-on-surface-variant pl-2" id="order-counter-text">
+            Showing <span class="font-bold text-on-surface" id="visible-count">5</span> of <span class="font-bold text-on-surface">7</span> orders
+          </div>
+</div>
+</div>
+</div>
+<!-- Loading Skeleton View (Initially hidden) -->
+<div class="hidden space-y-space-md mb-space-xl" id="loading-skeleton">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm animate-pulse space-y-space-md">
+<div class="h-6 bg-surface-container-high rounded w-1/3"></div>
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded-lg"></div>
+<div class="space-y-2 flex-1">
+<div class="h-4 bg-surface-container-high rounded w-1/2"></div>
+<div class="h-3 bg-surface-container-high rounded w-1/4"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm animate-pulse space-y-space-md">
+<div class="h-6 bg-surface-container-high rounded w-1/4"></div>
+<div class="flex gap-4">
+<div class="w-20 h-20 bg-surface-container-high rounded-lg"></div>
+<div class="space-y-2 flex-1">
+<div class="h-4 bg-surface-container-high rounded w-2/3"></div>
+<div class="h-3 bg-surface-container-high rounded w-1/3"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State: Search / Filter No Results (Initially hidden) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-2xl text-center shadow-sm space-y-space-md my-space-md" id="empty-search-state">
+<div class="w-14 h-14 mx-auto rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[28px]">search_off</span>
+</div>
+<div class="space-y-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No matching orders found</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto">
+          We couldn't find any orders matching your criteria. Try adjusting your search term or filters.
+        </p>
+</div>
+<button class="px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors" onclick="resetAllFilters()">
+        Clear All Filters
+      </button>
+</div>
+<!-- Empty State: Zero Total Orders (Initially hidden) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-3xl text-center shadow-sm space-y-space-md my-space-md" id="empty-orders-state">
+<div class="w-16 h-16 mx-auto rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[32px]">bakery_dining</span>
+</div>
+<div class="space-y-1">
+<h3 class="font-headline-sm text-headline-sm text-primary">Your bread box is empty</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+          You haven't placed any orders with Kitchen406 yet. Discover our naturally fermented loaves, laminated pastries, and celebration cakes.
+        </p>
+</div>
+<a class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-primary transition-all shadow-sm" data-path="shop" href="#">
+<span>Explore Fresh Bakes</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Orders Vertical Stack List -->
+<div class="space-y-space-md" id="orders-list-stack">
+<!-- CARD 1: Standard Order - In Progress (Preparing) -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-10-10" data-fulfillment="2026-10-16" data-order-id="K406-0028" data-tab="in-progress" data-type="Standard Order">
+<!-- Card Header -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm bg-surface-container-low/40 -mx-space-md -mt-space-md sm:-mx-space-lg sm:-mt-space-lg px-space-md sm:px-space-lg pt-space-sm rounded-t-xl mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0028</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Oct 10, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="hidden sm:inline px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Standard Order</span>
+</div>
+<!-- Dynamic Status Badge for Simulation -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-semibold" id="status-badge-0028">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span>Preparing in Oven</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Products Preview (Cols 1-7) -->
+<div class="lg:col-span-7 space-y-space-sm">
+<!-- Product Item 1 with Image -->
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A freshly baked, golden brown braided chocolate babka loaf with deep swirls of dark chocolate and flaky crumble topping resting on parchment paper in warm morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeZOF4AzKXNWuvDAk5LTo9MEkeMtsjn5_pacc4rTvq6uoiRf42c2eJqS2JPl53KyJWWzjzITTZsdYbUqKgghaxJV1PN83OlKh_zT4d8lULZfg_68-g6svnrhFd7FIEUwK9ngassvSc4otAVZOellN-62aYwGGynZOIt_uVICkvgaFyLGk6WZAux0_tNhqXXo50wAZm5temjWirwmm8N_1tJTyKWyo0t0U8nz73gAvV41NQRmLjNvKs"/>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Braided Chocolate Babka</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Regular • 650g loaf × 2</p>
+<p class="font-label-sm text-label-sm text-primary font-semibold mt-0.5">₱790.00</p>
+</div>
+</div>
+<!-- Product Item 2 (Compact text/icon item) -->
+<div class="flex items-center gap-space-md pt-2">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">bakery_dining</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Ube Halaya Croissant</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Small-batch laminated • Hand-rolled × 1</div>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface font-medium">₱195.00</div>
+</div>
+<!-- Product Item 3 -->
+<div class="flex items-center gap-space-md pt-1">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">breakfast_dining</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Japanese Shokupan Loaf</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">450g Standard • Thick Sliced × 1</div>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface font-medium">₱260.00</div>
+</div>
+</div>
+<!-- Fulfillment & Total Info (Cols 8-12) -->
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Metro Cebu Courier Delivery</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Friday, Oct 16, 2026 • 9:00 AM – 1:00 PM
+              </p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+                Delivery to Banilad, Cebu City via climate-controlled courier.
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Order Total</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱1,245.00</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Paid via GCash (QR Ph)</span>
+</div>
+<div class="flex flex-col items-end gap-2" id="action-wrapper-0028">
+<a class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm" data-path="order-details-0028" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 2: Subscription Delivery - In Progress -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-09-22" data-fulfillment="2026-10-16" data-order-id="K406-0041" data-tab="in-progress" data-type="Subscription Delivery">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm bg-surface-container-low/40 -mx-space-md -mt-space-md sm:-mx-space-lg sm:-mt-space-lg px-space-md sm:px-space-lg pt-space-sm rounded-t-xl mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0041</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Enrolled Sep 22, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">Weekly Bread Club</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Batch Fermenting (Cycle 2 of 4)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Two freshly baked artisanal sourdough country loaf batards with dark blistered crust and flour dusting resting on a natural linen bread cloth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKGPUg-2smhR4gBacL0JVKKuZkYRXmFJSnb8jelSdKM2GX2pKdMM3LHfACqpsud8gh762VWITUaTT8ukZXZLpGjxi8a7nvGmsxD31plgoqVIf-zPYmEA4WTb4OVfaMinmuv2cFrhHvKM91PPHIw3Noi1Em5tEOH5cIAFagTo3vQ0yiZTt4hguuW3LOUpgv6EWWA2os3SPzzkobcsSTkjDmbe-zI36bEIZlIaNbQxKRbuvmoOE84OqQ"/>
+</div>
+<div class="min-w-0 flex-1">
+<div class="inline-block px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-[10px] uppercase font-bold mb-1">Prepaid Plan</div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Artisanal Sourdough Country Loaf</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">800g Batard × 2 loaves weekly</p>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-2 max-w-xs">
+<div class="bg-primary h-1.5 rounded-full" style="width: 50%"></div>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant mt-1">Delivery 2 of 4 in current cycle</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-secondary">calendar_today</span>
+<span>Scheduled Delivery Date</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Friday, Oct 16, 2026 • Morning Drop
+              </p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+                Guaranteed warm delivery to Mabolo, Cebu City.
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Payment Status</span>
+<div class="font-label-lg text-label-lg text-on-surface font-bold">Prepaid Package</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">₱0.00 balance due</span>
+</div>
+<div class="flex items-center gap-2">
+<a class="px-3 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" data-path="subscriptions" href="#">
+                  Manage Plan
+                </a>
+<a class="p-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary transition-colors" data-path="order-details-0041" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 3: Needs Attention - Unpaid / Payment Pending -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md ring-1 ring-secondary-container" data-date="2026-10-12" data-fulfillment="2026-10-17" data-order-id="K406-0033" data-tab="needs-attention" data-type="Standard Order">
+<!-- Attention Banner -->
+<div class="mb-space-md p-3 rounded-lg bg-secondary-fixed/50 flex items-start sm:items-center justify-between gap-3 text-on-secondary-container">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[20px] text-secondary shrink-0 mt-0.5 sm:mt-0">timer</span>
+<p class="font-body-sm text-body-sm leading-snug">
+<strong>Action Required:</strong> Complete payment via QR Ph to secure your weekend bake slot before 6:00 PM today.
+            </p>
+</div>
+<span class="shrink-0 font-label-sm text-label-sm uppercase font-bold text-secondary bg-surface-container-lowest px-2 py-0.5 rounded">Expires in 2h 15m</span>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0033</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Oct 12, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Bakery Pickup</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">pending</span>
+<span>Payment Pending</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A sliced Japanese shokupan milk bread loaf showcasing its ultra soft, pillowy white crumb with light golden crust on a wooden bakery counter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARoZqiw8g5C8KQHs9zK7IzB6XoXsqKGITmOeEjQMNEJCW3P7Z74jFmOiKvubmWbZP8iTXElPh4VUd1SLOOoyMSbBmfZKhRLa0j2pNYiZhvKP6DCizlLhEWnJ3zxcmf0VZxgJOItCYKF3uMsBgUqkYT0VAIpPvOURnXGVHcLuPqq_Z7unrgSWjb0O7HaJgfdKViYiE-1eczgETrQ_qh5jK_CHLTv1Cg0VySum7E_Zu75WL5PE0Y0j9U"/>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Japanese Shokupan Milk Bread Loaf</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thick Sliced • 450g × 2</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Pickup slot reserved: Saturday morning</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-secondary">storefront</span>
+<span>Self Pickup at Kitchen406</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Saturday, Oct 17, 2026 • 10:00 AM – 12:00 PM
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Total Amount Due</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱560.00</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary/90 transition-colors shadow-sm flex items-center gap-1.5" onclick="alert('Opening QR Ph Gateway modal for Order #K406-0033...')">
+<span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+<span>Pay Now (QR Ph)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 4: Completed - Eligible for Review -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-10-02" data-fulfillment="2026-10-03" data-order-id="K406-0019" data-tab="completed" data-type="Standard Order">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm bg-surface-container-low/40 -mx-space-md -mt-space-md sm:-mx-space-lg sm:-mt-space-lg px-space-md sm:px-space-lg pt-space-sm rounded-t-xl mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0019</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Oct 2, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Standard Order</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-tertiary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Delivered &amp; Completed</span>
+</div>
+</div>
+<!-- Review Invitation Banner -->
+<div class="mb-space-md p-3.5 rounded-lg bg-primary-fixed/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">rate_review</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-primary-fixed font-bold">Your order was delivered Oct 3. How was your bake?</p>
+<p class="font-body-sm text-body-sm text-on-primary-fixed-variant">Share your feedback to help our baker fine-tune next week's fermentation.</p>
+</div>
+</div>
+<button class="px-4 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors whitespace-nowrap shadow-sm" onclick="openReviewModal('K406-0019')">
+            Leave a Review ★
+          </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A freshly baked, golden brown braided chocolate babka loaf with deep swirls of dark chocolate and flaky crumble topping resting on parchment paper in warm morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_OOrt9EYcKUM1LhBtdurvPfuEPpwj6kh4Ng2h4yLmVVMBGcCnUogUqYsZ21bby5X7ty6xzSPGu9Qq7M9NrlaKqGzv1JFA6gNFuNb9rHgQwj8JdOsUVOnTtVHu4-ac97CItLYmCrZ3sBOQR5GpTEpJhQJZB89eYAkw1wx63Z7D5IeAnXiMbaw2vS0qnoBlblQpNF8GGFYqEAYv3XPesJk8AjIj9m6dZ2hl4zfUimqQ6SeqLXkLoz9r"/>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Braided Chocolate Babka</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Regular loaf • 650g × 1</p>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface font-semibold">₱395.00</div>
+</div>
+<div class="flex items-center gap-space-md pt-1">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">cookie</span>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-body-sm text-body-sm text-on-surface font-medium truncate">Sea Salt Pain au Chocolat</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Box of 4 × 1</p>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface font-semibold">₱425.00</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-tertiary">task_alt</span>
+<span>Fulfillment Summary</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Delivered on Saturday, Oct 3, 2026
+              </p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+                Received by Maria S. (Guadalupe, Cebu City)
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Total Paid</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱820.00</div>
+</div>
+<div class="flex items-center gap-2">
+<a class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" data-path="order-details-0019" href="#">
+                  View Details
+                </a>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 5: Custom Cake Purchase - In Progress (Owner-Managed) -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-10-08" data-fulfillment="2026-10-18" data-order-id="K406-0035" data-tab="in-progress" data-type="Custom Cake">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm bg-surface-container-low/40 -mx-space-md -mt-space-md sm:-mx-space-lg sm:-mt-space-lg px-space-md sm:px-space-lg pt-space-sm rounded-t-xl mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0035</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Oct 8, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold">Custom Cake Order</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Confirmed &amp; Cake Design In Progress</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="An elegant three-tiered minimalist artisanal cake frosted in textured cream buttercream, adorned with delicate pressed edible dried flowers and rosemary sprigs on a ceramic stand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAUfI8ZwOhjwLzS5zF446HYrhZ3EvzcJaZRL7plTAt36jsGb8PXZYqPG2r4dmyDP2Y258csvxSd-muYDCH2vTt7QBawuHmlwjKOV6EfIGMwBJ4DaQU8NLFsbk2KMWrO8RsK90172sEGRhkTiMLvRz2ycPnFEinitfAqsS26lgg_xGi2g0tcoaBxafXFhUvAbR34kBp1rEJP0MfR-6HJJTfBG2DuH8mVy2M5rZXKgVAMEkIEO1JEwUZ"/>
+</div>
+<div class="min-w-0 flex-1 space-y-1">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-[11px] font-semibold">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                  Accepted Quotation #QC-882
+                </div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Minimalist Tiered Celebration Cake</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">6-inch Earl Grey Chiffon • Lavender Buttercream • Custom Botanical Florals</p>
+<p class="font-label-sm text-[11px] text-on-surface-variant">Notes: "Happy 30th Birthday Elena" custom brass plaque inscription</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-primary">cake</span>
+<span>Owner Hand Delivery</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Sunday, Oct 18, 2026 • 2:00 PM Sharp
+              </p>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+                Direct hand delivery by head baker to ensure structural integrity at event venue in Cebu City.
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Contract Total</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱2,450.00</div>
+<span class="font-label-sm text-[11px] text-secondary font-semibold">Fully Paid via Bank Transfer</span>
+</div>
+<a class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm inline-flex items-center gap-1" data-path="order-details-0035" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 6: Needs Attention - Confirmation Being Reviewed -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-10-09" data-fulfillment="2026-10-15" data-order-id="K406-0029" data-tab="needs-attention" data-type="Standard Order">
+<!-- Info Banner -->
+<div class="mb-space-md p-3.5 rounded-lg bg-surface-container-high flex items-start gap-3 text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-secondary shrink-0 mt-0.5">hourglass_top</span>
+<div class="space-y-0.5">
+<p class="font-label-md text-label-md font-bold">Admin Verification in Progress</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Payment was received via QR Ph, but order confirmation requires administrative verification. No action needed from you. We will update you shortly via SMS.
+            </p>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0029</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Oct 9, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Standard Delivery</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Confirmation Being Reviewed</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Artisan Sourdough + Pastry Box</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">1× Country Batard, 2× Pain au Chocolat, 2× Sea Salt Cookies</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Estimated Delivery</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Thursday, Oct 15, 2026
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Paid Amount</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱940.00</div>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" data-path="order-details-0029" href="#">
+                View Details
+              </a>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 7: Completed - Already Reviewed -->
+<article class="order-card bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-sm transition-all hover:shadow-md" data-date="2026-09-25" data-fulfillment="2026-09-26" data-order-id="K406-0012" data-tab="completed" data-type="Standard Order">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm bg-surface-container-low/40 -mx-space-md -mt-space-md sm:-mx-space-lg sm:-mt-space-lg px-space-md sm:px-space-lg pt-space-sm rounded-t-xl mb-space-md">
+<div class="flex flex-wrap items-center gap-2 sm:gap-4 font-body-sm text-body-sm">
+<span class="font-headline-sm text-[17px] font-bold text-primary">#K406-0012</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">Placed Sep 25, 2026</span>
+<span class="hidden sm:inline text-on-surface-variant">•</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Pickup Order</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-tertiary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Completed &amp; Picked Up</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<div class="lg:col-span-7 space-y-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">bakery_dining</span>
+</div>
+<div class="min-w-0 flex-1">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Artisan Sourdough (Classic Loaf × 1)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Naturally leavened 36-hr cold fermentation</p>
+<div class="flex items-center gap-1 text-secondary mt-1">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-1 font-semibold">Reviewed on Sept 28 ("Crust was spectacular!")</span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between h-full space-y-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-tertiary">storefront</span>
+<span>Picked up</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">
+                Saturday, Sep 26, 2026
+              </p>
+</div>
+<div class="pt-space-xs flex items-end justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Total</span>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">₱280.00</div>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" data-path="order-details-0012" href="#">
+                View Details
+              </a>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination & Bottom Controls -->
+<div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md" id="pagination-controls">
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+        Showing <span class="font-semibold text-on-surface" id="pagination-range-text">1–5</span> of <span class="font-semibold text-on-surface">7</span> orders
+      </div>
+<div class="flex items-center gap-1.5">
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface-variant/40 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-bold">
+          1
+        </button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="alert('Viewing Page 2 of archived historical orders...')">
+          2
+        </button>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors" onclick="alert('Viewing Page 2...')">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Review Modal Simulation (Clean, discreet popup) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden flex items-center justify-center p-4" id="review-modal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-2xl p-space-xl shadow-xl space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Kitchen406 Feedback</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Review Your Order #K406-0019</h3>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container" onclick="closeReviewModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface">Overall Rating</label>
+<div class="flex items-center gap-1 text-secondary text-[28px] cursor-pointer">
+<span class="material-symbols-outlined hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface">Your Experience &amp; Crumb Review</label>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary-container resize-none" placeholder="Tell us about the texture, crust, or delivery experience..." rows="3"></textarea>
+</div>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" onclick="closeReviewModal()">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary font-bold shadow-sm" onclick="submitReview()">
+          Submit Review
+        </button>
+</div>
+</div>
+</div>
+<!-- Floating Collapsible Prototype Mock State Inspector (Requirement 6) -->
+<div class="fixed bottom-6 right-6 z-50" id="mock-inspector">
+<!-- Toggle Button -->
+<button class="flex items-center gap-2 px-3 py-2 rounded-full bg-inverse-surface text-inverse-on-surface shadow-xl hover:bg-on-background transition-all font-label-sm text-label-sm uppercase tracking-wider" id="mock-toggle-btn" onclick="toggleMockPanel()" title="Toggle Phase 2.7 Prototype Controls">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">tune</span>
+<span>Mock Controls (Phase 2.7)</span>
+<span class="material-symbols-outlined text-[14px]" id="mock-chevron">expand_less</span>
+</button>
+<!-- Expanded Drawer Panel -->
+<div class="hidden mt-2 w-80 bg-surface-container-lowest rounded-xl p-4 shadow-xl border border-outline-variant/30 text-on-surface text-body-sm space-y-3.5 max-h-[870px] overflow-y-auto" id="mock-panel">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+<div class="font-label-md text-label-md font-bold text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">developer_mode</span>
+          Inspector (Phase 2.7)
+        </div>
+<button class="text-secondary hover:text-primary font-label-sm text-[11px] underline" onclick="resetAllDemo()">
+          Reset All
+        </button>
+</div>
+<!-- Dataset Switcher -->
+<div class="space-y-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Dataset Switcher</label>
+<select class="w-full py-1.5 px-2.5 rounded bg-surface-container-low text-on-surface font-body-sm text-[12px] focus:outline-none" id="mock-dataset-select" onchange="simulateDataset(this.value)">
+<option value="mixed">Mixed Orders (Default 7)</option>
+<option value="standard">Standard Orders Only</option>
+<option value="subscriptions">Subscriptions Only</option>
+<option value="cakes">Custom Cakes Only</option>
+<option value="empty">No Orders (Empty State)</option>
+</select>
+</div>
+<!-- Interface State Simulation -->
+<div class="space-y-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">UI State Simulation</label>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="simulateState('default')">Normal List</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="simulateState('skeleton')">Loading Skeleton</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="simulateState('no-results')">Search 0 Matches</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="simulateState('payment-issue')">Payment Issue Only</button>
+</div>
+</div>
+<!-- Status Simulation for Order #K406-0028 -->
+<div class="space-y-1 pt-1 border-t border-surface-container-high">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Simulate Order #K406-0028</label>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="px-2 py-1 rounded bg-secondary-fixed/50 hover:bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[11px]" onclick="updateOrder0028Status('preparing')">Preparing</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="updateOrder0028Status('ready')">Ready for Pickup</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high font-label-sm text-[11px]" onclick="updateOrder0028Status('delivering')">On the Way 🛵</button>
+<button class="px-2 py-1 rounded bg-primary-fixed/60 hover:bg-primary-fixed text-on-primary-fixed font-label-sm text-[11px]" onclick="updateOrder0028Status('completed')">Completed &amp; Rate</button>
+</div>
+</div>
+<div class="text-[10px] text-on-surface-variant leading-tight pt-1">
+        Testing live filtering, real-time query states, and lifecycle milestones for Kitchen406 Metro Cebu orders.
+      </div>
+</div>
+</div>
+<!-- Inline Script for Reactive Filtering and Mock Controls -->
+<script>
+    let activeTab = 'all';
+    let currentSearchTerm = '';
+    let selectedType = 'all';
+    let currentSort = 'newest';
+
+    function switchTab(tabKey) {
+      activeTab = tabKey;
+      
+      // Update Tab button visuals
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(tab => {
+        if (tab.getAttribute('data-tab') === tabKey) {
+          tab.className = "tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-primary-container text-on-primary font-bold shadow-sm";
+        } else {
+          tab.className = "tab-btn px-4 py-2 rounded-lg font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface";
+        }
+      });
+
+      applyFilters();
+    }
+
+    function handleSearch(term) {
+      currentSearchTerm = term.toLowerCase().trim();
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (clearBtn) {
+        if (currentSearchTerm.length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+      applyFilters();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('order-search-input');
+      if (input) input.value = '';
+      currentSearchTerm = '';
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      applyFilters();
+    }
+
+    function handleTypeFilter(val) {
+      selectedType = val;
+      applyFilters();
+    }
+
+    function handleSort(val) {
+      currentSort = val;
+      const stack = document.getElementById('orders-list-stack');
+      const cards = Array.from(stack.querySelectorAll('.order-card'));
+
+      cards.sort((a, b) => {
+        if (val === 'newest') {
+          return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
+        } else if (val === 'oldest') {
+          return new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date'));
+        } else if (val === 'fulfillment') {
+          return new Date(a.getAttribute('data-fulfillment')) - new Date(b.getAttribute('data-fulfillment'));
+        }
+        return 0;
+      });
+
+      cards.forEach(card => stack.appendChild(card));
+    }
+
+    function applyFilters() {
+      const cards = document.querySelectorAll('.order-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardTab = card.getAttribute('data-tab');
+        const cardType = card.getAttribute('data-type');
+        const cardText = card.innerText.toLowerCase();
+
+        const matchTab = (activeTab === 'all' || cardTab === activeTab);
+        const matchType = (selectedType === 'all' || cardType === selectedType);
+        const matchSearch = (!currentSearchTerm || cardText.includes(currentSearchTerm));
+
+        if (matchTab && matchType && matchSearch) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Update count text
+      const counterText = document.getElementById('visible-count');
+      if (counterText) counterText.textContent = visibleCount;
+
+      const paginationRange = document.getElementById('pagination-range-text');
+      if (paginationRange) paginationRange.textContent = visibleCount > 0 ? `1–${visibleCount}` : '0';
+
+      // Toggle Empty State for search vs regular
+      const emptySearch = document.getElementById('empty-search-state');
+      const ordersStack = document.getElementById('orders-list-stack');
+      const paginationControls = document.getElementById('pagination-controls');
+
+      if (visibleCount === 0) {
+        emptySearch.classList.remove('hidden');
+        paginationControls.classList.add('hidden');
+      } else {
+        emptySearch.classList.add('hidden');
+        paginationControls.classList.remove('hidden');
+      }
+    }
+
+    function resetAllFilters() {
+      clearSearch();
+      selectedType = 'all';
+      const typeSelect = document.getElementById('filter-type');
+      if (typeSelect) typeSelect.value = 'all';
+      switchTab('all');
+    }
+
+    // Prototype Mock Controls Handler
+    function toggleMockPanel() {
+      const panel = document.getElementById('mock-panel');
+      const chevron = document.getElementById('mock-chevron');
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        chevron.textContent = 'expand_more';
+      } else {
+        panel.classList.add('hidden');
+        chevron.textContent = 'expand_less';
+      }
+    }
+
+    function simulateDataset(type) {
+      const cards = document.querySelectorAll('.order-card');
+      const emptyOrders = document.getElementById('empty-orders-state');
+      const ordersStack = document.getElementById('orders-list-stack');
+      const paginationControls = document.getElementById('pagination-controls');
+
+      if (type === 'empty') {
+        cards.forEach(c => c.classList.add('hidden'));
+        emptyOrders.classList.remove('hidden');
+        ordersStack.classList.add('hidden');
+        paginationControls.classList.add('hidden');
+        return;
+      } else {
+        emptyOrders.classList.add('hidden');
+        ordersStack.classList.remove('hidden');
+        paginationControls.classList.remove('hidden');
+      }
+
+      if (type === 'standard') {
+        const typeSelect = document.getElementById('filter-type');
+        if (typeSelect) typeSelect.value = 'Standard Order';
+        handleTypeFilter('Standard Order');
+      } else if (type === 'subscriptions') {
+        const typeSelect = document.getElementById('filter-type');
+        if (typeSelect) typeSelect.value = 'Subscription Delivery';
+        handleTypeFilter('Subscription Delivery');
+      } else if (type === 'cakes') {
+        const typeSelect = document.getElementById('filter-type');
+        if (typeSelect) typeSelect.value = 'Custom Cake';
+        handleTypeFilter('Custom Cake');
+      } else {
+        resetAllFilters();
+      }
+    }
+
+    function simulateState(state) {
+      const skeleton = document.getElementById('loading-skeleton');
+      const stack = document.getElementById('orders-list-stack');
+      const emptySearch = document.getElementById('empty-search-state');
+      const emptyOrders = document.getElementById('empty-orders-state');
+
+      // reset visibility
+      skeleton.classList.add('hidden');
+      stack.classList.remove('hidden');
+      emptySearch.classList.add('hidden');
+      emptyOrders.classList.add('hidden');
+
+      if (state === 'skeleton') {
+        stack.classList.add('hidden');
+        skeleton.classList.remove('hidden');
+      } else if (state === 'no-results') {
+        handleSearch('non_existent_xyz_bread');
+      } else if (state === 'payment-issue') {
+        switchTab('needs-attention');
+      } else {
+        resetAllFilters();
+      }
+    }
+
+    function updateOrder0028Status(status) {
+      const badge = document.getElementById('status-badge-0028');
+      const actionWrapper = document.getElementById('action-wrapper-0028');
+
+      if (!badge || !actionWrapper) return;
+
+      if (status === 'preparing') {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-semibold";
+        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span><span>Preparing in Oven</span>`;
+        actionWrapper.innerHTML = `
+          <a href="#" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">
+            <span>View Details</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        `;
+      } else if (status === 'ready') {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-label-md text-label-md font-semibold";
+        badge.innerHTML = `<span class="material-symbols-outlined text-[16px]">inventory_2</span><span>Ready at Bakery Counter</span>`;
+      } else if (status === 'delivering') {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-md text-label-md font-semibold";
+        badge.innerHTML = `<span class="material-symbols-outlined text-[16px]">moped</span><span>On the Way (Driver Assigned)</span>`;
+      } else if (status === 'completed') {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-tertiary font-label-md text-label-md font-semibold";
+        badge.innerHTML = `<span class="material-symbols-outlined text-[16px]">check_circle</span><span>Delivered Successfully</span>`;
+        actionWrapper.innerHTML = `
+          <button onclick="openReviewModal('K406-0028')" class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors whitespace-nowrap shadow-sm mb-1">
+            Leave a Review ★
+          </button>
+          <a href="#" class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:underline">
+            <span>Order Details →</span>
+          </a>
+        `;
+      }
+    }
+
+    function openReviewModal(orderId) {
+      const modal = document.getElementById('review-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeReviewModal() {
+      const modal = document.getElementById('review-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function submitReview() {
+      alert('Thank you! Your verified review has been submitted for Kitchen406.');
+      closeReviewModal();
+    }
+
+    function resetAllDemo() {
+      const datasetSelect = document.getElementById('mock-dataset-select');
+      if (datasetSelect) datasetSelect.value = 'mixed';
+      updateOrder0028Status('preparing');
+      resetAllFilters();
+      simulateState('default');
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low mt-space-3xl"><div class="max-w-[1240px] mx-auto px-margin py-space-2xl"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl"><div class="md:col-span-6 space-y-space-md"><h2 class="font-headline-sm text-headline-sm text-primary tracking-tight">Kitchen406</h2><p class="font-body-md text-body-md text-on-surface-variant max-w-md">Home-based bakery in Metro Cebu. Slow-crafted sourdough, laminated pastries, and celebrations made honest and memorable.</p><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-secondary">location_on</span><span class="font-label-md text-label-md">Mandaue • Cebu City • Talisay Deliveries</span></div></div><div class="md:col-span-3 space-y-space-md"><p class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface font-semibold">Discover</p><ul class="space-y-space-xs font-body-sm text-body-sm"><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a></li><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a></li><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a></li><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></li></ul></div><div class="md:col-span-3 space-y-space-md"><p class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface font-semibold">Assurance</p><ul class="space-y-space-xs font-body-sm text-body-sm"><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-terms" href="#">Privacy &amp; Terms</a></li><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="customer-orders" href="#">Order Tracking</a></li><li class="py-0.5"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="metro-cebu-delivery" href="#">Metro Cebu Delivery</a></li></ul></div></div><div class="mt-space-2xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant"><p class="font-body-sm text-body-sm">© 2026 Kitchen406. All rights reserved.</p><p class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant/80">Handcrafted in Metro Cebu, Philippines.</p></div></div></footer></body></html>

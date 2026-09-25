@@ -1,0 +1,1096 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+      main > :first-child { margin-top: 0 !important; } 
+      main > :last-child { margin-bottom: 0 !important; } 
+    } 
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-primary": "#ffb786",
+            "on-error": "#ffffff",
+            "on-surface": "#1b1c1a",
+            "primary": "#8d4a14",
+            "inverse-surface": "#30312f",
+            "primary-container": "#ab622b",
+            "secondary-container": "#eae1dc",
+            "primary-fixed": "#ffdcc6",
+            "on-primary-container": "#fffbff",
+            "on-primary-fixed": "#311300",
+            "on-surface-variant": "#53443a",
+            "surface-container-high": "#eae8e5",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#723600",
+            "error-container": "#ffdad6",
+            "surface-container": "#efeeeb",
+            "surface-variant": "#e4e2df",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface-tint": "#904d16",
+            "tertiary-container": "#7b736d",
+            "outline-variant": "#d9c2b5",
+            "on-secondary-fixed-variant": "#4b4642",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "background": "#fbf9f6",
+            "on-tertiary": "#ffffff",
+            "surface-bright": "#fbf9f6",
+            "tertiary-fixed": "#ebe0d9",
+            "surface-dim": "#dbdad7",
+            "on-background": "#1b1c1a",
+            "on-tertiary-fixed": "#201b16",
+            "on-error-container": "#93000a",
+            "tertiary": "#625b55",
+            "on-secondary-container": "#69635f",
+            "secondary-fixed": "#eae1dc",
+            "inverse-on-surface": "#f2f0ed",
+            "primary-fixed-dim": "#ffb786",
+            "secondary": "#635d59",
+            "outline": "#867368",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-tertiary-container": "#fffbff",
+            "error": "#ba1a1a",
+            "surface": "#fbf9f6",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "surface-container-low": "#f5f3f0",
+            "on-secondary-fixed": "#1f1b18"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-mobile": "1.25rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2.5rem",
+            "margin": "3rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "price-lg": ["Plus Jakarta Sans"],
+            "headline-lg": ["Playfair Display"],
+            "display": ["Playfair Display"],
+            "body-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "display-mobile": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Discreet Floating Prototype State Controls (Relocated to bottom-right corner) -->
+<aside aria-label="Prototype State Controls" class="fixed bottom-5 right-5 z-50 flex flex-wrap items-center gap-2 bg-[#201b16]/95 backdrop-blur-md text-[#fffbff] px-3.5 py-2 rounded-full shadow-2xl border border-[#625b55]/50 text-xs">
+<div class="flex items-center gap-1.5 pr-2 border-r border-white/20">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span class="font-semibold tracking-wider uppercase text-[10px] text-[#ffdcc6]">Mock Controls</span>
+</div>
+<!-- State Switcher -->
+<div class="flex items-center gap-1 bg-black/40 p-0.5 rounded-full text-[11px]" id="proto-state-group">
+<button class="proto-btn px-2.5 py-0.5 rounded-full bg-primary text-white font-medium transition-all" data-state="normal" type="button">Normal</button>
+<button class="proto-btn px-2.5 py-0.5 rounded-full text-white/70 hover:text-white font-medium transition-all" data-state="loading" type="button">Loading</button>
+<button class="proto-btn px-2.5 py-0.5 rounded-full text-white/70 hover:text-white font-medium transition-all" data-state="error" type="button">Error</button>
+<button class="proto-btn px-2.5 py-0.5 rounded-full text-white/70 hover:text-white font-medium transition-all" data-state="empty" type="button">Empty</button>
+</div>
+<!-- Auth Switcher -->
+<div class="flex items-center gap-1 bg-black/40 p-0.5 rounded-full text-[11px] ml-1" id="proto-auth-group">
+<button class="auth-btn px-2.5 py-0.5 rounded-full bg-primary text-white font-medium transition-all" data-auth="guest" type="button">Guest</button>
+<button class="auth-btn px-2.5 py-0.5 rounded-full text-white/70 hover:text-white font-medium transition-all" data-auth="signed-in" type="button">Signed In</button>
+</div>
+</aside>
+<!-- Global Clean Header -->
+<header class="fixed top-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-md">
+<div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Made-to-order breads and pastries · Available fulfillment dates confirmed during ordering</p>
+</div>
+<div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md shrink-0">
+<img alt="Kitchen406 Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XlfRoSMKjc1xtjXg5cl12eds1RaEkLzjymp3iy21OQCcNwsw6kQI0-qtFxxhnKnzvGllACYH_mWhWPfnGMpxa0dCDgPWu5px0JxJ2M05l7WRrGQOFxiJyquL_NXHkTxOzMPToCu1Bnv7Z_qHDbV6G8kOJbj0ZAxewbhbPeCbBkiZ4W-LWeN0MaLiqbsH8bdMhxdQTS7-FO9sGLQ0iEJJzSwrWyvCVKH6W4FUSoWpytpUtYaxFCfR2Yeg">
+<a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors" data-path="shop" href="#">Kitchen406</a>
+</div>
+<nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5">
+<a aria-current="page" class="transition-colors text-primary font-semibold border-b-2 border-primary pb-0.5" data-path="shop" href="#">Shop</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+</nav>
+<div class="flex items-center gap-space-sm lg:gap-space-md shrink-0">
+<div class="relative hidden sm:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span>
+<input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" id="nav-search-input" placeholder="Search products..." type="text">
+</div>
+<!-- Auth View: Guest mode (Sign In link visible, avatar hidden) -->
+<a class="inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#" id="header-auth-signin">Sign In</a>
+<!-- Auth View: Signed In mode (Sign In hidden, user account avatar visible) -->
+<div class="hidden items-center gap-2" id="header-auth-user">
+<button class="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-title-sm text-title-sm" type="button">
+<span class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[15px]">person</span>
+</span>
+<span class="text-xs font-medium">My Account</span>
+</button>
+</div>
+<!-- Cart -->
+<a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="hidden absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none" id="header-cart-badge">2</span>
+</a>
+</div>
+</div>
+</header>
+<main class="w-full pt-20 bg-background">
+<div class="flex flex-col w-full">
+<!-- Top Subtle Notification Bar -->
+<section class="w-full bg-surface-container-low border-b border-surface-container-high py-2.5 px-gutter-mobile lg:px-margin">
+<div class="max-w-[1240px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Browse Kitchen406 breads, pastries, and made-to-order bakery items.</span>
+</div>
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1 font-medium" href="#custom-celebrations">
+            Custom Cake Inquiries <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</section>
+<!-- Editorial Introduction Header -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-10 pb-8 sm:pt-14 sm:pb-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+<div class="lg:col-span-8 flex flex-col">
+<div class="flex items-center gap-2 mb-3">
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight max-w-2xl">
+              Thoughtful breads, pastries, and provisions.
+            </h1>
+<p class="mt-4 font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+              Browse Kitchen406 breads, pastries, and other made-to-order products. Available fulfillment dates are confirmed during ordering — please note same-day fulfillment is not supported.
+            </p>
+</div>
+<!-- Micro Highlights / Info Panel -->
+<div class="lg:col-span-4 flex flex-col justify-end bg-surface-container-low p-5 rounded-lg border border-surface-container-high">
+<div class="flex items-start gap-3 mb-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">calendar_clock</span>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Made to Order</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Available fulfillment dates are confirmed when placing your order.</p>
+</div>
+</div>
+<div class="pt-3 border-t border-surface-container flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">Advance fulfillment</span>
+<a class="font-label-sm text-label-sm text-primary font-semibold hover:underline inline-flex items-center gap-0.5" href="#catalog-start">
+                Browse Catalog ↓
+              </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Sticky / Refined Interactive Catalog Toolbar -->
+<section class="w-full border-t border-b border-surface-container bg-surface/95 sticky top-20 z-30 backdrop-blur-md" id="catalog-start">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+<!-- Category Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto scrollbar-none py-0.5" id="category-tabs">
+<button class="cat-pill active px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5 whitespace-nowrap" data-category="all" type="button">
+<span>All Products</span>
+<span class="text-[11px] opacity-80 px-1.5 py-0.2 bg-white/20 rounded-full" id="count-all">20</span>
+</button>
+<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="breads" type="button">
+<span>Breads</span>
+<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-breads">9</span>
+</button>
+<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="pastries" type="button">
+<span>Pastries</span>
+<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pastries">8</span>
+</button>
+<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="pantry" type="button">
+<span>Pantry</span>
+<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pantry">3</span>
+</button>
+</div>
+<!-- Search & Subscription Filter -->
+<div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+<!-- Subscription Filter Pill -->
+<label class="flex items-center gap-2 cursor-pointer select-none bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container hover:border-outline-variant transition-colors">
+<input class="accent-primary w-3.5 h-3.5 rounded cursor-pointer" id="subscription-toggle" type="checkbox">
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Subscription available</span>
+</label>
+<!-- Search Input -->
+<div class="relative w-full sm:w-60 md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">search</span>
+<input class="w-full h-9 pl-9 pr-8 bg-surface-container-low border border-surface-container rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all" id="product-search-input" placeholder="Search breads, pastries..." type="text">
+<button class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" id="clear-search-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Catalog Summary Strip -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-6 pb-2" id="catalog-summary-section">
+<div class="flex items-center justify-between text-on-surface-variant border-b border-surface-container pb-2">
+<p class="font-body-sm text-body-sm" id="catalog-results-label">
+            Showing <span class="font-semibold text-on-surface" id="visible-range">1–8</span> of <span class="font-semibold text-on-surface" id="total-count">20</span> products
+          </p>
+</div>
+</section>
+<!-- Product Catalog Container -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-8 min-h-[520px]">
+<!-- SKELETON LOADING STATE (hidden by default) -->
+<div class="hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="catalog-loading">
+<div class="bg-surface border border-surface-container rounded-lg overflow-hidden animate-pulse p-4">
+<div class="w-full aspect-[4/3] bg-surface-container-high rounded mb-4"></div>
+<div class="h-3 w-1/3 bg-surface-container-high rounded mb-2"></div>
+<div class="h-5 w-3/4 bg-surface-container-high rounded mb-2"></div>
+<div class="h-3 w-full bg-surface-container-high rounded mb-1"></div>
+<div class="h-3 w-2/3 bg-surface-container-high rounded mb-4"></div>
+<div class="pt-3 border-t border-surface-container flex justify-between">
+<div class="h-4 w-12 bg-surface-container-high rounded"></div>
+<div class="h-4 w-20 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<div class="bg-surface border border-surface-container rounded-lg overflow-hidden animate-pulse p-4">
+<div class="w-full aspect-[4/3] bg-surface-container-high rounded mb-4"></div>
+<div class="h-3 w-1/3 bg-surface-container-high rounded mb-2"></div>
+<div class="h-5 w-3/4 bg-surface-container-high rounded mb-2"></div>
+<div class="h-3 w-full bg-surface-container-high rounded mb-1"></div>
+<div class="h-3 w-2/3 bg-surface-container-high rounded mb-4"></div>
+<div class="pt-3 border-t border-surface-container flex justify-between">
+<div class="h-4 w-12 bg-surface-container-high rounded"></div>
+<div class="h-4 w-20 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<div class="bg-surface border border-surface-container rounded-lg overflow-hidden animate-pulse p-4">
+<div class="w-full aspect-[4/3] bg-surface-container-high rounded mb-4"></div>
+<div class="h-3 w-1/3 bg-surface-container-high rounded mb-2"></div>
+<div class="h-5 w-3/4 bg-surface-container-high rounded mb-2"></div>
+<div class="h-3 w-full bg-surface-container-high rounded mb-1"></div>
+<div class="h-3 w-2/3 bg-surface-container-high rounded mb-4"></div>
+<div class="pt-3 border-t border-surface-container flex justify-between">
+<div class="h-4 w-12 bg-surface-container-high rounded"></div>
+<div class="h-4 w-20 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<div class="bg-surface border border-surface-container rounded-lg overflow-hidden animate-pulse p-4">
+<div class="w-full aspect-[4/3] bg-surface-container-high rounded mb-4"></div>
+<div class="h-3 w-1/3 bg-surface-container-high rounded mb-2"></div>
+<div class="h-5 w-3/4 bg-surface-container-high rounded mb-2"></div>
+<div class="h-3 w-full bg-surface-container-high rounded mb-1"></div>
+<div class="h-3 w-2/3 bg-surface-container-high rounded mb-4"></div>
+<div class="pt-3 border-t border-surface-container flex justify-between">
+<div class="h-4 w-12 bg-surface-container-high rounded"></div>
+<div class="h-4 w-20 bg-surface-container-high rounded"></div>
+</div>
+</div>
+</div>
+<!-- ERROR STATE (hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-16 px-6 text-center bg-surface-container-low rounded-lg border border-outline-variant max-w-md mx-auto my-6" id="catalog-error">
+<div class="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-[24px]">error_outline</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">We couldn’t load the products.</h3>
+<p class="mt-1 font-body-md text-body-md text-on-surface-variant">Please check your connection and try again.</p>
+<button class="mt-5 px-4 py-2 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:bg-primary-container transition-colors inline-flex items-center gap-1.5" id="error-retry-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Try Again</span>
+</button>
+</div>
+<!-- GLOBAL EMPTY STATE (hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-20 px-6 text-center bg-surface-container-low rounded-lg border border-dashed border-outline-variant max-w-lg mx-auto my-6" id="catalog-empty-store">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3 text-outline">
+<span class="material-symbols-outlined text-[24px]">storefront</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No products are available right now.</h3>
+<p class="mt-1 font-body-md text-body-md text-on-surface-variant">Please check again later.</p>
+</div>
+<!-- FILTER NO RESULTS STATE (hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-16 px-6 text-center bg-surface-container-low rounded-lg border border-dashed border-outline-variant max-w-lg mx-auto my-6" id="catalog-no-results">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3 text-outline">
+<span class="material-symbols-outlined text-[24px]">search_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No products match your search.</h3>
+<p class="mt-1 font-body-md text-body-md text-on-surface-variant">Try modifying your keywords or resetting filters.</p>
+<button class="mt-5 px-4 py-2 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:bg-primary-container transition-colors" id="catalog-reset-filters-btn" type="button">
+            Clear Search
+          </button>
+</div>
+<!-- PRODUCT GRID -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-grid">
+<!-- Cards rendered dynamically via vanilla JS -->
+</div>
+<!-- PAGINATION BAR -->
+<nav aria-label="Product Catalog Pagination" class="mt-12 flex items-center justify-center gap-2 border-t border-surface-container pt-6" id="pagination-container">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-title-sm text-title-sm disabled:opacity-40 disabled:pointer-events-none transition-colors" id="prev-page-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Previous</span>
+</button>
+<div class="flex items-center gap-1" id="page-numbers">
+<!-- Numeric buttons injected dynamically -->
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low font-title-sm text-title-sm disabled:opacity-40 disabled:pointer-events-none transition-colors" id="next-page-btn" type="button">
+<span>Next</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</nav>
+</section>
+<!-- Bakery Operational Pillars -->
+<section class="w-full bg-surface-container-low border-t border-surface-container py-12 px-gutter-mobile lg:px-margin">
+<div class="max-w-[1240px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="font-label-sm text-label-sm font-semibold tracking-wider uppercase">01 / MADE TO ORDER</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Prepared to Order</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Products are prepared for your confirmed fulfillment date.
+              </p>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="font-label-sm text-label-sm font-semibold tracking-wider uppercase">02 / SCHEDULED FULFILLMENT</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Scheduled Fulfillment</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Choose from available fulfillment dates confirmed during ordering.
+              </p>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="font-label-sm text-label-sm font-semibold tracking-wider uppercase">03 / QR PH PAYMENT</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">QR Ph Payment</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Orders are confirmed after successful QR Ph payment.
+              </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Custom Milestone Cakes Feature Section -->
+<section class="w-full border-t border-surface-container-high bg-surface-container-lowest py-16 px-gutter-mobile lg:px-margin" id="custom-celebrations">
+<div class="max-w-[1240px] mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Clean Editorial Photograph -->
+<div class="lg:col-span-5 relative">
+<div class="aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm">
+<img alt="Warm editorial photography of an elegant minimalist tiered celebration cake on a ceramic cake pedestal against a clean neutral warm cream linen backdrop" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrKJYr-kIbNVZVpB7MTpVV4GL2PGA-hYBxP-x6eAy5seMBiOeByDxq2taDrZmd3bQcX0xFvHmEgSG5afzxgsO2s3lxysAm1i7-029c_gFs3Hrfunz-d5q9tE1s9q_HwuPs4kVHspJIOkDLFLzwE5-qLtdna7dieEcSlzPkH8xJJgRI7jIHTQMVI_ZWC5aF6pGDKN5rlqs9i2V9jsjHG588UdUTa3aAD_2gnqGdQ3N-IpBetNopuI4F">
+</div>
+</div>
+<!-- Copy and Invitation -->
+<div class="lg:col-span-7 flex flex-col justify-center lg:pl-6">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold mb-2">Celebrations &amp; Milestones</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-4">
+                Celebrating something special?
+              </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-6 max-w-xl">
+                Looking for something made for a special occasion? Custom cakes are arranged through a separate request and quotation workflow rather than standard catalog checkout. Availability and fulfillment details are reviewed with your request.
+              </p>
+<div class="flex flex-wrap items-center gap-4">
+<a class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors shadow-sm" data-path="custom-cakes" href="#">
+<span>Submit a Custom Cake Request</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="w-full bg-surface-container-low border-t border-surface-container">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl">
+<div class="max-w-md">
+<p class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Kitchen406</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Home-based bakery in Metro Cebu. Made-to-order breads, pastries, and pantry items.
+          </p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<p class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Pantry &amp; Bakery</p>
+<div class="flex flex-wrap gap-x-space-lg gap-y-space-xs">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cake Requests</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="fulfillment" href="#">How Fulfillment Works</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="terms-and-policies" href="#">Terms &amp; Policies</a>
+</div>
+</div>
+</div>
+<div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-outline">
+<p>Supporting QR Ph cashless checkout at order confirmation.</p>
+<p>© 2026 Kitchen406. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<!-- Interactive JavaScript Engine -->
+<script>
+    (function () {
+      // 20 Realistic Neutral Bakery Mock Items
+      const PRODUCTS_DATA = [
+        {
+          id: 1,
+          name: "Braided Chocolate Babka",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "2 sizes",
+          description: "Soft braided loaf with chocolate filling.",
+          price: "From ₱340",
+          subscription: true,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHmyAiDW4y93b5AeOJj4g7ToHg9nhXDeEPnxW6iBo4WKUc82G1Wzl9OBZGUsuoWjdXmIJ-bV8XjxtEZNSxrhiwEgYLkAkn-TDO2fuA6_2k2MArGW_CvvWnuzsdfbrcIAWckGSDI52l3FoXqgYzeNb2qaMmf7kUzDlE13ActBB1-GLjqqy4jlau_nJt9dnGzXU49U1d5S1EvXTRKVi3PBvaqb6Uk7fSfymURSP7QekzKp1NPwYYLt1g"
+        },
+        {
+          id: 2,
+          name: "Country Sourdough Batard",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "750g loaf",
+          description: "Naturally fermented crusty loaf.",
+          price: "₱280",
+          subscription: true,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKoHE1apnafNYibvaXX2SrH1XYRD1Ork8dVYOY2nnZVRcAYMLMdb8k1em3EaxklR6RuQWy2LV0SbPSZE4pMwF2QM2LNgD6WuPLNYZ8vpV9W3J6xmK9i9F0vIZrDyv2vFCfRKaZRdiaq9L4LIrlMtHbl6BiKC8XOR0Y2EBF5tluWd5woC94BU7QUKxqc3Z5XCiIaPahBKsOosyjpmPRUfSmUODw6ZBoPXjHr5CeLH-R8jYwtCM9gN2Y"
+        },
+        {
+          id: 3,
+          name: "Cardamom Kouign-Amann",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Box of 2 or 4",
+          description: "Layered sweet spiced pastry.",
+          price: "From ₱160",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCkabx7jd2msRKmL5Zk9t45ORGc-PQeNDxLZAqgbG4CJdWfATiYfh49z_k_DgQQmtsObi6Fzpnyic_xN6fPyY-zsr-Af3HAl19wv7Fo1FNiwxyIK1jJGHCrOpWI6Xl7qi12nTRRBltr3VKlU0ywMXO_Vnl69sS6CRrceSUsLp2D4e0JFA46r-3HSn9hiSJt25FIyezPZbZw95dXRdsRvt_X88kLPfSmdDmDdGtFLydoYEQ98VAj1hwp"
+        },
+        {
+          id: 4,
+          name: "Japanese Shokupan (Milk Bread)",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Half or Full loaf",
+          description: "Soft square pullman loaf.",
+          price: "From ₱220",
+          subscription: true,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCILh0ZJDJDF7CSclREOvKo6Tanb83k4l7m72LLYQCeupNHxBvCqpvhCg8Wa0oQCITcbQzADPkIIfIZIYoqBbqI9zfXO__yJZut91sdZUKWVeRvIsOzR4Qm1n4gUkxGkZMstEaCEtSA3WwQjyp2tF16a6ChyB5gaMYkCQvr8kMg6oJgtC8aEQal-dfxnqaRfjnc_GaPGi42tqT7f6PeS4-FrGEDnh8uLWmpnQ0uUM5y8FT4kiiRRffI"
+        },
+        {
+          id: 5,
+          name: "Ube Halaya Croissant",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Single piece",
+          description: "Flaky layered pastry with sweet ube filling.",
+          price: "₱190",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBuClD8nRDSWr3UTk4wwHgU62g_V3CTEmB4HdW7UX7UVwVPM5VY9QQwfXfB3WKiv1FVmerk32Wrkrq-xqYvKkldW3rlzGmmtLPpLKEEumHQo9H9NiiWAcray7TSF5C2QF1-S09sEgadgdsCaWDgvlrk43JzTlZjp_B0ZscsuJXsokA-xNSg8sBQs9Fel8ZSDRtZgm5k53zGmyY4yzJlqTVGBbxrqMuG0rGXDgpQyBYnDsFO4wUuOoWl"
+        },
+        {
+          id: 6,
+          name: "Vanilla Bean Sea Salt Canelé",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Box of 4",
+          description: "Caramelized French pastry with custard center.",
+          price: "From ₱240",
+          subscription: false,
+          available: false,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDWrqizpxcGIb612QlFKkPtYqHTmrAKJIXf6nwVqCZ0zLV3b71d1H6rYigV_pu5QyswokBgOSYonwhK2a8zUMGqcIBWenXK1oPHWSKhWd7sVlL4rNWz7PoMOFT7QOEbA-GCMPKuoOTnm4-ve96HKots5VCXBE0LM0wAtJ0YDmExVz05_YYx_huPkrIT8Je558pBw0sxxS6O9UFjAfYNL4eUhqCRWWO45KTcF6oBo2vnYrwl5j9MVby"
+        },
+        {
+          id: 7,
+          name: "Rosemary Focaccia",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Quarter sheet",
+          description: "Olive oil bread topped with rosemary and sea salt.",
+          price: "₱260",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCqBUjeUNBDWr28eQVJR027BLgP4GoX5XLq-CJ-wl0KT5f257svGo6W2sLoXztIS3GgS4xxLWMihZMPTma3cqNS_dgjAHvqB-LH6Rtq19extpyaCZnkrxAKkjHNd31i8xjUIin0D4LNy9sooU0BpWJCSkJUK1tcBl25xP7IddYlRUB-9aL9fHkF_Z2yi4T2LF7UM1_Tf5SjU6SgD-NhUqTPH7n2ihUhUXM41ke7nJCgG7jczjHsEo2U"
+        },
+        {
+          id: 8,
+          name: "Cultured Herb Honey Butter",
+          category: "pantry",
+          categoryLabel: "Pantry",
+          variant: "200g jar",
+          description: "Cultured herb butter spread.",
+          price: "₱180",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAg8LMypNPpwkOKWJCP1W0IK97x53_nZsCglkAG8LyB2Y-RTkJ_hvbs3Ae47FhwhVvVHrc0KPKv_m3ZwOBVOVYZ43ADx7Vb0Zr5FOjbndaGQ00yxCxeay-r5SeWbXRcBE555dmnDlespZvgN4EW4-9U8u-ajZHnovljEf7PYCi30rDDfg7CeA4H8rJ5oqks72t3zBIoA3eFeT68f8LScTbns0lG2-voYKtpKnUmCZo2dJDEDiasYNV2"
+        },
+        {
+          id: 9,
+          name: "Pandesal",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Pack of 6",
+          description: "Soft Filipino bread. Pack of 6.",
+          price: "₱140",
+          subscription: true,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBuClD8nRDSWr3UTk4wwHgU62g_V3CTEmB4HdW7UX7UVwVPM5VY9QQwfXfB3WKiv1FVmerk32Wrkrq-xqYvKkldW3rlzGmmtLPpLKEEumHQo9H9NiiWAcray7TSF5C2QF1-S09sEgadgdsCaWDgvlrk43JzTlZjp_B0ZscsuJXsokA-xNSg8sBQs9Fel8ZSDRtZgm5k53zGmyY4yzJlqTVGBbxrqMuG0rGXDgpQyBYnDsFO4wUuOoWl"
+        },
+        {
+          id: 10,
+          name: "Cinnamon Rolls",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Box of 4",
+          description: "Soft rolls with cinnamon filling. Box of 4.",
+          price: "₱290",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCkabx7jd2msRKmL5Zk9t45ORGc-PQeNDxLZAqgbG4CJdWfATiYfh49z_k_DgQQmtsObi6Fzpnyic_xN6fPyY-zsr-Af3HAl19wv7Fo1FNiwxyIK1jJGHCrOpWI6Xl7qi12nTRRBltr3VKlU0ywMXO_Vnl69sS6CRrceSUsLp2D4e0JFA46r-3HSn9hiSJt25FIyezPZbZw95dXRdsRvt_X88kLPfSmdDmDdGtFLydoYEQ98VAj1hwp"
+        },
+        {
+          id: 11,
+          name: "Dark Chocolate Brownies",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Box of 6",
+          description: "Rich chocolate brownies.",
+          price: "₱320",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHmyAiDW4y93b5AeOJj4g7ToHg9nhXDeEPnxW6iBo4WKUc82G1Wzl9OBZGUsuoWjdXmIJ-bV8XjxtEZNSxrhiwEgYLkAkn-TDO2fuA6_2k2MArGW_CvvWnuzsdfbrcIAWckGSDI52l3FoXqgYzeNb2qaMmf7kUzDlE13ActBB1-GLjqqy4jlau_nJt9dnGzXU49U1d5S1EvXTRKVi3PBvaqb6Uk7fSfymURSP7QekzKp1NPwYYLt1g"
+        },
+        {
+          id: 12,
+          name: "Crispy Butter Cookies",
+          category: "pantry",
+          categoryLabel: "Pantry",
+          variant: "Pack of 12",
+          description: "Crispy butter cookies.",
+          price: "₱210",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAg8LMypNPpwkOKWJCP1W0IK97x53_nZsCglkAG8LyB2Y-RTkJ_hvbs3Ae47FhwhVvVHrc0KPKv_m3ZwOBVOVYZ43ADx7Vb0Zr5FOjbndaGQ00yxCxeay-r5SeWbXRcBE555dmnDlespZvgN4EW4-9U8u-ajZHnovljEf7PYCi30rDDfg7CeA4H8rJ5oqks72t3zBIoA3eFeT68f8LScTbns0lG2-voYKtpKnUmCZo2dJDEDiasYNV2"
+        },
+        {
+          id: 13,
+          name: "Brioche Burger Buns",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Pack of 4",
+          description: "Golden glazed brioche buns.",
+          price: "₱180",
+          subscription: true,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCILh0ZJDJDF7CSclREOvKo6Tanb83k4l7m72LLYQCeupNHxBvCqpvhCg8Wa0oQCITcbQzADPkIIfIZIYoqBbqI9zfXO__yJZut91sdZUKWVeRvIsOzR4Qm1n4gUkxGkZMstEaCEtSA3WwQjyp2tF16a6ChyB5gaMYkCQvr8kMg6oJgtC8aEQal-dfxnqaRfjnc_GaPGi42tqT7f6PeS4-FrGEDnh8uLWmpnQ0uUM5y8FT4kiiRRffI"
+        },
+        {
+          id: 14,
+          name: "Banana Walnut Loaf",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Standard loaf",
+          description: "Moist banana loaf with toasted walnuts.",
+          price: "₱310",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHmyAiDW4y93b5AeOJj4g7ToHg9nhXDeEPnxW6iBo4WKUc82G1Wzl9OBZGUsuoWjdXmIJ-bV8XjxtEZNSxrhiwEgYLkAkn-TDO2fuA6_2k2MArGW_CvvWnuzsdfbrcIAWckGSDI52l3FoXqgYzeNb2qaMmf7kUzDlE13ActBB1-GLjqqy4jlau_nJt9dnGzXU49U1d5S1EvXTRKVi3PBvaqb6Uk7fSfymURSP7QekzKp1NPwYYLt1g"
+        },
+        {
+          id: 15,
+          name: "Kalamata Olive Sourdough",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "750g loaf",
+          description: "Naturally fermented sourdough with olives.",
+          price: "₱330",
+          subscription: true,
+          available: false,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKoHE1apnafNYibvaXX2SrH1XYRD1Ork8dVYOY2nnZVRcAYMLMdb8k1em3EaxklR6RuQWy2LV0SbPSZE4pMwF2QM2LNgD6WuPLNYZ8vpV9W3J6xmK9i9F0vIZrDyv2vFCfRKaZRdiaq9L4LIrlMtHbl6BiKC8XOR0Y2EBF5tluWd5woC94BU7QUKxqc3Z5XCiIaPahBKsOosyjpmPRUfSmUODw6ZBoPXjHr5CeLH-R8jYwtCM9gN2Y"
+        },
+        {
+          id: 16,
+          name: "Twice-Baked Almond Croissant",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Single piece",
+          description: "Flaky croissant topped with sliced almonds.",
+          price: "₱195",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBuClD8nRDSWr3UTk4wwHgU62g_V3CTEmB4HdW7UX7UVwVPM5VY9QQwfXfB3WKiv1FVmerk32Wrkrq-xqYvKkldW3rlzGmmtLPpLKEEumHQo9H9NiiWAcray7TSF5C2QF1-S09sEgadgdsCaWDgvlrk43JzTlZjp_B0ZscsuJXsokA-xNSg8sBQs9Fel8ZSDRtZgm5k53zGmyY4yzJlqTVGBbxrqMuG0rGXDgpQyBYnDsFO4wUuOoWl"
+        },
+        {
+          id: 17,
+          name: "Traditional Baguette",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Single baguette",
+          description: "Crispy crust with airy crumb interior.",
+          price: "₱150",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKoHE1apnafNYibvaXX2SrH1XYRD1Ork8dVYOY2nnZVRcAYMLMdb8k1em3EaxklR6RuQWy2LV0SbPSZE4pMwF2QM2LNgD6WuPLNYZ8vpV9W3J6xmK9i9F0vIZrDyv2vFCfRKaZRdiaq9L4LIrlMtHbl6BiKC8XOR0Y2EBF5tluWd5woC94BU7QUKxqc3Z5XCiIaPahBKsOosyjpmPRUfSmUODw6ZBoPXjHr5CeLH-R8jYwtCM9gN2Y"
+        },
+        {
+          id: 18,
+          name: "Roasted Garlic Focaccia",
+          category: "breads",
+          categoryLabel: "Breads",
+          variant: "Quarter sheet",
+          description: "Golden focaccia with confit garlic cloves.",
+          price: "₱270",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCqBUjeUNBDWr28eQVJR027BLgP4GoX5XLq-CJ-wl0KT5f257svGo6W2sLoXztIS3GgS4xxLWMihZMPTma3cqNS_dgjAHvqB-LH6Rtq19extpyaCZnkrxAKkjHNd31i8xjUIin0D4LNy9sooU0BpWJCSkJUK1tcBl25xP7IddYlRUB-9aL9fHkF_Z2yi4T2LF7UM1_Tf5SjU6SgD-NhUqTPH7n2ihUhUXM41ke7nJCgG7jczjHsEo2U"
+        },
+        {
+          id: 19,
+          name: "Salted Caramel Tart",
+          category: "pastries",
+          categoryLabel: "Pastries",
+          variant: "Single tart",
+          description: "Crisp pastry shell with smooth caramel filling.",
+          price: "₱175",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCkabx7jd2msRKmL5Zk9t45ORGc-PQeNDxLZAqgbG4CJdWfATiYfh49z_k_DgQQmtsObi6Fzpnyic_xN6fPyY-zsr-Af3HAl19wv7Fo1FNiwxyIK1jJGHCrOpWI6Xl7qi12nTRRBltr3VKlU0ywMXO_Vnl69sS6CRrceSUsLp2D4e0JFA46r-3HSn9hiSJt25FIyezPZbZw95dXRdsRvt_X88kLPfSmdDmDdGtFLydoYEQ98VAj1hwp"
+        },
+        {
+          id: 20,
+          name: "Whipped Sea Salt Butter",
+          category: "pantry",
+          categoryLabel: "Pantry",
+          variant: "200g jar",
+          description: "Smooth salted butter for table spreading.",
+          price: "₱170",
+          subscription: false,
+          available: true,
+          image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAg8LMypNPpwkOKWJCP1W0IK97x53_nZsCglkAG8LyB2Y-RTkJ_hvbs3Ae47FhwhVvVHrc0KPKv_m3ZwOBVOVYZ43ADx7Vb0Zr5FOjbndaGQ00yxCxeay-r5SeWbXRcBE555dmnDlespZvgN4EW4-9U8u-ajZHnovljEf7PYCi30rDDfg7CeA4H8rJ5oqks72t3zBIoA3eFeT68f8LScTbns0lG2-voYKtpKnUmCZo2dJDEDiasYNV2"
+        }
+      ];
+
+      // Application State
+      let protoState = 'normal'; // 'normal' | 'loading' | 'error' | 'empty'
+      let authState = 'guest';   // 'guest' | 'signed-in'
+      let currentCategory = 'all';
+      let searchQuery = '';
+      let subscriptionOnly = false;
+      let currentPage = 1;
+      const PAGE_SIZE = 8;
+
+      // DOM Elements
+      const grid = document.getElementById('product-grid');
+      const loadingEl = document.getElementById('catalog-loading');
+      const errorEl = document.getElementById('catalog-error');
+      const emptyStoreEl = document.getElementById('catalog-empty-store');
+      const noResultsEl = document.getElementById('catalog-no-results');
+      const paginationNav = document.getElementById('pagination-container');
+      const pageNumbersEl = document.getElementById('page-numbers');
+      const prevBtn = document.getElementById('prev-page-btn');
+      const nextBtn = document.getElementById('next-page-btn');
+      const searchInput = document.getElementById('product-search-input');
+      const navSearchInput = document.getElementById('nav-search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+      const subToggle = document.getElementById('subscription-toggle');
+      const catButtons = document.querySelectorAll('#category-tabs .cat-pill');
+      const visibleRangeEl = document.getElementById('visible-range');
+      const totalCountEl = document.getElementById('total-count');
+      const catalogSummarySection = document.getElementById('catalog-summary-section');
+      const resetFiltersBtn = document.getElementById('catalog-reset-filters-btn');
+      const errorRetryBtn = document.getElementById('error-retry-btn');
+
+      // Auth elements
+      const authSignin = document.getElementById('header-auth-signin');
+      const authUser = document.getElementById('header-auth-user');
+      const cartBadge = document.getElementById('header-cart-badge');
+
+      // Prototype Control buttons
+      const protoBtns = document.querySelectorAll('.proto-btn');
+      const authBtns = document.querySelectorAll('.auth-btn');
+
+      // Update tab badge counters
+      function updateCategoryCounters() {
+        const countAll = PRODUCTS_DATA.length;
+        const countBreads = PRODUCTS_DATA.filter(p => p.category === 'breads').length;
+        const countPastries = PRODUCTS_DATA.filter(p => p.category === 'pastries').length;
+        const countPantry = PRODUCTS_DATA.filter(p => p.category === 'pantry').length;
+
+        document.getElementById('count-all').textContent = countAll;
+        document.getElementById('count-breads').textContent = countBreads;
+        document.getElementById('count-pastries').textContent = countPastries;
+        document.getElementById('count-pantry').textContent = countPantry;
+      }
+
+      // Filtered items computation
+      function getFilteredProducts() {
+        if (protoState === 'empty') return [];
+
+        return PRODUCTS_DATA.filter(item => {
+          const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
+          const matchSub = !subscriptionOnly || item.subscription;
+          const query = searchQuery.trim().toLowerCase();
+          const matchSearch = !query || 
+            item.name.toLowerCase().includes(query) || 
+            item.description.toLowerCase().includes(query) || 
+            item.categoryLabel.toLowerCase().includes(query);
+
+          return matchCat && matchSub && matchSearch;
+        });
+      }
+
+      // Render product card HTML
+      function createProductCard(item) {
+        const isUnavailable = !item.available;
+        const availabilityBadge = isUnavailable
+          ? `<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Temporarily unavailable</span>`
+          : `<span class="bg-surface/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container">Available</span>`;
+
+        const subscriptionBadge = item.subscription
+          ? `<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Subscription available</span>`
+          : '';
+
+        const cardOpacity = isUnavailable ? 'opacity-85' : '';
+        const imgFilter = isUnavailable ? 'filter grayscale-[25%] contrast-90' : 'group-hover:scale-105';
+        const titleClass = isUnavailable ? 'text-on-surface' : 'text-on-surface group-hover:text-primary';
+        const priceClass = isUnavailable ? 'text-outline' : 'text-on-surface';
+
+        return `
+          <article class="product-card group flex flex-col bg-surface border border-surface-container hover:border-outline-variant transition-all duration-300 rounded-lg overflow-hidden ${cardOpacity}">
+            <div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-500 ease-out ${imgFilter}" loading="lazy"/>
+              
+              <!-- Badges -->
+              <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start">
+                ${isUnavailable ? availabilityBadge : subscriptionBadge}
+              </div>
+
+              ${!isUnavailable ? `<div class="absolute bottom-2.5 right-2.5">${availabilityBadge}</div>` : ''}
+            </div>
+
+            <div class="p-4 flex flex-col flex-1 justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${item.categoryLabel}</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">${item.variant}</span>
+                </div>
+                <h3 class="font-title-md text-title-md ${titleClass} transition-colors">
+                  ${item.name}
+                </h3>
+                <p class="mt-1.5 font-body-sm text-body-sm ${isUnavailable ? 'text-outline' : 'text-on-surface-variant'} line-clamp-2 leading-relaxed">
+                  ${item.description}
+                </p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-label-sm text-outline">Price</span>
+                  <span class="font-price-md text-price-md ${priceClass}">${item.price}</span>
+                </div>
+                <button type="button" class="inline-flex items-center gap-1 font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors group-hover:translate-x-0.5 transform duration-200">
+                  <span>View product</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      // Render Pagination Buttons
+      function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+          paginationNav.classList.add('hidden');
+          return;
+        }
+
+        paginationNav.classList.remove('hidden');
+        prevBtn.disabled = (currentPage <= 1);
+        nextBtn.disabled = (currentPage >= totalPages);
+
+        let html = '';
+        for (let i = 1; i <= totalPages; i++) {
+          const isActive = (i === currentPage);
+          const activeClass = isActive 
+            ? 'bg-primary text-on-primary font-semibold shadow-sm' 
+            : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low';
+
+          html += `
+            <button type="button" data-page="${i}" class="pagination-page-btn w-9 h-9 rounded-lg font-title-sm text-title-sm transition-colors ${activeClass}">
+              ${i}
+            </button>
+          `;
+        }
+        pageNumbersEl.innerHTML = html;
+
+        pageNumbersEl.querySelectorAll('.pagination-page-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            currentPage = parseInt(btn.getAttribute('data-page'), 10);
+            renderCatalog();
+            scrollToCatalog();
+          });
+        });
+      }
+
+      function scrollToCatalog() {
+        const toolbar = document.getElementById('catalog-start');
+        if (toolbar) {
+          const top = toolbar.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }
+      }
+
+      // Main Render Routine
+      function renderCatalog() {
+        // Reset container views
+        loadingEl.classList.add('hidden');
+        loadingEl.classList.remove('grid');
+        errorEl.classList.add('hidden');
+        errorEl.classList.remove('flex');
+        emptyStoreEl.classList.add('hidden');
+        emptyStoreEl.classList.remove('flex');
+        noResultsEl.classList.add('hidden');
+        noResultsEl.classList.remove('flex');
+        grid.classList.add('hidden');
+        paginationNav.classList.add('hidden');
+        catalogSummarySection.classList.remove('hidden');
+
+        // Handle Prototype State Overrides
+        if (protoState === 'loading') {
+          catalogSummarySection.classList.add('hidden');
+          loadingEl.classList.remove('hidden');
+          loadingEl.classList.add('grid');
+          return;
+        }
+
+        if (protoState === 'error') {
+          catalogSummarySection.classList.add('hidden');
+          errorEl.classList.remove('hidden');
+          errorEl.classList.add('flex');
+          return;
+        }
+
+        if (protoState === 'empty') {
+          catalogSummarySection.classList.add('hidden');
+          emptyStoreEl.classList.remove('hidden');
+          emptyStoreEl.classList.add('flex');
+          return;
+        }
+
+        // Normal State Logic
+        const filtered = getFilteredProducts();
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+        if (currentPage > totalPages && totalPages > 0) {
+          currentPage = 1;
+        }
+
+        if (totalItems === 0) {
+          catalogSummarySection.classList.add('hidden');
+          noResultsEl.classList.remove('hidden');
+          noResultsEl.classList.add('flex');
+          return;
+        }
+
+        // Slice products for current page
+        const startIndex = (currentPage - 1) * PAGE_SIZE;
+        const endIndex = Math.min(startIndex + PAGE_SIZE, totalItems);
+        const pageItems = filtered.slice(startIndex, endIndex);
+
+        // Update range counters
+        visibleRangeEl.textContent = `${startIndex + 1}–${endIndex}`;
+        totalCountEl.textContent = `${totalItems}`;
+
+        // Render Cards
+        grid.innerHTML = pageItems.map(createProductCard).join('');
+        grid.classList.remove('hidden');
+
+        // Render Pagination
+        renderPagination(totalPages);
+      }
+
+      // Event Listeners for Prototype Switcher
+      protoBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          protoBtns.forEach(b => {
+            b.classList.remove('bg-primary', 'text-white');
+            b.classList.add('text-white/70');
+          });
+          btn.classList.add('bg-primary', 'text-white');
+          btn.classList.remove('text-white/70');
+
+          protoState = btn.getAttribute('data-state');
+          renderCatalog();
+        });
+      });
+
+      // Event Listeners for Auth Switcher
+      authBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          authBtns.forEach(b => {
+            b.classList.remove('bg-primary', 'text-white');
+            b.classList.add('text-white/70');
+          });
+          btn.classList.add('bg-primary', 'text-white');
+          btn.classList.remove('text-white/70');
+
+          authState = btn.getAttribute('data-auth');
+          applyAuthState();
+        });
+      });
+
+      function applyAuthState() {
+        if (authState === 'guest') {
+          authSignin.classList.remove('hidden');
+          authUser.classList.add('hidden');
+          authUser.classList.remove('flex');
+          // Guest: Cart badge hidden (0 count)
+          cartBadge.classList.add('hidden');
+          cartBadge.textContent = '0';
+        } else {
+          authSignin.classList.add('hidden');
+          authUser.classList.remove('hidden');
+          authUser.classList.add('flex');
+          // Signed-in: Cart badge visible with count 2
+          cartBadge.classList.remove('hidden');
+          cartBadge.textContent = '2';
+        }
+      }
+
+      // Category filter buttons
+      catButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catButtons.forEach(b => {
+            b.classList.remove('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
+            b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
+          });
+          btn.classList.add('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
+          btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+
+          currentCategory = btn.getAttribute('data-category');
+          currentPage = 1;
+          renderCatalog();
+        });
+      });
+
+      // Search filters
+      function handleSearchInput(value) {
+        searchQuery = value;
+        if (searchInput.value !== value) searchInput.value = value;
+        if (navSearchInput.value !== value) navSearchInput.value = value;
+
+        if (searchQuery.trim().length > 0) {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        currentPage = 1;
+        renderCatalog();
+      }
+
+      searchInput.addEventListener('input', (e) => handleSearchInput(e.target.value));
+      navSearchInput.addEventListener('input', (e) => handleSearchInput(e.target.value));
+
+      clearSearchBtn.addEventListener('click', () => {
+        handleSearchInput('');
+        searchInput.focus();
+      });
+
+      // Subscription Toggle
+      subToggle.addEventListener('change', (e) => {
+        subscriptionOnly = e.target.checked;
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Pagination Prev/Next buttons
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderCatalog();
+          scrollToCatalog();
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(getFilteredProducts().length / PAGE_SIZE);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderCatalog();
+          scrollToCatalog();
+        }
+      });
+
+      // Reset filters button
+      resetFiltersBtn.addEventListener('click', () => {
+        searchQuery = '';
+        searchInput.value = '';
+        navSearchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        subscriptionOnly = false;
+        subToggle.checked = false;
+
+        const allTab = document.querySelector('button[data-category="all"]');
+        if (allTab) allTab.click();
+      });
+
+      // Retry button on error state
+      errorRetryBtn.addEventListener('click', () => {
+        const normalBtn = document.querySelector('.proto-btn[data-state="normal"]');
+        if (normalBtn) normalBtn.click();
+      });
+
+      // Initial execution
+      updateCategoryCounters();
+      applyAuthState();
+      renderCatalog();
+    })();
+  </script>
+</body></html>

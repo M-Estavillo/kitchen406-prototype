@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kitchen406 — Phase 1.6: Email Verification</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    @layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#8d4a14",
+            "primary-container": "#ab622b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            "on-primary-fixed": "#311300",
+            "background": "#fbf9f6",
+            "on-background": "#1b1c1a",
+            "surface": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "on-surface-variant": "#53443a",
+            "outline": "#867368",
+            "outline-variant": "#d9c2b5",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "secondary": "#635d59",
+            "secondary-container": "#eae1dc",
+            "on-secondary-fixed": "#1f1b18"
+          },
+          fontFamily: {
+            "headline-lg": ["Playfair Display", "serif"],
+            "headline-md": ["Playfair Display", "serif"],
+            "headline-sm": ["Playfair Display", "serif"],
+            "display": ["Playfair Display", "serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "title-md": ["Plus Jakarta Sans", "sans-serif"],
+            "title-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "price-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "price-md": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "margin": "3rem"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- ==================== AUTHORITATIVE GLOBAL HEADER ==================== -->
+<header class="fixed top-0 inset-x-0 z-30 bg-surface/90 backdrop-blur-md">
+<div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center">
+<p class="font-label-sm text-xs text-on-surface-variant tracking-wider uppercase">Baking fresh in Metro Cebu • Prepared to order with advance fulfillment dates</p>
+</div>
+<div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md shrink-0">
+<img alt="Kitchen406 Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XlfRoSMKjc1xtjXg5cl12eds1RaEkLzjymp3iy21OQCcNwsw6kQI0-qtFxxhnKnzvGllACYH_mWhWPfnGMpxa0dCDgPWu5px0JxJ2M05l7WRrGQOFxiJyquL_NXHkTxOzMPToCu1Bnv7Z_qHDbV6G8kOJbj0ZAxewbhbPeCbBkiZ4W-LWeN0MaLiqbsH8bdMhxdQTS7-FO9sGLQ0iEJJzSwrWyvCVKH6W4FUSoWpytpUtYaxFCfR2Yeg"/>
+<a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors" data-path="shop" href="#">Kitchen406</a>
+</div>
+<nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5">
+<a aria-current="page" class="transition-colors text-primary font-semibold border-b-2 border-primary pb-0.5" data-path="shop" href="#">Shop</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a>
+<a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a>
+</nav>
+<div class="flex items-center gap-space-sm lg:gap-space-md shrink-0">
+<div class="relative hidden sm:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span>
+<input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" placeholder="Search artisan bakes..." type="text"/>
+</div>
+<a class="inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#" id="headerSignInBtn" onclick="event.preventDefault(); switchToSignInView(); showOtpModal();">Sign In</a>
+<a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none" id="headerCartCount">0</span>
+</a>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 cursor-pointer hidden" id="headerAvatarBtn" onclick="setAuthState('guest')">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== MAIN STOREFRONT CONTENT (APPROVED BACKDROP) ==================== -->
+<main class="w-full pt-20 bg-background">
+<div class="flex flex-col w-full">
+<!-- Breadcrumb Navigation -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-lg pb-space-sm">
+<nav class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors flex items-center gap-1" data-path="shop" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span> Shop
+          </a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">Breads</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-title-sm">Braided Chocolate Babka</span>
+</nav>
+</section>
+<!-- Main Product Configuration -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left: Images -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm group">
+<img alt="Braided Chocolate Babka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+<div class="absolute top-4 left-4 flex flex-col items-start gap-2 z-10 pointer-events-none">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#EBF0EC] text-[#3D5941] shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span> Available • Fresh Batch
+                </span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#F8EDE3] text-[#935324] shadow-sm">
+<span class="material-symbols-outlined text-[14px]">calendar_month</span> Subscription Available
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="thumb-btn active relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container ring-2 ring-primary transition-all" onclick="switchProductThumb('https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA', 0)">
+<img alt="Braided Chocolate Babka loaf view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+</button>
+<button class="thumb-btn relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container opacity-70 hover:opacity-100 transition-all" onclick="switchProductThumb('https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c', 1)">
+<img alt="Sliced bakery bread view" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c"/>
+</button>
+</div>
+</div>
+<!-- Right: Details -->
+<div class="lg:col-span-5 flex flex-col">
+<div class="mb-space-xs flex items-center justify-between">
+<span class="font-label-md text-xs font-semibold text-primary uppercase tracking-wider">Breads • Sweet &amp; Enriched</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-title-sm text-on-surface font-semibold">4.6</span>
+<span>(18 reviews)</span>
+</div>
+</div>
+<h1 class="font-headline-lg text-3xl md:text-4xl text-on-surface mb-2 font-serif font-medium">Braided Chocolate Babka</h1>
+<div class="flex items-baseline gap-space-sm mb-space-md">
+<span class="font-price-lg text-2xl font-semibold text-primary" id="productPriceDisplay">₱340</span>
+<span class="font-body-sm text-xs text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded" id="productWeightBadge">650g Standard</span>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant leading-relaxed mb-space-lg">
+              Soft, brioche-style braided loaf generously swirled with bittersweet Belgian chocolate ganache and crumbly streusel topping. Prepared fresh to order for your confirmed Metro Cebu fulfillment date.
+            </p>
+<!-- Variants -->
+<div class="mb-space-lg">
+<label class="block font-title-sm text-xs font-semibold text-on-surface mb-space-xs">Select Loaf Size</label>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all" id="variantBtnStd" onclick="selectVariant('standard')">
+<span class="font-title-sm text-sm font-semibold text-on-surface flex justify-between items-center">
+                    Standard Loaf
+                    <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</span>
+<span class="font-body-sm text-xs text-on-surface-variant">650g • Serves 4–6</span>
+<span class="font-title-sm text-sm font-semibold text-primary mt-1">₱340</span>
+</button>
+<button class="flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all" id="variantBtnLrg" onclick="selectVariant('large')">
+<span class="font-title-sm text-sm font-semibold text-on-surface flex justify-between items-center">
+                    Large Sharing
+                    <span class="material-symbols-outlined text-outline-variant text-[18px] opacity-40">radio_button_unchecked</span>
+</span>
+<span class="font-body-sm text-xs text-on-surface-variant">950g • Serves 8–10</span>
+<span class="font-title-sm text-sm font-semibold text-on-surface mt-1">₱480</span>
+</button>
+</div>
+</div>
+<!-- Stepper -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-xs text-on-surface-variant uppercase font-semibold mr-2">Quantity</span>
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all shadow-sm" onclick="adjustQty(-1)">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-title-sm text-sm font-semibold text-on-surface w-8 text-center" id="qtyCounter">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all shadow-sm" onclick="adjustQty(1)">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<div class="text-right">
+<span class="font-body-sm text-xs text-on-surface-variant block">Item Subtotal</span>
+<span class="font-price-md text-base text-primary font-semibold" id="subtotalDisplay">₱340</span>
+</div>
+</div>
+<!-- Add to Cart -->
+<div class="flex flex-col gap-2 mb-space-lg">
+<button class="w-full h-11 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-sm font-semibold rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-[0.99] transition-all" id="addToCartBtn" onclick="handleAddToCart()">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+<span>Add to Cart • <span id="btnPriceAmount">₱340</span></span>
+</button>
+<!-- Alerts -->
+<div class="hidden p-3 bg-secondary-container text-on-secondary-fixed font-body-sm text-xs rounded-lg flex items-center justify-between" id="cartFeedbackAuthRequired">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Sign in or register to complete checkout in Metro Cebu.</span>
+</div>
+<a class="underline font-semibold ml-2 shrink-0" href="#" onclick="event.preventDefault(); switchToOtpView(); showOtpModal();">Register / Sign In</a>
+</div>
+</div>
+<!-- Fulfillment Notice -->
+<div class="p-space-md bg-surface-container-low rounded-lg mb-space-md flex gap-space-sm items-start">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">local_shipping</span>
+<div class="flex flex-col font-body-sm text-xs text-on-surface-variant">
+<span class="font-title-sm text-xs font-semibold text-on-surface">Made to order • Scheduled fulfillment</span>
+<p class="mt-0.5">Available fulfillment dates are selected during checkout. Please note same-day fulfillment is not supported.</p>
+</div>
+</div>
+<!-- Subscription Callout -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">sync</span>
+<span class="font-title-sm text-xs font-semibold text-on-surface">Weekly Bread Subscription</span>
+</div>
+<span class="font-label-sm text-xs text-primary uppercase font-bold bg-primary-fixed px-2 py-0.5 rounded">Save 10%</span>
+</div>
+<p class="font-body-sm text-xs text-on-surface-variant">
+                Receive a fresh Braided Babka every week with our 4-Week Prepaid Plan. Automatic batch dispatch straight to your table.
+              </p>
+<a class="font-title-sm text-xs font-semibold text-primary hover:underline self-start flex items-center gap-1 mt-1" data-path="subscriptions" href="#">
+                Explore 4-Week Plans <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Customer Reviews Section -->
+<section class="w-full bg-surface-container-low py-space-xl">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin">
+<div class="mb-space-xl">
+<div class="flex items-center gap-2 text-primary font-label-md text-xs font-semibold uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Artisan Community Feedback</span>
+</div>
+<h2 class="font-headline-lg text-2xl md:text-3xl text-on-surface font-serif font-medium">Customer reviews</h2>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Verified feedback from completed Kitchen406 orders • 1 review per completed purchase item.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex items-baseline gap-2 mb-1">
+<span class="font-display text-4xl font-serif text-on-surface leading-none">4.6</span>
+<span class="font-body-md text-sm text-outline">/ 5.0</span>
+</div>
+<div class="flex items-center gap-1 text-primary mb-2">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">star_half</span>
+<span class="font-body-sm text-xs text-on-surface-variant ml-2">Based on 18 reviews</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<h3 class="font-headline-sm text-base font-serif font-semibold text-on-surface mb-2">Share your thoughts</h3>
+<p class="font-body-md text-xs text-on-surface-variant mb-3">Purchased this bake from Kitchen406? Sign in to verify your purchase order and submit your review.</p>
+<a class="inline-flex items-center justify-center w-full h-10 bg-surface-container text-on-surface font-title-sm text-xs font-semibold rounded-lg hover:bg-surface-container-high transition-colors" data-path="sign-in" href="#" onclick="event.preventDefault(); switchToSignInView(); showOtpModal();">
+                  Sign In to Write a Review
+                </a>
+</div>
+</div>
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1 text-primary mb-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-xs text-outline">
+<span>Anonymous Customer</span> • <span class="text-[#3D5941]">From a completed Kitchen406 order</span>
+</div>
+</div>
+<span class="font-body-sm text-xs text-outline">Nov 12, 2025</span>
+</div>
+<div class="inline-block self-start font-body-sm text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Purchased: Standard Loaf (650g)</div>
+<p class="font-body-md text-sm text-on-surface leading-relaxed mt-1">
+                  The chocolate swirl is intensely rich without feeling cloying, and warming a slice in the oven made the whole kitchen smell like heaven. Crumb structure was delightfully soft!
+                </p>
+</article>
+<article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1 text-primary mb-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-xs text-outline">
+<span>Anonymous Customer</span> • <span class="text-[#3D5941]">From a completed Kitchen406 order</span>
+</div>
+</div>
+<span class="font-body-sm text-xs text-outline">Nov 04, 2025</span>
+</div>
+<div class="inline-block self-start font-body-sm text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Purchased: Large Sharing Loaf (950g)</div>
+<p class="font-body-md text-sm text-on-surface leading-relaxed mt-1">
+                  Shared this for our Sunday family brunch in Cebu City. The streusel on top gave it a distinct tactile crisp that pairs so well with pour-over coffee.
+                </p>
+</article>
+</div>
+</div>
+</div>
+</section>
+<!-- More from Breads Pantry -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-space-xl">
+<div class="flex items-center justify-between mb-space-lg">
+<div>
+<span class="font-label-md text-xs font-semibold text-primary uppercase tracking-wider">Related Batches</span>
+<h2 class="font-headline-md text-xl md:text-2xl text-on-surface font-serif font-medium">More from our Breads Pantry</h2>
+</div>
+<a class="font-title-sm text-xs font-semibold text-primary hover:underline flex items-center gap-1" data-path="shop" href="#">
+            Explore All Breads <span class="material-symbols-outlined text-[16px]">east</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col group">
+<div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+<img alt="Japanese Shokupan Milk Bread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1UDn8n3Qa16PdjR2QWlNyY7uKb4f8gt2ypd5z8LQCrinAuLvLX3nIv6aMzKas5tNTlDYMz6Co9ROyB4lO1BrXXT50VraJAwPi5vy3x3DSkttU2rP74rdtt5ePEetj6ZAStIdXCz-IvqeuY9lunW9s35LqZut5A6iryQbFtR7SWNJsgmZFbGD7DN9AU6pVcePSRQ4McXkZW-u87iZ7sRPX4ki_Bro7A4ljGKdqq-U69QV0ZhExkQAzPDU0c"/>
+<span class="absolute top-3 left-3 bg-[#EBF0EC] text-[#3D5941] text-xs font-semibold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Available</span>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<span class="font-label-sm text-xs text-outline uppercase">Daily Loaf</span>
+<h3 class="font-title-md text-sm font-semibold text-on-surface mt-0.5">Japanese Shokupan Loaf</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">Pillowy soft Hokkaido milk pullman loaf with delicate golden crust.</p>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs border-t border-surface-container">
+<span class="font-price-md text-sm font-semibold text-primary">From ₱280</span>
+<span class="font-body-sm text-xs text-on-surface-variant">450g / 850g</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col group">
+<div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+<img alt="Braided Cinnamon Babka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1XODm5ghtHHpg2FQHBSu39QlrqRbQ8GAzZT0aGOCVRzEDAG--oYMPbI-YQ1yCNpTTpqAaKRhYhIvyiFJIY-uW92Z3x10ZPGbnFdQO5bR2q9I5EX8v4SIYhZBRr-i_-btvAmuOZWdlLxR8BTZ__0R6jBvw2gdVMOQnc7Tbt88dcWdd33bhQJUmP9hdVNwj9YriUBuReyfE_fKDrOFTTY9I-jhWKOteG3FWs9-apdLDenzPMPDaS5ogv5tA"/>
+<span class="absolute top-3 left-3 bg-[#F8EDE3] text-[#935324] text-xs font-semibold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Subscription</span>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<span class="font-label-sm text-xs text-outline uppercase">Sweet &amp; Spiced</span>
+<h3 class="font-title-md text-sm font-semibold text-on-surface mt-0.5">Spiced Cinnamon Swirl Loaf</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-1 line-clamp-2">Warm Saigon cinnamon, brown butter ribbon, and crunchy pecan crumble.</p>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs border-t border-surface-container">
+<span class="font-price-md text-sm font-semibold text-primary">₱320</span>
+<span class="font-body-sm text-xs text-on-surface-variant">600g Loaf</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between p-space-lg bg-surface-container-low">
+<div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed mb-space-md">
+<span class="material-symbols-outlined text-[20px]">cake</span>
+</div>
+<span class="font-label-sm text-xs text-primary uppercase font-bold tracking-wider">Custom Pantry Orders</span>
+<h3 class="font-headline-sm text-base font-serif font-semibold text-on-surface mt-1">Hosting an intimate gathering?</h3>
+<p class="font-body-sm text-xs text-on-surface-variant mt-2">
+                We cater artisanal bread baskets, celebration Babka towers, and custom pastry boxes across Metro Cebu with advance scheduling.
+              </p>
+</div>
+<a class="inline-flex items-center gap-1 font-title-sm text-xs font-semibold text-primary hover:underline mt-space-md" data-path="custom-cakes" href="#">
+              Request Custom Catering <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- ==================== AUTHORITATIVE GLOBAL FOOTER ==================== -->
+<footer class="w-full bg-surface-container-low">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl">
+<div class="max-w-md">
+<p class="font-headline-sm text-lg font-serif font-medium text-on-surface mb-space-xs">Kitchen406</p>
+<p class="font-body-md text-xs text-on-surface-variant leading-relaxed">Home-based small-batch bakery in Metro Cebu. Thoughtfully crafted breads and pastries made with unhurried care and honest ingredients.</p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<p class="font-label-md text-xs font-semibold text-on-surface uppercase tracking-wider">Pantry &amp; Bakery</p>
+<div class="flex flex-wrap gap-x-space-lg gap-y-space-xs">
+<a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a>
+<a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">4-Week Subscriptions</a>
+<a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cake Requests</a>
+<a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="fulfillment" href="#">How Fulfillment Works</a>
+<a class="font-body-sm text-xs text-on-surface-variant hover:text-primary transition-colors" data-path="terms-and-policies" href="#">Terms &amp; Policies</a>
+</div>
+</div>
+</div>
+<div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-xs text-outline border-t border-surface-container">
+<p>Supporting QR Ph cashless checkout at order confirmation.</p>
+<p>© 2025 Kitchen406. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<!-- ========================================================================= -->
+<!-- PHASE 1.6: AUTHENTICATION SHELL (EMAIL VERIFICATION & SIGN IN) -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-40 bg-stone-950/40 backdrop-blur-[2px] flex items-center justify-center p-4 overflow-y-auto" id="registrationModalRoot"><div class="w-[calc(100%-1.5rem)] sm:w-full max-w-lg mx-auto my-auto max-h-[92vh] overflow-y-auto rounded-lg border border-[#e8e2d9] bg-[#ffffff] shadow-2xl p-6 md:p-8 relative transition-all"><button aria-label="Close modal" class="absolute top-4 right-4 md:top-5 md:right-5 w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors z-10" onclick="closeOtpModal()" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button><div id="viewOtpVerification"><div class="flex flex-col items-center text-center mb-5"><div class="w-14 h-14 rounded-full bg-[#f6ece3] text-[#8D4A14] flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[28px]">mark_email_read</span></div><h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight" id="otpModalTitle">Verify your email</h2><p class="font-body-sm text-xs md:text-sm text-stone-600 mt-1 leading-normal max-w-sm" id="otpModalSubtitle">Enter the 6-digit verification code we sent to your email address.</p><div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 bg-stone-100 rounded-full font-label-sm text-xs text-stone-800 font-semibold"><span class="material-symbols-outlined text-[14px] text-stone-500">mail</span><span id="otpEmailRecipient">elena.ramos@gmail.com</span></div></div><div class="hidden mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="otpAlertIncorrect"><span class="material-symbols-outlined text-[18px] text-amber-700 shrink-0 mt-0.5">warning</span><div class="flex-1 text-left"><p class="font-semibold text-amber-900">The code you entered is incorrect.</p><p class="text-stone-600 mt-0.5" id="otpAttemptsLeftText">4 attempts remaining. Please check your inbox and try again.</p></div></div><div class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="otpAlertExpired"><span class="material-symbols-outlined text-[18px] text-rose-600 shrink-0 mt-0.5">schedule</span><div class="flex-1 text-left"><p class="font-semibold text-rose-900">This verification code has expired.</p><p class="text-rose-700 mt-0.5">Request a new verification code to continue activating your account.</p></div></div><div class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="otpAlertMaxAttempts"><span class="material-symbols-outlined text-[18px] text-rose-600 shrink-0 mt-0.5">lock</span><div class="flex-1 text-left"><p class="font-semibold text-rose-900">Too many incorrect attempts.</p><p class="text-rose-700 mt-0.5">For security, please request a fresh code to activate your account.</p></div></div><div class="hidden mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="otpAlertResendSent"><span class="material-symbols-outlined text-[18px] text-emerald-700 shrink-0 mt-0.5">check_circle</span><div class="flex-1 text-left"><p class="font-semibold text-emerald-900">A new verification code has been sent.</p><p class="text-stone-600 mt-0.5">Please check your inbox or spam folder.</p></div></div><div class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="otpAlertResendError"><span class="material-symbols-outlined text-[18px] text-rose-600 shrink-0 mt-0.5">error</span><div class="flex-1 text-left"><p class="font-semibold text-rose-900">We couldn't send a new code right now.</p><p class="text-rose-700 mt-0.5">Please check your network connection and try again.</p></div></div><form class="space-y-4" id="otpForm" novalidate="" onsubmit="handleOtpSubmit(event)"><div class="flex items-center justify-center gap-1.5 sm:gap-2.5 my-2" id="otpCellsContainer"><input autocomplete="one-time-code" class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="0" inputmode="numeric" maxlength="1" type="text"/><input class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="1" inputmode="numeric" maxlength="1" type="text"/><input class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="2" inputmode="numeric" maxlength="1" type="text"/><input class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="3" inputmode="numeric" maxlength="1" type="text"/><input class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="4" inputmode="numeric" maxlength="1" type="text"/><input class="otp-cell w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 border-stone-200 bg-white text-stone-900 focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all disabled:bg-stone-100 disabled:text-stone-400 disabled:cursor-not-allowed" data-index="5" inputmode="numeric" maxlength="1" type="text"/></div><div class="flex items-center justify-center gap-1.5 font-body-sm text-xs text-stone-500"><span class="material-symbols-outlined text-[16px] text-stone-400">timer</span><span>This code expires in</span><span class="font-semibold text-stone-800" id="otpCountdownText">09:42</span></div><div class="pt-2"><button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] active:bg-[#66340d] text-white font-medium text-sm rounded-md transition duration-150 flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" disabled="" id="otpSubmitBtn" type="submit"><span class="hidden" id="otpSubmitSpinner"><svg class="animate-spin h-4 w-4 text-white" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path></svg></span><span id="otpSubmitBtnText">Verify Email</span></button></div><div class="flex flex-col items-center gap-2 pt-2 border-t border-stone-100 text-center"><div class="flex items-center justify-center gap-1.5 font-body-sm text-xs text-stone-600"><span>Didn't receive a code?</span><button class="font-semibold text-[#8D4A14] hover:underline inline-flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed" id="otpResendLinkBtn" onclick="handleResendCode()" type="button"><span class="hidden" id="otpResendSpinner"><svg class="animate-spin h-3.5 w-3.5 text-[#8D4A14]" fill="none" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path></svg></span><span id="otpResendLinkText">Resend code</span></button></div><button class="font-body-sm text-xs text-stone-500 hover:text-stone-800 transition-colors" onclick="switchToSignInView()" type="button">Back to Sign In</button></div></form></div><div class="hidden flex flex-col items-center text-center py-3" id="viewVerifiedSuccess"><div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><span class="material-symbols-outlined text-[30px]">verified</span></div><h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight mb-2">Email verified</h2><p class="font-body-sm text-stone-600 text-xs md:text-sm leading-relaxed max-w-sm mb-6">Your Kitchen406 account is now active. You can sign in to start ordering and manage your artisan bakery purchases.</p><button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] text-white font-medium text-sm rounded-md transition duration-150 shadow-sm flex items-center justify-center gap-2 cursor-pointer" onclick="switchToSignInView('verified_success')" type="button"><span class="material-symbols-outlined text-[18px]">login</span><span>Sign In</span></button></div><div class="hidden" id="viewPhaseSignIn"><div class="mb-5 text-left pr-6"><h2 class="font-headline-md font-serif text-2xl font-bold text-stone-900 tracking-tight">Sign in to Kitchen406</h2><p class="font-body-sm text-xs text-stone-600 mt-1 leading-normal">Enter your details to track orders, manage subscriptions, or review completed bakes.</p></div><div class="hidden mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="signInUnverifiedWarning"><span class="material-symbols-outlined text-[18px] text-amber-700 shrink-0 mt-0.5">warning</span><div class="flex-1 text-left"><p class="font-semibold text-amber-900">Account not verified</p><p class="text-stone-600 mt-0.5">Please verify your email before signing in to your Kitchen406 account.</p><button class="mt-2 px-3 py-1.5 bg-[#8D4A14] hover:bg-[#783e10] text-white rounded text-xs font-semibold inline-flex items-center gap-1 transition-colors" onclick="switchToOtpView()" type="button"><span class="material-symbols-outlined text-[16px]">mark_email_read</span><span>Verify Email</span></button></div></div><div class="hidden mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-md font-body-sm text-xs flex items-start gap-2" id="signInSuccessBanner"><span class="material-symbols-outlined text-[18px] text-emerald-700 shrink-0 mt-0.5">check_circle</span><div class="text-left"><p class="font-semibold text-emerald-900">Email verified successfully!</p><p class="text-stone-600 mt-0.5">Enter your password below to sign in.</p></div></div><form class="space-y-3.5" id="phaseSignInForm" novalidate="" onsubmit="handleSignInSubmit(event)"><div><label class="block font-title-sm text-xs font-semibold text-stone-800 mb-1 text-left" for="signInEmailInput">Email</label><input autocomplete="email" class="w-full h-10 px-3 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all" id="signInEmailInput" name="email" placeholder="elena.ramos@gmail.com" type="email" value="elena.ramos@gmail.com"/></div><div><div class="flex items-center justify-between mb-1"><label class="block font-title-sm text-xs font-semibold text-stone-800 text-left" for="signInPassInput">Password</label><a class="font-body-sm text-xs text-[#8D4A14] hover:underline" href="#">Forgot password?</a></div><div class="relative flex items-center"><input autocomplete="current-password" class="w-full h-10 pl-3 pr-10 bg-white rounded-md font-body-sm text-sm text-stone-900 placeholder:text-stone-400 border border-[#e8e2d9] focus:outline-none focus:border-[#8D4A14] focus:ring-1 focus:ring-[#8D4A14] transition-all" id="signInPassInput" name="password" placeholder="Enter your password" type="password" value="BakingMetroCebu2025!"/><button aria-label="Show password" class="absolute right-2.5 w-7 h-7 flex items-center justify-center text-stone-400 hover:text-stone-700 transition-colors" onclick="togglePasswordVisibility('signInPassInput', 'signInPassIcon')" type="button"><span class="material-symbols-outlined text-[18px]" id="signInPassIcon">visibility</span></button></div></div><div class="pt-2"><button class="w-full py-3 bg-[#8D4A14] hover:bg-[#783e10] active:bg-[#66340d] text-white font-medium text-sm rounded-md transition duration-150 flex items-center justify-center gap-2 shadow-sm cursor-pointer" id="signInSubmitButton" type="submit"><span class="material-symbols-outlined text-[18px]">login</span><span>Sign In</span></button></div><div class="text-center pt-2 border-t border-stone-100"><p class="font-body-sm text-xs text-stone-600">New to Kitchen406?<button class="font-semibold text-[#8D4A14] hover:underline ml-1" onclick="switchToOtpView()" type="button">Create an account</button></p></div></form></div></div></div>
+<!-- ========================================================================= -->
+<!-- FLOATING MOCK CONTROLS PANEL ("Phase 1.6 State Inspector") -->
+<!-- ========================================================================= -->
+<div class="fixed bottom-4 right-4 z-50 flex flex-col items-end"><button class="px-3 py-1.5 rounded-full bg-[#1e1e1e] text-stone-100 text-xs font-semibold flex items-center gap-1.5 shadow-xl hover:bg-black transition-all" onclick="toggleDevPanel()"><span class="material-symbols-outlined text-[16px]">tune</span><span>Mock Controls</span><span class="material-symbols-outlined text-[14px]" id="devPanelChevron">expand_less</span></button><div class="mt-2 w-80 max-h-[82vh] overflow-y-auto bg-[#1e1e1e] rounded-lg shadow-2xl p-3.5 border border-stone-700 text-stone-200 space-y-3 text-xs" id="devPanelDrawer"><div class="flex items-center justify-between border-b border-stone-700 pb-2"><span class="font-bold text-stone-100">Phase 1.6 State Inspector</span><span class="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-emerald-900/80 text-emerald-300 border border-emerald-700">Live Demo</span></div><div><label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Verification State</label><div class="grid grid-cols-3 gap-1"><button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnStWaiting" onclick="setOtpState('waiting')">Waiting</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStPartial" onclick="setOtpState('partial')">Partial</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStComplete" onclick="setOtpState('complete')">Complete</button></div><div class="grid grid-cols-3 gap-1 mt-1"><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStVerifying" onclick="setOtpState('verifying')">Verifying</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStIncorrect" onclick="setOtpState('incorrect')">Incorrect</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStExpired" onclick="setOtpState('expired')">Expired</button></div><div class="grid grid-cols-3 gap-1 mt-1"><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStMaxAttempts" onclick="setOtpState('max_attempts')">Max Tries</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStResending" onclick="setOtpState('resending')">Resending</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStResendSent" onclick="setOtpState('resend_sent')">Resent</button></div><div class="grid grid-cols-2 gap-1 mt-1"><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStResendError" onclick="setOtpState('resend_error')">Resend Error</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnStVerified" onclick="setOtpState('verified')">Verified</button></div></div><div><label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Entry Context</label><div class="grid grid-cols-2 gap-1"><button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnCtxAfterReg" onclick="setEntryContext('after_registration')">After Reg</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnCtxUnverified" onclick="setEntryContext('unverified_signin')">Unverified Sign-In</button></div></div><div><label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Dev Shortcut</label><div class="grid grid-cols-2 gap-1"><button class="p-1 rounded bg-stone-800 text-emerald-400 text-center hover:bg-stone-700 font-semibold" onclick="shortcutFillValid()">Fill Valid (406892)</button><button class="p-1 rounded bg-stone-800 text-amber-400 text-center hover:bg-stone-700 font-semibold" onclick="shortcutIncorrect()">Simulate Incorrect</button></div></div><div><label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Modal Visibility</label><div class="grid grid-cols-2 gap-1"><button class="p-1 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnVisShow" onclick="showOtpModal()">Show Modal</button><button class="p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnVisHide" onclick="closeOtpModal()">Hide Modal</button></div></div><div class="pt-2 border-t border-stone-700"><label class="block text-[10px] text-stone-400 uppercase tracking-wider font-semibold mb-1">Authentication State</label><div class="grid grid-cols-2 gap-1"><button class="p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium" id="btnAuthGuest" onclick="setAuthState('guest')">Guest</button><button class="p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700" id="btnAuthSigned" onclick="setAuthState('signedin')">Signed In</button></div></div></div></div>
+<!-- Interactive JavaScript Architecture (Zero alert() calls, Real Countdown, Fully Repaired Handlers) -->
+<script>
+    const VALID_CODE = "406892";
+    const MAX_ALLOWED_ATTEMPTS = 5;
+
+    const otpApp = {
+      state: 'waiting',             // waiting, partial, complete, verifying, incorrect, expired, max_attempts, resending, resend_sent, resend_error, verified
+      currentView: 'otp',           // otp, verified_success, signin
+      entryContext: 'after_registration', // after_registration, unverified_signin
+      isVisible: true,
+      auth: 'guest',
+      attemptsMade: 0,
+      timerSeconds: 582,            // 09:42 initial
+      timerInterval: null,
+      isAccountVerified: false
+    };
+
+    const storeState = {
+      selectedVariant: 'standard',
+      quantity: 1
+    };
+
+    const prices = { standard: 340, large: 480 };
+
+    // --- Dev Panel Drawer Toggle ---
+    function toggleDevPanel() {
+      const drawer = document.getElementById('devPanelDrawer');
+      const chev = document.getElementById('devPanelChevron');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        if (chev) chev.textContent = 'expand_less';
+      } else {
+        drawer.classList.add('hidden');
+        if (chev) chev.textContent = 'expand_more';
+      }
+    }
+
+    // --- Modal Visibility ---
+    function showOtpModal() {
+      otpApp.isVisible = true;
+      const modal = document.getElementById('registrationModalRoot');
+      if (modal) modal.classList.remove('hidden');
+      updateModalVisButtons();
+    }
+
+    function closeOtpModal() {
+      otpApp.isVisible = false;
+      const modal = document.getElementById('registrationModalRoot');
+      if (modal) modal.classList.add('hidden');
+      updateModalVisButtons();
+    }
+
+    function updateModalVisButtons() {
+      const bShow = document.getElementById('btnVisShow');
+      const bHide = document.getElementById('btnVisHide');
+      if (otpApp.isVisible) {
+        if (bShow) bShow.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bHide) bHide.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      } else {
+        if (bHide) bHide.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bShow) bShow.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      }
+    }
+
+    // --- Countdown Timer Logic ---
+    function startCountdown() {
+      if (otpApp.timerInterval) clearInterval(otpApp.timerInterval);
+      updateTimerDisplay();
+      otpApp.timerInterval = setInterval(() => {
+        if (otpApp.timerSeconds > 0) {
+          otpApp.timerSeconds--;
+          updateTimerDisplay();
+          if (otpApp.timerSeconds === 0) {
+            setOtpState('expired');
+          }
+        }
+      }, 1000);
+    }
+
+    function resetCountdown(seconds = 600) {
+      otpApp.timerSeconds = seconds;
+      updateTimerDisplay();
+      startCountdown();
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById('otpCountdownText');
+      if (!el) return;
+      const m = Math.floor(otpApp.timerSeconds / 60);
+      const s = otpApp.timerSeconds % 60;
+      el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    // --- OTP Cell Helpers ---
+    function getOtpCells() {
+      return Array.from(document.querySelectorAll('.otp-cell'));
+    }
+
+    function getOtpValue() {
+      return getOtpCells().map(input => input.value).join('');
+    }
+
+    function setOtpValue(val) {
+      const cells = getOtpCells();
+      const chars = String(val).split('');
+      cells.forEach((cell, idx) => {
+        cell.value = chars[idx] || '';
+      });
+      syncVerifyButtonState();
+    }
+
+    function clearOtpCells() {
+      const cells = getOtpCells();
+      cells.forEach(c => c.value = '');
+      syncVerifyButtonState();
+    }
+
+    function setOtpInputsDisabled(disabled) {
+      getOtpCells().forEach(cell => {
+        cell.disabled = disabled;
+      });
+    }
+
+    function syncVerifyButtonState() {
+      const val = getOtpValue();
+      const submitBtn = document.getElementById('otpSubmitBtn');
+      if (!submitBtn) return;
+      const isDisabledState = ['verifying', 'expired', 'max_attempts', 'resending'].includes(otpApp.state);
+      submitBtn.disabled = val.length < 6 || isDisabledState;
+    }
+
+    // --- Verification Alerts Management ---
+    function hideAllOtpAlerts() {
+      const alerts = [
+        'otpAlertIncorrect',
+        'otpAlertExpired',
+        'otpAlertMaxAttempts',
+        'otpAlertResendSent',
+        'otpAlertResendError'
+      ];
+      alerts.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+    }
+
+    // --- State Inspector & Verification State Switcher ---
+    function setOtpState(targetState) {
+      // Map alias 'maxtries' / 'resent'
+      if (targetState === 'maxtries') targetState = 'max_attempts';
+      if (targetState === 'resent') targetState = 'resend_sent';
+
+      otpApp.state = targetState;
+      hideAllOtpAlerts();
+
+      const submitBtn = document.getElementById('otpSubmitBtn');
+      const submitText = document.getElementById('otpSubmitBtnText');
+      const submitSpinner = document.getElementById('otpSubmitSpinner');
+      const resendBtn = document.getElementById('otpResendLinkBtn');
+      const resendSpinner = document.getElementById('otpResendSpinner');
+      const resendText = document.getElementById('otpResendLinkText');
+
+      // Reset base controls
+      setOtpInputsDisabled(false);
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitSpinner) submitSpinner.classList.add('hidden');
+      if (submitText) submitText.textContent = 'Verify Email';
+      if (resendBtn) resendBtn.disabled = false;
+      if (resendSpinner) resendSpinner.classList.add('hidden');
+      if (resendText) resendText.textContent = 'Resend code';
+
+      if (targetState === 'waiting') {
+        clearOtpCells();
+        getOtpCells()[0]?.focus();
+      } else if (targetState === 'partial') {
+        setOtpValue('406');
+        getOtpCells()[3]?.focus();
+      } else if (targetState === 'complete') {
+        setOtpValue('406892');
+      } else if (targetState === 'verifying') {
+        if (!getOtpValue()) setOtpValue('406892');
+        setOtpInputsDisabled(true);
+        if (submitBtn) submitBtn.disabled = true;
+        if (submitSpinner) submitSpinner.classList.remove('hidden');
+        if (submitText) submitText.textContent = 'Verifying…';
+      } else if (targetState === 'incorrect') {
+        if (!getOtpValue()) setOtpValue('999999');
+        otpApp.attemptsMade = Math.max(1, otpApp.attemptsMade);
+        const remaining = Math.max(0, MAX_ALLOWED_ATTEMPTS - otpApp.attemptsMade);
+        const leftEl = document.getElementById('otpAttemptsLeftText');
+        if (leftEl) leftEl.textContent = `${remaining} attempt${remaining === 1 ? '' : 's'} remaining. Please check your inbox and try again.`;
+        const alertInc = document.getElementById('otpAlertIncorrect');
+        if (alertInc) alertInc.classList.remove('hidden');
+        getOtpCells().forEach(cell => {
+          cell.classList.add('border-amber-400');
+          setTimeout(() => cell.classList.remove('border-amber-400'), 1500);
+        });
+      } else if (targetState === 'expired') {
+        setOtpInputsDisabled(true);
+        if (submitBtn) submitBtn.disabled = true;
+        const alertExp = document.getElementById('otpAlertExpired');
+        if (alertExp) alertExp.classList.remove('hidden');
+        const timerEl = document.getElementById('otpCountdownText');
+        if (timerEl) timerEl.textContent = '00:00';
+      } else if (targetState === 'max_attempts') {
+        otpApp.attemptsMade = MAX_ALLOWED_ATTEMPTS;
+        setOtpInputsDisabled(true);
+        if (submitBtn) submitBtn.disabled = true;
+        const alertMax = document.getElementById('otpAlertMaxAttempts');
+        if (alertMax) alertMax.classList.remove('hidden');
+      } else if (targetState === 'resending') {
+        if (resendBtn) resendBtn.disabled = true;
+        if (resendSpinner) resendSpinner.classList.remove('hidden');
+        if (resendText) resendText.textContent = 'Sending…';
+      } else if (targetState === 'resend_sent') {
+        const alertSent = document.getElementById('otpAlertResendSent');
+        if (alertSent) alertSent.classList.remove('hidden');
+        resetCountdown(600);
+        otpApp.attemptsMade = 0;
+      } else if (targetState === 'resend_error') {
+        const alertErr = document.getElementById('otpAlertResendError');
+        if (alertErr) alertErr.classList.remove('hidden');
+      } else if (targetState === 'verified') {
+        otpApp.isAccountVerified = true;
+        showVerifiedSuccessView();
+      }
+
+      if (targetState !== 'verified' && otpApp.currentView !== 'otp') {
+        switchToOtpView();
+      }
+
+      syncVerifyButtonState();
+      updateInspectorButtons();
+    }
+
+    // --- Entry Context Handler ---
+    function setEntryContext(ctx) {
+      if (ctx === 'after_reg') ctx = 'after_registration';
+      otpApp.entryContext = ctx;
+
+      const titleEl = document.getElementById('otpModalTitle');
+      const subtitleEl = document.getElementById('otpModalSubtitle');
+
+      if (ctx === 'unverified_signin') {
+        if (titleEl) titleEl.textContent = 'Verify your email to continue';
+        if (subtitleEl) subtitleEl.textContent = 'To secure your account and access orders in Metro Cebu, please verify your email address.';
+      } else {
+        if (titleEl) titleEl.textContent = 'Verify your email';
+        if (subtitleEl) subtitleEl.textContent = 'Enter the 6-digit verification code we sent to your email address.';
+      }
+
+      const bAfter = document.getElementById('btnCtxAfterReg');
+      const bUnver = document.getElementById('btnCtxUnverified');
+      if (ctx === 'after_registration') {
+        if (bAfter) bAfter.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bUnver) bUnver.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      } else {
+        if (bUnver) bUnver.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bAfter) bAfter.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      }
+    }
+
+    // --- Inspector State Button UI Highlighting ---
+    function updateInspectorButtons() {
+      const stateMap = {
+        'waiting': 'btnStWaiting',
+        'partial': 'btnStPartial',
+        'complete': 'btnStComplete',
+        'verifying': 'btnStVerifying',
+        'incorrect': 'btnStIncorrect',
+        'expired': 'btnStExpired',
+        'max_attempts': 'btnStMaxAttempts',
+        'resending': 'btnStResending',
+        'resend_sent': 'btnStResendSent',
+        'resend_error': 'btnStResendError',
+        'verified': 'btnStVerified'
+      };
+
+      Object.values(stateMap).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) btn.className = 'p-1 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+      });
+
+      const currentBtnId = stateMap[otpApp.state];
+      if (currentBtnId) {
+        const activeBtn = document.getElementById(currentBtnId);
+        if (activeBtn) activeBtn.className = 'p-1 rounded bg-[#8D4A14] text-white text-center font-medium';
+      }
+    }
+
+    // --- Dev Shortcuts ---
+    function shortcutFillValid() {
+      if (otpApp.currentView !== 'otp') switchToOtpView();
+      setOtpState('complete');
+      setOtpValue('406892');
+      syncVerifyButtonState();
+    }
+
+    function shortcutIncorrect() {
+      if (otpApp.currentView !== 'otp') switchToOtpView();
+      setOtpValue('999999');
+      handleOtpSubmit();
+    }
+
+    // --- In-Modal View Transitions ---
+    function switchToOtpView() {
+      otpApp.currentView = 'otp';
+      document.getElementById('viewOtpVerification')?.classList.remove('hidden');
+      document.getElementById('viewVerifiedSuccess')?.classList.add('hidden');
+      document.getElementById('viewPhaseSignIn')?.classList.add('hidden');
+      showOtpModal();
+      syncVerifyButtonState();
+    }
+
+    function showVerifiedSuccessView() {
+      otpApp.currentView = 'verified_success';
+      document.getElementById('viewOtpVerification')?.classList.add('hidden');
+      document.getElementById('viewVerifiedSuccess')?.classList.remove('hidden');
+      document.getElementById('viewPhaseSignIn')?.classList.add('hidden');
+      showOtpModal();
+    }
+
+    function switchToSignInView(reason) {
+      otpApp.currentView = 'signin';
+      document.getElementById('viewOtpVerification')?.classList.add('hidden');
+      document.getElementById('viewVerifiedSuccess')?.classList.add('hidden');
+      document.getElementById('viewPhaseSignIn')?.classList.remove('hidden');
+
+      const bannerSuccess = document.getElementById('signInSuccessBanner');
+      const bannerUnverified = document.getElementById('signInUnverifiedWarning');
+
+      if (reason === 'verified_success' || otpApp.isAccountVerified) {
+        bannerSuccess?.classList.remove('hidden');
+        bannerUnverified?.classList.add('hidden');
+      } else if (reason === 'unverified') {
+        bannerUnverified?.classList.remove('hidden');
+        bannerSuccess?.classList.add('hidden');
+      } else {
+        bannerSuccess?.classList.add('hidden');
+        bannerUnverified?.classList.add('hidden');
+      }
+      showOtpModal();
+    }
+
+    // --- Password Visibility Toggle ---
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    // --- OTP Form Submission & Evaluation ---
+    function handleOtpSubmit(e) {
+      if (e) e.preventDefault();
+      const code = getOtpValue();
+      if (code.length < 6) return;
+
+      setOtpState('verifying');
+
+      setTimeout(() => {
+        if (code === VALID_CODE) {
+          setOtpState('verified');
+        } else {
+          otpApp.attemptsMade++;
+          if (otpApp.attemptsMade >= MAX_ALLOWED_ATTEMPTS) {
+            setOtpState('max_attempts');
+          } else {
+            setOtpState('incorrect');
+          }
+        }
+      }, 700);
+    }
+
+    // --- Resend Code Action ---
+    function handleResendCode() {
+      setOtpState('resending');
+      setTimeout(() => {
+        setOtpState('resend_sent');
+      }, 1000);
+    }
+
+    // --- Sign In Submission Handler ---
+    function handleSignInSubmit(e) {
+      if (e) e.preventDefault();
+
+      // Check verification guard
+      if (!otpApp.isAccountVerified && otpApp.entryContext === 'unverified_signin') {
+        const warn = document.getElementById('signInUnverifiedWarning');
+        if (warn) warn.classList.remove('hidden');
+        return;
+      }
+
+      setAuthState('signedin');
+      closeOtpModal();
+    }
+
+    // --- Authentication State Switcher ---
+    function setAuthState(mode) {
+      otpApp.auth = mode;
+      const bGuest = document.getElementById('btnAuthGuest');
+      const bSigned = document.getElementById('btnAuthSigned');
+      const headerSign = document.getElementById('headerSignInBtn');
+      const headerAvatar = document.getElementById('headerAvatarBtn');
+      const cartCount = document.getElementById('headerCartCount');
+      const cartFeedback = document.getElementById('cartFeedbackAuthRequired');
+
+      if (mode === 'signedin') {
+        if (bSigned) bSigned.className = 'p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bGuest) bGuest.className = 'p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+        if (headerSign) headerSign.classList.add('hidden');
+        if (headerAvatar) headerAvatar.classList.remove('hidden');
+        if (cartCount) cartCount.textContent = '1';
+        if (cartFeedback) cartFeedback.classList.add('hidden');
+        closeOtpModal();
+      } else {
+        if (bGuest) bGuest.className = 'p-1.5 rounded bg-[#8D4A14] text-white text-center font-medium';
+        if (bSigned) bSigned.className = 'p-1.5 rounded bg-stone-800 text-stone-300 text-center hover:bg-stone-700';
+        if (headerSign) headerSign.classList.remove('hidden');
+        if (headerAvatar) headerAvatar.classList.add('hidden');
+        if (cartCount) cartCount.textContent = '0';
+      }
+    }
+
+    // --- Product Showcase Helpers ---
+    function updatePricing() {
+      const base = storeState.selectedVariant === 'standard' ? prices.standard : prices.large;
+      const total = base * storeState.quantity;
+      const priceDisp = document.getElementById('productPriceDisplay');
+      const subDisp = document.getElementById('subtotalDisplay');
+      const btnDisp = document.getElementById('btnPriceAmount');
+      const badgeDisp = document.getElementById('productWeightBadge');
+      if (priceDisp) priceDisp.textContent = '₱' + base;
+      if (subDisp) subDisp.textContent = '₱' + total;
+      if (btnDisp) btnDisp.textContent = '₱' + total;
+      if (badgeDisp) badgeDisp.textContent = storeState.selectedVariant === 'standard' ? '650g Standard' : '950g Large';
+    }
+
+    function selectVariant(type) {
+      storeState.selectedVariant = type;
+      const stdBtn = document.getElementById('variantBtnStd');
+      const lrgBtn = document.getElementById('variantBtnLrg');
+      if (type === 'standard') {
+        stdBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all';
+        stdBtn.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+        stdBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-[18px]';
+        lrgBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all';
+        lrgBtn.querySelector('.material-symbols-outlined').textContent = 'radio_button_unchecked';
+        lrgBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      } else {
+        lrgBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all';
+        lrgBtn.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+        lrgBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-primary text-[18px]';
+        stdBtn.className = 'flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all';
+        stdBtn.querySelector('.material-symbols-outlined').textContent = 'radio_button_unchecked';
+        stdBtn.querySelector('.material-symbols-outlined').className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      }
+      updatePricing();
+    }
+
+    function adjustQty(delta) {
+      const next = storeState.quantity + delta;
+      if (next >= 1 && next <= 12) {
+        storeState.quantity = next;
+        const el = document.getElementById('qtyCounter');
+        if (el) el.textContent = next;
+        updatePricing();
+      }
+    }
+
+    function switchProductThumb(src, index) {
+      const mainImg = document.getElementById('mainProductImg');
+      if (mainImg) mainImg.src = src;
+      const btns = document.querySelectorAll('.thumb-btn');
+      btns.forEach((btn, i) => {
+        if (i === index) {
+          btn.classList.add('ring-2', 'ring-primary', 'opacity-100');
+          btn.classList.remove('opacity-70');
+        } else {
+          btn.classList.remove('ring-2', 'ring-primary', 'opacity-100');
+          btn.classList.add('opacity-70');
+        }
+      });
+    }
+
+    function handleAddToCart() {
+      if (otpApp.auth === 'guest') {
+        const feedback = document.getElementById('cartFeedbackAuthRequired');
+        if (feedback) feedback.classList.remove('hidden');
+        switchToOtpView();
+        showOtpModal();
+      } else {
+        const cartCount = document.getElementById('headerCartCount');
+        if (cartCount) cartCount.textContent = String(parseInt(cartCount.textContent || '0') + storeState.quantity);
+      }
+    }
+
+    // --- Wire Up 6-Digit OTP Keyboard & Clipboard Events ---
+    function setupOtpInputs() {
+      const cells = getOtpCells();
+      cells.forEach((cell, idx) => {
+        cell.addEventListener('input', (e) => {
+          const val = e.target.value;
+          // Clean non-digits
+          const cleanVal = val.replace(/\D/g, '');
+          cell.value = cleanVal ? cleanVal.slice(-1) : '';
+
+          if (cell.value && idx < cells.length - 1) {
+            cells[idx + 1].focus();
+          }
+          syncVerifyButtonState();
+        });
+
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace') {
+            if (!cell.value && idx > 0) {
+              cells[idx - 1].focus();
+              cells[idx - 1].value = '';
+            } else {
+              cell.value = '';
+            }
+            syncVerifyButtonState();
+          } else if (e.key === 'ArrowLeft' && idx > 0) {
+            cells[idx - 1].focus();
+          } else if (e.key === 'ArrowRight' && idx < cells.length - 1) {
+            cells[idx + 1].focus();
+          }
+        });
+
+        cell.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+          const digits = pastedData.replace(/\D/g, '').slice(0, 6).split('');
+          digits.forEach((d, i) => {
+            if (cells[i]) cells[i].value = d;
+          });
+          const focusIndex = Math.min(digits.length, cells.length - 1);
+          cells[focusIndex]?.focus();
+          syncVerifyButtonState();
+        });
+      });
+    }
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+      setupOtpInputs();
+      startCountdown();
+      syncVerifyButtonState();
+      updateInspectorButtons();
+      updateModalVisButtons();
+    });
+  </script>
+</body></html>
