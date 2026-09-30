@@ -60,7 +60,7 @@ const pageTemplates = {
 <!-- Subscription Filter Pill -->
 <label class="flex items-center gap-2 cursor-pointer select-none bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container hover:border-outline-variant transition-colors">
 <input class="accent-primary w-3.5 h-3.5 rounded cursor-pointer" id="subscription-toggle" type="checkbox">
-<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Subscription available</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Available for subscription</span>
 </label>
 <!-- Search Input -->
 <div class="relative w-full sm:w-60 md:w-64">
@@ -282,7 +282,7 @@ const pageTemplates = {
               </span>
 <span id="product-subscription-badge" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-wider bg-[#F8EDE3] text-[#935324] shadow-sm">
 <span class="material-symbols-outlined text-[14px]">calendar_month</span>
-                Subscription Available
+                Available as a 4-Week Subscription
               </span>
 </div>
 </div>
@@ -363,7 +363,7 @@ const pageTemplates = {
 <div class="hidden p-3 bg-[#EBF0EC] text-[#224426] rounded-lg font-body-sm text-body-sm flex items-center justify-between" id="cartFeedbackSuccess">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-[18px]">check_circle</span>
-<span>Added to your order bag! Fresh batch reserved.</span>
+<span>Added to your bag. Fulfillment availability is checked at checkout.</span>
 </div>
 <a class="underline font-title-sm text-title-sm ml-2 shrink-0" data-path="cart" href="#">View Bag</a>
 </div>

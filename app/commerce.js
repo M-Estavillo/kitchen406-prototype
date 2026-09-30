@@ -32,13 +32,13 @@ C.inspector=select=>{
  if(A.route==='cart')h+=select('mock-commerce-stock','Cart scenario',['normal','unavailable','quantity'],M.stock);
  if(A.route==='checkout'){
   h+=select('mock-commerce-method','Fulfillment method',['unselected','pickup','delivery'],S.draft.method||'unselected');
-  if(C.step==='fulfillment')h+=select('mock-commerce-calendar','Calendar',['normal','loading','error'],M.calendar)+select('mock-commerce-dates','Date availability',['normal','fully-booked','blocked','cutoff','stock','no-dates'],M.dates)+select('mock-commerce-validation','Revalidation',['normal','checking','conflict','error'],M.validation)+'<div class="mock-actions"><button data-commerce="missing-method">Missing method</button><button data-commerce="missing-date">Missing date</button></div>';
+  if(C.step==='fulfillment')h+=select('mock-commerce-calendar','Calendar',['normal','loading','error'],M.calendar)+select('mock-commerce-dates','Date availability',['normal','before-cutoff','after-cutoff','mixed-cart','fully-booked','blocked','cutoff','stock','no-dates'],M.dates)+select('mock-commerce-validation','Revalidation',['normal','checking','conflict','error'],M.validation)+'<div class="mock-actions"><button data-commerce="missing-method">Missing method</button><button data-commerce="missing-date">Missing date</button></div>';
   if(C.step==='address')h+=select('mock-commerce-quote','Courier quote',['ok','loading','failed','fleet_unavailable'],S.draft.quote)+'<div class="mock-actions"><button data-commerce="empty-addresses">No addresses</button><button data-commerce="address-add">Add form</button><button data-commerce="session-expired">Session expired</button></div>';
   if(C.step==='review')h+=select('mock-commerce-review','Stock / schedule verification',['normal','stock','capacity','checking','error'],M.review)+select('mock-commerce-price','Pricing',['normal','updated'],M.price);
  }
- if(A.route==='payment')h+=select('mock-commerce-payment','Payment simulation',['waiting','detected','delayed','confirmed','failed','expired','revalidation'],C.currentOrder()?.payment||'waiting')+'<div class="mock-actions"><button data-commerce="payment-preview">Fresh payment preview</button></div>';
+ if(A.route==='payment'&&!C.currentOrder()?.prepaid)h+=select('mock-commerce-payment','Payment simulation',['waiting','detected','delayed','confirmed','failed','expired','revalidation'],C.currentOrder()?.payment||'waiting')+'<div class="mock-actions"><button data-commerce="payment-preview">Fresh payment preview</button></div>';
  if(A.route==='orders'&&!C.orderId)h+=select('mock-commerce-dataset','Order dataset',['all','standard','subscription','cake'],M.dataset);
- if((A.route==='orders'&&C.orderId)||A.route==='confirmation')h+=select('mock-commerce-status','Order lifecycle',['pending-payment','confirmed','preparing','ready-delivery','ready-pickup','in-transit','completed','payment-failed','payment-resolution','cancelled'],C.currentOrder()?.status||'confirmed')+select('mock-commerce-courier','Courier preview',['prebooking','booked','transit','delivered','failed'],M.courier);
+ if((A.route==='orders'&&C.orderId)||A.route==='confirmation')h+=select('mock-commerce-status','Order lifecycle',C.currentOrder()?.prepaid?['confirmed','preparing','ready-delivery','in-transit','completed']:['pending-payment','confirmed','preparing','ready-delivery','ready-pickup','in-transit','completed','payment-failed','payment-resolution','cancelled'],C.currentOrder()?.status||'confirmed')+select('mock-commerce-courier','Courier preview',['prebooking','booked','transit','delivered','failed'],M.courier);
  h+='<div class="mock-actions"><button data-commerce="sample-cart">Load sample bag</button><button data-commerce="sample-orders">Load sample orders</button><button data-commerce="reset-states">Reset screen states</button></div><p class="muted">Calendar clock: Oct 14, 2026. Demo data stays in this tab until reload or Reset preview.</p>';
  return h;
 };
@@ -50,7 +50,7 @@ document.addEventListener('click',e=>{
  if(action==='sample-cart')C.sampleCart();
  if(action==='sample-orders'){C.sampleOrders();M.page='normal';A.toast('Sample order history loaded.');}
  if(action==='payment-preview'){
-  const source=C.currentOrder();if(source){const o=C.copy(source);o.id='K406-PREVIEW-'+(++S.serial);o.fixture=true;o.status='pending-payment';o.payment='waiting';o.paid=false;delete o.paidAt;o.deadline=Date.now()+600000;o.reference='DEMO-QR-'+S.serial;o.attempts=[{state:'waiting',at:'Fresh preview'}];o.activity=[{text:'Payment preview created',at:new Date().toLocaleString()}];S.orders.unshift(o);location.hash='#/payment/'+o.id;}
+  const source=C.currentOrder();if(source&&!source.prepaid){const o=C.copy(source);o.id='K406-PREVIEW-'+(++S.serial);o.fixture=true;o.status='pending-payment';o.payment='waiting';o.paid=false;delete o.paidAt;o.deadline=Date.now()+600000;o.reference='DEMO-QR-'+S.serial;o.attempts=[{state:'waiting',at:'Fresh preview'}];o.activity=[{text:'Payment preview created',at:new Date().toLocaleString()}];S.orders.unshift(o);location.hash='#/payment/'+o.id;}
  }
  if(action==='empty-addresses'&&C.change()){S.addresses=[];S.draft.addressId='';}
  if(action==='missing-method'){S.draft.method='';C.checkout.message='Please select a fulfillment method.';}
@@ -66,10 +66,10 @@ document.addEventListener('change',e=>{
  else if(key==='service'||key==='quote')S.draft[key]=value;
  else if(key==='payment')C.setPayment(C.currentOrder(),value);
  else if(key==='status'){
-  const o=C.currentOrder();if(o){C.setStatus(o,value);o.payment=['pending-payment'].includes(value)?'waiting':value==='payment-failed'?'failed':value==='cancelled'?'cancelled':'confirmed';o.paid=!['pending-payment','payment-failed','cancelled'].includes(value);if(value==='ready-pickup')o.fulfillment.method='pickup';if(['ready-delivery','in-transit'].includes(value))o.fulfillment.method='delivery';o.fee=o.fulfillment.method==='pickup'?0:95;o.total=C.subtotal(o.items)+o.fee;}
+  const o=C.currentOrder();if(o){C.setStatus(o,value);o.payment=['pending-payment'].includes(value)?'waiting':value==='payment-failed'?'failed':value==='cancelled'?'cancelled':'confirmed';o.paid=!['pending-payment','payment-failed','cancelled'].includes(value);if(value==='ready-pickup')o.fulfillment.method='pickup';if(['ready-delivery','in-transit'].includes(value))o.fulfillment.method='delivery';if(!o.prepaid){o.fee=o.fulfillment.method==='pickup'?0:A.quoteFee();o.total=C.subtotal(o.items)+o.fee;}}
  }else{
   M[key]=value;
-  if(key==='stock'){S.cart.forEach(i=>{i.available=true;i.quantity=Math.min(i.quantity,i.max);});if(S.cart[0]){if(value==='unavailable')S.cart[0].available=false;if(value==='quantity')S.cart[0].quantity=13;}}
+  if(key==='stock'){S.cart.forEach(i=>{i.available=true;i.quantity=Math.min(i.quantity,i.max);});if(S.cart[0]){if(value==='unavailable')S.cart[0].available=false;if(value==='quantity')S.cart[0].quantity=11;}}
   if(key==='validation'&&value==='conflict')S.draft.date='';
  }
  C.render();A.inspector();

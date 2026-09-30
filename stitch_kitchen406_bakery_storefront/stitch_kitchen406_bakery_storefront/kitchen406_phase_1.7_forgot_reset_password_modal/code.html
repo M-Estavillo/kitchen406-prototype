@@ -1,0 +1,658 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#ffb786", "on-error": "#ffffff", "on-surface": "#1b1c1a", "primary": "#8d4a14", "inverse-surface": "#30312f", "primary-container": "#ab622b", "secondary-container": "#eae1dc", "primary-fixed": "#ffdcc6", "on-primary-container": "#fffbff", "on-primary-fixed": "#311300", "on-surface-variant": "#53443a", "surface-container-high": "#eae8e5", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#723600", "error-container": "#ffdad6", "surface-container": "#efeeeb", "surface-variant": "#e4e2df", "on-secondary": "#ffffff", "surface-container-highest": "#e4e2df", "surface-tint": "#904d16", "tertiary-container": "#7b736d", "outline-variant": "#d9c2b5", "on-secondary-fixed-variant": "#4b4642", "tertiary-fixed-dim": "#cfc5bd", "background": "#fbf9f6", "on-tertiary": "#ffffff", "surface-bright": "#fbf9f6", "tertiary-fixed": "#ebe0d9", "surface-dim": "#dbdad7", "on-background": "#1b1c1a", "on-tertiary-fixed": "#201b16", "on-error-container": "#93000a", "tertiary": "#625b55", "on-secondary-container": "#69635f", "secondary-fixed": "#eae1dc", "inverse-on-surface": "#f2f0ed", "primary-fixed-dim": "#ffb786", "secondary": "#635d59", "outline": "#867368", "secondary-fixed-dim": "#cdc5c0", "on-tertiary-container": "#fffbff", "error": "#ba1a1a", "surface": "#fbf9f6", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#4c4640", "surface-container-low": "#f5f3f0", "on-secondary-fixed": "#1f1b18" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-mobile": "1.25rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "space-xl": "2.5rem", "margin": "3rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem" }, "fontFamily": { "price-lg": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"], "display": ["Playfair Display"], "body-md": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "body-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Playfair Display"], "display-mobile": ["Playfair Display"], "price-md": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "title-sm": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"] }, "fontSize": { "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } };</script><meta content="web_standard" name="shell-type"></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-md"><div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center"><p class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Baking fresh in Metro Cebu • Prepared to order with advance fulfillment dates</p></div><div class="h-20 max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><img alt="Kitchen406 Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XlfRoSMKjc1xtjXg5cl12eds1RaEkLzjymp3iy21OQCcNwsw6kQI0-qtFxxhnKnzvGllACYH_mWhWPfnGMpxa0dCDgPWu5px0JxJ2M05l7WRrGQOFxiJyquL_NXHkTxOzMPToCu1Bnv7Z_qHDbV6G8kOJbj0ZAxewbhbPeCbBkiZ4W-LWeN0MaLiqbsH8bdMhxdQTS7-FO9sGLQ0iEJJzSwrWyvCVKH6W4FUSoWpytpUtYaxFCfR2Yeg"><a class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-primary transition-colors" data-path="shop" href="#">Kitchen406</a></div><nav class="hidden md:flex items-center gap-space-lg lg:gap-space-xl" data-active-classes="text-primary font-semibold border-b-2 border-primary pb-0.5"><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-sm lg:gap-space-md shrink-0"><div class="relative hidden sm:flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span><input class="h-[38px] pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all w-36 lg:w-48" placeholder="Search artisan bakes..." type="text"></div><a class="hidden sm:inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#">Sign In</a><a class="relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-0 right-0 h-4 min-w-[16px] px-1 rounded-full bg-primary font-label-sm text-label-sm text-on-primary flex items-center justify-center leading-none">2</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full relative">
+<!-- =========================================================================
+       PAGE BACKDROP: Braided Chocolate Babka Product Detail View (Phase 1.4/1.6 Context)
+       ========================================================================= -->
+<div class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-space-lg">
+<!-- Breadcrumb trail -->
+<nav aria-label="Breadcrumbs" class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mb-space-lg">
+<a class="hover:text-primary transition-colors" href="#">Pantry &amp; Bakery</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Brioche &amp; Sweet Loaves</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-title-sm text-title-sm">Braided Chocolate Babka</span>
+</nav>
+<!-- Product Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Gallery Column (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low shadow-sm relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" data-alt="Artisanal braided chocolate babka loaf sliced open on parchment paper, rich glossy swirls of dark chocolate ganache visible in the tender brioche crumb, soft golden morning light from a window in a warm bakery kitchen setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeNdBe0Bm9-Zj2jOsvpeDqsW9xjjpW5o-FXhA2prAQ_lYonuCjg5ZDzhSDsWegveiHXd1hJ2X1sTvTnq28NSJKa4wKXnCRG_m-TAPchxYeiSWU99u8sVcr5todcH8_WQduQHIKT3sD9r9qwwmW6NBqd34qDDb8c5ZVIBQQ-vISQQE0Um-U03rcgt6RLeK1Ad9PsjCNqrp1D__hzXhuSAn_c1q7mETtcg2bxRDF5kvHy8KaBHrhGkKp">
+<div class="absolute top-4 left-4 bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm tracking-wide">
+            Fresh Saturday Batch
+          </div>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Close up view of the crispy, caramelized top twist of the braided chocolate babka loaf dusted with fine cocoa nib streusel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKL3c4xgLQo-qwP9_-51lg-YC15bMPqJhlnEOI2ip7QEKv5_ZulLWgpzawMLqqpvLDbetwHH9Tr6hyEYdMqFmDuE7baoyHqWVZYViPgAo8AMSxjSE-Q3laDh3Yug9MKdtaKWLTLlHBueNr1BuHdnBnIqb56YZ5CgXSzW9nXsUQs2LnzLfoH5fa5Dg25rywy0Y8GTa_IfFOvNRY_0aV-gE_BgkcqawBnX9MppoZSPurGMgLpHcfX_5Y">
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Japanese milk bread shokupan loaf on rustic wooden table with butter crock and glass of milk in gentle daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWkgzAabUl_nLOZObWjF2hbDH1Y95I2KzfXldptdua32dPolcU2LWhN6lpfPJBi0kKs-T4aZ9AlQrI9P96lm5vQ53Cm5ca32cT7ok0kfF9gThS6CrwAeyoCoIVNSg3-P1rdtxuAZGl1Femo2dOIjvA0jTDBLMXqSqvbAy0DgOT3Zqavd2RluITkz10PzZ3rdEjN6dmK4FajfNjyI8TXO3NfdI-ghsXFlncTYkPlbq7nTSugMLoKKIt">
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low flex items-center justify-center bg-surface-container">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider text-center p-2">Artisan Crumb View</span>
+</div>
+</div>
+</div>
+<!-- Detail & Purchase Column (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-1">Small Batch • Metro Cebu</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-2">Braided Chocolate Babka</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Slow-fermented enriched butter brioche ribboned with 70% single-origin South Cotabato dark chocolate fudge and roasted cacao nib crumble.
+          </p>
+</div>
+<div class="flex items-baseline gap-space-sm pb-space-sm">
+<span class="font-display text-display text-primary font-semibold">₱340</span>
+<span class="font-body-sm text-body-sm text-outline">/ loaf (approx. 520g)</span>
+</div>
+<!-- Purchase Mode Toggle (Buy Once / Subscription) -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface">Purchase Option</label>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="p-3 rounded-lg bg-surface-container-lowest shadow-sm text-left flex flex-col justify-between" type="button">
+<div class="flex items-center justify-between w-full mb-1">
+<span class="font-title-sm text-title-sm text-on-surface">Buy Once</span>
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Standard Order</span>
+</button>
+<button class="p-3 rounded-lg bg-surface-container-low text-left flex flex-col justify-between opacity-80" type="button">
+<div class="flex items-center justify-between w-full mb-1">
+<span class="font-title-sm text-title-sm text-on-surface">4-Week Sub</span>
+<span class="material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">10% Pantry Credit</span>
+</button>
+</div>
+</div>
+<!-- Preorder details -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">calendar_month</span>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Next Bake Date: Saturday, Oct 25</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Metro Cebu delivery or studio pickup available from 1:00 PM.</p>
+</div>
+</div>
+<!-- CTA placeholder behind modal -->
+<button class="w-full bg-primary text-on-primary font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+<span>Add to Order • ₱340</span>
+</button>
+</div>
+</div>
+</div>
+<!-- =========================================================================
+       MODAL BACKDROP OVERLAY
+       ========================================================================= -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/50 backdrop-blur-sm transition-opacity duration-300" id="authModalOverlay">
+<!-- Modal Card (max-w 460px) -->
+<div class="w-full max-w-[460px] bg-white rounded-2xl shadow-2xl p-6 sm:p-8 relative text-on-surface transform transition-all duration-300" id="authModalCard">
+<!-- Close Button (X) -->
+<button aria-label="Close dialog" class="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors" onclick="toggleModalVisibility(false)" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Center Icon Badge -->
+<div class="w-12 h-12 rounded-full bg-amber-50 text-primary flex items-center justify-center mx-auto mb-4" id="modalIconContainer">
+<span class="material-symbols-outlined text-[26px]" id="modalIcon">key</span>
+</div>
+<!-- Headings & Explanatory Subtext -->
+<div class="text-center mb-6">
+<h2 class="font-headline-md text-headline-md text-stone-900 tracking-tight mb-2" id="modalHeading">Forgot your password?</h2>
+<p class="font-body-md text-body-md text-stone-600 leading-relaxed" id="modalSubtext">
+          Enter the email associated with your Kitchen406 account and we'll send you instructions to reset your password.
+        </p>
+</div>
+<!-- Server Error Alert Banner -->
+<div class="hidden mb-5 p-3.5 rounded-lg bg-error-container text-on-error-container flex items-start gap-2.5" id="serverErrorBanner">
+<span class="material-symbols-outlined text-[20px] text-error shrink-0 mt-0.5">error</span>
+<div class="text-left">
+<p class="font-title-sm text-title-sm text-error">Unable to reach bakery server</p>
+<p class="font-body-sm text-body-sm text-on-error-container leading-snug">We couldn't process your request right now. Please check your connection and try again.</p>
+</div>
+</div>
+<!-- =========================================================================
+           VIEW CONTAINER 1: FORGOT PASSWORD (DEFAULT)
+           ========================================================================= -->
+<div class="flex flex-col gap-4" id="viewForgotPassword">
+<div class="flex flex-col gap-1 text-left">
+<label class="font-title-sm text-title-sm text-stone-800" for="forgotEmailInput">Email Address</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest rounded-lg px-4 py-3 text-stone-800 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="forgotEmailInput" oninput="handleForgotInput()" placeholder="elena.ramos@gmail.com" type="email" value="elena.ramos@gmail.com">
+</div>
+<!-- Inline Validation Error -->
+<div class="hidden flex items-center gap-1.5 mt-1 text-error" id="forgotEmailError">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span class="font-body-sm text-body-sm">Please enter a valid email address.</span>
+</div>
+</div>
+<button class="w-full mt-2 bg-primary hover:bg-primary-container text-white font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2" id="btnSendReset" onclick="submitForgotPassword()" type="button">
+<span id="btnSendResetText">Send Reset Instructions</span>
+<span class="hidden inline-block w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" id="btnSendResetSpinner"></span>
+</button>
+<a class="text-stone-500 hover:text-primary font-body-sm text-body-sm text-center mt-3 underline-offset-4 hover:underline transition-colors" href="#" onclick="showSignInReturnToast(); return false;">
+          ← Back to Sign In
+        </a>
+</div>
+<!-- =========================================================================
+           VIEW CONTAINER 2: CHECK YOUR EMAIL (SENT)
+           ========================================================================= -->
+<div class="hidden flex flex-col text-center" id="viewCheckEmail">
+<!-- Recipient Pill -->
+<div class="my-2">
+<span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container text-stone-700 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-stone-500">mail</span>
+<span id="displayUserEmail">elena.ramos@gmail.com</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-stone-500 mb-6">
+          Please check your inbox and follow the link to create a new password. If it doesn't appear, check your spam folder.
+        </p>
+<button class="w-full bg-primary hover:bg-primary-container text-white font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm mb-3" onclick="showSignInReturnToast()" type="button">
+          Back to Sign In
+        </button>
+<button class="font-title-sm text-title-sm text-stone-600 hover:text-primary underline-offset-4 hover:underline transition-colors py-1" onclick="resendResetInstructions()" type="button">
+          Resend email instructions
+        </button>
+</div>
+<!-- =========================================================================
+           VIEW CONTAINER 3: CREATE NEW PASSWORD (RESET FORM)
+           ========================================================================= -->
+<div class="hidden flex flex-col gap-4 text-left" id="viewCreatePassword">
+<!-- New Password Field -->
+<div class="flex flex-col gap-1">
+<label class="font-title-sm text-title-sm text-stone-800" for="newPasswordInput">New Password</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-lowest rounded-lg pl-4 pr-11 py-3 text-stone-800 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="newPasswordInput" placeholder="••••••••••••" type="password">
+<button class="absolute right-3 text-stone-400 hover:text-stone-700 p-1 flex items-center justify-center" onclick="togglePasswordVisibility('newPasswordInput', 'iconEyeNew')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="iconEyeNew">visibility</span>
+</button>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div class="flex flex-col gap-1">
+<label class="font-title-sm text-title-sm text-stone-800" for="confirmPasswordInput">Confirm New Password</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-lowest rounded-lg pl-4 pr-11 py-3 text-stone-800 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="confirmPasswordInput" placeholder="••••••••••••" type="password">
+<button class="absolute right-3 text-stone-400 hover:text-stone-700 p-1 flex items-center justify-center" onclick="togglePasswordVisibility('confirmPasswordInput', 'iconEyeConfirm')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="iconEyeConfirm">visibility</span>
+</button>
+</div>
+<!-- Inline Validation Error -->
+<div class="hidden flex items-center gap-1.5 mt-1 text-error" id="resetMatchError">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span class="font-body-sm text-body-sm" id="resetErrorMsg">Passwords do not match.</span>
+</div>
+</div>
+<button class="w-full mt-2 bg-primary hover:bg-primary-container text-white font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2" id="btnSubmitNewPassword" onclick="submitNewPassword()" type="button">
+<span id="btnSubmitNewPasswordText">Reset Password</span>
+<span class="hidden inline-block w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" id="btnSubmitNewPasswordSpinner"></span>
+</button>
+<a class="text-stone-500 hover:text-primary font-body-sm text-body-sm text-center mt-3 underline-offset-4 hover:underline transition-colors" href="#" onclick="showSignInReturnToast(); return false;">
+          ← Back to Sign In
+        </a>
+</div>
+<!-- =========================================================================
+           VIEW CONTAINER 4: PASSWORD RESET SUCCESS
+           ========================================================================= -->
+<div class="hidden flex flex-col text-center" id="viewResetSuccess">
+<button class="w-full bg-primary hover:bg-primary-container text-white font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm mt-3" onclick="showSignInReturnToast()" type="button">
+          Sign In Now
+        </button>
+</div>
+<!-- =========================================================================
+           VIEW CONTAINER 5: INVALID OR EXPIRED LINK
+           ========================================================================= -->
+<div class="hidden flex flex-col text-center" id="viewInvalidLink">
+<button class="w-full bg-primary hover:bg-primary-container text-white font-title-sm text-title-sm py-3 px-6 rounded-lg transition-colors shadow-sm mt-2" onclick="setAppState('forgot', 'default')" type="button">
+          Request New Reset Instructions
+        </button>
+<a class="text-stone-500 hover:text-primary font-body-sm text-body-sm text-center mt-4 underline-offset-4 hover:underline transition-colors" href="#" onclick="showSignInReturnToast(); return false;">
+          ← Back to Sign In
+        </a>
+</div>
+</div>
+</div>
+<!-- =========================================================================
+       INTERACTIVE TOAST NOTIFICATION
+       ========================================================================= -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] opacity-0 pointer-events-none transition-all duration-300 max-w-md w-[90%] sm:w-auto" id="feedbackToast">
+<div class="bg-stone-900 text-stone-100 px-4 py-3 rounded-lg shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]" id="toastIcon">check_circle</span>
+<span class="font-body-sm text-body-sm" id="toastMessage">Reset instructions resent to elena.ramos@gmail.com</span>
+</div>
+</div>
+<!-- =========================================================================
+       DEVELOPER / PROTOTYPE MOCK CONTROLS (PHASE 1.7 STATE INSPECTOR)
+       ========================================================================= -->
+<div class="fixed bottom-4 right-4 z-[70] flex flex-col items-end">
+<!-- Inspector Body -->
+<div class="w-80 bg-stone-900 text-stone-200 rounded-xl shadow-2xl p-4 font-body-sm text-body-sm mb-2 transition-all duration-300" id="stateInspectorPanel">
+<!-- Header -->
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-stone-800">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+<span class="font-title-sm text-title-sm font-semibold tracking-wide text-white">Phase 1.7 Mock Inspector</span>
+</div>
+<span class="font-label-sm text-label-sm bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Reset Flow</span>
+</div>
+<!-- Flow Selector -->
+<div class="mb-3">
+<p class="font-label-sm text-label-sm text-stone-400 uppercase tracking-wider mb-1.5">Flow Mode</p>
+<div class="grid grid-cols-2 gap-1.5 bg-stone-950 p-1 rounded-lg">
+<button class="py-1 px-2 rounded font-label-md text-label-md bg-stone-800 text-white" id="flowBtnForgot" onclick="setFlowMode('forgot')">Forgot Password</button>
+<button class="py-1 px-2 rounded font-label-md text-label-md text-stone-400 hover:text-stone-200" id="flowBtnReset" onclick="setFlowMode('reset')">Reset Password</button>
+</div>
+</div>
+<!-- Forgot Password States -->
+<div class="mb-3" id="inspectorForgotSection">
+<p class="font-label-sm text-label-sm text-stone-400 uppercase tracking-wider mb-1.5">Forgot Flow States</p>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('forgot', 'default')">
+<span>Default</span>
+<span class="material-symbols-outlined text-[14px]">arrow_right</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('forgot', 'val-error')">
+<span>Validation Error</span>
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('forgot', 'sending')">
+<span>Sending (Loading)</span>
+<span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('forgot', 'sent')">
+<span>Sent (Email Pill)</span>
+<span class="material-symbols-outlined text-[14px]">mark_email_read</span>
+</button>
+<button class="state-btn col-span-2 p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('forgot', 'server-error')">
+<span>Server Error State</span>
+<span class="material-symbols-outlined text-[14px]">cloud_off</span>
+</button>
+</div>
+</div>
+<!-- Reset Password States -->
+<div class="hidden mb-3" id="inspectorResetSection">
+<p class="font-label-sm text-label-sm text-stone-400 uppercase tracking-wider mb-1.5">Reset Flow States</p>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'default')">
+<span>Default Form</span>
+<span class="material-symbols-outlined text-[14px]">password</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'val-error')">
+<span>Mismatch Error</span>
+<span class="material-symbols-outlined text-[14px]">rule</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'resetting')">
+<span>Updating...</span>
+<span class="material-symbols-outlined text-[14px]">sync</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'invalid')">
+<span>Invalid / Expired</span>
+<span class="material-symbols-outlined text-[14px]">link_off</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'success')">
+<span>Success</span>
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+</button>
+<button class="state-btn p-1.5 bg-stone-800 text-stone-300 hover:bg-stone-700 rounded text-left flex items-center justify-between" onclick="setAppState('reset', 'server-error')">
+<span>Server Error</span>
+<span class="material-symbols-outlined text-[14px]">warning</span>
+</button>
+</div>
+</div>
+<!-- Modal Visibility & Auth Role -->
+<div class="pt-2 border-t border-stone-800 flex items-center justify-between text-xs text-stone-400">
+<span>Auth: <strong class="text-stone-200">Guest</strong></span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-stone-800 text-stone-200 hover:bg-stone-700" onclick="toggleModalVisibility(true)">Open</button>
+<button class="px-2 py-1 rounded bg-stone-800 text-stone-200 hover:bg-stone-700" onclick="toggleModalVisibility(false)">Close</button>
+</div>
+</div>
+</div>
+<!-- Inspector Toggle Floating Button -->
+<button class="bg-stone-900 text-stone-300 hover:text-white px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 font-label-sm text-label-sm border border-stone-800" onclick="toggleInspectorCollapse()" type="button">
+<span class="material-symbols-outlined text-[16px] text-amber-500">tune</span>
+<span id="inspectorToggleLabel">Inspector (Phase 1.7)</span>
+</button>
+</div>
+</div>
+<!-- =========================================================================
+     VANILLA JAVASCRIPT: PHASE 1.7 CONTROLLER
+     ========================================================================= -->
+<script>
+  const appModalState = {
+    flow: 'forgot', // 'forgot' | 'reset'
+    subState: 'default', // 'default' | 'val-error' | 'sending' | 'sent' | 'server-error' | 'invalid' | 'success'
+    visible: true,
+    inspectorOpen: true,
+    userEmail: 'elena.ramos@gmail.com'
+  };
+
+  function setFlowMode(flow) {
+    appModalState.flow = flow;
+    const btnForgot = document.getElementById('flowBtnForgot');
+    const btnReset = document.getElementById('flowBtnReset');
+    const secForgot = document.getElementById('inspectorForgotSection');
+    const secReset = document.getElementById('inspectorResetSection');
+
+    if (flow === 'forgot') {
+      btnForgot.className = 'py-1 px-2 rounded font-label-md text-label-md bg-stone-800 text-white';
+      btnReset.className = 'py-1 px-2 rounded font-label-md text-label-md text-stone-400 hover:text-stone-200';
+      secForgot.classList.remove('hidden');
+      secReset.classList.add('hidden');
+      setAppState('forgot', 'default');
+    } else {
+      btnReset.className = 'py-1 px-2 rounded font-label-md text-label-md bg-stone-800 text-white';
+      btnForgot.className = 'py-1 px-2 rounded font-label-md text-label-md text-stone-400 hover:text-stone-200';
+      secReset.classList.remove('hidden');
+      secForgot.classList.add('hidden');
+      setAppState('reset', 'default');
+    }
+  }
+
+  function setAppState(flow, subState) {
+    appModalState.flow = flow;
+    appModalState.subState = subState;
+
+    // Elements
+    const iconContainer = document.getElementById('modalIconContainer');
+    const icon = document.getElementById('modalIcon');
+    const heading = document.getElementById('modalHeading');
+    const subtext = document.getElementById('modalSubtext');
+    const serverAlert = document.getElementById('serverErrorBanner');
+    
+    // View containers
+    const vForgot = document.getElementById('viewForgotPassword');
+    const vSent = document.getElementById('viewCheckEmail');
+    const vCreate = document.getElementById('viewCreatePassword');
+    const vSuccess = document.getElementById('viewResetSuccess');
+    const vInvalid = document.getElementById('viewInvalidLink');
+
+    // Reset visibility of all views
+    [vForgot, vSent, vCreate, vSuccess, vInvalid].forEach(el => el.classList.add('hidden'));
+
+    // Server error banner toggle
+    if (subState === 'server-error') {
+      serverAlert.classList.remove('hidden');
+    } else {
+      serverAlert.classList.add('hidden');
+    }
+
+    // Ensure modal is visible
+    toggleModalVisibility(true);
+
+    // FLOW 1: FORGOT PASSWORD
+    if (flow === 'forgot') {
+      if (subState === 'sent') {
+        // State 2: Check your email
+        iconContainer.className = 'w-12 h-12 rounded-full bg-amber-50 text-primary flex items-center justify-center mx-auto mb-4';
+        icon.textContent = 'mark_email_read';
+        heading.textContent = 'Check your email';
+        subtext.textContent = "We've sent password-reset instructions to your email address.";
+        document.getElementById('displayUserEmail').textContent = appModalState.userEmail;
+        vSent.classList.remove('hidden');
+      } else {
+        // State 1: Default / Validation Error / Sending / Server error
+        vForgot.classList.remove('hidden');
+        iconContainer.className = 'w-12 h-12 rounded-full bg-amber-50 text-primary flex items-center justify-center mx-auto mb-4';
+        icon.textContent = 'key';
+        heading.textContent = 'Forgot your password?';
+        subtext.textContent = "Enter the email associated with your Kitchen406 account and we'll send you instructions to reset your password.";
+
+        const errDiv = document.getElementById('forgotEmailError');
+        const input = document.getElementById('forgotEmailInput');
+        const btnText = document.getElementById('btnSendResetText');
+        const spinner = document.getElementById('btnSendResetSpinner');
+        const btn = document.getElementById('btnSendReset');
+
+        if (subState === 'val-error') {
+          errDiv.classList.remove('hidden');
+          input.classList.add('ring-2', 'ring-error');
+        } else {
+          errDiv.classList.add('hidden');
+          input.classList.remove('ring-2', 'ring-error');
+        }
+
+        if (subState === 'sending') {
+          btnText.textContent = 'Sending instructions...';
+          spinner.classList.remove('hidden');
+          btn.setAttribute('disabled', 'true');
+          btn.classList.add('opacity-80', 'cursor-not-allowed');
+        } else {
+          btnText.textContent = 'Send Reset Instructions';
+          spinner.classList.add('hidden');
+          btn.removeAttribute('disabled');
+          btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        }
+      }
+    } 
+
+    // FLOW 2: RESET PASSWORD FORM
+    if (flow === 'reset') {
+      if (subState === 'success') {
+        // State 4: Success
+        iconContainer.className = 'w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-4';
+        icon.textContent = 'check_circle';
+        heading.textContent = 'Password reset';
+        subtext.textContent = 'Your password has been updated. You can now sign in with your new password.';
+        vSuccess.classList.remove('hidden');
+      } else if (subState === 'invalid') {
+        // State 5: Invalid link
+        iconContainer.className = 'w-12 h-12 rounded-full bg-stone-100 text-stone-600 flex items-center justify-center mx-auto mb-4';
+        icon.textContent = 'link_off';
+        heading.textContent = 'Reset link invalid';
+        subtext.textContent = 'This password-reset request is no longer valid or has already been used.';
+        vInvalid.classList.remove('hidden');
+      } else {
+        // State 3: Create new password (default, val-error, resetting, server-error)
+        vCreate.classList.remove('hidden');
+        iconContainer.className = 'w-12 h-12 rounded-full bg-amber-50 text-primary flex items-center justify-center mx-auto mb-4';
+        icon.textContent = 'lock_reset';
+        heading.textContent = 'Create a new password';
+        subtext.textContent = 'Choose a new password for your Kitchen406 account.';
+
+        const matchErr = document.getElementById('resetMatchError');
+        const btnText = document.getElementById('btnSubmitNewPasswordText');
+        const spinner = document.getElementById('btnSubmitNewPasswordSpinner');
+        const btn = document.getElementById('btnSubmitNewPassword');
+
+        if (subState === 'val-error') {
+          matchErr.classList.remove('hidden');
+        } else {
+          matchErr.classList.add('hidden');
+        }
+
+        if (subState === 'resetting') {
+          btnText.textContent = 'Updating password...';
+          spinner.classList.remove('hidden');
+          btn.setAttribute('disabled', 'true');
+          btn.classList.add('opacity-80', 'cursor-not-allowed');
+        } else {
+          btnText.textContent = 'Reset Password';
+          spinner.classList.add('hidden');
+          btn.removeAttribute('disabled');
+          btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        }
+      }
+    }
+  }
+
+  function handleForgotInput() {
+    const input = document.getElementById('forgotEmailInput');
+    const errDiv = document.getElementById('forgotEmailError');
+    if (input.value.trim().length > 0) {
+      errDiv.classList.add('hidden');
+      input.classList.remove('ring-2', 'ring-error');
+    }
+  }
+
+  function submitForgotPassword() {
+    const input = document.getElementById('forgotEmailInput');
+    const val = input.value.trim();
+    if (!val || !val.includes('@') || !val.includes('.')) {
+      setAppState('forgot', 'val-error');
+      return;
+    }
+    appModalState.userEmail = val;
+    setAppState('forgot', 'sending');
+    setTimeout(() => {
+      setAppState('forgot', 'sent');
+      showToast('Reset instructions sent to ' + val);
+    }, 850);
+  }
+
+  function submitNewPassword() {
+    const p1 = document.getElementById('newPasswordInput').value;
+    const p2 = document.getElementById('confirmPasswordInput').value;
+
+    if (!p1 || !p2) {
+      document.getElementById('resetErrorMsg').textContent = 'Please fill in all fields.';
+      setAppState('reset', 'val-error');
+      return;
+    }
+
+    if (p1 !== p2) {
+      document.getElementById('resetErrorMsg').textContent = 'Passwords do not match.';
+      setAppState('reset', 'val-error');
+      return;
+    }
+
+    setAppState('reset', 'resetting');
+    setTimeout(() => {
+      setAppState('reset', 'success');
+      showToast('Your password has been securely reset');
+    }, 900);
+  }
+
+  function resendResetInstructions() {
+    showToast('Reset instructions resent to ' + appModalState.userEmail);
+  }
+
+  function togglePasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.textContent = 'visibility_off';
+    } else {
+      input.type = 'password';
+      icon.textContent = 'visibility';
+    }
+  }
+
+  function toggleModalVisibility(show) {
+    appModalState.visible = show;
+    const overlay = document.getElementById('authModalOverlay');
+    if (show) {
+      overlay.classList.remove('hidden');
+      setTimeout(() => {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+      }, 10);
+    } else {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  function toggleInspectorCollapse() {
+    const panel = document.getElementById('stateInspectorPanel');
+    const label = document.getElementById('inspectorToggleLabel');
+    appModalState.inspectorOpen = !appModalState.inspectorOpen;
+    if (appModalState.inspectorOpen) {
+      panel.classList.remove('hidden');
+      label.textContent = 'Inspector (Phase 1.7)';
+    } else {
+      panel.classList.add('hidden');
+      label.textContent = 'Show Inspector';
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('feedbackToast');
+    const toastMsg = document.getElementById('toastMessage');
+    toastMsg.textContent = message;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none');
+      toast.classList.remove('opacity-100');
+    }, 3200);
+  }
+
+  function showSignInReturnToast() {
+    showToast('Navigating to Phase 1.4: Customer Sign In modal...');
+  }
+</script></main><footer class="w-full bg-surface-container-low"><div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg"><div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl"><div class="max-w-md"><p class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Kitchen406</p><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Home-based small-batch bakery in Metro Cebu. Thoughtfully crafted breads and pastries made with unhurried care and honest ingredients.</p></div><div class="flex flex-col gap-space-sm"><p class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Pantry &amp; Bakery</p><div class="flex flex-wrap gap-x-space-lg gap-y-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">4-Week Subscriptions</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cake Requests</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="fulfillment" href="#">How Fulfillment Works</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="terms-and-policies" href="#">Terms &amp; Policies</a></div></div></div><div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-outline"><p>Supporting QR Ph cashless checkout at order confirmation.</p><p>© 2025 Kitchen406. All rights reserved.</p></div></div></footer><script>
+  // Dual Purchase Option Handler
+  function selectPurchaseOption(mode) {
+    state.purchaseMode = mode;
+    const optBuyOnce = document.getElementById('purchaseOptBuyOnce');
+    const optSub = document.getElementById('purchaseOptSubscription');
+    const radioBuyOnce = document.getElementById('radioIconBuyOnce');
+    const radioSub = document.getElementById('radioIconSub');
+    const buyOnceContainer = document.getElementById('buyOnceActionContainer');
+    const subContainer = document.getElementById('subscriptionActionContainer');
+    const btnDevBuyOnce = document.getElementById('btnModeBuyOnce');
+    const btnDevSub = document.getElementById('btnModeSub');
+
+    if (mode === 'buy-once') {
+      if (optBuyOnce) {
+        optBuyOnce.className = 'p-3 rounded-lg border-2 border-primary bg-surface-container-lowest text-left transition-all shadow-sm flex flex-col justify-between';
+      }
+      if (radioBuyOnce) {
+        radioBuyOnce.textContent = 'check_circle';
+        radioBuyOnce.className = 'material-symbols-outlined text-primary text-[18px]';
+      }
+      if (optSub) {
+        optSub.className = 'p-3 rounded-lg border-2 border-transparent bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between';
+      }
+      if (radioSub) {
+        radioSub.textContent = 'radio_button_unchecked';
+        radioSub.className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      }
+      if (buyOnceContainer) buyOnceContainer.classList.remove('hidden');
+      if (subContainer) subContainer.classList.add('hidden');
+      if (btnDevBuyOnce) btnDevBuyOnce.className = 'p-1 rounded bg-primary text-on-primary text-center';
+      if (btnDevSub) btnDevSub.className = 'p-1 rounded bg-surface-container text-on-surface text-center hover:bg-surface-container-high';
+    } else {
+      if (optSub) {
+        optSub.className = 'p-3 rounded-lg border-2 border-primary bg-surface-container-lowest text-left transition-all shadow-sm flex flex-col justify-between';
+      }
+      if (radioSub) {
+        radioSub.textContent = 'check_circle';
+        radioSub.className = 'material-symbols-outlined text-primary text-[18px]';
+      }
+      if (optBuyOnce) {
+        optBuyOnce.className = 'p-3 rounded-lg border-2 border-transparent bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between';
+      }
+      if (radioBuyOnce) {
+        radioBuyOnce.textContent = 'radio_button_unchecked';
+        radioBuyOnce.className = 'material-symbols-outlined text-outline-variant text-[18px] opacity-40';
+      }
+      if (buyOnceContainer) buyOnceContainer.classList.add('hidden');
+      if (subContainer) subContainer.classList.remove('hidden');
+      if (btnDevSub) btnDevSub.className = 'p-1 rounded bg-primary text-on-primary text-center';
+      if (btnDevBuyOnce) btnDevBuyOnce.className = 'p-1 rounded bg-surface-container text-on-surface text-center hover:bg-surface-container-high';
+    }
+    syncSubscriptionPrice();
+  }
+
+  function syncSubscriptionPrice() {
+    const base = state.selectedVariant === 'standard' ? prices.standard : prices.large;
+    const subUnitPriceDisplay = document.getElementById('subUnitPriceDisplay');
+    if (subUnitPriceDisplay) {
+      subUnitPriceDisplay.textContent = '₱' + base + ' / delivery';
+    }
+  }
+
+  // Enhance existing selectVariant to sync subscription price display
+  const prevSelectVariant = window.selectVariant;
+  window.selectVariant = function(type) {
+    if (typeof prevSelectVariant === 'function') prevSelectVariant(type);
+    syncSubscriptionPrice();
+  };
+</script></body></html>

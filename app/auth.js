@@ -46,7 +46,7 @@ function render(){
   body=done?'<a class="btn primary wide" href="#/sign-in">Sign In</a>':'<div class="otp-row">'+Array.from({length:6},(_,i)=>'<input aria-label="Code digit '+(i+1)+'" data-digit="'+i+'" inputmode="numeric" autocomplete="'+(i===0?'one-time-code':'off')+'" maxlength="1" value="'+(S.code[i]||'')+'" '+(locked?'disabled':'')+'>').join('')+'</div><p class="center muted">This code expires in <strong id="otp-clock"></strong></p><button id="verify-submit" class="btn primary wide" '+(locked||S.code.length!==6?'disabled':'')+'>'+(S.mode==='verifying'?'Verifying…':'Verify Email')+'</button><p class="center"><button class="text-link" type="button" data-auth-action="resend" '+(busy()?'disabled':'')+'>Resend code</button></p>';
  }else if(view==='forgot'){
   subtitle='Enter your email address to request password reset instructions.';
-  body=done?'<p class="muted">Preview the email-link handoff:</p><button class="btn wide" data-auth-action="reset-link" type="button">Open demo reset link</button>':field('email','Email','email','email')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Send Reset Link</button>';
+  body=done?'<p class="email-pill">'+esc(A.email)+'</p><p class="muted">Check your inbox and spam folder in a live checkout. Preview the email-link handoff:</p><button class="btn wide" data-auth-action="reset-link" type="button">Open demo reset link</button><button class="text-link" data-auth-action="resend-reset" type="button">Resend email instructions</button>':field('email','Email','email','email')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Send Reset Link</button>';
  }else if(view==='reset'){
   subtitle=done?'You can now return to sign in.':'Choose a new password for your Kitchen406 account.';
   body=done?'<a class="btn primary wide" href="#/sign-in">Back to Sign In</a>':['invalid','expired'].includes(S.mode)?'<a class="btn primary wide" href="#/forgot">Request a new reset link</a>':field('password','New password','password','new-password')+field('confirm','Confirm password','password','new-password')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Reset Password</button>';
@@ -136,6 +136,7 @@ $('auth-modal').addEventListener('click',e=>{
  if(eye){const input=$('auth-'+eye.dataset.eye);input.type=input.type==='password'?'text':'password';eye.setAttribute('aria-label',(input.type==='password'?'Show ':'Hide ')+eye.dataset.eye);eye.querySelector('span').textContent=input.type==='password'?'visibility':'visibility_off';}
  const action=e.target.closest('[data-auth-action]')?.dataset.authAction;
  if(action==='resend'&&!busy()){S.mode='resending';render();later(()=>{S.attempts=0;S.code='';S.deadline=Date.now()+600000;S.mode='resend_sent';render();});}
+ if(action==='resend-reset'&&!busy()){S.mode='loading';render();later(()=>{S.mode='success';render();A.toast('Reset instructions resent in this demo. No email was sent.');});}
  if(action==='reset-link'){S.resetValid=true;location.hash='#/reset';}
  if(e.target===$('auth-modal')||e.target.closest('[data-auth-close]'))close();
 });

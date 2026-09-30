@@ -4,7 +4,7 @@ window.K406 = {
   $: id => document.getElementById(id),
   escape: value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
   toast(message) { const el=this.$('toast'); el.textContent=message; el.hidden=false; clearTimeout(this.toastTimer); this.toastTimer=setTimeout(()=>el.hidden=true,4500); },
-  setAuth(value) { this.auth=value; this.$('header-auth-signin').classList.toggle('hidden',value==='signedin'); this.$('header-auth-user').classList.toggle('hidden',value!=='signedin'); this.$('header-auth-user').classList.toggle('flex',value==='signedin'); this.product?.eligibility(); this.commerce?.sync(); this.commerce?.render(); this.inspector?.(); },
+  setAuth(value) { this.auth=value; this.$('header-auth-signin').classList.toggle('hidden',value==='signedin'); this.$('header-auth-user').classList.toggle('hidden',value!=='signedin'); this.$('header-auth-user').classList.toggle('flex',value==='signedin'); this.product?.eligibility(); this.commerce?.sync(); this.commerce?.render(); this.subscriptions?.render?.(); this.inspector?.(); },
   openModal(id) {
     if(this.modal && this.modal!==id) this.closeModal();
     if(!this.modal) this.previousFocus=document.activeElement;

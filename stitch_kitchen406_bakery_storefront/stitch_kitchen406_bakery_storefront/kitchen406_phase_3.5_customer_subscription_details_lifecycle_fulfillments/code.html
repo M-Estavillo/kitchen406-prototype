@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"tertiary-fixed":"#ebe0d9","surface-bright":"#fbf9f6","surface-container-high":"#eae8e5","on-error-container":"#93000a","secondary-fixed-dim":"#cdc5c0","surface-variant":"#e4e2df","tertiary-container":"#7b736d","secondary-fixed":"#eae1dc","surface-tint":"#904d16","tertiary-fixed-dim":"#cfc5bd","inverse-on-surface":"#f2f0ed","on-tertiary-fixed":"#201b16","primary-fixed":"#ffdcc6","on-primary-fixed-variant":"#723600","error-container":"#ffdad6","on-error":"#ffffff","surface-dim":"#dbdad7","on-primary-fixed":"#311300","on-secondary-container":"#69635f","on-tertiary-container":"#fffbff","surface-container-highest":"#e4e2df","primary":"#8d4a14","on-tertiary-fixed-variant":"#4c4640","secondary":"#635d59","surface-container-low":"#f5f3f0","surface":"#fbf9f6","secondary-container":"#eae1dc","surface-container-lowest":"#ffffff","error":"#ba1a1a","on-primary":"#ffffff","on-background":"#1b1c1a","inverse-primary":"#ffb786","outline":"#867368","outline-variant":"#d9c2b5","primary-fixed-dim":"#ffb786","primary-container":"#ab622b","background":"#fbf9f6","on-secondary-fixed":"#1f1b18","tertiary":"#625b55","on-primary-container":"#fffbff","on-secondary":"#ffffff","surface-container":"#efeeeb","on-surface":"#1b1c1a","on-secondary-fixed-variant":"#4b4642","inverse-surface":"#30312f","on-tertiary":"#ffffff","on-surface-variant":"#53443a"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"margin-mobile":"1.25rem","margin":"3rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"2.5rem","space-md":"1rem","gutter-mobile":"1rem","space-lg":"1.5rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Playfair Display"],"headline-md":["Playfair Display"],"title-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"display":["Playfair Display"],"price-md":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"headline-sm":["Playfair Display"],"price-lg":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"]}}}};</script></head><body class="bg-surface font-body-md text-[14px] text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-surface-container-high/60 shadow-[0_1px_8px_rgba(43,38,35,0.04)]"><div class="h-20 max-w-[1320px] mx-auto px-gutter-mobile lg:px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><a class="flex items-center gap-space-sm" href="#"><img alt="Kitchen406 logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa-MYF20nh_KoDkFlEraVlncBDngPCQp2cRJxfU4HJgEWEgwytvR7dW9Js0mIoKQf9nILFpBG4MldaLGbVFH9T7Kpp9r9_0DPEA17FNAWz--NHbHGCf1HWa-sXoAD99I7l541cGvr_E1OFUrETP-FNI0EZUY2ikKI0HCJ9czquXEe3zRmiNSNNC8qEQA4Cy_rDbJ68KixE26Cw-OEJFRdsvZaV1-qrmk8t-j_Ekl2ALInqRoINyVLS"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-serif font-medium">Kitchen406</span></a></div><nav class="hidden lg:flex items-center gap-space-sm p-space-xs"><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="shop" href="#">Shop</a><a aria-current="page" class="px-space-md py-space-xs transition-colors bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg shadow-sm" data-path="subscriptions" href="#">Subscriptions</a><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="px-space-md py-space-xs rounded font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center bg-surface-container-low rounded-lg px-space-md py-space-xs text-on-surface-variant focus-within:ring-1 focus-within:ring-primary"><span class="material-symbols-outlined text-[18px] mr-space-xs text-outline">search</span><input class="bg-transparent border-0 outline-none text-on-surface placeholder:text-outline font-body-sm text-[12px] w-44 lg:w-56" placeholder="Search sourdough, pastries..." type="text"/></div><button aria-label="Cart" class="relative p-space-xs text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute -top-1 -right-1 bg-primary text-on-primary font-label-sm text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">2</span></button><a aria-label="Customer Account" class="inline-flex items-center" data-path="account" href="#"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></a></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1100px] mx-auto px-gutter-mobile lg:px-gutter py-space-xl text-on-surface">
+<!-- Breadcrumb & Back Navigation -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-lg">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-md text-[13px] text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">My Account</a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-primary transition-colors" href="#">Subscriptions</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">#SUB-894210</span>
+</nav>
+<a class="inline-flex items-center gap-space-xs font-label-md text-[13px] text-primary hover:text-on-primary-fixed-variant transition-colors group" href="#">
+<span class="material-symbols-outlined text-[16px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+<span>← Back to My Subscriptions</span>
+</a>
+</div>
+<!-- Error State Container (Hidden by default) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-xl shadow-sm text-center flex-col items-center justify-center my-space-xl border border-outline-variant/40" id="state-error-view">
+<div class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[26px]">sync_problem</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm font-serif text-on-surface mb-space-xs">Unable to load subscription details</h2>
+<p class="font-body-md text-on-surface-variant max-w-md mx-auto mb-space-lg">
+        We couldn't retrieve this subscription right now. Please check your connection or try again.
+      </p>
+<button class="inline-flex items-center gap-space-xs bg-primary text-on-primary font-title-sm px-space-lg py-space-sm rounded-lg hover:bg-on-primary-fixed-variant transition-colors" onclick="setInspectorState('active-default')" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Try Again</span>
+</button>
+</div>
+<!-- Skeleton Loading State Container (Hidden by default) -->
+<div class="hidden flex-col gap-space-xl animate-pulse" id="state-skeleton-view">
+<div class="h-20 bg-surface-container-high rounded-xl w-full"></div>
+<div class="h-60 bg-surface-container-high rounded-xl w-full"></div>
+<div class="h-40 bg-surface-container-high rounded-xl w-full"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<div class="h-52 bg-surface-container-high rounded-xl"></div>
+<div class="h-52 bg-surface-container-high rounded-xl"></div>
+</div>
+</div>
+<!-- Main Content Flow (Active / Completed) -->
+<div class="flex flex-col gap-space-xl" id="state-normal-view">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-sm">
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg font-serif text-on-surface">Subscription Details</h1>
+<p class="font-body-md text-on-surface-variant">
+            Subscription <span class="font-medium text-on-surface">#SUB-894210</span> • Placed Oct 12, 2026
+          </p>
+</div>
+<div class="flex flex-col sm:items-end gap-1">
+<div class="inline-flex items-center gap-1.5 px-space-md py-1 bg-surface-container-high text-primary font-label-md text-[13px] rounded-full" id="header-status-badge">
+<span class="w-2 h-2 rounded-full bg-primary" id="header-status-dot"></span>
+<span class="font-semibold" id="header-status-text">Active</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant" id="header-progress-subline">2 of 4 deliveries completed</span>
+</div>
+</header>
+<!-- Primary Subscription Summary Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg lg:p-space-xl shadow-sm border border-surface-container-high/60 flex flex-col lg:flex-row gap-space-lg lg:gap-space-xl items-stretch">
+<div class="w-full lg:w-56 h-48 lg:h-auto rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Japanese Shokupan Loaf" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WqvsM35_wuoQ5bAxOhZy9c7RRB7RsnZ1rA1DlVlaqdcMS0kCpkcvD-xVdpppbqoHk1naD-jj_yPHUh0FhC5wvvEhslOLBdb2jl8O4Ga4JY5J7q4ch2FZ0w17Kp61U_vG_mE4m5oYd5ePqQhWp11h2zly4jmHGwt8W9Wx1HNhqkWdXGSfqiViLE3aKqdZEPHQnulHIIOTjVgiv3TwbJqUMJ2YSWpdvLFi8Eu_qyU0bGfH-Sir7Gf6YHNjQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between gap-space-md">
+<div>
+<div class="flex flex-wrap items-baseline justify-between gap-space-xs mb-1">
+<h2 class="font-headline-sm text-headline-sm font-serif text-on-surface">Japanese Shokupan Loaf</h2>
+<span class="font-label-md text-[13px] text-primary font-semibold">Weekly — Fridays (9:00 AM – 1:00 PM)</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-space-sm">
+              Thick Sliced (450g) • 1 loaf per delivery
+            </p>
+<div class="flex flex-wrap items-center gap-y-1 gap-x-space-md font-label-sm text-[11px] text-on-surface-variant">
+<span>Term: <strong class="text-on-surface font-semibold">4-week subscription</strong></span>
+<span class="text-outline-variant">•</span>
+<span id="summary-datespan">Started Oct 16, 2026 • Final scheduled delivery Nov 6, 2026</span>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="pt-space-sm bg-surface-container-low rounded-lg p-space-md">
+<div class="flex justify-between items-center mb-space-sm">
+<span class="font-label-md text-[13px] font-semibold text-on-surface">Progress</span>
+<span class="font-label-md text-[13px] text-primary font-semibold" id="summary-progress-text">2 of 4 deliveries completed</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden mb-space-md">
+<div class="bg-primary h-full rounded-full transition-all duration-500 w-1/2" id="summary-progress-bar"></div>
+</div>
+<!-- Progress Steps -->
+<div class="grid grid-cols-4 gap-2 text-center">
+<div class="flex flex-col items-center">
+<span class="w-3.5 h-3.5 rounded-full bg-primary mb-1 flex items-center justify-center text-[9px] text-on-primary font-bold" id="dot-1">✓</span>
+<span class="font-label-sm text-[11px] font-semibold text-on-surface">Delivery 1 (Oct 16)</span>
+<span class="font-label-sm text-[11px] text-secondary">Completed</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="w-3.5 h-3.5 rounded-full bg-primary mb-1 flex items-center justify-center text-[9px] text-on-primary font-bold" id="dot-2">✓</span>
+<span class="font-label-sm text-[11px] font-semibold text-on-surface">Delivery 2 (Oct 23)</span>
+<span class="font-label-sm text-[11px] text-secondary">Completed</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="w-3.5 h-3.5 rounded-full bg-primary-fixed mb-1 ring-2 ring-primary ring-offset-1" id="dot-3"></span>
+<span class="font-label-sm text-[11px] font-semibold text-on-surface" id="dot-3-label">Delivery 3 (Oct 30)</span>
+<span class="font-label-sm text-[11px] text-primary font-semibold" id="dot-3-status">Upcoming</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="w-3.5 h-3.5 rounded-full bg-surface-container-highest mb-1" id="dot-4"></span>
+<span class="font-label-sm text-[11px] font-medium text-on-surface-variant" id="dot-4-label">Delivery 4 (Nov 6)</span>
+<span class="font-label-sm text-[11px] text-outline" id="dot-4-status">Scheduled</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Next Scheduled Delivery Highlight Card -->
+<section class="bg-surface-container-low rounded-xl p-space-lg lg:p-space-xl shadow-sm border border-surface-container-high/60 relative overflow-hidden transition-all" id="next-delivery-card">
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-md py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[11px] font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px]">event_upcoming</span>
+<span>Next Scheduled Delivery</span>
+</div>
+<div class="inline-flex items-center gap-1 font-label-md text-[13px] text-primary font-semibold bg-surface-container-lowest px-space-sm py-0.5 rounded shadow-sm border border-surface-container-high/60" id="next-delivery-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-primary" id="next-delivery-badge-dot"></span>
+<span id="next-delivery-badge-label">Upcoming</span>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg bg-surface-container-lowest p-space-lg rounded-lg border border-surface-container-high/50">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-serif text-on-surface" id="next-delivery-title">Delivery 3 of 4</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-md text-on-surface font-semibold" id="next-delivery-date">Friday, October 30, 2026 (9:00 AM – 1:00 PM)</span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-[12px] mt-1">
+<span class="material-symbols-outlined text-[18px] text-primary">lunch_dining</span>
+<span>1 × Japanese Shokupan Loaf (Thick Sliced 450g)</span>
+</div>
+<div class="flex items-start gap-space-xs text-on-surface-variant font-body-sm text-[12px] mt-1">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">local_shipping</span>
+<span>Courier Delivery to Unit 402, Oakridge Residences, A.S. Fortuna St., Banilad, Mandaue City</span>
+</div>
+</div>
+<!-- Defer Action Container -->
+<div class="flex flex-col items-start lg:items-end justify-center gap-space-xs min-w-[260px]" id="defer-action-wrapper">
+<button class="inline-flex items-center justify-center gap-space-xs bg-primary text-on-primary hover:bg-on-primary-fixed-variant px-space-lg py-space-sm rounded-lg font-title-sm text-title-sm shadow-sm transition-all" id="btn-defer" onclick="handleDeferClick()" type="button">
+<span>Defer this delivery →</span>
+</button>
+<p class="font-label-sm text-[11px] text-on-surface-variant text-left lg:text-right max-w-[260px]" id="defer-helper-text">
+                Need to change this delivery date? You can defer to next day or next week.
+              </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Completed Notice Card (Shown when subscription is fully fulfilled) -->
+<section class="hidden bg-surface-container-low rounded-xl p-space-lg lg:p-space-xl shadow-sm text-center flex-col items-center justify-center gap-space-md border border-surface-container-high/60" id="completed-delivery-card">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col gap-1 max-w-lg">
+<h3 class="font-headline-sm text-headline-sm font-serif text-on-surface">Subscription Completed</h3>
+<p class="font-body-md text-on-surface-variant">
+            All 4 scheduled deliveries have been completed.
+          </p>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-space-sm pt-space-xs">
+<a class="inline-flex items-center gap-space-xs bg-primary text-on-primary px-space-lg py-space-sm rounded-lg font-title-sm text-title-sm hover:bg-on-primary-fixed-variant shadow-sm transition-colors" href="#">
+<span>Subscribe Again</span>
+<span class="material-symbols-outlined text-[16px]">repeat</span>
+</a>
+<a class="inline-flex items-center gap-space-xs bg-surface-container-lowest text-on-surface px-space-lg py-space-sm rounded-lg font-title-sm text-title-sm hover:bg-surface-container-high border border-surface-container-high transition-colors" href="#">
+<span>Browse All Products</span>
+</a>
+</div>
+</section>
+<!-- Delivery Schedule Section -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg lg:p-space-xl shadow-sm border border-surface-container-high/60">
+<div class="flex flex-col gap-space-xs mb-space-lg">
+<h2 class="font-headline-md text-headline-md font-serif text-on-surface">Delivery Schedule</h2>
+<p class="font-body-md text-on-surface-variant">
+            Track each scheduled fulfillment in your four-week subscription.
+          </p>
+</div>
+<div class="space-y-space-md">
+<!-- Delivery 1 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors gap-space-sm">
+<div class="flex items-start md:items-center gap-space-md">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center flex-shrink-0 font-bold">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface">Delivery 1</span>
+<span class="font-body-sm text-outline-variant">•</span>
+<span class="font-body-sm text-on-surface font-medium">Friday, Oct 16, 2026 (9:00 AM – 1:00 PM)</span>
+</div>
+<span class="font-body-sm text-on-surface-variant">1 × Japanese Shokupan Loaf (Thick Sliced 450g)</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-secondary bg-surface-container-highest px-2 py-0.5 rounded font-semibold">
+<span class="material-symbols-outlined text-[14px]">done_all</span> Delivered
+              </span>
+<a class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">
+                View Order → <span class="font-normal text-on-surface-variant font-mono text-[12px]">(Order #K406-0038)</span>
+</a>
+</div>
+</div>
+<!-- Delivery 2 -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors gap-space-sm">
+<div class="flex items-start md:items-center gap-space-md">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center flex-shrink-0 font-bold">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface">Delivery 2</span>
+<span class="font-body-sm text-outline-variant">•</span>
+<span class="font-body-sm text-on-surface font-medium">Friday, Oct 23, 2026 (9:00 AM – 1:00 PM)</span>
+</div>
+<span class="font-body-sm text-on-surface-variant">1 × Japanese Shokupan Loaf (Thick Sliced 450g)</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-secondary bg-surface-container-highest px-2 py-0.5 rounded font-semibold">
+<span class="material-symbols-outlined text-[14px]">done_all</span> Delivered
+              </span>
+<a class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">
+                View Order → <span class="font-normal text-on-surface-variant font-mono text-[12px]">(Order #K406-0044)</span>
+</a>
+</div>
+</div>
+<!-- Delivery 3 (Dynamic Target) -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-lg bg-surface-container-high transition-colors gap-space-sm shadow-[0_1px_4px_rgba(43,38,35,0.04)]" id="row-delivery-3">
+<div class="flex items-start md:items-center gap-space-md">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center flex-shrink-0" id="row-3-icon-box">
+<span class="material-symbols-outlined text-[20px]" id="row-3-icon">local_shipping</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface">Delivery 3</span>
+<span class="font-body-sm text-outline-variant">•</span>
+<span class="font-body-sm text-on-surface font-semibold" id="row-3-date">Friday, Oct 30, 2026 (9:00 AM – 1:00 PM)</span>
+</div>
+<span class="font-body-sm text-on-surface-variant" id="row-3-desc">1 × Japanese Shokupan Loaf (Thick Sliced 450g)</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md" id="row-3-action-container">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-on-secondary-fixed bg-secondary-fixed px-2.5 py-0.5 rounded font-semibold" id="row-3-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Upcoming
+              </span>
+<button class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors inline-flex items-center gap-0.5" id="row-3-action-btn" onclick="handleDeferClick()" type="button">
+                Defer this delivery →
+              </button>
+</div>
+</div>
+<!-- Delivery 4 (Dynamic Target) -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors gap-space-sm" id="row-delivery-4">
+<div class="flex items-start md:items-center gap-space-md">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-outline flex items-center justify-center flex-shrink-0" id="row-4-icon-box">
+<span class="material-symbols-outlined text-[20px]" id="row-4-icon">schedule</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface">Delivery 4</span>
+<span class="font-body-sm text-outline-variant">•</span>
+<span class="font-body-sm text-on-surface font-medium" id="row-4-date">Friday, Nov 6, 2026 (9:00 AM – 1:00 PM)</span>
+</div>
+<span class="font-body-sm text-on-surface-variant">1 × Japanese Shokupan Loaf (Thick Sliced 450g)</span>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md" id="row-4-action-container">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded" id="row-4-badge">
+                Scheduled
+              </span>
+<span class="font-label-sm text-[11px] text-outline font-normal" id="row-4-note">Scheduled for final weekly fulfillment</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Two-Column Information Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Delivery Information -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg lg:p-space-xl shadow-sm border border-surface-container-high/60 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs mb-space-md">
+<span class="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+<h3 class="font-headline-sm text-headline-sm font-serif text-on-surface">Delivery Information</h3>
+</div>
+<dl class="space-y-space-sm font-body-sm text-[12px]">
+<div class="flex flex-col sm:flex-row sm:justify-between py-1 bg-surface-container-low px-space-sm rounded">
+<dt class="text-on-surface-variant">Fulfillment Method</dt>
+<dd class="font-semibold text-on-surface">Courier Delivery</dd>
+</div>
+<div class="flex flex-col sm:flex-row sm:justify-between py-1 px-space-sm">
+<dt class="text-on-surface-variant">Delivery Address</dt>
+<dd class="font-medium text-on-surface text-right sm:max-w-[240px]">
+                  Unit 402, Oakridge Residences, A.S. Fortuna St., Banilad, Mandaue City, 6014
+                </dd>
+</div>
+<div class="flex flex-col sm:flex-row sm:justify-between py-1 bg-surface-container-low px-space-sm rounded">
+<dt class="text-on-surface-variant">Recipient</dt>
+<dd class="font-medium text-on-surface">Maria Clara Santos (+63 917 823 4567)</dd>
+</div>
+<div class="flex flex-col py-1 px-space-sm">
+<dt class="text-on-surface-variant mb-0.5">Delivery Instructions</dt>
+<dd class="font-medium text-on-surface italic bg-surface-container-high p-space-xs rounded">
+                  "Please leave with condo lobby reception if not answering."
+                </dd>
+</div>
+</dl>
+</div>
+<div class="mt-space-md pt-space-sm bg-surface-container-low rounded p-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary flex-shrink-0 mt-0.5">info</span>
+<p class="font-label-sm text-[11px] text-on-surface-variant">
+              Delivery address for this subscription.
+            </p>
+</div>
+</section>
+<!-- Payment & Pricing Summary -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg lg:p-space-xl shadow-sm border border-surface-container-high/60 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">receipt_long</span>
+<h3 class="font-headline-sm text-headline-sm font-serif text-on-surface">Payment &amp; Pricing</h3>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-primary bg-secondary-fixed px-2 py-0.5 rounded font-semibold">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Paid in Full
+              </span>
+</div>
+<dl class="space-y-space-xs font-body-sm text-[12px]">
+<div class="flex justify-between py-1">
+<dt class="text-on-surface-variant">Payment Method</dt>
+<dd class="font-medium text-on-surface">QR Ph (National QR)</dd>
+</div>
+<div class="flex justify-between py-1">
+<dt class="text-on-surface-variant">Paid On</dt>
+<dd class="font-medium text-on-surface">Oct 12, 2026</dd>
+</div>
+<div class="flex justify-between py-1">
+<dt class="text-on-surface-variant">Reference</dt>
+<dd class="font-mono text-on-surface">#K406-SUB-894210</dd>
+</div>
+<div class="pt-space-xs space-y-1.5 border-t border-surface-container mt-1">
+<div class="flex justify-between text-on-surface-variant">
+<span>Products (4 deliveries): ₱280.00 × 1 loaf × 4</span>
+<span class="text-on-surface font-medium">₱1,120.00</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Delivery fees (4 deliveries): ₱100.00 × 4 drops</span>
+<span class="text-on-surface font-medium">₱400.00</span>
+</div>
+<div class="flex justify-between items-baseline pt-space-xs font-headline-sm text-headline-sm text-primary font-bold border-t border-surface-container-high/60">
+<span>Total Amount Paid</span>
+<span>₱1,520.00</span>
+</div>
+</div>
+</dl>
+</div>
+<div class="mt-space-md pt-space-sm bg-surface-container-low rounded p-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary flex-shrink-0 mt-0.5">verified</span>
+<p class="font-label-sm text-[11px] text-on-surface-variant">
+              Paid in full for 4 scheduled deliveries. This subscription does not automatically renew.
+            </p>
+</div>
+</section>
+</div>
+<!-- Bottom Notice & Back Action -->
+<footer class="flex flex-col sm:flex-row items-center justify-between gap-space-md p-space-md bg-surface-container-low rounded-xl border border-surface-container-high/60">
+<p class="font-body-sm text-[12px] text-on-surface-variant text-center sm:text-left">
+          Paid in full for 4 scheduled deliveries. This subscription does not automatically renew.
+        </p>
+<a class="inline-flex items-center gap-space-xs font-label-md text-[13px] text-primary hover:text-on-primary-fixed-variant transition-colors whitespace-nowrap" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Back to My Subscriptions</span>
+</a>
+</footer>
+</div>
+</div>
+<!-- Prototype Inspector Floating Control -->
+<aside class="fixed bottom-4 right-4 z-50 bg-surface-container-lowest/95 backdrop-blur-md rounded-xl shadow-xl border border-surface-container-high max-w-sm w-[92vw] sm:w-80 transition-transform duration-300 translate-y-[calc(100%-48px)]" id="prototype-inspector">
+<!-- Header Drawer Toggle -->
+<div class="px-space-md h-12 flex items-center justify-between cursor-pointer select-none bg-surface-container-high rounded-t-xl" onclick="toggleInspector()">
+<div class="flex items-center gap-space-xs font-label-sm text-[11px] text-primary font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Prototype Inspector</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="font-label-sm text-[11px]" id="inspector-toggle-label">Expand</span>
+<span class="material-symbols-outlined text-[18px] transition-transform" id="inspector-chevron">keyboard_arrow_up</span>
+</div>
+</div>
+<!-- Inspector Body -->
+<div class="p-space-md flex flex-col gap-space-sm max-h-[70vh] overflow-y-auto">
+<span class="font-label-sm text-[11px] text-outline uppercase font-semibold">Simulate Phase 3.5 Lifecycle</span>
+<button class="w-full text-left px-space-sm py-1.5 rounded text-body-sm text-[12px] hover:bg-surface-container transition-colors flex items-center justify-between" onclick="setInspectorState('active-default')" type="button">
+<span>1. Active (Default, 2/4 done)</span>
+<span class="w-2 h-2 rounded-full bg-primary" id="state-dot-active-default"></span>
+</button>
+<button class="w-full text-left px-space-sm py-1.5 rounded text-body-sm text-[12px] hover:bg-surface-container transition-colors flex items-center justify-between" onclick="setInspectorState('delivery-deferred')" type="button">
+<span>2. Active — Delivery 3 Deferred</span>
+<span class="w-2 h-2 rounded-full bg-outline-variant" id="state-dot-delivery-deferred"></span>
+</button>
+<button class="w-full text-left px-space-sm py-1.5 rounded text-body-sm text-[12px] hover:bg-surface-container transition-colors flex items-center justify-between" onclick="setInspectorState('completed')" type="button">
+<span>3. Completed (4 of 4)</span>
+<span class="w-2 h-2 rounded-full bg-outline-variant" id="state-dot-completed"></span>
+</button>
+<button class="w-full text-left px-space-sm py-1.5 rounded text-body-sm text-[12px] hover:bg-surface-container transition-colors flex items-center justify-between" onclick="setInspectorState('skeleton')" type="button">
+<span>4. Skeleton Loading State</span>
+<span class="w-2 h-2 rounded-full bg-outline-variant" id="state-dot-skeleton"></span>
+</button>
+<button class="w-full text-left px-space-sm py-1.5 rounded text-body-sm text-[12px] hover:bg-surface-container transition-colors flex items-center justify-between" onclick="setInspectorState('error')" type="button">
+<span>5. Load Error State</span>
+<span class="w-2 h-2 rounded-full bg-outline-variant" id="state-dot-error"></span>
+</button>
+<div class="pt-space-xs mt-space-xs border-t border-surface-container">
+<button class="w-full py-1.5 text-center bg-surface-container-high hover:bg-surface-container text-on-surface font-title-sm text-[12px] rounded transition-colors" onclick="setInspectorState('active-default')" type="button">
+          Reset to Baseline
+        </button>
+</div>
+</div>
+</aside>
+</div>
+<script>
+  let inspectorExpanded = false;
+
+  function toggleInspector() {
+    inspectorExpanded = !inspectorExpanded;
+    const panel = document.getElementById('prototype-inspector');
+    const chevron = document.getElementById('inspector-chevron');
+    const label = document.getElementById('inspector-toggle-label');
+
+    if (inspectorExpanded) {
+      panel.classList.remove('translate-y-[calc(100%-48px)]');
+      panel.classList.add('translate-y-0');
+      chevron.style.transform = 'rotate(180deg)';
+      label.textContent = 'Collapse';
+    } else {
+      panel.classList.add('translate-y-[calc(100%-48px)]');
+      panel.classList.remove('translate-y-0');
+      chevron.style.transform = 'rotate(0deg)';
+      label.textContent = 'Expand';
+    }
+  }
+
+  function handleDeferClick() {
+    alert("Navigating to Phase 3.6 — Defer Delivery: Choose next day or next week.");
+  }
+
+  function setInspectorState(state) {
+    const normalView = document.getElementById('state-normal-view');
+    const skeletonView = document.getElementById('state-skeleton-view');
+    const errorView = document.getElementById('state-error-view');
+
+    const nextCard = document.getElementById('next-delivery-card');
+    const completedCard = document.getElementById('completed-delivery-card');
+
+    const headerStatusBadge = document.getElementById('header-status-badge');
+    const headerStatusText = document.getElementById('header-status-text');
+    const headerStatusDot = document.getElementById('header-status-dot');
+    const headerProgressSubline = document.getElementById('header-progress-subline');
+
+    const summaryDatespan = document.getElementById('summary-datespan');
+    const summaryProgressText = document.getElementById('summary-progress-text');
+    const summaryProgressBar = document.getElementById('summary-progress-bar');
+
+    const dot3 = document.getElementById('dot-3');
+    const dot3Label = document.getElementById('dot-3-label');
+    const dot3Status = document.getElementById('dot-3-status');
+    const dot4 = document.getElementById('dot-4');
+    const dot4Label = document.getElementById('dot-4-label');
+    const dot4Status = document.getElementById('dot-4-status');
+
+    const btnDefer = document.getElementById('btn-defer');
+    const deferHelperText = document.getElementById('defer-helper-text');
+    const nextDeliveryDate = document.getElementById('next-delivery-date');
+    const nextDeliveryBadgeLabel = document.getElementById('next-delivery-badge-label');
+    const nextDeliveryBadgeDot = document.getElementById('next-delivery-badge-dot');
+
+    const row3 = document.getElementById('row-delivery-3');
+    const row3Date = document.getElementById('row-3-date');
+    const row3Desc = document.getElementById('row-3-desc');
+    const row3Badge = document.getElementById('row-3-badge');
+    const row3ActionBtn = document.getElementById('row-3-action-btn');
+    const row3ActionContainer = document.getElementById('row-3-action-container');
+
+    const row4 = document.getElementById('row-delivery-4');
+    const row4Date = document.getElementById('row-4-date');
+    const row4Badge = document.getElementById('row-4-badge');
+    const row4Note = document.getElementById('row-4-note');
+    const row4ActionContainer = document.getElementById('row-4-action-container');
+
+    // Update active inspector indicators
+    ['active-default', 'delivery-deferred', 'completed', 'skeleton', 'error'].forEach(s => {
+      const dot = document.getElementById('state-dot-' + s);
+      if (dot) {
+        if (s === state) {
+          dot.className = "w-2 h-2 rounded-full bg-primary";
+        } else {
+          dot.className = "w-2 h-2 rounded-full bg-outline-variant";
+        }
+      }
+    });
+
+    // Reset visibility
+    normalView.classList.remove('hidden');
+    skeletonView.classList.add('hidden');
+    skeletonView.classList.remove('flex');
+    errorView.classList.add('hidden');
+    errorView.classList.remove('flex');
+
+    if (state === 'skeleton') {
+      normalView.classList.add('hidden');
+      skeletonView.classList.remove('hidden');
+      skeletonView.classList.add('flex');
+      return;
+    }
+
+    if (state === 'error') {
+      normalView.classList.add('hidden');
+      errorView.classList.remove('hidden');
+      errorView.classList.add('flex');
+      return;
+    }
+
+    // Default Baseline State Reversion
+    nextCard.classList.remove('hidden');
+    completedCard.classList.add('hidden');
+    completedCard.classList.remove('flex');
+
+    headerStatusText.textContent = "Active";
+    headerStatusBadge.className = "inline-flex items-center gap-1.5 px-space-md py-1 bg-surface-container-high text-primary font-label-md text-[13px] rounded-full";
+    headerStatusDot.className = "w-2 h-2 rounded-full bg-primary";
+    headerProgressSubline.textContent = "2 of 4 deliveries completed";
+
+    summaryDatespan.textContent = "Started Oct 16, 2026 • Final scheduled delivery Nov 6, 2026";
+    summaryProgressText.textContent = "2 of 4 deliveries completed";
+    summaryProgressBar.style.width = "50%";
+
+    dot3Label.textContent = "Delivery 3 (Oct 30)";
+    dot3Status.textContent = "Upcoming";
+    dot3Status.className = "font-label-sm text-[11px] text-primary font-semibold";
+    dot3.className = "w-3.5 h-3.5 rounded-full bg-primary-fixed mb-1 ring-2 ring-primary ring-offset-1";
+    dot3.textContent = "";
+
+    dot4Label.textContent = "Delivery 4 (Nov 6)";
+    dot4Status.textContent = "Scheduled";
+    dot4Status.className = "font-label-sm text-[11px] text-outline";
+    dot4.className = "w-3.5 h-3.5 rounded-full bg-surface-container-highest mb-1";
+    dot4.textContent = "";
+
+    btnDefer.disabled = false;
+    btnDefer.className = "inline-flex items-center justify-center gap-space-xs bg-primary text-on-primary hover:bg-on-primary-fixed-variant px-space-lg py-space-sm rounded-lg font-title-sm text-title-sm shadow-sm transition-all";
+    btnDefer.innerHTML = `<span>Defer this delivery →</span>`;
+    deferHelperText.textContent = "Need to change this delivery date? You can defer to next day or next week.";
+
+    nextDeliveryDate.textContent = "Friday, October 30, 2026 (9:00 AM – 1:00 PM)";
+    nextDeliveryBadgeLabel.textContent = "Upcoming";
+    nextDeliveryBadgeDot.className = "w-1.5 h-1.5 rounded-full bg-primary";
+
+    row3Date.textContent = "Friday, Oct 30, 2026 (9:00 AM – 1:00 PM)";
+    row3Desc.textContent = "1 × Japanese Shokupan Loaf (Thick Sliced 450g)";
+    row3Badge.className = "inline-flex items-center gap-1 font-label-sm text-[11px] text-on-secondary-fixed bg-secondary-fixed px-2.5 py-0.5 rounded font-semibold";
+    row3Badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Upcoming`;
+    
+    row3ActionContainer.innerHTML = `
+      <span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-on-secondary-fixed bg-secondary-fixed px-2.5 py-0.5 rounded font-semibold" id="row-3-badge">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Upcoming
+      </span>
+      <button class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors inline-flex items-center gap-0.5" id="row-3-action-btn" onclick="handleDeferClick()" type="button">
+        Defer this delivery →
+      </button>
+    `;
+
+    row4Date.textContent = "Friday, Nov 6, 2026 (9:00 AM – 1:00 PM)";
+    row4ActionContainer.innerHTML = `
+      <span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded" id="row-4-badge">
+        Scheduled
+      </span>
+      <span class="font-label-sm text-[11px] text-outline font-normal" id="row-4-note">Scheduled for final weekly fulfillment</span>
+    `;
+
+    // 2. Active — Delivery 3 Deferred
+    if (state === 'delivery-deferred') {
+      nextDeliveryDate.textContent = "Friday, Oct 30 → Saturday, Oct 31, 2026 (9:00 AM – 1:00 PM)";
+      nextDeliveryBadgeLabel.textContent = "Deferred";
+      nextDeliveryBadgeDot.className = "w-1.5 h-1.5 rounded-full bg-primary-container";
+
+      btnDefer.disabled = true;
+      btnDefer.className = "inline-flex items-center justify-center gap-space-xs bg-surface-container-highest text-outline cursor-not-allowed px-space-lg py-space-sm rounded-lg font-title-sm text-title-sm";
+      btnDefer.innerHTML = `<span>Deferred (Oct 31)</span>`;
+      deferHelperText.textContent = "Delivery 3 deferred to Saturday, Oct 31. Delivery 4 remains Friday, Nov 6.";
+
+      dot3Label.textContent = "Delivery 3 (Oct 31)";
+      dot3Status.textContent = "Deferred";
+      dot3Status.className = "font-label-sm text-[11px] text-primary-container font-semibold";
+
+      // Delivery 4 remains untouched!
+      dot4Label.textContent = "Delivery 4 (Nov 6)";
+      dot4Status.textContent = "Scheduled";
+
+      row3Date.textContent = "Friday, Oct 30 → Saturday, Oct 31, 2026 (9:00 AM – 1:00 PM)";
+      row3Desc.textContent = "1 × Japanese Shokupan Loaf (Thick Sliced 450g) • Deferred by request";
+      
+      row3ActionContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-primary bg-primary-fixed px-2.5 py-0.5 rounded font-semibold" id="row-3-badge">
+          <span class="material-symbols-outlined text-[13px]">event_repeat</span> Deferred
+        </span>
+        <span class="font-label-sm text-[11px] text-on-surface-variant">Rescheduled to Oct 31</span>
+      `;
+
+      // Delivery 4 stays Friday Nov 6
+      row4Date.textContent = "Friday, Nov 6, 2026 (9:00 AM – 1:00 PM)";
+    }
+
+    // 3. Completed (4 of 4)
+    if (state === 'completed') {
+      nextCard.classList.add('hidden');
+      completedCard.classList.remove('hidden');
+      completedCard.classList.add('flex');
+
+      headerStatusText.textContent = "Completed";
+      headerStatusBadge.className = "inline-flex items-center gap-1.5 px-space-md py-1 bg-surface-container-highest text-secondary font-label-md text-[13px] rounded-full";
+      headerStatusDot.className = "w-2 h-2 rounded-full bg-secondary";
+      headerProgressSubline.textContent = "4 of 4 deliveries completed";
+
+      summaryProgressText.textContent = "4 of 4 deliveries completed";
+      summaryProgressBar.style.width = "100%";
+
+      dot3.className = "w-3.5 h-3.5 rounded-full bg-primary mb-1 flex items-center justify-center text-[9px] text-on-primary font-bold";
+      dot3.textContent = "✓";
+      dot3Status.textContent = "Delivered";
+      dot3Status.className = "font-label-sm text-[11px] text-secondary";
+
+      dot4.className = "w-3.5 h-3.5 rounded-full bg-primary mb-1 flex items-center justify-center text-[9px] text-on-primary font-bold";
+      dot4.textContent = "✓";
+      dot4Status.textContent = "Delivered";
+      dot4Status.className = "font-label-sm text-[11px] text-secondary";
+
+      row3Date.textContent = "Friday, Oct 30, 2026 (9:00 AM – 1:00 PM)";
+      row3ActionContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-secondary bg-surface-container-highest px-2 py-0.5 rounded font-semibold">
+          <span class="material-symbols-outlined text-[14px]">done_all</span> Delivered
+        </span>
+        <a class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">
+          View Order → <span class="font-normal text-on-surface-variant font-mono text-[12px]">(Order #K406-0051)</span>
+        </a>
+      `;
+
+      row4Date.textContent = "Friday, Nov 6, 2026 (9:00 AM – 1:00 PM)";
+      row4ActionContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-secondary bg-surface-container-highest px-2 py-0.5 rounded font-semibold">
+          <span class="material-symbols-outlined text-[14px]">done_all</span> Delivered
+        </span>
+        <a class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">
+          View Order → <span class="font-normal text-on-surface-variant font-mono text-[12px]">(Order #K406-0058)</span>
+        </a>
+      `;
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-low text-on-surface pt-16 pb-12 border-t border-surface-container-high/60 shadow-[0_-1px_12px_rgba(43,38,35,0.02)]"><div class="max-w-[1320px] mx-auto px-gutter-mobile lg:px-gutter"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl pb-12"><div class="flex flex-col gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md font-serif text-primary tracking-tight">Kitchen406</span></div><p class="font-body-md text-on-surface-variant max-w-sm">Handcrafted daily with wild yeast and slow fermentation in Metro Cebu, Philippines. Bringing mindful, slow-baked viennoiserie and hearth breads to your table.</p><div class="flex items-center gap-space-xs font-label-md text-[13px] text-secondary"><span class="material-symbols-outlined text-[16px]">pin_drop</span><span>Metro Cebu, Philippines</span></div></div><div class="flex flex-col gap-space-md"><span class="font-headline-sm text-headline-sm font-serif text-on-surface">Discover</span><nav class="flex flex-col gap-space-sm"><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Artisan Sourdough</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Laminated Pastries</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Bread Subscriptions</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Bespoke Celebration Cakes</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">Flour &amp; Heritage</a></nav></div><div class="flex flex-col gap-space-md"><span class="font-headline-sm text-headline-sm font-serif text-on-surface">Customer Care</span><nav class="flex flex-col gap-space-sm"><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="account" href="#">My Account</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Manage Delivery Frequency</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Delivery Zones &amp; Timelines</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Care &amp; Reheating Guide</a><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Allergen &amp; Flour Transparency</a></nav></div><div class="flex flex-col gap-space-md"><span class="font-headline-sm text-headline-sm font-serif text-on-surface">Bakery Dispatch</span><p class="font-body-sm text-[12px] text-on-surface-variant">Receive weekly bake schedules, limited-batch viennoiserie drops, and seasonal crust previews.</p><form class="flex flex-col gap-space-sm" onsubmit="return false;"><div class="flex items-center bg-surface-container rounded-lg p-space-xs focus-within:ring-1 focus-within:ring-primary"><input class="bg-transparent border-0 outline-none text-on-surface placeholder:text-outline font-body-sm text-[12px] px-space-sm flex-1" placeholder="Your email address" type="email"/><button class="bg-primary-container text-on-primary font-title-sm text-title-sm px-space-md py-space-sm rounded-lg hover:bg-primary transition-colors" type="submit">Join</button></div><span class="font-label-sm text-[11px] text-outline">Baked fresh Tuesdays through Sundays. No spam, ever.</span></form></div></div><div class="pt-8 border-t border-surface-container-high/60 flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant"><span class="font-body-sm text-[12px]">© 2025 Kitchen406 Artisan Bakery. Handcrafted in Metro Cebu, Philippines.</span><div class="flex items-center gap-space-lg"><a class="font-label-md text-[13px] hover:text-primary transition-colors" href="#">Privacy Policy</a><a class="font-label-md text-[13px] hover:text-primary transition-colors" href="#">Terms of Dispatch</a><a class="font-label-md text-[13px] hover:text-primary transition-colors" href="#">Wholesale Inquiries</a></div></div></div></footer></body></html>

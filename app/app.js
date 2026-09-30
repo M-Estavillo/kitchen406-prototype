@@ -21,9 +21,10 @@ A.inspector=()=>{
   html+=select('mock-reviews','Review feed',['populated','loading','error','empty'],s.feed);
   html+=select('mock-eligibility','Review eligibility (signed in)',['noteligible','eligible','reviewed'],s.elig);
   html+=select('mock-submit','Review submission',['success','error'],s.error?'error':'success');
- }else if(A.commerce.routes.includes(A.route))html+=A.commerce.inspector(select);
+ }else if(A.subscriptions.active())html+=A.subscriptions.inspector(select);
+ else if(A.commerce.routes.includes(A.route))html+=A.commerce.inspector(select);
  else html+=select('mock-catalog','Catalog',['normal','loading','empty','error'],A.catalog.state());
- html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
+ html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders','subscriptions','my-subscriptions',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
  $('mock-panel').innerHTML=html;
 };
 function titlesFor(view){return {verify:'Verification state',register:'Registration state','sign-in':'Sign-in state',forgot:'Forgot password state',reset:'Reset password state'}[view];}
@@ -57,15 +58,20 @@ function route(){ if(location.hash && !location.hash.startsWith('#/')){document.
   A.route=name;A.authUI.show(name);document.title=titlesFor(name)+' · Kitchen406';return;
  }
  A.authUI.state.generation++;A.closeModal();A.route=name;A.currentHash=location.hash||'#/shop';
- const commerce=A.commerce.routes.includes(name);
- $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce;
+ const commerce=A.commerce.routes.includes(name),subscription=A.subscriptions.routes.includes(name);
+ if(!commerce)$('commerce-view').replaceChildren();
+ if(!subscription)$('subscription-view').replaceChildren();
+ $('subscription-view').hidden=!subscription;
+ $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription;
  if(name==='product'){
   const id=Number(parts[1]);if(A.activeProduct!==id){A.product.show(id);A.activeProduct=id;}
   A.returnRoute=location.hash;
   document.title=(A.products.find(p=>p.id===id)?.name||'Product not found')+' · Kitchen406';
   requestAnimationFrame(()=>{if(parts[2]==='reviews')$('reviews').scrollIntoView();else window.scrollTo(0,0);});
- }else if(commerce){A.returnRoute=A.currentHash;A.activeProduct=null;A.commerce.show(parts);document.title=({cart:'Your bag',checkout:'Checkout',payment:'QR Ph payment',confirmation:'Order confirmation',orders:'My orders'}[name])+' · Kitchen406';window.scrollTo(0,0);}
+ }else if(subscription){A.returnRoute=A.currentHash;A.activeProduct=null;A.subscriptions.show(parts);document.title='Subscriptions · Kitchen406';window.scrollTo(0,0);}
+ else if(commerce){A.returnRoute=A.currentHash;A.activeProduct=null;A.commerce.show(parts);document.title=({cart:'Your bag',checkout:'Checkout',payment:'QR Ph payment',confirmation:'Order confirmation',orders:'My orders'}[name])+' · Kitchen406';window.scrollTo(0,0);}
  else{A.returnRoute='#/shop';A.activeProduct=null;document.title=name==='shop'?'Shop · Kitchen406':'Page not found · Kitchen406';window.scrollTo(0,0);}
+ document.querySelectorAll('#app-shell>header nav a').forEach(link=>{const active=link.getAttribute('href')==='#/my-subscriptions'?name==='my-subscriptions':link.dataset.path==='subscriptions'?subscription&&name!=='my-subscriptions':link.dataset.path==='shop'&&['shop','product'].includes(name);link.classList.toggle('text-primary',active);link.classList.toggle('font-semibold',active);link.classList.toggle('border-b-2',active);link.classList.toggle('border-primary',active);if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
  A.inspector();
 }
 document.addEventListener('click',e=>{
@@ -73,6 +79,7 @@ document.addEventListener('click',e=>{
  if(path){
   e.preventDefault();
   if(path==='shop')location.hash='#/shop';
+  else if(path==='subscriptions'){location.hash='#/subscriptions';}
   else if(path==='cart'||path==='orders')location.hash='#/'+path;
   else if(path==='sign-in'){A.context=e.target.closest('#reviews')?'review':'header';A.returnRoute=location.hash;location.hash='#/sign-in';}
   else if(path==='sign-up')location.hash='#/register';

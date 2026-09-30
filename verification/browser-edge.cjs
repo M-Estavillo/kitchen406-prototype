@@ -38,7 +38,7 @@ for(const view of ['sign-in','register','verify','forgot','reset']){
 }
 await go('shop');
 await assert("(()=>{const ids=[...document.querySelectorAll('[id]')].map(el=>el.id);return ids.length===new Set(ids).size})()",'no duplicate element IDs');
-await go('product/1');await wait(600);
+await go('product/1');await evaluate("Promise.all([...document.querySelectorAll('#product-view img')].map(img=>{img.loading='eager';return img.decode()}))");
 await assert("[...document.querySelectorAll('#product-view img')].every(img=>img.complete&&img.naturalWidth>0)",'all product images load locally');
 await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:false});
 await go('verify');await evaluate("K406.authUI.simulate('waiting');document.getElementById('mock-panel').hidden=true");await wait(100);

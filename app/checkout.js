@@ -1,6 +1,7 @@
 (() => {
 const A=K406,C=A.commerce,S=C.state,M=C.mock,U=C.ui,E=A.escape;
 const F=C.checkout={month:9,editing:null,form:null,message:''};
+C.addressContext=()=>A.subscriptions?.active()&&A.route==='subscription'?{editor:A.subscriptions.addressUI,draft:A.subscriptions.state.draft,address:A.subscriptions.address,change:A.subscriptions.change,render:A.subscriptions.render}:{editor:F,draft:S.draft,address:C.address,change:C.change,render:C.render};
 F.cart=()=>U.page('Your bag','Review your items before choosing fulfillment details.',S.cart.length&&M.page!=='empty'?U.columns(
  U.panel('Items in your bag',U.items(S.cart,true))+(S.removed?U.alert('Item removed. Your other selections are saved.')+U.button('undo','Undo removal'):''),
  U.summary()+(!C.cartValid()?U.alert('Resolve unavailable items or quantity limits before continuing.',true):'')+U.button('checkout','Continue to checkout',!C.cartValid())+U.link('shop','Continue shopping')):U.empty('Your bag is empty','Browse the shop and add your favorite bakes.')+(S.removed?U.button('undo','Undo removal'):''),'cart');
@@ -11,12 +12,12 @@ F.calendar=()=>{
 };
 F.fulfillment=()=>U.page('Choose your fulfillment','Pick a fulfillment method and an available date for your order.',U.columns(
  U.panel('How would you like to receive your order?',`<div class="fulfillment-choices">${[['pickup','storefront','Bakery pickup','Collect directly from Kitchen406. Free.'],['delivery','local_shipping','Courier delivery','Delivery fee calculated after address selection.']].map(([v,icon,title,desc])=>`<button class="fulfillment-choice" data-method="${v}" aria-pressed="${S.draft.method===v}"><span class="material-symbols-outlined">${icon}</span><strong>${title}</strong><span>${desc}</span></button>`).join('')}</div>`)+
- U.panel('Select your fulfillment date',F.calendar())+
+ U.panel('Select your fulfillment date','<p class="muted">Dates apply to your entire order. Batch cutoffs, lead time, capacity, blocked dates, and ingredients determine availability.</p>'+F.calendar())+
  (F.message?U.alert(F.message,true):'')+(M.validation!=='normal'?U.alert({checking:'Checking availability…',conflict:'This date is no longer available. Choose another date.',error:'We could not verify fulfillment. Your selections are saved.'}[M.validation],true)+U.button('fulfillment-retry','Retry availability'):''),U.summary(null,false)+U.button('fulfillment-next',S.draft.method==='pickup'?'Continue to review':'Continue to delivery details',!C.fulfillmentReady())+U.link('cart','Back to bag')),'checkout/fulfillment');
 F.mapPanel=editable=>`<div class="address-map-section">${editable?'<div class="field"><p id="address-search-label">Search for your address</p><div id="address-place-search" aria-labelledby="address-search-label"></div></div>':''}<div id="address-map" class="address-google-map" aria-label="Delivery location map"></div><p id="address-map-status" class="muted" role="status">Loading map...</p></div>`;
-F.addressForm=()=>{
- const a=F.form||{};
- return U.panel(F.editing?'Edit delivery address':'Add a delivery address',`<form id="delivery-address-form" class="auth-form">${F.mapPanel(true)}${U.field('label','Save address as',a.label)}${U.field('add_line_1','Address line 1',a.add_line_1)}${U.field('add_line_2','Address line 2 (unit, floor, building)',a.add_line_2,false)}<div class="name-row">${U.field('city','City',a.city)}${U.field('postal_code','Postal code',a.postal_code)}</div>${U.field('landmark','Landmark',a.landmark,false)}<label class="address-default"><input type="checkbox" name="is_default" ${a.is_default?'checked':''}> Set as default address</label><p class="field-error" id="address-error" role="alert"></p><div class="commerce-actions">${U.button('address-cancel','Cancel')}<button class="btn primary" type="submit" ${!F.mapBusy&&C.addressValid(a)?'':'disabled'}>Save address</button></div></form>`);
+F.addressForm=(editor=F)=>{
+ const F=editor,a=F.form||{};
+ return U.panel(F.editing?'Edit delivery address':'Add a delivery address',`<form id="delivery-address-form" class="auth-form">${C.checkout.mapPanel(true)}${U.field('label','Save address as',a.label)}${U.field('add_line_1','Address line 1',a.add_line_1)}${U.field('add_line_2','Address line 2 (unit, floor, building)',a.add_line_2,false)}<div class="name-row">${U.field('city','City',a.city)}${U.field('postal_code','Postal code',a.postal_code)}</div>${U.field('landmark','Landmark',a.landmark,false)}<label class="address-default"><input type="checkbox" name="is_default" ${a.is_default?'checked':''}> Set as default address</label><p class="field-error" id="address-error" role="alert"></p><div class="commerce-actions">${U.button('address-cancel','Cancel')}<button class="btn primary" type="submit" ${!F.mapBusy&&C.addressValid(a)?'':'disabled'}>Save address</button></div></form>`);
 };
 F.address=()=>{
  const a=C.address(),d=S.draft;
@@ -62,18 +63,19 @@ F.action=(action,el)=>{
 };
 document.addEventListener('submit',e=>{
  if(e.target.id!=='delivery-address-form')return;e.preventDefault();
+ const ctx=C.addressContext(),F=ctx.editor;
  const data=Object.fromEntries(new FormData(e.target));Object.keys(data).forEach(k=>data[k]=data[k].trim());
  Object.assign(data,{latitude:F.form?.latitude,longitude:F.form?.longitude,is_default:e.target.elements.is_default.checked});
  if(F.mapBusy||!C.addressValid(data)){A.$('address-error').textContent='Select your location on the map and complete all required address fields.';return;}
- if(!C.change())return;
+ if(!ctx.change())return;
  const old=S.addresses.find(a=>a.address_id===F.editing),now=new Date().toISOString();
  Object.assign(data,{address_id:F.editing||'address-'+Date.now(),customer_id:old?.customer_id||'preview-customer',created_at:old?.created_at||now,updated_at:now,status:'active',add_line_2:data.add_line_2||null,landmark:data.landmark||null});
  if(data.is_default)S.addresses.forEach(a=>{if(a.is_default){a.is_default=false;a.updated_at=now;}});
  const i=S.addresses.findIndex(a=>a.address_id===data.address_id);if(i>=0)S.addresses[i]=data;else S.addresses.push(data);
- S.draft.addressId=data.address_id;S.draft.quote='ok';F.form=null;F.editing=null;C.render();
+ ctx.draft.addressId=data.address_id;ctx.draft.quote='ok';F.form=null;F.editing=null;ctx.render();
 });
 document.addEventListener('input',e=>{
- const form=e.target.closest('#delivery-address-form');
+ const form=e.target.closest('#delivery-address-form'),F=C.addressContext().editor;
  if(form&&F.form&&e.target.name){F.form[e.target.name]=e.target.type==='checkbox'?e.target.checked:e.target.value;form.querySelector('[type=submit]').disabled=F.mapBusy||!C.addressValid(F.form);}
 });
 document.addEventListener('change',e=>{
