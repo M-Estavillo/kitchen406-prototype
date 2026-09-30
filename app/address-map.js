@@ -39,7 +39,7 @@ C.addressMap={load,fields,async mount(){
  const host=A.$('address-map'),status=A.$('address-map-status'),search=A.$('address-place-search');
  if(!host||host.dataset.mounted)return;
  host.dataset.mounted='true';
- const F=C.checkout,editing=!!F.form,address=F.form||C.address();
+ const ctx=C.addressContext(),F=ctx.editor,editing=!!F.form,address=F.form||ctx.address();
  const active=()=>host.isConnected&&(!editing||F.form===address);
  const say=text=>{if(active())status.textContent=text;};
  const updateButton=()=>{const button=A.$('delivery-address-form')?.querySelector('[type=submit]');if(button)button.disabled=F.mapBusy||!C.addressValid(F.form);};

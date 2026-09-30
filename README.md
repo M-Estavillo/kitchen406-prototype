@@ -1,4 +1,4 @@
-# Kitchen406 — integrated Phase 1 & Phase 2 prototype
+# Kitchen406 — integrated Phases 1–3 prototype
 
 Open **index.html** in a browser. No build or installation is required. Alternatively, run `python -m http.server 8080` here and open http://localhost:8080.
 
@@ -19,9 +19,29 @@ The existing vanilla HTML, JavaScript, and Tailwind stack is retained. Tailwind,
 - `#/orders`, `#/orders/<order-id>`: search, type/status filters, sorting, pagination, details, cancellation, payment history, courier previews and completed-purchase reviews.
 
 ## Try Phase 2
-Sign in with the existing demo form (or select Signed in in Mock Controls), open a product, and add it to your bag. Use the header bag icon to begin checkout. Select **October 16, 2026** in the demo calendar; delivery uses the supplied saved addresses and a **₱95 demo quotation**, while pickup skips the address step and costs nothing. Proceed to payment and select **Simulate successful payment**, then continue to confirmation and Orders.
+Sign in with the existing demo form (or select Signed in in Mock Controls), open a product, and add it to your bag. Use the header bag icon to begin checkout. Select **October 16, 2026** in the demo calendar; delivery uses the supplied saved addresses and a **₱100 demo quotation**, while pickup skips the address step and costs nothing. Proceed to payment and select **Simulate successful payment**, then continue to confirmation and Orders.
 
-Mock Controls also offers **Load sample bag** and **Load sample orders**. The latter adds seven explicitly marked sample records, including later-phase subscription/custom-cake previews. Lifecycle controls expose pending, confirmed, preparing, ready, transit, completed, failed, resolution and cancelled states. **Fresh payment preview** creates a separate sample payment session for testing states after a payment has already been confirmed.
+Mock Controls also offers **Load sample bag** and **Load sample orders**. The latter adds seven explicitly marked sample records, including standard orders and custom-cake previews. Lifecycle controls expose pending, confirmed, preparing, ready, transit, completed, failed, resolution and cancelled states. **Fresh payment preview** creates a separate sample payment session for testing states after a payment has already been confirmed.
+
+## Subscription walkthrough
+
+Open **Subscriptions** or select **4-Week Subscription** on a product page. Choose Babka or Shokupan, sign in, configure the variant/quantity/schedule, select a delivery address, and review the full prepaid amount. Google delivery verification must succeed before payment; use the configured Maps setup described below. Choose **Simulate successful payment** to activate four deliveries. **My Subscriptions** shows unpaid setups separately from active/completed commitments.
+
+From subscription details, open a fulfillment order or defer a pending delivery once. Next Day moves it one day forward. Next Week first tries seven days later; if that overlaps another delivery, it searches weekly dates after the cycle until it finds capacity. Other delivery dates remain unchanged. The original and replacement dates are retained. The change is confirmed immediately after checks in this prototype.
+
+**Load sample subscriptions** in Mock Controls adds active and completed records for reviewing management screens without completing checkout. The subscription inspector also previews schedule, price, payment, catalog, loading/error, and deferment states. Review eligibility on completed orders is tracked per order item, including separate weekly subscription orders.
+
+### Demo decisions for Phases 1–3
+
+- `app/product-data.js` defines consistent numeric variants: Babka 650g ₱340 / 950g ₱480; Shokupan 450g sliced or whole ₱280. The subscription program has Babka, Shokupan, Sourdough, and Ube Croissant; the latter two initially demonstrate full/unavailable subscription states while Buy Once remains possible.
+- Both purchase paths use a ₱100 sample courier quote per dispatch. Shokupan quantity 1 totals ₱1,520; quantity 2 totals ₱2,640; Babka quantity 1 totals ₱1,760. Existing paid snapshots retain their prices and address.
+- `app/scheduling.js` uses an October 14, 2026, noon Asia/Manila clock. Demo batches are Tuesday, Friday, Saturday, and Sunday. The default cutoff is 4 PM two calendar days before fulfillment; exactly at cutoff is closed. These are configurable **fixtures**, not confirmed bakery policies. `productRules` can override lead days, cutoff hour, and batch weekdays per product. Blocked dates, stock constraints, four standard varieties/day, ten units/product/day, and ten subscription units/product/week are checked separately.
+- Subscription checkout temporarily holds all four weekly capacity allocations; payment confirms them. Failed/expired/cancelled setups release temporary holds. Late successful payment without available capacity shows a paid resolution case. Each fulfillment order is prepaid and links back to its subscription.
+- Payments, capacity, inventory availability, order transitions, and courier fees remain frontend simulations. No BoM stock ledger, live PayMongo/Lalamove integration, or server persistence was added. Maps calls can be live when configured. Reload or Reset preview clears commerce data.
+
+New modules: `product-data.js`, `scheduling.js`, `subscription-state.js`, `subscription-checkout.js`, `subscriptions.js`, and `subscriptions.css`. Shared address editors and route checks now accept each purchase flow's context.
+
+New routes: `#/subscriptions`, `#/subscription/configure`, `#/subscription/address`, `#/subscription/review`, `#/subscription/payment/<purchaseId>`, `#/my-subscriptions`, `#/subscriptions/<id>`, and `#/subscriptions/<id>/defer/<deliveryId>`.
 
 ## Mock controls
 Open **Mock Controls** at the bottom right. Available controls follow the active screen. Authentication state is shared throughout the app. The inspector includes loading, error, empty, eligibility, availability, submission, validation, verification and invalid/expired reset states.
@@ -39,7 +59,7 @@ Original folders and screenshots are preserved.
 - Phase 1.4 provides sign-in copy and protected-action context.
 - Phase 1.5 provides registration fields and validation direction.
 - Phase 1.6 supersedes Phase 1.5's verification-link placeholder with six-digit OTP verification.
-- No Phase 1.7 implementation was supplied. Forgot/reset dialogs extend the existing auth design as UI-only prototypes.
+- Phase 1.7 now provides the recovery reference. Existing forgot/reset dialogs include the sent-email summary and resend action.
 
 ## Organization
 - `app/templates.js`: extracted storefront/product/review markup, mounted once.
@@ -57,12 +77,12 @@ Original folders and screenshots are preserved.
 - `app/commerce.js`: Phase 2 route rendering, authentication gates and inspector integration.
 - `app/commerce.css`: responsive Phase 2 layouts using Phase 1 colors, fonts and shared controls.
 
-Babka's 18-review aggregate is preserved as a source fixture; only three source review examples exist, so the feed identifies these as samples instead of suggesting a working 18-review database. Other products have no fabricated reviews. Subscription and custom-cake management remain explicit later-phase placeholders.
+Babka's 18-review aggregate is preserved as a source fixture; only three source review examples exist, so the feed identifies these as samples instead of suggesting a working 18-review database. Other products have no fabricated reviews. Subscriptions are connected through enrollment, payment, four fulfillment orders, and deferment. Custom-cake management remains a later-phase placeholder.
 
 ## Phase 2 source decisions
 All eight `kitchen406_phase_2.*` reference folders remain untouched. Their header/footer, global handlers and inspectors were consolidated into the existing shell rather than mounted as standalone pages. Phase 1 catalog prices and local product photography take precedence over conflicting Phase 2 sample prices. The source calendar uses a fixed October 14, 2026 demo clock, retained and labeled here. The source pickup locations conflict, so the UI uses Banilad, Metro Cebu with an explicit bakery-confirmation note for the exact address. The cart reference `screen.png` contains an image-error message instead of PNG data; its HTML was used. No dependencies were added.
 
-Address search uses local landmark suggestions, serviceability checks a small demo city list, and courier quotation is a fixed sample fee. Payment and courier controls never imply live provider integration. Print produces a demo order summary, not an official receipt.
+Address search and driving-distance serviceability use Google Maps as described below; courier quotation is a fixed sample fee. Payment and courier controls never imply live provider integration. Print produces a demo order summary, not an official receipt.
 
 ## Manual checks
 Check catalog search/filter/page boundaries; product identity and variant subtotal; disabled sold-out action; guest/protected sign-in; register → verify → sign-in; incorrect code five times, resend, expiry, full-code paste; forgot → demo link → reset; review eligibility and success/error submission; Escape, tab focus, dialog close, browser Back; desktop, tablet, and mobile layouts.

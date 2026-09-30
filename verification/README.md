@@ -1,5 +1,23 @@
 # Browser verification
 
+## Phases 1–3 revisions — September 30, 2026
+
+The revised prototype was checked using local headless Chrome. Google APIs were stubbed for repeatable address and distance checks; no real payment or courier transaction was submitted.
+
+| Suite | Coverage / result |
+| --- | --- |
+| `node verification/subscription-state.cjs` | 13 checks: exact prices, four delivery fees, cutoff boundary, product-specific lead times, independent capacity pools, four-week holds, expiry/retry, repeat-safe activation, payment resolution, address/price snapshots, deferment collision/rollback, and completion. |
+| `node verification/subscription-browser.cjs` | 71 checks: account gating and return, configuration, shared address editing, route limits, payment expiry/retry/activation, linked orders, direct prepaid payment guard, list/details, one deferment, re-enrollment, price acceptance, pending cancellation, sample records, category filtering, and shared-map DOM cleanup. |
+| `node verification/browser-smoke.cjs` | 35 existing storefront, authentication, review, and responsive checks. |
+| `node verification/browser-edge.cjs` | 15 authentication, focus, history, OTP, unique-ID, and local-image checks. Images are explicitly decoded so offscreen lazy loading does not produce false failures. |
+| `node verification/phase2-browser.cjs` | 95 standard checkout/order checks; expected totals updated for the shared ₱100 courier fixture and ten-unit limit. Completed reviews are keyed by order item. |
+| `node verification/delivery-route.cjs` | Route distance boundaries, missing/failed routes, changed address/origin, stale responses, and pickup bypass. |
+| `node verification/address-map-browser.cjs` | 16 address checks including map lookup races, default address, optional fields, editing/cancellation, and distance validation. |
+
+Subscription screens were checked at 1440, 768, 390, and 320 pixels. The desktop listing and mobile subscription details were saved to `subscriptions-desktop.png` and `subscription-details-mobile.png` and visually reviewed. Browser suites reported no uncaught exceptions. Application JavaScript also passes `node --check`.
+
+The prototype reserves capacity across all four paid deliveries. Inventory availability uses fixtures; a production ingredient ledger and server-side transactional enforcement remain outside this change. Reload or Reset preview clears in-memory records.
+
 Completed with local headless Chrome on 2026-09-22.
 
 - 35 flow and layout checks: catalog search/pagination, error state, product identity, variant pricing, sold-out behavior, protected sign-in and return, review success/error, registration validation, OTP attempts/resend/success, forgot/reset success and invalid/expired states.

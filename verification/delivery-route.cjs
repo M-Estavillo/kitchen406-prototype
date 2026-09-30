@@ -4,7 +4,8 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
  const context={window:{K406_MAPS_CONFIG:{bakeryOrigin:'Liloan, Cebu, Philippines'}},K406:{},setTimeout,clearTimeout,
   google:{maps:{importLibrary:async()=>({Route:{computeRoutes:request=>{requests.push(request);return deferred?new Promise(resolve=>deferred.push(resolve)):Promise.resolve(response);}}})}}};
  vm.createContext(context);
- for(const name of ['commerce-state','delivery-route'])vm.runInContext(fs.readFileSync('app/'+name+'.js','utf8'),context);
+ for(const name of ['scheduling','commerce-state','delivery-route'])vm.runInContext(fs.readFileSync('app/'+name+'.js','utf8'),context);
+ context.K406.quoteFee=()=>100;
  const C=context.K406.commerce,S=C.state,R=C.deliveryRoute;
  C.addressMap={load:async()=>{}};
  S.cart=[{quantity:1,max:12,available:true,price:100}];S.draft.method='delivery';S.draft.date='2026-10-16';

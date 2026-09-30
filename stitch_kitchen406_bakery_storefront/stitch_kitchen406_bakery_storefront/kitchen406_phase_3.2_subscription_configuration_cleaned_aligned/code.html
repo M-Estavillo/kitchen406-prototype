@@ -1,0 +1,1004 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error-container": "#ffdad6",
+          "primary-container": "#ab622b",
+          "on-primary-fixed": "#311300",
+          "surface-container-low": "#f5f3f0",
+          "on-surface-variant": "#53443a",
+          "surface-container-highest": "#e4e2df",
+          "secondary-container": "#eae1dc",
+          "tertiary-container": "#7b736d",
+          "on-primary": "#ffffff",
+          "error": "#ba1a1a",
+          "primary": "#8d4a14",
+          "on-tertiary-fixed-variant": "#4c4640",
+          "surface-container-high": "#eae8e5",
+          "surface-container": "#efeeeb",
+          "primary-fixed-dim": "#ffb786",
+          "inverse-on-surface": "#f2f0ed",
+          "surface-tint": "#904d16",
+          "surface-dim": "#dbdad7",
+          "tertiary-fixed-dim": "#cfc5bd",
+          "on-surface": "#1b1c1a",
+          "inverse-surface": "#30312f",
+          "outline-variant": "#d9c2b5",
+          "tertiary-fixed": "#ebe0d9",
+          "on-secondary-fixed-variant": "#4b4642",
+          "on-secondary": "#ffffff",
+          "on-secondary-container": "#69635f",
+          "secondary": "#635d59",
+          "surface": "#fbf9f6",
+          "on-error": "#ffffff",
+          "outline": "#867368",
+          "on-error-container": "#93000a",
+          "inverse-primary": "#ffb786",
+          "surface-variant": "#e4e2df",
+          "on-tertiary-container": "#fffbff",
+          "primary-fixed": "#ffdcc6",
+          "on-tertiary-fixed": "#201b16",
+          "on-primary-fixed-variant": "#723600",
+          "surface-container-lowest": "#ffffff",
+          "on-background": "#1b1c1a",
+          "background": "#fbf9f6",
+          "secondary-fixed": "#eae1dc",
+          "on-secondary-fixed": "#1f1b18",
+          "on-primary-container": "#fffbff",
+          "secondary-fixed-dim": "#cdc5c0",
+          "tertiary": "#625b55",
+          "on-tertiary": "#ffffff",
+          "surface-bright": "#fbf9f6"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "margin-mobile": "1.25rem",
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "gutter": "1.5rem",
+          "space-xl": "2.5rem",
+          "margin": "3rem",
+          "space-md": "1rem",
+          "space-lg": "1.5rem",
+          "gutter-mobile": "1rem"
+        },
+        "fontFamily": {
+          "headline-md": [
+            "Playfair Display"
+          ],
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "price-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg": [
+            "Playfair Display"
+          ],
+          "headline-lg-mobile": [
+            "Playfair Display"
+          ],
+          "label-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "title-md": [
+            "Plus Jakarta Sans"
+          ],
+          "display-mobile": [
+            "Playfair Display"
+          ],
+          "price-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "title-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-sm": [
+            "Playfair Display"
+          ],
+          "display": [
+            "Playfair Display"
+          ]
+        },
+        "fontSize": {
+          "headline-md": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "400"
+            }
+          ],
+          "price-lg": [
+            "20px",
+            {
+              "lineHeight": "26px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "22px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "500"
+            }
+          ],
+          "headline-lg-mobile": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ],
+          "title-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "letterSpacing": "-0.005em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-mobile": [
+            "34px",
+            {
+              "lineHeight": "42px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "price-md": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "400"
+            }
+          ],
+          "title-sm": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "500"
+            }
+          ],
+          "display": [
+            "48px",
+            {
+              "lineHeight": "56px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      }
+    }
+  };
+</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(43,38,35,0.04)]"><div class="h-20 max-w-[1320px] mx-auto px-gutter flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-sm" data-path="shop" href="#"><img alt="Kitchen406 logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UJuW_BnxCzrbZoN17J3fN3eJkGB6tBmaGSIE1y_Pw4H9ia11dprJFhUt5G8gi8Cnu92br-2Ry-pChlEWLafl5-hEtuaU5hj37w0-f_5yRpm2sw__sSQ6FF-25p74HFuTrJajC6B447IRm5rKnhRSzzB0GxRryf-WakJVwhPLhEaqeCmPmljiq2sb7we2KLll4lYMNjmdnI2-ufWAYSUqr1qSRBq3kyhRSPt98_60w_Gxal5_OFB-wfiA"><span class="font-headline-sm text-headline-sm tracking-tight text-primary">Kitchen406</span></a></div><nav class="hidden lg:flex items-center gap-space-lg"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a><a aria-current="page" class="transition-colors text-primary font-label-md text-label-md border-b-2 border-primary pb-space-xs" data-path="subscriptions" href="#">Subscriptions</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md"><div class="relative hidden sm:block w-48 xl:w-64"><input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm pl-space-xl pr-space-md py-space-xs rounded-lg focus:outline-none border border-outline-variant/40" placeholder="Search artisan bakes..." type="search"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span></div><a class="relative p-space-xs text-on-surface-variant hover:text-primary transition-colors flex items-center" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center">2</span></a><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="account" href="#"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></a></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Main Page Container -->
+<div class="max-w-[1240px] w-full mx-auto px-gutter py-space-xl">
+<!-- Back Link -->
+<div class="mb-space-lg">
+<a class="inline-flex items-center gap-space-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" data-path="subscriptions" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Subscriptions</span>
+</a>
+</div>
+<!-- Header Section & Enrollment Progression -->
+<div class="mb-space-xl">
+<!-- Enrollment Flow Steps -->
+<div class="flex items-center gap-space-xs text-label-sm font-label-sm text-outline uppercase tracking-wider mb-space-sm flex-wrap">
+<span class="text-primary font-bold">Configure</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span class="text-outline">Address</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span class="text-outline">Review</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span class="text-outline">Payment</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Configure your subscription</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+    Choose your variant, quantity, schedule, and first delivery date.
+  </p>
+</div>
+<!-- Master Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start relative">
+<!-- LEFT / MAIN CONFIGURATION COLUMN -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- Selected Product Card -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40 flex flex-col sm:flex-row gap-space-lg items-start sm:items-center justify-between">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded overflow-hidden flex-shrink-0 bg-surface-container">
+<img alt="Japanese Shokupan Loaf" class="w-full h-full object-cover" id="product-thumb-image" src="https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8">
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm uppercase text-secondary font-semibold">Sourdough &amp; Specialty • 4-Week Subscription</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5" id="product-card-title">Japanese Shokupan Loaf</h2>
+<div class="mt-space-xs flex items-center gap-space-sm">
+<span class="inline-flex items-center font-label-sm text-label-sm bg-surface-container text-secondary px-2 py-0.5 rounded">Available for subscription</span>
+<span class="font-label-md text-label-md text-primary font-bold" id="product-card-unit-price">₱280.00 / bake</span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 self-end sm:self-center">
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors underline decoration-outline-variant underline-offset-4 py-space-xs" data-path="subscriptions" href="#">
+  Change product
+</a>
+</div>
+</section>
+<!-- 1. Select Variant -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40">
+<div class="mb-space-md">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Select variant</h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md" id="variant-group">
+<label class="cursor-pointer relative flex items-start gap-space-md p-space-md rounded-lg transition-all border border-primary bg-surface-container-low variant-card" data-label="Thick Sliced (450g)" data-variant="sliced">
+<input checked="" class="mt-1 accent-primary focus:ring-0" name="product_variant" type="radio" value="sliced">
+<div class="flex flex-col">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Thick Sliced (450g)</span>
+<span class="font-label-md text-label-md text-primary font-bold">₱280.00</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Standard 450g loaf, sliced into 5 hearty cuts.</span>
+</div>
+</label>
+<label class="cursor-pointer relative flex items-start gap-space-md p-space-md rounded-lg transition-all border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low variant-card" data-label="Whole Pullman Loaf (450g)" data-variant="whole">
+<input class="mt-1 accent-primary focus:ring-0" name="product_variant" type="radio" value="whole">
+<div class="flex flex-col">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Whole Pullman Loaf (450g)</span>
+<span class="font-label-md text-label-md text-primary font-bold">₱280.00</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Standard 450g uncut loaf for custom slicing.</span>
+</div>
+</label>
+</div>
+</section>
+<!-- 2. Quantity per Delivery Stepper -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Quantity per delivery</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">This quantity applies to each of the four deliveries.</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="inline-flex items-center bg-surface-container rounded-lg p-space-xs border border-outline-variant/30">
+<button aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center rounded text-on-surface hover:bg-surface-container-highest transition-colors disabled:opacity-30 disabled:cursor-not-allowed" id="qty-decrement" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="w-10 text-center font-label-md text-label-md text-on-surface font-semibold select-none" id="qty-display">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center rounded text-on-surface hover:bg-surface-container-highest transition-colors disabled:opacity-30 disabled:cursor-not-allowed" id="qty-increment" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<div class="text-right sm:min-w-[120px]">
+<span class="font-label-md text-label-md text-on-surface block font-bold" id="qty-line-subtotal">₱280.00 per delivery</span>
+</div>
+</div>
+</section>
+<!-- 3. Subscription Schedule Module -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40 relative">
+<div class="mb-space-md">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Subscription schedule</h3>
+</div>
+<div class="space-y-space-md" id="schedule-container">
+<div class="space-y-space-sm" id="schedule-options-list">
+<!-- Option 1: Friday -->
+<label class="cursor-pointer block p-space-md rounded-lg transition-all border border-primary bg-surface-container-low schedule-card" data-day="Friday" data-schedule-id="friday" data-window="9:00 AM – 1:00 PM">
+<div class="flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<input checked="" class="accent-primary focus:ring-0" name="delivery_schedule" type="radio" value="friday">
+<div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Weekly Friday Delivery</span>
+<span class="font-label-sm text-label-sm bg-surface-container text-secondary px-2 py-0.5 rounded font-medium">Available</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Window: 9:00 AM – 1:00 PM</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+</div>
+</label>
+<!-- Option 2: Saturday -->
+<label class="cursor-pointer block p-space-md rounded-lg transition-all border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low schedule-card" data-day="Saturday" data-schedule-id="saturday" data-window="9:00 AM – 1:00 PM">
+<div class="flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<input class="accent-primary focus:ring-0" name="delivery_schedule" type="radio" value="saturday">
+<div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Weekly Saturday Delivery</span>
+<span class="font-label-sm text-label-sm bg-surface-container text-secondary px-2 py-0.5 rounded font-medium">Available</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Window: 9:00 AM – 1:00 PM</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[20px]">radio_button_unchecked</span>
+</div>
+</label>
+<!-- Option 3: Tuesday (Currently unavailable) -->
+<div class="p-space-md rounded-lg border border-outline-variant/30 bg-surface-container-high/40 opacity-60 cursor-not-allowed">
+<div class="flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<input class="accent-primary" disabled="" name="delivery_schedule" type="radio" value="tuesday">
+<div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md text-outline font-semibold">Weekly Tuesday Delivery</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest text-outline px-2 py-0.5 rounded">Currently unavailable</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Window: 9:00 AM – 1:00 PM</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+</div>
+</div>
+</div>
+<!-- Dynamic Error Box for Schedule Selection -->
+<div class="hidden p-space-md bg-error-container text-on-error-container rounded-lg" id="schedule-error-alert">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-error text-[20px]">error</span>
+<div class="text-body-sm">
+<p class="font-semibold font-label-md">Schedule Unavailable</p>
+<p class="mt-0.5">That delivery schedule is currently unavailable. Please select an available schedule option.</p>
+</div>
+</div>
+</div>
+<!-- Schedule Loading Skeleton -->
+<div class="hidden space-y-space-sm animate-pulse" id="schedule-skeleton">
+<div class="h-16 bg-surface-container rounded-lg"></div>
+<div class="h-16 bg-surface-container rounded-lg"></div>
+<div class="h-16 bg-surface-container rounded-lg"></div>
+</div>
+<!-- Schedule Load Error State -->
+<div class="hidden p-space-lg bg-surface-container-low rounded-lg text-center" id="schedule-load-error">
+<span class="material-symbols-outlined text-outline text-[32px] mb-space-xs">cloud_off</span>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Unable to load delivery schedules.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 mb-space-md">Please check your connection and try again.</p>
+<button class="inline-flex items-center gap-space-xs bg-surface-container-highest hover:bg-surface-variant text-on-surface px-space-md py-space-xs rounded font-label-md text-label-md transition-colors" id="retry-schedules-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+<span>Try Again</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 4. First Delivery Date Selection -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40">
+<div class="mb-space-md">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">First delivery date</h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md" id="first-delivery-options">
+<!-- Option 1 -->
+<label class="cursor-pointer p-space-md rounded-lg transition-all border border-primary bg-surface-container-low first-date-card" data-start-date="2026-10-16" data-start-label="Friday, Oct 16, 2026">
+<div class="flex items-center gap-space-md">
+<input checked="" class="accent-primary focus:ring-0" name="first_delivery_date" type="radio" value="2026-10-16">
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold date-title-label block">Friday, Oct 16, 2026</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Earliest available fulfillment</span>
+</div>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="cursor-pointer p-space-md rounded-lg transition-all border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low first-date-card" data-start-date="2026-10-23" data-start-label="Friday, Oct 23, 2026">
+<div class="flex items-center gap-space-md">
+<input class="accent-primary focus:ring-0" name="first_delivery_date" type="radio" value="2026-10-23">
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold date-title-label block">Friday, Oct 23, 2026</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Following weekly cycle</span>
+</div>
+</div>
+</label>
+</div>
+</section>
+<!-- 5. Four-Delivery Preview Visualization -->
+<section class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md mb-space-md border-b border-surface-container">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Your four deliveries</h3>
+</div>
+<div class="mt-1 sm:mt-0">
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded font-medium">4-week subscription • Four scheduled deliveries</span>
+</div>
+</div>
+<!-- Delivery Grid (4 Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm" id="deliveries-grid">
+<!-- Delivery 1 -->
+<div class="p-space-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold">Delivery 1 of 4</span>
+<span class="material-symbols-outlined text-primary text-[18px]">local_shipping</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-bold" id="del-date-1">Friday, Oct 16, 2026</p>
+<p class="font-label-sm text-label-sm text-secondary font-semibold mt-0.5">First delivery</p>
+</div>
+<div class="text-[11px] text-outline font-body-sm">
+Window: 9:00 AM – 1:00 PM
+</div>
+</div>
+<!-- Delivery 2 -->
+<div class="p-space-md bg-surface-container-low/70 rounded-lg border border-outline-variant/20 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline font-bold">Delivery 2 of 4</span>
+<span class="material-symbols-outlined text-outline text-[18px]">calendar_today</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold" id="del-date-2">Friday, Oct 23, 2026</p>
+<p class="font-label-sm text-label-sm text-outline mt-0.5">Scheduled delivery</p>
+</div>
+<div class="text-[11px] text-outline font-body-sm">
+Window: 9:00 AM – 1:00 PM
+</div>
+</div>
+<!-- Delivery 3 -->
+<div class="p-space-md bg-surface-container-low/70 rounded-lg border border-outline-variant/20 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline font-bold">Delivery 3 of 4</span>
+<span class="material-symbols-outlined text-outline text-[18px]">calendar_today</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold" id="del-date-3">Friday, Oct 30, 2026</p>
+<p class="font-label-sm text-label-sm text-outline mt-0.5">Scheduled delivery</p>
+</div>
+<div class="text-[11px] text-outline font-body-sm">
+Window: 9:00 AM – 1:00 PM
+</div>
+</div>
+<!-- Delivery 4 -->
+<div class="p-space-md bg-surface-container-low/70 rounded-lg border border-outline-variant/20 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline font-bold">Delivery 4 of 4</span>
+<span class="material-symbols-outlined text-outline text-[18px]">task_alt</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold" id="del-date-4">Friday, Nov 6, 2026</p>
+<p class="font-label-sm text-label-sm text-primary font-semibold mt-0.5">Final delivery</p>
+</div>
+<div class="text-[11px] text-outline font-body-sm">
+Window: 9:00 AM – 1:00 PM
+</div>
+</div>
+</div>
+<div class="mt-space-md p-space-sm bg-surface-container rounded flex items-center gap-space-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px] flex-shrink-0">info</span>
+<p class="font-body-sm text-body-sm">
+This subscription includes four scheduled weekly fulfillments and does not automatically renew.
+</p>
+</div>
+</section>
+<!-- Inline Validation Warning Box -->
+<div class="hidden p-space-md bg-error-container text-on-error-container rounded-lg" id="general-validation-error">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-error">warning</span>
+<span class="font-body-sm text-body-sm font-semibold">Please complete all configuration options before proceeding.</span>
+</div>
+</div>
+<!-- Mobile Proceed Trigger -->
+<div class="lg:hidden mt-space-md">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-space-md px-space-lg rounded font-label-md text-label-md transition-all flex items-center justify-center gap-space-sm shadow-sm" id="mobile-continue-btn" type="button">
+<span>Continue to Delivery Address</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- RIGHT / PERSISTENT CONFIGURATION SUMMARY COLUMN -->
+<aside class="lg:col-span-4 sticky top-28 space-y-space-md">
+<div class="bg-surface-container-lowest p-space-lg rounded-lg border border-outline-variant/40 shadow-sm">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container mb-space-md">
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Configuration Summary</h3>
+<span class="font-label-sm text-label-sm bg-surface-container text-secondary font-bold px-2 py-0.5 rounded">4 Deliveries</span>
+</div>
+<!-- Product Micro Card -->
+<div class="flex items-center gap-space-md mb-space-md">
+<img alt="Japanese Shokupan Loaf" class="w-14 h-14 rounded object-cover flex-shrink-0 bg-surface-container" id="summary-product-thumb" src="https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8">
+<div class="min-w-0">
+<h4 class="font-label-md text-label-md text-on-surface font-bold truncate" id="summary-product-name">Japanese Shokupan Loaf</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate" id="summary-variant-name">Thick Sliced (450g)</p>
+<p class="font-label-sm text-label-sm text-secondary font-medium" id="summary-qty-term">1 per delivery (4 total)</p>
+</div>
+</div>
+<!-- Configuration Details List -->
+<div class="space-y-space-xs text-body-sm mb-space-md bg-surface-container-low p-space-md rounded-lg">
+<div class="flex justify-between items-center py-0.5">
+<span class="text-on-surface-variant font-body-sm">Term:</span>
+<span class="text-on-surface font-label-md text-label-md font-semibold">4 weeks (4 weekly fulfillments)</span>
+</div>
+<div class="flex justify-between items-center py-0.5">
+<span class="text-on-surface-variant font-body-sm">Schedule:</span>
+<span class="text-on-surface font-label-md text-label-md font-semibold" id="summary-schedule-name">Weekly Friday (9:00 AM – 1:00 PM)</span>
+</div>
+<div class="flex justify-between items-center py-0.5">
+<span class="text-on-surface-variant font-body-sm">First Delivery:</span>
+<span class="text-on-surface font-label-md text-label-md font-semibold" id="summary-first-date">Oct 16, 2026</span>
+</div>
+<div class="flex justify-between items-center py-0.5">
+<span class="text-on-surface-variant font-body-sm">Final Delivery:</span>
+<span class="text-on-surface font-label-md text-label-md font-semibold" id="summary-last-date">Nov 6, 2026</span>
+</div>
+<div class="flex justify-between items-center py-0.5">
+<span class="text-on-surface-variant font-body-sm">Renewal:</span>
+<span class="text-on-surface font-label-sm text-label-sm font-semibold">Does not automatically renew</span>
+</div>
+<div class="flex justify-between items-center py-0.5 border-t border-outline-variant/30 mt-1 pt-1.5">
+<span class="text-on-surface-variant font-body-sm">Unit Price Context:</span>
+<span class="text-primary font-label-md text-label-md font-bold" id="summary-unit-price">₱280.00 / delivery</span>
+</div>
+</div>
+<!-- Next Step Notice -->
+<div class="p-space-sm bg-surface-container rounded text-body-sm text-on-surface-variant mb-space-md flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline mt-0.5">info</span>
+<span class="text-[12px] leading-relaxed">Delivery address and delivery fees are calculated in the next step.</span>
+</div>
+<!-- Primary Action CTA -->
+<div class="space-y-space-sm">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-space-md px-space-lg rounded font-label-md text-label-md transition-all flex items-center justify-center gap-space-sm shadow-sm active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed" id="continue-review-btn" type="button">
+<span>Continue to Delivery Address</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="text-center pt-space-xs">
+<a class="font-label-sm text-label-sm text-secondary hover:text-primary transition-colors underline decoration-outline-variant underline-offset-4" data-path="subscriptions" href="#">
+  ← Back to subscription products
+</a>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<!-- PROTOTYPE MOCK STATE INSPECTOR (Floating Bottom-Right Panel) -->
+<div class="fixed bottom-4 right-4 z-50 bg-surface-container-lowest text-on-surface p-space-md rounded-xl shadow-xl border border-outline-variant/40 max-w-sm w-full transition-all" id="mock-state-panel">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm font-bold tracking-wider uppercase text-primary">Phase 3.2 Mock Inspector</span>
+</div>
+<button aria-label="Toggle Panel" class="text-outline hover:text-on-surface" id="toggle-mock-panel-btn" type="button">
+<span class="material-symbols-outlined text-[18px]" id="toggle-mock-icon">expand_more</span>
+</button>
+</div>
+<div class="space-y-space-xs pt-1" id="mock-panel-body">
+<p class="font-label-sm text-label-sm text-outline mb-space-xs">Test configuration scenarios &amp; edge cases:</p>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface font-semibold" data-action="state-default" type="button">
+  Valid Default
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="state-saturday" type="button">
+  Switch to Saturday
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="state-validation-error" type="button">
+  Missing Selection
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="state-loading" type="button">
+  Schedule Loading
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="state-load-error" type="button">
+  Schedule Load Error
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="state-unavailable" type="button">
+  Schedule Unavailable
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="prod-shokupan" type="button">
+  Product: Shokupan ₱280
+</button>
+<button class="mock-btn text-left p-space-xs bg-surface-container hover:bg-surface-container-high rounded text-[11px] font-label-sm transition-colors text-on-surface" data-action="prod-babka" type="button">
+  Product: Babka ₱340
+</button>
+</div>
+<div class="pt-space-xs mt-space-xs border-t border-surface-container flex items-center justify-between">
+<span class="text-[11px] text-outline">Interactive state control</span>
+<button class="mock-btn text-[11px] font-label-sm text-primary hover:underline font-semibold" data-action="state-reset" type="button">
+  Reset to Baseline
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Logic -->
+<script>
+  (function initSubscriptionConfiguration() {
+    const state = {
+      product: {
+        id: 'shokupan',
+        title: 'Japanese Shokupan Loaf',
+        price: 280,
+        image: 'https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8',
+        defaultVariant: 'Thick Sliced (450g)'
+      },
+      variant: 'Thick Sliced (450g)',
+      quantity: 1,
+      totalDeliveries: 4,
+      schedule: {
+        id: 'friday',
+        day: 'Friday',
+        window: '9:00 AM – 1:00 PM',
+        available: true
+      },
+      firstDeliveryDate: '2026-10-16',
+      firstDeliveryLabel: 'Friday, Oct 16, 2026'
+    };
+
+    const alternateProduct = {
+      id: 'babka',
+      title: 'Braided Chocolate Babka',
+      price: 340,
+      image: 'https://lh3.googleusercontent.com/aida/AEtjO1UsSrsnkdzjhs_Cv7qdNl-MhCy7PjNj-SIU4vUiRyrDEYtAvILoFpDkxqPKvRh8anX0ZdzaVwyM2H-IWFQgQDdVQpiEfjVf-Hs7FOYm09befqipaoBGedpZZueornymJ72MDgot6Yz4a-okSHmcgYf0H0NnTzgU6XtbVSt0Jv_j0IxKXUwg3tDA48cbp5E6E3UPJ0Vbn4VBMpFbmAGWoxEsSke2TpSHCJGgs-Nench7DlRl47gudsj0sg',
+      defaultVariant: 'Full Babka Braid (550g)'
+    };
+
+    const qtyDisplay = document.getElementById('qty-display');
+    const qtyDecrement = document.getElementById('qty-decrement');
+    const qtyIncrement = document.getElementById('qty-increment');
+    const qtyLineSubtotal = document.getElementById('qty-line-subtotal');
+    
+    const summaryProductThumb = document.getElementById('summary-product-thumb');
+    const summaryProductName = document.getElementById('summary-product-name');
+    const summaryVariantName = document.getElementById('summary-variant-name');
+    const summaryQtyTerm = document.getElementById('summary-qty-term');
+    const summaryScheduleName = document.getElementById('summary-schedule-name');
+    const summaryFirstDate = document.getElementById('summary-first-date');
+    const summaryLastDate = document.getElementById('summary-last-date');
+    const summaryUnitPrice = document.getElementById('summary-unit-price');
+
+    const productCardTitle = document.getElementById('product-card-title');
+    const productCardUnitPrice = document.getElementById('product-card-unit-price');
+    const productThumbImage = document.getElementById('product-thumb-image');
+
+    const continueBtn = document.getElementById('continue-review-btn');
+    const mobileContinueBtn = document.getElementById('mobile-continue-btn');
+    const scheduleErrorAlert = document.getElementById('schedule-error-alert');
+    const generalValidationError = document.getElementById('general-validation-error');
+    const scheduleSkeleton = document.getElementById('schedule-skeleton');
+    const scheduleOptionsList = document.getElementById('schedule-options-list');
+    const scheduleLoadError = document.getElementById('schedule-load-error');
+
+    const schedulesMap = {
+      friday: [
+        { d1: 'Friday, Oct 16, 2026', d2: 'Friday, Oct 23, 2026', d3: 'Friday, Oct 30, 2026', d4: 'Friday, Nov 6, 2026', s1: 'Oct 16, 2026', s4: 'Nov 6, 2026' },
+        { d1: 'Friday, Oct 23, 2026', d2: 'Friday, Oct 30, 2026', d3: 'Friday, Nov 6, 2026', d4: 'Friday, Nov 13, 2026', s1: 'Oct 23, 2026', s4: 'Nov 13, 2026' }
+      ],
+      saturday: [
+        { d1: 'Saturday, Oct 17, 2026', d2: 'Saturday, Oct 24, 2026', d3: 'Saturday, Oct 31, 2026', d4: 'Saturday, Nov 7, 2026', s1: 'Oct 17, 2026', s4: 'Nov 7, 2026' },
+        { d1: 'Saturday, Oct 24, 2026', d2: 'Saturday, Oct 31, 2026', d3: 'Saturday, Nov 7, 2026', d4: 'Saturday, Nov 14, 2026', s1: 'Oct 24, 2026', s4: 'Nov 14, 2026' }
+      ]
+    };
+
+    function formatPHP(amount) {
+      return '₱' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function updateCalculations() {
+      const perDelivery = state.product.price * state.quantity;
+
+      qtyDisplay.textContent = state.quantity;
+      qtyLineSubtotal.textContent = formatPHP(perDelivery) + ' per delivery';
+      
+      summaryUnitPrice.textContent = formatPHP(perDelivery) + ' / delivery';
+      productCardUnitPrice.textContent = formatPHP(state.product.price) + ' / bake';
+
+      summaryQtyTerm.textContent = state.quantity + ' per delivery (' + (state.quantity * state.totalDeliveries) + ' total)';
+
+      qtyDecrement.disabled = state.quantity <= 1;
+    }
+
+    function updateDeliveriesPreview() {
+      const currentSchedule = state.schedule.id === 'saturday' ? 'saturday' : 'friday';
+      const isDeferred = state.firstDeliveryDate === '2026-10-23' || state.firstDeliveryDate === '2026-10-24';
+      const datesObj = schedulesMap[currentSchedule][isDeferred ? 1 : 0];
+
+      document.getElementById('del-date-1').textContent = datesObj.d1;
+      document.getElementById('del-date-2').textContent = datesObj.d2;
+      document.getElementById('del-date-3').textContent = datesObj.d3;
+      document.getElementById('del-date-4').textContent = datesObj.d4;
+
+      summaryFirstDate.textContent = datesObj.s1;
+      summaryLastDate.textContent = datesObj.s4;
+      summaryScheduleName.textContent = 'Weekly ' + state.schedule.day + ' (' + state.schedule.window + ')';
+    }
+
+    qtyDecrement.addEventListener('click', () => {
+      if (state.quantity > 1) {
+        state.quantity--;
+        updateCalculations();
+      }
+    });
+
+    qtyIncrement.addEventListener('click', () => {
+      state.quantity++;
+      updateCalculations();
+    });
+
+    // Variant selection
+    const variantCards = document.querySelectorAll('.variant-card');
+    variantCards.forEach(card => {
+      card.addEventListener('click', () => {
+        variantCards.forEach(c => {
+          c.classList.remove('bg-surface-container-low', 'border-primary');
+          c.classList.add('bg-surface-container-lowest', 'border-outline-variant/40');
+        });
+        card.classList.add('bg-surface-container-low', 'border-primary');
+        card.classList.remove('bg-surface-container-lowest', 'border-outline-variant/40');
+        const radio = card.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+        
+        state.variant = card.getAttribute('data-label');
+        summaryVariantName.textContent = state.variant;
+      });
+    });
+
+    // Schedule selection
+    const scheduleCards = document.querySelectorAll('.schedule-card');
+    function selectSchedule(sid) {
+      scheduleCards.forEach(c => {
+        const isTarget = c.getAttribute('data-schedule-id') === sid;
+        const icon = c.querySelector('.material-symbols-outlined');
+        const radio = c.querySelector('input[type="radio"]');
+        if (isTarget) {
+          c.classList.add('bg-surface-container-low', 'border-primary');
+          c.classList.remove('bg-surface-container-lowest', 'border-outline-variant/40');
+          if (icon) {
+            icon.textContent = 'check_circle';
+            icon.classList.add('text-primary');
+            icon.classList.remove('text-outline-variant');
+          }
+          if (radio) radio.checked = true;
+
+          state.schedule.id = sid;
+          state.schedule.day = c.getAttribute('data-day');
+          state.schedule.window = c.getAttribute('data-window');
+          state.schedule.available = true;
+        } else {
+          c.classList.remove('bg-surface-container-low', 'border-primary');
+          c.classList.add('bg-surface-container-lowest', 'border-outline-variant/40');
+          if (icon) {
+            icon.textContent = 'radio_button_unchecked';
+            icon.classList.remove('text-primary');
+            icon.classList.add('text-outline-variant');
+          }
+        }
+      });
+
+      const firstDateOptions = document.querySelectorAll('.first-date-card');
+      if (firstDateOptions.length >= 2) {
+        const label1 = firstDateOptions[0].querySelector('.date-title-label');
+        const label2 = firstDateOptions[1].querySelector('.date-title-label');
+        if (sid === 'saturday') {
+          if (label1) label1.textContent = 'Saturday, Oct 17, 2026';
+          if (label2) label2.textContent = 'Saturday, Oct 24, 2026';
+          firstDateOptions[0].setAttribute('data-start-date', '2026-10-17');
+          firstDateOptions[1].setAttribute('data-start-date', '2026-10-24');
+          if (state.firstDeliveryDate.startsWith('2026-10-1')) {
+            state.firstDeliveryDate = '2026-10-17';
+          } else {
+            state.firstDeliveryDate = '2026-10-24';
+          }
+        } else {
+          if (label1) label1.textContent = 'Friday, Oct 16, 2026';
+          if (label2) label2.textContent = 'Friday, Oct 23, 2026';
+          firstDateOptions[0].setAttribute('data-start-date', '2026-10-16');
+          firstDateOptions[1].setAttribute('data-start-date', '2026-10-23');
+          if (state.firstDeliveryDate.startsWith('2026-10-1')) {
+            state.firstDeliveryDate = '2026-10-16';
+          } else {
+            state.firstDeliveryDate = '2026-10-23';
+          }
+        }
+      }
+
+      scheduleErrorAlert.classList.add('hidden');
+      continueBtn.disabled = false;
+      if (mobileContinueBtn) mobileContinueBtn.disabled = false;
+      updateDeliveriesPreview();
+    }
+
+    scheduleCards.forEach(card => {
+      card.addEventListener('click', () => {
+        selectSchedule(card.getAttribute('data-schedule-id'));
+      });
+    });
+
+    // Date selection
+    const firstDateCards = document.querySelectorAll('.first-date-card');
+    firstDateCards.forEach(card => {
+      card.addEventListener('click', () => {
+        firstDateCards.forEach(c => {
+          c.classList.remove('bg-surface-container-low', 'border-primary');
+          c.classList.add('bg-surface-container-lowest', 'border-outline-variant/40');
+        });
+        card.classList.add('bg-surface-container-low', 'border-primary');
+        card.classList.remove('bg-surface-container-lowest', 'border-outline-variant/40');
+
+        const radio = card.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+
+        state.firstDeliveryDate = card.getAttribute('data-start-date');
+        state.firstDeliveryLabel = card.getAttribute('data-start-label');
+
+        updateDeliveriesPreview();
+      });
+    });
+
+    function handleProceed() {
+      if (!state.schedule.available) {
+        scheduleErrorAlert.classList.remove('hidden');
+        return;
+      }
+      alert('Proceeding to Phase 3.2B: Delivery Address');
+    }
+
+    if (continueBtn) continueBtn.addEventListener('click', handleProceed);
+    if (mobileContinueBtn) mobileContinueBtn.addEventListener('click', handleProceed);
+
+    function setProduct(productObj) {
+      state.product = { ...productObj };
+      productCardTitle.textContent = state.product.title;
+      productThumbImage.src = state.product.image;
+      summaryProductName.textContent = state.product.title;
+      summaryProductThumb.src = state.product.image;
+      updateCalculations();
+    }
+
+    // Mock Panel
+    const mockPanelBody = document.getElementById('mock-panel-body');
+    const togglePanelBtn = document.getElementById('toggle-mock-panel-btn');
+    const toggleIcon = document.getElementById('toggle-mock-icon');
+
+    togglePanelBtn.addEventListener('click', () => {
+      const isCollapsed = mockPanelBody.classList.contains('hidden');
+      if (isCollapsed) {
+        mockPanelBody.classList.remove('hidden');
+        toggleIcon.textContent = 'expand_more';
+      } else {
+        mockPanelBody.classList.add('hidden');
+        toggleIcon.textContent = 'expand_less';
+      }
+    });
+
+    document.querySelectorAll('.mock-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const action = e.currentTarget.getAttribute('data-action');
+        executeMockAction(action);
+      });
+    });
+
+    function executeMockAction(action) {
+      scheduleErrorAlert.classList.add('hidden');
+      generalValidationError.classList.add('hidden');
+      scheduleSkeleton.classList.add('hidden');
+      scheduleLoadError.classList.add('hidden');
+      scheduleOptionsList.classList.remove('hidden');
+      continueBtn.disabled = false;
+      if (mobileContinueBtn) mobileContinueBtn.disabled = false;
+
+      switch(action) {
+        case 'state-default':
+          setProduct({
+            id: 'shokupan',
+            title: 'Japanese Shokupan Loaf',
+            price: 280,
+            image: 'https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8',
+            defaultVariant: 'Thick Sliced (450g)'
+          });
+          state.quantity = 1;
+          selectSchedule('friday');
+          break;
+
+        case 'state-saturday':
+          selectSchedule('saturday');
+          break;
+
+        case 'state-loading':
+          scheduleOptionsList.classList.add('hidden');
+          scheduleSkeleton.classList.remove('hidden');
+          break;
+
+        case 'state-load-error':
+          scheduleOptionsList.classList.add('hidden');
+          scheduleLoadError.classList.remove('hidden');
+          break;
+
+        case 'state-unavailable':
+          state.schedule.available = false;
+          scheduleErrorAlert.classList.remove('hidden');
+          continueBtn.disabled = true;
+          if (mobileContinueBtn) mobileContinueBtn.disabled = true;
+          break;
+
+        case 'state-validation-error':
+          generalValidationError.classList.remove('hidden');
+          generalValidationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          break;
+
+        case 'prod-shokupan':
+          setProduct({
+            id: 'shokupan',
+            title: 'Japanese Shokupan Loaf',
+            price: 280,
+            image: 'https://lh3.googleusercontent.com/aida/AEtjO1WtWaWf0c8zrT8MRuwa0ctUsziUxAz7Q-Lxo8UX_aJkpSwMz8ZLRJpOw2zLKfBjIO4rSZ8d-dFClYpttduY5TzIU6_y4mU6X-Pi9pH6E08DdKkp5bMOddRm-V1Kx8CxWSGf2Oc_dUBEqOkJZiJhAqbA3SD1pY4DhS84eoyl0Bq8ANIyFtzbaelVRa_m4lL8gKDuVFzLfrVrO09hx-Do3MWGQbGvcR-HQLuhSr5T40S8v9hfGjPCzeZoRE8',
+            defaultVariant: 'Thick Sliced (450g)'
+          });
+          break;
+
+        case 'prod-babka':
+          setProduct(alternateProduct);
+          break;
+
+        case 'state-reset':
+          executeMockAction('state-default');
+          break;
+      }
+    }
+
+    document.getElementById('retry-schedules-btn').addEventListener('click', () => {
+      scheduleLoadError.classList.add('hidden');
+      scheduleSkeleton.classList.remove('hidden');
+      setTimeout(() => {
+        scheduleSkeleton.classList.add('hidden');
+        scheduleOptionsList.classList.remove('hidden');
+      }, 600);
+    });
+
+    updateCalculations();
+    updateDeliveriesPreview();
+  })();
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(43,38,35,0.03)] mt-space-xl"><div class="max-w-[1320px] mx-auto px-gutter py-space-xl"><div class="grid grid-cols-1 md:grid-cols-4 gap-space-xl"><div class="md:col-span-1 flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-primary">Kitchen406</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Handcrafted in Metro Cebu • Deliveries across Metro Cebu.</p></div><div class="flex flex-col gap-space-sm"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Discover</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a></div><div class="flex flex-col gap-space-sm"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Customer Care &amp; Information</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="account" href="#">Order Tracking</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">Metro Cebu Delivery</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">Privacy &amp; Terms</a></div><div class="flex flex-col gap-space-sm"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Newsletter</span><p class="font-body-sm text-body-sm text-on-surface-variant">Receive weekly bake announcements and subscriber updates across Metro Cebu.</p><div class="flex items-center mt-space-xs"><input class="bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm px-space-md py-space-xs rounded-l-lg focus:outline-none border border-outline-variant/40 flex-1" placeholder="Your email address" type="email"><button class="bg-primary hover:bg-primary-container text-on-primary px-space-md py-space-xs rounded-r-lg font-label-md text-label-md transition-colors" type="button">Join</button></div></div></div><div class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md border-t border-outline-variant/30"><p class="font-body-sm text-body-sm text-outline">© 2025 Kitchen406. All rights reserved. Metro Cebu, Philippines.</p><div class="flex items-center gap-space-lg"><a class="font-body-sm text-body-sm text-outline hover:text-on-surface-variant transition-colors" data-path="about" href="#">Privacy Policy</a><a class="font-body-sm text-body-sm text-outline hover:text-on-surface-variant transition-colors" data-path="about" href="#">Terms of Service</a></div></div></div></footer></body></html>

@@ -70,7 +70,7 @@
           : `<span class="bg-surface/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container">Available</span>`;
 
         const subscriptionBadge = item.subscription
-          ? `<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Subscription available</span>`
+          ? `<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Available for subscription</span>`
           : '';
 
         const cardOpacity = isUnavailable ? 'opacity-85' : '';
