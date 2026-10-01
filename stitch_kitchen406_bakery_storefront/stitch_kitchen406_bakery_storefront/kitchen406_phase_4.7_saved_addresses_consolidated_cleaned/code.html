@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-error": "#ffffff", "on-tertiary-container": "#fffbff", "on-secondary-fixed": "#1f1b18", "on-primary-fixed": "#311300", "outline": "#867368", "surface-tint": "#904d16", "on-primary": "#ffffff", "background": "#fbf9f6", "primary-container": "#ab622b", "on-secondary-container": "#69635f", "error": "#ba1a1a", "on-surface": "#1b1c1a", "primary": "#8d4a14", "tertiary-fixed": "#ebe0d9", "tertiary": "#625b55", "secondary-fixed-dim": "#cdc5c0", "primary-fixed-dim": "#ffb786", "outline-variant": "#d9c2b5", "on-error-container": "#93000a", "surface-dim": "#dbdad7", "inverse-primary": "#ffb786", "secondary-fixed": "#eae1dc", "tertiary-fixed-dim": "#cfc5bd", "inverse-on-surface": "#f2f0ed", "surface-bright": "#fbf9f6", "surface-container-low": "#f5f3f0", "tertiary-container": "#7b736d", "surface-container-highest": "#e4e2df", "on-tertiary-fixed-variant": "#4c4640", "primary-fixed": "#ffdcc6", "surface-container-lowest": "#ffffff", "surface": "#fbf9f6", "on-surface-variant": "#53443a", "secondary-container": "#eae1dc", "on-primary-container": "#fffbff", "secondary": "#635d59", "on-background": "#1b1c1a", "surface-container": "#efeeeb", "on-tertiary-fixed": "#201b16", "surface-container-high": "#eae8e5", "on-secondary": "#ffffff", "error-container": "#ffdad6", "surface-variant": "#e4e2df", "on-primary-fixed-variant": "#723600", "inverse-surface": "#30312f", "on-secondary-fixed-variant": "#4b4642" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1.5rem", "space-md": "1rem", "gutter-mobile": "1rem", "space-xl": "2.5rem", "margin": "3rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin-mobile": "1.25rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-lg-mobile": ["Playfair Display"], "label-md": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "price-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "price-md": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "headline-md": ["Playfair Display"], "display-mobile": ["Playfair Display"], "display": ["Playfair Display"], "title-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-gutter flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><img alt="Brand logo. - Primary color: #b46931
+- Font: playfairDisplay
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPT-ShlgX2R2BPHkQKx9ngcAXJP2WoTUwAh0OMiRuP2Iq51nJTeS98nzuL21Y1xGPQgZfT-GNf_lguQxMA5FmkmTIfQYNAYoYQn_88xRqXK4fZDIXMU2lXp0dmXXyvi8vgWHuX8Qqez1u7-YwAziTf28tLguM71Mu_9uucCYFyiYHbGW2JgXMPpxW89zF7THsWdGOC7VFpRxbfxe7yivBkG3obd-NcLPzs7bbSkmdS7fQzYQ4xNAYVdw"/><a class="font-headline-sm text-headline-sm text-primary tracking-tight" data-path="shop" href="#">Kitchen406</a></div><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-title-sm text-title-sm"><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md"><div class="relative hidden sm:block w-48 xl:w-56"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-10 pl-9 pr-space-sm bg-surface-container-low text-on-surface font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container transition-colors placeholder:text-outline" placeholder="Search loaves, pastries..." type="text"/></div><a class="relative p-space-xs text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 bg-primary text-on-primary font-label-sm text-label-sm rounded-full flex items-center justify-center leading-none">3</span></a><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Maria Clara Santos</span><span class="font-body-sm text-[11px] text-secondary">Account</span></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-20rem)]"><div class="flex flex-col w-full">
+<!-- Notification Toast Container -->
+<div class="fixed top-24 right-6 z-50 transform translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-space-sm bg-surface-container-lowest text-on-surface px-space-md py-space-sm rounded-lg shadow-xl border-l-4 border-primary max-w-md" id="toast-notification">
+<span class="material-symbols-outlined text-primary text-[20px]" id="toast-icon">check_circle</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface" id="toast-title">Address Saved</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="toast-message">Your primary delivery destination has been updated.</span>
+</div>
+<button class="ml-auto text-outline hover:text-on-surface" onclick="hideToast()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Breadcrumbs & Sub-Header -->
+<div class="w-full bg-surface-container-low/60 py-space-sm">
+<div class="max-w-[1240px] mx-auto px-gutter flex items-center justify-between">
+<nav class="flex items-center gap-space-xs font-body-sm text-body-sm text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">My Account</a>
+<span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+<span class="text-on-surface font-title-sm text-title-sm">Saved Addresses</span>
+</nav>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="max-w-[1240px] mx-auto px-gutter py-space-lg w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Column: Authenticated Account Navigation Sidebar -->
+<aside class="lg:col-span-3 flex flex-col gap-space-md"><!-- Mobile Account Navigation Dropdown / Selector -->
+<div class="lg:hidden bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span class="font-title-sm text-title-sm text-on-surface">Saved Addresses</span>
+</div>
+<select class="bg-surface-container text-on-surface font-body-sm text-body-sm px-space-sm py-1.5 rounded focus:outline-none focus:ring-1 focus:ring-primary" onchange="window.location.hash = this.value">
+<option value="profile">My Profile</option>
+<option value="orders">My Orders (2)</option>
+<option value="subscriptions">My Subscriptions</option>
+<option value="custom-cakes">Custom Cake Requests</option>
+<option selected="" value="addresses">Saved Addresses</option>
+<option value="notifications">Notifications</option>
+</select>
+</div>
+<!-- Customer Identity Block -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed font-headline-sm text-headline-sm flex items-center justify-center font-medium shrink-0">
+    MS
+  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface truncate font-semibold">Maria Clara Santos</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">maria.santos@example.com</span>
+<span class="font-label-sm text-[11px] text-secondary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600">verified</span>
+      Customer since October 2024
+    </span>
+</div>
+</div>
+<!-- Account Nav Menu -->
+<nav class="hidden lg:flex bg-surface-container-lowest py-space-sm rounded-lg shadow-sm flex-col">
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">person_outline</span>
+<span class="font-title-sm text-title-sm">My Profile</span>
+</div>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-title-sm text-title-sm">My Orders</span>
+</div>
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full font-label-sm text-label-sm text-secondary">2 active</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">autorenew</span>
+<span class="font-title-sm text-title-sm">My Subscriptions</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">cake</span>
+<span class="font-title-sm text-title-sm">Custom Cake Requests</span>
+</div>
+</a>
+<!-- Active Saved Addresses Item with warm terracotta highlight -->
+<a class="flex items-center justify-between px-space-md py-space-sm bg-secondary-container/50 text-primary font-semibold relative transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="w-1 h-6 bg-primary absolute left-0 rounded-r"></span>
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-title-sm text-title-sm text-primary">Saved Addresses</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-primary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">notifications_none</span>
+<span class="font-title-sm text-title-sm">Notifications</span>
+</div>
+<span class="bg-primary text-on-primary w-5 h-5 rounded-full flex items-center justify-center font-label-sm text-label-sm">1</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="font-title-sm text-title-sm">Account Settings</span>
+</div>
+</a>
+<div class="my-space-xs mx-space-md h-[1px] bg-surface-container-high"></div>
+<a class="flex items-center justify-between px-space-md py-space-sm text-error hover:bg-error-container/30 transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span class="font-body-sm text-body-sm">Sign Out</span>
+</div>
+</a>
+</nav></aside>
+<!-- Right Column: Saved Addresses Management Screen -->
+<section class="lg:col-span-9 flex flex-col gap-space-md"><!-- Header Bar with Title and + Add Address action button -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-md"><div class="space-y-1">
+<div class="flex items-center gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Saved Addresses</h1>
+<span class="bg-surface-container px-2.5 py-0.5 rounded-full font-label-md text-label-md text-secondary" id="address-count-badge">3 addresses</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+Manage the addresses you use for Kitchen406 deliveries.
+</p>
+</div>
+<button class="h-11 px-space-md bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all flex items-center justify-center gap-space-xs shadow-sm whitespace-nowrap active:scale-[0.98]" onclick="openAddressModal('add')">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Add New Address</span>
+</button></div>
+<!-- Addresses List View -->
+<div class="flex flex-col gap-space-md" id="addresses-container">
+<!-- Card 1: Default Home -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md transition-all hover:shadow-md relative border border-transparent hover:border-surface-container" id="address-card-1">
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm"><div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded font-medium text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">home</span>
+<span>Home</span>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded font-label-sm text-label-sm font-semibold tracking-wide">
+Default Address
+</span>
+<span class="bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded font-label-sm text-label-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+Within delivery area
+</span>
+</div></div>
+<!-- Address text details -->
+<div class="space-y-1">
+<p class="font-title-md text-title-md text-on-surface leading-snug font-medium">
+        Unit 402, Oakridge Residences, A.S. Fortuna Street, Banilad
+      </p>
+<p class="font-body-md text-body-md text-secondary">
+        Mandaue City, Cebu, 6014
+      </p>
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-[16px] text-outline">near_me</span>
+<span><strong class="font-semibold text-on-surface">Landmark:</strong> Beside Oakridge Business Park gate entrance</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs border-t border-surface-container-low">
+<button class="h-9 px-space-sm text-on-surface-variant hover:text-primary hover:bg-surface-container font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openAddressModal('edit', 1)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit</span>
+</button>
+<button class="h-9 px-space-sm text-error hover:bg-error-container/40 font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openRemoveModal(1, 'Unit 402, Oakridge Residences')">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Remove</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Work -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md transition-all hover:shadow-md relative border border-transparent hover:border-surface-container" id="address-card-2">
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm"><div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded font-medium text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">apartment</span>
+<span>Work</span>
+</div>
+<span class="bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded font-label-sm text-label-sm flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+Within delivery area
+</span>
+</div></div>
+<div class="space-y-1">
+<p class="font-title-md text-title-md text-on-surface leading-snug font-medium">
+        12th Floor, Cebu IT Park Tower 2, Jose Maria del Mar St, Apas
+      </p>
+<p class="font-body-md text-body-md text-secondary">
+        Cebu City, Cebu, 6000
+      </p>
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-[16px] text-outline">near_me</span>
+<span><strong class="font-semibold text-on-surface">Landmark:</strong> Reception lobby turnstiles, call upon arrival</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs border-t border-surface-container-low">
+<button class="h-9 px-space-sm text-primary hover:bg-primary/10 font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="setDefaultAddress(2)">
+<span class="material-symbols-outlined text-[16px]">check_box_outline_blank</span>
+<span>Set as Default</span>
+</button>
+<button class="h-9 px-space-sm text-on-surface-variant hover:text-primary hover:bg-surface-container font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openAddressModal('edit', 2)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit</span>
+</button>
+<button class="h-9 px-space-sm text-error hover:bg-error-container/40 font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openRemoveModal(2, 'Cebu IT Park Tower 2')">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Remove</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Vacation / Summer Villa (Outside Delivery Area) -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md transition-all hover:shadow-md relative border border-transparent hover:border-surface-container" id="address-card-3"><div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded font-medium text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">cottage</span>
+<span>Vacation Home</span>
+</div>
+<span class="bg-amber-100 text-amber-900 px-2.5 py-1 rounded font-label-sm text-label-sm flex items-center gap-1.5 font-medium">
+<span class="w-2 h-2 rounded-full bg-amber-700"></span>
+Outside current delivery area
+</span>
+</div>
+</div>
+<div class="space-y-1">
+<p class="font-title-md text-title-md text-on-surface leading-snug font-medium">
+Lot 14, Coral Bay Subdivision, Maribago
+</p>
+<p class="font-body-md text-body-md text-secondary">
+Lapu-Lapu City, Cebu, 6015
+</p>
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-[16px] text-outline">near_me</span>
+<span><strong class="font-semibold text-on-surface">Landmark:</strong> Near Maribago Bluewater main driveway</span>
+</div>
+</div>
+<div class="bg-amber-50/80 p-space-sm rounded flex items-center gap-space-xs text-amber-900 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-amber-800 shrink-0">info</span>
+<span>This address is currently outside Kitchen406’s delivery area. Delivery availability will be confirmed when you select fulfillment.</span>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs border-t border-surface-container-low">
+<button class="h-9 px-space-sm text-primary hover:bg-primary/10 font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="setDefaultAddress(3)">
+<span class="material-symbols-outlined text-[16px]">check_box_outline_blank</span>
+<span>Set as Default</span>
+</button>
+<button class="h-9 px-space-sm text-on-surface-variant hover:text-primary hover:bg-surface-container font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openAddressModal('edit', 3)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit</span>
+</button>
+<button class="h-9 px-space-sm text-error hover:bg-error-container/40 font-label-md text-label-md rounded flex items-center gap-1.5 transition-colors" onclick="openRemoveModal(3, 'Lot 14, Coral Bay Subdivision')">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Remove</span>
+</button>
+</div></div>
+</div>
+<!-- Empty State View -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-lg shadow-sm text-center flex-col items-center justify-center py-16 px-space-lg" id="empty-state-card">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-space-md text-outline">
+<span class="material-symbols-outlined text-[32px]">location_off</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-space-xs">No saved addresses yet</h2>
+<p class="font-body-md text-body-md text-secondary max-w-md mb-space-lg">
+    Save an address to make future deliveries easier.
+  </p>
+<button class="h-11 px-space-lg bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all flex items-center gap-space-xs shadow-sm" onclick="openAddressModal('add')">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>+ Add Your First Address</span>
+</button>
+</div></section>
+</div>
+</div>
+<!-- INTERACTIVE ADD / EDIT ADDRESS MODAL OVERLAY -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-200" id="address-modal"><div class="bg-surface-container-lowest rounded-xl shadow-2xl max-w-2xl w-full max-h-[921px] flex flex-col overflow-hidden transform scale-95 transition-transform duration-200" id="modal-box">
+<!-- Modal Header -->
+<div class="p-space-md sm:p-space-lg bg-surface-container-low/60 flex items-center justify-between border-b border-surface-container-high">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface" id="modal-title">Add Address</h2>
+<p class="font-body-sm text-body-sm text-secondary">Save a delivery address for easy checkout.</p>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors" onclick="closeAddressModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable 6 Steps) -->
+<div class="p-space-md sm:p-space-lg overflow-y-auto space-y-space-md">
+<!-- Step 1: Label selector -->
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface">Address Label</label>
+<div class="grid grid-cols-3 gap-space-xs">
+<button class="h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-primary text-on-primary transition-colors" id="label-tag-home" onclick="selectLabelTag('home')" type="button">
+<span class="material-symbols-outlined text-[16px]">home</span>
+          Home
+        </button>
+<button class="h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" id="label-tag-work" onclick="selectLabelTag('work')" type="button">
+<span class="material-symbols-outlined text-[16px]">apartment</span>
+          Work
+        </button>
+<button class="h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" id="label-tag-other" onclick="selectLabelTag('other')" type="button">
+<span class="material-symbols-outlined text-[16px]">bookmark</span>
+          Other
+        </button>
+</div>
+<div class="hidden mt-2" id="custom-label-input-wrap">
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="custom-label-input" placeholder="e.g. Parents' House, Weekend Studio" type="text"/>
+</div>
+</div>
+<!-- Step 2: Search for your address with autocomplete -->
+<div class="space-y-1.5 relative">
+<label class="font-label-md text-label-md text-on-surface">Search for address or landmark</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-11 pl-10 pr-10 bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-outline" id="places-search-input" oninput="handlePlacesInput(this.value)" placeholder="Search for street, landmark, or building in Metro Cebu..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface hidden" id="clear-search-btn" onclick="clearPlacesSearch()" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<!-- Autocomplete Dropdown List -->
+<div class="hidden absolute top-full left-0 w-full mt-1 bg-surface-container-lowest rounded-lg shadow-xl z-20 overflow-hidden max-h-60 overflow-y-auto border border-surface-container" id="places-dropdown">
+<div class="px-space-md py-space-sm hover:bg-surface-container cursor-pointer flex items-start gap-space-sm" onclick="selectPlace('Oakridge Business Park, A.S. Fortuna St, Mandaue City', true)">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">location_on</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Oakridge Business Park</span>
+<span class="font-body-sm text-body-sm text-secondary">A.S. Fortuna St, Banilad, Mandaue City, 6014 Cebu</span>
+</div>
+</div>
+<div class="px-space-md py-space-sm hover:bg-surface-container cursor-pointer flex items-start gap-space-sm" onclick="selectPlace('Cebu IT Park, Jose Maria del Mar St, Apas, Cebu City', true)">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">apartment</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Cebu IT Park</span>
+<span class="font-body-sm text-body-sm text-secondary">Jose Maria del Mar St, Apas, Cebu City, 6000 Cebu</span>
+</div>
+</div>
+<div class="px-space-md py-space-sm hover:bg-surface-container cursor-pointer flex items-start gap-space-sm" onclick="selectPlace('Banilad Town Centre, Gov. M. Cuenco Ave, Cebu City', true)">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">storefront</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Banilad Town Centre (BTC)</span>
+<span class="font-body-sm text-body-sm text-secondary">Gov. M. Cuenco Ave, Banilad, Cebu City, 6000 Cebu</span>
+</div>
+</div>
+<div class="px-space-md py-space-sm hover:bg-surface-container cursor-pointer flex items-start gap-space-sm bg-amber-50/40" onclick="selectPlace('Highland Terraces, Busay, Cebu City', false)">
+<span class="material-symbols-outlined text-amber-700 text-[18px] mt-0.5">warning</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface">Highland Terraces, Busay</span>
+<span class="text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded font-semibold">Outside Delivery Area</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Cebu Transcentral Highway, Busay, Cebu City</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Interactive map preview with pin & serviceability indicator -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between"><label class="font-label-md text-label-md text-on-surface">Confirm your location on the map (Kitchen406 Delivery Area)</label></div>
+<div class="relative w-full h-48 bg-surface-container-high rounded-lg overflow-hidden select-none cursor-crosshair" id="interactive-map-area" onclick="handleMapClick(event)">
+<svg class="w-full h-full object-cover" fill="none" viewbox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#EAE6E1" height="220" width="600"></rect>
+<path d="M490 0 L460 70 L490 140 L540 220 L600 220 L600 0 Z" fill="#D2DFDE"></path>
+<text fill="#8EA3A1" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" letter-spacing="2" x="500" y="100">MACTAN CHANNEL</text>
+<path d="M0 50 Q 200 70 400 35 L 460 25" stroke="#FFFFFF" stroke-width="6"></path>
+<path d="M50 0 L 220 220" stroke="#FFFFFF" stroke-width="7"></path>
+<path d="M220 0 L 320 220" stroke="#FFFFFF" stroke-width="6"></path>
+<path d="M0 150 Q 180 140 430 180" stroke="#FFFFFF" stroke-width="6"></path>
+<text fill="#8C827A" font-family="Plus Jakarta Sans" font-size="9" x="70" y="70">A.S. FORTUNA ST</text>
+<text fill="#8C827A" font-family="Plus Jakarta Sans" font-size="9" x="210" y="120">GOV. M. CUENCO AVE</text>
+<text fill="#8C827A" font-family="Plus Jakarta Sans" font-size="9" x="120" y="175">CEBU IT PARK</text>
+</svg>
+<!-- Draggable Map Pin -->
+<div class="absolute left-[45%] top-[48%] -translate-x-1/2 -translate-y-full cursor-grab active:cursor-grabbing transition-all duration-150 flex flex-col items-center pointer-events-none" id="map-pin">
+<span class="material-symbols-outlined text-[34px] text-primary drop-shadow-md" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="w-2 h-1 bg-on-surface/40 rounded-full blur-[1px] -mt-1"></div>
+</div>
+<!-- Map Controls -->
+<div class="absolute bottom-2 right-2 flex flex-col gap-1 bg-surface-container-lowest/90 rounded shadow-md p-1">
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container rounded text-[13px] font-bold" type="button">+</button>
+<button class="w-6 h-6 flex items-center justify-center text-on-surface hover:bg-surface-container rounded text-[13px] font-bold" type="button">-</button>
+</div>
+</div>
+<!-- Serviceability indicator -->
+<div class="bg-emerald-50 text-emerald-900 p-space-sm rounded-lg flex items-center gap-space-xs font-body-sm text-body-sm transition-all" id="serviceability-banner">
+<span class="material-symbols-outlined text-emerald-700 text-[18px] shrink-0" id="service-icon">check_circle</span>
+<span id="service-text">
+<strong>Within delivery area:</strong> Deliveries are available for this location.
+        </span>
+</div>
+</div>
+<!-- Step 4: Address details -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="sm:col-span-2 space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Street Name, Building, House No.</label>
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-address1" type="text" value="Unit 402, Oakridge Residences, A.S. Fortuna Street"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Unit / Floor (Optional)</label>
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-address2" type="text" value="Tower B, 4th Floor"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Barangay</label>
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-barangay" type="text" value="Banilad"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">City / Municipality</label>
+<select class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-city">
+<option selected="" value="Mandaue City">Mandaue City</option>
+<option value="Cebu City">Cebu City</option>
+<option value="Lapu-Lapu City">Lapu-Lapu City</option>
+<option value="Talisay City">Talisay City</option>
+<option value="Consolacion">Consolacion</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Postal Code</label>
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-postal" maxlength="4" type="text" value="6014"/>
+</div>
+</div>
+<!-- Step 5: Landmark / delivery instructions -->
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Landmark or Delivery Instructions</label>
+<input class="w-full h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded focus:outline-none focus:ring-1 focus:ring-primary" id="modal-landmark" placeholder="e.g. Beside the main gate entrance, blue gate beside pharmacy" type="text" value="Beside Oakridge Business Park gate entrance"/>
+</div>
+<!-- Step 6: Default Checkbox -->
+<label class="flex items-start gap-space-xs cursor-pointer pt-space-xs select-none">
+<input checked="" class="mt-1 h-4 w-4 rounded text-primary focus:ring-primary accent-primary" id="modal-is-default" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Set as my default delivery address</span>
+<span class="font-body-sm text-body-sm text-secondary">This address will be preselected at checkout.</span>
+</div>
+</label>
+</div>
+<!-- Modal Footer -->
+<div class="p-space-md sm:p-space-lg bg-surface-container-low/60 flex items-center justify-end gap-space-sm border-t border-surface-container-high">
+<button class="h-10 px-space-md bg-transparent text-secondary hover:bg-surface-container font-label-md text-label-md rounded transition-colors" onclick="closeAddressModal()" type="button">
+      Cancel
+    </button>
+<button class="h-10 px-space-lg bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary-container transition-all flex items-center gap-space-xs shadow-sm" id="save-address-btn" onclick="saveAddressAction()" type="button">
+<span class="material-symbols-outlined text-[18px]">done</span>
+<span id="save-btn-text">Save Address</span>
+</button>
+</div>
+</div></div>
+<!-- CONFIRMATION MODAL: REMOVE ADDRESS -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-200" id="remove-modal"><div class="bg-surface-container-lowest rounded-xl shadow-2xl max-w-md w-full p-space-lg transform scale-95 transition-transform duration-200 space-y-space-md" id="remove-box">
+<div class="w-12 h-12 rounded-full bg-error-container/40 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">delete</span>
+</div>
+<div><h3 class="font-headline-md text-headline-md text-on-surface">Remove this address?</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+Removing this address will prevent it from being selected for future orders. Existing orders will not be affected.
+</p></div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="h-10 px-space-md text-secondary hover:bg-surface-container font-label-md text-label-md rounded transition-colors" onclick="closeRemoveModal()">
+      Cancel
+    </button>
+<button class="h-10 px-space-md bg-error text-on-error hover:bg-error/90 font-label-md text-label-md rounded transition-colors flex items-center gap-1.5 shadow-sm" onclick="confirmRemoveAddress()">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span>Remove Address</span>
+</button>
+</div>
+</div></div>
+<!-- QA PROTOCOL DOCK (Interactive Testing Controls) -->
+<div class="sticky bottom-0 w-full z-40 bg-surface-container-highest/95 backdrop-blur-md py-space-sm shadow-[0_-2px_12px_rgba(0,0,0,0.06)]"><div class="max-w-[1240px] mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">science</span>
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-semibold">QA Prototype Inspector:</span>
+</div>
+<div class="flex flex-wrap items-center gap-1.5"><button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('default')">1. Default (3 addresses)</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('open-add')">2. Add Address Modal</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('open-edit')">3. Edit Address Modal</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('autocomplete')">4. Places Autocomplete</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('map-confirm')">5. Map Pin Confirmation</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('out-of-area')">6. Outside Delivery Area</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('remove-confirm')">7. Remove Dialog Modal</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('empty')">8. Empty State (0)</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('loading')">9. Loading State</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('error')">10. Error State</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('toast')">11. Success Toast</button>
+<button class="h-7 px-2 rounded text-[11px] font-label-sm bg-primary/20 text-primary font-semibold hover:bg-primary hover:text-on-primary transition-colors" onclick="qaSetState('reset')">↺ Reset</button></div>
+</div></div>
+</div>
+<script>
+  let pendingDeleteId = null;
+  let activeLabelType = 'home';
+  let isServiceableCurrent = true;
+
+  function showToast(title, message, isSuccess = true) {
+    const toast = document.getElementById('toast-notification');
+    const toastTitle = document.getElementById('toast-title');
+    const toastMsg = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+
+    toastTitle.textContent = title;
+    toastMsg.textContent = message;
+
+    if (isSuccess) {
+      toastIcon.textContent = 'check_circle';
+      toastIcon.className = 'material-symbols-outlined text-primary text-[20px]';
+    } else {
+      toastIcon.textContent = 'warning';
+      toastIcon.className = 'material-symbols-outlined text-amber-600 text-[20px]';
+    }
+
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      hideToast();
+    }, 4000);
+  }
+
+  function hideToast() {
+    const toast = document.getElementById('toast-notification');
+    toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+    toast.classList.remove('opacity-100', 'translate-y-0');
+  }
+
+  function selectLabelTag(type) {
+    activeLabelType = type;
+    const btnHome = document.getElementById('label-tag-home');
+    const btnWork = document.getElementById('label-tag-work');
+    const btnOther = document.getElementById('label-tag-other');
+    const customWrap = document.getElementById('custom-label-input-wrap');
+
+    [btnHome, btnWork, btnOther].forEach(btn => {
+      btn.className = 'h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors';
+    });
+
+    if (type === 'home') {
+      btnHome.className = 'h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-primary text-on-primary transition-colors';
+      customWrap.classList.add('hidden');
+    } else if (type === 'work') {
+      btnWork.className = 'h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-primary text-on-primary transition-colors';
+      customWrap.classList.add('hidden');
+    } else {
+      btnOther.className = 'h-10 rounded font-label-md text-label-md flex items-center justify-center gap-1.5 bg-primary text-on-primary transition-colors';
+      customWrap.classList.remove('hidden');
+    }
+  }
+
+  function openAddressModal(mode = 'add', addressId = null) {
+    const modal = document.getElementById('address-modal');
+    const modalBox = document.getElementById('modal-box');
+    const title = document.getElementById('modal-title');
+    const saveBtn = document.getElementById('save-btn-text');
+
+    if (mode === 'edit') {
+      title.textContent = 'Edit Saved Address';
+      saveBtn.textContent = 'Save Changes';
+      if (addressId === 1) {
+        selectLabelTag('home');
+        document.getElementById('modal-address1').value = 'Unit 402, Oakridge Residences, A.S. Fortuna Street';
+        document.getElementById('modal-address2').value = 'Tower B, 4th Floor';
+        document.getElementById('modal-city').value = 'Mandaue City';
+        document.getElementById('modal-postal').value = '6014';
+        document.getElementById('modal-landmark').value = 'Beside Oakridge Business Park gate entrance';
+        document.getElementById('modal-is-default').checked = true;
+        setServiceabilityUI(true);
+      } else if (addressId === 2) {
+        selectLabelTag('work');
+        document.getElementById('modal-address1').value = '12th Floor, Cebu IT Park Tower 2, Jose Maria del Mar St';
+        document.getElementById('modal-address2').value = 'Apas District';
+        document.getElementById('modal-city').value = 'Cebu City';
+        document.getElementById('modal-postal').value = '6000';
+        document.getElementById('modal-landmark').value = 'Reception lobby turnstiles, call upon arrival';
+        document.getElementById('modal-is-default').checked = false;
+        setServiceabilityUI(true);
+      } else if (addressId === 3) {
+        selectLabelTag('other');
+        document.getElementById('custom-label-input').value = 'Vacation Villa';
+        document.getElementById('modal-address1').value = 'Lot 14, Coral Bay Subdivision, Maribago';
+        document.getElementById('modal-address2').value = 'Near beachfront';
+        document.getElementById('modal-city').value = 'Lapu-Lapu City';
+        document.getElementById('modal-postal').value = '6015';
+        document.getElementById('modal-landmark').value = 'Near Maribago Bluewater main driveway';
+        document.getElementById('modal-is-default').checked = false;
+        setServiceabilityUI(false);
+      }
+    } else {
+      title.textContent = 'Add a New Address';
+      saveBtn.textContent = 'Save Address';
+      selectLabelTag('home');
+      document.getElementById('modal-address1').value = '';
+      document.getElementById('modal-address2').value = '';
+      document.getElementById('modal-city').value = 'Cebu City';
+      document.getElementById('modal-postal').value = '';
+      document.getElementById('modal-landmark').value = '';
+      document.getElementById('modal-is-default').checked = false;
+      document.getElementById('places-search-input').value = '';
+      setServiceabilityUI(true);
+    }
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modalBox.classList.remove('scale-95');
+    modalBox.classList.add('scale-100');
+  }
+
+  function closeAddressModal() {
+    const modal = document.getElementById('address-modal');
+    const modalBox = document.getElementById('modal-box');
+    modalBox.classList.remove('scale-100');
+    modalBox.classList.add('scale-95');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    document.getElementById('places-dropdown').classList.add('hidden');
+  }
+
+  function handlePlacesInput(val) {
+    const dropdown = document.getElementById('places-dropdown');
+    const clearBtn = document.getElementById('clear-search-btn');
+    if (val.trim().length > 1) {
+      dropdown.classList.remove('hidden');
+      clearBtn.classList.remove('hidden');
+    } else {
+      dropdown.classList.add('hidden');
+      clearBtn.classList.add('hidden');
+    }
+  }
+
+  function clearPlacesSearch() {
+    const input = document.getElementById('places-search-input');
+    input.value = '';
+    document.getElementById('places-dropdown').classList.add('hidden');
+    document.getElementById('clear-search-btn').classList.add('hidden');
+  }
+
+  function selectPlace(placeTitle, isServiceable) {
+    document.getElementById('places-search-input').value = placeTitle;
+    document.getElementById('places-dropdown').classList.add('hidden');
+
+    if (placeTitle.includes('Oakridge')) {
+      document.getElementById('modal-address1').value = 'A.S. Fortuna Street, Banilad';
+      document.getElementById('modal-city').value = 'Mandaue City';
+      document.getElementById('modal-postal').value = '6014';
+      document.getElementById('modal-landmark').value = 'Beside Oakridge Business Park gate entrance';
+    } else if (placeTitle.includes('IT Park')) {
+      document.getElementById('modal-address1').value = 'Jose Maria del Mar St, Apas';
+      document.getElementById('modal-city').value = 'Cebu City';
+      document.getElementById('modal-postal').value = '6000';
+      document.getElementById('modal-landmark').value = 'Near Skyrise 4 and Garden Bloc';
+    } else if (placeTitle.includes('Ayala Center')) {
+      document.getElementById('modal-address1').value = 'Cardinal Rosales Ave, Cebu Business Park';
+      document.getElementById('modal-city').value = 'Cebu City';
+      document.getElementById('modal-postal').value = '6000';
+      document.getElementById('modal-landmark').value = 'Near Rustan’s Supermarket entrance';
+    } else if (placeTitle.includes('Busay')) {
+      document.getElementById('modal-address1').value = 'Highland Terraces, Cebu Transcentral Highway';
+      document.getElementById('modal-city').value = 'Cebu City';
+      document.getElementById('modal-postal').value = '6000';
+      document.getElementById('modal-landmark').value = 'Busay mountain ridge viewdeck';
+    }
+
+    setServiceabilityUI(isServiceable);
+  }
+
+  function setServiceabilityUI(isServiceable) {
+    isServiceableCurrent = isServiceable;
+    const banner = document.getElementById('serviceability-banner');
+    const icon = document.getElementById('service-icon');
+    const text = document.getElementById('service-text');
+
+    if (isServiceable) {
+      banner.className = 'bg-emerald-50 text-emerald-900 p-space-sm rounded-lg flex items-start gap-space-xs font-body-sm text-body-sm transition-all';
+      icon.className = 'material-symbols-outlined text-emerald-700 text-[18px] shrink-0 mt-0.5';
+      icon.textContent = 'check_circle';
+      text.innerHTML = '<strong>Within delivery area:</strong> This location is within Kitchen406\'s current serviceable area in Metro Cebu. Fresh hearth delivery available Wednesday – Sunday.';
+    } else {
+      banner.className = 'bg-amber-50 text-amber-900 p-space-sm rounded-lg flex items-start gap-space-xs font-body-sm text-body-sm transition-all';
+      icon.className = 'material-symbols-outlined text-amber-700 text-[18px] shrink-0 mt-0.5';
+      icon.textContent = 'warning';
+      text.innerHTML = '<strong>Outside current delivery area:</strong> Delivery may not be available at this location. Address can be saved for your records, but standard artisan checkout may require atelier pickup at Lahug.';
+    }
+  }
+
+  function handleMapClick(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const pin = document.getElementById('map-pin');
+    pin.style.left = x + 'px';
+    pin.style.top = y + 'px';
+
+    // If clicked on eastern half near water / Mactan, flag as outside core area demo
+    if (x > rect.width * 0.72) {
+      setServiceabilityUI(false);
+    } else {
+      setServiceabilityUI(true);
+    }
+  }
+
+  function centerPinDemo() {
+    const pin = document.getElementById('map-pin');
+    pin.style.left = '45%';
+    pin.style.top = '48%';
+    setServiceabilityUI(true);
+    showToast('GPS Located', 'Coordinates calibrated to Metro Cebu center.');
+  }
+
+  function saveAddressAction() {
+    const saveBtn = document.getElementById('save-address-btn');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Verifying Pin...';
+
+    setTimeout(() => {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = originalText;
+      closeAddressModal();
+      showToast('Address Saved Successfully', 'Your Metro Cebu delivery address is verified and ready for hearth orders.');
+    }, 700);
+  }
+
+  function setDefaultAddress(id) {
+    showToast('Default Address Updated', 'Future checkout orders will now default to this location.');
+  }
+
+  function openRemoveModal(id, addressTitle) {
+    pendingDeleteId = id;
+    const modal = document.getElementById('remove-modal');
+    const box = document.getElementById('remove-box');
+    document.getElementById('remove-address-title').textContent = addressTitle;
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    box.classList.remove('scale-95');
+    box.classList.add('scale-100');
+  }
+
+  function closeRemoveModal() {
+    const modal = document.getElementById('remove-modal');
+    const box = document.getElementById('remove-box');
+    box.classList.remove('scale-100');
+    box.classList.add('scale-95');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    pendingDeleteId = null;
+  }
+
+  function confirmRemoveAddress() {
+    if (pendingDeleteId) {
+      const card = document.getElementById('address-card-' + pendingDeleteId);
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          card.remove();
+          checkAddressCount();
+        }, 200);
+      }
+    }
+    closeRemoveModal();
+    showToast('Address Removed', 'The delivery address has been cleared from your account.');
+  }
+
+  function checkAddressCount() {
+    const container = document.getElementById('addresses-container');
+    const emptyState = document.getElementById('empty-state-card');
+    const badge = document.getElementById('address-count-badge');
+    const cards = container.children;
+
+    let count = 0;
+    for (let c of cards) {
+      if (c.style.display !== 'none' && c.id && c.id.startsWith('address-card-')) {
+        count++;
+      }
+    }
+
+    badge.textContent = count + ' ' + (count === 1 ? 'address' : 'addresses');
+    if (count === 0) {
+      emptyState.classList.remove('hidden');
+      emptyState.classList.add('flex');
+    } else {
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+    }
+  }
+
+  // QA Protocol Simulator State Machine
+  function qaSetState(scenario) {
+    const card1 = document.getElementById('address-card-1');
+    const card2 = document.getElementById('address-card-2');
+    const card3 = document.getElementById('address-card-3');
+    const emptyState = document.getElementById('empty-state-card');
+    const badge = document.getElementById('address-count-badge');
+
+    // Close any open modals first
+    closeAddressModal();
+    closeRemoveModal();
+
+    if (scenario === 'default') {
+      [card1, card2, card3].forEach(c => {
+        if (c) {
+          c.style.display = 'flex';
+          c.style.opacity = '1';
+          c.style.transform = 'scale(1)';
+        }
+      });
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+      badge.textContent = '3 addresses';
+      showToast('Baseline Loaded', 'Displaying 3 standard saved addresses (1 default, 1 standard, 1 outside delivery area).');
+    } else if (scenario === 'open-add') {
+      openAddressModal('add');
+    } else if (scenario === 'open-edit') {
+      openAddressModal('edit', 1);
+    } else if (scenario === 'autocomplete') {
+      openAddressModal('add');
+      const searchInput = document.getElementById('places-search-input');
+      searchInput.value = 'Banilad';
+      handlePlacesInput('Banilad');
+    } else if (scenario === 'out-of-area') {
+      openAddressModal('add');
+      selectPlace('Highland Terraces, Busay, Cebu City', false);
+      const pin = document.getElementById('map-pin');
+      pin.style.left = '85%';
+      pin.style.top = '25%';
+      showToast('Out-of-Area Triggered', 'Busay Highlands address falls outside the 12km dispatch radius.', false);
+    } else if (scenario === 'empty') {
+      [card1, card2, card3].forEach(c => {
+        if (c) c.style.display = 'none';
+      });
+      emptyState.classList.remove('hidden');
+      emptyState.classList.add('flex');
+      badge.textContent = '0 addresses';
+      showToast('Empty State', 'All addresses cleared. Viewing first-time patron onboarding screen.');
+    } else if (scenario === 'remove-confirm') {
+      openRemoveModal(1, 'Unit 402, Oakridge Residences');
+    } else if (scenario === 'toast') {
+      showToast('Default Updated', 'Oakridge Residences is set as primary batch address.');
+    } else if (scenario === 'reset') {
+      qaSetState('default');
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-low text-on-surface-variant mt-space-xl"><div class="max-w-[1240px] mx-auto px-gutter py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl mb-space-xl"><div class="space-y-space-sm"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-primary">Kitchen406</span></div><p class="font-body-sm text-body-sm text-secondary">Small-batch artisanal bakery rooted in slow fermentation, unhurried precision, and pure pantry craft. Handcrafted in Metro Cebu, Philippines.</p><p class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Metro Cebu, Philippines</p></div><div class="space-y-space-sm"><h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Discover</h3><ul class="space-y-space-xs font-body-sm text-body-sm"><li class="hover:text-primary transition-colors cursor-pointer">Sourdough &amp; Bread</li><li class="hover:text-primary transition-colors cursor-pointer">Morning Viennoiserie</li><li class="hover:text-primary transition-colors cursor-pointer">Bread Subscriptions</li><li class="hover:text-primary transition-colors cursor-pointer">Custom Celebration Cakes</li></ul></div><div class="space-y-space-sm"><h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Customer Care</h3><ul class="space-y-space-xs font-body-sm text-body-sm"><li class="hover:text-primary transition-colors cursor-pointer">Pickup &amp; Delivery Guide</li><li class="hover:text-primary transition-colors cursor-pointer">Storage &amp; Reheating</li><li class="hover:text-primary transition-colors cursor-pointer">Care FAQs</li><li class="text-primary hover:underline cursor-pointer">hello@kitchen406.com</li></ul></div><div class="space-y-space-sm"><h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Bakery Dispatch</h3><p class="font-body-sm text-body-sm text-secondary">Sign up for wild yeast bake drop notices, monthly tasting schedules, and seasonal reserve loaves.</p><div class="flex gap-space-xs"><input class="h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg flex-1 focus:outline-none placeholder:text-outline" placeholder="Your email address" type="email"/><button class="h-10 px-space-md bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-colors">Join</button></div></div></div><div class="pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md font-body-sm text-body-sm text-outline border-t border-surface-container-high"><p>© 2026 Kitchen406. Handcrafted in Metro Cebu, Philippines.</p><div class="flex items-center gap-space-md"><span class="hover:text-primary transition-colors cursor-pointer">Privacy Policy</span><span class="hover:text-primary transition-colors cursor-pointer">Terms of Service</span><span class="hover:text-primary transition-colors cursor-pointer">Delivery FAQs</span></div></div></div></footer></body></html>

@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "on-error": "#ffffff", "on-tertiary-container": "#fffbff", "on-secondary-fixed": "#1f1b18", "on-primary-fixed": "#311300", "outline": "#867368", "surface-tint": "#904d16", "on-primary": "#ffffff", "background": "#fbf9f6", "primary-container": "#ab622b", "on-secondary-container": "#69635f", "error": "#ba1a1a", "on-surface": "#1b1c1a", "primary": "#8d4a14", "tertiary-fixed": "#ebe0d9", "tertiary": "#625b55", "secondary-fixed-dim": "#cdc5c0", "primary-fixed-dim": "#ffb786", "outline-variant": "#d9c2b5", "on-error-container": "#93000a", "surface-dim": "#dbdad7", "inverse-primary": "#ffb786", "secondary-fixed": "#eae1dc", "tertiary-fixed-dim": "#cfc5bd", "inverse-on-surface": "#f2f0ed", "surface-bright": "#fbf9f6", "surface-container-low": "#f5f3f0", "tertiary-container": "#7b736d", "surface-container-highest": "#e4e2df", "on-tertiary-fixed-variant": "#4c4640", "primary-fixed": "#ffdcc6", "surface-container-lowest": "#ffffff", "surface": "#fbf9f6", "on-surface-variant": "#53443a", "secondary-container": "#eae1dc", "on-primary-container": "#fffbff", "secondary": "#635d59", "on-background": "#1b1c1a", "surface-container": "#efeeeb", "on-tertiary-fixed": "#201b16", "surface-container-high": "#eae8e5", "on-secondary": "#ffffff", "error-container": "#ffdad6", "surface-variant": "#e4e2df", "on-primary-fixed-variant": "#723600", "inverse-surface": "#30312f", "on-secondary-fixed-variant": "#4b4642" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1.5rem", "space-md": "1rem", "gutter-mobile": "1rem", "space-xl": "2.5rem", "margin": "3rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin-mobile": "1.25rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-lg-mobile": ["Playfair Display"], "label-md": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "price-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "price-md": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "headline-md": ["Playfair Display"], "display-mobile": ["Playfair Display"], "display": ["Playfair Display"], "title-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-gutter flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPT-ShlgX2R2BPHkQKx9ngcAXJP2WoTUwAh0OMiRuP2Iq51nJTeS98nzuL21Y1xGPQgZfT-GNf_lguQxMA5FmkmTIfQYNAYoYQn_88xRqXK4fZDIXMU2lXp0dmXXyvi8vgWHuX8Qqez1u7-YwAziTf28tLguM71Mu_9uucCYFyiYHbGW2JgXMPpxW89zF7THsWdGOC7VFpRxbfxe7yivBkG3obd-NcLPzs7bbSkmdS7fQzYQ4xNAYVdw"/><a class="font-headline-sm text-headline-sm text-primary tracking-tight" data-path="shop" href="#">Kitchen406</a></div><nav class="hidden lg:flex items-center gap-space-lg"><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="shop" href="#">Shop</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md"><div class="relative hidden sm:block w-48 xl:w-56"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-10 pl-9 pr-space-sm bg-surface-container-low text-on-surface font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container transition-colors placeholder:text-outline" placeholder="Search loaves, pastries..." type="text"/></div><a class="relative p-space-xs text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 bg-primary text-on-primary font-label-sm text-label-sm rounded-full flex items-center justify-center leading-none">3</span></a><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Maria Clara Santos</span><a class="font-label-sm text-label-sm text-primary hover:underline" href="#">My Account</a></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-20rem)]"><div class="flex flex-col w-full">
+<!-- Status Context Bar -->
+<aside aria-label="Bakery service status notice" class="w-full bg-surface-container text-on-surface-variant text-body-sm font-body-sm py-2 px-gutter">
+<div class="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-title-sm text-title-sm text-primary">Metro Cebu Bakery Service Active</span>
+<span class="text-secondary">— Daily naturally leavened batches baking on schedule</span>
+</div>
+<div class="flex items-center gap-space-md text-secondary">
+<span>Fresh Bakes: <strong class="font-title-sm text-on-surface">Wednesday – Sunday</strong></span>
+<span class="hidden sm:inline">Dispatch alerts via Email &amp; SMS</span>
+</div>
+</div>
+</aside>
+<!-- Page Breadcrumbs -->
+<section class="w-full max-w-[1240px] mx-auto px-gutter pt-space-lg pb-space-sm">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-body-sm font-body-sm text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span>/</span>
+<a class="hover:text-primary transition-colors" href="#">My Account</a>
+<span>/</span>
+<span class="text-on-surface font-title-sm text-title-sm">Notifications</span>
+</nav>
+</section>
+<!-- Notification Toast Container -->
+<div class="fixed top-24 right-6 z-50 flex flex-col gap-2 pointer-events-none transition-all duration-300" id="toast-container"></div>
+<!-- Main Dual-Column Account Shell -->
+<div class="w-full max-w-[1240px] mx-auto px-gutter pb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT SIDEBAR (Matching Phase 4.6 & Phase 4.7) -->
+<aside class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- Clean Customer Block -->
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-headline-sm tracking-tight shadow-sm shrink-0">
+              MS
+            </div>
+<div class="flex flex-col min-w-0">
+<h1 class="font-title-md text-title-md text-on-surface truncate">Maria Clara Santos</h1>
+<span class="text-body-sm font-body-sm text-secondary truncate">maria.santos@example.com</span>
+<span class="text-body-sm font-body-sm text-outline mt-0.5">Customer since October 2024</span>
+</div>
+</div>
+</div>
+<!-- Account Navigation Menu strictly Phase 4.6 & 4.7 -->
+<nav aria-label="Customer account navigation" class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-1">
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline">person</span>
+<span>My Profile</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline">shopping_bag</span>
+<span>My Orders</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">2 active</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline">event_repeat</span>
+<span>My Subscriptions</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary" title="Active subscription"></span>
+</a>
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline">cake</span>
+<span>Custom Cake Requests</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline">pin_drop</span>
+<span>Saved Addresses</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+</a>
+<!-- Notifications (Active Destination) -->
+<a class="flex items-center justify-between px-space-md py-3 rounded-lg bg-surface-container-high text-primary font-title-sm text-title-sm shadow-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span>Notifications</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm" id="nav-badge-notif">1</span>
+</a>
+<div class="my-1 h-px bg-surface-container"></div>
+<button class="w-full text-left flex items-center gap-3 px-space-md py-2.5 rounded-lg text-error hover:bg-error-container/20 text-body-sm font-body-sm transition-colors" onclick="handleSignOut()">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Sign Out</span>
+</button>
+</nav>
+</aside>
+<!-- RIGHT MAIN CONTENT: CUSTOMER NOTIFICATIONS ONLY -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<section class="flex flex-col gap-space-lg" id="view-notifications">
+<!-- Header & Category Filters -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Notifications</h2>
+<p class="font-body-md text-body-md text-secondary mt-1 max-w-2xl">
+              Stay updated on your orders, subscriptions, custom cake requests, and account activity.
+            </p>
+</div>
+<!-- Category Filter Chips -->
+<div class="mt-space-lg flex flex-wrap items-center gap-2" id="filter-chip-container">
+<button class="filter-chip px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1.5 shadow-sm transition-colors" id="chip-all" onclick="filterNotifications('all')">
+<span>All</span>
+<span class="w-5 h-5 rounded-full bg-white/20 text-on-primary text-label-sm font-label-sm flex items-center justify-center">6</span>
+</button>
+<button class="filter-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" id="chip-orders" onclick="filterNotifications('orders')">
+<span>Orders</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center justify-center">2</span>
+</button>
+<button class="filter-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" id="chip-subscriptions" onclick="filterNotifications('subscriptions')">
+<span>Subscriptions</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center justify-center">2</span>
+</button>
+<button class="filter-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" id="chip-cakes" onclick="filterNotifications('cakes')">
+<span>Custom Cakes</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center justify-center">1</span>
+</button>
+<button class="filter-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" id="chip-account" onclick="filterNotifications('account')">
+<span>Account &amp; Security</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center justify-center">1</span>
+</button>
+</div>
+</div>
+<!-- Alert Container: Operational Delay Alert (Toggleable in QA inspector) -->
+<div class="hidden rounded-xl bg-error-container/40 p-space-md shadow-sm flex items-start gap-3 text-on-surface" id="dispatch-failure-alert">
+<span class="material-symbols-outlined text-error text-[22px] shrink-0">sms_failed</span>
+<div class="flex-1">
+<h3 class="font-title-sm text-title-sm text-error">SMS Notification Delayed</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+              SMS dispatch for order updates experienced a temporary network delay. Email notifications were delivered successfully to maria.santos@example.com.
+            </p>
+</div>
+<button class="text-outline hover:text-on-surface p-1" onclick="hideDispatchAlert()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Error State Banner (Toggleable in QA inspector) -->
+<div class="hidden rounded-xl bg-error-container/30 p-space-md shadow-sm flex items-start gap-3 text-on-surface" id="load-error-alert">
+<span class="material-symbols-outlined text-error text-[22px] shrink-0">sync_problem</span>
+<div class="flex-1">
+<h3 class="font-title-sm text-title-sm text-error">Unable to load recent notifications</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+              We encountered an issue retrieving your latest notification updates. Please check your connection and try again.
+            </p>
+<button class="mt-2 text-primary font-title-sm text-title-sm hover:underline" onclick="toggleLoadError()">Retry Connection</button>
+</div>
+<button class="text-outline hover:text-on-surface p-1" onclick="toggleLoadError()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Notification Cards List -->
+<div class="flex flex-col gap-space-md" id="notifications-list">
+<!-- Item 1: Orders -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="orders">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Order Confirmed</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Orders</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Today, 10:14 AM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Your order <strong class="text-on-surface font-title-sm">#K406-0028</strong> has been confirmed for Friday pickup. Fresh bake scheduled for our morning batch.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">mail</span>
+<span>Email &amp; SMS sent</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Order #K406-0028</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Item 2: Orders -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="orders">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">local_mall</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Your Order Is Ready for Pickup</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Orders</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Yesterday, 3:45 PM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Order <strong class="text-on-surface font-title-sm">#K406-0025</strong> is packaged and ready for pickup at our bakery counter.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">sms</span>
+<span>SMS sent (+63 917 823 4567)</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Order #K406-0025</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Item 3: Custom Cakes -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="cakes">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">cake</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Quotation Ready for Review</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Custom Cakes</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Oct 12, 2026, 2:15 PM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Your custom cake request <strong class="text-on-surface font-title-sm">#CAKE-2409</strong> has an official quotation ready for review (8" Chocolate Cake with pressed botanicals). Valid until Oct 14.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">mail</span>
+<span>Email sent</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>Review Quotation</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Item 4: Subscriptions -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="subscriptions">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">calendar_month</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Upcoming Subscription Delivery</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Subscriptions</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Oct 9, 2026, 8:00 AM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Week 3 of 4 for <strong class="text-on-surface font-title-sm">Japanese Shokupan Loaf</strong> is scheduled for delivery this Saturday between 9:00 AM – 1:00 PM to your Banilad address.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">mail</span>
+<span>Email &amp; SMS sent</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Subscription</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Item 5: Subscriptions -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="subscriptions">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">update</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Delivery Schedule Deferred</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Subscriptions</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Oct 4, 2026, 11:20 AM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Your deferment request for Week 2 was approved. Your delivery has moved to Wednesday, Oct 14.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">mail</span>
+<span>Email sent</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Subscription</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Item 6: Account & Security -->
+<article class="notification-card bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-start gap-space-md" data-category="account">
+<div class="p-3 rounded-lg bg-surface-container-low text-primary shrink-0 self-start">
+<span class="material-symbols-outlined text-[24px]">lock_reset</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Password Changed</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm">Account &amp; Security</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>Sep 28, 2026, 9:30 AM</span>
+</div>
+</div>
+<p class="mt-space-sm font-body-md text-body-md text-secondary leading-relaxed">
+                Your Kitchen406 account password was changed successfully. If you did not make this change, please reset your password immediately.
+              </p>
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">mail</span>
+<span>Email sent</span>
+</div>
+<a class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Profile</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+</div>
+<!-- Empty State (Shown when filter has 0 items or QA triggered) -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm text-center" id="notifications-empty-state">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-outline mb-space-md">
+<span class="material-symbols-outlined text-[32px]">notifications_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="empty-state-title">No Notifications</h3>
+<p class="font-body-md text-body-md text-secondary max-w-md mt-1" id="empty-state-desc">
+              You currently have no notification updates in this category.
+            </p>
+<button class="mt-space-md px-space-md py-2.5 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-colors" onclick="filterNotifications('all')">
+              View All Notifications
+            </button>
+</div>
+<!-- Skeletons State -->
+<div class="hidden flex-col gap-space-md" id="notifications-skeleton-state">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm animate-pulse">
+<div class="flex gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg"></div>
+<div class="flex-1 space-y-3">
+<div class="h-4 bg-surface-container rounded w-1/3"></div>
+<div class="h-3 bg-surface-container rounded w-3/4"></div>
+<div class="h-3 bg-surface-container rounded w-1/4"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm animate-pulse">
+<div class="flex gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg"></div>
+<div class="flex-1 space-y-3">
+<div class="h-4 bg-surface-container rounded w-1/4"></div>
+<div class="h-3 bg-surface-container rounded w-2/3"></div>
+<div class="h-3 bg-surface-container rounded w-1/5"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Info on Count -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-sm text-secondary">
+<p class="text-body-sm font-body-sm">
+              Showing <strong class="text-on-surface font-title-sm" id="visible-count">6</strong> notifications
+            </p>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- ========================================================= -->
+<!-- QA PROTOTYPE INSPECTOR & TEST DOCK (STICKY BOTTOM DOCK)  -->
+<!-- ========================================================= -->
+<section aria-label="Interactive Prototype Inspector" class="w-full bg-inverse-surface text-inverse-on-surface py-3 px-gutter mt-space-xl shadow-lg border-t-0">
+<div class="max-w-[1240px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">build</span>
+<strong class="font-title-sm text-inverse-on-surface">QA Simulator:</strong>
+<span class="text-secondary-fixed-dim hidden sm:inline">Phase 4.8 Notification States</span>
+</div>
+<!-- Quick Trigger Actions -->
+<div class="flex flex-wrap items-center gap-1.5">
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="filterNotifications('all')">
+          1. All (6)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="filterNotifications('orders')">
+          2. Orders (2)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="filterNotifications('subscriptions')">
+          3. Subscriptions (2)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="filterNotifications('cakes')">
+          4. Custom Cakes (1)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="filterNotifications('account')">
+          5. Account (1)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="triggerTotalEmptyState()">
+          6. Empty State (0)
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="triggerCategoryEmptyState()">
+          7. Category Empty
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="toggleSkeletonLoading()">
+          8. Loading Skeletons
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="toggleLoadError()">
+          9. Load Error State
+        </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest/20 hover:bg-surface-container-highest/40 text-inverse-on-surface font-label-sm text-label-sm transition-colors" onclick="toggleDispatchFailure()">
+          10. SMS Delayed Alert
+        </button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm transition-colors" onclick="resetPrototypeBaseline()">
+          11. Reset
+        </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Vanilla Interactive Engine -->
+<script>
+  let currentFilter = 'all';
+
+  // Filter Notification Category Chips
+  function filterNotifications(category) {
+    currentFilter = category;
+    const cards = document.querySelectorAll('.notification-card');
+    const emptyState = document.getElementById('notifications-empty-state');
+    const countDisplay = document.getElementById('visible-count');
+    const chips = document.querySelectorAll('.filter-chip');
+    const list = document.getElementById('notifications-list');
+
+    // Ensure list is shown (not skeletons)
+    list.classList.remove('hidden');
+    document.getElementById('notifications-skeleton-state').classList.add('hidden');
+    document.getElementById('notifications-skeleton-state').classList.remove('flex');
+
+    // Reset chip styles
+    chips.forEach(chip => {
+      chip.className = 'filter-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors';
+      const badge = chip.querySelector('span:last-child');
+      if (badge) {
+        badge.className = 'w-5 h-5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center justify-center';
+      }
+    });
+
+    const activeChip = document.getElementById(`chip-${category}`);
+    if (activeChip) {
+      activeChip.className = 'filter-chip px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1.5 shadow-sm transition-colors';
+      const activeBadge = activeChip.querySelector('span:last-child');
+      if (activeBadge) {
+        activeBadge.className = 'w-5 h-5 rounded-full bg-white/20 text-on-primary text-label-sm font-label-sm flex items-center justify-center';
+      }
+    }
+
+    let visibleCount = 0;
+    cards.forEach(card => {
+      if (category === 'all' || card.getAttribute('data-category') === category) {
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (visibleCount === 0) {
+      document.getElementById('empty-state-title').textContent = 'No Notifications';
+      document.getElementById('empty-state-desc').textContent = 'You currently have no notifications in this category.';
+      emptyState.classList.remove('hidden');
+      emptyState.classList.add('flex');
+    } else {
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+    }
+
+    if (countDisplay) {
+      countDisplay.textContent = visibleCount;
+    }
+  }
+
+  // Toast Notification System
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    const icon = type === 'error' ? 'error' : (type === 'success' ? 'check_circle' : 'info');
+    const bgClass = type === 'error' ? 'bg-error text-on-error' : (type === 'success' ? 'bg-primary text-on-primary' : 'bg-inverse-surface text-inverse-on-surface');
+
+    toast.className = `${bgClass} px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 text-body-sm font-body-sm pointer-events-auto transform transition-all duration-300 translate-y-2 opacity-0`;
+    toast.innerHTML = `
+      <span class="material-symbols-outlined text-[18px]">${icon}</span>
+      <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-y-2', 'opacity-0');
+    });
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-x-4');
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  function handleSignOut() {
+    showToast('Signing out Maria Clara Santos... Redirecting to login.', 'info');
+  }
+
+  // Prototype Inspector Quick Actions
+  function triggerTotalEmptyState() {
+    const cards = document.querySelectorAll('.notification-card');
+    cards.forEach(card => card.classList.add('hidden'));
+    const emptyState = document.getElementById('notifications-empty-state');
+    document.getElementById('empty-state-title').textContent = 'All Caught Up';
+    document.getElementById('empty-state-desc').textContent = 'You do not have any active notifications right now. Check back after your next bake order or subscription dispatch.';
+    emptyState.classList.remove('hidden');
+    emptyState.classList.add('flex');
+    document.getElementById('visible-count').textContent = '0';
+    showToast('Simulating zero notifications empty state.', 'info');
+  }
+
+  function triggerCategoryEmptyState() {
+    const cards = document.querySelectorAll('.notification-card');
+    cards.forEach(card => card.classList.add('hidden'));
+    const emptyState = document.getElementById('notifications-empty-state');
+    document.getElementById('empty-state-title').textContent = 'No Notifications in this Category';
+    document.getElementById('empty-state-desc').textContent = 'There are no active records matching this filter.';
+    emptyState.classList.remove('hidden');
+    emptyState.classList.add('flex');
+    document.getElementById('visible-count').textContent = '0';
+    showToast('Simulating category empty state.', 'info');
+  }
+
+  function toggleSkeletonLoading() {
+    const list = document.getElementById('notifications-list');
+    const skeleton = document.getElementById('notifications-skeleton-state');
+    const isShowing = !skeleton.classList.contains('hidden');
+
+    if (isShowing) {
+      skeleton.classList.add('hidden');
+      skeleton.classList.remove('flex');
+      list.classList.remove('hidden');
+    } else {
+      list.classList.add('hidden');
+      skeleton.classList.remove('hidden');
+      skeleton.classList.add('flex');
+      setTimeout(() => {
+        skeleton.classList.add('hidden');
+        skeleton.classList.remove('flex');
+        list.classList.remove('hidden');
+        showToast('Notifications loaded.', 'success');
+      }, 1500);
+    }
+  }
+
+  function toggleDispatchFailure() {
+    const alert = document.getElementById('dispatch-failure-alert');
+    alert.classList.toggle('hidden');
+    if (!alert.classList.contains('hidden')) {
+      showToast('SMS network delay notice displayed.', 'info');
+    }
+  }
+
+  function hideDispatchAlert() {
+    document.getElementById('dispatch-failure-alert').classList.add('hidden');
+  }
+
+  function toggleLoadError() {
+    const alert = document.getElementById('load-error-alert');
+    alert.classList.toggle('hidden');
+    if (!alert.classList.contains('hidden')) {
+      showToast('Simulating network error on notifications sync.', 'error');
+    } else {
+      showToast('Network connection recovered.', 'success');
+    }
+  }
+
+  function resetPrototypeBaseline() {
+    filterNotifications('all');
+    hideDispatchAlert();
+    document.getElementById('load-error-alert').classList.add('hidden');
+    const skeleton = document.getElementById('notifications-skeleton-state');
+    skeleton.classList.add('hidden');
+    skeleton.classList.remove('flex');
+    document.getElementById('notifications-list').classList.remove('hidden');
+    showToast('Prototype state restored to baseline default.', 'info');
+  }
+</script></main>
+<!-- EXACT UNIFIED KITCHEN406 FOOTER (From Phase 4.6 & 4.7) -->
+<footer class="w-full bg-surface-container-low text-on-surface-variant mt-space-xl">
+<div class="max-w-[1240px] mx-auto px-gutter py-space-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl mb-space-xl">
+<!-- Column 1: Brand Story -->
+<div class="space-y-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-primary">Kitchen406</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+        Small-batch artisanal bakery rooted in slow fermentation, unhurried precision, and pure pantry craft.
+      </p>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-wider">
+        METRO CEBU, PHILIPPINES
+      </p>
+</div>
+<!-- Column 2: Discover Links -->
+<div class="space-y-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Discover</h3>
+<ul class="space-y-space-xs font-body-sm text-body-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Sourdough &amp; Bread</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Morning Viennoiserie</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Bread Subscriptions</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Custom Celebration Cakes</a></li>
+</ul>
+</div>
+<!-- Column 3: Customer Care -->
+<div class="space-y-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Customer Care</h3>
+<ul class="space-y-space-xs font-body-sm text-body-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Pickup &amp; Delivery Guide</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Storage &amp; Reheating</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Care FAQs</a></li>
+<li><a class="hover:text-primary transition-colors" href="mailto:hello@kitchen406.com">hello@kitchen406.com</a></li>
+</ul>
+</div>
+<!-- Column 4: Bakery Dispatch Newsletter -->
+<div class="space-y-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface uppercase tracking-wider">Bakery Dispatch</h3>
+<p class="font-body-sm text-body-sm text-secondary">
+        Subscribe for fresh bake schedules, seasonal loaf announcements, and holiday reservations.
+      </p>
+<form class="flex gap-space-xs" onsubmit="event.preventDefault(); showToast('Subscribed to Bakery Dispatch!', 'success');">
+<input class="h-10 px-space-sm bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg flex-1 focus:outline-none placeholder:text-outline" placeholder="Your email address" type="email"/>
+<button class="h-10 px-space-md bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-colors shrink-0" type="submit">
+          Join
+        </button>
+</form>
+</div>
+</div>
+<!-- Copyright & Legal -->
+<div class="pt-space-lg border-t border-surface-container flex flex-col sm:flex-row items-center justify-between gap-space-md font-body-sm text-body-sm text-outline">
+<p>© 2026 Kitchen406. Handcrafted in Metro Cebu, Philippines.</p>
+<div class="flex items-center gap-space-md">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Delivery FAQs</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

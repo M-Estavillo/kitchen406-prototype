@@ -1,5 +1,25 @@
 # Browser verification
 
+## Phase 4 — October 1, 2026
+
+Custom Cakes and Customer Account were checked in local headless Chrome. Payments, owner review, notification delivery, and credential changes use the prototype state; reference-image checks read local files. Maps responses were stubbed in the existing map suites.
+
+| Suite | Coverage / result |
+| --- | --- |
+| `node verification/phase4-state.cjs` | 28 checks: estimates, required references, immutable snapshots, quote versions, weekly/day capacity and cutoff boundaries, ingredient holds, payment idempotency, retries and late-payment resolution, expiry, decline/revision rules, profile/email/password changes, cancelled async credential work, address defaults/archive, event grouping, and customer isolation. |
+| `node verification/phase4-browser.cjs` | 144 checks: complete request-to-quotation-to-payment journey, three actual local reference images, submission failure/retry, historical offers and decline notes, account menu, profile/email/password changes, old-password rejection, address reuse/archive, notification categories, customer switching, deep-link prerequisites, keyboard focus, Escape, loading/error recovery, responsive widths, and unique DOM IDs. No uncaught exceptions. |
+| Existing regression suites | Storefront/auth smoke (35), auth/browser edges (15), standard checkout/orders (95), subscriptions in browser (71), subscription state (13), address/map editor (16), and delivery-route boundary/race/error checks passed. |
+
+All application JavaScript passes `node --check`. Phase 4 screens fit 1440, 768, 390, and 320 pixel viewports. Desktop cake options, desktop quotation, and mobile profile screenshots were visually reviewed with inspectors closed:
+
+- [Cake options](cake-options-desktop.png)
+- [Cake quotation](cake-quotation-desktop.png)
+- [Mobile account profile](account-profile-mobile.png)
+
+The state suite needs Node only. Browser suites use the same Chrome debugging endpoint on port 9222 described below and should run sequentially because they share a page target. They navigate to the workspace's `index.html` and update screenshot artifacts.
+
+See [Phase 4 implementation notes](../docs/phase-4-implementation.md) for walkthrough steps and fixture policies. These tests do not establish real authentication, payments, uploads, message delivery, or transactional backend enforcement.
+
 ## Phases 1–3 revisions — September 30, 2026
 
 The revised prototype was checked using local headless Chrome. Google APIs were stubbed for repeatable address and distance checks; no real payment or courier transaction was submitted.

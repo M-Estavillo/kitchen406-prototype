@@ -88,6 +88,7 @@ function validate(){
  if(['sign-in','register','forgot'].includes(S.view)&&!/^\S+@\S+\.\S+$/.test((v.email||'').trim()))S.errors.email='Please enter a valid email address.';
  if(['sign-in','register','reset'].includes(S.view)&&!v.password)S.errors.password='Password is required.';
  if(['register','reset'].includes(S.view)&&(!v.confirm||v.confirm!==v.password))S.errors.confirm='Passwords do not match.';
+ if(['register','reset'].includes(S.view)&&A.account&&!A.account.passwordValid(v.password))S.errors.password='Use at least 8 characters with letters and numbers.';
  if(S.view==='register'){
   if(!v.firstName?.trim())S.errors.firstName='First name is required.';
   if(!v.lastName?.trim())S.errors.lastName='Last name is required.';
@@ -110,10 +111,22 @@ function submit(e){
  if(!validate()){render();$('auth-form').querySelector('[aria-invalid=true]')?.focus();return;}
  if(S.view==='sign-in'&&(S.mode==='unverified'||A.pendingEmail&&A.pendingEmail===A.email&&!A.verified)){S.mode='unverified';render();return;}
  const view=S.view;S.mode='loading';render();
- later(()=>{
-  if(view==='sign-in'){A.setAuth('signedin');S.values={};close();A.toast('Signed in for this demo.');}
-  if(view==='register'){A.verified=false;A.pendingEmail=A.email;S.deadline=Date.now()+600000;S.attempts=0;S.values={};location.hash='#/verify';}
-  if(view==='forgot'||view==='reset'){S.mode='success';S.values={email:A.email};if(view==='reset')S.resetValid=false;render();}
+ const values={...S.values};
+ later(async()=>{
+  const generation=S.generation;
+  if(view==='sign-in'){
+   const hash=await A.account.hash(values.password),known=A.account.records.find(p=>p.email.toLowerCase()===values.email.toLowerCase());
+   if(S.generation!==generation||A.modal!=='auth-modal')return;
+   if(known&&(known.status!=='active'||known.passwordHash&&known.passwordHash!==hash)){S.mode='autherror';render();return;}
+   A.setAuth('signedin');A.account.current.passwordHash=hash;
+   if(A.account.registration?.email.toLowerCase()===A.email.toLowerCase()){const v=A.account.registration;Object.assign(A.account.current,{first_name:v.firstName,last_name:v.lastName,mobile_number:A.account.mobile(v.mobile)});A.account.registration=null;}
+   S.values={};close();A.toast('Signed in for this demo.');
+  }
+  if(view==='register'){A.account.registration={firstName:values.firstName,lastName:values.lastName,mobile:values.mobile,email:values.email};A.verified=false;A.pendingEmail=A.email;S.deadline=Date.now()+600000;S.attempts=0;S.values={};location.hash='#/verify';}
+  if(view==='forgot'||view==='reset'){
+   if(view==='reset'){const owner=A.account.records.find(p=>p.email.toLowerCase()===A.email.toLowerCase());const hash=await A.account.hash(values.password);if(S.generation!==generation)return;if(owner){owner.passwordHash=hash;owner.password_changed_at=new Date().toISOString();owner.passwordVersion++;A.notifications.emit('reset-'+owner.passwordVersion,'account','Password changed','Your password was reset in this preview.','account/profile',owner.customer_id,{email:'sent'});}S.resetValid=false;}
+   S.mode='success';S.values={email:A.email};render();
+  }
  });
 }
 function setupCode(){

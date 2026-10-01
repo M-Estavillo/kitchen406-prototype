@@ -4,7 +4,7 @@ window.K406 = {
   $: id => document.getElementById(id),
   escape: value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
   toast(message) { const el=this.$('toast'); el.textContent=message; el.hidden=false; clearTimeout(this.toastTimer); this.toastTimer=setTimeout(()=>el.hidden=true,4500); },
-  setAuth(value) { this.auth=value; this.$('header-auth-signin').classList.toggle('hidden',value==='signedin'); this.$('header-auth-user').classList.toggle('hidden',value!=='signedin'); this.$('header-auth-user').classList.toggle('flex',value==='signedin'); this.product?.eligibility(); this.commerce?.sync(); this.commerce?.render(); this.subscriptions?.render?.(); this.inspector?.(); },
+  setAuth(value) { if(value==='signedin')this.account?.activate(this.email); this.auth=value; this.$('header-auth-signin').classList.toggle('hidden',value==='signedin'); this.$('header-auth-user').classList.toggle('hidden',value!=='signedin'); this.$('header-auth-user').classList.toggle('flex',value==='signedin'); this.product?.eligibility(); this.commerce?.sync(); this.commerce?.render(); this.subscriptions?.render?.(); this.phase4?.render(); this.inspector?.(); },
   openModal(id) {
     if(this.modal && this.modal!==id) this.closeModal();
     if(!this.modal) this.previousFocus=document.activeElement;
@@ -14,6 +14,7 @@ window.K406 = {
   },
   closeModal() {
     if(!this.modal)return;
+    if(this.modal==='phase4-modal'){this.account.securityGeneration++;this.account.verification=null;this.phase4.dialog=null;this.$('phase4-dialog-body').replaceChildren();}
     const root=this.$(this.modal); root.hidden=true; root.classList.add('hidden'); this.modal=null;
     this.$('app-shell').inert=false; document.body.classList.remove('modal-open'); this.previousFocus?.focus();
   },

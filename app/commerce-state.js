@@ -41,6 +41,7 @@ C.createOrder=()=>{
  o.attempts.push({state:'waiting',at:new Date().toLocaleString()});S.orders.unshift(o);S.activeId=id;return o;
 };
 C.setPayment=(o,value)=>{
+ if(o?.quotationId){A.cakes.pay(o,value);return;}
  if(!o||o.status==='cancelled')return;
  if(o.paid)return;
  o.payment=value;M.payment=value;

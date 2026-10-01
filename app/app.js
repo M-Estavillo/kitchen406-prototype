@@ -21,10 +21,11 @@ A.inspector=()=>{
   html+=select('mock-reviews','Review feed',['populated','loading','error','empty'],s.feed);
   html+=select('mock-eligibility','Review eligibility (signed in)',['noteligible','eligible','reviewed'],s.elig);
   html+=select('mock-submit','Review submission',['success','error'],s.error?'error':'success');
- }else if(A.subscriptions.active())html+=A.subscriptions.inspector(select);
+ }else if(A.phase4.active())html+=A.phase4.inspector(select);
+ else if(A.subscriptions.active())html+=A.subscriptions.inspector(select);
  else if(A.commerce.routes.includes(A.route))html+=A.commerce.inspector(select);
  else html+=select('mock-catalog','Catalog',['normal','loading','empty','error'],A.catalog.state());
- html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders','subscriptions','my-subscriptions',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
+ html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders','subscriptions','my-subscriptions','custom-cakes','cake-requests','account/profile','account/addresses','account/notifications',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
  $('mock-panel').innerHTML=html;
 };
 function titlesFor(view){return {verify:'Verification state',register:'Registration state','sign-in':'Sign-in state',forgot:'Forgot password state',reset:'Reset password state'}[view];}
@@ -58,20 +59,23 @@ function route(){ if(location.hash && !location.hash.startsWith('#/')){document.
   A.route=name;A.authUI.show(name);document.title=titlesFor(name)+' · Kitchen406';return;
  }
  A.authUI.state.generation++;A.closeModal();A.route=name;A.currentHash=location.hash||'#/shop';
- const commerce=A.commerce.routes.includes(name),subscription=A.subscriptions.routes.includes(name);
+ const commerce=A.commerce.routes.includes(name),subscription=A.subscriptions.routes.includes(name),phase4=A.phase4.routes.includes(name);
+ if(!phase4)$('phase4-view').replaceChildren();
+ $('phase4-view').hidden=!phase4;
  if(!commerce)$('commerce-view').replaceChildren();
  if(!subscription)$('subscription-view').replaceChildren();
  $('subscription-view').hidden=!subscription;
- $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription;
+ $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription||phase4;
  if(name==='product'){
   const id=Number(parts[1]);if(A.activeProduct!==id){A.product.show(id);A.activeProduct=id;}
   A.returnRoute=location.hash;
   document.title=(A.products.find(p=>p.id===id)?.name||'Product not found')+' · Kitchen406';
   requestAnimationFrame(()=>{if(parts[2]==='reviews')$('reviews').scrollIntoView();else window.scrollTo(0,0);});
- }else if(subscription){A.returnRoute=A.currentHash;A.activeProduct=null;A.subscriptions.show(parts);document.title='Subscriptions · Kitchen406';window.scrollTo(0,0);}
+ }else if(phase4){A.returnRoute=A.currentHash;A.activeProduct=null;A.phase4.show(parts);document.title=(name==='account'?'My account':'Custom cakes')+' · Kitchen406';window.scrollTo(0,0);}
+ else if(subscription){A.returnRoute=A.currentHash;A.activeProduct=null;A.subscriptions.show(parts);document.title='Subscriptions · Kitchen406';window.scrollTo(0,0);}
  else if(commerce){A.returnRoute=A.currentHash;A.activeProduct=null;A.commerce.show(parts);document.title=({cart:'Your bag',checkout:'Checkout',payment:'QR Ph payment',confirmation:'Order confirmation',orders:'My orders'}[name])+' · Kitchen406';window.scrollTo(0,0);}
  else{A.returnRoute='#/shop';A.activeProduct=null;document.title=name==='shop'?'Shop · Kitchen406':'Page not found · Kitchen406';window.scrollTo(0,0);}
- document.querySelectorAll('#app-shell>header nav a').forEach(link=>{const active=link.getAttribute('href')==='#/my-subscriptions'?name==='my-subscriptions':link.dataset.path==='subscriptions'?subscription&&name!=='my-subscriptions':link.dataset.path==='shop'&&['shop','product'].includes(name);link.classList.toggle('text-primary',active);link.classList.toggle('font-semibold',active);link.classList.toggle('border-b-2',active);link.classList.toggle('border-primary',active);if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
+ document.querySelectorAll('#app-shell>header nav a').forEach(link=>{const active=link.getAttribute('href')==='#/my-subscriptions'?name==='my-subscriptions':link.dataset.path==='subscriptions'?subscription&&name!=='my-subscriptions':(link.dataset.path==='shop'&&['shop','product'].includes(name)||link.dataset.path==='custom-cakes'&&['custom-cakes','cake-requests'].includes(name));link.classList.toggle('text-primary',active);link.classList.toggle('font-semibold',active);link.classList.toggle('border-b-2',active);link.classList.toggle('border-primary',active);if(active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
  A.inspector();
 }
 document.addEventListener('click',e=>{
@@ -80,6 +84,7 @@ document.addEventListener('click',e=>{
   e.preventDefault();
   if(path==='shop')location.hash='#/shop';
   else if(path==='subscriptions'){location.hash='#/subscriptions';}
+  else if(path==='custom-cakes')location.hash='#/custom-cakes';
   else if(path==='cart'||path==='orders')location.hash='#/'+path;
   else if(path==='sign-in'){A.context=e.target.closest('#reviews')?'review':'header';A.returnRoute=location.hash;location.hash='#/sign-in';}
   else if(path==='sign-up')location.hash='#/register';
@@ -87,7 +92,8 @@ document.addEventListener('click',e=>{
   else if(path==='fulfillment')A.notice('Made to order · Scheduled fulfillment','Available fulfillment dates are confirmed during ordering. Same-day fulfillment is not supported.');
   else A.notice(path==='cart'?'Your bag · Preview':path==='subscriptions'?'Subscriptions · Preview':path==='custom-cakes'?'Custom cakes · Preview':'Terms & Policies', 'This destination is a placeholder for a later phase. No request, payment, or order will be submitted.');
  }
- if(e.target.closest('#header-auth-user')){A.setAuth('guest');A.toast('Signed out of the demo. Your bag is preserved in this tab.');}
+ if(e.target.closest('#account-menu-toggle')){const menu=$('account-menu');menu.hidden=!menu.hidden;$('account-menu-toggle').setAttribute('aria-expanded',String(!menu.hidden));}
+ else if(!e.target.closest('#account-menu')){$('account-menu').hidden=true;$('account-menu-toggle').setAttribute('aria-expanded','false');}
  if(e.target.closest('[data-close-modal]'))A.closeModal();
  if(e.target.classList.contains('overlay')&&e.target.id!=='auth-modal')A.closeModal();
  const anchor=e.target.closest('a[href^="#/"]');

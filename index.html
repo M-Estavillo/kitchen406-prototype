@@ -8,7 +8,7 @@
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="app/tailwind-config.js"></script>
-<title>Shop · Kitchen406</title><link rel="stylesheet" href="app/styles.css"><link rel="stylesheet" href="app/commerce.css"><link rel="stylesheet" href="app/subscriptions.css"></head><body class="bg-background font-body-md text-on-surface antialiased"><a class="skip-link" href="#page-root">Skip to content</a><div id="app-shell"><header class="fixed top-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-md">
+<title>Shop · Kitchen406</title><link rel="stylesheet" href="app/styles.css"><link rel="stylesheet" href="app/commerce.css"><link rel="stylesheet" href="app/subscriptions.css"><link rel="stylesheet" href="app/phase4.css"></head><body class="bg-background font-body-md text-on-surface antialiased"><a class="skip-link" href="#page-root">Skip to content</a><div id="app-shell"><header class="fixed top-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-md">
 <div class="bg-surface-container-low/80 py-space-xs px-gutter-mobile lg:px-gutter text-center">
 <p class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Made-to-order breads and pastries · Available fulfillment dates confirmed during ordering</p>
 </div>
@@ -32,11 +32,11 @@
 <a class="inline-flex items-center px-space-sm py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="sign-in" href="#" id="header-auth-signin">Sign In</a>
 <!-- Auth View: Signed In mode (Sign In hidden, user account avatar visible) -->
 <div class="hidden items-center gap-2" id="header-auth-user">
-<button class="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-title-sm text-title-sm" type="button">
+<button id="account-menu-toggle" aria-label="My account menu" aria-expanded="false" aria-controls="account-menu" class="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-title-sm text-title-sm" type="button">
 <span class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary">
 <span class="material-symbols-outlined text-[15px]">person</span>
 </span>
-<span class="text-xs font-medium">Sign Out</span>
+<span class="text-xs font-medium">My Account</span>
 </button>
 </div>
 <a class="font-title-sm text-title-sm text-on-surface-variant" href="#/orders">Orders</a><!-- Cart -->
@@ -46,7 +46,7 @@
 </a>
 </div>
 </div>
-</header><div id="page-root" tabindex="-1"><div id="catalog-view"></div><div id="product-view" hidden></div><main id="subscription-view" class="commerce-view" hidden></main><main id="commerce-view" class="commerce-view" hidden></main><section id="not-found-view" class="dialog-card" hidden><h1>Page not found</h1><a href="#/shop" class="btn">Browse the pantry</a></section></div><footer class="w-full bg-surface-container-low border-t border-surface-container">
+</header><div id="page-root" tabindex="-1"><div id="catalog-view"></div><div id="product-view" hidden></div><main id="phase4-view" class="commerce-view phase4-view" hidden></main><main id="subscription-view" class="commerce-view" hidden></main><main id="commerce-view" class="commerce-view" hidden></main><section id="not-found-view" class="dialog-card" hidden><h1>Page not found</h1><a href="#/shop" class="btn">Browse the pantry</a></section></div><footer class="w-full bg-surface-container-low border-t border-surface-container">
 <div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg">
 <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl">
 <div class="max-w-md">
@@ -76,11 +76,12 @@
 <div id="photo-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Customer photo preview" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close photo">×</button><img id="photo-preview-image" alt="Customer photo" style="width:100%;margin-top:24px"></div></div>
 <aside id="mock-controls" aria-label="Prototype state inspector"><button id="mock-toggle" aria-expanded="false" aria-controls="mock-panel"><span class="material-symbols-outlined" aria-hidden="true">tune</span> Mock Controls</button><div id="mock-panel" hidden></div></aside>
 <div id="toast" role="status" hidden></div><div id="order-cancel-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cancel-order-title" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close cancellation">×</button><h2 id="cancel-order-title">Cancel this unpaid order?</h2><p>This cancels <strong id="cancel-order-reference"></strong> in the demo. Your bag is preserved.</p><div class="commerce-actions"><button class="btn" data-close-modal>Keep order</button><button class="btn primary" id="confirm-order-cancel">Cancel unpaid order</button></div></div></div>
+<div id="phase4-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="phase4-dialog-title" hidden><div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close dialog">?</button><h2 id="phase4-dialog-title"></h2><div id="phase4-dialog-body"></div></div></div>
 <script src="app/core.js"></script>
 <script src="app/templates.js"></script>
 <script src="app/products.js"></script><script src="app/product-data.js"></script><script src="app/scheduling.js"></script>
 <script src="app/catalog.js"></script>
 <script src="app/product.js"></script>
 <script src="app/auth.js"></script>
-<script src="app/commerce-state.js"></script><script src="app/commerce-ui.js"></script><script src="app/checkout.js"></script><script src="app/maps-config.js"></script><script src="app/address-map.js"></script><script src="app/delivery-route.js"></script><script src="app/orders.js"></script><script src="app/commerce.js"></script><script src="app/subscription-state.js"></script><script src="app/subscription-checkout.js"></script><script src="app/subscriptions.js"></script><script src="app/app.js"></script>
+<script src="app/commerce-state.js"></script><script src="app/commerce-ui.js"></script><script src="app/checkout.js"></script><script src="app/maps-config.js"></script><script src="app/address-map.js"></script><script src="app/delivery-route.js"></script><script src="app/orders.js"></script><script src="app/commerce.js"></script><script src="app/subscription-state.js"></script><script src="app/subscription-checkout.js"></script><script src="app/subscriptions.js"></script><script src="app/account-state.js"></script><script src="app/address-state.js"></script><script src="app/notification-state.js"></script><script src="app/cake-data.js"></script><script src="app/cake-state.js"></script><script src="app/phase4-ui.js"></script><script src="app/account.js"></script><script src="app/cake-builder.js"></script><script src="app/cake-requests.js"></script><script src="app/notifications.js"></script><script src="app/phase4-integration.js"></script><script src="app/app.js"></script>
 </body></html>

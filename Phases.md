@@ -50,7 +50,7 @@ Phase 4 — Custom Cakes & Account
 4.5 — Quotation Details / Acceptance
 4.6 — Customer Profile
 4.7 — Saved Addresses
-4.8 — Notifications / Account Settings
+4.8 — Customer Notifications
 Phase 5 — Staff
 5.1 — Staff Dashboard
 5.2 — Production Queue

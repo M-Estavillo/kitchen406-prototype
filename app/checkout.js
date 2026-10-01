@@ -17,13 +17,13 @@ F.fulfillment=()=>U.page('Choose your fulfillment','Pick a fulfillment method an
 F.mapPanel=editable=>`<div class="address-map-section">${editable?'<div class="field"><p id="address-search-label">Search for your address</p><div id="address-place-search" aria-labelledby="address-search-label"></div></div>':''}<div id="address-map" class="address-google-map" aria-label="Delivery location map"></div><p id="address-map-status" class="muted" role="status">Loading map...</p></div>`;
 F.addressForm=(editor=F)=>{
  const F=editor,a=F.form||{};
- return U.panel(F.editing?'Edit delivery address':'Add a delivery address',`<form id="delivery-address-form" class="auth-form">${C.checkout.mapPanel(true)}${U.field('label','Save address as',a.label)}${U.field('add_line_1','Address line 1',a.add_line_1)}${U.field('add_line_2','Address line 2 (unit, floor, building)',a.add_line_2,false)}<div class="name-row">${U.field('city','City',a.city)}${U.field('postal_code','Postal code',a.postal_code)}</div>${U.field('landmark','Landmark',a.landmark,false)}<label class="address-default"><input type="checkbox" name="is_default" ${a.is_default?'checked':''}> Set as default address</label><p class="field-error" id="address-error" role="alert"></p><div class="commerce-actions">${U.button('address-cancel','Cancel')}<button class="btn primary" type="submit" ${!F.mapBusy&&C.addressValid(a)?'':'disabled'}>Save address</button></div></form>`);
+ return U.panel(F.editing?'Edit delivery address':'Add a delivery address',`<form id="delivery-address-form" class="auth-form">${C.checkout.mapPanel(true)}${U.field('label','Save address as',a.label)}${U.field('add_line_1','Address line 1',a.add_line_1)}${U.field('add_line_2','Address line 2 (unit, floor, building)',a.add_line_2,false)}<div class="name-row">${U.field('city','City',a.city)}${U.field('postal_code','Postal code',a.postal_code)}</div>${U.field('barangay','Barangay',a.barangay,false)}${U.field('landmark','Landmark / delivery instructions',a.landmark,false)}<label class="address-default"><input type="checkbox" name="is_default" ${a.is_default?'checked':''}> Set as default address</label><p class="field-error" id="address-error" role="alert"></p><div class="commerce-actions">${U.button('address-cancel','Cancel')}<button class="btn primary" type="submit" ${!F.mapBusy&&C.addressValid(a)?'':'disabled'}>Save address</button></div></form>`);
 };
 F.address=()=>{
  const a=C.address(),d=S.draft;
  return U.page('Delivery details','Choose a saved address or add a new one.',U.columns(
  d.method==='pickup'?U.panel('Pick up your order',U.fulfillment())+U.button('switch-delivery','Switch back to delivery'):
- U.panel('Choose a delivery address',S.addresses.length?S.addresses.map(addr=>`<div class="address-choice ${addr.address_id===d.addressId?'selected':''}"><label><input type="radio" name="delivery-address" value="${E(addr.address_id)}" ${addr.address_id===d.addressId?'checked':''}><strong>${E(addr.label)}</strong>${U.address(addr)}</label>${U.button('address-edit','Edit',false,`data-id="${E(addr.address_id)}"`)}</div>`).join(''):'<p>No saved addresses yet. Add an address to continue.</p>',U.button('address-add','Add new address'))+
+ U.panel('Choose a delivery address',A.addresses.active().length?A.addresses.active().map(addr=>`<div class="address-choice ${addr.address_id===d.addressId?'selected':''}"><label><input type="radio" name="delivery-address" value="${E(addr.address_id)}" ${addr.address_id===d.addressId?'checked':''}><strong>${E(addr.label)}</strong>${U.address(addr)}</label>${U.button('address-edit','Edit',false,`data-id="${E(addr.address_id)}"`)}</div>`).join(''):'<p>No saved addresses yet. Add an address to continue.</p>',U.button('address-add','Add new address'))+
  (F.form?F.addressForm():'')+
  (a&&!F.form?U.panel('Your delivery location',F.mapPanel(false)+U.alert(C.deliveryRoute.message(),['outside','unreachable','error','unconfigured'].includes(C.deliveryRoute.status()))+(['error','unreachable'].includes(C.deliveryRoute.status())?U.button('service-retry','Retry distance check'):'')):'') ,U.summary()+U.button('address-next','Continue to review',!C.ready()||!!F.form)+U.link('checkout/fulfillment','Back to fulfillment')),'checkout/address');
 };
@@ -50,7 +50,7 @@ F.action=(action,el)=>{
  }
  if(action==='switch-pickup'){S.draft.method='pickup';F.form=null;location.hash='#/checkout/review';}
  if(action==='switch-delivery'){S.draft.method='delivery';}
- if(action==='address-add'){F.editing=null;F.mapBusy=false;F.form={is_default:S.addresses.length===0};}
+ if(action==='address-add'){F.editing=null;F.mapBusy=false;F.form={is_default:A.addresses.active().length===0};}
  if(action==='address-edit'){F.editing=el.dataset.id;F.mapBusy=false;F.form=C.copy(S.addresses.find(a=>a.address_id===F.editing));}
  if(action==='address-cancel'){F.form=null;F.editing=null;}
  if(action==='service-retry')void C.deliveryRoute.check(true);
@@ -68,11 +68,9 @@ document.addEventListener('submit',e=>{
  Object.assign(data,{latitude:F.form?.latitude,longitude:F.form?.longitude,is_default:e.target.elements.is_default.checked});
  if(F.mapBusy||!C.addressValid(data)){A.$('address-error').textContent='Select your location on the map and complete all required address fields.';return;}
  if(!ctx.change())return;
- const old=S.addresses.find(a=>a.address_id===F.editing),now=new Date().toISOString();
- Object.assign(data,{address_id:F.editing||'address-'+Date.now(),customer_id:old?.customer_id||'preview-customer',created_at:old?.created_at||now,updated_at:now,status:'active',add_line_2:data.add_line_2||null,landmark:data.landmark||null});
- if(data.is_default)S.addresses.forEach(a=>{if(a.is_default){a.is_default=false;a.updated_at=now;}});
- const i=S.addresses.findIndex(a=>a.address_id===data.address_id);if(i>=0)S.addresses[i]=data;else S.addresses.push(data);
- ctx.draft.addressId=data.address_id;ctx.draft.quote='ok';F.form=null;F.editing=null;ctx.render();
+ const result=A.addresses.save(data,F.editing);
+ if(result.error){A.$('address-error').textContent=result.error;return;}
+ ctx.draft.addressId=result.record.address_id;ctx.draft.quote='ok';F.form=null;F.editing=null;ctx.render();
 });
 document.addEventListener('input',e=>{
  const form=e.target.closest('#delivery-address-form'),F=C.addressContext().editor;

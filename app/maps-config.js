@@ -1,6 +1,6 @@
 // Browser key: restrict it to this site's HTTP referrers and required Google APIs.
 window.K406_MAPS_CONFIG = {
-  apiKey: '',
+  apiKey: 'AIzaSyBWpiz7CaBiVjhhMaE0MggNGcJotckjcC0',
   mapId: 'cbde314f0c3ddc91be89fc80',
   // Temporary origin requested for this preview. Replace with the exact pickup
   // address or { lat, lng } before relying on the delivery boundary.

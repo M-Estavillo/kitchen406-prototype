@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "error-container": "#ffdad6", "on-tertiary-fixed": "#201b16", "on-background": "#1b1c1a", "outline": "#867368", "inverse-on-surface": "#f2f0ed", "background": "#fbf9f6", "on-secondary": "#ffffff", "secondary-fixed-dim": "#cdc5c0", "tertiary-fixed-dim": "#cfc5bd", "on-tertiary": "#ffffff", "tertiary-container": "#7b736d", "secondary-container": "#eae1dc", "surface-tint": "#904d16", "primary-container": "#ab622b", "on-tertiary-fixed-variant": "#4c4640", "on-primary-fixed": "#311300", "error": "#ba1a1a", "secondary": "#635d59", "on-surface": "#1b1c1a", "inverse-surface": "#30312f", "surface-container-low": "#f5f3f0", "inverse-primary": "#ffb786", "primary-fixed": "#ffdcc6", "on-secondary-container": "#69635f", "on-surface-variant": "#53443a", "surface-container-highest": "#e4e2df", "primary": "#8d4a14", "tertiary": "#625b55", "surface-variant": "#e4e2df", "secondary-fixed": "#eae1dc", "surface": "#fbf9f6", "surface-container-lowest": "#ffffff", "surface-bright": "#fbf9f6", "on-error-container": "#93000a", "primary-fixed-dim": "#ffb786", "surface-container-high": "#eae8e5", "outline-variant": "#d9c2b5", "surface-container": "#efeeeb", "tertiary-fixed": "#ebe0d9", "on-primary-container": "#fffbff", "surface-dim": "#dbdad7", "on-secondary-fixed-variant": "#4b4642", "on-primary": "#ffffff", "on-primary-fixed-variant": "#723600", "on-secondary-fixed": "#1f1b18", "on-error": "#ffffff", "on-tertiary-container": "#fffbff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-mobile": "1rem", "margin-mobile": "1.25rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem", "margin": "3rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "space-sm": "0.5rem" }, "fontFamily": { "label-sm": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "title-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "price-lg": ["Plus Jakarta Sans"], "headline-sm": ["Playfair Display"], "title-md": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "display-mobile": ["Playfair Display"], "display": ["Playfair Display"], "price-md": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"] }, "fontSize": { "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[1240px] mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><a class="flex items-center gap-space-sm" data-path="shop" href="#"><img alt="Brand logo. - Primary color: #b46931 - Font: playfairDisplay - Mode: light - Roundness: rounded-sm" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPT-ShlgX2R2BPHkQKx9ngcAXJP2WoTUwAh0OMiRuP2Iq51nJTeS98nzuL21Y1xGPQgZfT-GNf_lguQxMA5FmkmTIfQYNAYoYQn_88xRqXK4fZDIXMU2lXp0dmXXyvi8vgWHuX8Qqez1u7-YwAziTf28tLguM71Mu_9uucCYFyiYHbGW2JgXMPpxW89zF7THsWdGOC7VFpRxbfxe7yivBkG3obd-NcLPzs7bbSkmdS7fQzYQ4xNAYVdw"/><span class="font-headline-md text-headline-md tracking-tight text-on-surface font-medium">Kitchen406</span></a></div><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-semibold"><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Shop</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Subscriptions</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Cakes</a><a class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">About</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center bg-surface-container-low px-space-md py-space-xs rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]"><span class="material-symbols-outlined text-[20px] text-outline mr-space-xs">search</span><input class="bg-transparent border-0 outline-none text-on-surface placeholder:text-outline font-body-sm text-body-sm w-44 lg:w-56" placeholder="Search artisan bread, cakes..." type="text"/></div><a class="relative p-space-xs flex items-center justify-center text-on-surface hover:text-primary transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-0 right-0 bg-primary text-on-primary font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center">3</span></a><div class="relative group py-2"><button class="flex items-center gap-space-xs focus:outline-none"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_4px_rgba(141,74,20,0.15)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px] group-hover:rotate-180 transition-transform">expand_more</span></button><div class="absolute right-0 top-full hidden group-hover:block group-focus-within:block w-64 bg-surface rounded-xl shadow-[0_12px_32px_-4px_rgba(38,34,31,0.08),0_4px_8px_-2px_rgba(38,34,31,0.04)] py-space-sm z-50"><div class="px-space-md py-space-xs"><p class="font-title-sm text-title-sm text-on-surface">Maria Clara Santos</p><p class="font-body-sm text-body-sm text-on-surface-variant">maria.santos@example.com</p></div><nav class="flex flex-col py-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold"><a aria-current="page" class="px-space-md py-space-xs transition-colors bg-surface-container-high text-primary font-semibold" data-path="my-profile" href="#">My Profile</a><a class="px-space-md py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-orders" href="#">My Orders</a><a class="px-space-md py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-subscriptions" href="#">My Subscriptions</a><a class="px-space-md py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="custom-cake-requests" href="#">Custom Cake Requests</a><a class="px-space-md py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="saved-addresses" href="#">Saved Addresses</a><a class="px-space-md py-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="notifications" href="#">Notifications</a></nav><div class="pt-space-xs mt-space-xs bg-surface-container-lowest/50"><a class="flex items-center px-space-md py-space-xs font-title-sm text-title-sm text-error hover:bg-error-container/30 transition-colors" data-path="login" href="#">Sign Out</a></div></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-320px)]"><div class="flex flex-col w-full">
+<!-- Dev QA States Controller Bar (Fixed Minimal Bottom Dock with collapse/expand) -->
+<aside aria-label="Development State Inspector" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface/95 text-inverse-on-surface backdrop-blur-md px-3 py-2 rounded-full shadow-2xl flex items-center gap-1.5 max-w-[96vw] overflow-x-auto text-[11px] font-title-sm border border-outline-variant/20 transition-all duration-300" id="qa-dock">
+<div class="flex items-center gap-1.5 shrink-0 pr-2 border-r border-outline-variant/30 font-semibold tracking-wider uppercase text-primary-fixed-dim">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+<span>QA Dock</span>
+</div>
+<div class="flex items-center gap-1 shrink-0 overflow-x-auto" id="qa-dock-buttons">
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap active-state bg-primary text-on-primary" onclick="setProfileState('baseline')">1. Baseline</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('edit-profile')">2. Edit Profile Mode</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('save-success')">3. Save Profile Success</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('email-step-1')">4. Change Email: Step 1</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('email-step-2')">5. Change Email: Step 2</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('email-step-3')">6. Change Email: Step 3</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('email-invalid-code')">7. Email Invalid Code Error</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('pwd-modal')">8. Change Password Modal</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('pwd-wrong-current')">9. Password: Wrong Current PW</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('pwd-success-toast')">10. Password: Saved Success</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap" onclick="setProfileState('skeleton')">11. Loading Skeleton</button>
+<button class="qa-btn px-2.5 py-1 rounded hover:bg-surface-variant/20 transition-colors whitespace-nowrap text-outline-variant" onclick="resetToInitialProfile()">12. Reset to Baseline</button>
+</div>
+</aside>
+<!-- Global Toast Alerts Container -->
+<div aria-live="polite" class="fixed top-24 right-6 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full" id="toast-region"></div>
+<!-- Main Content Layout Area -->
+<section class="max-w-[1240px] mx-auto w-full px-margin-mobile md:px-margin py-space-xl">
+<!-- Inline Success Notification Banner -->
+<div class="hidden w-full mb-space-lg rounded-lg bg-[#EBF3ED] text-[#204527] p-4 shadow-sm flex items-start justify-between gap-3" id="inline-success-banner">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[22px] text-[#2E5A36] shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<h4 class="font-title-sm text-title-sm font-semibold" id="inline-success-title">Profile details updated successfully</h4>
+<p class="font-body-sm text-body-sm text-[#204527]/85 mt-0.5" id="inline-success-text">Your personal information and contact details have been updated.</p>
+</div>
+</div>
+<button class="p-1 text-[#204527]/70 hover:text-[#204527]" onclick="document.getElementById('inline-success-banner').classList.add('hidden')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Error Fallback Screen -->
+<div class="hidden flex-col items-center justify-center py-20 text-center bg-surface-container-low rounded-xl p-8 max-w-xl mx-auto shadow-sm" id="profile-load-error">
+<div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[32px]">cloud_off</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Unable to Load Profile</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2 mb-6">We encountered a temporary network issue connecting to your account details. Your saved orders and information remain safe.</p>
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors flex items-center gap-2" onclick="setProfileState('baseline')">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Try Again</span>
+</button>
+<a class="px-5 py-2.5 rounded bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-container-highest transition-colors" data-path="shop" href="#">Return to Shop</a>
+</div>
+</div>
+<!-- Skeleton Loading Screen -->
+<div class="hidden w-full grid grid-cols-1 lg:grid-cols-12 gap-space-xl animate-pulse" id="profile-skeleton">
+<div class="lg:col-span-3 space-y-4">
+<div class="h-6 w-32 bg-surface-container-high rounded"></div>
+<div class="space-y-2 pt-4">
+<div class="h-10 bg-surface-container-high rounded-lg w-full"></div>
+<div class="h-10 bg-surface-container rounded-lg w-full"></div>
+<div class="h-10 bg-surface-container rounded-lg w-full"></div>
+<div class="h-10 bg-surface-container rounded-lg w-full"></div>
+</div>
+</div>
+<div class="lg:col-span-9 space-y-6">
+<div class="h-8 w-48 bg-surface-container-high rounded"></div>
+<div class="h-32 bg-surface-container rounded-xl w-full"></div>
+<div class="h-56 bg-surface-container rounded-xl w-full"></div>
+<div class="h-36 bg-surface-container rounded-xl w-full"></div>
+</div>
+</div>
+<!-- Master Two-Column Account Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start" id="profile-main-layout">
+<!-- ==============================================
+           LEFT COLUMN: ACCOUNT NAVIGATION SIDEBAR
+           (Strictly: My Profile, My Orders, My Subscriptions, Custom Cake Requests, Saved Addresses, Notifications, Sign Out)
+           (Removed: Account Settings & Upcoming Order widget)
+           ============================================== -->
+<aside aria-label="Customer Account Navigation" class="lg:col-span-3 w-full">
+<div class="sticky top-28 bg-surface-container-lowest/80 backdrop-blur-sm rounded-xl p-space-md shadow-[0_4px_20px_-4px_rgba(38,34,31,0.04)]">
+<!-- Mini Profile Identity Cardlet in Sidebar -->
+<div class="flex items-center gap-3 pb-4 mb-4 border-b border-surface-container-high">
+<div class="w-11 h-11 rounded-full bg-primary-fixed text-primary font-headline-sm flex items-center justify-center font-bold tracking-tight shadow-sm select-none" id="sidebar-avatar">
+  MS
+</div>
+<div class="min-w-0 flex-1">
+<p class="font-title-sm text-title-sm text-on-surface truncate font-semibold" id="sidebar-name">Maria Clara Santos</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Metro Cebu, PH</p>
+</div>
+</div>
+<!-- Standardized Main Nav Links -->
+<nav aria-label="Account Sections" class="flex flex-col space-y-1">
+<!-- 1. My Profile (Active State with terracotta indicator) -->
+<a aria-current="page" class="group relative flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-container-high text-primary font-title-sm text-title-sm transition-all duration-200" data-path="my-profile" href="#">
+<span class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-primary rounded-r"></span>
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-semibold">My Profile</span>
+</a>
+<!-- 2. My Orders -->
+<a class="group flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="my-orders" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">receipt_long</span>
+<span>My Orders</span>
+</div>
+</a>
+<!-- 3. My Subscriptions -->
+<a class="group flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="my-subscriptions" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">calendar_month</span>
+<span>My Subscriptions</span>
+</div>
+</a>
+<!-- 4. Custom Cake Requests -->
+<a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="custom-cake-requests" href="#">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">cake</span>
+<span>Custom Cake Requests</span>
+</a>
+<!-- 5. Saved Addresses -->
+<a class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="saved-addresses" href="#">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">location_on</span>
+<span>Saved Addresses</span>
+</a>
+<!-- 6. Notifications -->
+<a class="group flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="notifications" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-outline group-hover:text-primary transition-colors">notifications</span>
+<span>Notifications</span>
+</div>
+</a>
+<!-- 7. Sign Out -->
+<button class="w-full text-left px-3 py-2.5 rounded-lg text-error hover:bg-error-container/30 transition-colors font-title-sm text-title-sm flex items-center gap-3 mt-1" onclick="simulateSignOut()">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Sign Out</span>
+</button>
+</nav>
+</div>
+</aside>
+<!-- ==============================================
+           RIGHT COLUMN: PROFILE VIEW & EDIT SECTIONS
+           ============================================== -->
+<main class="lg:col-span-9 flex flex-col gap-y-6">
+<!-- Breadcrumb & Page Header -->
+<header class="flex flex-col gap-1">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+<a class="hover:text-on-surface transition-colors" data-path="shop" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" data-path="my-profile" href="#">My Account</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-medium">Profile</span>
+</nav>
+<div class="mt-2">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">My Profile</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">View and manage your personal and account information.</p>
+</div>
+</header>
+<!-- 1. CUSTOMER IDENTITY SUMMARY CARD -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-[0_2px_12px_-2px_rgba(38,34,31,0.03)] border border-surface-container-high/60">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<!-- Initials Avatar -->
+<div class="relative">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary-fixed text-primary font-headline-lg flex items-center justify-center font-bold tracking-tight shadow-inner select-none" id="hero-avatar">
+  MS
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-container-lowest p-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-[#2E5A36] block" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Customer Identity Info -->
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold" id="display-full-name-hero">Maria Clara Santos</h2>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-title-sm font-medium bg-[#EBF3ED] text-[#2E5A36] border border-[#CFDFD3]">
+<span class="material-symbols-outlined text-[13px]">check</span>
+<span>Verified</span>
+</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant" id="display-email-hero">maria.santos@example.com</p>
+<div class="flex items-center gap-2 text-outline font-body-sm text-body-sm pt-0.5">
+<span class="material-symbols-outlined text-[15px]">calendar_today</span>
+<span>Customer since October 2024 • Metro Cebu, PH</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- 2. PERSONAL INFORMATION SECTION CARD (VIEW & EDIT MODES) -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-[0_2px_12px_-2px_rgba(38,34,31,0.03)] border border-surface-container-high/60">
+<!-- Card Header with Edit Action -->
+<div class="flex items-start justify-between gap-4 pb-4 mb-6 border-b border-surface-container-high">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Personal Information</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Keep your contact information up to date so Kitchen406 can contact you about your orders and deliveries.</p>
+</div>
+<!-- Edit Button -->
+<button class="shrink-0 px-3.5 py-1.5 rounded font-title-sm text-title-sm text-primary hover:bg-primary-fixed/20 border border-primary/30 transition-colors flex items-center gap-1.5" id="view-mode-trigger" onclick="toggleEditMode(true)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit Profile</span>
+</button>
+</div>
+<!-- 2.A: VIEW MODE -->
+<div class="space-y-6" id="profile-view-mode">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">First Name</span>
+<p class="font-title-md text-title-md text-on-surface font-semibold py-1 border-b border-surface-container" id="view-first-name">Maria Clara</p>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Last Name</span>
+<p class="font-title-md text-title-md text-on-surface font-semibold py-1 border-b border-surface-container" id="view-last-name">Santos</p>
+</div>
+</div>
+<!-- Mobile Phone Field with Clean Helper Text -->
+<div class="space-y-1 max-w-md">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Mobile Number</span>
+<div class="flex items-center gap-2.5 py-1 border-b border-surface-container">
+<div class="w-5 h-3.5 rounded-[2px] overflow-hidden shadow-sm shrink-0 flex flex-col" title="Philippines">
+<div class="h-1/2 bg-[#0038A8] w-full"></div>
+<div class="h-1/2 bg-[#CE1126] w-full"></div>
+</div>
+<p class="font-title-md text-title-md text-on-surface font-semibold tracking-wide" id="view-phone-number">+63 917 823 4567</p>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1.5">Used for important order and delivery notifications.</p>
+</div>
+</div>
+<!-- 2.B: EDIT MODE (FORM) -->
+<form class="hidden space-y-6" id="profile-edit-mode" novalidate="" onsubmit="handleProfileSubmit(event)">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-1.5">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="input-first-name">
+  First Name <span aria-hidden="true" class="text-error">*</span>
+</label>
+<div class="relative">
+<input aria-required="true" class="w-full h-11 px-3.5 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none transition-colors" id="input-first-name" name="firstName" oninput="validateField('first-name')" placeholder="First name" required="" type="text" value="Maria Clara"/>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-first-name">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>First name is required.</span>
+</p>
+</div>
+<div class="space-y-1.5">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="input-last-name">
+  Last Name <span aria-hidden="true" class="text-error">*</span>
+</label>
+<div class="relative">
+<input aria-required="true" class="w-full h-11 px-3.5 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none transition-colors" id="input-last-name" name="lastName" oninput="validateField('last-name')" placeholder="Last name" required="" type="text" value="Santos"/>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-last-name">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Last name is required.</span>
+</p>
+</div>
+</div>
+<div class="space-y-1.5 max-w-md">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="input-mobile">
+  Mobile Number <span aria-hidden="true" class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<div class="absolute left-3 flex items-center gap-1.5 pointer-events-none text-on-surface-variant font-title-sm text-title-sm">
+<div class="w-4 h-3 rounded-[2px] overflow-hidden shadow-xs flex flex-col shrink-0">
+<div class="h-1/2 bg-[#0038A8]"></div>
+<div class="h-1/2 bg-[#CE1126]"></div>
+</div>
+<span>+63</span>
+<span class="text-outline-variant">|</span>
+</div>
+<input aria-required="true" class="w-full h-11 pl-20 pr-3.5 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none transition-colors" id="input-mobile" name="mobileNumber" oninput="validateField('mobile')" placeholder="917 823 4567" required="" type="tel" value="917 823 4567"/>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-mobile">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Please enter a valid 10-digit mobile number.</span>
+</p>
+<p class="font-body-sm text-body-sm text-outline">Used for important order and delivery notifications.</p>
+</div>
+<!-- Form Actions Row -->
+<div class="pt-4 border-t border-surface-container flex flex-wrap items-center gap-3">
+<button class="px-5 py-2.5 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container active:scale-[0.99] transition-all flex items-center gap-2 shadow-sm disabled:opacity-60 disabled:pointer-events-none" id="btn-save-profile" type="submit">
+<span class="hidden animate-spin material-symbols-outlined text-[18px]" id="save-spinner">progress_activity</span>
+<span id="save-button-text">Save Changes</span>
+</button>
+<button class="px-5 py-2.5 rounded bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" id="btn-cancel-profile" onclick="toggleEditMode(false)" type="button">
+  Cancel
+</button>
+</div>
+</form>
+</article>
+<!-- 3. EMAIL ADDRESS SECTION CARD -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-[0_2px_12px_-2px_rgba(38,34,31,0.03)] border border-surface-container-high/60">
+<div class="flex items-start justify-between gap-4 pb-4 mb-4 border-b border-surface-container-high">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Email Address</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Your email is used for signing in, account verification, password recovery, order updates, and custom cake quotation notifications.</p>
+</div>
+<button class="shrink-0 px-3.5 py-1.5 rounded font-title-sm text-title-sm text-primary hover:bg-primary-fixed/20 border border-primary/30 transition-colors flex items-center gap-1.5" onclick="openEmailModalStep(1)">
+<span>Change Email</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-1">
+<div class="flex items-center gap-3">
+<span class="font-title-md text-title-md text-on-surface font-semibold" id="display-email-field">maria.santos@example.com</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-title-sm font-medium bg-[#EBF3ED] text-[#2E5A36]">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+<span>Verified</span>
+</span>
+</div>
+</div>
+</article>
+<!-- 4. PASSWORD & SECURITY SECTION (Clean & Simple) -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md sm:p-space-lg shadow-[0_2px_12px_-2px_rgba(38,34,31,0.03)] border border-surface-container-high/60">
+<div class="flex items-start justify-between gap-4 pb-4 mb-4 border-b border-surface-container-high">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Password &amp; Security</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Manage your password and account security.</p>
+</div>
+<button class="shrink-0 px-3.5 py-1.5 rounded font-title-sm text-title-sm text-primary hover:bg-primary-fixed/20 border border-primary/30 transition-colors flex items-center gap-1.5" onclick="openPasswordModal()">
+<span>Change Password</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="py-2">
+<div class="p-3.5 rounded-lg bg-surface-container-low/60 flex items-center gap-3 max-w-sm">
+<span class="material-symbols-outlined text-[22px] text-outline">key</span>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface font-medium">Password</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Last changed 3 months ago</p>
+</div>
+</div>
+</div>
+</article>
+<!-- 5. Contextual Footer Navigation Link -->
+<div class="pt-2 text-center sm:text-left">
+<a class="inline-flex items-center gap-1.5 text-primary hover:underline font-title-sm text-title-sm" data-path="saved-addresses" href="#">
+<span>Looking to manage delivery locations? Manage Saved Addresses</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</main>
+</div>
+</section>
+<!-- ==============================================
+       CHANGE EMAIL MODAL (3-STEP INTERACTIVE FLOW)
+       ============================================== -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="email-modal" role="dialog">
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs" onclick="closeEmailModal()"></div>
+<div class="fixed inset-0 z-10 flex items-center justify-center p-4">
+<div class="bg-surface rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-outline-variant/30">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold" id="email-modal-title">Change Email Address</h3>
+<button class="p-1 text-on-surface-variant hover:text-on-surface" onclick="closeEmailModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Step 1: Input New Email -->
+<div class="space-y-4" id="email-step-1">
+<div class="p-3 rounded-lg bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm">
+<span class="text-outline block text-[11px] uppercase tracking-wider font-semibold mb-0.5">Current Email</span>
+<span class="font-semibold text-on-surface" id="email-step1-current-display">maria.santos@example.com</span>
+</div>
+<div class="space-y-1.5">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="new-email-input">New Email Address</label>
+<input class="w-full h-11 px-3.5 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none" id="new-email-input" placeholder="m.santos.new@example.com" type="email" value=""/>
+<p class="text-outline font-body-sm text-body-sm mt-1">We’ll send a verification code to your new email address before making the change.</p>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1 pt-1" id="error-new-email">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Please enter a valid email address.</span>
+</p>
+</div>
+<div class="pt-2 flex items-center justify-end gap-3">
+<button class="px-4 py-2 rounded bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" onclick="closeEmailModal()" type="button">Cancel</button>
+<button class="px-5 py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors" onclick="submitEmailStep1()" type="button">Send Verification Code</button>
+</div>
+</div>
+<!-- Step 2: 6-Digit Code Verification -->
+<div class="hidden space-y-4" id="email-step-2">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+Enter the 6-digit verification code sent to <strong class="text-on-surface" id="verify-target-email">m.santos.new@example.com</strong>.
+</p>
+<div class="space-y-2">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium">Verification Code</label>
+<div class="flex items-center gap-2 justify-between" id="code-inputs-container">
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 0)" onkeydown="handleOtpKey(event, 0)" type="text" value="4"/>
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 1)" onkeydown="handleOtpKey(event, 1)" type="text" value="0"/>
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 2)" onkeydown="handleOtpKey(event, 2)" type="text" value="6"/>
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 3)" onkeydown="handleOtpKey(event, 3)" type="text" value="8"/>
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 4)" onkeydown="handleOtpKey(event, 4)" type="text" value="1"/>
+<input class="w-12 h-12 text-center text-title-md font-semibold bg-surface rounded border border-outline-variant focus:border-primary focus:outline-none otp-box" maxlength="1" oninput="handleOtpInput(this, 5)" onkeydown="handleOtpKey(event, 5)" type="text" value="9"/>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1 pt-1" id="error-email-code">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span id="error-code-msg">Invalid or expired code. Please check and try again.</span>
+</p>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-1">
+<button class="text-primary hover:underline font-title-sm text-title-sm" onclick="resendVerificationCode()" type="button">Resend Code</button>
+<button class="text-on-surface-variant hover:text-on-surface text-body-sm" onclick="openEmailModalStep(1)" type="button">Change Email Address</button>
+</div>
+<div class="pt-3 flex items-center justify-end gap-3 border-t border-surface-container">
+<button class="px-4 py-2 rounded bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" onclick="closeEmailModal()" type="button">Cancel</button>
+<button class="px-5 py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors" onclick="submitEmailStep2()" type="button">Verify &amp; Update Email</button>
+</div>
+</div>
+<!-- Step 3: Success Confirmation -->
+<div class="hidden space-y-4" id="email-step-3">
+<div class="p-4 rounded-lg bg-[#EBF3ED] text-[#204527] flex items-start gap-3">
+<span class="material-symbols-outlined text-[24px] text-[#2E5A36] shrink-0">check_circle</span>
+<div>
+<p class="font-title-sm text-title-sm font-semibold">Email address updated</p>
+<p class="font-body-sm text-body-sm text-[#204527]/85 mt-1">Your account email has been successfully updated to <strong id="success-target-email">m.santos.new@example.com</strong>. All future bakery notices and order updates will arrive here.</p>
+</div>
+</div>
+<div class="pt-3 flex items-center justify-end">
+<button class="px-6 py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors" onclick="finishChangeEmailFlow()" type="button">Done</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ==============================================
+       CHANGE PASSWORD MODAL
+       ============================================== -->
+<div aria-modal="true" class="fixed inset-0 z-50 hidden" id="password-modal" role="dialog">
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs" onclick="closePasswordModal()"></div>
+<div class="fixed inset-0 z-10 flex items-center justify-center p-4">
+<div class="bg-surface rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-outline-variant/30">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Change Password</h3>
+<button class="p-1 text-on-surface-variant hover:text-on-surface" onclick="closePasswordModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="space-y-3.5" id="password-form" onsubmit="submitChangePassword(event)">
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="pwd-current">Current Password</label>
+<a class="text-primary hover:underline text-[12px] font-title-sm" data-path="login" href="#" onclick="handleForgotPassword(event)">Forgot current password?</a>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3.5 pr-10 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none" id="pwd-current" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-outline hover:text-on-surface p-1" onclick="togglePwdVisibility('pwd-current', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-pwd-current">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Incorrect current password. Please try again.</span>
+</p>
+</div>
+<div class="space-y-1">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="pwd-new">New Password</label>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3.5 pr-10 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none" id="pwd-new" minlength="8" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-outline hover:text-on-surface p-1" onclick="togglePwdVisibility('pwd-new', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-outline">At least 8 characters with letters and numbers</p>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-pwd-length">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Password must be at least 8 characters with letters and numbers.</span>
+</p>
+</div>
+<div class="space-y-1">
+<label class="block font-title-sm text-title-sm text-on-surface font-medium" for="pwd-confirm">Confirm New Password</label>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3.5 pr-10 bg-surface rounded border border-outline-variant text-on-surface font-body-md text-body-md focus:border-primary focus:outline-none" id="pwd-confirm" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 text-outline hover:text-on-surface p-1" onclick="togglePwdVisibility('pwd-confirm', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<p class="hidden text-error font-body-sm text-body-sm flex items-center gap-1" id="error-pwd-confirm">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>Passwords do not match.</span>
+</p>
+</div>
+<div class="pt-3 flex items-center justify-end gap-3 border-t border-surface-container">
+<button class="px-4 py-2 rounded bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" onclick="closePasswordModal()" type="button">Cancel</button>
+<button class="px-5 py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors" type="submit">Save Password</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Customer Profile State
+  const initialProfile = {
+    firstName: "Maria Clara",
+    lastName: "Santos",
+    phone: "917 823 4567",
+    email: "maria.santos@example.com"
+  };
+
+  let currentProfile = { ...initialProfile };
+  let pendingNewEmail = "m.santos.new@example.com";
+
+  const viewModeEl = document.getElementById('profile-view-mode');
+  const editModeEl = document.getElementById('profile-edit-mode');
+  const viewTriggerBtn = document.getElementById('view-mode-trigger');
+  const firstNameInput = document.getElementById('input-first-name');
+  const lastNameInput = document.getElementById('input-last-name');
+  const mobileInput = document.getElementById('input-mobile');
+  const btnSave = document.getElementById('btn-save-profile');
+  const saveSpinner = document.getElementById('save-spinner');
+  const saveButtonText = document.getElementById('save-button-text');
+
+  function computeInitials(first, last) {
+    const f = first ? first.trim().charAt(0) : '';
+    const l = last ? last.trim().charAt(0) : '';
+    return (f + l).toUpperCase() || 'MS';
+  }
+
+  function toggleEditMode(enable) {
+    if (enable) {
+      firstNameInput.value = currentProfile.firstName;
+      lastNameInput.value = currentProfile.lastName;
+      mobileInput.value = currentProfile.phone;
+      clearErrors();
+      viewModeEl.classList.add('hidden');
+      editModeEl.classList.remove('hidden');
+      viewTriggerBtn.classList.add('hidden');
+      firstNameInput.focus();
+    } else {
+      viewModeEl.classList.remove('hidden');
+      editModeEl.classList.add('hidden');
+      viewTriggerBtn.classList.remove('hidden');
+    }
+  }
+
+  function validateField(fieldName) {
+    let valid = true;
+    if (fieldName === 'first-name' || !fieldName) {
+      const val = firstNameInput.value.trim();
+      const err = document.getElementById('error-first-name');
+      if (!val) {
+        err.classList.remove('hidden');
+        valid = false;
+      } else {
+        err.classList.add('hidden');
+      }
+    }
+    if (fieldName === 'last-name' || !fieldName) {
+      const val = lastNameInput.value.trim();
+      const err = document.getElementById('error-last-name');
+      if (!val) {
+        err.classList.remove('hidden');
+        valid = false;
+      } else {
+        err.classList.add('hidden');
+      }
+    }
+    if (fieldName === 'mobile' || !fieldName) {
+      const raw = mobileInput.value.replace(/[\s-]/g, '');
+      const err = document.getElementById('error-mobile');
+      const phRegex = /^(09\d{9}|9\d{9})$/;
+      if (!phRegex.test(raw)) {
+        err.classList.remove('hidden');
+        valid = false;
+      } else {
+        err.classList.add('hidden');
+      }
+    }
+    return valid;
+  }
+
+  function clearErrors() {
+    ['error-first-name', 'error-last-name', 'error-mobile'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    });
+  }
+
+  function handleProfileSubmit(e) {
+    if (e) e.preventDefault();
+    const v1 = validateField('first-name');
+    const v2 = validateField('last-name');
+    const v3 = validateField('mobile');
+    if (!v1 || !v2 || !v3) return;
+
+    btnSave.disabled = true;
+    saveSpinner.classList.remove('hidden');
+    saveButtonText.textContent = "Saving...";
+
+    setTimeout(() => {
+      currentProfile.firstName = firstNameInput.value.trim();
+      currentProfile.lastName = lastNameInput.value.trim();
+      currentProfile.phone = mobileInput.value.trim();
+
+      updateViewRender();
+      btnSave.disabled = false;
+      saveSpinner.classList.add('hidden');
+      saveButtonText.textContent = "Save Changes";
+      toggleEditMode(false);
+
+      showToast("Profile details updated successfully.", "success");
+      const banner = document.getElementById('inline-success-banner');
+      document.getElementById('inline-success-title').textContent = "Profile details updated successfully";
+      document.getElementById('inline-success-text').textContent = "Your personal information and contact details have been updated.";
+      banner.classList.remove('hidden');
+      setTimeout(() => banner.classList.add('hidden'), 4000);
+    }, 400);
+  }
+
+  function updateViewRender() {
+    const fullName = `${currentProfile.firstName} ${currentProfile.lastName}`;
+    const initials = computeInitials(currentProfile.firstName, currentProfile.lastName);
+
+    document.getElementById('view-first-name').textContent = currentProfile.firstName;
+    document.getElementById('view-last-name').textContent = currentProfile.lastName;
+    document.getElementById('view-phone-number').textContent = `+63 ${currentProfile.phone.replace(/^\+?63\s?|^0/, '')}`;
+    
+    document.getElementById('display-full-name-hero').textContent = fullName;
+    document.getElementById('hero-avatar').textContent = initials;
+    document.getElementById('sidebar-avatar').textContent = initials;
+    document.getElementById('sidebar-name').textContent = fullName;
+    document.getElementById('display-email-hero').textContent = currentProfile.email;
+    document.getElementById('display-email-field').textContent = currentProfile.email;
+    document.getElementById('email-step1-current-display').textContent = currentProfile.email;
+  }
+
+  function showToast(message, type = "success") {
+    const container = document.getElementById('toast-region');
+    const toast = document.createElement('div');
+    toast.className = "pointer-events-auto rounded-lg p-3.5 shadow-lg flex items-center justify-between gap-3 text-body-sm transition-all duration-300 transform translate-y-2 opacity-0 " + 
+      (type === 'success' ? 'bg-[#1E3B24] text-white' : type === 'error' ? 'bg-error text-on-error' : 'bg-inverse-surface text-inverse-on-surface');
+    const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+    toast.innerHTML = `
+      <div class="flex items-center gap-2.5">
+        <span class="material-symbols-outlined text-[18px]">${icon}</span>
+        <span class="font-medium">${message}</span>
+      </div>
+      <button onclick="this.parentElement.remove()" class="opacity-70 hover:opacity-100 p-0.5">
+        <span class="material-symbols-outlined text-[16px]">close</span>
+      </button>
+    `;
+    container.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-y-2', 'opacity-0');
+    });
+    setTimeout(() => {
+      toast.classList.add('opacity-0', '-translate-y-2');
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  // 3-Step Change Email Flow
+  function openEmailModalStep(stepNumber) {
+    document.getElementById('email-modal').classList.remove('hidden');
+    document.getElementById('email-step-1').classList.add('hidden');
+    document.getElementById('email-step-2').classList.add('hidden');
+    document.getElementById('email-step-3').classList.add('hidden');
+    document.getElementById('error-new-email').classList.add('hidden');
+    document.getElementById('error-email-code').classList.add('hidden');
+
+    if (stepNumber === 1) {
+      document.getElementById('email-step-1').classList.remove('hidden');
+      document.getElementById('new-email-input').value = pendingNewEmail || "";
+      document.getElementById('email-modal-title').textContent = "Change Email Address";
+    } else if (stepNumber === 2) {
+      document.getElementById('email-step-2').classList.remove('hidden');
+      document.getElementById('verify-target-email').textContent = pendingNewEmail;
+      document.getElementById('email-modal-title').textContent = "Verify New Email";
+    } else if (stepNumber === 3) {
+      document.getElementById('email-step-3').classList.remove('hidden');
+      document.getElementById('success-target-email').textContent = pendingNewEmail;
+      document.getElementById('email-modal-title').textContent = "Email Verified";
+    }
+  }
+
+  function closeEmailModal() {
+    document.getElementById('email-modal').classList.add('hidden');
+  }
+
+  function submitEmailStep1() {
+    const val = document.getElementById('new-email-input').value.trim();
+    const err = document.getElementById('error-new-email');
+    if (!val || !val.includes('@') || !val.includes('.')) {
+      err.classList.remove('hidden');
+      return;
+    }
+    err.classList.add('hidden');
+    pendingNewEmail = val;
+    openEmailModalStep(2);
+  }
+
+  function handleOtpInput(input, index) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+    const boxes = document.querySelectorAll('.otp-box');
+    if (input.value && index < boxes.length - 1) {
+      boxes[index + 1].focus();
+    }
+  }
+
+  function handleOtpKey(e, index) {
+    const boxes = document.querySelectorAll('.otp-box');
+    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+      boxes[index - 1].focus();
+    }
+  }
+
+  function submitEmailStep2() {
+    const boxes = document.querySelectorAll('.otp-box');
+    let code = '';
+    boxes.forEach(b => code += b.value.trim());
+    const err = document.getElementById('error-email-code');
+
+    if (code.length < 6 || code === '000000') {
+      err.classList.remove('hidden');
+      document.getElementById('error-code-msg').textContent = "Invalid or expired code. Please check and try again.";
+      return;
+    }
+    err.classList.add('hidden');
+    openEmailModalStep(3);
+  }
+
+  function finishChangeEmailFlow() {
+    currentProfile.email = pendingNewEmail;
+    updateViewRender();
+    closeEmailModal();
+    showToast("Email address updated successfully.", "success");
+  }
+
+  function resendVerificationCode() {
+    showToast("A new 6-digit code has been sent to " + pendingNewEmail, "info");
+  }
+
+  // Password Modal
+  function openPasswordModal() {
+    document.getElementById('password-modal').classList.remove('hidden');
+    document.getElementById('error-pwd-current').classList.add('hidden');
+    document.getElementById('error-pwd-confirm').classList.add('hidden');
+    document.getElementById('error-pwd-length').classList.add('hidden');
+    document.getElementById('password-form').reset();
+  }
+
+  function closePasswordModal() {
+    document.getElementById('password-modal').classList.add('hidden');
+  }
+
+  function togglePwdVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.textContent = 'visibility_off';
+    } else {
+      input.type = 'password';
+      icon.textContent = 'visibility';
+    }
+  }
+
+  function handleForgotPassword(e) {
+    e.preventDefault();
+    closePasswordModal();
+    showToast("Password reset link sent to your registered email.", "info");
+  }
+
+  function submitChangePassword(e) {
+    e.preventDefault();
+    const cur = document.getElementById('pwd-current').value;
+    const nw = document.getElementById('pwd-new').value;
+    const conf = document.getElementById('pwd-confirm').value;
+    const errCur = document.getElementById('error-pwd-current');
+    const errLength = document.getElementById('error-pwd-length');
+    const errConf = document.getElementById('error-pwd-confirm');
+    
+    errCur.classList.add('hidden');
+    errLength.classList.add('hidden');
+    errConf.classList.add('hidden');
+
+    if (cur === 'wrongpass' || cur.length < 4) {
+      errCur.classList.remove('hidden');
+      return;
+    }
+    if (nw.length < 8 || !/\d/.test(nw) || !/[a-zA-Z]/.test(nw)) {
+      errLength.classList.remove('hidden');
+      return;
+    }
+    if (nw !== conf) {
+      errConf.classList.remove('hidden');
+      return;
+    }
+    closePasswordModal();
+    showToast("Password updated successfully.", "success");
+  }
+
+  function simulateSignOut() {
+    if (confirm("Are you sure you want to sign out of your Kitchen406 account?")) {
+      showToast("Signed out successfully.", "info");
+    }
+  }
+
+  function resetToInitialProfile() {
+    currentProfile = { ...initialProfile };
+    pendingNewEmail = "m.santos.new@example.com";
+    updateViewRender();
+    toggleEditMode(false);
+    closeEmailModal();
+    closePasswordModal();
+    document.getElementById('inline-success-banner').classList.add('hidden');
+    showToast("Profile reset to baseline state.", "info");
+  }
+
+  // QA DOCK STATE CONTROLLER (12 Scenarios)
+  function setProfileState(stateKey) {
+    document.querySelectorAll('.qa-btn').forEach(b => b.classList.remove('bg-primary', 'text-on-primary'));
+    if (window.event?.target && window.event.target.classList.contains('qa-btn')) {
+      window.event.target.classList.add('bg-primary', 'text-on-primary');
+    }
+
+    const mainLayout = document.getElementById('profile-main-layout');
+    const skeleton = document.getElementById('profile-skeleton');
+    const errorFallback = document.getElementById('profile-load-error');
+    const inlineSuccess = document.getElementById('inline-success-banner');
+
+    mainLayout.classList.remove('hidden');
+    skeleton.classList.add('hidden');
+    errorFallback.classList.add('hidden');
+    inlineSuccess.classList.add('hidden');
+    closeEmailModal();
+    closePasswordModal();
+
+    switch(stateKey) {
+      case 'baseline':
+        toggleEditMode(false);
+        break;
+      case 'edit-profile':
+        toggleEditMode(true);
+        break;
+      case 'save-success':
+        toggleEditMode(false);
+        inlineSuccess.classList.remove('hidden');
+        document.getElementById('inline-success-title').textContent = "Profile details updated successfully";
+        document.getElementById('inline-success-text').textContent = "Your personal information and contact details have been updated.";
+        showToast("Profile details updated successfully.", "success");
+        break;
+      case 'email-step-1':
+        openEmailModalStep(1);
+        break;
+      case 'email-step-2':
+        pendingNewEmail = "m.santos.new@example.com";
+        openEmailModalStep(2);
+        break;
+      case 'email-step-3':
+        pendingNewEmail = "m.santos.new@example.com";
+        openEmailModalStep(3);
+        break;
+      case 'email-invalid-code':
+        pendingNewEmail = "m.santos.new@example.com";
+        openEmailModalStep(2);
+        document.querySelectorAll('.otp-box').forEach(b => b.value = '0');
+        document.getElementById('error-email-code').classList.remove('hidden');
+        document.getElementById('error-code-msg').textContent = "Invalid verification code. Please check and try again.";
+        break;
+      case 'pwd-modal':
+        openPasswordModal();
+        break;
+      case 'pwd-wrong-current':
+        openPasswordModal();
+        document.getElementById('pwd-current').value = 'wrongpass';
+        document.getElementById('pwd-new').value = 'BakingGood406!';
+        document.getElementById('pwd-confirm').value = 'BakingGood406!';
+        document.getElementById('error-pwd-current').classList.remove('hidden');
+        break;
+      case 'pwd-success-toast':
+        showToast("Password updated successfully.", "success");
+        break;
+      case 'skeleton':
+        mainLayout.classList.add('hidden');
+        skeleton.classList.remove('hidden');
+        break;
+    }
+  }
+
+  updateViewRender();
+</script></main><footer class="w-full bg-surface-container-low pt-space-xl pb-space-lg shadow-[0_-1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-[1240px] mx-auto px-margin-mobile md:px-margin"><div class="grid grid-cols-1 md:grid-cols-4 gap-space-xl pb-space-xl"><div class="md:col-span-1 flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #b46931 - Font: playfairDisplay - Mode: light - Roundness: rounded-sm" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPT-ShlgX2R2BPHkQKx9ngcAXJP2WoTUwAh0OMiRuP2Iq51nJTeS98nzuL21Y1xGPQgZfT-GNf_lguQxMA5FmkmTIfQYNAYoYQn_88xRqXK4fZDIXMU2lXp0dmXXyvi8vgWHuX8Qqez1u7-YwAziTf28tLguM71Mu_9uucCYFyiYHbGW2JgXMPpxW89zF7THsWdGOC7VFpRxbfxe7yivBkG3obd-NcLPzs7bbSkmdS7fQzYQ4xNAYVdw"/><span class="font-headline-sm text-headline-sm text-on-surface font-medium">Kitchen406</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Small-batch artisanal bakery rooted in slow fermentation, unhurried precision, and pure pantry craft.</p><p class="font-label-sm text-label-sm text-outline mt-space-xs">Handcrafted in Metro Cebu, Philippines</p></div><div class="flex flex-col gap-space-sm"><p class="font-title-md text-title-md text-on-surface">Discover</p><nav class="flex flex-col gap-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Sourdough &amp; Bread</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="shop" href="#">Morning Viennoiserie</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="subscriptions" href="#">Bread Subscriptions</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">Custom Celebration Cakes</a></nav></div><div class="flex flex-col gap-space-sm"><p class="font-title-md text-title-md text-on-surface">Customer Care</p><div class="flex flex-col gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">Pickup &amp; Delivery Guide</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">Storage &amp; Reheating</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="about" href="#">Care FAQs</a><p class="text-outline mt-space-xs">hello@kitchen406.com</p></div></div><div class="flex flex-col gap-space-sm"><p class="font-title-md text-title-md text-on-surface">Bakery Dispatch</p></div></div></div></footer></body></html>

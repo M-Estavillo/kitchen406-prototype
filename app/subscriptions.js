@@ -42,7 +42,7 @@ B.render=()=>{
  let html='',publicPage=A.route==='subscriptions'&&!B.parts[1];
  const step=B.parts[1];
  if(publicPage)html=B.catalog();
- else if(A.auth!=='signedin')html=U.page('Sign in to continue','Your subscription selections will remain here.',U.empty('Your Kitchen406 account','Sign in to set up and manage your four deliveries.',U.link('sign-in','Sign in',true)+U.link('register','Create account')));
+ else if(A.account?!A.account.allowed():A.auth!=='signedin')html=U.page('Sign in to continue','Your subscription selections will remain here.',U.empty('Your Kitchen406 account','Sign in to set up and manage your four deliveries.',U.link('sign-in','Sign in',true)+U.link('register','Create account')));
  else if(B.mock.page==='loading')html='<div class="commerce-skeleton" role="status">Loading subscription details…</div>'+V.button('page-retry','Return to normal preview');
  else if(B.mock.page==='error')html=U.empty('Unable to load subscriptions','Your selections are saved.',V.button('page-retry','Try again'));
  else if(A.route==='my-subscriptions')html=B.list();
@@ -55,7 +55,10 @@ B.render=()=>{
  else if(step==='address'){if(!B.addressUI.form)void B.deliveryRoute.check();html=V.address();}
  else if(step==='review'){void B.deliveryRoute.check();html=B.ready()?V.review():U.empty('Complete delivery details','Choose an address and verify the delivery quotation before review.',U.link('subscription/address','Delivery details',true));}
  else html=U.empty('Subscription step not found','Return to your saved setup.',U.link('subscription/configure','Configuration'));
- A.$('subscription-view').innerHTML=(B.message?U.alert(B.message):'')+html;C.addressMap.mount();
+ const mount=A.$('subscription-view'),accountPage=(A.route==='my-subscriptions'||A.route==='subscriptions'&&!publicPage)&&A.account?.allowed();
+ html=(B.message?U.alert(B.message):'')+html;
+ mount.classList.toggle('account-view',!!accountPage);
+ mount.innerHTML=accountPage?A.phase4.accountLayout(html):html;C.addressMap.mount();
 };
 B.show=parts=>{B.parts=parts;B.message='';B.render();};
 B.inspector=select=>{
