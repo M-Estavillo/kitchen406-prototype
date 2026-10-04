@@ -252,28 +252,28 @@
       // Search filters
       function handleSearchInput(value) {
         searchQuery = value;
-        if (searchInput.value !== value) searchInput.value = value;
-        if (navSearchInput.value !== value) navSearchInput.value = value;
+        if (searchInput && searchInput.value !== value) searchInput.value = value;
+        if (navSearchInput && navSearchInput.value !== value) navSearchInput.value = value;
 
         if (searchQuery.trim().length > 0) {
-          clearSearchBtn.classList.remove('hidden');
+          clearSearchBtn?.classList.remove('hidden');
         } else {
-          clearSearchBtn.classList.add('hidden');
+          clearSearchBtn?.classList.add('hidden');
         }
         currentPage = 1;
         renderCatalog();
       }
 
-      searchInput.addEventListener('input', (e) => handleSearchInput(e.target.value));
-      navSearchInput.addEventListener('input', (e) => handleSearchInput(e.target.value));
+      searchInput?.addEventListener('input', (e) => handleSearchInput(e.target.value));
+      navSearchInput?.addEventListener('input', (e) => handleSearchInput(e.target.value));
 
-      clearSearchBtn.addEventListener('click', () => {
+      clearSearchBtn?.addEventListener('click', () => {
         handleSearchInput('');
-        searchInput.focus();
+        searchInput?.focus();
       });
 
       // Subscription Toggle
-      subToggle.addEventListener('change', (e) => {
+      subToggle?.addEventListener('change', (e) => {
         subscriptionOnly = e.target.checked;
         currentPage = 1;
         renderCatalog();
@@ -300,11 +300,11 @@
       // Reset filters button
       resetFiltersBtn.addEventListener('click', () => {
         searchQuery = '';
-        searchInput.value = '';
-        navSearchInput.value = '';
-        clearSearchBtn.classList.add('hidden');
+        if (searchInput) searchInput.value = '';
+        if (navSearchInput) navSearchInput.value = '';
+        clearSearchBtn?.classList.add('hidden');
         subscriptionOnly = false;
-        subToggle.checked = false;
+        if (subToggle) subToggle.checked = false;
 
         const allTab = document.querySelector('button[data-category="all"]');
         if (allTab) allTab.click();
@@ -317,6 +317,7 @@
       });
 
       K406.catalog = {
+        refresh() { renderCatalog(); },
         card: createProductCard,
         setState(value) { protoState=value; renderCatalog(); K406.inspector?.(); },
         state() { return protoState; },

@@ -22,7 +22,7 @@ O.payment=()=>{
 };
 O.timeline=o=>{
  const stages=['Order placed','Payment confirmed',o.type==='cake'?'Preparing your cake':'Preparing & proofing',o.fulfillment.method==='pickup'?'Ready for pickup':'Ready for delivery','Completed'];
- const position={'pending-payment':0,'payment-failed':0,confirmed:1,preparing:2,'ready-pickup':3,'ready-delivery':3,'in-transit':3,completed:4,'payment-resolution':1,cancelled:-1}[o.status];
+ const position={'pending-payment':0,'payment-failed':0,confirmed:1,preparing:2,ready:3,'ready-pickup':3,'ready-delivery':3,'in-transit':3,completed:4,'payment-resolution':1,cancelled:-1}[o.status];
  return `<ol class="order-timeline">${stages.map((text,i)=>`<li class="${i<=position?'done':''}"><span>${i<=position?'✓':i+1}</span><div><strong>${text}</strong><p class="muted">${i<position?'Complete':i===position?'Current status':'Upcoming'}</p></div></li>`).join('')}</ol>`;
 };
 O.details=(confirmation=false)=>{
@@ -36,7 +36,7 @@ O.details=(confirmation=false)=>{
  return U.page(title,'Track your order from preparation to collection or delivery.',`<div class="order-meta"><div><strong>${E(o.id)}</strong><p class="muted">Placed ${new Date(o.created).toLocaleString()}${o.fixture?' · Sample order':''}</p></div>${U.status(o)}<span>${paymentText}</span></div><div class="commerce-actions">${actions}</div>${o.status==='payment-resolution'?U.alert('Payment was recorded, but fulfillment needs assistance. Do not pay again. Contact the bakery in a live checkout.',true):''}`+U.columns(
  U.panel(confirmation?'What happens next?':'Order progress',O.timeline(o))+U.panel('Items ordered',U.items(o.items))+reviews+
  U.panel('Order activity',`<details open><summary>Activity history</summary>${o.activity.map(a=>`<p>${E(a.text)}<br><small class="muted">${E(a.at)}</small></p>`).join('')}</details>`),
- U.panel('Fulfillment',U.fulfillment(o))+(o.fulfillment.method==='delivery'&&o.type!=='cake'?U.panel('Courier tracking · demo',`<p>${E(courier[C.mock.courier])}</p>`):'')+
+ U.panel('Fulfillment',U.fulfillment(o))+(o.fulfillment.method==='delivery'&&o.type!=='cake'?U.panel('Courier tracking · demo',`<p>${E(courier[({pending:'prebooking',in_transit:'transit'})[o.delivery?.status]||o.delivery?.status||'prebooking']||'Courier status unavailable.')}</p>`):'')+
  U.panel('Payment details',`<p>${paymentText}</p><p class="muted">Reference: ${E(o.reference)}</p>${o.paidAt?`<p class="muted">Confirmed: ${E(o.paidAt)}</p>`:''}<details><summary>Payment attempts (${o.attempts.length})</summary>${o.attempts.map((p,i)=>`<p>Attempt ${i+1}: ${E(p.state)} · ${E(p.at)}</p>`).join('')}</details>`)+U.summary(o)+U.panel('Customer actions',`<div class="commerce-stack">${pending}${U.button('contact','Contact bakery team')}${U.button('print','Print demo order summary')}</div>`)));
 };
 O.list=()=>{

@@ -5,6 +5,7 @@ html{scroll-behavior:smooth}body{margin:0;background:var(--canvas);color:var(--i
 button:disabled{opacity:.5;cursor:not-allowed}a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
 #app-shell>header{position:sticky;top:0;border-bottom:1px solid var(--line);z-index:30}#page-root{min-height:60vh}#catalog-start{position:static;scroll-margin-top:130px}
 #catalog-view>main{padding-top:0}#product-view{padding-top:20px}#reviews{scroll-margin-top:130px}
+.hero-title{font:500 clamp(36px,5vw,56px)/1.12 'Playfair Display',serif;margin:0 0 20px;letter-spacing:-.015em}
 #product-view main{padding-top:0}.material-symbols-outlined{vertical-align:middle;font-size:20px}
 #app-shell>header nav{gap:20px}#app-shell>header>div:last-child{height:auto;min-height:80px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
 #nav-search-input{width:150px}#header-auth-user button{white-space:nowrap}

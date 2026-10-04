@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed-variant": "#4b4642", "surface-variant": "#e4e2df", "on-tertiary": "#ffffff", "surface-tint": "#904d16", "on-surface": "#1b1c1a", "on-tertiary-container": "#fffbff", "on-secondary-fixed": "#1f1b18", "background": "#fbf9f6", "secondary-fixed-dim": "#cdc5c0", "secondary-container": "#eae1dc", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#723600", "on-primary-container": "#fffbff", "primary-fixed-dim": "#ffb786", "surface-container-high": "#eae8e5", "on-tertiary-fixed-variant": "#4c4640", "tertiary-fixed": "#ebe0d9", "on-error": "#ffffff", "surface-bright": "#fbf9f6", "inverse-on-surface": "#f2f0ed", "surface-container": "#efeeeb", "inverse-primary": "#ffb786", "tertiary-fixed-dim": "#cfc5bd", "inverse-surface": "#30312f", "surface-container-highest": "#e4e2df", "tertiary": "#625b55", "on-tertiary-fixed": "#201b16", "tertiary-container": "#7b736d", "on-secondary-container": "#69635f", "surface": "#fbf9f6", "outline": "#867368", "primary": "#8d4a14", "on-surface-variant": "#53443a", "primary-fixed": "ffdcc6", "on-primary-fixed": "#311300", "secondary": "#635d59", "outline-variant": "#d9c2b5", "on-background": "#1b1c1a", "primary-container": "#ab622b", "surface-container-low": "#f5f3f0", "on-secondary": "#ffffff", "on-error-container": "#93000a", "error": "#ba1a1a", "on-primary": "#ffffff", "surface-dim": "#dbdad7", "secondary-fixed": "#eae1dc", "error-container": "#ffdad6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xs": "0.25rem", "gutter": "1.5rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "margin": "3rem", "space-xl": "2.5rem", "space-md": "1rem", "margin-mobile": "1.25rem", "gutter-mobile": "1rem" }, "fontFamily": { "headline-sm": [ "Playfair Display" ], "display": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ], "title-sm": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "label-sm": [ "Plus Jakarta Sans" ], "price-md": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "headline-lg-mobile": [ "Playfair Display" ], "price-lg": [ "Plus Jakarta Sans" ], "display-mobile": [ "Playfair Display" ], "title-md": [ "Plus Jakarta Sans" ], "headline-lg": [ "Playfair Display" ], "headline-md": [ "Playfair Display" ], "body-md": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-sm": [ "20px", { "lineHeight": "28px", "fontWeight": "500" } ], "display": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "title-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "600" } ], "label-md": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" } ], "price-md": [ "15px", { "lineHeight": "20px", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "headline-lg-mobile": [ "26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "price-lg": [ "20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "display-mobile": [ "34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "title-md": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" } ], "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ] } } } }</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-fixed"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-low flex flex-col justify-between z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="pt-6 pb-4 px-6 flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">bakery_dining</span><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-medium">Kitchen406</span></div><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider pl-space-xs">Staff Workspace</span></div><div class="h-px w-full bg-surface-variant my-space-xs"></div><nav class="flex flex-col gap-space-xs px-3 py-space-sm" data-active-classes="bg-secondary-container text-on-secondary-fixed font-title-sm font-semibold rounded-lg"><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="dashboard" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-title-sm text-title-sm font-normal">Dashboard</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="production-queue" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">skillet</span><span class="font-title-sm text-title-sm font-normal">Production Queue</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="inventory" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-title-sm text-title-sm font-normal">Inventory</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="stock-movements" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span class="font-title-sm text-title-sm font-normal">Stock Movements</span></div></a><a aria-current="page" class="flex items-center justify-between px-3 py-2 transition-all duration-150 bg-secondary-container text-on-secondary-fixed font-title-sm font-semibold rounded-lg" data-path="recipes" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">menu_book</span><span class="font-title-sm text-title-sm font-normal">Recipes</span></div></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="production-calendar" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">calendar_today</span><span class="font-title-sm text-title-sm font-normal">Production Calendar</span></div></a></nav><div class="px-6 py-space-xs"><div class="h-px w-full bg-surface-variant"></div></div><div class="flex flex-col gap-space-xs px-3 py-space-sm"><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="notifications" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="font-title-sm text-title-sm font-normal">Notifications</span></div><span class="px-1.5 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold leading-none">4</span></a><a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="settings" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-title-sm text-title-sm font-normal">Settings</span></div></a></div></div><div class="p-3 bg-surface-container/60"><div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-title-sm text-title-sm font-semibold tracking-tight">EL</div><div class="flex flex-col leading-tight"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Elena Lim</span><span class="font-label-sm text-label-sm text-on-surface-variant">Bakery Staff</span></div></div><a class="p-1 text-on-surface-variant hover:text-error hover:bg-surface-container-high rounded transition-colors flex items-center justify-center" href="#" title="Sign Out"><span class="material-symbols-outlined text-[18px]">logout</span></a></div></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-8 flex items-center justify-between"><div class="flex items-center gap-4"><div class="flex flex-col"><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Operations / Recipes</span><span class="text-outline-variant font-label-sm">·</span><span class="font-label-sm text-label-sm text-on-surface-variant font-normal">Reference v2.4</span><span class="text-outline-variant font-label-sm">·</span><div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-primary font-medium">Live Sync</span></div></div><div class="flex items-center gap-2 pt-0.5"><div class="flex items-center gap-1.5 bg-surface-container-high px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span><span class="font-label-sm text-label-sm text-on-surface font-semibold">Kitchen Operational</span></div><span class="text-outline-variant font-label-sm">|</span><span class="font-body-sm text-body-sm text-on-surface-variant">Thursday, October 1, 2026 · Active Shift #1</span></div></div></div><div class="flex items-center gap-4"><a class="relative p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center" data-path="notifications" href="#"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></a><div class="w-px h-6 bg-surface-variant"></div><button class="flex items-center gap-2.5 p-1 rounded-full hover:bg-surface-container-high transition-colors"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="font-title-sm text-title-sm text-on-surface pr-2">EL</span></button></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Context Header Bar (Operational & Reference Only) -->
+<div class="px-8 py-6 bg-surface-container-low flex flex-col gap-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold">Operations / Recipes</span>
+<span class="text-outline-variant font-label-sm">·</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-normal">Reference v2.4</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-medium tracking-tight">Recipes &amp; Bill of Materials</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">View ingredient requirements and technical scaling specifications for bakery products and variants.</p>
+</div>
+<!-- Reference Badge & Mode Indicator -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-label-sm text-label-sm tracking-wide font-semibold uppercase">Reference Mode (Read-Only)</span>
+</div>
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span class="font-label-sm text-label-sm">RBAC Protected (Staff Tier)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Master-Detail Core Container -->
+<div class="px-8 py-8 flex flex-col lg:flex-row gap-8 items-start w-full">
+<!-- LEFT COLUMN: Recipe Library / Product Selection (35% on Desktop) -->
+<div class="w-full lg:w-[35%] flex flex-col gap-4">
+<!-- Card Container for Library -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col gap-4">
+<!-- Header with count -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Recipe Library</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold" id="recipeCountBadge">12 Products</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline">tune</span>
+</div>
+<!-- Search Input -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-[20px] text-outline">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-surface-container-low rounded-lg text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" id="recipeSearchInput" placeholder="Search products or variants..." type="text"/>
+<button class="hidden absolute right-3 top-2.5 text-outline hover:text-on-surface" id="clearSearchBtn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Category Filters -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" id="categoryPillContainer">
+<button class="cat-pill px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold whitespace-nowrap bg-primary text-on-primary transition-all" data-cat="all">All Categories</button>
+<button class="cat-pill px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold whitespace-nowrap bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all" data-cat="Enriched Buns">Enriched Buns</button>
+<button class="cat-pill px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold whitespace-nowrap bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all" data-cat="Sourdough &amp; Loaves">Sourdough &amp; Loaves</button>
+<button class="cat-pill px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold whitespace-nowrap bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all" data-cat="Viennoiserie &amp; Pastries">Viennoiserie</button>
+<button class="cat-pill px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold whitespace-nowrap bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all" data-cat="Specialty Cakes">Cakes</button>
+</div>
+<!-- Recipe List -->
+<div class="flex flex-col gap-2 max-h-[640px] overflow-y-auto pr-1" id="recipeListContainer">
+<!-- Populated by JS -->
+</div>
+<!-- Empty state placeholder for search -->
+<div class="hidden py-12 flex flex-col items-center justify-center text-center gap-2" id="noSearchResults">
+<span class="material-symbols-outlined text-[36px] text-outline">search_off</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">No recipes matching criteria</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">Try adjusting your category filter or search terms.</p>
+<button class="mt-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold hover:bg-surface-container-highest" id="resetSearchFiltersBtn">Clear Filters</button>
+</div>
+</div>
+<!-- Quick Cross References Card -->
+<div class="bg-surface-container-low rounded-xl p-4 shadow-sm flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Related Operational Views</span>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-primary text-[18px]">skillet</span>
+<div class="flex flex-col leading-tight">
+<span class="font-title-sm text-title-sm font-medium text-on-surface group-hover:text-primary">Phase 5.2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Queue Scaling</span>
+</div>
+</div>
+<div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-primary text-[18px]">inventory_2</span>
+<div class="flex flex-col leading-tight">
+<span class="font-title-sm text-title-sm font-medium text-on-surface group-hover:text-primary">Phase 5.4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Inventory Status</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Recipe Detail & Bill of Materials (65% on Desktop) -->
+<div class="w-full lg:w-[65%] flex flex-col gap-6" id="recipeDetailContainer">
+<!-- Detail Header Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+<!-- Breadcrumb & Top Tags -->
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-semibold" id="detailCategoryBadge">Enriched Buns</span>
+<span class="text-outline-variant font-label-sm">·</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">BOM Standard Rev 3</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-outline">lock</span>
+<span>Operational Reference · Immutable</span>
+</span>
+</div>
+</div>
+<!-- Product Title & Visual Summary -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface font-medium" id="detailTitle">Japanese Shokupan Milk Bread</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="detailCode">SKU: REC-SHOKU-01 · Station: Viennoiserie / Enriched Line</span>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-center">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors font-label-sm text-label-sm font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+<span>View Pantry Stock in 5.4</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Variant Selector Section -->
+<div class="flex flex-col gap-2 pt-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Select Target Variant</span>
+<div class="flex flex-wrap items-center gap-2" id="detailVariantButtons">
+<!-- Populated via JS -->
+</div>
+</div>
+<!-- Information Callout Banner -->
+<div class="flex items-start gap-3 p-4 rounded-xl bg-surface-container-low text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">Single-Unit Standard BOM</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Ingredient quantities shown below are scaled strictly for <strong class="text-on-surface">1 unit</strong> of the selected product variant. For live shift batch targets and dynamic yield scaling, reference <span class="text-primary font-medium">Phase 5.3 Production / Order Details</span>.
+            </p>
+</div>
+</div>
+</div>
+<!-- Ingredient Requirements Table Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">grocery</span>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold">Bill of Materials (BOM)</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold" id="detailIngredientCountBadge">8 Ingredients</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Unit Base: Standard Baker's Measure</span>
+</div>
+</div>
+<!-- Responsive Table Container -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-6 font-semibold">Ingredient</th>
+<th class="py-3 px-4 font-semibold text-right">Required Qty</th>
+<th class="py-3 px-4 font-semibold">Unit</th>
+<th class="py-3 px-6 font-semibold">Pantry Status (Operational)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant/40" id="bomTableBody">
+<!-- Dynamically populated rows -->
+</tbody>
+</table>
+</div>
+<!-- Empty state within table if unconfigured -->
+<div class="hidden p-12 flex-col items-center justify-center text-center gap-3" id="unconfiguredBomMessage">
+<span class="material-symbols-outlined text-[44px] text-outline">science</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">No BOM Configured For This Variant</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+            This variant has not had its master bill of materials finalized in the kitchen ERP. Inform Head Baker or shift supervisor.
+          </p>
+</div>
+</div>
+<!-- Total Scaling Summary & Operational Technicals -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="bomSummaryMetrics">
+<!-- Raw Scaling Weight -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Total Raw Dough</span>
+<span class="material-symbols-outlined text-[18px]">scale</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold" id="sumRawWeight">943</span>
+<span class="font-title-sm text-title-sm text-on-surface-variant">g</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Pre-ferment + main dough batch sum</span>
+</div>
+<!-- Baked Target Weight -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Target Baked Weight</span>
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-primary font-semibold" id="sumBakedWeight">~750</span>
+<span class="font-title-sm text-title-sm text-on-surface-variant">g</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Post bake moisture loss (~12-14%)</span>
+</div>
+<!-- Station / Packaging Note -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Assigned Packaging</span>
+<span class="material-symbols-outlined text-[18px]">inventory</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-medium leading-snug" id="sumPackaging">Micro-Perforated Pullman Sleeve</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Includes bakery kraft seal tag</span>
+</div>
+</div>
+</div>
+<!-- Baker's Technical Operational Guidelines (Purely technical notes, 0 secret formulas) -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Operational Handling &amp; Staging Notes</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SOP Code: K406-REF</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-on-surface-variant">
+<div class="flex items-start gap-2.5 p-3 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">thermostat</span>
+<div class="flex flex-col leading-tight">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">Desired Dough Temp (DDT)</span>
+<span class="font-body-sm text-body-sm mt-0.5" id="detailDdt">25°C – 26°C (Target mixer bowl finish)</span>
+</div>
+</div>
+<div class="flex items-start gap-2.5 p-3 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">schedule</span>
+<div class="flex flex-col leading-tight">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">Bulk &amp; Retardation Target</span>
+<span class="font-body-sm text-body-sm mt-0.5" id="detailFerment">60 min warm bulk, followed by 12 hr retard at 4°C</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SKELETON LOADING VIEW (Triggered via QA Scenario) -->
+<div class="hidden w-full lg:w-[65%] flex-col gap-6 animate-pulse" id="skeletonLoadingView">
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-4">
+<div class="h-4 w-32 bg-surface-container-high rounded"></div>
+<div class="h-8 w-64 bg-surface-container-high rounded"></div>
+<div class="h-4 w-48 bg-surface-container-high rounded"></div>
+<div class="h-10 w-full bg-surface-container-low rounded-lg mt-2"></div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col gap-3">
+<div class="h-6 w-40 bg-surface-container-high rounded"></div>
+<div class="h-12 w-full bg-surface-container-low rounded"></div>
+<div class="h-12 w-full bg-surface-container-low rounded"></div>
+<div class="h-12 w-full bg-surface-container-low rounded"></div>
+</div>
+</div>
+<!-- ERROR STATE VIEW (Triggered via QA Scenario) -->
+<div class="hidden w-full lg:w-[65%] flex-col items-center justify-center py-20 px-8 text-center bg-surface-container-lowest rounded-xl shadow-sm gap-4" id="errorStateView">
+<div class="w-12 h-12 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">error</span>
+</div>
+<div class="flex flex-col gap-1 max-w-md">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Failed to Load Recipe Specification</span>
+<p class="font-body-md text-body-md text-on-surface-variant">The local operational cache could not reconcile the Bill of Materials snapshot from the bakery central catalog.</p>
+</div>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container transition-all flex items-center gap-2" id="retryErrorBtn">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+<span>Retry Connection</span>
+</button>
+</div>
+</div>
+<!-- QA SIMULATOR / INTERACTIVE TEST BENCH (Fixed Bottom Dock) -->
+<aside class="sticky bottom-0 z-30 w-full bg-inverse-surface text-inverse-on-surface px-6 py-3 shadow-xl backdrop-blur">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">biotech</span>
+<span class="font-label-sm text-label-sm font-semibold tracking-wider uppercase text-primary-fixed-dim">Phase 5.6 Test Scenarios</span>
+<span class="text-surface-variant/40 hidden md:inline">|</span>
+<span class="text-surface-variant/70 font-body-sm text-body-sm hidden md:inline">Interactive Verification &amp; Edge Cases</span>
+</div>
+<!-- Scenario Quick Buttons -->
+<div class="flex flex-wrap items-center gap-1.5 overflow-x-auto max-w-full">
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(1)" title="Scenario 1: Default Shokupan Pullman">1. Shokupan Pullman</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(2)" title="Scenario 2: Switch Variant Shokupan Rolls">2. Shokupan Rolls</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(3)" title="Scenario 3: Select Chocolate Babka">3. Chocolate Babka</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(4)" title="Scenario 4: Select Country Sourdough">4. Country Sourdough</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(5)" title="Scenario 5: Empty Variant BOM">5. Unconfigured BOM</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(6)" title="Scenario 6: Search No Results">6. No Search Results</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(7)" title="Scenario 7: Loading Skeletons">7. Skeletons</button>
+<button class="qa-btn px-2.5 py-1 rounded bg-surface-variant/20 hover:bg-surface-variant/30 text-inverse-on-surface font-label-sm text-label-sm transition-all" onclick="runScenario(8)" title="Scenario 8: Error Retry State">8. Error State</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:bg-primary-container transition-all ml-1 flex items-center gap-1" onclick="runScenario(1)">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<script>
+  // Complete Dataset for Phase 5.6 Recipes & BOM (Strict Staff RBAC: Zero Financials, Pure BOM)
+  const RECIPES_DATA = [
+    {
+      id: "shokupan",
+      name: "Japanese Shokupan Milk Bread",
+      category: "Enriched Buns",
+      code: "REC-SHOKU-01",
+      station: "Viennoiserie / Enriched Line",
+      ddt: "25°C – 26°C (Target mixer bowl finish)",
+      ferment: "60 min warm bulk, followed by 12 hr retard at 4°C",
+      variants: [
+        {
+          id: "pullman-750",
+          name: "Pullman Loaf (750g)",
+          rawWeight: "943",
+          bakedWeight: "~750",
+          packaging: "Micro-Perforated Pullman Sleeve + Kraft Seal",
+          ingredients: [
+            { name: "Japanese Bread Flour (High-Protein)", category: "Dry Pantry", qty: "450", unit: "g", status: "Low Stock (1.6 kg available)", statusType: "warning" },
+            { name: "Fresh Whole Milk (Chilled)", category: "Cold Storage", qty: "280", unit: "ml", status: "In Stock (5.5 L available)", statusType: "success" },
+            { name: "French Unsalted Butter 82% (Softened)", category: "Cold Storage", qty: "45", unit: "g", status: "Out of Stock (0 kg)", statusType: "error" },
+            { name: "Granulated Cane Sugar", category: "Dry Pantry", qty: "35", unit: "g", status: "In Stock (13.5 kg available)", statusType: "success" },
+            { name: "Sweetened Condensed Milk", category: "Dry Pantry", qty: "20", unit: "g", status: "In Stock (3.2 kg available)", statusType: "success" },
+            { name: "Osmotolerant Instant Yeast", category: "Dry Pantry", qty: "5", unit: "g", status: "In Stock (1.6 kg available)", statusType: "success" },
+            { name: "Fine Sea Salt", category: "Dry Pantry", qty: "8", unit: "g", status: "In Stock (4.8 kg available)", statusType: "success" },
+            { name: "Yudane Starter (Flour & Boiling Water 1:1)", category: "Pre-Ferment", qty: "100", unit: "g", status: "Base Mix Required", statusType: "neutral" }
+          ]
+        },
+        {
+          id: "rolls-6pk",
+          name: "Milk Bread Rolls (6-Pack)",
+          rawWeight: "570",
+          bakedWeight: "~510",
+          packaging: "Six-Well Compostable Clamshell Tray",
+          ingredients: [
+            { name: "Japanese Bread Flour (High-Protein)", category: "Dry Pantry", qty: "300", unit: "g", status: "Low Stock (1.6 kg available)", statusType: "warning" },
+            { name: "Fresh Whole Milk (Chilled)", category: "Cold Storage", qty: "190", unit: "ml", status: "In Stock (5.5 L available)", statusType: "success" },
+            { name: "French Unsalted Butter 82% (Softened)", category: "Cold Storage", qty: "30", unit: "g", status: "Out of Stock (0 kg)", statusType: "error" },
+            { name: "Granulated Cane Sugar", category: "Dry Pantry", qty: "25", unit: "g", status: "In Stock (13.5 kg available)", statusType: "success" },
+            { name: "Sweetened Condensed Milk", category: "Dry Pantry", qty: "15", unit: "g", status: "In Stock (3.2 kg available)", statusType: "success" },
+            { name: "Osmotolerant Instant Yeast", category: "Dry Pantry", qty: "4", unit: "g", status: "In Stock (1.6 kg available)", statusType: "success" },
+            { name: "Fine Sea Salt", category: "Dry Pantry", qty: "6", unit: "g", status: "In Stock (4.8 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "babka",
+      name: "Chocolate Babka",
+      category: "Enriched Buns",
+      code: "REC-BABKA-02",
+      station: "Lamination & Enriched Station",
+      ddt: "24°C (Keep butter block chilled)",
+      ferment: "Overnight cold bulk retardation (14 hrs)",
+      variants: [
+        {
+          id: "babka-large",
+          name: "Large Pullman Loaf",
+          rawWeight: "880",
+          bakedWeight: "~790",
+          packaging: "Windowed Pullman Kraft Box",
+          ingredients: [
+            { name: "Enriched Brioche Base Dough", category: "Intermediate Dough", qty: "520", unit: "g", status: "In Stock (Ready)", statusType: "success" },
+            { name: "Valrhona 70% Dark Chocolate Ganache", category: "Prepared Fillings", qty: "240", unit: "g", status: "In Stock (2.8 kg available)", statusType: "success" },
+            { name: "Cacao Streusel Crumble", category: "Dry Topping", qty: "80", unit: "g", status: "In Stock (1.2 kg available)", statusType: "success" },
+            { name: "Orange Blossom Sugar Syrup", category: "Glaze", qty: "40", unit: "ml", status: "In Stock (3.0 L available)", statusType: "success" }
+          ]
+        },
+        {
+          id: "babka-swirl",
+          name: "Individual Swirl",
+          rawWeight: "220",
+          bakedWeight: "~195",
+          packaging: "Fluted Parchment Baking Cup",
+          ingredients: [
+            { name: "Enriched Brioche Base Dough", category: "Intermediate Dough", qty: "130", unit: "g", status: "In Stock (Ready)", statusType: "success" },
+            { name: "Valrhona 70% Dark Chocolate Ganache", category: "Prepared Fillings", qty: "65", unit: "g", status: "In Stock (2.8 kg available)", statusType: "success" },
+            { name: "Cacao Streusel Crumble", category: "Dry Topping", qty: "25", unit: "g", status: "In Stock (1.2 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "sourdough-batard",
+      name: "Country Sourdough Batard",
+      category: "Sourdough & Loaves",
+      code: "REC-SOUR-01",
+      station: "Hearth Stone Deck",
+      ddt: "26°C – 27°C",
+      ferment: "4 hrs stretch & fold at 26°C, 16 hrs cold proof at 3°C",
+      variants: [
+        {
+          id: "batard-650",
+          name: "Regular Batard (650g)",
+          rawWeight: "810",
+          bakedWeight: "~650",
+          packaging: "Unbleached Linen-Style Loaf Bag",
+          ingredients: [
+            { name: "Organic Stoneground Bread Flour", category: "Dry Pantry", qty: "420", unit: "g", status: "In Stock (45 kg available)", statusType: "success" },
+            { name: "Whole Grain Rye Flour", category: "Dry Pantry", qty: "60", unit: "g", status: "In Stock (18 kg available)", statusType: "success" },
+            { name: "Filtered Water (Room Temp)", category: "Liquids", qty: "360", unit: "ml", status: "Available", statusType: "success" },
+            { name: "Active Liquid Levain (100% Hydration)", category: "Sourdough Culture", qty: "100", unit: "g", status: "Fed & Active", statusType: "success" },
+            { name: "Grey Guerande Sea Salt", category: "Dry Pantry", qty: "10", unit: "g", status: "In Stock (9.2 kg available)", statusType: "success" }
+          ]
+        },
+        {
+          id: "boule-900",
+          name: "Large Boule (900g)",
+          rawWeight: "1120",
+          bakedWeight: "~900",
+          packaging: "Large Kraft Round Loaf Sack",
+          ingredients: [
+            { name: "Organic Stoneground Bread Flour", category: "Dry Pantry", qty: "580", unit: "g", status: "In Stock (45 kg available)", statusType: "success" },
+            { name: "Whole Grain Rye Flour", category: "Dry Pantry", qty: "85", unit: "g", status: "In Stock (18 kg available)", statusType: "success" },
+            { name: "Filtered Water (Room Temp)", category: "Liquids", qty: "495", unit: "ml", status: "Available", statusType: "success" },
+            { name: "Active Liquid Levain (100% Hydration)", category: "Sourdough Culture", qty: "140", unit: "g", status: "Fed & Active", statusType: "success" },
+            { name: "Grey Guerande Sea Salt", category: "Dry Pantry", qty: "14", unit: "g", status: "In Stock (9.2 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "cardamom-buns",
+      name: "Cardamom Buns",
+      category: "Enriched Buns",
+      code: "REC-CARD-01",
+      station: "Pastry Bench",
+      ddt: "24°C",
+      ferment: "45 min bulk, cold retarding 2 hrs before shaping",
+      variants: [
+        {
+          id: "card-4pk",
+          name: "Standard 4-Pack",
+          rawWeight: "440",
+          bakedWeight: "~380",
+          packaging: "Windowed Bakery Kraft Box (Small)",
+          ingredients: [
+            { name: "Fine Pastry Flour", category: "Dry Pantry", qty: "240", unit: "g", status: "In Stock (30 kg available)", statusType: "success" },
+            { name: "Whole Cardamom Pods (Freshly Ground)", category: "Spices", qty: "8", unit: "g", status: "In Stock (450 g available)", statusType: "success" },
+            { name: "Salted Cultured Butter (Creamed)", category: "Cold Storage", qty: "75", unit: "g", status: "Low Stock (800 g available)", statusType: "warning" },
+            { name: "Raw Demerara Sugar", category: "Dry Pantry", qty: "50", unit: "g", status: "In Stock (8 kg available)", statusType: "success" },
+            { name: "Whole Milk", category: "Cold Storage", qty: "120", unit: "ml", status: "In Stock (5.5 L available)", statusType: "success" },
+            { name: "Instant Baker's Yeast", category: "Dry Pantry", qty: "5", unit: "g", status: "In Stock (1.6 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "almond-croissants",
+      name: "Almond Croissants",
+      category: "Viennoiserie & Pastries",
+      code: "REC-CROIS-02",
+      station: "Lamination Line",
+      ddt: "20°C (Cold room execution)",
+      ferment: "Twice-baked process (day-old croissant base)",
+      variants: [
+        {
+          id: "crois-4pk",
+          name: "Standard 4-Pack",
+          rawWeight: "520",
+          bakedWeight: "~460",
+          packaging: "Bakery Pastry Carton (4-count)",
+          ingredients: [
+            { name: "Day-Old Classic Butter Croissants", category: "Bakery Base", qty: "4", unit: "pcs", status: "In Stock (18 pcs reserved)", statusType: "success" },
+            { name: "Almond Frangipane Cream", category: "Cold Storage", qty: "220", unit: "g", status: "In Stock (2.4 kg prepared)", statusType: "success" },
+            { name: "Vanilla Soaking Syrup", category: "Pantry Prep", qty: "80", unit: "ml", status: "In Stock (1.5 L available)", statusType: "success" },
+            { name: "Sliced Blanched Almonds", category: "Dry Pantry", qty: "60", unit: "g", status: "Low Stock (900 g available)", statusType: "warning" },
+            { name: "Snow Powder Sugar (Confectioner's)", category: "Dry Pantry", qty: "15", unit: "g", status: "In Stock (5 kg available)", statusType: "success" }
+          ]
+        },
+        {
+          id: "crois-8pk",
+          name: "Box of 8",
+          rawWeight: "1040",
+          bakedWeight: "~920",
+          packaging: "Bakery Pastry Carton (8-count)",
+          ingredients: [
+            { name: "Day-Old Classic Butter Croissants", category: "Bakery Base", qty: "8", unit: "pcs", status: "In Stock (18 pcs reserved)", statusType: "success" },
+            { name: "Almond Frangipane Cream", category: "Cold Storage", qty: "440", unit: "g", status: "In Stock (2.4 kg prepared)", statusType: "success" },
+            { name: "Vanilla Soaking Syrup", category: "Pantry Prep", qty: "160", unit: "ml", status: "In Stock (1.5 L available)", statusType: "success" },
+            { name: "Sliced Blanched Almonds", category: "Dry Pantry", qty: "120", unit: "g", status: "Low Stock (900 g available)", statusType: "warning" },
+            { name: "Snow Powder Sugar (Confectioner's)", category: "Dry Pantry", qty: "30", unit: "g", status: "In Stock (5 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "focaccia",
+      name: "Rosemary Sea Salt Focaccia",
+      category: "Sourdough & Loaves",
+      code: "REC-FOC-01",
+      station: "Hearth & Sheet Station",
+      ddt: "26°C",
+      ferment: "Room temp bulk 3 hrs with 4 coil folds, overnight tray retard",
+      variants: [
+        {
+          id: "foc-half",
+          name: "Half Sheet Pan",
+          rawWeight: "1250",
+          bakedWeight: "~1100",
+          packaging: "Half Sheet Greaseproof Bakery Box",
+          ingredients: [
+            { name: "T45 Unbleached Flour", category: "Dry Pantry", qty: "700", unit: "g", status: "In Stock (50 kg available)", statusType: "success" },
+            { name: "Extra Virgin Olive Oil (Cold Pressed)", category: "Liquids", qty: "120", unit: "ml", status: "In Stock (8.4 L available)", statusType: "success" },
+            { name: "Filtered Water (85% Hydration)", category: "Liquids", qty: "595", unit: "ml", status: "Available", statusType: "success" },
+            { name: "Fresh Rosemary Needles", category: "Produce", qty: "18", unit: "g", status: "In Stock (Fresh)", statusType: "success" },
+            { name: "Maldon Flaky Sea Salt", category: "Dry Pantry", qty: "14", unit: "g", status: "In Stock (3.2 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "cinnamon-rolls",
+      name: "Cinnamon Rolls",
+      category: "Enriched Buns",
+      code: "REC-CIN-01",
+      station: "Enriched Station",
+      ddt: "25°C",
+      ferment: "60 min bulk, sheeted cold, proofed 75 min",
+      variants: [
+        {
+          id: "cin-4pk",
+          name: "Box of 4",
+          rawWeight: "620",
+          bakedWeight: "~560",
+          packaging: "Square Kraft Window Box",
+          ingredients: [
+            { name: "Enriched Bun Dough Base", category: "Base Prep", qty: "400", unit: "g", status: "In Stock (Batch Ready)", statusType: "success" },
+            { name: "Korintje Cinnamon Filling Mix", category: "Prepared Fillings", qty: "130", unit: "g", status: "In Stock (1.8 kg available)", statusType: "success" },
+            { name: "Cream Cheese Glaze", category: "Cold Prep", qty: "90", unit: "g", status: "Low Stock (600 g available)", statusType: "warning" }
+          ]
+        },
+        {
+          id: "cin-6pk",
+          name: "Box of 6",
+          rawWeight: "930",
+          bakedWeight: "~840",
+          packaging: "Rectangular Kraft Box",
+          ingredients: [
+            { name: "Enriched Bun Dough Base", category: "Base Prep", qty: "600", unit: "g", status: "In Stock (Batch Ready)", statusType: "success" },
+            { name: "Korintje Cinnamon Filling Mix", category: "Prepared Fillings", qty: "195", unit: "g", status: "In Stock (1.8 kg available)", statusType: "success" },
+            { name: "Cream Cheese Glaze", category: "Cold Prep", qty: "135", unit: "g", status: "Low Stock (600 g available)", statusType: "warning" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "basque-cheesecake",
+      name: "Basque Burnt Cheesecake",
+      category: "Specialty Cakes",
+      code: "REC-CAKE-01",
+      station: "Pastry & Confectionery",
+      ddt: "Room Temperature Blend",
+      ferment: "No fermentation. High heat deck bake (230°C for 28m)",
+      variants: [
+        {
+          id: "cake-6in",
+          name: "6-inch Round",
+          rawWeight: "750",
+          bakedWeight: "~690",
+          packaging: "Cake Board + Round Chiffon Box",
+          ingredients: [
+            { name: "Philadelphia Cream Cheese (Softened)", category: "Cold Storage", qty: "430", unit: "g", status: "In Stock (12 kg available)", statusType: "success" },
+            { name: "Heavy Whipping Cream 36%", category: "Cold Storage", qty: "200", unit: "ml", status: "In Stock (6.0 L available)", statusType: "success" },
+            { name: "Whole Eggs (Grade AA)", category: "Cold Storage", qty: "3", unit: "pcs", status: "In Stock (72 pcs available)", statusType: "success" },
+            { name: "Superfine White Sugar", category: "Dry Pantry", qty: "110", unit: "g", status: "In Stock (15 kg available)", statusType: "success" },
+            { name: "Organic Cornstarch", category: "Dry Pantry", qty: "10", unit: "g", status: "In Stock (2.5 kg available)", statusType: "success" }
+          ]
+        },
+        {
+          id: "cake-8in",
+          name: "8-inch Round",
+          rawWeight: "1320",
+          bakedWeight: "~1210",
+          packaging: "Cake Board + 9-inch Round Box",
+          ingredients: [
+            { name: "Philadelphia Cream Cheese (Softened)", category: "Cold Storage", qty: "750", unit: "g", status: "In Stock (12 kg available)", statusType: "success" },
+            { name: "Heavy Whipping Cream 36%", category: "Cold Storage", qty: "350", unit: "ml", status: "In Stock (6.0 L available)", statusType: "success" },
+            { name: "Whole Eggs (Grade AA)", category: "Cold Storage", qty: "5", unit: "pcs", status: "In Stock (72 pcs available)", statusType: "success" },
+            { name: "Superfine White Sugar", category: "Dry Pantry", qty: "190", unit: "g", status: "In Stock (15 kg available)", statusType: "success" },
+            { name: "Organic Cornstarch", category: "Dry Pantry", qty: "18", unit: "g", status: "In Stock (2.5 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "baguette",
+      name: "Baguette Tradition",
+      category: "Sourdough & Loaves",
+      code: "REC-BAG-01",
+      station: "Deck Oven",
+      ddt: "23°C",
+      ferment: "Poolish overnight (16 hrs), 90 min final floor fermentation",
+      variants: [
+        {
+          id: "bag-3pk",
+          name: "Standard 3-Pack",
+          rawWeight: "1050",
+          bakedWeight: "~750",
+          packaging: "Triple Baguette Open Sleeve",
+          ingredients: [
+            { name: "French T65 Flour", category: "Dry Pantry", qty: "650", unit: "g", status: "In Stock (25 kg available)", statusType: "success" },
+            { name: "Chilled Water", category: "Liquids", qty: "440", unit: "ml", status: "Available", statusType: "success" },
+            { name: "Poolish Pre-Ferment", category: "Pre-Ferment", qty: "200", unit: "g", status: "In Stock (Batched)", statusType: "success" },
+            { name: "Sea Salt", category: "Dry Pantry", qty: "13", unit: "g", status: "In Stock (4.8 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "brioche-box",
+      name: "Brioche Morning Box",
+      category: "Enriched Buns",
+      code: "REC-BRIBX-01",
+      station: "Pastry Station",
+      ddt: "22°C (Strict butter temperature monitoring)",
+      ferment: "Cold bulk 12 hrs, shape and final proof 90m",
+      variants: [
+        {
+          id: "bri-6assort",
+          name: "6 Assorted Pieces",
+          rawWeight: "680",
+          bakedWeight: "~600",
+          packaging: "Hexagonal Window Display Box",
+          ingredients: [
+            { name: "French Brioche Dough", category: "Base Dough", qty: "480", unit: "g", status: "In Stock (Prepared)", statusType: "success" },
+            { name: "Vanilla Pastry Crème", category: "Cold Storage", qty: "120", unit: "g", status: "In Stock (1.2 kg available)", statusType: "success" },
+            { name: "Pearl Sugar (Nib Sugar)", category: "Dry Topping", qty: "30", unit: "g", status: "In Stock (3.5 kg available)", statusType: "success" },
+            { name: "Egg Wash Base", category: "Prep", qty: "50", unit: "ml", status: "In Stock", statusType: "success" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "matcha-redbean",
+      name: "Matcha Red Bean Milk Bread",
+      category: "Enriched Buns",
+      code: "REC-MATCH-01",
+      station: "Viennoiserie / Enriched Line",
+      ddt: "25°C",
+      ferment: "50 min bulk, swirl shaping, 70 min proof",
+      variants: [
+        {
+          id: "mat-600",
+          name: "Pullman 600g",
+          rawWeight: "780",
+          bakedWeight: "~610",
+          packaging: "Micro-Perforated Loaf Bag",
+          ingredients: [
+            { name: "Japanese Bread Flour", category: "Dry Pantry", qty: "360", unit: "g", status: "Low Stock (1.6 kg available)", statusType: "warning" },
+            { name: "Ceremonial Uji Matcha Powder", category: "Specialty Dry", qty: "15", unit: "g", status: "In Stock (400 g available)", statusType: "success" },
+            { name: "Hokkaido Red Bean Paste (Tsubuan)", category: "Prepared Fillings", qty: "180", unit: "g", status: "Low Stock (750 g available)", statusType: "warning" },
+            { name: "Fresh Milk", category: "Cold Storage", qty: "210", unit: "ml", status: "In Stock (5.5 L available)", statusType: "success" },
+            { name: "Butter 82%", category: "Cold Storage", qty: "35", unit: "g", status: "Out of Stock (0 kg)", statusType: "error" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "seeded-sourdough",
+      name: "Multigrain Seeded Sourdough",
+      category: "Sourdough & Loaves",
+      code: "REC-SEED-01",
+      station: "Hearth Stone Deck",
+      ddt: "26°C",
+      ferment: "4 hrs stretch & fold with soaker incorporation, 14 hrs cold proof",
+      variants: [
+        {
+          id: "seed-700",
+          name: "Batard 700g",
+          rawWeight: "880",
+          bakedWeight: "~710",
+          packaging: "Unbleached Linen-Style Loaf Bag",
+          ingredients: [
+            { name: "Stoneground Whole Wheat Flour", category: "Dry Pantry", qty: "300", unit: "g", status: "In Stock (22 kg available)", statusType: "success" },
+            { name: "Artisan Bread Flour", category: "Dry Pantry", qty: "180", unit: "g", status: "In Stock (45 kg available)", statusType: "success" },
+            { name: "Toasted Seed Soaker (Flax, Sesame, Sunflower)", category: "Pantry Prep", qty: "140", unit: "g", status: "In Stock (3.4 kg available)", statusType: "success" },
+            { name: "Water", category: "Liquids", qty: "360", unit: "ml", status: "Available", statusType: "success" },
+            { name: "Sourdough Starter", category: "Culture", qty: "95", unit: "g", status: "Fed & Active", statusType: "success" },
+            { name: "Sea Salt", category: "Dry Pantry", qty: "10", unit: "g", status: "In Stock (4.8 kg available)", statusType: "success" }
+          ]
+        }
+      ]
+    }
+  ];
+
+  // Active state pointers
+  let currentRecipeId = "shokupan";
+  let currentVariantId = "pullman-750";
+  let activeCategory = "all";
+  let searchQuery = "";
+
+  // Render left recipe library list
+  function renderRecipeList() {
+    const container = document.getElementById("recipeListContainer");
+    const noResults = document.getElementById("noSearchResults");
+    const countBadge = document.getElementById("recipeCountBadge");
+    
+    // Filter
+    const filtered = RECIPES_DATA.filter(recipe => {
+      const matchCat = activeCategory === "all" || recipe.category === activeCategory;
+      const matchSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          recipe.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          recipe.variants.some(v => v.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchCat && matchSearch;
+    });
+
+    countBadge.textContent = `${filtered.length} Product${filtered.length === 1 ? '' : 's'}`;
+
+    if (filtered.length === 0) {
+      container.innerHTML = "";
+      noResults.classList.remove("hidden");
+      return;
+    }
+
+    noResults.classList.add("hidden");
+    
+    container.innerHTML = filtered.map(recipe => {
+      const isSelected = recipe.id === currentRecipeId;
+      const variantCount = recipe.variants.length;
+      const variantSummary = recipe.variants.map(v => v.name).join(" · ");
+
+      return `
+        <div 
+          onclick="selectRecipe('${recipe.id}')"
+          class="p-3.5 rounded-lg cursor-pointer transition-all duration-150 flex flex-col gap-1.5 ${
+            isSelected 
+              ? 'bg-secondary-container text-on-secondary-fixed shadow-sm' 
+              : 'bg-surface-container-low hover:bg-surface-container text-on-surface'
+          }"
+        >
+          <div class="flex items-start justify-between gap-2">
+            <span class="font-title-sm text-title-sm font-semibold leading-snug ${isSelected ? 'text-on-secondary-fixed' : 'text-on-surface'}">
+              ${recipe.name}
+            </span>
+            ${isSelected ? '<span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>' : ''}
+          </div>
+
+          <div class="flex items-center gap-2 text-label-sm font-label-sm ${isSelected ? 'text-on-secondary-fixed-variant' : 'text-on-surface-variant'}">
+            <span>${recipe.category}</span>
+            <span>·</span>
+            <span>${variantCount} variant${variantCount > 1 ? 's' : ''}</span>
+          </div>
+
+          <div class="font-body-sm text-body-sm truncate opacity-80 ${isSelected ? 'text-on-secondary-fixed-variant' : 'text-on-surface-variant'}">
+            ${variantSummary}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Render detail view for active recipe and active variant
+  function renderDetailView() {
+    const recipe = RECIPES_DATA.find(r => r.id === currentRecipeId);
+    if (!recipe) return;
+
+    // Check if variant exists
+    let variant = recipe.variants.find(v => v.id === currentVariantId);
+    if (!variant && recipe.variants.length > 0) {
+      variant = recipe.variants[0];
+      currentVariantId = variant.id;
+    }
+
+    // Populate header details
+    document.getElementById("detailCategoryBadge").textContent = recipe.category;
+    document.getElementById("detailTitle").textContent = recipe.name;
+    document.getElementById("detailCode").textContent = `SKU: ${recipe.code} · Station: ${recipe.station}`;
+    document.getElementById("detailDdt").textContent = recipe.ddt;
+    document.getElementById("detailFerment").textContent = recipe.ferment;
+
+    // Variant selector buttons
+    const variantBtnContainer = document.getElementById("detailVariantButtons");
+    variantBtnContainer.innerHTML = recipe.variants.map(v => {
+      const isActive = v.id === currentVariantId;
+      return `
+        <button 
+          onclick="selectVariant('${v.id}')"
+          class="px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all flex items-center gap-2 ${
+            isActive 
+              ? 'bg-primary text-on-primary font-semibold shadow-sm' 
+              : 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest font-normal'
+          }"
+        >
+          <span class="material-symbols-outlined text-[16px]">${isActive ? 'radio_button_checked' : 'radio_button_unchecked'}</span>
+          <span>${v.name}</span>
+        </button>
+      `;
+    }).join("");
+
+    const tableBody = document.getElementById("bomTableBody");
+    const unconfiguredMsg = document.getElementById("unconfiguredBomMessage");
+    const countBadge = document.getElementById("detailIngredientCountBadge");
+    const summaryMetrics = document.getElementById("bomSummaryMetrics");
+
+    if (!variant || !variant.ingredients || variant.ingredients.length === 0) {
+      // Empty BOM scenario
+      tableBody.innerHTML = "";
+      unconfiguredMsg.classList.remove("hidden");
+      unconfiguredMsg.classList.add("flex");
+      countBadge.textContent = "0 Ingredients";
+      summaryMetrics.classList.add("opacity-40", "pointer-events-none");
+      document.getElementById("sumRawWeight").textContent = "—";
+      document.getElementById("sumBakedWeight").textContent = "—";
+      document.getElementById("sumPackaging").textContent = "Unassigned Packaging Standard";
+      return;
+    }
+
+    unconfiguredMsg.classList.add("hidden");
+    unconfiguredMsg.classList.remove("flex");
+    summaryMetrics.classList.remove("opacity-40", "pointer-events-none");
+
+    countBadge.textContent = `${variant.ingredients.length} Ingredients`;
+    document.getElementById("sumRawWeight").textContent = variant.rawWeight;
+    document.getElementById("sumBakedWeight").textContent = variant.bakedWeight;
+    document.getElementById("sumPackaging").textContent = variant.packaging;
+
+    // Populate rows
+    tableBody.innerHTML = variant.ingredients.map(item => {
+      let badgeClasses = "bg-surface-container text-on-surface-variant";
+      let icon = "inventory_2";
+      if (item.statusType === "success") {
+        badgeClasses = "bg-[#EBF0EC] text-[#3D5941]";
+        icon = "check_circle";
+      } else if (item.statusType === "warning") {
+        badgeClasses = "bg-[#F8EDE3] text-[#935324]";
+        icon = "warning";
+      } else if (item.statusType === "error") {
+        badgeClasses = "bg-[#FBEAEA] text-[#BA1A1A]";
+        icon = "cancel";
+      }
+
+      return `
+        <tr class="hover:bg-surface-container-low transition-colors">
+          <td class="py-3.5 px-6">
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm text-on-surface font-semibold">${item.name}</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">${item.category}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="font-title-md text-title-md text-on-surface font-semibold tabular-nums">${item.qty}</span>
+          </td>
+          <td class="py-3.5 px-4">
+            <span class="font-label-md text-label-md text-on-surface-variant font-medium">${item.unit}</span>
+          </td>
+          <td class="py-3.5 px-6">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm font-semibold ${badgeClasses}">
+              <span class="material-symbols-outlined text-[14px]">${icon}</span>
+              <span>${item.status}</span>
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // Interactive selectors
+  function selectRecipe(id) {
+    currentRecipeId = id;
+    const r = RECIPES_DATA.find(x => x.id === id);
+    if (r && r.variants.length > 0) {
+      currentVariantId = r.variants[0].id;
+    }
+    showNormalDetail();
+    renderRecipeList();
+    renderDetailView();
+  }
+
+  function selectVariant(varId) {
+    currentVariantId = varId;
+    renderDetailView();
+  }
+
+  // Category filter handlers
+  document.querySelectorAll(".cat-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      document.querySelectorAll(".cat-pill").forEach(p => {
+        p.classList.remove("bg-primary", "text-on-primary");
+        p.classList.add("bg-surface-container", "text-on-surface-variant");
+      });
+      pill.classList.remove("bg-surface-container", "text-on-surface-variant");
+      pill.classList.add("bg-primary", "text-on-primary");
+
+      activeCategory = pill.getAttribute("data-cat");
+      renderRecipeList();
+    });
+  });
+
+  // Search input handlers
+  const searchInput = document.getElementById("recipeSearchInput");
+  const clearBtn = document.getElementById("clearSearchBtn");
+
+  searchInput.addEventListener("input", (e) => {
+    searchQuery = e.target.value;
+    if (searchQuery.length > 0) {
+      clearBtn.classList.remove("hidden");
+    } else {
+      clearBtn.classList.add("hidden");
+    }
+    renderRecipeList();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchQuery = "";
+    clearBtn.classList.add("hidden");
+    renderRecipeList();
+  });
+
+  document.getElementById("resetSearchFiltersBtn").addEventListener("click", () => {
+    searchInput.value = "";
+    searchQuery = "";
+    clearBtn.classList.add("hidden");
+    activeCategory = "all";
+    document.querySelectorAll(".cat-pill").forEach((p, idx) => {
+      if (idx === 0) {
+        p.classList.add("bg-primary", "text-on-primary");
+        p.classList.remove("bg-surface-container", "text-on-surface-variant");
+      } else {
+        p.classList.remove("bg-primary", "text-on-primary");
+        p.classList.add("bg-surface-container", "text-on-surface-variant");
+      }
+    });
+    renderRecipeList();
+  });
+
+  // UI state toggles for QA Scenarios
+  function showNormalDetail() {
+    document.getElementById("recipeDetailContainer").classList.remove("hidden");
+    document.getElementById("skeletonLoadingView").classList.add("hidden");
+    document.getElementById("skeletonLoadingView").classList.remove("flex");
+    document.getElementById("errorStateView").classList.add("hidden");
+    document.getElementById("errorStateView").classList.remove("flex");
+  }
+
+  function showSkeletonLoading() {
+    document.getElementById("recipeDetailContainer").classList.add("hidden");
+    document.getElementById("errorStateView").classList.add("hidden");
+    document.getElementById("errorStateView").classList.remove("flex");
+    document.getElementById("skeletonLoadingView").classList.remove("hidden");
+    document.getElementById("skeletonLoadingView").classList.add("flex");
+  }
+
+  function showErrorState() {
+    document.getElementById("recipeDetailContainer").classList.add("hidden");
+    document.getElementById("skeletonLoadingView").classList.add("hidden");
+    document.getElementById("skeletonLoadingView").classList.remove("flex");
+    document.getElementById("errorStateView").classList.remove("hidden");
+    document.getElementById("errorStateView").classList.add("flex");
+  }
+
+  document.getElementById("retryErrorBtn").addEventListener("click", () => {
+    showSkeletonLoading();
+    setTimeout(() => {
+      showNormalDetail();
+      selectRecipe("shokupan");
+    }, 600);
+  });
+
+  // QA Simulator Scenario Runner
+  function runScenario(num) {
+    showNormalDetail();
+
+    if (num === 1) {
+      // 1. Default (Shokupan Pullman)
+      searchInput.value = "";
+      searchQuery = "";
+      clearBtn.classList.add("hidden");
+      activeCategory = "all";
+      selectRecipe("shokupan");
+      selectVariant("pullman-750");
+    } else if (num === 2) {
+      // 2. Switch Variant (Shokupan Rolls)
+      selectRecipe("shokupan");
+      selectVariant("rolls-6pk");
+    } else if (num === 3) {
+      // 3. Select Chocolate Babka
+      selectRecipe("babka");
+      selectVariant("babka-large");
+    } else if (num === 4) {
+      // 4. Select Country Sourdough
+      selectRecipe("sourdough-batard");
+      selectVariant("batard-650");
+    } else if (num === 5) {
+      // 5. Unconfigured Recipe State (Simulate blank variant BOM)
+      currentRecipeId = "shokupan";
+      currentVariantId = "empty-variant-sim";
+      const recipe = RECIPES_DATA.find(r => r.id === "shokupan");
+      // temporarily add mock empty variant if not exists
+      if (!recipe.variants.some(v => v.id === "empty-variant-sim")) {
+        recipe.variants.push({
+          id: "empty-variant-sim",
+          name: "Seasonal Brioche Twist (Draft)",
+          rawWeight: "—",
+          bakedWeight: "—",
+          packaging: "Pending Specification",
+          ingredients: []
+        });
+      }
+      renderRecipeList();
+      renderDetailView();
+    } else if (num === 6) {
+      // 6. Search No Results
+      searchInput.value = "xyznonexistentproduct";
+      searchQuery = "xyznonexistentproduct";
+      clearBtn.classList.remove("hidden");
+      renderRecipeList();
+    } else if (num === 7) {
+      // 7. Loading Skeletons
+      showSkeletonLoading();
+    } else if (num === 8) {
+      // 8. Error State
+      showErrorState();
+    }
+  }
+
+  // Initialize on load
+  document.addEventListener("DOMContentLoaded", () => {
+    renderRecipeList();
+    renderDetailView();
+  });
+  // Execute immediately
+  renderRecipeList();
+  renderDetailView();
+</script></main></div></body></html>

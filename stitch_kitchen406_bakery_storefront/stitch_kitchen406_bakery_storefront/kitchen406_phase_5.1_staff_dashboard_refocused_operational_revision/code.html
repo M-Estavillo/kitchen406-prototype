@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Staff Dashboard | Kitchen406</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#fbf9f6",
+            "surface-dim": "#dbdad7",
+            "surface-bright": "#fbf9f6",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "surface-variant": "#e4e2df",
+            "on-surface": "#1b1c1a",
+            "on-surface-variant": "#53443a",
+            "primary": "#b46931",
+            "primary-container": "#ab622b",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#fffbff",
+            "primary-fixed": "#ffdcc6",
+            "primary-fixed-dim": "#ffb786",
+            "secondary": "#635d59",
+            "secondary-container": "#eae1dc",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#69635f",
+            "tertiary": "#625b55",
+            "outline": "#867368",
+            "outline-variant": "#d9c2b5",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            headline: ["Playfair Display", "serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"],
+            label: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Left Sidebar (230px) -->
+<aside class="fixed left-0 top-0 h-full w-[230px] bg-surface z-50 flex flex-col justify-between border-r border-outline-variant/60 select-none">
+<div class="flex flex-col flex-1 overflow-y-auto">
+<!-- Brand & Staff Workspace Tag -->
+<div class="px-5 pt-6 pb-5">
+<span class="font-headline text-2xl text-on-surface block tracking-tight">Kitchen406</span>
+<div class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/50">
+<span class="font-label text-[10px] uppercase tracking-wider text-on-surface-variant font-semibold">Staff Workspace</span>
+</div>
+</div>
+<!-- Navigation Section -->
+<div class="px-3 mb-2">
+<p class="px-2 py-1 font-label text-[11px] uppercase tracking-wider text-outline font-semibold">Operations</p>
+<nav class="flex flex-col gap-1 mt-1">
+<!-- Dashboard (Active) -->
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-primary text-on-primary font-medium text-sm transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">grid_view</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">skillet</span>
+<span>Production Queue</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">swap_horiz</span>
+<span>Stock Movements</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">menu_book</span>
+<span>Recipes</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">calendar_today</span>
+<span>Production Calendar</span>
+</a>
+</nav>
+</div>
+<div class="mx-4 my-2 border-t border-outline-variant/50"></div>
+<div class="px-3">
+<p class="px-2 py-1 font-label text-[11px] uppercase tracking-wider text-outline font-semibold">Workspace</p>
+<nav class="flex flex-col gap-1 mt-1">
+<a class="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px]">notifications</span>
+<span>Notifications</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">4</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[19px]">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Sidebar Footer Profile -->
+<div class="p-3 border-t border-outline-variant/60 bg-surface-container-lowest">
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-primary/15 text-primary flex items-center justify-center font-semibold text-xs flex-shrink-0">
+            EL
+          </div>
+<div class="min-w-0">
+<p class="text-xs font-semibold text-on-surface truncate leading-tight">Elena Lim</p>
+<p class="text-[11px] text-secondary truncate">Bakery Staff</p>
+</div>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors flex-shrink-0" title="Sign out" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="pl-[230px]">
+<!-- Top Header Bar -->
+<header class="fixed top-0 left-[230px] right-0 h-14 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-40">
+<div class="h-full px-8 flex items-center justify-between max-w-[1440px] mx-auto">
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-on-surface tracking-tight">Staff Workspace</span>
+<span class="text-outline-variant">·</span>
+<span class="text-xs text-secondary">Production and fulfillment overview</span>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="relative p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span>
+</button>
+<div class="h-4 w-px bg-outline-variant/60"></div>
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-primary/15 text-primary flex items-center justify-center text-xs font-bold">
+              EL
+            </div>
+<div class="text-left hidden sm:block">
+<span class="text-xs font-medium text-on-surface block leading-tight">Elena Lim</span>
+<span class="text-[10px] text-secondary block">Bakery Staff</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="relative pt-14 bg-surface min-h-screen">
+<div class="max-w-[1440px] mx-auto px-8 py-7 space-y-7 pb-16">
+<!-- 2. Page Header & Work Window Selector -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<h1 class="font-headline text-3xl text-on-surface tracking-tight">Good morning, Elena</h1>
+<p class="text-sm text-secondary">Here’s what needs attention in production today.</p>
+</div>
+<div class="flex items-center gap-3 self-start md:self-auto">
+<span class="text-xs font-medium text-secondary">Saturday, October 3</span>
+<div class="inline-flex p-0.5 rounded-lg bg-surface-container border border-outline-variant/40">
+<button class="px-3 py-1.5 rounded-md text-xs font-semibold bg-surface-container-lowest text-on-surface shadow-sm transition-all" type="button">Today</button>
+<button class="px-3 py-1.5 rounded-md text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all" type="button">Next 7 Days</button>
+</div>
+</div>
+</section>
+<!-- 3. Top Operational Summary (4 Cards) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Confirmed Orders -->
+<div class="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label text-xs uppercase tracking-wider text-secondary font-semibold">Confirmed Orders</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">receipt_long</span>
+</div>
+<div class="mt-4">
+<span class="font-headline text-3xl font-semibold text-on-surface">8</span>
+</div>
+<p class="mt-1 text-xs text-secondary">Scheduled for production</p>
+</div>
+<!-- Card 2: In Preparation -->
+<div class="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label text-xs uppercase tracking-wider text-primary font-semibold">In Preparation</span>
+<span class="material-symbols-outlined text-[20px] text-primary">skillet</span>
+</div>
+<div class="mt-4">
+<span class="font-headline text-3xl font-semibold text-primary">3</span>
+</div>
+<p class="mt-1 text-xs text-secondary">Currently being prepared</p>
+</div>
+<!-- Card 3: Ready for Fulfillment -->
+<div class="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label text-xs uppercase tracking-wider text-[#3D5941] font-semibold">Ready for Fulfillment</span>
+<span class="material-symbols-outlined text-[20px] text-[#3D5941]">check_circle</span>
+</div>
+<div class="mt-4">
+<span class="font-headline text-3xl font-semibold text-[#2A442E]">2</span>
+</div>
+<p class="mt-1 text-xs text-secondary">Pickup or delivery pending</p>
+</div>
+<!-- Card 4: Inventory Alerts -->
+<div class="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label text-xs uppercase tracking-wider text-error font-semibold">Inventory Alerts</span>
+<span class="material-symbols-outlined text-[20px] text-error">warning</span>
+</div>
+<div class="mt-4">
+<span class="font-headline text-3xl font-semibold text-error">3</span>
+</div>
+<p class="mt-1 text-xs text-secondary">Ingredients need attention</p>
+</div>
+</section>
+<!-- 4. Attention Needed (High Urgency Section) -->
+<section class="bg-surface-container-lowest rounded-lg p-6 border border-outline-variant/40 shadow-sm">
+<div class="mb-4">
+<div class="flex items-center gap-2">
+<h2 class="font-headline text-xl text-on-surface font-medium">Attention Needed</h2>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<p class="text-xs text-secondary mt-0.5">Operational updates requiring awareness or action.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+<!-- Alert 1: Critical -->
+<div class="p-4 rounded-lg bg-[#FAF1F0] border border-[#F3CECB] flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded bg-error text-white font-label text-[10px] uppercase font-bold tracking-wider">Critical</span>
+<span class="material-symbols-outlined text-[16px] text-error">inventory</span>
+</div>
+<h3 class="text-xs font-semibold text-on-surface leading-snug">Unsalted Butter is below required stock</h3>
+<p class="text-[11px] text-secondary mt-1">Current stock may affect today's scheduled production.</p>
+</div>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-error hover:underline pt-2 border-t border-[#F3CECB]/70" href="#inventory-watchlist">
+<span>View Inventory</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Alert 2: Warning -->
+<div class="p-4 rounded-lg bg-[#FAF5EE] border border-[#F0DFBE] flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded bg-[#C47D14] text-white font-label text-[10px] uppercase font-bold tracking-wider">Warning</span>
+<span class="material-symbols-outlined text-[16px] text-[#C47D14]">cake</span>
+</div>
+<h3 class="text-xs font-semibold text-on-surface leading-snug">Custom Cake #CC-1028 due for preparation</h3>
+<p class="text-[11px] text-secondary mt-1">Required for October 4 · Owner Delivery</p>
+</div>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-[#8C5507] hover:underline pt-2 border-t border-[#F0DFBE]/70" href="#production-queue">
+<span>View Production</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Alert 3: Information -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/50 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label text-[10px] uppercase font-bold tracking-wider">Information</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">event_repeat</span>
+</div>
+<h3 class="text-xs font-semibold text-on-surface leading-snug">Subscription production tomorrow</h3>
+<p class="text-[11px] text-secondary mt-1">12 units of Classic Sourdough scheduled.</p>
+</div>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline pt-2 border-t border-outline-variant/40" href="#upcoming-production">
+<span>View Schedule</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Alert 4: Delivery Update -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/50 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary font-label text-[10px] uppercase font-bold tracking-wider">Delivery Update</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+</div>
+<h3 class="text-xs font-semibold text-on-surface leading-snug">Order #K406-1038 courier booked</h3>
+<p class="text-[11px] text-secondary mt-1">Waiting for courier pickup.</p>
+</div>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline pt-2 border-t border-outline-variant/40" href="#fulfillment-status">
+<span>View Fulfillment</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 5. Today's Production Queue Table -->
+<section class="bg-surface-container-lowest rounded-lg p-6 border border-outline-variant/40 shadow-sm" id="production-queue">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 gap-2">
+<div>
+<h2 class="font-headline text-xl text-on-surface font-medium">Today's Production Queue</h2>
+<p class="text-xs text-secondary mt-0.5">Orders requiring preparation for today's fulfillment schedule.</p>
+</div>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-container transition-colors" href="#">
+<span>View Full Queue</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label text-[11px] uppercase tracking-wider border-b border-outline-variant/40">
+<th class="py-3 px-4 rounded-l font-semibold">Order</th>
+<th class="py-3 px-4 font-semibold">Type</th>
+<th class="py-3 px-4 font-semibold">Products</th>
+<th class="py-3 px-4 font-semibold">Fulfillment</th>
+<th class="py-3 px-4 text-right rounded-r font-semibold">Production Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">#K406-1042</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label text-[11px]">Standard</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface font-medium">
+                    Classic Sourdough ×2 <span class="text-secondary font-normal">(Large Loaf)</span>
+</td>
+<td class="py-3.5 px-4 text-secondary">
+                    Pickup · 2:00–4:00 PM
+                  </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                      Preparing
+                    </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">#SUB-0318</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2 py-0.5 rounded bg-[#EAE1DC] text-[#69635F] font-label text-[11px]">Subscription · Wk 2 of 4</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface font-medium">
+                    Chocolate Babka ×3
+                  </td>
+<td class="py-3.5 px-4 text-secondary">
+                    Delivery · 3:00–5:00 PM
+                  </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E4E8E5] text-[#4F5952] font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4F5952]"></span>
+                      Confirmed
+                    </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">#K406-1039</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label text-[11px]">Standard</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface font-medium">
+                    Croissant Box ×1 <span class="text-secondary font-normal">(Pack of 6)</span>
+</td>
+<td class="py-3.5 px-4 text-secondary">
+                    Delivery · 4:00–6:00 PM
+                  </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EBF0EC] text-[#3D5941] font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span>
+                      Ready
+                    </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">#CC-1028</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container text-secondary font-label text-[11px]">Custom Cake</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface font-medium">
+                    8-inch Chocolate · Floral Design
+                  </td>
+<td class="py-3.5 px-4 text-secondary">
+                    Owner Delivery · Oct 4
+                  </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Scheduled
+                    </span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">#K406-1045</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label text-[11px]">Standard</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface font-medium">
+                    Japanese Shokupan ×4 <span class="text-secondary font-normal">(Pullman 750g)</span>
+</td>
+<td class="py-3.5 px-4 text-secondary">
+                    Delivery · 5:00–7:00 PM
+                  </td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-semibold text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                      Preparing
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- 6. Secondary Operational Section (2-Column Grid) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+<!-- Left Column (6 cols): Fulfillment Status -->
+<section class="lg:col-span-6 flex flex-col" id="fulfillment-status">
+<div class="bg-surface-container-lowest rounded-lg p-6 border border-outline-variant/40 shadow-sm flex flex-col justify-between h-full">
+<div>
+<div class="flex items-start justify-between pb-3">
+<div>
+<h2 class="font-headline text-xl text-on-surface font-medium">Fulfillment Status</h2>
+<p class="text-xs text-secondary mt-0.5">Counter pickups and active courier dispatches for today.</p>
+</div>
+<a class="text-xs font-semibold text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Summary Strip -->
+<div class="py-2.5 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-[11px] text-secondary font-medium flex flex-wrap items-center gap-y-1 gap-x-2">
+<span>Ready for Pickup: <strong class="text-on-surface font-semibold">2</strong></span>
+<span class="text-outline-variant">·</span>
+<span>Courier Booking Pending: <strong class="text-on-surface font-semibold">1</strong></span>
+<span class="text-outline-variant">·</span>
+<span>Courier Booked: <strong class="text-on-surface font-semibold">2</strong></span>
+<span class="text-outline-variant">·</span>
+<span>In Transit: <strong class="text-on-surface font-semibold">1</strong></span>
+<span class="text-outline-variant">·</span>
+<span>Delivered Today: <strong class="text-on-surface font-semibold">5</strong></span>
+</div>
+<!-- Mini Order Preview List -->
+<div class="space-y-2.5 mt-3.5">
+<!-- Order 1 -->
+<div class="p-3 rounded-lg bg-surface-container-low/70 border border-outline-variant/30 flex items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2.5">
+<span class="font-semibold text-on-surface">#K406-1038</span>
+<span class="text-outline-variant">·</span>
+<span class="text-secondary">Delivery</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-medium text-[11px]">Courier Booked</span>
+</div>
+<!-- Order 2 -->
+<div class="p-3 rounded-lg bg-surface-container-low/70 border border-outline-variant/30 flex items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2.5">
+<span class="font-semibold text-on-surface">#K406-1039</span>
+<span class="text-outline-variant">·</span>
+<span class="text-secondary">Pickup</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#EBF0EC] text-[#3D5941] font-medium text-[11px]">Ready for Pickup</span>
+</div>
+<!-- Order 3 -->
+<div class="p-3 rounded-lg bg-surface-container-low/70 border border-outline-variant/30 flex items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2.5">
+<span class="font-semibold text-on-surface">#CC-1028</span>
+<span class="text-outline-variant">·</span>
+<span class="text-secondary">Custom Cake</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-secondary font-medium text-[11px]">Owner Delivery</span>
+</div>
+<!-- Order 4 -->
+<div class="p-3 rounded-lg bg-surface-container-low/70 border border-outline-variant/30 flex items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2.5">
+<span class="font-semibold text-on-surface">#K406-1035</span>
+<span class="text-outline-variant">·</span>
+<span class="text-secondary">Delivery</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-medium text-[11px]">In Transit</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column (6 cols): Inventory Watchlist -->
+<section class="lg:col-span-6 flex flex-col" id="inventory-watchlist">
+<div class="bg-surface-container-lowest rounded-lg p-6 border border-outline-variant/40 shadow-sm flex flex-col justify-between h-full">
+<div>
+<div class="flex items-start justify-between pb-3">
+<div>
+<h2 class="font-headline text-xl text-on-surface font-medium">Inventory Watchlist</h2>
+<p class="text-xs text-secondary mt-0.5">Ingredients approaching their minimum stock levels.</p>
+</div>
+<a class="text-xs font-semibold text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>View Inventory</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Watchlist Compact Table -->
+<div class="overflow-x-auto mt-2">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label text-[11px] uppercase tracking-wider border-b border-outline-variant/30">
+<th class="py-2.5 px-3 rounded-l font-semibold">Ingredient</th>
+<th class="py-2.5 px-3 font-semibold">Available</th>
+<th class="py-2.5 px-3 font-semibold">Threshold</th>
+<th class="py-2.5 px-3 text-right rounded-r font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-3 font-medium text-on-surface">Unsalted Butter</td>
+<td class="py-3 px-3 font-semibold text-error">1.2 kg</td>
+<td class="py-3 px-3 text-secondary">2.0 kg</td>
+<td class="py-3 px-3 text-right">
+<span class="inline-block px-2 py-0.5 rounded-full bg-error-container text-error font-semibold text-[11px]">Critical</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-3 font-medium text-on-surface">Bread Flour</td>
+<td class="py-3 px-3 font-semibold text-on-surface">5.8 kg</td>
+<td class="py-3 px-3 text-secondary">5.0 kg</td>
+<td class="py-3 px-3 text-right">
+<span class="inline-block px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#C47D14] border border-[#F0DFBE] font-semibold text-[11px]">Low</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-3 font-medium text-on-surface">Whole Milk</td>
+<td class="py-3 px-3 font-semibold text-on-surface">4.2 L</td>
+<td class="py-3 px-3 text-secondary">3.0 L</td>
+<td class="py-3 px-3 text-right">
+<span class="inline-block px-2 py-0.5 rounded-full bg-[#EBF0EC] text-[#3D5941] font-semibold text-[11px]">Healthy</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- 7. Upcoming Production (Compact Footer Card) -->
+<section class="bg-surface-container-lowest rounded-lg p-6 border border-outline-variant/40 shadow-sm" id="upcoming-production">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 gap-2">
+<div>
+<h2 class="font-headline text-xl text-on-surface font-medium">Upcoming Production</h2>
+<p class="text-xs text-secondary mt-0.5">Short-term volume across upcoming baking cycles.</p>
+</div>
+<a class="text-xs font-semibold text-primary hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span>Open Production Calendar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+<!-- Day 1: Sun, Oct 4 -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/40">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label text-xs uppercase tracking-wider text-primary font-bold">Sun, Oct 4</span>
+<span class="text-xs font-semibold text-on-surface">12 items</span>
+</div>
+<p class="text-xs text-secondary">8 Standard · 4 Subscription</p>
+</div>
+<!-- Day 2: Mon, Oct 5 -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/40">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label text-xs uppercase tracking-wider text-secondary font-bold">Mon, Oct 5</span>
+<span class="text-xs font-semibold text-on-surface">9 items</span>
+</div>
+<p class="text-xs text-secondary">7 Standard · 2 Custom Cake</p>
+</div>
+<!-- Day 3: Tue, Oct 6 -->
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/40">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label text-xs uppercase tracking-wider text-secondary font-bold">Tue, Oct 6</span>
+<span class="text-xs font-semibold text-on-surface">14 items</span>
+</div>
+<p class="text-xs text-secondary">10 Standard · 4 Subscription</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

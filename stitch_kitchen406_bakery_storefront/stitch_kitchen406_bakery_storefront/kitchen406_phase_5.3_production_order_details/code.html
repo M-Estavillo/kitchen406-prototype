@@ -1,0 +1,1103 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-container":"#ab622b","surface-dim":"#dbdad7","inverse-primary":"#ffb786","on-tertiary-fixed-variant":"#4c4640","surface-bright":"#fbf9f6","on-secondary-fixed-variant":"#4b4642","outline-variant":"#d9c2b5","secondary-fixed":"#eae1dc","on-background":"#1b1c1a","primary":"#8d4a14","primary-fixed":"#ffdcc6","on-secondary-container":"#69635f","surface-tint":"#904d16","surface-container-highest":"#e4e2df","on-secondary-fixed":"#1f1b18","tertiary-fixed-dim":"#cfc5bd","background":"#fbf9f6","on-error-container":"#93000a","tertiary-container":"#7b736d","error-container":"#ffdad6","on-primary":"#ffffff","surface-container":"#efeeeb","surface-container-lowest":"#ffffff","outline":"#867368","error":"#ba1a1a","surface-container-high":"#eae8e5","on-primary-container":"#fffbff","secondary-fixed-dim":"#cdc5c0","secondary-container":"#eae1dc","on-surface-variant":"#53443a","tertiary-fixed":"#ebe0d9","secondary":"#635d59","primary-fixed-dim":"#ffb786","inverse-surface":"#30312f","surface-variant":"#e4e2df","on-tertiary-container":"#fffbff","surface-container-low":"#f5f3f0","on-tertiary":"#ffffff","on-primary-fixed":"#311300","inverse-on-surface":"#f2f0ed","on-tertiary-fixed":"#201b16","on-surface":"#1b1c1a","tertiary":"#625b55","on-primary-fixed-variant":"#723600","on-secondary":"#ffffff","on-error":"#ffffff","surface":"#fbf9f6"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin":"3rem","space-lg":"1.5rem","space-xl":"2.5rem","margin-mobile":"1.25rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-md":"1rem","space-sm":"0.5rem"},fontFamily:{"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display":["Playfair Display"],"headline-lg-mobile":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"],"headline-md":["Playfair Display"],"price-lg":["Plus Jakarta Sans"],"price-md":["Plus Jakarta Sans"],"title-sm":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"headline-sm":["Playfair Display"]},fontSize:{"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"display-mobile":["34px",{"lineHeight":"42px","letterSpacing":"-0.01em","fontWeight":"500"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"price-lg":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[230px] bg-surface z-50 flex flex-col justify-between border-r border-outline-variant/60 select-none"><div class="flex flex-col flex-1 overflow-y-auto"><div class="px-5 pt-6 pb-5"><span class="font-headline-sm text-headline-sm text-on-surface block tracking-tight">Kitchen406</span><div class="mt-1.5 inline-flex items-center px-1.5 py-0.5 rounded-lg bg-surface-container-high border border-outline-variant/50"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Staff Workspace</span></div></div><div class="px-3 mb-2"><p class="px-2 py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations</p><nav class="flex flex-col gap-0.5" data-active-classes="bg-primary-fixed/40 text-primary font-title-sm font-semibold border-l-2 border-primary"><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[19px]">grid_view</span><span class="">Dashboard</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="production-queue" href="#"><span class="material-symbols-outlined text-[19px]">skillet</span><span class="">Production Queue</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[19px]">inventory_2</span><span class="">Inventory</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="stock-movements" href="#"><span class="material-symbols-outlined text-[19px]">swap_horiz</span><span class="">Stock Movements</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="recipes" href="#"><span class="material-symbols-outlined text-[19px]">menu_book</span><span class="">Recipes</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="production-calendar" href="#"><span class="material-symbols-outlined text-[19px]">calendar_today</span><span class="">Production Calendar</span></a></nav></div><div class="mx-4 my-2 border-t border-outline-variant/60"></div><div class="px-3"><p class="px-2 py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline">Workspace</p><nav class="flex flex-col gap-0.5" data-active-classes="bg-primary-fixed/40 text-primary font-title-sm font-semibold border-l-2 border-primary"><a class="flex items-center justify-between px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="notifications" href="#"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[19px]">notifications</span><span class="">Notifications</span></div><span class="px-1.5 py-0.2 rounded-full bg-primary text-on-primary font-label-sm text-[10px] leading-tight font-semibold">4</span></a><a class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[19px]">settings</span><span class="">Settings</span></a></nav></div></div><div class="p-3 border-t border-outline-variant/60 bg-surface-container-lowest"><div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-low transition-colors"><div class="flex items-center gap-2.5 min-w-0"><div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-title-sm text-title-sm font-semibold flex-shrink-0">EL</div><div class="min-w-0"><p class="font-title-sm text-title-sm font-semibold text-on-surface truncate">Elena Lim</p><p class="font-body-sm text-body-sm text-secondary truncate">Bakery Staff</p></div></div><button class="p-1 text-on-surface-variant hover:text-primary transition-colors flex-shrink-0" title="Sign out" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></aside><div class="pl-[230px]"><header class="fixed top-0 left-[230px] right-0 h-14 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-40"><div class="h-full px-6 flex items-center justify-between max-w-[1440px] mx-auto"><div class="flex items-center gap-4"><div class="flex items-center gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-primary">calendar_month</span><span class="font-body-md text-body-md text-on-surface font-medium">Thursday, October 1, 2026</span></div><span class="text-outline-variant">|</span><div class="inline-flex p-0.5 rounded-lg bg-surface-container-high border border-outline-variant/40"><button class="px-2.5 py-1 rounded font-label-md text-label-md bg-surface text-on-surface shadow-[0_1px_3px_rgba(38,34,31,0.06)] font-semibold" type="button">Today</button><button class="px-2.5 py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface" type="button">Next 7 Days</button></div></div><div class="flex items-center gap-3"><a class="relative p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" data-path="notifications" href="#"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span></a><div class="h-4 w-px bg-outline-variant/60"></div><div class="flex items-center gap-2 pl-1 cursor-pointer"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="relative pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Navigation & Breadcrumb Bar -->
+<div class="px-8 pt-6 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span class="">Back to Queue</span>
+</a>
+<span class="text-outline-variant/60">/</span>
+<nav class="flex items-center gap-2 font-label-md text-label-md text-secondary">
+<span class="">Operations</span>
+<span class="text-outline-variant/60">/</span>
+<span class="text-secondary">Production Queue</span>
+<span class="text-outline-variant/60">/</span>
+<span class="text-on-surface font-semibold" id="breadcrumb-id">Order #K406-1048</span>
+</nav>
+</div>
+<!-- Active Production Operator Badge (Privacy/Audit compliant) -->
+<div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-surface-container-low self-start md:self-auto">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Logged Operator:</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Elena Lim (Staff)</span>
+</div>
+</div>
+<!-- Content Container with Demo State Controllers -->
+<div class="px-8 pb-32" id="main-content-view">
+<!-- Header Block & Primary Status / Actions -->
+<header class="mb-8 p-6 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="space-y-2">
+<div class="flex items-center gap-3 flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight" id="order-title">Order #K406-1048</h1>
+<div id="status-badge-container">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span id="status-text" class="">PREPARING</span>
+</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider" id="type-badge">
+            Standard Order · Delivery
+          </span>
+</div>
+<p class="font-body-md text-body-md text-secondary" id="schedule-subtitle">
+          Target Fulfillment: <strong class="text-on-surface font-medium">Friday, October 9, 2026</strong> · Morning Batch (8:30 AM – 10:30 AM)
+        </p>
+</div>
+<!-- Action Panel (Strictly Staff-Restricted) -->
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors" id="print-ticket-btn" type="button">
+<span class="material-symbols-outlined text-[19px]">print</span>
+<span class="">Bake Ticket</span>
+</button>
+<div id="action-cta-wrapper">
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors shadow-sm" id="primary-status-btn" onclick="openConfirmationModal()" type="button">
+<span class="material-symbols-outlined text-[19px]">check_circle</span>
+<span id="btn-label" class="">Mark as Ready</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Operational Alerts & Pantry Stock Warnings (Conditional) -->
+<div class="mb-6 p-4 rounded-xl bg-primary-fixed/30 text-on-surface flex items-start gap-3 transition-all" id="shortage-alert">
+<span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0 mt-0.5">notification_important</span>
+<div class="flex-1">
+<h2 class="font-title-sm text-title-sm font-semibold text-primary">Pantry Inventory Notice</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Unsalted French Butter batch reserve is nearing reorder threshold (3.2 kg remaining). Adequate for current morning batch allocation.
+        </p>
+</div>
+<button aria-label="Dismiss alert" class="text-on-surface-variant hover:text-on-surface" onclick="dismissAlert()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Main Asymmetric 2-Column Grid (8 cols left / 4 cols right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- LEFT COLUMN: Production-Critical Details & Recipes (8 Columns) -->
+<section class="lg:col-span-8 flex flex-col gap-8">
+<!-- Card 1: Items to Prepare -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<div class="flex items-center justify-between pb-4 mb-6">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Items to Prepare</h2>
+<p class="font-body-sm text-body-sm text-secondary">Verify quantities, bake specifications, and packaging directives before oven load.</p>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-md text-label-md text-on-surface font-semibold" id="total-batch-items">
+              3 units total
+            </span>
+</div>
+<div class="space-y-6" id="items-container">
+<!-- Item 1: Chocolate Babka -->
+<div class="p-5 rounded-lg bg-surface-container-low">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed text-primary font-headline-sm flex items-center justify-center font-bold flex-shrink-0">
+                    ×2
+                  </div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Chocolate Babka</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Large Pullman Loaf (750g baked weight)</p>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Slicing: Unsliced</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Kraft Window Box</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Lining: Bakery Parchment</span>
+</div>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container font-title-sm text-title-sm text-primary transition-colors self-start sm:self-center" onclick="toggleRecipe('recipe-1')" type="button">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span id="recipe-1-btn-text" class="">Recipe &amp; Ingredients</span>
+<span class="material-symbols-outlined text-[16px] transition-transform" id="recipe-1-icon">expand_more</span>
+</button>
+</div>
+<!-- Collapsible Recipe / Ingredients Drawer -->
+<div class="mt-5 pt-4 space-y-4" id="recipe-1">
+<div class="rounded-lg bg-surface-container p-4">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Scaled Ingredients (Batch: 2 units)</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Scaled Ingredients (Batch: 2 units)</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="text-secondary font-label-sm uppercase">
+<th class="pb-2">Ingredient</th>
+<th class="pb-2 text-right">Batch Weight / Qty</th>
+<th class="pb-2 text-right">Pantry State</th>
+</tr>
+</thead>
+<tbody class="space-y-1">
+<tr>
+<td class="py-1 text-on-surface font-medium">Unbleached High-Protein Flour</td>
+<td class="py-1 text-right font-semibold">800 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (28 kg)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">French Unsalted Butter 82% (Softened)</td>
+<td class="py-1 text-right font-semibold">240 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-primary-fixed/40 text-primary font-label-sm font-semibold">Watch (3.2 kg)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Dark Chocolate Callets (60% Valrhona)</td>
+<td class="py-1 text-right font-semibold">300 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (14 kg)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Farm Fresh Whole Eggs</td>
+<td class="py-1 text-right font-semibold">4 pcs (~200g)</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (90 pcs)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Osmotolerant Instant Yeast</td>
+<td class="py-1 text-right font-semibold">12 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (1.1 kg)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Baking Directives -->
+<div class="p-4 rounded-lg bg-surface-container-highest/60 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">skillet</span>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Baking Directives</h4>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+                      Final retard proof: 3.5 hrs at 26°C, 75% RH. Bake in deck oven at 185°C bottom / 190°C top heat for 38 minutes. Brush with 28° Bé warm simple syrup immediately upon removal while in pan. Rest 25 min before un-molding.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Country Sourdough Batard -->
+<div class="p-5 rounded-lg bg-surface-container-low">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-fixed font-headline-sm flex items-center justify-center font-bold flex-shrink-0">
+                    ×1
+                  </div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Country Sourdough</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Regular Batard (650g baked weight, 80% hydration)</p>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Slicing: Whole Regular</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Micro-perforated bread sleeve</span>
+</div>
+</div>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container font-title-sm text-title-sm text-primary transition-colors self-start sm:self-center" onclick="toggleRecipe('recipe-2')" type="button">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span id="recipe-2-btn-text" class="">Recipe &amp; Ingredients</span>
+<span class="material-symbols-outlined text-[16px] transition-transform" id="recipe-2-icon">expand_more</span>
+</button>
+</div>
+<!-- Collapsible Recipe / Ingredients Drawer -->
+<div class="hidden mt-5 pt-4 space-y-4" id="recipe-2">
+<div class="rounded-lg bg-surface-container p-4">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Batch Scaled Ingredients (1 Unit)</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Pantry Status Verified</span>
+</div>
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="text-secondary font-label-sm uppercase">
+<th class="pb-2">Ingredient</th>
+<th class="pb-2 text-right">Batch Weight</th>
+<th class="pb-2 text-right">Pantry State</th>
+</tr>
+</thead>
+<tbody class="space-y-1">
+<tr>
+<td class="py-1 text-on-surface font-medium">Stoneground Whole Wheat Flour</td>
+<td class="py-1 text-right font-semibold">120 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (18 kg)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Organic Artisan Bread Flour</td>
+<td class="py-1 text-right font-semibold">380 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (45 kg)</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Active Rye Starter (Levain 100% hyd.)</td>
+<td class="py-1 text-right font-semibold">100 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">Ripe in Proof Room</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Filtered Spring Water (24°C)</td>
+<td class="py-1 text-right font-semibold">390 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">Available</span></td>
+</tr>
+<tr>
+<td class="py-1 text-on-surface font-medium">Fine Sea Salt</td>
+<td class="py-1 text-right font-semibold">11 g</td>
+<td class="py-1 text-right"><span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm">In Stock (6 kg)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-highest/60 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">skillet</span>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Baking Directives</h4>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+                      Deck oven preheated to 240°C. Single longitudinal score with curved lame at 30° angle. 4-second initial steam injection. Vent open at 18 min mark. Total bake time 32 minutes until deep amber mahogany crust. Internal temp &gt; 98°C.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Packaging & Kitchen Prep Checklist -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Staff Pack &amp; Quality Checklist</h2>
+<p class="font-body-sm text-body-sm text-secondary mb-5">All checks must be verified prior to staging on the dispatch shelving rack.</p>
+<div class="space-y-3">
+<label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Crumb temperature cooled to ambient (&lt; 28°C) before bagging</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Artisan linen band and ingredient batch code affixed</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Sealed in Kraft box and placed on Dispatch Shelf Unit B-04</span>
+</label>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Fulfillment & Operational Timeline (4 Columns) -->
+<aside class="lg:col-span-4 flex flex-col gap-8">
+<!-- Fulfillment Specs (STRICT RBAC: No customer PII, no address) -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<div class="flex items-center justify-between pb-3 mb-4">
+<h2 class="font-title-md text-title-md text-on-surface font-bold">Fulfillment Directives</h2>
+<span class="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+</div>
+<div class="space-y-4">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Fulfillment Method</span>
+<p class="font-title-sm text-title-sm text-on-surface font-semibold mt-0.5" id="fulfillment-method">Courier Delivery</p>
+</div>
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Scheduled Production Window</span>
+<p class="font-body-md text-body-md text-on-surface mt-0.5" id="fulfillment-window">
+                Friday, Oct 9, 2026<br>
+<span class="text-secondary font-medium">Morning Dispatch (8:30 AM – 10:30 AM)</span>
+</p>
+</div>
+<div class="p-3.5 rounded-lg bg-surface-container-low">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-1">Logistics Coordination</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Third-party courier booking is managed by bakery owner once production is marked <strong>Ready</strong>. Kitchen staff only prepares packaging and staging.
+              </p>
+</div>
+</div>
+</div>
+<!-- Read-Only Courier Status Card -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<div class="flex items-center justify-between pb-3 mb-4">
+<h2 class="font-title-md text-title-md text-on-surface font-bold">Dispatch Status</h2>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Read Only</span>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-low flex items-center gap-3" id="courier-status-box">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">pending</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm font-semibold text-on-surface" id="courier-status-title">Awaiting Production</p>
+<p class="font-body-sm text-body-sm text-secondary" id="courier-status-desc">Owner will book dispatch after kitchen sign-off.</p>
+</div>
+</div>
+</div>
+<!-- Production Lifecycle Stepper -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<h2 class="font-title-md text-title-md text-on-surface font-bold mb-4">Production Lifecycle</h2>
+<div class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
+<!-- Step 1: Confirmed -->
+<div class="relative">
+<div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">1. Order Confirmed</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Oct 2, 8:14 AM · Automated verification</p>
+</div>
+<!-- Step 2: Preparing -->
+<div class="relative">
+<div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest" id="step-preparing-dot"></div>
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">2. Production in Progress</h3>
+<p class="font-body-sm text-body-sm text-primary font-medium mt-0.5" id="step-preparing-text">Active · Assigned to Elena Lim (9:03 AM)</p>
+</div>
+<!-- Step 3: Ready for Fulfillment -->
+<div class="relative opacity-60" id="step-ready-wrapper">
+<div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest" id="step-ready-dot"></div>
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold" id="step-ready-title">3. Ready for Fulfillment</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5" id="step-ready-text">Pending kitchen completion sign-off</p>
+</div>
+</div>
+</div>
+<!-- Activity Audit Log (Operations only) -->
+<div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+<h2 class="font-title-md text-title-md text-on-surface font-bold mb-3">Kitchen Activity Log</h2>
+<div class="space-y-3 font-body-sm text-body-sm text-secondary" id="audit-log"><div class="flex items-start gap-2"><span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">09:45 AM</span><p class="">Elena Lim completed Item 2 (Cinnamon Roll Box) bake &amp; resting.</p></div><div class="flex items-start gap-2"><span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">09:03 AM</span><p class="">Elena Lim initiated deck oven bake for Item 1 (Classic Sourdough).</p></div><div class="flex items-start gap-2"><span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">08:14 AM</span><p class="">System verified order confirmation and assigned morning batch schedule.</p></div></div>
+</div>
+</aside>
+</div>
+</div>
+<!-- Confirmation Modal Simulation (Staff Production Action) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-background/40 backdrop-blur-sm hidden" id="confirmation-modal">
+<div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl space-y-4">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[28px]">verified</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="modal-title">Mark Batch as Ready?</h3>
+</div>
+<p class="font-body-md text-body-md text-secondary" id="modal-desc">
+        Confirm all items have met quality metrics, are sealed in specified packaging, and staged on dispatch shelves. The bakery owner will be notified to initiate courier booking.
+      </p>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors" onclick="closeConfirmationModal()" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors" onclick="confirmStatusTransition()" type="button">
+          Confirm Sign-off
+        </button>
+</div>
+</div>
+</div>
+<!-- QA Scenario Dock (Fixed at bottom for rapid testing of all requested variants) -->
+<aside aria-label="Demo variant controller" class="fixed bottom-3 left-1/2 -translate-x-1/2 max-w-5xl w-11/12 bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-2.5 shadow-xl z-40">
+<div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 text-xs">
+<div class="flex items-center gap-1.5 flex-shrink-0 font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2">
+<span class="material-symbols-outlined text-[16px] text-primary">tune</span>
+<span class="">QA Scenarios:</span>
+</div>
+<div class="flex items-center gap-1.5 flex-nowrap">
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-primary-fixed text-primary font-title-sm text-title-sm font-semibold whitespace-nowrap" onclick="loadScenario('standard')" type="button">
+          1. Standard Order
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('subscription')" type="button">
+          2. Subscription (Wk 2/4)
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('custom-cake')" type="button">
+          3. Custom Cake
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('confirmed')" type="button">
+          4. State: Confirmed
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('ready')" type="button">
+          5. State: Ready
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('shortage')" type="button">
+          6. Stock Alert
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('skeleton')" type="button">
+          7. Loading Skeleton
+        </button>
+<button class="scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap" onclick="loadScenario('error')" type="button">
+          8. Not Found
+        </button>
+</div>
+</div>
+</aside>
+</div>
+<script>
+  let currentScenario = 'standard';
+
+  function toggleRecipe(id) {
+    const el = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    if (!el || !icon) return;
+    
+    if (el.classList.contains('hidden')) {
+      el.classList.remove('hidden');
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      el.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  function dismissAlert() {
+    const alert = document.getElementById('shortage-alert');
+    if (alert) alert.style.display = 'none';
+  }
+
+  function openConfirmationModal() {
+    const modal = document.getElementById('confirmation-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeConfirmationModal() {
+    const modal = document.getElementById('confirmation-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function confirmStatusTransition() {
+    closeConfirmationModal();
+    if (currentScenario === 'confirmed') {
+      loadScenario('standard');
+    } else {
+      loadScenario('ready');
+    }
+  }
+
+  function updateButtonStyles(activeBtn) {
+    document.querySelectorAll('.scenario-btn').forEach(btn => {
+      btn.className = 'scenario-btn px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm whitespace-nowrap';
+    });
+    activeBtn.className = 'scenario-btn px-2.5 py-1.5 rounded-lg bg-primary-fixed text-primary font-title-sm text-title-sm font-semibold whitespace-nowrap';
+  }
+
+  function loadScenario(type) {
+    currentScenario = type;
+    const view = document.getElementById('main-content-view');
+    const targetBtn = event && event.currentTarget ? event.currentTarget : null;
+    if (targetBtn && targetBtn.classList.contains('scenario-btn')) {
+      updateButtonStyles(targetBtn);
+    }
+
+    // Handle Skeleton state
+    if (type === 'skeleton') {
+      view.innerHTML = `
+        <div class="animate-pulse space-y-6">
+          <div class="h-24 bg-surface-container-high rounded-xl"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 space-y-6">
+              <div class="h-64 bg-surface-container-high rounded-xl"></div>
+              <div class="h-44 bg-surface-container-high rounded-xl"></div>
+            </div>
+            <div class="lg:col-span-4 space-y-6">
+              <div class="h-48 bg-surface-container-high rounded-xl"></div>
+              <div class="h-56 bg-surface-container-high rounded-xl"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // Handle Error State
+    if (type === 'error') {
+      view.innerHTML = `
+        <div class="p-12 rounded-xl bg-surface-container-lowest text-center space-y-4 max-w-lg mx-auto mt-12 shadow-sm">
+          <span class="material-symbols-outlined text-[48px] text-error">inventory_2</span>
+          <h2 class="font-headline-md text-headline-md text-on-surface">Order Not Found in Queue</h2>
+          <p class="font-body-md text-body-md text-secondary">
+            Order identifier does not exist or has been archived from active production runs. Check with the master baking roster.
+          </p>
+          <div class="pt-2">
+            <button onclick="loadScenario('standard')" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm">
+              Return to Active Order
+            </button>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // Restore Full Base Content for data scenarios
+    renderScenarioData(type);
+  }
+
+  function renderScenarioData(type) {
+    const view = document.getElementById('main-content-view');
+    
+    // Default base HTML markup structure
+    view.innerHTML = `
+      <header class="mb-8 p-6 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 flex-wrap">
+            <h1 id="order-title" class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Order #K406-1038</h1>
+            <div id="status-badge-container"></div>
+            <span id="type-badge" class="px-2.5 py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider"></span>
+          </div>
+          <p id="schedule-subtitle" class="font-body-md text-body-md text-secondary"></p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="button" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors">
+            <span class="material-symbols-outlined text-[19px]">print</span>
+            <span>Bake Ticket</span>
+          </button>
+          <div id="action-cta-wrapper"></div>
+        </div>
+      </header>
+
+      <div id="shortage-alert" class="mb-6 p-4 rounded-xl bg-primary-fixed/30 text-on-surface flex items-start gap-3">
+        <span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0 mt-0.5">notification_important</span>
+        <div class="flex-1">
+          <h2 class="font-title-sm text-title-sm font-semibold text-primary">Pantry Inventory Notice</h2>
+          <p id="alert-text" class="font-body-sm text-body-sm text-on-surface-variant mt-0.5"></p>
+        </div>
+        <button onclick="dismissAlert()" class="text-on-surface-variant hover:text-on-surface" type="button" aria-label="Dismiss alert">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section class="lg:col-span-8 flex flex-col gap-8">
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-4 mb-6">
+              <div>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Items to Prepare</h2>
+                <p class="font-body-sm text-body-sm text-secondary">Verify quantities, bake specifications, and packaging directives before oven load.</p>
+              </div>
+              <span id="total-batch-items" class="px-2.5 py-1 rounded-full bg-surface-container font-label-md text-label-md text-on-surface font-semibold"></span>
+            </div>
+            <div id="items-container" class="space-y-6"></div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Staff Pack &amp; Quality Checklist</h2>
+            <p class="font-body-sm text-body-sm text-secondary mb-5">All checks must be verified prior to staging on the dispatch shelving rack.</p>
+            <div class="space-y-3" id="checklist-container">
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+                <input type="checkbox" checked class="w-4 h-4 rounded text-primary accent-primary" />
+                <span class="font-body-md text-body-md text-on-surface">Crumb temperature cooled to ambient (&lt; 28°C) before packaging</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+                <input type="checkbox" checked class="w-4 h-4 rounded text-primary accent-primary" />
+                <span class="font-body-md text-body-md text-on-surface">Artisan label affixed with batch identification</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+                <input type="checkbox" class="w-4 h-4 rounded text-primary accent-primary" />
+                <span class="font-body-md text-body-md text-on-surface">Staged on designated bakery shelving rack</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <aside class="lg:col-span-4 flex flex-col gap-8">
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-3 mb-4">
+              <h2 class="font-title-md text-title-md text-on-surface font-bold">Fulfillment Directives</h2>
+              <span class="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Fulfillment Method</span>
+                <p id="fulfillment-method" class="font-title-sm text-title-sm text-on-surface font-semibold mt-0.5">Courier Delivery</p>
+              </div>
+              <div>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Scheduled Production Window</span>
+                <p id="fulfillment-window" class="font-body-md text-body-md text-on-surface mt-0.5"></p>
+              </div>
+              <div class="p-3.5 rounded-lg bg-surface-container-low">
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-1">Logistics Coordination</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Third-party courier booking is managed by bakery owner once production is marked <strong>Ready</strong>. Kitchen staff only prepares packaging and staging.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-3 mb-4">
+              <h2 class="font-title-md text-title-md text-on-surface font-bold">Dispatch Status</h2>
+              <span class="font-label-sm text-label-sm text-secondary uppercase">Read Only</span>
+            </div>
+            <div id="courier-box" class="p-4 rounded-lg bg-surface-container-low flex items-center gap-3"></div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <h2 class="font-title-md text-title-md text-on-surface font-bold mb-4">Production Lifecycle</h2>
+            <div class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high" id="lifecycle-stepper"></div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
+            <h2 class="font-title-md text-title-md text-on-surface font-bold mb-3">Kitchen Activity Log</h2>
+            <div class="space-y-3 font-body-sm text-body-sm text-secondary" id="audit-log"></div>
+          </div>
+        </aside>
+      </div>
+    `;
+
+    // Populate scenario variations
+    const titleEl = document.getElementById('order-title');
+    const breadcrumbId = document.getElementById('breadcrumb-id');
+    const badgeContainer = document.getElementById('status-badge-container');
+    const typeBadge = document.getElementById('type-badge');
+    const scheduleSubtitle = document.getElementById('schedule-subtitle');
+    const ctaWrapper = document.getElementById('action-cta-wrapper');
+    const itemsContainer = document.getElementById('items-container');
+    const totalItemsEl = document.getElementById('total-batch-items');
+    const shortageAlert = document.getElementById('shortage-alert');
+    const alertText = document.getElementById('alert-text');
+    const fulfillmentWindow = document.getElementById('fulfillment-window');
+    const courierBox = document.getElementById('courier-box');
+    const stepper = document.getElementById('lifecycle-stepper');
+    const auditLog = document.getElementById('audit-log');
+
+    if (type === 'standard' || type === 'shortage') {
+      titleEl.innerText = 'Order #K406-1038';
+      breadcrumbId.innerText = 'Order #K406-1038';
+      badgeContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold tracking-wide">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+          <span>PREPARING</span>
+        </span>
+      `;
+      typeBadge.innerText = 'Standard Order · Delivery';
+      scheduleSubtitle.innerHTML = 'Target Fulfillment: <strong class="text-on-surface font-medium">Friday, October 9, 2026</strong> · Morning Batch (8:30 AM – 10:30 AM)';
+      fulfillmentWindow.innerHTML = 'Friday, Oct 9, 2026<br><span class="text-secondary font-medium">Morning Dispatch (8:30 AM – 10:30 AM)</span>';
+
+      ctaWrapper.innerHTML = `
+        <button type="button" onclick="openConfirmationModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[19px]">check_circle</span>
+          <span>Mark as Ready</span>
+        </button>
+      `;
+
+      totalItemsEl.innerText = '3 units total';
+      itemsContainer.innerHTML = `
+        <div class="p-5 rounded-lg bg-surface-container-low">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-primary-fixed text-primary font-headline-sm flex items-center justify-center font-bold flex-shrink-0">×2</div>
+              <div>
+                <h3 class="font-title-md text-title-md text-on-surface font-bold">Chocolate Babka</h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Large Pullman Loaf (750g baked weight)</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Slicing: Unsliced</span>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Kraft Window Box</span>
+                </div>
+              </div>
+            </div>
+            <button type="button" onclick="toggleRecipe('recipe-1')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container font-title-sm text-title-sm text-primary transition-colors">
+              <span class="material-symbols-outlined text-[18px]">menu_book</span>
+              <span>Recipe &amp; Directives</span>
+              <span id="recipe-1-icon" class="material-symbols-outlined text-[16px]">expand_more</span>
+            </button>
+          </div>
+          <div id="recipe-1" class="mt-4 pt-4 space-y-4">
+            <div class="p-4 rounded-lg bg-surface-container text-body-sm">
+              <p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold mb-2">Ingredients Batch Breakdown</p>
+              <div class="grid grid-cols-2 gap-2 text-on-surface">
+                <div>Bread Flour: <strong>800 g</strong></div>
+                <div>French Butter: <strong>240 g</strong></div>
+                <div>Dark Choc (60%): <strong>300 g</strong></div>
+                <div>Whole Eggs: <strong>4 pcs</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-lg bg-surface-container-low">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-fixed font-headline-sm flex items-center justify-center font-bold flex-shrink-0">×1</div>
+              <div>
+                <h3 class="font-title-md text-title-md text-on-surface font-bold">Country Sourdough Batard</h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Regular Batard (650g baked weight, 80% hydration)</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Slicing: Whole Regular</span>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Micro-perforated bag</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (type === 'shortage') {
+        shortageAlert.style.display = 'flex';
+        alertText.innerHTML = '<strong class="font-semibold text-error">CRITICAL SHORTAGE:</strong> High-Grade Dark Chocolate 60% stock count in main pantry is at 450g against 900g needed for next afternoon bake run. Contact head baker.';
+      } else {
+        shortageAlert.style.display = 'flex';
+        alertText.innerHTML = 'Unsalted French Butter batch reserve is nearing reorder threshold (3.2 kg remaining). Adequate for current morning batch allocation.';
+      }
+
+      courierBox.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">pending</span>
+        </div>
+        <div>
+          <p class="font-title-sm text-title-sm font-semibold text-on-surface">Awaiting Production</p>
+          <p class="font-body-sm text-body-sm text-secondary">Owner will book dispatch after kitchen sign-off.</p>
+        </div>
+      `;
+
+      stepper.innerHTML = `
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">1. Confirmed</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Oct 2, 8:14 AM · System verified</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">2. Preparing</h3>
+          <p class="font-body-sm text-body-sm text-primary font-medium mt-0.5">Active · Elena Lim (9:03 AM)</p>
+        </div>
+        <div class="relative opacity-60">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">3. Ready for Fulfillment</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Pending kitchen sign-off</p>
+        </div>
+      `;
+
+      auditLog.innerHTML = `
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">09:03 AM</span>
+          <p>Elena Lim set status to <span class="text-primary font-medium">PREPARING</span>.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">08:14 AM</span>
+          <p>Order auto-confirmed for Morning Batch Schedule.</p>
+        </div>
+      `;
+    }
+
+    else if (type === 'subscription') {
+      titleEl.innerText = 'Order #K406-SD-084';
+      breadcrumbId.innerText = 'Order #K406-SD-084';
+      badgeContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold tracking-wide">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+          <span>PREPARING</span>
+        </span>
+      `;
+      typeBadge.innerText = 'Subscription · Cycle 2 of 4';
+      scheduleSubtitle.innerHTML = 'Target Fulfillment: <strong class="text-on-surface font-medium">Every Saturday</strong> · Cycle 2 · Morning Bake Batch';
+      shortageAlert.style.display = 'none';
+
+      ctaWrapper.innerHTML = `
+        <button type="button" onclick="openConfirmationModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[19px]">check_circle</span>
+          <span>Mark Cycle 2 Ready</span>
+        </button>
+      `;
+
+      totalItemsEl.innerText = '5 units total';
+      itemsContainer.innerHTML = `
+        <div class="p-5 rounded-lg bg-surface-container-low">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-primary-fixed text-primary font-headline-sm flex items-center justify-center font-bold flex-shrink-0">×1</div>
+              <div>
+                <h3 class="font-title-md text-title-md text-on-surface font-bold">Japanese Milk Bread (Shokupan)</h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Yudane Method Loaf (520g) · 1.5 cm Thick Cut Slices</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Slicing: Pre-Sliced (8 slices)</span>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Japanese Clear Bag with Gold Wire</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-lg bg-surface-container-low">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-fixed font-headline-sm flex items-center justify-center font-bold flex-shrink-0">×4</div>
+              <div>
+                <h3 class="font-title-md text-title-md text-on-surface font-bold">Classic French Butter Croissants</h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Isigny Ste Mère Beurre de Tourage (70g each)</p>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant font-medium">Pack: Kraft Pastry Box with Tissue</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      courierBox.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">event_repeat</span>
+        </div>
+        <div>
+          <p class="font-title-sm text-title-sm font-semibold text-on-surface">Weekly Recurring Slot</p>
+          <p class="font-body-sm text-body-sm text-secondary">Pre-assigned recurring dispatch arrangement.</p>
+        </div>
+      `;
+
+      stepper.innerHTML = `
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Cycle Triggered</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">System auto-activated cycle 2 of 4</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Baking in Progress</h3>
+          <p class="font-body-sm text-body-sm text-primary font-medium mt-0.5">Active · Laminated dough in proofer</p>
+        </div>
+        <div class="relative opacity-60">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Dispatch Ready</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Scheduled for 9:00 AM pickup</p>
+        </div>
+      `;
+
+      auditLog.innerHTML = `
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">07:30 AM</span>
+          <p>Croissant batch removed from retarder proofer.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">06:00 AM</span>
+          <p>Subscription engine populated Cycle 2 requirements.</p>
+        </div>
+      `;
+    }
+
+    else if (type === 'custom-cake') {
+      titleEl.innerText = 'Order #K406-CC-021';
+      breadcrumbId.innerText = 'Order #K406-CC-021';
+      badgeContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-md text-label-md font-semibold tracking-wide">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span>PASTRY STATION</span>
+        </span>
+      `;
+      typeBadge.innerText = 'Bespoke Custom Cake · Kitchen Only';
+      scheduleSubtitle.innerHTML = 'Target Fulfillment: <strong class="text-on-surface font-medium">Saturday, October 10, 2026</strong> · Staging at 11:00 AM';
+      shortageAlert.style.display = 'none';
+
+      ctaWrapper.innerHTML = `
+        <button type="button" onclick="openConfirmationModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[19px]">done_all</span>
+          <span>Mark Cake Finished</span>
+        </button>
+      `;
+
+      totalItemsEl.innerText = '1 custom tier';
+      itemsContainer.innerHTML = `
+        <div class="p-6 rounded-lg bg-surface-container-low space-y-6">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="w-full md:w-56 h-56 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container">
+              <img src="placeholder" data-alt="Artisanal three tier bespoke cake with rustic ivory textured buttercream frosting, delicately adorned with pressed edible purple pansies, chamomile blooms, and sprigs of rosemary, resting on a handcrafted ceramic pedestal against neutral linen backdrop in soft morning natural bakery light" class="w-full h-full object-cover" />
+            </div>
+            <div class="space-y-3 flex-1">
+              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-primary-fixed/50 text-primary font-label-sm text-label-sm font-semibold uppercase">
+                Reference Design Spec
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">Botanical Celebration Cake (8-inch, 3 Tiers)</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-body-sm">
+                <div>Base: <strong class="text-on-surface">Valrhona Dark Chocolate Olive Oil</strong></div>
+                <div>Filling: <strong class="text-on-surface">Citrus Mascarpone &amp; Fig Puree</strong></div>
+                <div>Exterior: <strong class="text-on-surface">Ivory Textured Spatula Finish</strong></div>
+                <div>Topper: <strong class="text-on-surface">Gold Calligraphy &amp; Fresh Edible Petals</strong></div>
+              </div>
+              <div class="p-3 rounded-lg bg-surface-container text-body-sm text-on-surface-variant">
+                <strong>Baker Directive:</strong> Keep finished cake chilled in Pastry Refrigerator #2 at 4°C. Edible flowers and gold leaf accents to be applied maximum 45 mins prior to packaging in 12x12 cake drum box.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      courierBox.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">ac_unit</span>
+        </div>
+        <div>
+          <p class="font-title-sm text-title-sm font-semibold text-on-surface">Cold Holding Storage</p>
+          <p class="font-body-sm text-body-sm text-secondary">Pastry Fridge 2 · Handled via climate-controlled courier.</p>
+        </div>
+      `;
+
+      stepper.innerHTML = `
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Sponge Baked &amp; Chilled</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Completed yesterday</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Assembly &amp; Frosting</h3>
+          <p class="font-body-sm text-body-sm text-primary font-medium mt-0.5">In progress by Pastry Chef</p>
+        </div>
+        <div class="relative opacity-60">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Boxed &amp; Staged</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Pending finishing touches</p>
+        </div>
+      `;
+
+      auditLog.innerHTML = `
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">10:15 AM</span>
+          <p>Pastry station initiated crumb coat application.</p>
+        </div>
+      `;
+    }
+
+    else if (type === 'confirmed') {
+      titleEl.innerText = 'Order #K406-1044';
+      breadcrumbId.innerText = 'Order #K406-1044';
+      badgeContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          <span>CONFIRMED</span>
+        </span>
+      `;
+      typeBadge.innerText = 'Standard Order · In Queue';
+      scheduleSubtitle.innerHTML = 'Target Fulfillment: <strong class="text-on-surface font-medium">Tomorrow, Saturday</strong> · Morning Run (8:00 AM)';
+      shortageAlert.style.display = 'none';
+
+      ctaWrapper.innerHTML = `
+        <button type="button" onclick="loadScenario('standard')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[19px]">play_arrow</span>
+          <span>Start Preparing</span>
+        </button>
+      `;
+
+      totalItemsEl.innerText = '2 units total';
+      itemsContainer.innerHTML = `
+        <div class="p-5 rounded-lg bg-surface-container-low flex items-center justify-between">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-fixed font-headline-sm flex items-center justify-center font-bold">×2</div>
+            <div>
+              <h3 class="font-title-md text-title-md text-on-surface font-bold">Pain au Levain</h3>
+              <p class="font-body-sm text-body-sm text-secondary mt-0.5">Variant: Sourdough Round Loaf (500g)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-surface-container text-secondary font-label-sm text-label-sm">Queued</span>
+        </div>
+      `;
+
+      courierBox.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">schedule</span>
+        </div>
+        <div>
+          <p class="font-title-sm text-title-sm font-semibold text-on-surface">Scheduled for Tomorrow</p>
+          <p class="font-body-sm text-body-sm text-secondary">Courier booking pending production launch.</p>
+        </div>
+      `;
+
+      stepper.innerHTML = `
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">1. Confirmed by System</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Oct 2, 10:00 AM</p>
+        </div>
+        <div class="relative opacity-60">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">2. Preparing</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Click Start Preparing to begin</p>
+        </div>
+        <div class="relative opacity-60">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-surface-container-high ring-4 ring-surface-container-lowest"></div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">3. Ready for Fulfillment</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Pending</p>
+        </div>
+      `;
+
+      auditLog.innerHTML = `
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">10:00 AM</span>
+          <p>Order confirmed into kitchen schedule.</p>
+        </div>
+      `;
+    }
+
+    else if (type === 'ready') {
+      titleEl.innerText = 'Order #K406-1038';
+      breadcrumbId.innerText = 'Order #K406-1038';
+      badgeContainer.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold tracking-wide">
+          <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+          <span>READY FOR FULFILLMENT</span>
+        </span>
+      `;
+      typeBadge.innerText = 'Staged on Shelf B-04';
+      scheduleSubtitle.innerHTML = 'Target Fulfillment: <strong class="text-on-surface font-medium">Friday, October 9, 2026</strong> · Staged at 10:14 AM';
+      shortageAlert.style.display = 'none';
+
+      ctaWrapper.innerHTML = `
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md">
+          <span class="material-symbols-outlined text-[18px] text-primary">schedule_send</span>
+          <span>Awaiting Courier Booking by Bakery Owner</span>
+        </div>
+      `;
+
+      totalItemsEl.innerText = '3 units (Completed)';
+      itemsContainer.innerHTML = `
+        <div class="p-5 rounded-lg bg-surface-container-lowest opacity-80 flex items-center justify-between">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-surface-container text-on-surface font-headline-sm flex items-center justify-center font-bold">✓</div>
+            <div>
+              <h3 class="font-title-md text-title-md text-on-surface font-bold">Chocolate Babka (×2)</h3>
+              <p class="font-body-sm text-body-sm text-secondary mt-0.5">Baked, glazed, and sealed in Kraft Window Boxes.</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">Staged</span>
+        </div>
+
+        <div class="p-5 rounded-lg bg-surface-container-lowest opacity-80 flex items-center justify-between">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg bg-surface-container text-on-surface font-headline-sm flex items-center justify-center font-bold">✓</div>
+            <div>
+              <h3 class="font-title-md text-title-md text-on-surface font-bold">Country Sourdough (×1)</h3>
+              <p class="font-body-sm text-body-sm text-secondary mt-0.5">Cooled and packed in micro-perforated bag.</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">Staged</span>
+        </div>
+      `;
+
+      courierBox.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">moped</span>
+        </div>
+        <div>
+          <p class="font-title-sm text-title-sm font-semibold text-on-surface">Awaiting Booking by Owner</p>
+          <p class="font-body-sm text-body-sm text-secondary">Kitchen completed sign-off. Owner dashboard notified.</p>
+        </div>
+      `;
+
+      stepper.innerHTML = `
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">1. Confirmed</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Oct 2, 8:14 AM</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">check</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">2. Prepared</h3>
+          <p class="font-body-sm text-body-sm text-secondary mt-0.5">Elena Lim completed bake</p>
+        </div>
+        <div class="relative">
+          <div class="absolute -left-[29px] top-0.5 w-4 h-4 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+            <span class="material-symbols-outlined text-on-primary text-[10px] font-bold">done_all</span>
+          </div>
+          <h3 class="font-title-sm text-title-sm text-primary font-semibold">3. Ready for Fulfillment</h3>
+          <p class="font-body-sm text-body-sm text-primary font-medium mt-0.5">Oct 2, 10:14 AM · Staged on Shelf B-04</p>
+        </div>
+      `;
+
+      auditLog.innerHTML = `
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">10:14 AM</span>
+          <p>Elena Lim confirmed bake completion. Staged in Rack B-04.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">09:03 AM</span>
+          <p>Order set to PREPARING by Elena Lim.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface whitespace-nowrap mt-0.5">08:14 AM</span>
+          <p>Order confirmed for Morning Batch Schedule.</p>
+        </div>
+      `;
+    }
+  }
+</script></main></div>
+
+</body></html>

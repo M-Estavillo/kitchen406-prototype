@@ -22,6 +22,7 @@ function updatePricing(){
  $('productWeightBadge').textContent=A.variant(S.id,S.variant)?.label||current().variant;
  document.querySelector('[onclick="adjustQty(-1)"]').disabled=S.quantity<=1;
  document.querySelector('[onclick="adjustQty(1)"]').disabled=S.quantity>=10;
+ if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required,S.purchase==='subscription'?A.subscriptions.pending()?.id:undefined);$('addToCartBtn').disabled=!S.available||!!shortage||(S.purchase==='subscription'&&A.subscriptions.offering(S.id)!=='available');$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
 }
 function setPurchase(mode){
  S.purchase=mode;

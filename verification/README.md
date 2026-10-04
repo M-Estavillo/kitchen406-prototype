@@ -1,5 +1,24 @@
 # Browser verification
 
+## Phase 5 paper-review revisions — October 4, 2026
+
+`node verification/phase5-revisions.cjs` passes **32 checks** covering stock-short subscription payments, checkout/retry holds, competing reservations, rolling subscription material planning, deferment, stock recovery, stable audit IDs, separate courier/order statuses, low-stock events, the production-copy approval form, and preparation dates. Approved cake details fit 1440/390/320 px. No uncaught browser exceptions.
+
+Regression results: Phase 5 browser **63**, Phase 2 browser **95**, subscription browser **71**, Phase 4 state **28**, and subscription state **13** checks passed. Application JavaScript passes syntax checks. The Phase 2 inspector fixture uses an unbooked payment date and expects the new canonical Ready status.
+
+See [revision details and remaining limits](../docs/phase-5-paper-revisions.md) and [approved cake screenshot](staff-approved-cake.png). Run browser suites sequentially on Chrome port 9222.
+
+## Phase 5 — October 4, 2026
+
+Run `node verification/phase5-browser.cjs` with Chrome's debugging endpoint on port 9222. Browser suites share one page and must run sequentially.
+
+- **63 passing checks**, no uncaught exceptions: access gates, staff routes, safe operational projections, ingredient reservations and consumption, repeat/stale updates, shortage rollback, stock corrections, notifications, password changes, customer round trips, and responsive widths from 320 to 1440 px.
+- Passing regressions: Phase 2 browser (95), subscription browser (71), browser edges (15), Phase 4 state (28), subscription state (13), address/map browser (16), and delivery-route checks.
+- All application JavaScript passes `node --check`.
+- The older storefront smoke and Phase 4 browser suites stop at selectors removed by existing customer UI edits: `#product-search-input` and `[data-p4=cake-addon]`. Full passes are not claimed for those two suites.
+
+The staff suite writes [the dashboard screenshot](staff-dashboard-desktop.png). See [Phase 5 implementation notes](../docs/phase-5-implementation.md) for credentials, routes, component boundaries, and outstanding production work.
+
 ## Phase 4 — October 1, 2026
 
 Custom Cakes and Customer Account were checked in local headless Chrome. Payments, owner review, notification delivery, and credential changes use the prototype state; reference-image checks read local files. Maps responses were stubbed in the existing map suites.

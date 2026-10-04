@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#cdc5c0","outline-variant":"#d9c2b5","secondary-fixed":"#eae1dc","error-container":"#ffdad6","on-error-container":"#93000a","on-tertiary":"#ffffff","on-primary-fixed":"#311300","on-secondary":"#ffffff","secondary":"#635d59","primary":"#8d4a14","primary-fixed-dim":"#ffb786","surface-container-high":"#eae8e5","on-tertiary-fixed-variant":"#4c4640","surface-variant":"#e4e2df","primary-fixed":"#ffdcc6","on-surface-variant":"#53443a","background":"#fbf9f6","surface-container-highest":"#e4e2df","tertiary":"#625b55","on-primary-container":"#fffbff","surface-bright":"#fbf9f6","on-background":"#1b1c1a","surface-container":"#efeeeb","secondary-container":"#eae1dc","on-error":"#ffffff","surface-dim":"#dbdad7","inverse-on-surface":"#f2f0ed","surface-container-low":"#f5f3f0","on-secondary-fixed":"#1f1b18","on-surface":"#1b1c1a","on-secondary-fixed-variant":"#4b4642","inverse-surface":"#30312f","tertiary-fixed":"#ebe0d9","inverse-primary":"#ffb786","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#cfc5bd","on-secondary-container":"#69635f","primary-container":"#ab622b","on-primary":"#ffffff","on-primary-fixed-variant":"#723600","on-tertiary-container":"#fffbff","surface-tint":"#904d16","outline":"#867368","tertiary-container":"#7b736d","error":"#ba1a1a","on-tertiary-fixed":"#201b16","surface":"#fbf9f6"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xs":"0.25rem","margin-mobile":"1.25rem","gutter-mobile":"1rem","space-md":"1rem","space-lg":"1.5rem","space-sm":"0.5rem","gutter":"1.5rem","margin":"3rem","space-xl":"2.5rem"},fontFamily:{"headline-sm":["Playfair Display"],"display":["Playfair Display"],"price-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"headline-md":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"],"title-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"label-sm":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"price-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"]},fontSize:{"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"display-mobile":["34px",{"lineHeight":"42px","letterSpacing":"-0.01em","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"price-lg":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[230px] bg-surface-container-low border-r border-outline-variant/30 z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant/20"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-sm text-on-surface font-medium tracking-tight">Kitchen406</span></div><div class="mt-1 flex items-center gap-1.5"><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Staff Workspace</span></div></div><div class="px-space-sm pt-space-md"><p class="px-space-sm pb-space-xs font-label-sm text-label-sm uppercase text-secondary font-medium tracking-wider">Bakehouse</p><nav class="flex flex-col gap-0.5" data-active-classes="bg-secondary-container text-on-secondary-fixed font-title-sm"><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[19px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="production-queue" href="#"><span class="material-symbols-outlined text-[19px]">cookie</span><span>Production Queue</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[19px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="stock-movements" href="#"><span class="material-symbols-outlined text-[19px]">swap_horiz</span><span>Stock Movements</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recipes" href="#"><span class="material-symbols-outlined text-[19px]">menu_book</span><span>Recipes</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="production-calendar" href="#"><span class="material-symbols-outlined text-[19px]">calendar_today</span><span>Production Calendar</span></a></nav></div><div class="mx-space-md my-space-sm border-t border-outline-variant/30"></div><div class="px-space-sm"><p class="px-space-sm pb-space-xs font-label-sm text-label-sm uppercase text-secondary font-medium tracking-wider">System</p><nav class="flex flex-col gap-0.5" data-active-classes="bg-secondary-container text-on-secondary-fixed font-title-sm"><a class="flex items-center gap-2.5 px-space-sm py-2 rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="notifications-and-settings" href="#"><span class="material-symbols-outlined text-[19px]">tune</span><span>Notifications &amp; Settings</span></a></nav></div></div><div class="p-space-sm border-t border-outline-variant/30 bg-surface-container-lowest/60"><div class="flex items-center gap-2.5 p-1.5 rounded hover:bg-surface-container-high transition-colors"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0 flex-1"><span class="font-title-sm text-title-sm text-on-surface truncate leading-tight">Elena Lim</span><span class="font-body-sm text-body-sm text-secondary truncate leading-none mt-0.5">Bakery Staff</span></div><button class="text-secondary hover:text-on-surface transition-colors p-1" type="button"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></div></aside><div class="pl-[230px]"><header class="fixed top-0 left-[230px] right-0 h-16 bg-surface/85 backdrop-blur-md border-b border-outline-variant/25 z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="font-headline-sm text-headline-sm text-on-surface font-medium">Operations</span><span class="h-4 w-px bg-outline-variant/40"></span><div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm"><span class="material-symbols-outlined text-[16px]">today</span><span>Today • Morning Shift</span></div></div><div class="flex items-center gap-space-md"><button class="relative p-2 rounded text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span></button><span class="h-5 w-px bg-outline-variant/30"></span><div class="flex items-center gap-2.5"><div class="text-right hidden sm:block"><span class="block font-title-sm text-title-sm text-on-surface leading-tight">Maria Santos</span><span class="block font-body-sm text-body-sm text-secondary leading-none">Shift Lead</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface"><div class="flex flex-col w-full">
+<!-- Interactive Toast Notification Container -->
+<div class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none" id="toast-container"></div>
+<!-- Operational Alert Banner (Initially Hidden, Toggled by QA/Error State) -->
+<div class="hidden px-space-lg py-3 bg-error-container text-on-error-container text-body-sm font-body-sm flex items-center justify-between mx-space-lg mt-space-md rounded" id="sync-error-banner">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">cloud_off</span>
+<span>Unable to sync latest live notifications with bakehouse dispatcher. Operating in cached workspace mode.</span>
+</div>
+<button class="px-2.5 py-1 bg-surface-container-lowest text-on-error-container rounded font-title-sm text-body-sm hover:bg-surface transition-colors" onclick="retrySync()" type="button">
+      Retry Connection
+    </button>
+</div>
+<!-- Main View Container -->
+<div class="w-full max-w-[1240px] mx-auto px-space-md md:px-space-lg lg:px-space-xl py-space-md md:py-space-lg flex flex-col gap-space-lg">
+<!-- Top Editorial Header & Segmented Switcher -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-sm border-b border-outline-variant/30">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold">Operations / Workspace</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-headline-md tracking-tight">Notifications &amp; Settings</h1>
+<p class="font-body-md text-body-md text-secondary max-w-xl">
+          Stay updated on operational updates, inventory thresholds, batch commitments, and manage your staff account.
+        </p>
+</div>
+<!-- Segmented Secondary Navigation Tabs -->
+<div class="flex items-center p-1 bg-surface-container rounded-lg self-start md:self-auto">
+<button class="flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all bg-surface-container-lowest text-on-surface shadow-sm" id="tab-btn-notifications" onclick="switchTab('notifications')" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span>Notifications</span>
+<span class="inline-flex items-center justify-center px-1.5 py-0.2 rounded-full text-label-sm font-label-sm bg-primary text-on-primary" id="tab-unread-counter">3 unread</span>
+</button>
+<button class="flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all text-secondary hover:text-on-surface" id="tab-btn-settings" onclick="switchTab('settings')" type="button">
+<span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+<span>Account Settings</span>
+</button>
+</div>
+</div>
+<!-- TAB A: OPERATIONAL NOTIFICATIONS -->
+<div class="flex flex-col gap-space-md" id="view-notifications">
+<!-- Sub-header & Filter Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md p-space-md bg-surface-container-low rounded-xl">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface">Operational Feed</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Updates that directly affect today's batch queues, pantry stocks, and staging racks.</span>
+</div>
+<div class="flex items-center gap-space-md self-end lg:self-center">
+<button class="text-primary hover:text-primary-container font-title-sm text-body-sm flex items-center gap-1.5 transition-colors" id="mark-all-read-btn" onclick="markAllNotificationsAsRead()" type="button">
+<span class="material-symbols-outlined text-[16px]">done_all</span>
+<span>Mark all as read</span>
+</button>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+<button class="filter-chip active flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-on-surface text-surface transition-all" data-filter="all" onclick="filterNotifications('all', this)" type="button">
+<span>All</span>
+<span class="text-label-sm opacity-80" id="chip-count-all">(6)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" data-filter="unread" onclick="filterNotifications('unread', this)" type="button">
+<span>Unread</span>
+<span class="text-label-sm font-semibold text-primary" id="chip-count-unread">(3)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" data-filter="orders" onclick="filterNotifications('orders', this)" type="button">
+<span>Orders</span>
+<span class="text-label-sm opacity-80">(2)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" data-filter="production" onclick="filterNotifications('production', this)" type="button">
+<span>Production &amp; Schedule</span>
+<span class="text-label-sm opacity-80">(2)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" data-filter="inventory" onclick="filterNotifications('inventory', this)" type="button">
+<span>Inventory</span>
+<span class="text-label-sm opacity-80">(1)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" data-filter="delivery" onclick="filterNotifications('delivery', this)" type="button">
+<span>Delivery &amp; Staging</span>
+<span class="text-label-sm opacity-80">(1)</span>
+</button>
+</div>
+<!-- Skeletons Container (For QA state 7) -->
+<div class="hidden flex-col gap-3" id="notifications-skeleton-list">
+<div class="p-space-md bg-surface-container-low rounded-xl animate-pulse flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest"></div>
+<div class="flex-1 flex flex-col gap-2">
+<div class="w-1/3 h-4 bg-surface-container-highest rounded"></div>
+<div class="w-3/4 h-3 bg-surface-container-highest rounded"></div>
+<div class="w-1/4 h-3 bg-surface-container-highest rounded"></div>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-xl animate-pulse flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest"></div>
+<div class="flex-1 flex flex-col gap-2">
+<div class="w-2/5 h-4 bg-surface-container-highest rounded"></div>
+<div class="w-2/3 h-3 bg-surface-container-highest rounded"></div>
+<div class="w-1/5 h-3 bg-surface-container-highest rounded"></div>
+</div>
+</div>
+</div>
+<!-- Notifications List -->
+<div class="flex flex-col gap-2.5" id="notifications-items-wrapper">
+<!-- Item 1: Order Ready Prep (Unread) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-secondary-container/40 rounded-xl transition-all hover:bg-secondary-container/70" data-category="orders" data-status="unread" id="notif-1">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-surface-container-highest text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">assignment</span>
+<span class="unread-indicator absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-semibold tracking-tight">Order ORD-1048 is ready for preparation</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-secondary border border-outline-variant/30">Order #ORD-1048 • Standard Delivery</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                Fulfillment: Friday, October 9 • Morning Batch (8:30 AM – 10:30 AM). Review production requirements and batch BOM before starting oven queue.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>12 minutes ago</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<button class="ack-btn px-3 py-1.5 rounded font-title-sm text-body-sm bg-surface text-on-surface hover:bg-surface-container-highest transition-colors shadow-sm" onclick="acknowledgeSingle('notif-1')" type="button">
+              Acknowledge
+            </button>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Order</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 2: Production Schedule (Unread) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-secondary-container/40 rounded-xl transition-all hover:bg-secondary-container/70" data-category="production" data-status="unread" id="notif-2">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-primary-fixed text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="unread-indicator absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-semibold tracking-tight">Production schedule updated for October 8</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-secondary border border-outline-variant/30">Calendar • Thu, Oct 8</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                A weekly subscription fulfillment commitment was rescheduled to Thursday. Review the updated production calendar.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>35 minutes ago</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<button class="ack-btn px-3 py-1.5 rounded font-title-sm text-body-sm bg-surface text-on-surface hover:bg-surface-container-highest transition-colors shadow-sm" onclick="acknowledgeSingle('notif-2')" type="button">
+              Acknowledge
+            </button>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Calendar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 3: Inventory Warning (Unread) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-secondary-container/40 rounded-xl transition-all hover:bg-secondary-container/70" data-category="inventory" data-status="unread" id="notif-3">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-primary-fixed-dim/40 text-on-primary-fixed-variant flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="unread-indicator absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-surface"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-semibold tracking-tight">French Unsalted Butter 82% &amp; Bread Flour below threshold</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-primary border border-outline-variant/30 font-medium">Inventory • Low Stock Alert</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                Current stock requires attention before tomorrow's viennoiserie and shokupan bake. Verify available pantry reserves.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>1 hour ago</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<button class="ack-btn px-3 py-1.5 rounded font-title-sm text-body-sm bg-surface text-on-surface hover:bg-surface-container-highest transition-colors shadow-sm" onclick="acknowledgeSingle('notif-3')" type="button">
+              Acknowledge
+            </button>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Inventory</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 4: Order Status (Read) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-surface-container-lowest rounded-xl transition-all hover:bg-surface-container-low shadow-sm" data-category="orders" data-status="read" id="notif-4">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-surface-container text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-medium tracking-tight">ORD-1052 moved to Ready for Fulfillment</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-secondary border border-outline-variant/30">Order #ORD-1052 • Pickup</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                Order has completed final quality check and packaging. Staged on Dispatch Shelf Unit B-04 awaiting owner courier coordination.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>2 hours ago</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<span class="text-label-sm font-label-sm text-secondary px-2 py-1 bg-surface-container-low rounded">Archived</span>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Order</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 5: Delivery Update (Read) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-surface-container-lowest rounded-xl transition-all hover:bg-surface-container-low shadow-sm" data-category="delivery" data-status="read" id="notif-5">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-surface-container text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-medium tracking-tight">Delivery status updated for ORD-1044</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-secondary border border-outline-variant/30">Order #ORD-1044 • Courier Transit</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                Courier status has transitioned to Picked Up by third-party rider. Handoff logged from bakery staging.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Today, 10:42 AM</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<span class="text-label-sm font-label-sm text-secondary px-2 py-1 bg-surface-container-low rounded">Archived</span>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Order</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 6: Custom Cake (Read) -->
+<article class="notif-card relative flex flex-col sm:flex-row items-start justify-between gap-space-md p-space-md bg-surface-container-lowest rounded-xl transition-all hover:bg-surface-container-low shadow-sm" data-category="production" data-status="read" id="notif-6">
+<div class="flex items-start gap-3.5 min-w-0">
+<div class="relative w-10 h-10 rounded-full bg-surface-container text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">cake</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2">
+<h2 class="notif-title font-title-sm text-title-sm text-on-surface font-medium tracking-tight">Custom cake specifications confirmed for ORD-1055</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface text-secondary border border-outline-variant/30">Custom Cake #ORD-1055</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                Approved production specifications and reference images uploaded. Verify decorator notes and floral toppers prior to morning bake.
+              </p>
+<div class="flex items-center gap-2 mt-2 font-body-sm text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Yesterday, 4:15 PM</span>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 w-full sm:w-auto flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-outline-variant/20">
+<span class="text-label-sm font-label-sm text-secondary px-2 py-1 bg-surface-container-low rounded">Archived</span>
+<a class="text-primary hover:text-primary-container font-title-sm text-body-sm inline-flex items-center gap-1 transition-colors" href="#">
+<span>View Production Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Empty State -->
+<div class="hidden flex-col items-center justify-center py-16 px-space-md text-center bg-surface-container-lowest rounded-xl shadow-sm" id="notifications-empty-state">
+<div class="w-14 h-14 rounded-full bg-secondary-container/50 text-secondary flex items-center justify-center mb-space-sm">
+<span class="material-symbols-outlined text-[28px]">notifications_paused</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-headline-md">All Caught Up</h3>
+<p class="font-body-md text-body-md text-secondary max-w-sm mt-1">
+          No new operational notifications matching your filter. The bakehouse queue and pantry records are in order.
+        </p>
+<button class="mt-4 px-4 py-2 bg-surface-container text-on-surface rounded font-title-sm text-body-sm hover:bg-surface-container-high transition-colors" onclick="filterNotifications('all', document.querySelector('[data-filter=\'all\']'))" type="button">
+          View all notifications
+        </button>
+</div>
+</div>
+<!-- TAB B: ACCOUNT SETTINGS -->
+<div class="hidden w-full max-w-[750px] mx-auto flex-col gap-space-xl" id="view-settings">
+<!-- Section 1: Profile Information -->
+<section class="flex flex-col gap-space-md p-space-lg bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-col gap-1 border-b border-outline-variant/20 pb-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline-md">Profile Information</h2>
+<p class="font-body-sm text-body-sm text-secondary">Review and update your personal staff account details.</p>
+</div>
+<!-- Identity Badge -->
+<div class="flex items-center gap-space-md p-space-md bg-surface-container-low rounded-lg">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary font-title-md text-title-md font-semibold tracking-wider flex-shrink-0">
+            EL
+          </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-semibold" id="badge-full-name">Elena Lim</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-secondary-fixed text-on-secondary-fixed">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Active</span>
+</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Bakery Staff • Operations Tier</span>
+</div>
+</div>
+<!-- Profile Form -->
+<form class="flex flex-col gap-space-md" id="profile-form" onsubmit="handleSaveProfile(event)">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- First Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="input-first-name">First Name</label>
+<input class="h-10 px-3 rounded bg-surface border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="input-first-name" oninput="checkProfileDirty()" type="text" value="Elena"/>
+</div>
+<!-- Last Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="input-last-name">Last Name</label>
+<input class="h-10 px-3 rounded bg-surface border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="input-last-name" oninput="checkProfileDirty()" type="text" value="Lim"/>
+</div>
+</div>
+<!-- Email Address (Read-only) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5" for="input-email">
+<span>Login Email</span>
+<span class="material-symbols-outlined text-[15px] text-secondary">lock</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary">Read-only</span>
+</div>
+<input class="h-10 px-3 rounded bg-surface-container text-secondary font-body-md text-body-md border border-outline-variant/30 cursor-not-allowed select-none" id="input-email" readonly="" type="email" value="elena.lim@kitchen406.com"/>
+<span class="font-body-sm text-body-sm text-secondary">Managed account credential. Contact a bakery administrator if your login email requires modification.</span>
+</div>
+<!-- Staff Role (Read-only) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span>Staff Operational Role</span>
+<span class="material-symbols-outlined text-[15px] text-secondary">lock</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary">System Configured</span>
+</div>
+<input class="h-10 px-3 rounded bg-surface-container text-secondary font-body-md text-body-md border border-outline-variant/30 cursor-not-allowed select-none" readonly="" type="text" value="Bakery Staff"/>
+<span class="font-body-sm text-body-sm text-secondary">Operational permissions and role tiers are controlled by the lead kitchen supervisor.</span>
+</div>
+<!-- Shift Assignment (Read-only) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface">Assigned Station &amp; Shift</label>
+</div>
+<input class="h-10 px-3 rounded bg-surface-container text-secondary font-body-md text-body-md border border-outline-variant/30 cursor-not-allowed select-none" readonly="" type="text" value="Active Shift #1 • Morning Production (05:00 – 13:00)"/>
+</div>
+<div class="flex justify-end pt-2">
+<button class="px-5 py-2.5 rounded font-title-sm text-body-sm bg-primary text-on-primary hover:bg-primary-container disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-2" disabled="" id="btn-save-profile" type="submit">
+<span class="hidden material-symbols-outlined text-[16px] animate-spin" id="save-profile-spinner">progress_activity</span>
+<span>Save Changes</span>
+</button>
+</div>
+</form>
+</section>
+<!-- Section 2: Password & Security -->
+<section class="flex flex-col gap-space-md p-space-lg bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-col gap-1 border-b border-outline-variant/20 pb-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline-md">Change Password</h2>
+<p class="font-body-sm text-body-sm text-secondary">Choose a strong operational credentials passphrase. Minimum 8 characters.</p>
+</div>
+<form class="flex flex-col gap-space-md" id="password-form" onsubmit="handleUpdatePassword(event)">
+<!-- Current Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="input-current-pwd">Current Password</label>
+<div class="relative">
+<input class="w-full h-10 pl-3 pr-10 rounded bg-surface border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="input-current-pwd" placeholder="Enter current password" type="password"/>
+<button class="absolute right-2 top-2.5 text-secondary hover:text-on-surface p-0.5" onclick="togglePasswordVisibility('input-current-pwd', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<span class="hidden font-body-sm text-body-sm text-error" id="err-current-pwd">Current password is required.</span>
+</div>
+<!-- New Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="input-new-pwd">New Password</label>
+<div class="relative">
+<input class="w-full h-10 pl-3 pr-10 rounded bg-surface border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="input-new-pwd" oninput="validatePasswordStrength()" placeholder="Enter minimum 8 characters" type="password"/>
+<button class="absolute right-2 top-2.5 text-secondary hover:text-on-surface p-0.5" onclick="togglePasswordVisibility('input-new-pwd', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px]" id="pwd-req-icon">circle</span>
+<span id="pwd-req-text">Must be at least 8 characters long</span>
+</div>
+<span class="hidden font-body-sm text-body-sm text-error" id="err-new-pwd">New password does not meet requirements.</span>
+</div>
+<!-- Confirm New Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="input-confirm-pwd">Confirm New Password</label>
+<div class="relative">
+<input class="w-full h-10 pl-3 pr-10 rounded bg-surface border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="input-confirm-pwd" oninput="validatePasswordMatch()" placeholder="Re-type new password" type="password"/>
+<button class="absolute right-2 top-2.5 text-secondary hover:text-on-surface p-0.5" onclick="togglePasswordVisibility('input-confirm-pwd', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<span class="hidden font-body-sm text-body-sm text-error" id="err-match-pwd">Passwords do not match.</span>
+</div>
+<div class="flex justify-end pt-2">
+<button class="px-5 py-2.5 rounded font-title-sm text-body-sm bg-primary text-on-primary hover:bg-primary-container transition-all flex items-center gap-2" id="btn-update-pwd" type="submit">
+<span class="hidden material-symbols-outlined text-[16px] animate-spin" id="update-pwd-spinner">progress_activity</span>
+<span>Update Password</span>
+</button>
+</div>
+</form>
+</section>
+</div>
+</div>
+<!-- QA Scenarios Interactive Dock -->
+<div class="sticky bottom-0 w-full bg-surface-container-high/95 backdrop-blur-md border-t border-outline-variant/30 px-space-md py-2.5 z-40">
+<div class="max-w-[1240px] mx-auto flex items-center justify-between gap-space-md overflow-x-auto">
+<div class="flex items-center gap-2 flex-shrink-0 font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>QA Scenarios:</span>
+</div>
+<div class="flex items-center gap-1.5 flex-nowrap">
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('default')" type="button">
+          1. Default View
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('settings')" type="button">
+          2. Tab: Settings
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('unread')" type="button">
+          3. Filter: Unread (3)
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('inventory')" type="button">
+          4. Filter: Inventory
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('all-read')" type="button">
+          5. All Read State
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('empty')" type="button">
+          6. Empty State
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('skeleton')" type="button">
+          7. Loading Skeletons
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('error-banner')" type="button">
+          8. Error State
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-surface text-on-surface hover:bg-surface-container-lowest border border-outline-variant/30 whitespace-nowrap" onclick="runScenario('pwd-error')" type="button">
+          9. Password Error Simulation
+        </button>
+<button class="qa-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-secondary text-on-secondary hover:bg-on-surface whitespace-nowrap" onclick="runScenario('reset')" type="button">
+          Reset
+        </button>
+</div>
+</div>
+</div>
+<!-- Client-side Interactive Script -->
+<script>
+    let activeFilter = 'all';
+    let unreadCount = 3;
+    const initialFirstName = "Elena";
+    const initialLastName = "Lim";
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `flex items-center gap-2.5 px-4 py-3 rounded-lg shadow-lg border text-body-sm font-title-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${
+        type === 'success' 
+          ? 'bg-surface-container-lowest text-on-surface border-outline-variant/40' 
+          : 'bg-error-container text-on-error-container border-error/20'
+      }`;
+      
+      const icon = type === 'success' ? 'check_circle' : 'error';
+      const iconColor = type === 'success' ? 'text-primary' : 'text-error';
+
+      toast.innerHTML = `
+        <span class="material-symbols-outlined ${iconColor} text-[18px]">${icon}</span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-1');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function switchTab(tab) {
+      const notifView = document.getElementById('view-notifications');
+      const settingsView = document.getElementById('view-settings');
+      const notifBtn = document.getElementById('tab-btn-notifications');
+      const settingsBtn = document.getElementById('tab-btn-settings');
+
+      if (tab === 'notifications') {
+        notifView.classList.remove('hidden');
+        settingsView.classList.add('hidden');
+        settingsView.classList.remove('flex');
+        
+        notifBtn.className = "flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all bg-surface-container-lowest text-on-surface shadow-sm";
+        settingsBtn.className = "flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all text-secondary hover:text-on-surface";
+      } else {
+        notifView.classList.add('hidden');
+        settingsView.classList.remove('hidden');
+        settingsView.classList.add('flex');
+
+        settingsBtn.className = "flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all bg-surface-container-lowest text-on-surface shadow-sm";
+        notifBtn.className = "flex items-center gap-2 px-space-md py-1.5 rounded font-title-sm text-title-sm transition-all text-secondary hover:text-on-surface";
+      }
+    }
+
+    function updateUnreadCounterUI() {
+      const counterBadge = document.getElementById('tab-unread-counter');
+      const chipUnread = document.getElementById('chip-count-unread');
+      
+      if (unreadCount <= 0) {
+        unreadCount = 0;
+        counterBadge.textContent = '0 unread';
+        counterBadge.className = 'inline-flex items-center justify-center px-1.5 py-0.2 rounded-full text-label-sm font-label-sm bg-surface-container text-secondary';
+        chipUnread.textContent = '(0)';
+      } else {
+        counterBadge.textContent = `${unreadCount} unread`;
+        counterBadge.className = 'inline-flex items-center justify-center px-1.5 py-0.2 rounded-full text-label-sm font-label-sm bg-primary text-on-primary';
+        chipUnread.textContent = `(${unreadCount})`;
+      }
+    }
+
+    function acknowledgeSingle(itemId) {
+      const item = document.getElementById(itemId);
+      if (!item) return;
+
+      if (item.getAttribute('data-status') === 'unread') {
+        item.setAttribute('data-status', 'read');
+        unreadCount = Math.max(0, unreadCount - 1);
+        updateUnreadCounterUI();
+
+        // Styling transformation to read state
+        item.classList.remove('bg-secondary-container/40', 'hover:bg-secondary-container/70');
+        item.classList.add('bg-surface-container-lowest', 'shadow-sm', 'hover:bg-surface-container-low');
+
+        const title = item.querySelector('.notif-title');
+        if (title) title.classList.replace('font-semibold', 'font-medium');
+
+        const indicator = item.querySelector('.unread-indicator');
+        if (indicator) indicator.remove();
+
+        const ackBtn = item.querySelector('.ack-btn');
+        if (ackBtn) {
+          ackBtn.outerHTML = '<span class="text-label-sm font-label-sm text-secondary px-2 py-1 bg-surface-container-low rounded">Acknowledged &check;</span>';
+        }
+
+        showToast('Notification acknowledged and marked as read');
+        
+        // If current filter is 'unread', re-apply to hide this item
+        if (activeFilter === 'unread') {
+          filterNotifications('unread', document.querySelector('[data-filter="unread"]'));
+        }
+      }
+    }
+
+    function markAllNotificationsAsRead() {
+      const unreadItems = document.querySelectorAll('.notif-card[data-status="unread"]');
+      if (unreadItems.length === 0) {
+        showToast('All notifications are already marked as read');
+        return;
+      }
+
+      unreadItems.forEach(item => {
+        item.setAttribute('data-status', 'read');
+        item.classList.remove('bg-secondary-container/40', 'hover:bg-secondary-container/70');
+        item.classList.add('bg-surface-container-lowest', 'shadow-sm', 'hover:bg-surface-container-low');
+
+        const title = item.querySelector('.notif-title');
+        if (title) title.classList.replace('font-semibold', 'font-medium');
+
+        const indicator = item.querySelector('.unread-indicator');
+        if (indicator) indicator.remove();
+
+        const ackBtn = item.querySelector('.ack-btn');
+        if (ackBtn) {
+          ackBtn.outerHTML = '<span class="text-label-sm font-label-sm text-secondary px-2 py-1 bg-surface-container-low rounded">Read &check;</span>';
+        }
+      });
+
+      unreadCount = 0;
+      updateUnreadCounterUI();
+      showToast('All operational notifications marked as read');
+
+      if (activeFilter === 'unread') {
+        filterNotifications('unread', document.querySelector('[data-filter="unread"]'));
+      }
+    }
+
+    function filterNotifications(category, btnElement) {
+      activeFilter = category;
+
+      // Update chips state
+      document.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.className = 'filter-chip flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all';
+      });
+      if (btnElement) {
+        btnElement.className = 'filter-chip active flex items-center gap-1.5 px-3 py-1 rounded-full font-label-md text-label-md bg-on-surface text-surface transition-all';
+      }
+
+      const items = document.querySelectorAll('.notif-card');
+      let visibleCount = 0;
+
+      items.forEach(card => {
+        const itemCategory = card.getAttribute('data-category');
+        const itemStatus = card.getAttribute('data-status');
+
+        let match = false;
+        if (category === 'all') match = true;
+        else if (category === 'unread' && itemStatus === 'unread') match = true;
+        else if (category === itemCategory) match = true;
+
+        if (match) {
+          card.classList.remove('hidden');
+          card.classList.add('flex');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+          card.classList.remove('flex');
+        }
+      });
+
+      const emptyState = document.getElementById('notifications-empty-state');
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+      }
+    }
+
+    // Profile Editing Interactions
+    function checkProfileDirty() {
+      const fName = document.getElementById('input-first-name').value.trim();
+      const lName = document.getElementById('input-last-name').value.trim();
+      const saveBtn = document.getElementById('btn-save-profile');
+
+      const isDirty = (fName !== initialFirstName || lName !== initialLastName) && fName.length > 0 && lName.length > 0;
+      saveBtn.disabled = !isDirty;
+    }
+
+    function handleSaveProfile(e) {
+      e.preventDefault();
+      const fName = document.getElementById('input-first-name').value.trim();
+      const lName = document.getElementById('input-last-name').value.trim();
+      const saveBtn = document.getElementById('btn-save-profile');
+      const spinner = document.getElementById('save-profile-spinner');
+
+      saveBtn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      setTimeout(() => {
+        spinner.classList.add('hidden');
+        document.getElementById('badge-full-name').textContent = `${fName} ${lName}`;
+        showToast('Profile information updated successfully');
+      }, 700);
+    }
+
+    // Password Editing & Validation
+    function togglePasswordVisibility(fieldId, btn) {
+      const field = document.getElementById(fieldId);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        field.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function validatePasswordStrength() {
+      const pwd = document.getElementById('input-new-pwd').value;
+      const reqIcon = document.getElementById('pwd-req-icon');
+      const reqText = document.getElementById('pwd-req-text');
+
+      if (pwd.length >= 8) {
+        reqIcon.textContent = 'check_circle';
+        reqIcon.className = 'material-symbols-outlined text-[14px] text-primary';
+        reqText.className = 'text-primary font-body-sm text-body-sm font-medium';
+        document.getElementById('err-new-pwd').classList.add('hidden');
+      } else {
+        reqIcon.textContent = 'circle';
+        reqIcon.className = 'material-symbols-outlined text-[14px] text-secondary';
+        reqText.className = 'text-secondary font-body-sm text-body-sm';
+      }
+    }
+
+    function validatePasswordMatch() {
+      const newPwd = document.getElementById('input-new-pwd').value;
+      const confirmPwd = document.getElementById('input-confirm-pwd').value;
+      const errMatch = document.getElementById('err-match-pwd');
+
+      if (confirmPwd.length > 0 && newPwd !== confirmPwd) {
+        errMatch.classList.remove('hidden');
+      } else {
+        errMatch.classList.add('hidden');
+      }
+    }
+
+    function handleUpdatePassword(e) {
+      e.preventDefault();
+      const curr = document.getElementById('input-current-pwd').value;
+      const newP = document.getElementById('input-new-pwd').value;
+      const confP = document.getElementById('input-confirm-pwd').value;
+
+      let hasError = false;
+
+      if (!curr) {
+        document.getElementById('err-current-pwd').classList.remove('hidden');
+        hasError = true;
+      } else {
+        document.getElementById('err-current-pwd').classList.add('hidden');
+      }
+
+      if (newP.length < 8) {
+        document.getElementById('err-new-pwd').classList.remove('hidden');
+        hasError = true;
+      } else {
+        document.getElementById('err-new-pwd').classList.add('hidden');
+      }
+
+      if (newP !== confP) {
+        document.getElementById('err-match-pwd').classList.remove('hidden');
+        hasError = true;
+      } else {
+        document.getElementById('err-match-pwd').classList.add('hidden');
+      }
+
+      if (hasError) return;
+
+      const btn = document.getElementById('btn-update-pwd');
+      const spinner = document.getElementById('update-pwd-spinner');
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      setTimeout(() => {
+        spinner.classList.add('hidden');
+        btn.disabled = false;
+        document.getElementById('input-current-pwd').value = '';
+        document.getElementById('input-new-pwd').value = '';
+        document.getElementById('input-confirm-pwd').value = '';
+        document.getElementById('pwd-req-icon').textContent = 'circle';
+        document.getElementById('pwd-req-icon').className = 'material-symbols-outlined text-[14px] text-secondary';
+        document.getElementById('pwd-req-text').className = 'text-secondary font-body-sm text-body-sm';
+        showToast('Password updated successfully');
+      }, 800);
+    }
+
+    function retrySync() {
+      const banner = document.getElementById('sync-error-banner');
+      banner.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px] animate-spin">refresh</span>
+          <span>Reconnecting to bakehouse dispatcher...</span>
+        </div>
+      `;
+      setTimeout(() => {
+        banner.classList.add('hidden');
+        showToast('Live dispatch synchronization restored');
+      }, 1000);
+    }
+
+    // QA Preset Execution
+    function runScenario(type) {
+      // Clear skeletons and error banners unless testing them
+      document.getElementById('notifications-skeleton-list').classList.add('hidden');
+      document.getElementById('notifications-items-wrapper').classList.remove('hidden');
+      document.getElementById('sync-error-banner').classList.add('hidden');
+
+      switch (type) {
+        case 'default':
+          switchTab('notifications');
+          filterNotifications('all', document.querySelector('[data-filter="all"]'));
+          break;
+        case 'settings':
+          switchTab('settings');
+          break;
+        case 'unread':
+          switchTab('notifications');
+          filterNotifications('unread', document.querySelector('[data-filter="unread"]'));
+          break;
+        case 'inventory':
+          switchTab('notifications');
+          filterNotifications('inventory', document.querySelector('[data-filter="inventory"]'));
+          break;
+        case 'all-read':
+          switchTab('notifications');
+          markAllNotificationsAsRead();
+          break;
+        case 'empty':
+          switchTab('notifications');
+          document.querySelectorAll('.notif-card').forEach(c => {
+            c.classList.add('hidden');
+            c.classList.remove('flex');
+          });
+          const empty = document.getElementById('notifications-empty-state');
+          empty.classList.remove('hidden');
+          empty.classList.add('flex');
+          break;
+        case 'skeleton':
+          switchTab('notifications');
+          document.getElementById('notifications-items-wrapper').classList.add('hidden');
+          document.getElementById('notifications-empty-state').classList.add('hidden');
+          document.getElementById('notifications-skeleton-list').classList.remove('hidden');
+          document.getElementById('notifications-skeleton-list').classList.add('flex');
+          break;
+        case 'error-banner':
+          document.getElementById('sync-error-banner').classList.remove('hidden');
+          break;
+        case 'pwd-error':
+          switchTab('settings');
+          document.getElementById('input-current-pwd').value = '';
+          document.getElementById('input-new-pwd').value = 'short';
+          document.getElementById('input-confirm-pwd').value = 'mismatch123';
+          document.getElementById('err-current-pwd').classList.remove('hidden');
+          document.getElementById('err-new-pwd').classList.remove('hidden');
+          document.getElementById('err-match-pwd').classList.remove('hidden');
+          showToast('Validation simulated: check password inputs', 'error');
+          break;
+        case 'reset':
+          location.reload();
+          break;
+      }
+    }
+  </script>
+</div></main></div></body></html>

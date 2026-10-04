@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin:0; padding:0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top:0 !important; }
+      main > :last-child { margin-bottom:0 !important; }
+    }
+    ::-webkit-scrollbar { display:none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#8d4a14",
+            "primary-container": "#ab622b",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#fffbff",
+            "primary-fixed": "#ffdcc6",
+            "primary-fixed-dim": "#ffb786",
+            "on-primary-fixed-variant": "#723600",
+            "secondary": "#635d59",
+            "secondary-container": "#eae1dc",
+            "on-secondary-container": "#69635f",
+            "secondary-fixed": "#eae1dc",
+            "on-secondary-fixed-variant": "#4b4642",
+            "tertiary": "#625b55",
+            "tertiary-fixed": "#ebe0d9",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "surface": "#fbf9f6",
+            "surface-bright": "#fbf9f6",
+            "surface-dim": "#dbdad7",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "on-surface": "#1b1c1a",
+            "on-surface-variant": "#53443a",
+            "outline": "#867368",
+            "outline-variant": "#d9c2b5",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            headline: ["Playfair Display", "serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SIDEBAR NAVIGATION -->
+<aside class="fixed left-0 top-0 h-screen w-[230px] bg-surface-container-low z-50 flex flex-col justify-between py-4 px-3 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+<div class="flex flex-col gap-4">
+<!-- App Brand -->
+<div class="px-2 pt-1 flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">bakery_dining</span>
+<span class="font-headline text-[20px] text-on-surface tracking-tight font-bold">Kitchen406</span>
+</div>
+<div class="flex items-center mt-1">
+<span class="inline-block px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-fixed-variant text-[11px] tracking-wider uppercase font-semibold">Staff Workspace</span>
+</div>
+</div>
+<!-- Operations Menu -->
+<div class="px-2 pt-1">
+<span class="text-[11px] text-outline uppercase tracking-wider block mb-1 font-semibold">Operations</span>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">grid_view</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">assignment</span>
+<span>Production Queue</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a aria-current="page" class="flex items-center gap-2.5 px-2.5 py-2 transition-colors bg-primary-container text-on-primary-container font-semibold rounded" href="#">
+<span class="material-symbols-outlined text-[19px]">swap_horiz</span>
+<span>Stock Movements</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">menu_book</span>
+<span>Recipes</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">calendar_today</span>
+<span>Production Calendar</span>
+</a>
+</nav>
+</div>
+<div class="h-[1px] bg-surface-container mx-2"></div>
+<!-- Workspace Support -->
+<div class="px-2">
+<span class="text-[11px] text-outline uppercase tracking-wider block mb-1 font-semibold">Workspace</span>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center justify-between px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[19px]">notifications</span>
+<span>Notifications</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary text-on-primary text-[11px] leading-none">4</span>
+</a>
+<a class="flex items-center gap-2.5 px-2.5 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-[14px]" href="#">
+<span class="material-symbols-outlined text-[19px]">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Staff Identity footer -->
+<div class="px-2 pt-2 bg-surface-container rounded p-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5 overflow-hidden">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container text-[13px] font-bold flex items-center justify-center shrink-0">EL</div>
+<div class="flex flex-col min-w-0 leading-tight">
+<span class="text-[13px] text-on-surface font-semibold truncate">Elena Lim</span>
+<span class="text-[12px] text-secondary truncate">Bakery Staff</span>
+</div>
+</div>
+<button aria-label="Staff options" class="text-secondary hover:text-on-surface shrink-0 p-1 rounded hover:bg-surface-container-highest transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</aside>
+<!-- MAIN VIEWPORT WRAPPER -->
+<div class="pl-[230px]">
+<!-- Top Header Bar -->
+<header class="fixed top-0 left-[230px] right-0 h-16 bg-surface/90 backdrop-blur-md shadow-[0_1px_6px_rgba(0,0,0,0.03)] z-40 flex items-center justify-between px-8 border-b border-surface-container">
+<div class="flex flex-col justify-center leading-tight">
+<div class="flex items-center gap-2">
+<span class="text-[11px] uppercase tracking-wider text-primary font-semibold">Operations</span>
+<span class="text-outline text-[12px]">/</span>
+<span class="text-[11px] uppercase tracking-wider text-secondary font-medium">Staff Workspace</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-[14px] text-on-surface font-semibold">Saturday, October 3, 2026</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[12px] text-secondary">Kitchen Floor Live Session</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="relative p-2 rounded text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span>
+</button>
+<div class="flex items-center gap-2 pl-2 border-l border-surface-container">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-semibold text-[13px]">
+            EL
+          </div>
+<span class="text-[13px] font-medium text-on-surface hidden md:inline">Elena Lim</span>
+</div>
+</div>
+</header>
+<!-- CONTENT SURFACE -->
+<main class="relative w-full pt-16 bg-surface px-8 min-h-screen">
+<div class="w-full max-w-[1240px] mx-auto py-8 flex flex-col gap-6 pb-28">
+<!-- Title & Main Navigation Action -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col">
+<h1 class="font-headline text-[32px] md:text-[36px] text-on-surface font-medium tracking-tight">Stock Movements</h1>
+<p class="text-[15px] text-secondary mt-1">Review inventory changes from restocks, production, and adjustments.</p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<a class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-primary border border-outline-variant font-medium text-[14px] transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span>View Current Inventory</span>
+</a>
+</div>
+</div>
+<!-- Compact Operational Summary Strip -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Total Movements -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-[11px] uppercase tracking-wider font-semibold">Total Movements</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary">swap_horiz</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline text-[32px] font-bold text-on-surface">42</span>
+<span class="text-[13px] text-secondary">logged</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low -mx-4 -mb-4 px-4 py-1.5 flex items-center justify-between text-[12px] text-secondary rounded-b-xl">
+<span>Window: Last 30 Days</span>
+<span class="font-medium text-primary">All shifts recorded</span>
+</div>
+</div>
+<!-- Restocks -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-[11px] uppercase tracking-wider font-semibold">Restocks</span>
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">arrow_downward</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline text-[32px] font-bold text-primary">+184.5</span>
+<span class="text-[14px] font-medium text-secondary">kg</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low -mx-4 -mb-4 px-4 py-1.5 flex items-center justify-between text-[12px] text-secondary rounded-b-xl">
+<span>Received deliveries</span>
+<span class="font-medium text-on-surface">12 events</span>
+</div>
+</div>
+<!-- Production Consumption -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-[11px] uppercase tracking-wider font-semibold">Production Consumption</span>
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">outdoor_grill</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline text-[32px] font-bold text-on-surface">−118.2</span>
+<span class="text-[14px] font-medium text-secondary">kg</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low -mx-4 -mb-4 px-4 py-1.5 flex items-center justify-between text-[12px] text-secondary rounded-b-xl">
+<span>Confirmed order bakes</span>
+<span class="font-medium text-on-surface">24 batches</span>
+</div>
+</div>
+<!-- Adjustments & Reversals -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-[11px] uppercase tracking-wider font-semibold">Adjustments &amp; Reversals</span>
+<div class="w-6 h-6 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-headline text-[32px] font-bold text-on-surface">−2.2</span>
+<span class="text-[14px] font-medium text-secondary">kg net</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low -mx-4 -mb-4 px-4 py-1.5 flex items-center justify-between text-[12px] text-secondary rounded-b-xl">
+<span class="truncate">Spoilage, damage &amp; corrections</span>
+<span class="font-medium text-on-surface shrink-0">6 events</span>
+</div>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-surface-container flex flex-col gap-3">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+<!-- Search Field -->
+<div class="md:col-span-4 relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[19px]">search</span>
+<input class="w-full h-[40px] pl-10 pr-3 rounded-lg bg-surface border border-outline-variant/60 text-[14px] text-on-surface placeholder:text-outline focus:outline-none focus:border-primary transition-colors" id="searchInput" placeholder="Search ingredient or order reference" type="text"/>
+</div>
+<!-- Movement Type Selector -->
+<div class="md:col-span-2 relative">
+<select class="w-full h-[40px] px-3 pr-8 rounded-lg bg-surface border border-outline-variant/60 text-[14px] text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer" id="typeFilter">
+<option value="all">All Types</option>
+<option value="Restock">Restock</option>
+<option value="Consumption">Consumption</option>
+<option value="Adjustment">Adjustment</option>
+<option value="Reversal">Reversal</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Ingredient Filter -->
+<div class="md:col-span-3 relative">
+<select class="w-full h-[40px] px-3 pr-8 rounded-lg bg-surface border border-outline-variant/60 text-[14px] text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer" id="ingredientFilter">
+<option value="all">All Ingredients</option>
+<option value="Bread Flour (High-Protein)">Bread Flour (High-Protein)</option>
+<option value="French Unsalted Butter 82%">French Unsalted Butter 82%</option>
+<option value="Farm Fresh Whole Eggs">Farm Fresh Whole Eggs</option>
+<option value="Japanese Bread Flour (Special)">Japanese Bread Flour (Special)</option>
+<option value="Active Sourdough Starter">Active Sourdough Starter</option>
+<option value="Heavy Whipping Cream 35%">Heavy Whipping Cream 35%</option>
+<option value="Granulated Cane Sugar">Granulated Cane Sugar</option>
+<option value="Dark Chocolate Callets 60%">Dark Chocolate Callets 60%</option>
+<option value="Instant Dry Yeast">Instant Dry Yeast</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Date Range Filter -->
+<div class="md:col-span-2 relative">
+<select class="w-full h-[40px] px-3 pr-8 rounded-lg bg-surface border border-outline-variant/60 text-[14px] text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer" id="dateFilter">
+<option value="30">Last 30 Days</option>
+<option value="today">Today (Oct 3)</option>
+<option value="7">Last 7 Days</option>
+<option value="custom">Custom Range</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-outline pointer-events-none text-[18px]">calendar_today</span>
+</div>
+<!-- Recorded By Filter -->
+<div class="md:col-span-1 relative">
+<select class="w-full h-[40px] px-2.5 pr-7 rounded-lg bg-surface border border-outline-variant/60 text-[13px] text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer" id="sourceFilter">
+<option value="all">All Sources</option>
+<option value="System">System (Automated)</option>
+<option value="Elena Lim">Staff (Elena Lim)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-outline pointer-events-none text-[18px]">tune</span>
+</div>
+</div>
+<!-- Active Filter Status & Reset link -->
+<div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-surface-container text-[12px]" id="filterBarNotice">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-outline uppercase tracking-wider font-semibold">Active:</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container text-secondary text-[12px]" id="pillRange">
+<span>Range: Last 30 Days</span>
+</span>
+<span class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-[12px]" id="pillType">
+<span id="pillTypeText">Type</span>
+<button class="hover:opacity-75" onclick="clearTypeFilter()" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+<span class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[12px]" id="pillIngredient">
+<span id="pillIngredientText">Ingredient</span>
+<button class="hover:opacity-75" onclick="clearIngredientFilter()" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+<span class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface text-[12px]" id="pillSearch">
+<span id="pillSearchText">Search</span>
+<button class="hover:opacity-75" onclick="clearSearchFilter()" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+<span class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface text-[12px]" id="pillSource">
+<span id="pillSourceText">Source</span>
+<button class="hover:opacity-75" onclick="clearSourceFilter()" type="button"><span class="material-symbols-outlined text-[13px]">close</span></button>
+</span>
+</div>
+<button class="text-primary hover:text-primary-container text-[12px] font-medium underline underline-offset-2 flex items-center gap-1 transition-colors" id="resetFiltersBtn" type="button">
+<span class="material-symbols-outlined text-[14px]">refresh</span>
+<span>Reset Filters</span>
+</button>
+</div>
+</div>
+<!-- Ledger Table Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container overflow-hidden flex flex-col">
+<!-- Skeletons state -->
+<div class="hidden p-6 flex flex-col gap-3 animate-pulse" id="ledgerSkeleton">
+<div class="h-6 bg-surface-container-high rounded w-1/4"></div>
+<div class="h-10 bg-surface-container rounded w-full"></div>
+<div class="h-10 bg-surface-container rounded w-full"></div>
+<div class="h-10 bg-surface-container rounded w-full"></div>
+<div class="h-10 bg-surface-container rounded w-full"></div>
+</div>
+<!-- Error state -->
+<div class="hidden p-12 flex flex-col items-center justify-center text-center gap-3" id="ledgerError">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[26px]">error_outline</span>
+</div>
+<span class="font-headline text-[20px] font-semibold text-on-surface">Unable to load stock movements</span>
+<p class="text-[14px] text-secondary max-w-md">There was an issue connecting with the kitchen stock service. Your shift records are intact.</p>
+<button class="mt-2 px-4 py-2 bg-surface-container hover:bg-surface-container-high rounded-lg text-[13px] font-semibold text-on-surface transition-colors" onclick="resetToDefaultState()" type="button">
+              Retry Sync
+            </button>
+</div>
+<!-- Empty state -->
+<div class="hidden p-12 flex flex-col items-center justify-center text-center gap-3" id="ledgerEmpty">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]">search_off</span>
+</div>
+<span class="font-headline text-[20px] font-semibold text-on-surface">No stock movements found</span>
+<p class="text-[14px] text-secondary max-w-md">No movements match your selected filters. Try searching for a different ingredient or reference.</p>
+<button class="mt-2 px-4 py-2 bg-primary text-on-primary rounded-lg text-[13px] font-semibold transition-colors" onclick="resetToDefaultState()" type="button">
+              Clear All Filters
+            </button>
+</div>
+<!-- Operational Table -->
+<div class="overflow-x-auto w-full" id="tableWrapper">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary text-[11px] uppercase tracking-wider select-none border-b border-surface-container">
+<th class="py-3 px-4 font-semibold">Date &amp; Time</th>
+<th class="py-3 px-4 font-semibold">Ingredient</th>
+<th class="py-3 px-4 font-semibold">Movement Type</th>
+<th class="py-3 px-4 font-semibold text-right">Quantity</th>
+<th class="py-3 px-4 font-semibold">Source / Reason</th>
+<th class="py-3 px-4 font-semibold">Recorded By</th>
+<th class="py-3 px-4 font-semibold text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="text-[13px] divide-y divide-surface-container" id="ledgerTbody">
+<!-- Injected via script -->
+</tbody>
+</table>
+</div>
+<!-- Footer Pagination -->
+<div class="px-4 py-3 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-secondary border-t border-surface-container" id="tableFooter">
+<div id="paginationInfo">Showing 1–10 of 42 movements</div>
+<div class="flex items-center gap-1 select-none">
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-primary text-on-primary font-semibold" type="button">1</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface" type="button">2</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface" type="button">3</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface" type="button">4</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface" type="button">5</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-surface hover:bg-surface-container text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- MOVEMENT DETAILS DRAWER (SLIDEOVER) -->
+<div class="fixed inset-0 z-50 bg-on-surface/40 backdrop-blur-[2px] transition-opacity duration-300 opacity-0 pointer-events-none" id="drawerBackdrop"></div>
+<aside class="fixed top-0 right-0 z-50 h-screen w-full sm:w-[460px] bg-surface-container-lowest shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between" id="movementDrawer">
+<!-- Header -->
+<div class="px-6 py-4 bg-surface-container-low border-b border-surface-container flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[11px] uppercase tracking-wider text-primary font-semibold">Shift Operations</span>
+<h2 class="font-headline text-[20px] font-semibold text-on-surface">Movement Details</h2>
+</div>
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" id="closeDrawerBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Content Body -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-4 text-[13px]">
+<!-- Summary tile -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col gap-2 border border-surface-container">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-semibold" id="drawerBadge">
+<!-- Badge -->
+</span>
+<span class="font-headline text-[24px] font-bold text-on-surface" id="drawerQtyLarge">
+<!-- Qty -->
+</span>
+</div>
+<h3 class="text-[16px] text-on-surface font-semibold mt-1" id="drawerIngredientTitle">
+<!-- Title -->
+</h3>
+<span class="text-[12px] text-secondary flex items-center gap-1" id="drawerStorageBin">
+<span class="material-symbols-outlined text-[15px]">shelves</span>
+<span>Storage: Dry Silo 2</span>
+</span>
+</div>
+<!-- Physical Stock Impact Matrix -->
+<div class="bg-surface rounded-xl p-4 flex flex-col gap-2 border border-outline-variant/50">
+<span class="text-[11px] uppercase tracking-wider text-secondary font-semibold">Physical Stock On Hand Impact</span>
+<div class="grid grid-cols-3 items-center text-center py-2">
+<div class="flex flex-col">
+<span class="text-[11px] text-secondary">Previous On Hand</span>
+<span class="text-[15px] font-semibold text-on-surface" id="drawerBeforeStock">5.0 kg</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] text-secondary mb-0.5" id="drawerImpactLabel">Change</span>
+<span class="material-symbols-outlined text-[20px] text-primary" id="drawerImpactIcon">trending_flat</span>
+<span class="text-[12px] font-bold text-primary" id="drawerDeltaStock">−0.5 kg</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[11px] text-secondary">Resulting On Hand</span>
+<span class="text-[15px] font-bold text-primary" id="drawerAfterStock">4.5 kg</span>
+</div>
+</div>
+</div>
+<!-- Traceability Details List -->
+<div class="flex flex-col divide-y divide-surface-container border-y border-surface-container py-1">
+<div class="flex items-center justify-between py-2 text-[13px]">
+<span class="text-secondary">Date &amp; Time</span>
+<span class="font-medium text-on-surface" id="drawerTimestamp">Oct 3, 2026 · 10:42 AM</span>
+</div>
+<div class="flex items-center justify-between py-2 text-[13px]">
+<span class="text-secondary">Movement Type</span>
+<span class="font-medium text-on-surface" id="drawerTypeName">Consumption</span>
+</div>
+<div class="flex items-center justify-between py-2 text-[13px]">
+<span class="text-secondary">Source / Reason</span>
+<span class="font-medium text-on-surface" id="drawerSourceReason">Order K406-1048</span>
+</div>
+<div class="flex items-center justify-between py-2 text-[13px]">
+<span class="text-secondary">Recorded By</span>
+<div class="flex items-center gap-1.5" id="drawerRecordedByWrap">
+<span class="font-medium text-on-surface" id="drawerStaff">Elena Lim (Bakery Staff)</span>
+</div>
+</div>
+</div>
+<!-- Specific Handoff Button (Only shown if Consumption with Order Ref) -->
+<div class="hidden p-3 rounded-lg bg-surface-container-low border border-surface-container flex flex-col gap-2" id="orderHandoffCard">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-semibold text-secondary uppercase tracking-wider">Linked Production Order</span>
+<span class="font-semibold text-primary font-mono text-[13px]" id="drawerOrderBadge">K406-1048</span>
+</div>
+<p class="text-[12px] text-secondary">This consumption movement was automatically deducted from staging for this active bake batch.</p>
+<button class="inline-flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-medium text-[13px] transition-colors" onclick="showToast('Navigating to Phase 5.3 Production Details for order')" type="button">
+<span>View Production Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Operational Remarks -->
+<div class="bg-surface-container-low rounded-xl p-3.5 flex flex-col gap-1 border border-surface-container">
+<span class="text-[11px] uppercase tracking-wider text-outline font-semibold">Operational Notes</span>
+<p class="text-[13px] text-on-surface italic leading-relaxed" id="drawerNotes">
+          "Morning bake staging."
+        </p>
+</div>
+<!-- Reverse Action Card (Only shown if manual adjustment) -->
+<div class="hidden p-3.5 rounded-lg bg-error-container/40 border border-error-container flex flex-col gap-2" id="adjustmentReversalCard">
+<div class="flex items-center gap-1.5 text-error font-semibold text-[13px]">
+<span class="material-symbols-outlined text-[17px]">published_with_changes</span>
+<span>Stock Adjustment Notice</span>
+</div>
+<p class="text-[12px] text-secondary leading-normal">Need to correct this entry? Reversing will generate a compensating positive stock entry to restore shelf stock.</p>
+<button class="self-start px-3 py-1.5 rounded bg-surface hover:bg-surface-container text-error border border-error/30 font-medium text-[12px] transition-colors" onclick="openReverseModal()" type="button">
+          Reverse Movement
+        </button>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-6 py-4 bg-surface-container-low border-t border-surface-container flex items-center justify-end">
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-medium text-[13px] transition-colors" onclick="closeDrawer()" type="button">
+        Close Details
+      </button>
+</div>
+</aside>
+<!-- CONFIRM REVERSAL MODAL -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/40 backdrop-blur-sm transition-opacity duration-200 opacity-0 pointer-events-none" id="reversalModal">
+<div class="bg-surface-container-lowest w-full max-w-md mx-4 rounded-xl shadow-2xl border border-surface-container overflow-hidden flex flex-col transform scale-95 transition-transform duration-200" id="reversalModalCard">
+<div class="px-6 py-4 bg-surface-container-low border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+<h3 class="font-headline text-[18px] font-semibold text-on-surface">Reverse Stock Movement</h3>
+</div>
+<button class="text-secondary hover:text-on-surface" onclick="closeReverseModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-3">
+<p class="text-[14px] text-on-surface">
+          Reverse this stock movement? This will create a new compensating inventory movement restoring stock without deleting history.
+        </p>
+<div class="p-3 bg-surface-container-low rounded-lg text-[13px] text-secondary flex flex-col gap-1 border border-surface-container">
+<div class="flex justify-between">
+<span>Target:</span>
+<span class="font-medium text-on-surface" id="reverseIngredientText">Bread Flour</span>
+</div>
+<div class="flex justify-between">
+<span>Compensating Entry:</span>
+<span class="font-bold text-primary" id="reverseAdjustmentText">+0.5 kg</span>
+</div>
+</div>
+</div>
+<div class="px-6 py-3.5 bg-surface-container-low border-t border-surface-container flex items-center justify-end gap-2.5">
+<button class="px-4 py-2 rounded-lg bg-surface hover:bg-surface-container text-on-surface text-[13px] font-medium transition-colors" onclick="closeReverseModal()" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary text-[13px] font-semibold transition-colors flex items-center gap-1.5" onclick="executeReversal()" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Confirm Reversal</span>
+</button>
+</div>
+</div>
+</div>
+<!-- TOAST FEEDBACK -->
+<div class="fixed top-20 right-8 z-50 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-on-surface text-on-primary shadow-lg border border-outline/20 text-[13px]" id="toastNotification">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed">check_circle</span>
+<span id="toastMessage">Movement verified.</span>
+</div>
+<!-- DISCREET SCENARIO SELECTOR (Bottom toolbar for prototype QA) -->
+<div class="fixed bottom-3 right-6 z-40">
+<div class="bg-surface-container-lowest/90 hover:bg-surface-container-lowest backdrop-blur-md rounded-lg px-3 py-1.5 shadow-md border border-outline-variant/60 flex items-center gap-2 transition-all">
+<span class="text-[11px] uppercase tracking-wider text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">visibility</span>
+<span>View State:</span>
+</span>
+<select class="bg-transparent text-[12px] text-on-surface font-medium border-0 focus:ring-0 p-0 cursor-pointer" onchange="handleScenarioChange(this.value)">
+<option value="all">Default (All Movements)</option>
+<option value="restocks">Filter: Restocks</option>
+<option value="consumption">Filter: Order Consumption</option>
+<option value="adjustments">Filter: Adjustments</option>
+<option value="drawerOrder">Drawer: Order (K406-1048)</option>
+<option value="drawerAdjust">Drawer: Adjustment</option>
+<option value="empty">Empty State</option>
+<option value="loading">Loading Skeleton</option>
+<option value="error">Error State</option>
+</select>
+</div>
+</div>
+<!-- LOGIC SCRIPT -->
+<script>
+    // Canonical data set strictly adhering to Phase 5.5 & 5.4 alignment
+    // Date: Chronologically consistent on or before Saturday, Oct 3, 2026!
+    // No UUIDs, no API payloads, no financial pricing. Canonical order formats: K406-1048, K406-1039, K406-SD-084, K406-CC-028.
+    const MOVEMENTS_DATA = [
+      {
+        id: "mov-01",
+        date: "Oct 3, 2026 · 10:42 AM",
+        rawDate: "2026-10-03T10:42:00",
+        ingredient: "Bread Flour (High-Protein)",
+        type: "Restock",
+        quantity: "+10.0 kg",
+        rawQty: 10.0,
+        unit: "kg",
+        isPositive: true,
+        sourceReason: "Restock · Delivery Slip #IN-8894",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "38.0 kg",
+        after: "48.0 kg",
+        storage: "Dry Silo 2 · Main Pantry",
+        notes: "Received scheduled bakery delivery. Inspected sealed bag, moisture intact, placed into Dry Silo 2."
+      },
+      {
+        id: "mov-02",
+        date: "Oct 3, 2026 · 9:15 AM",
+        rawDate: "2026-10-03T09:15:00",
+        ingredient: "French Unsalted Butter 82%",
+        type: "Consumption",
+        quantity: "−1.5 kg",
+        rawQty: -1.5,
+        unit: "kg",
+        isPositive: false,
+        sourceReason: "Order K406-1048",
+        isOrder: true,
+        orderRef: "K406-1048",
+        recordedBy: "System",
+        isSystem: true,
+        before: "14.0 kg",
+        after: "12.5 kg",
+        storage: "Walk-in Chiller Section C-1",
+        notes: "Automated consumption deduction for Artisan Croissant morning batch staging."
+      },
+      {
+        id: "mov-03",
+        date: "Oct 3, 2026 · 8:30 AM",
+        rawDate: "2026-10-03T08:30:00",
+        ingredient: "Farm Fresh Whole Eggs",
+        type: "Adjustment",
+        quantity: "−6 pcs",
+        rawQty: -6,
+        unit: "pcs",
+        isPositive: false,
+        sourceReason: "Damage · Cracked crate",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "186 pcs",
+        after: "180 pcs",
+        storage: "Chiller Dairy Rack 2",
+        notes: "Shells cracked during morning transfer from delivery crate. Disposed to compost bin."
+      },
+      {
+        id: "mov-04",
+        date: "Oct 2, 2026 · 4:10 PM",
+        rawDate: "2026-10-02T16:10:00",
+        ingredient: "Japanese Bread Flour (Special)",
+        type: "Consumption",
+        quantity: "−2.4 kg",
+        rawQty: -2.4,
+        unit: "kg",
+        isPositive: false,
+        sourceReason: "Order K406-SD-084",
+        isOrder: true,
+        orderRef: "K406-SD-084",
+        recordedBy: "System",
+        isSystem: true,
+        before: "24.8 kg",
+        after: "22.4 kg",
+        storage: "Specialty Flour Silo",
+        notes: "Automated deduction for Weekly Shokupan loaf subscription batch."
+      },
+      {
+        id: "mov-05",
+        date: "Oct 2, 2026 · 2:15 PM",
+        rawDate: "2026-10-02T14:15:00",
+        ingredient: "Bread Flour (High-Protein)",
+        type: "Reversal",
+        quantity: "+2.0 kg",
+        rawQty: 2.0,
+        unit: "kg",
+        isPositive: true,
+        sourceReason: "Reversal · Cancelled batch restoration",
+        isOrder: true,
+        orderRef: "K406-1039",
+        recordedBy: "System",
+        isSystem: true,
+        before: "36.0 kg",
+        after: "38.0 kg",
+        storage: "Dry Silo 2 · Main Pantry",
+        notes: "Unbaked dough staging cancelled prior to mix hydration; dry weight returned to active stock balance."
+      },
+      {
+        id: "mov-06",
+        date: "Oct 2, 2026 · 11:20 AM",
+        rawDate: "2026-10-02T11:20:00",
+        ingredient: "Heavy Whipping Cream 35%",
+        type: "Adjustment",
+        quantity: "−0.5 L",
+        rawQty: -0.5,
+        unit: "L",
+        isPositive: false,
+        sourceReason: "Spoilage · Spoilage cleanup",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "8.7 L",
+        after: "8.2 L",
+        storage: "Pastry Cooler Shelf 1",
+        notes: "Container seal damaged upon opening inspection; discarded to maintain hygiene compliance."
+      },
+      {
+        id: "mov-07",
+        date: "Oct 1, 2026 · 3:45 PM",
+        rawDate: "2026-10-01T15:45:00",
+        ingredient: "Granulated Cane Sugar",
+        type: "Restock",
+        quantity: "+25.0 kg",
+        rawQty: 25.0,
+        unit: "kg",
+        isPositive: true,
+        sourceReason: "Restock · Delivery Slip #IN-8891",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "10.0 kg",
+        after: "35.0 kg",
+        storage: "Dry Pantry Bin B-01",
+        notes: "Bulk sugar replenishment into sealed hermetic bins."
+      },
+      {
+        id: "mov-08",
+        date: "Oct 1, 2026 · 1:30 PM",
+        rawDate: "2026-10-01T13:30:00",
+        ingredient: "Dark Chocolate Callets 60%",
+        type: "Consumption",
+        quantity: "−3.6 kg",
+        rawQty: -3.6,
+        unit: "kg",
+        isPositive: false,
+        sourceReason: "Order K406-CC-028",
+        isOrder: true,
+        orderRef: "K406-CC-028",
+        recordedBy: "System",
+        isSystem: true,
+        before: "15.4 kg",
+        after: "11.8 kg",
+        storage: "Temperature-Controlled Pantry B",
+        notes: "Chocolate Brioche & Pain au Chocolat production staging."
+      },
+      {
+        id: "mov-09",
+        date: "Sep 30, 2026 · 5:00 PM",
+        rawDate: "2026-09-30T17:00:00",
+        ingredient: "Active Sourdough Starter",
+        type: "Adjustment",
+        quantity: "−0.2 kg",
+        rawQty: -0.2,
+        unit: "kg",
+        isPositive: false,
+        sourceReason: "Correction · Weight discrepancy",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "4.8 kg",
+        after: "4.6 kg",
+        storage: "Starter Proofer Tub #1",
+        notes: "Shift end weigh-in discrepancy correction after bowl scrape discard."
+      },
+      {
+        id: "mov-10",
+        date: "Sep 29, 2026 · 6:15 PM",
+        rawDate: "2026-09-29T18:15:00",
+        ingredient: "Instant Dry Yeast",
+        type: "Restock",
+        quantity: "+2.0 kg",
+        rawQty: 2.0,
+        unit: "kg",
+        isPositive: true,
+        sourceReason: "Restock · Delivery Slip #IN-8877",
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: "1.2 kg",
+        after: "3.2 kg",
+        storage: "Dry Pantry Yeast Vault",
+        notes: "Vacuum foil packages received from pantry distributor and checked for seal integrity."
+      }
+    ];
+
+    let currentList = [...MOVEMENTS_DATA];
+    let selectedMovement = null;
+
+    // Render table rows
+    function renderTable(items) {
+      const tbody = document.getElementById('ledgerTbody');
+      const tableWrapper = document.getElementById('tableWrapper');
+      const tableFooter = document.getElementById('tableFooter');
+      const emptyView = document.getElementById('ledgerEmpty');
+      const errorView = document.getElementById('ledgerError');
+      const skeletonView = document.getElementById('ledgerSkeleton');
+
+      errorView.classList.add('hidden');
+      skeletonView.classList.add('hidden');
+
+      if (!items || items.length === 0) {
+        tableWrapper.classList.add('hidden');
+        tableFooter.classList.add('hidden');
+        emptyView.classList.remove('hidden');
+        return;
+      }
+
+      emptyView.classList.add('hidden');
+      tableWrapper.classList.remove('hidden');
+      tableFooter.classList.remove('hidden');
+
+      tbody.innerHTML = items.map((row) => {
+        // Standardized pills
+        let typeBadge = '';
+        if (row.type === 'Restock') {
+          typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[11px] font-semibold"><span class="material-symbols-outlined text-[13px]">add</span>Restock</span>`;
+        } else if (row.type === 'Consumption') {
+          typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container text-secondary text-[11px] font-semibold"><span class="material-symbols-outlined text-[13px]">remove</span>Consumption</span>`;
+        } else if (row.type === 'Adjustment') {
+          typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-[11px] font-semibold"><span class="material-symbols-outlined text-[13px]">tune</span>Adjustment</span>`;
+        } else {
+          typeBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[11px] font-semibold"><span class="material-symbols-outlined text-[13px]">undo</span>Reversal</span>`;
+        }
+
+        // Quantity coloring
+        const qtyColor = row.isPositive ? 'text-primary font-bold' : 'text-on-surface font-semibold';
+
+        // Source / Reason formatting
+        let sourceHtml = '';
+        if (row.isOrder && row.orderRef) {
+          sourceHtml = `<span class="inline-flex items-center gap-1 text-primary hover:underline cursor-pointer font-medium font-mono" onclick="event.stopPropagation(); openDrawerById('${row.id}')">${row.sourceReason}</span>`;
+        } else {
+          sourceHtml = `<span class="text-secondary">${row.sourceReason}</span>`;
+        }
+
+        // Recorded By formatting
+        let recordedByHtml = '';
+        if (row.isSystem) {
+          recordedByHtml = `
+            <div class="inline-flex items-center gap-1 text-secondary">
+              <span class="material-symbols-outlined text-[14px] text-outline">smart_toy</span>
+              <span>System</span>
+              <span class="text-[10px] px-1 py-0.2 rounded bg-surface-container text-secondary">Auto</span>
+            </div>`;
+        } else {
+          recordedByHtml = `
+            <div class="inline-flex items-center gap-1 text-on-surface">
+              <span class="w-4 h-4 rounded-full bg-primary/20 text-primary text-[10px] font-bold flex items-center justify-center">E</span>
+              <span class="font-medium">${row.recordedBy}</span>
+            </div>`;
+        }
+
+        return `
+          <tr class="hover:bg-surface-container-low/75 transition-colors cursor-pointer group" onclick="openDrawerById('${row.id}')">
+            <td class="py-3 px-4 text-secondary whitespace-nowrap font-mono text-[12px]">${row.date}</td>
+            <td class="py-3 px-4 font-semibold text-on-surface">${row.ingredient}</td>
+            <td class="py-3 px-4 whitespace-nowrap">${typeBadge}</td>
+            <td class="py-3 px-4 text-right whitespace-nowrap ${qtyColor} font-mono">${row.quantity}</td>
+            <td class="py-3 px-4 whitespace-nowrap">${sourceHtml}</td>
+            <td class="py-3 px-4 whitespace-nowrap">${recordedByHtml}</td>
+            <td class="py-3 px-4 text-center whitespace-nowrap">
+              <button type="button" aria-label="View movement details" class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container group-hover:bg-primary group-hover:text-on-primary text-secondary text-[12px] font-medium transition-colors">
+                <span>View Details</span>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('paginationInfo').innerText = `Showing 1–${items.length} of 42 movements`;
+    }
+
+    // Filter logic
+    function applyFilters() {
+      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+      const typeVal = document.getElementById('typeFilter').value;
+      const ingredientVal = document.getElementById('ingredientFilter').value;
+      const sourceVal = document.getElementById('sourceFilter').value;
+      const dateVal = document.getElementById('dateFilter').value;
+
+      currentList = MOVEMENTS_DATA.filter(item => {
+        // Search
+        const matchesSearch = !searchVal || 
+          item.ingredient.toLowerCase().includes(searchVal) || 
+          item.sourceReason.toLowerCase().includes(searchVal) ||
+          (item.orderRef && item.orderRef.toLowerCase().includes(searchVal)) ||
+          item.notes.toLowerCase().includes(searchVal);
+
+        // Movement Type
+        const matchesType = (typeVal === 'all') || (item.type === typeVal);
+
+        // Ingredient
+        const matchesIngredient = (ingredientVal === 'all') || (item.ingredient === ingredientVal);
+
+        // Recorded By / Source
+        let matchesSource = true;
+        if (sourceVal === 'System') {
+          matchesSource = item.isSystem;
+        } else if (sourceVal === 'Elena Lim') {
+          matchesSource = !item.isSystem;
+        }
+
+        // Date filter
+        let matchesDate = true;
+        if (dateVal === 'today') {
+          matchesDate = item.date.includes('Oct 3, 2026');
+        } else if (dateVal === '7') {
+          matchesDate = true; // All mock data is within Oct 3 - Sep 29
+        }
+
+        return matchesSearch && matchesType && matchesIngredient && matchesSource && matchesDate;
+      });
+
+      // Update pill visibility
+      const pillType = document.getElementById('pillType');
+      const pillTypeText = document.getElementById('pillTypeText');
+      if (typeVal !== 'all') {
+        pillType.classList.remove('hidden');
+        pillTypeText.innerText = `Type: ${typeVal}`;
+      } else {
+        pillType.classList.add('hidden');
+      }
+
+      const pillIngredient = document.getElementById('pillIngredient');
+      const pillIngredientText = document.getElementById('pillIngredientText');
+      if (ingredientVal !== 'all') {
+        pillIngredient.classList.remove('hidden');
+        pillIngredientText.innerText = ingredientVal;
+      } else {
+        pillIngredient.classList.add('hidden');
+      }
+
+      const pillSearch = document.getElementById('pillSearch');
+      const pillSearchText = document.getElementById('pillSearchText');
+      if (searchVal) {
+        pillSearch.classList.remove('hidden');
+        pillSearchText.innerText = `Search: "${searchVal}"`;
+      } else {
+        pillSearch.classList.add('hidden');
+      }
+
+      const pillSource = document.getElementById('pillSource');
+      const pillSourceText = document.getElementById('pillSourceText');
+      if (sourceVal !== 'all') {
+        pillSource.classList.remove('hidden');
+        pillSourceText.innerText = `By: ${sourceVal}`;
+      } else {
+        pillSource.classList.add('hidden');
+      }
+
+      renderTable(currentList);
+    }
+
+    function clearTypeFilter() {
+      document.getElementById('typeFilter').value = 'all';
+      applyFilters();
+    }
+
+    function clearIngredientFilter() {
+      document.getElementById('ingredientFilter').value = 'all';
+      applyFilters();
+    }
+
+    function clearSearchFilter() {
+      document.getElementById('searchInput').value = '';
+      applyFilters();
+    }
+
+    function clearSourceFilter() {
+      document.getElementById('sourceFilter').value = 'all';
+      applyFilters();
+    }
+
+    function resetToDefaultState() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('ingredientFilter').value = 'all';
+      document.getElementById('dateFilter').value = '30';
+      document.getElementById('sourceFilter').value = 'all';
+      currentList = [...MOVEMENTS_DATA];
+      applyFilters();
+    }
+
+    // Drawer functionality
+    function openDrawerById(id) {
+      const item = MOVEMENTS_DATA.find(x => x.id === id) || MOVEMENTS_DATA[0];
+      selectedMovement = item;
+
+      // Populate Drawer
+      document.getElementById('drawerIngredientTitle').innerText = item.ingredient;
+      document.getElementById('drawerQtyLarge').innerText = item.quantity;
+      document.getElementById('drawerBeforeStock').innerText = item.before;
+      document.getElementById('drawerAfterStock').innerText = item.after;
+      document.getElementById('drawerDeltaStock').innerText = item.quantity;
+      document.getElementById('drawerTimestamp').innerText = item.date;
+      document.getElementById('drawerTypeName').innerText = item.type;
+      document.getElementById('drawerSourceReason').innerText = item.sourceReason;
+      document.getElementById('drawerNotes').innerText = `"${item.notes}"`;
+      document.getElementById('drawerStorageBin').innerHTML = `<span class="material-symbols-outlined text-[15px]">shelves</span><span>Storage: ${item.storage}</span>`;
+
+      // Recorded By display
+      const recordedWrap = document.getElementById('drawerRecordedByWrap');
+      if (item.isSystem) {
+        recordedWrap.innerHTML = `
+          <span class="material-symbols-outlined text-[16px] text-outline">smart_toy</span>
+          <span class="font-medium text-on-surface">System (Automated Bake Staging)</span>
+        `;
+      } else {
+        recordedWrap.innerHTML = `
+          <div class="w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-bold flex items-center justify-center">E</div>
+          <span class="font-medium text-on-surface">Elena Lim (Bakery Staff)</span>
+        `;
+      }
+
+      // Badge
+      const badge = document.getElementById('drawerBadge');
+      if (item.type === 'Restock') {
+        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-semibold bg-secondary-fixed text-on-secondary-fixed-variant';
+        badge.innerHTML = '<span class="material-symbols-outlined text-[13px]">add</span>Restock Event';
+      } else if (item.type === 'Consumption') {
+        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-semibold bg-surface-container text-secondary';
+        badge.innerHTML = '<span class="material-symbols-outlined text-[13px]">remove</span>Production Consumption';
+      } else if (item.type === 'Adjustment') {
+        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-semibold bg-primary-fixed text-on-primary-fixed-variant';
+        badge.innerHTML = '<span class="material-symbols-outlined text-[13px]">tune</span>Manual Adjustment';
+      } else {
+        badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[12px] font-semibold bg-tertiary-fixed text-on-tertiary-fixed-variant';
+        badge.innerHTML = '<span class="material-symbols-outlined text-[13px]">undo</span>Order Reversal';
+      }
+
+      // Order handoff card visibility
+      const orderCard = document.getElementById('orderHandoffCard');
+      const orderBadge = document.getElementById('drawerOrderBadge');
+      if (item.type === 'Consumption' && item.orderRef) {
+        orderCard.classList.remove('hidden');
+        orderBadge.innerText = item.orderRef;
+      } else {
+        orderCard.classList.add('hidden');
+      }
+
+      // Adjustment reversal card visibility (only for manual adjustments)
+      const reverseCard = document.getElementById('adjustmentReversalCard');
+      if (item.type === 'Adjustment') {
+        reverseCard.classList.remove('hidden');
+      } else {
+        reverseCard.classList.add('hidden');
+      }
+
+      // Open drawer UI
+      const drawer = document.getElementById('movementDrawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+      backdrop.classList.remove('pointer-events-none');
+      backdrop.classList.add('opacity-100');
+      drawer.classList.remove('translate-x-full');
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById('movementDrawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+      drawer.classList.add('translate-x-full');
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('pointer-events-none');
+    }
+
+    // Reversal confirmation modal
+    function openReverseModal() {
+      if (!selectedMovement) return;
+      document.getElementById('reverseIngredientText').innerText = selectedMovement.ingredient;
+      
+      // Calculate opposite quantity
+      const oppQty = selectedMovement.rawQty * -1;
+      const sign = oppQty > 0 ? '+' : '−';
+      document.getElementById('reverseAdjustmentText').innerText = `${sign}${Math.abs(oppQty)} ${selectedMovement.unit}`;
+
+      const modal = document.getElementById('reversalModal');
+      const card = document.getElementById('reversalModalCard');
+      modal.classList.remove('pointer-events-none');
+      modal.classList.add('opacity-100');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeReverseModal() {
+      const modal = document.getElementById('reversalModal');
+      const card = document.getElementById('reversalModalCard');
+      modal.classList.add('pointer-events-none');
+      modal.classList.remove('opacity-100');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+    }
+
+    function executeReversal() {
+      if (!selectedMovement) return;
+
+      const oppQty = selectedMovement.rawQty * -1;
+      const sign = oppQty > 0 ? '+' : '−';
+      const newQtyStr = `${sign}${Math.abs(oppQty)} ${selectedMovement.unit}`;
+
+      const compensatingRecord = {
+        id: `mov-${Date.now()}`,
+        date: "Oct 3, 2026 · 11:05 AM",
+        rawDate: "2026-10-03T11:05:00",
+        ingredient: selectedMovement.ingredient,
+        type: "Reversal",
+        quantity: newQtyStr,
+        rawQty: oppQty,
+        unit: selectedMovement.unit,
+        isPositive: oppQty > 0,
+        sourceReason: `Reversal · Restored prior ${selectedMovement.type.toLowerCase()}`,
+        isOrder: false,
+        orderRef: null,
+        recordedBy: "Elena Lim",
+        isSystem: false,
+        before: selectedMovement.after,
+        after: selectedMovement.before,
+        storage: selectedMovement.storage,
+        notes: `Compensating entry to reverse ${selectedMovement.id}. Stock restored.`
+      };
+
+      MOVEMENTS_DATA.unshift(compensatingRecord);
+      closeReverseModal();
+      closeDrawer();
+      resetToDefaultState();
+      showToast(`Compensating stock movement created: ${newQtyStr} for ${selectedMovement.ingredient}`);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.innerText = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3200);
+    }
+
+    // QA Scenario Handler
+    function handleScenarioChange(val) {
+      const tableWrapper = document.getElementById('tableWrapper');
+      const tableFooter = document.getElementById('tableFooter');
+      const emptyView = document.getElementById('ledgerEmpty');
+      const errorView = document.getElementById('ledgerError');
+      const skeletonView = document.getElementById('ledgerSkeleton');
+
+      closeDrawer();
+      closeReverseModal();
+      errorView.classList.add('hidden');
+      skeletonView.classList.add('hidden');
+      emptyView.classList.add('hidden');
+      tableWrapper.classList.remove('hidden');
+      tableFooter.classList.remove('hidden');
+
+      if (val === 'all') {
+        resetToDefaultState();
+      } else if (val === 'restocks') {
+        document.getElementById('typeFilter').value = 'Restock';
+        applyFilters();
+      } else if (val === 'consumption') {
+        document.getElementById('typeFilter').value = 'Consumption';
+        applyFilters();
+      } else if (val === 'adjustments') {
+        document.getElementById('typeFilter').value = 'Adjustment';
+        applyFilters();
+      } else if (val === 'drawerOrder') {
+        openDrawerById('mov-02');
+      } else if (val === 'drawerAdjust') {
+        openDrawerById('mov-03');
+      } else if (val === 'empty') {
+        renderTable([]);
+      } else if (val === 'loading') {
+        tableWrapper.classList.add('hidden');
+        tableFooter.classList.add('hidden');
+        skeletonView.classList.remove('hidden');
+      } else if (val === 'error') {
+        tableWrapper.classList.add('hidden');
+        tableFooter.classList.add('hidden');
+        errorView.classList.remove('hidden');
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTable(currentList);
+
+      document.getElementById('searchInput').addEventListener('input', applyFilters);
+      document.getElementById('typeFilter').addEventListener('change', applyFilters);
+      document.getElementById('ingredientFilter').addEventListener('change', applyFilters);
+      document.getElementById('dateFilter').addEventListener('change', applyFilters);
+      document.getElementById('sourceFilter').addEventListener('change', applyFilters);
+      document.getElementById('resetFiltersBtn').addEventListener('click', resetToDefaultState);
+
+      document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+      document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
+    });
+  </script>
+</body></html>

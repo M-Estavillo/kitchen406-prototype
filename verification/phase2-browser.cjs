@@ -67,10 +67,10 @@ const fs=require('node:fs');
  await go('cart');await action('sample-cart');await go('checkout/fulfillment');await click('[data-method="delivery"]');await click('[data-date="2026-10-16"]');
  for(const state of ['fully-booked','blocked','cutoff','stock','no-dates','normal']){await mock('dates',state);await assert('document.querySelector(".calendar-grid")!==null','calendar scenario '+state);}
  for(const state of ['loading','error','normal']){await mock('calendar',state);await assert('document.getElementById("commerce-view").textContent.length>100','calendar view '+state);}
- await go('payment/'+await run('firstOrder.id'));await action('payment-preview');
+ await go('payment/'+await run('firstOrder.id'));await action('payment-preview');await run('C.currentOrder().fulfillment.date="2026-10-31"');
  for(const state of ['detected','delayed','failed','expired','revalidation','waiting','confirmed']){await mock('payment',state);await assert('C.currentOrder().payment==='+JSON.stringify(state),'payment inspector '+state);}
  await go('orders/'+await run('firstOrder.id'));
- for(const state of ['pending-payment','confirmed','preparing','ready-delivery','ready-pickup','in-transit','completed','payment-failed','payment-resolution','cancelled','completed']){await mock('status',state);await assert('C.currentOrder().status==='+JSON.stringify(state),'order lifecycle '+state);}
+ for(const state of ['pending-payment','confirmed','preparing','ready-delivery','ready-pickup','in-transit','completed','payment-failed','payment-resolution','cancelled','completed']){await mock('status',state);await assert('C.currentOrder().status==='+JSON.stringify(['ready-delivery','ready-pickup','in-transit'].includes(state)?'ready':state),'order lifecycle '+state);}
  await go('checkout/fulfillment');await click('[data-method="delivery"]');await click('[data-date="2026-10-16"]');
  const routes=['cart','checkout/fulfillment','checkout/address','checkout/review','payment/'+await run('firstOrder.id'),'confirmation/'+await run('firstOrder.id'),'orders','orders/'+await run('firstOrder.id')];
  for(const width of [1440,768,390,320]){

@@ -9,7 +9,7 @@ const pageTemplates = {
 <div class="lg:col-span-8 flex flex-col">
 <div class="flex items-center gap-2 mb-3">
 </div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight max-w-2xl">
+<h1 class="hero-title text-on-surface tracking-tight leading-tight max-w-2xl">
               Thoughtful breads, pastries, and provisions.
             </h1>
 <p class="mt-4 font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -54,22 +54,6 @@ const pageTemplates = {
 <span>Pantry</span>
 <span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pantry">3</span>
 </button>
-</div>
-<!-- Search & Subscription Filter -->
-<div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-<!-- Subscription Filter Pill -->
-<label class="flex items-center gap-2 cursor-pointer select-none bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container hover:border-outline-variant transition-colors">
-<input class="accent-primary w-3.5 h-3.5 rounded cursor-pointer" id="subscription-toggle" type="checkbox">
-<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Available for subscription</span>
-</label>
-<!-- Search Input -->
-<div class="relative w-full sm:w-60 md:w-64">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">search</span>
-<input class="w-full h-9 pl-9 pr-8 bg-surface-container-low border border-surface-container rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all" aria-label="Search breads and pastries" id="product-search-input" placeholder="Search breads, pastries..." type="text">
-<button class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" aria-label="Clear search" id="clear-search-btn" type="button">
-<span class="material-symbols-outlined text-[16px]">close</span>
-</button>
-</div>
 </div>
 </div>
 </section>

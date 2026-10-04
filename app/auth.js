@@ -117,6 +117,12 @@ function submit(e){
   if(view==='sign-in'){
    const hash=await A.account.hash(values.password),known=A.account.records.find(p=>p.email.toLowerCase()===values.email.toLowerCase());
    if(S.generation!==generation||A.modal!=='auth-modal')return;
+   if(A.staff && values.email.toLowerCase()===A.staff.account.email.toLowerCase()){
+    const staff=A.staff,expected=staff.account.hash||await A.account.hash('Kitchen406!');
+    if(S.generation!==generation||A.modal!=='auth-modal')return;
+    if(hash!==expected||staff.account.status!=='active'||!staff.account.setup){S.mode='autherror';render();return;}
+    S.values={};staff.role='staff';A.auth='signedin';close();location.hash=A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff';A.shell.sync();return;
+   }
    if(known&&(known.status!=='active'||known.passwordHash&&known.passwordHash!==hash)){S.mode='autherror';render();return;}
    A.setAuth('signedin');A.account.current.passwordHash=hash;
    if(A.account.registration?.email.toLowerCase()===A.email.toLowerCase()){const v=A.account.registration;Object.assign(A.account.current,{first_name:v.firstName,last_name:v.lastName,mobile_number:A.account.mobile(v.mobile)});A.account.registration=null;}
