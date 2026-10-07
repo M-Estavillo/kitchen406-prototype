@@ -171,7 +171,7 @@ const pageTemplates = {
 <!-- Clean Editorial Photograph -->
 <div class="lg:col-span-5 relative">
 <div class="aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm">
-<img alt="Warm editorial photography of an elegant minimalist tiered celebration cake on a ceramic cake pedestal against a clean neutral warm cream linen backdrop" class="w-full h-full object-cover" src="assets/celebration-cake.jpg">
+<img alt="Custom celebration cake" class="w-full h-full object-cover" src="assets/custom-cake.png">
 </div>
 </div>
 <!-- Copy and Invitation -->
@@ -257,7 +257,7 @@ const pageTemplates = {
 <!-- LEFT COLUMN: Image Gallery & Badging -->
 <div class="lg:col-span-7 flex flex-col gap-space-md">
 <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm group">
-<img alt="Braided Chocolate Babka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="assets/product-14.jpg"/>
+<img alt="Braided Chocolate Babka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="assets/braided-chocolate-babka.png"/>
 <!-- Badging Overlay Area -->
 <div class="absolute top-4 left-4 flex flex-col items-start gap-2 z-10 pointer-events-none">
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-wider bg-[#EBF0EC] text-[#3D5941] shadow-sm" id="productBadgeAvailability">
@@ -272,11 +272,11 @@ const pageTemplates = {
 </div>
 <!-- Thumbnails -->
 <div id="product-gallery" class="flex items-center gap-space-md">
-<button class="thumb-btn active relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container ring-2 ring-primary transition-all" onclick="switchProductThumb('assets/product-14.jpg', 0)">
-<img alt="Braided Chocolate Babka loaf view" class="w-full h-full object-cover" src="assets/product-14.jpg"/>
+<button class="thumb-btn active relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container ring-2 ring-primary transition-all" onclick="switchProductThumb('assets/braided-chocolate-babka.png', 0)">
+<img alt="Braided Chocolate Babka loaf view" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
 </button>
-<button class="thumb-btn relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container opacity-70 hover:opacity-100 transition-all" onclick="switchProductThumb('assets/product-13.jpg', 1)">
-<img alt="Sliced bakery bread view" class="w-full h-full object-cover" src="assets/product-13.jpg"/>
+<button class="thumb-btn relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container opacity-70 hover:opacity-100 transition-all" onclick="switchProductThumb('assets/braided-chocolate-babka.png', 1)">
+<img alt="Braided Chocolate Babka" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
 </button>
 </div>
 </div>
@@ -556,10 +556,10 @@ const pageTemplates = {
 <!-- Attached Photos (Clickable Mock) -->
 <div class="flex gap-space-sm mt-space-xs">
 <div class="w-16 h-16 rounded bg-surface-container overflow-hidden cursor-pointer hover:opacity-90 transition-opacity" onclick="previewCustomerPhoto(this)">
-<img alt="Customer Babka slice photo" class="w-full h-full object-cover" src="assets/product-14.jpg"/>
+<img alt="Customer Babka slice photo" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
 </div>
 <div class="w-16 h-16 rounded bg-surface-container overflow-hidden cursor-pointer hover:opacity-90 transition-opacity" onclick="previewCustomerPhoto(this)">
-<img alt="Customer morning coffee pairing photo" class="w-full h-full object-cover" src="assets/product-13.jpg"/>
+<img alt="Braided Chocolate Babka review photo" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
 </div>
 </div>
 </article>

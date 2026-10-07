@@ -10,7 +10,7 @@ K406.products = [
           price: "From ₱340",
           subscription: true,
           available: true,
-          image: "assets/product-14.jpg"
+          image: "assets/braided-chocolate-babka.png"
         },
         {
           id: 2,
@@ -22,7 +22,7 @@ K406.products = [
           price: "₱280",
           subscription: true,
           available: true,
-          image: "assets/product-17.jpg"
+          image: "assets/country-sourdough-batard.png"
         },
         {
           id: 3,
@@ -34,7 +34,7 @@ K406.products = [
           price: "From ₱160",
           subscription: false,
           available: true,
-          image: "assets/product-19.jpg"
+          image: "assets/cardamom-kouign-amann.png"
         },
         {
           id: 4,
@@ -46,7 +46,7 @@ K406.products = [
           price: "From ₱220",
           subscription: true,
           available: true,
-          image: "assets/product-13.jpg"
+          image: "assets/japanese-shokupan.png"
         },
         {
           id: 5,
@@ -58,7 +58,7 @@ K406.products = [
           price: "₱190",
           subscription: false,
           available: true,
-          image: "assets/product-16.jpg"
+          image: "assets/ube-halaya-croissant.png"
         },
         {
           id: 6,
@@ -70,7 +70,7 @@ K406.products = [
           price: "From ₱240",
           subscription: false,
           available: false,
-          image: "assets/product-6.jpg"
+          image: "assets/vanilla-bean-sea-salt-canele.png"
         },
         {
           id: 7,
@@ -82,7 +82,7 @@ K406.products = [
           price: "₱260",
           subscription: false,
           available: true,
-          image: "assets/product-18.jpg"
+          image: "assets/rosemary-focaccia.png"
         },
         {
           id: 8,
@@ -94,7 +94,7 @@ K406.products = [
           price: "₱180",
           subscription: false,
           available: true,
-          image: "assets/product-20.jpg"
+          image: "assets/cultured-herb-honey-butter.png"
         },
         {
           id: 9,
@@ -106,7 +106,7 @@ K406.products = [
           price: "₱140",
           subscription: true,
           available: true,
-          image: "assets/product-16.jpg"
+          image: "assets/pandesal.png"
         },
         {
           id: 10,
@@ -118,7 +118,7 @@ K406.products = [
           price: "₱290",
           subscription: false,
           available: true,
-          image: "assets/product-19.jpg"
+          image: "assets/cinnamon-rolls.png"
         },
         {
           id: 11,
@@ -130,7 +130,7 @@ K406.products = [
           price: "₱320",
           subscription: false,
           available: true,
-          image: "assets/product-14.jpg"
+          image: "assets/dark-chocolate-brownies.png"
         },
         {
           id: 12,
@@ -142,7 +142,7 @@ K406.products = [
           price: "₱210",
           subscription: false,
           available: true,
-          image: "assets/product-20.jpg"
+          image: "assets/crispy-butter-cookies.png"
         },
         {
           id: 13,
@@ -154,7 +154,7 @@ K406.products = [
           price: "₱180",
           subscription: true,
           available: true,
-          image: "assets/product-13.jpg"
+          image: "assets/brioche-burger-buns.png"
         },
         {
           id: 14,
@@ -166,7 +166,7 @@ K406.products = [
           price: "₱310",
           subscription: false,
           available: true,
-          image: "assets/product-14.jpg"
+          image: "assets/banana-walnut-loaf.png"
         },
         {
           id: 15,
@@ -178,7 +178,7 @@ K406.products = [
           price: "₱330",
           subscription: true,
           available: false,
-          image: "assets/product-17.jpg"
+          image: "assets/kalamata-olive-sourdough.png"
         },
         {
           id: 16,
@@ -190,7 +190,7 @@ K406.products = [
           price: "₱195",
           subscription: false,
           available: true,
-          image: "assets/product-16.jpg"
+          image: "assets/twice-baked-almond-croissant.png"
         },
         {
           id: 17,
@@ -202,7 +202,7 @@ K406.products = [
           price: "₱150",
           subscription: false,
           available: true,
-          image: "assets/product-17.jpg"
+          image: "assets/traditional-baguette.png"
         },
         {
           id: 18,
@@ -214,7 +214,7 @@ K406.products = [
           price: "₱270",
           subscription: false,
           available: true,
-          image: "assets/product-18.jpg"
+          image: "assets/roasted-garlic-focaccia.png"
         },
         {
           id: 19,
@@ -226,7 +226,7 @@ K406.products = [
           price: "₱175",
           subscription: false,
           available: true,
-          image: "assets/product-19.jpg"
+          image: "assets/salted-caramel-tart.png"
         },
         {
           id: 20,
@@ -238,6 +238,6 @@ K406.products = [
           price: "₱170",
           subscription: false,
           available: true,
-          image: "assets/product-20.jpg"
+          image: "assets/whipped-sea-salt-butter.png"
         }
       ];

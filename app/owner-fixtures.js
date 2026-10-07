@@ -16,7 +16,7 @@ A.owner.seed=()=>{
  if(!D.subscription(product.id,1,dates)){B.syncSerial();const p={id:'SUB-PAY-'+(++B.state.serial),customer_id:customer,fixture:true,snapshot,revision:0,payment:'waiting',paid:false,created:Date.now(),deadline:Date.now()+600000,attempts:[{state:'waiting',at:Date.now()}]};B.state.purchases.push(p);B.pay(p,'confirmed');}}
  const T=A.cakeData,selection={shape:'round',flavor:'chocolate',size:'eight',color:'cream',icing:'buttercream'},options=T.categories.map(type=>T.options.find(o=>o.type===type&&o.id===selection[type])).filter(Boolean),addons=[];
  let cakeDate=D.add(date,7);for(let n=0;n<60&&K.dateReason(cakeDate);n++)cakeDate=D.add(cakeDate,1);
- const snapshot={options:C.copy(options),addons,images:[{url:'assets/celebration-cake.jpg',name:'Cake reference',status:'ready'}],notes:'Cream finish with botanical decoration. Review the proposed design.',address:C.copy(address),contact:C.copy(contact),date:cakeDate,window:'morning',windowLabel:K.windows(cakeDate).morning,method:'pickup'};
+ const snapshot={options:C.copy(options),addons,images:[{url:'assets/custom-cake.png',name:'Cake reference',status:'ready'}],notes:'Cream finish with botanical decoration. Review the proposed design.',address:C.copy(address),contact:C.copy(contact),date:cakeDate,window:'morning',windowLabel:K.windows(cakeDate).morning,method:'pickup'};
  const request={id:'CAKE-'+(++K.state.serial),fixture:true,customer_id:customer,status:'pending_review',created_at:Date.now(),estimated_price:options.reduce((n,o)=>n+o.price,0),accepted_quotation_id:null,snapshot};K.state.requests.unshift(request);
  A.operations.changed();A.toast('Shared owner examples loaded. Cake requests remain available for your review.');
 };

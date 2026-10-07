@@ -59,7 +59,7 @@ C.sampleOrders=()=>{
  if(S.orders.some(o=>o.fixture))return;
  ['preparing','pending-payment','completed','payment-resolution','confirmed','completed','ready-pickup'].forEach((status,i)=>{
  const items=[C.line(i===6?2:i%2?2:1,'standard',i%2?1:2)],pickup=i===1||i===6;
- if(i===4)items[0]={key:'cake:demo',productId:0,name:'Minimalist celebration cake',variant:'6-inch Earl Grey · Sample custom order',price:2450,quantity:1,image:'assets/celebration-cake.jpg',available:true};
+ if(i===4)items[0]={key:'cake:demo',productId:0,name:'Minimalist celebration cake',variant:'6-inch Earl Grey · Sample custom order',price:2450,quantity:1,image:'assets/custom-cake.png',available:true};
  S.orders.push({id:'K406-DEMO-'+(28+i),fixture:true,type:i===4?'cake':'standard',items,fulfillment:{method:pickup?'pickup':'delivery',date:'2026-10-16'},address:C.copy(S.addresses[0]||addresses()[0]),fee:pickup?0:A.quoteFee(),total:C.subtotal(items)+(pickup?0:A.quoteFee()),status,payment:status==='pending-payment'?'waiting':'confirmed',paid:status!=='pending-payment',created:new Date(2026,9,10-i).getTime(),deadline:Date.now()+600000,reference:'DEMO-QR-'+i,attempts:[{state:status==='pending-payment'?'waiting':'confirmed',at:'Demo history'}],activity:[{text:'Sample order '+status,at:'October 2026 fixture'}]});
  });
 };

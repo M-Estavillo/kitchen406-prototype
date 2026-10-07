@@ -36,7 +36,7 @@ K.paymentAction=(action,o)=>{
 };
 K.sampleDraft=()=>{
  K.resetDraft();let date=A.schedule.add(A.schedule.today(),10);for(let i=0;i<90&&K.dateReason(date);i++)date=A.schedule.add(date,1);
- Object.assign(K.state.draft,{date,window:'morning',addressId:A.addresses.active().find(a=>K.serviceable(a))?.address_id||'',selections:{shape:'round',flavor:'chocolate',size:'eight',color:'cream',icing:'buttercream'},addons:{decoration:2},notes:'Soft cream and sage colors with botanical details. Please add Happy Birthday.',images:[{url:'assets/celebration-cake.jpg',name:'cake-reference.jpg',size:240000,type:'image/jpeg',status:'ready'},null,null],reviewedPrice:130000});
+ Object.assign(K.state.draft,{date,window:'morning',addressId:A.addresses.active().find(a=>K.serviceable(a))?.address_id||'',selections:{shape:'round',flavor:'chocolate',size:'eight',color:'cream',icing:'buttercream'},addons:{decoration:2},notes:'Soft cream and sage colors with botanical details. Please add Happy Birthday.',images:[{url:'assets/custom-cake.png',name:'custom-cake.png',size:240000,type:'image/png',status:'ready'},null,null],reviewedPrice:130000});
 };
 V.inspector=select=>{
  const account=A.route==='account',mock=account?P.mock:K.mock;
