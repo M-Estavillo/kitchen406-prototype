@@ -7,8 +7,8 @@ const select=(id,title,values,value)=>'<label for="'+id+'">'+title+'</label><sel
 A.inspector=()=>{
  const auth=authRoutes.includes(A.route),product=A.returnRoute.startsWith('#/product/')||A.route==='product';
  let html='<strong>Kitchen406 · State Inspector</strong><p class="muted">UI simulation only. No real accounts, emails, payments, orders, or uploads are created.</p>';
- html+='<div class="mock-actions"><button data-staff="enter">Enter staff preview</button><button data-staff="customer">Return to customer</button></div><p class="muted">Staff preview password: Kitchen406! ? Recipes are sample quantities.</p>';
- if(A.route!=='staff')html+='<div class="mock-actions"><button data-production-review>Owner: review cake production copy</button></div>';
+ html+='<div class="mock-actions"><button data-owner="enter">Enter owner preview</button><button data-staff="enter">Enter staff preview</button><button data-staff="customer">Return to customer</button></div><p class="muted">Owner/staff preview password: Kitchen406! ? Recipes are sample quantities.</p>';
+ if(A.route==='owner')html+=select('mock-owner-mode','Owner page state',['normal','loading','empty','error'],A.owner.mode)+select('mock-owner-save','Owner save result',['normal','error'],A.owner.saveError?'error':'normal')+select('mock-owner-courier','Simulated courier response',['success','failure','unknown'],A.deliveries.outcome)+select('mock-owner-notification','Simulated notification delivery',['success','failure'],A.ownerCakes.notificationOutcome)+'<div class="mock-actions"><button data-owner="seed">Load owner examples</button></div>';
  if(A.route==='staff'){html+=select('mock-staff-mode','Staff page state',['normal','loading','empty','error'],A.staff.mode)+select('mock-staff-save','Staff save result',['normal','error'],A.staff.saveError?'error':'normal')+'<div class="mock-actions"><button data-staff="seed">Load staff orders</button></div>';}
  html+=select('mock-auth','Authentication',['guest','signedin'],A.auth);
  if(auth){
@@ -57,12 +57,14 @@ $('mock-panel').addEventListener('click',e=>{
 });
 function route(){ if(location.hash && !location.hash.startsWith('#/')){document.getElementById(location.hash.slice(1))?.scrollIntoView();return;}
  const parts=(location.hash||'#/shop').slice(2).split('/'),name=parts[0];
+ if(A.route==='owner'&&name!=='owner')A.owner.generation++;
  if(A.route==='staff'&&name!=='staff')A.staff.generation++;
  if(authRoutes.includes(name)){
   if(!authRoutes.includes(A.route)){A.returnRoute=A.currentHash||'#/shop';}
   A.route=name;A.authUI.show(name);document.title=titlesFor(name)+' · Kitchen406';return;
  }
- A.authUI.state.generation++;A.closeModal();A.route=name;A.currentHash=location.hash||'#/shop';
+ A.authUI.state.generation++;A.closeModal(true);A.route=name;A.currentHash=location.hash||'#/shop';
+ const owner=name==='owner';$('owner-view').hidden=!owner;if(!owner)$('owner-view').replaceChildren();
  const staff=name==='staff';$('staff-view').hidden=!staff;if(!staff)$('staff-view').replaceChildren();
  const commerce=A.commerce.routes.includes(name),subscription=A.subscriptions.routes.includes(name),phase4=A.phase4.routes.includes(name);
  if(!phase4)$('phase4-view').replaceChildren();
@@ -70,7 +72,8 @@ function route(){ if(location.hash && !location.hash.startsWith('#/')){document.
  if(!commerce)$('commerce-view').replaceChildren();
  if(!subscription)$('subscription-view').replaceChildren();
  $('subscription-view').hidden=!subscription;
- $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription||phase4||staff;
+ $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription||phase4||staff||owner;
+ if(owner){A.owner.show(parts);A.returnRoute=A.currentHash;document.title='Owner workspace ? Kitchen406';A.shell.sync();A.inspector();window.scrollTo(0,0);requestAnimationFrame(()=>$('owner-view').querySelector('h1')?.focus({preventScroll:true}));return;}
  if(staff){A.staff.show(parts);A.returnRoute=A.currentHash;document.title='Staff workspace — Kitchen406';A.shell.sync();A.inspector();window.scrollTo(0,0);requestAnimationFrame(()=>$('staff-view').querySelector('h1')?.focus({preventScroll:true}));return;}
  A.shell.sync();
  if(name==='product'){

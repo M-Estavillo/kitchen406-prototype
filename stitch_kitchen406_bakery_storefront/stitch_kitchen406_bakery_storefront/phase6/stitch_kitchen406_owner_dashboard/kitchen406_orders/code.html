@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#eae1dc",
+            "inverse-surface": "#30312e",
+            "outline-variant": "#d9c2b5",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#1f1b16",
+            "primary": "#6f3400",
+            "tertiary-container": "#7b736d",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e4e2df",
+            "primary-fixed": "#ffdcc7",
+            "secondary": "#635d59",
+            "on-primary-fixed": "#311300",
+            "on-secondary-container": "#69635f",
+            "surface": "#fbf9f6",
+            "on-tertiary-container": "#fffbff",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed-variant": "#4b4642",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "surface-container-low": "#f5f3f0",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#53443a",
+            "primary-fixed-dim": "#ffb787",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1b1c1a",
+            "background": "#fbf9f5",
+            "surface-container": "#efeeea",
+            "surface-bright": "#fbf9f6",
+            "outline": "#867368",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "primary-container": "#8d4a14",
+            "inverse-primary": "#ffb787",
+            "on-primary-container": "#ffc9a8",
+            "secondary-fixed": "#eae1db",
+            "on-secondary-fixed": "#1f1b18",
+            "on-primary": "#ffffff",
+            "surface-tint": "#904d17",
+            "surface-container-high": "#e9e8e4",
+            "tertiary": "#49433d",
+            "surface-variant": "#e4e2df",
+            "inverse-on-surface": "#f2f1ed"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "display": ["Playfair Display"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<!-- Mobile Sidebar Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 z-40 hidden lg:hidden" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+<!-- Persistent Sidebar (240px = w-60) -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface border-r border-outline-variant/60 z-50 flex flex-col justify-between overflow-y-auto transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant/40 flex items-center justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-tight">Kitchen406</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-0.5">Owner Workspace</p>
+</div>
+<button aria-label="Close sidebar" class="lg:hidden text-secondary hover:text-on-surface" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<nav class="px-space-xs py-space-sm flex flex-col gap-0.5" data-active-classes="bg-secondary-container text-primary font-semibold">
+<!-- Overview Group -->
+<div class="px-space-sm pt-space-sm pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overview</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#">
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Operations Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Operations</span>
+</div>
+<a aria-current="page" class="flex items-center px-space-sm py-1.5 rounded-lg transition-all bg-secondary-container text-primary font-semibold" data-path="orders" href="#">
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="payments" href="#">
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="deliveries" href="#">
+<span class="font-body-md text-body-md">Deliveries</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="inventory" href="#">
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="recipes-and-costing" href="#">
+<span class="font-body-md text-body-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="custom-cakes" href="#">
+<span class="font-body-md text-body-md">Custom Cakes</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="subscriptions" href="#">
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="capacity-calendar" href="#">
+<span class="font-body-md text-body-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="scheduling-blocked-dates" href="#">
+<span class="font-body-md text-body-md">Scheduling / Blocked Dates</span>
+</a>
+<!-- Management Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Management</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="products" href="#">
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories" href="#">
+<span class="font-body-md text-body-md">Categories</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ingredients" href="#">
+<span class="font-body-md text-body-md">Ingredients</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="cake-options-and-add-ons" href="#">
+<span class="font-body-md text-body-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="seasonal-occasions" href="#">
+<span class="font-body-md text-body-md">Seasonal Occasions</span>
+</a>
+<!-- Administration Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Administration</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="staff-accounts" href="#">
+<span class="font-body-md text-body-md">Staff Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="customer-accounts" href="#">
+<span class="font-body-md text-body-md">Customer Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reviews" href="#">
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="marketing-drafts" href="#">
+<span class="font-body-md text-body-md">Marketing Drafts</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">Review</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#">
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer -->
+<div class="p-space-sm border-t border-outline-variant/40 bg-surface flex flex-col gap-1">
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="notifications" href="#">
+<span class="font-body-md text-body-md">Notifications</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#">
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<div class="mt-space-xs pt-space-xs border-t border-outline-variant/30 flex items-center justify-between px-space-sm py-1">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Vance</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Owner</span>
+</div>
+<a class="text-secondary hover:text-error transition-colors p-1" data-path="login" href="#" title="Sign out">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Layout Area -->
+<div class="lg:pl-60 min-h-screen flex flex-col bg-background">
+<!-- Top Bar -->
+<header class="fixed top-0 left-0 lg:left-60 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-30 flex items-center justify-between px-space-md lg:px-space-lg shadow-[0_1px_8px_rgba(83,68,58,0.04)]">
+<div class="flex items-center gap-3">
+<button aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+<span class="font-body-md text-body-md text-secondary">Sunday, October 4, 2026</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="relative flex items-center justify-center p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] flex items-center justify-center leading-none font-semibold">5</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="relative pt-16 w-full flex-1 bg-background">
+<div class="px-4 sm:px-6 lg:px-margin py-8 lg:py-space-xl flex flex-col gap-space-lg max-w-[1440px] mx-auto w-full">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Orders</h1>
+<p class="font-body-md text-body-md text-secondary">
+              Monitor Kitchen406 orders from confirmation through production and fulfillment.
+            </p>
+</div>
+<!-- Sort Dropdown -->
+<div class="flex items-center gap-space-xs self-start md:self-auto">
+<div class="relative inline-block text-left" id="sort-menu-container">
+<button aria-expanded="false" aria-haspopup="true" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container shadow-sm border border-outline-variant/40 transition-all focus:outline-none" onclick="document.getElementById('sort-dropdown').classList.toggle('hidden')" type="button">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">SORT BY:</span>
+<span class="font-title-sm text-title-sm text-on-surface">Nearest Fulfillment</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">expand_more</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-56 rounded-lg bg-surface-container-lowest shadow-xl border border-outline-variant/40 z-20 py-1.5 focus:outline-none" id="sort-dropdown">
+<button class="w-full text-left px-3 py-2 font-body-md text-body-md text-primary bg-secondary-container/50 font-medium">Nearest Fulfillment</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-body-md text-on-surface hover:bg-surface-container">Order Date (Newest first)</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-body-md text-on-surface hover:bg-surface-container">Order Total (High to Low)</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-body-md text-on-surface hover:bg-surface-container">Customer Name (A-Z)</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Compact Order Queue Counters (Row of 4 Quick Filters) -->
+<section aria-label="Order summary queues" class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-space-md">
+<!-- Active Pill Card -->
+<button class="quick-filter-btn flex items-center justify-between p-4 rounded-lg bg-inverse-surface text-inverse-on-surface shadow-sm transition-all text-left group" onclick="setActiveFilter(this, 'active')" type="button">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim font-semibold">Active</span>
+<span class="font-headline-sm text-headline-sm text-surface-bright leading-tight font-medium mt-0.5">12</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-surface-bright">
+<span class="material-symbols-outlined text-[18px]">counter_1</span>
+</div>
+</button>
+<!-- Needs Attention Pill Card -->
+<button class="quick-filter-btn flex items-center justify-between p-4 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all text-left shadow-sm border border-outline-variant/40" onclick="setActiveFilter(this, 'attention')" type="button">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface font-semibold">Needs Attention</span>
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary-container leading-tight font-medium mt-0.5">2</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">priority_high</span>
+</div>
+</button>
+<!-- Ready Pill Card (renamed to strictly "READY") -->
+<button class="quick-filter-btn flex items-center justify-between p-4 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all text-left shadow-sm border border-outline-variant/40" onclick="setActiveFilter(this, 'ready')" type="button">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Ready</span>
+<span class="font-headline-sm text-headline-sm text-tertiary leading-tight font-medium mt-0.5">3</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+</button>
+<!-- Completed Pill Card -->
+<button class="quick-filter-btn flex items-center justify-between p-4 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all text-left shadow-sm border border-outline-variant/40" onclick="setActiveFilter(this, 'completed')" type="button">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Completed</span>
+<span class="font-headline-sm text-headline-sm text-secondary leading-tight font-medium mt-0.5">48</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">task_alt</span>
+</div>
+</button>
+</section>
+<!-- Search and Filter Toolbar (With Persistent Subtle Labels) -->
+<section class="p-4 bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant/40 flex flex-col gap-3">
+<div class="flex flex-col lg:flex-row gap-3 lg:items-end justify-between">
+<!-- Search Input (Comfortably Wide) -->
+<div class="flex-1 min-w-[280px]">
+<label class="block font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold mb-1" for="order-search">
+                Search
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-secondary pl-9 pr-3 py-2 rounded-lg font-body-md text-body-md border border-outline-variant/30 focus:bg-surface-container-lowest focus:border-primary focus:outline-none transition-colors" id="order-search" placeholder="Search order reference or customer" type="text"/>
+</div>
+</div>
+<!-- Filter Controls Group -->
+<div class="flex flex-wrap sm:flex-nowrap gap-2.5 items-end">
+<!-- Order Type -->
+<div class="flex flex-col min-w-[140px]">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold mb-1" for="filter-type">
+                  Order Type
+                </label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-md text-body-md pl-3 pr-8 py-2 rounded-lg border border-outline-variant/30 cursor-pointer focus:bg-surface-container-lowest focus:border-primary focus:outline-none" id="filter-type">
+<option value="">All Types</option>
+<option value="standard">Standard Order</option>
+<option value="subscription">Subscription Delivery</option>
+<option value="custom">Custom Cake</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Order Status -->
+<div class="flex flex-col min-w-[140px]">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold mb-1" for="filter-status">
+                  Order Status
+                </label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-md text-body-md pl-3 pr-8 py-2 rounded-lg border border-outline-variant/30 cursor-pointer focus:bg-surface-container-lowest focus:border-primary focus:outline-none" id="filter-status">
+<option value="">All Statuses</option>
+<option value="pending_payment">Pending Payment</option>
+<option value="payment_resolution_required">Payment Resolution Required</option>
+<option value="confirmed">Confirmed</option>
+<option value="preparing">Preparing</option>
+<option value="ready">Ready</option>
+<option value="completed">Completed</option>
+<option value="cancelled">Cancelled</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Fulfillment Method -->
+<div class="flex flex-col min-w-[130px]">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold mb-1" for="filter-fulfillment">
+                  Fulfillment
+                </label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-md text-body-md pl-3 pr-8 py-2 rounded-lg border border-outline-variant/30 cursor-pointer focus:bg-surface-container-lowest focus:border-primary focus:outline-none" id="filter-fulfillment">
+<option value="">All Methods</option>
+<option value="delivery">Delivery</option>
+<option value="pickup">Pickup</option>
+<option value="owner_delivery">Owner Delivery</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Fulfillment Date -->
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold mb-1">
+                  Fulfillment Date
+                </span>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container border border-outline-variant/30 font-body-md text-body-md whitespace-nowrap transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">calendar_today</span>
+<span>Oct 4 – Oct 11</span>
+</button>
+</div>
+<!-- Clear Filters -->
+<button class="text-secondary hover:text-primary-container font-label-md text-label-md transition-colors px-2 py-2 self-end mb-0.5" type="button">
+                Clear filters
+              </button>
+</div>
+</div>
+</section>
+<!-- Orders Table Card -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant/40 overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[1080px]">
+<thead>
+<tr class="bg-surface-container-high/60 text-secondary font-label-sm text-label-sm uppercase tracking-wider border-b border-outline-variant/40">
+<th class="py-3 px-5 font-semibold" scope="col">Order</th>
+<th class="py-3 px-4 font-semibold" scope="col">Type</th>
+<th class="py-3 px-4 font-semibold" scope="col">Items</th>
+<th class="py-3 px-4 font-semibold" scope="col">Fulfillment</th>
+<th class="py-3 px-4 font-semibold" scope="col">Order Status</th>
+<th class="py-3 px-4 font-semibold" scope="col">Payment Status</th>
+<th class="py-3 px-4 font-semibold text-right" scope="col">Total</th>
+<th class="py-3 px-6 font-semibold text-right" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-on-surface">
+<!-- ROW 1: K406-1052 | Payment Resolution Required -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer bg-primary-fixed/20 border-l-4 border-l-primary-container">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-primary font-bold tracking-tight">K406-1052</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Nina Garcia</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="font-body-md text-body-md text-on-surface-variant">Standard Order</span>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Japanese Milk Bread ×2</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">2 items</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Delivery · Thu, Oct 8, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="inline-flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Payment Resolution Required</span>
+</span>
+<span class="font-body-sm text-body-sm text-primary font-medium leading-tight">
+                        Paid — confirmation requires review
+                      </span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱1,180.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 2: K406-1048 | Preparing -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1048</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Maria Santos</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="font-body-md text-body-md text-on-surface-variant">Standard Order</span>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Sourdough Loaf ×2</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">+ 1 more (3 items)</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Delivery · Tue, Oct 6, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Preparing</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Paid</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱1,420.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 3: K406-1049 | Subscription Delivery Confirmed -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1049</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Carlo Reyes</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="flex flex-col items-start gap-0.5">
+<span class="font-body-md text-body-md text-on-surface font-medium">Subscription Delivery</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-[10px] font-semibold">Week 2 of 4</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Weekly Shokupan Loaf</span>
+<span class="font-body-sm text-body-sm text-secondary">1 item</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Delivery · Tue, Oct 6, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">
+<span>Confirmed</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm">
+                      Prepaid
+                    </span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-body-md text-body-md text-secondary italic">Prepaid</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 4: K406-1050 | Custom Cake Ready -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1050</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Angela Cruz</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-primary font-label-sm text-label-sm font-semibold">
+                      Custom Cake
+                    </span>
+</td>
+<td class="py-4 px-4 align-top max-w-[240px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">2-Tier Ube Leche Flan Celebration Cake</span>
+<span class="font-body-sm text-body-sm text-secondary">Custom gold leaf script finish</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">directions_car</span>
+<span class="font-medium">Owner Delivery · Wed, Oct 7, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Ready</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱3,800.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 5: K406-1051 | Standard Order Pending Payment -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1051</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Paolo Lim</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="font-body-md text-body-md text-on-surface-variant">Standard Order</span>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Bespoke Cinnamon Rolls</span>
+<span class="font-body-sm text-body-sm text-secondary">2 items (Box of 4)</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">storefront</span>
+<span>Pickup · Wed, Oct 7, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Pending Payment</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+<span>QR Ph Pending</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱760.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 6: K406-1046 | Standard Order Ready for Pickup -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1046</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Jasmine P.</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="font-body-md text-body-md text-on-surface-variant">Standard Order</span>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Pain au Chocolat ×4</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">4 items</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">storefront</span>
+<span class="font-medium text-primary">Pickup · Sun, Oct 4, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Ready</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Paid</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱1,450.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 7: K406-1042 | Standard Order Ready for Delivery -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">K406-1042</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Carlos D.</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="font-body-md text-body-md text-on-surface-variant">Standard Order</span>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Rustic Sourdough Batard</span>
+<span class="font-body-sm text-body-sm text-secondary">1 item</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_shipping</span>
+<span class="font-medium text-primary">Delivery · Sun, Oct 4, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>Ready</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+<span>Paid</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱890.00</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-primary hover:bg-secondary-container transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+<!-- ROW 8: K406-1045 | Subscription Delivery Completed -->
+<tr class="group hover:bg-[#FDFBF7] transition-colors relative cursor-pointer bg-surface-container-low/40">
+<td class="py-4 px-5 align-top">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-secondary font-bold tracking-tight">K406-1045</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">James Tan</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<div class="flex flex-col items-start gap-0.5">
+<span class="font-body-md text-body-md text-secondary font-medium">Subscription Delivery</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-[10px]">Week 1 of 4</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top max-w-[220px]">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-secondary">Artisan Country Loaf</span>
+<span class="font-body-sm text-body-sm text-secondary">1 item</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-body-md text-body-md text-secondary">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Delivery · Sat, Oct 3, 2026</span>
+</div>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">
+<span>Completed</span>
+</span>
+</td>
+<td class="py-4 px-4 align-top">
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm">
+                      Prepaid
+                    </span>
+</td>
+<td class="py-4 px-4 align-top text-right whitespace-nowrap">
+<span class="font-body-md text-body-md text-secondary italic">Prepaid</span>
+</td>
+<td class="py-4 px-6 align-top text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-secondary hover:text-primary transition-colors font-title-sm text-title-sm font-semibold" type="button">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-5 py-3.5 bg-surface-container-low/60 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+<span class="font-body-sm text-body-sm text-secondary">
+              Showing <span class="font-medium text-on-surface">1–8</span> of <span class="font-medium text-on-surface">12</span> active orders (48 completed)
+            </span>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors disabled:opacity-40" disabled="" type="button">
+                Previous
+              </button>
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm font-semibold flex items-center justify-center shadow-sm" type="button">
+                1
+              </button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container font-title-sm text-title-sm flex items-center justify-center transition-colors" type="button">
+                2
+              </button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors" type="button">
+                Next
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function setActiveFilter(button, filterKey) {
+      document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-inverse-surface', 'text-inverse-on-surface');
+        btn.classList.add('bg-surface-container-lowest', 'text-on-surface');
+        const countSpan = btn.querySelector('.font-headline-sm');
+        if (countSpan && !btn.classList.contains('text-primary-container')) {
+          countSpan.classList.remove('text-surface-bright');
+        }
+      });
+      button.classList.add('bg-inverse-surface', 'text-inverse-on-surface');
+      button.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+      const count = button.querySelector('.font-headline-sm');
+      if (count) count.classList.add('text-surface-bright');
+    }
+
+    // Close sort dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const container = document.getElementById('sort-menu-container');
+      const dropdown = document.getElementById('sort-dropdown');
+      if (container && !container.contains(e.target) && dropdown) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  </script>
+</body></html>

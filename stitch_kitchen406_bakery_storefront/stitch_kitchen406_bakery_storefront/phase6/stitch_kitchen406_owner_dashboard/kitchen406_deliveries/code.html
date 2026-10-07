@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Deliveries — Kitchen406 Owner Workspace</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #e4e2df; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #cfc5bd; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#eae1dc",
+            "inverse-surface": "#30312e",
+            "outline-variant": "#e8e2d9",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#1f1b16",
+            "primary": "#6f3400",
+            "tertiary-container": "#7b736d",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e4e2df",
+            "primary-fixed": "#ffdcc7",
+            "secondary": "#635d59",
+            "on-primary-fixed": "#311300",
+            "on-secondary-container": "#69635f",
+            "surface": "#fbf9f6",
+            "on-tertiary-container": "#fffbff",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed-variant": "#4b4642",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "surface-container-low": "#f5f3f0",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#53443a",
+            "primary-fixed-dim": "#ffb787",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1b1c1a",
+            "background": "#fbf9f5",
+            "surface-container": "#efeeea",
+            "surface-bright": "#fbf9f6",
+            "outline": "#867368",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "primary-container": "#8d4a14",
+            "inverse-primary": "#ffb787",
+            "on-primary-container": "#ffc9a8",
+            "secondary-fixed": "#eae1db",
+            "on-secondary-fixed": "#1f1b18",
+            "on-primary": "#ffffff",
+            "surface-tint": "#904d17",
+            "surface-container-high": "#e9e8e4",
+            "tertiary": "#49433d",
+            "surface-variant": "#e4e2df",
+            "inverse-on-surface": "#f2f1ed"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "display": ["Playfair Display"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    }
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased relative">
+<!-- Toast Notification -->
+<div class="fixed bottom-6 right-6 z-[80] translate-y-12 opacity-0 pointer-events-none transition-all duration-200 ease-out flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-inverse-surface text-inverse-on-surface text-body-sm shadow-lg" id="toast">
+<span class="material-symbols-outlined text-[18px] text-inverse-primary">check_circle</span>
+<span id="toast-message">Reference copied</span>
+</div>
+<!-- Mobile Sidebar Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 z-40 hidden lg:hidden" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+<!-- Persistent Sidebar (240px = w-60) -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface border-r border-outline-variant/60 z-50 flex flex-col justify-between overflow-y-auto transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant/40 flex items-center justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-tight">Kitchen406</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-0.5">Owner Workspace</p>
+</div>
+<button aria-label="Close sidebar" class="lg:hidden text-secondary hover:text-on-surface" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<nav class="px-space-xs py-space-sm flex flex-col gap-0.5">
+<!-- Overview Group -->
+<div class="px-space-sm pt-space-sm pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overview</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#">
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Operations Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Operations</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="orders" href="#">
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<!-- Payments: ACTIVE ITEM WITH TERRACOTTA / PRIMARY-CONTAINER TINT -->
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="payments" href="#">
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg bg-primary-fixed/60 text-primary-container font-semibold transition-all shadow-sm border-l-4 border-primary" data-path="deliveries" href="#">
+<span class="font-body-md text-body-md">Deliveries</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="inventory" href="#">
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="recipes-and-costing" href="#">
+<span class="font-body-md text-body-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="custom-cakes" href="#">
+<span class="font-body-md text-body-md">Custom Cakes</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="subscriptions" href="#">
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="capacity-calendar" href="#">
+<span class="font-body-md text-body-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="scheduling-blocked-dates" href="#">
+<span class="font-body-md text-body-md">Scheduling / Blocked Dates</span>
+</a>
+<!-- Management Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Management</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="products" href="#">
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories" href="#">
+<span class="font-body-md text-body-md">Categories</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ingredients" href="#">
+<span class="font-body-md text-body-md">Ingredients</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="cake-options-and-add-ons" href="#">
+<span class="font-body-md text-body-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="seasonal-occasions" href="#">
+<span class="font-body-md text-body-md">Seasonal Occasions</span>
+</a>
+<!-- Administration Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Administration</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="staff-accounts" href="#">
+<span class="font-body-md text-body-md">Staff Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="customer-accounts" href="#">
+<span class="font-body-md text-body-md">Customer Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reviews" href="#">
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="marketing-drafts" href="#">
+<span class="font-body-md text-body-md">Marketing Drafts</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">Review</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#">
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer -->
+<div class="p-space-sm border-t border-outline-variant/40 bg-surface flex flex-col gap-1">
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="notifications" href="#">
+<span class="font-body-md text-body-md">Notifications</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#">
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<div class="mt-space-xs pt-space-xs border-t border-outline-variant/30 flex items-center justify-between px-space-sm py-1">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Vance</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Owner</span>
+</div>
+<a class="text-secondary hover:text-error transition-colors p-1" data-path="login" href="#" title="Sign out">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Layout Area -->
+<div class="lg:pl-60 min-h-screen flex flex-col bg-background">
+<!-- Top Bar with Prototype View Switcher -->
+<header class="fixed top-0 left-0 lg:left-60 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-30 flex items-center justify-between px-space-md lg:px-space-lg shadow-[0_1px_8px_rgba(83,68,58,0.04)]">
+<div class="flex items-center gap-3">
+<button aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+<span class="font-body-md text-body-md text-secondary hidden sm:inline">Sunday, October 4, 2026</span>
+</div>
+<!-- Prototype State Switchers & User Chrome -->
+<div class="flex items-center gap-space-md">
+<!-- Prototype State Switchers -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg border border-outline-variant/40">
+<span class="font-label-sm text-[10px] text-secondary uppercase px-2 font-semibold tracking-wider hidden md:inline">View:</span>
+<div class="flex items-center gap-0.5">
+<button class="px-2 py-0.5 rounded text-xs font-medium transition-colors bg-surface-container-lowest text-primary font-semibold shadow-xs" id="state-btn-live" onclick="setViewMode('live')">Live</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-loading" onclick="setViewMode('loading')">Loading</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-empty" onclick="setViewMode('empty')">Empty</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-error" onclick="setViewMode('error')">Error</button>
+</div>
+</div>
+<div class="relative flex items-center justify-center p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] flex items-center justify-center leading-none font-semibold">5</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative pt-16 w-full flex-1 bg-background"><div class="flex flex-col w-full">
+<!-- Top Workspace Canvas Container -->
+<div class="px-space-md lg:px-space-lg py-space-md flex flex-col gap-space-lg">
+<!-- Page Header Area -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Owner Operations</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-0.5">Deliveries</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Book and monitor courier deliveries for orders that are ready for fulfillment.
+        </p>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-auto">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-label-md font-label-md transition-colors" onclick="refreshDeliveryStatuses()" type="button">
+<span class="material-symbols-outlined text-[17px] text-secondary">sync</span>
+<span>Refresh statuses</span>
+</button>
+</div>
+</div>
+<!-- Operational Summary Tiles (4 Triage Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md" id="summary-tiles-container">
+<!-- 1. Ready to Book -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between" onclick="setTabFilter('ready')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Ready to Book</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">Action Due</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-display text-headline-lg text-primary leading-none">3</span>
+<span class="font-body-sm text-body-sm text-secondary">orders</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+          Completed by kitchen, awaiting Lalamove dispatch.
+        </p>
+</div>
+<!-- 2. Booked -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between" onclick="setTabFilter('booked')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Booked</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Pending Pickup</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-display text-headline-lg text-on-surface leading-none">2</span>
+<span class="font-body-sm text-body-sm text-secondary">orders</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+          Courier requested, rider assigned or en route to bakery.
+        </p>
+</div>
+<!-- 3. In Transit -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between" onclick="setTabFilter('transit')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">In Transit</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">Collected</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-display text-headline-lg text-on-surface leading-none">4</span>
+<span class="font-body-sm text-body-sm text-secondary">orders</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+          Collected and on the way to customer destination.
+        </p>
+</div>
+<!-- 4. Delivery Issues -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between" onclick="setTabFilter('issues')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Delivery Issues</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">warning</span> Retry
+          </span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-display text-headline-lg text-error leading-none">1</span>
+<span class="font-body-sm text-body-sm text-secondary">flagged</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+          Failed bookings or provider rejection requiring manual retry.
+        </p>
+</div>
+</div>
+<!-- Delivery Workspace Section -->
+<div class="flex flex-col gap-space-sm bg-surface-container-lowest rounded-xl shadow-sm p-space-md lg:p-space-lg">
+<!-- Filter Toolbar -->
+<div class="flex flex-col gap-space-sm">
+<!-- Status Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar"><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-secondary-container text-on-secondary-fixed transition-colors whitespace-nowrap shadow-xs" id="tab-btn-active" onclick="setTabFilter('active')">Active (10)</button><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" id="tab-btn-ready" onclick="setTabFilter('ready')">Ready to Book (3)</button><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" id="tab-btn-booked" onclick="setTabFilter('booked')">Booked (2)</button><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" id="tab-btn-transit" onclick="setTabFilter('transit')">In Transit (4)</button><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" id="tab-btn-issues" onclick="setTabFilter('issues')">Issues (1)</button><button class="tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" id="tab-btn-delivered" onclick="setTabFilter('delivered')">Delivered (18)</button></div>
+<!-- Filter Inputs & Search -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-2.5 pt-1">
+<!-- Search -->
+<div class="md:col-span-5 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary">search</span>
+<input class="w-full pl-9 pr-8 py-2 rounded bg-surface-container-low text-body-md font-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest" id="delivery-search" oninput="applyDeliveryFilters()" placeholder="Search order reference or customer..." type="text"/>
+<button class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface" id="clear-search-icon" onclick="clearDeliverySearch()">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Order Type Filter -->
+<div class="md:col-span-3">
+<select class="w-full py-2 px-3 rounded bg-surface-container-low text-body-md font-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest" id="type-select" onchange="applyDeliveryFilters()">
+<option value="all">All Delivery Types</option>
+<option value="standard">Standard Order</option>
+<option value="subscription">Subscription Delivery</option>
+</select>
+</div>
+<!-- Fulfillment Date Filter -->
+<div class="md:col-span-2">
+<select class="w-full py-2 px-3 rounded bg-surface-container-low text-body-md font-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest" id="date-select" onchange="applyDeliveryFilters()"><option value="today">Today: Oct 4, 2026</option><option value="all-dates">All Scheduled Dates</option></select>
+</div>
+<!-- Sort Select -->
+<div class="md:col-span-2">
+<select class="w-full py-2 px-3 rounded bg-surface-container-low text-body-md font-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest" id="sort-select" onchange="applyDeliveryFilters()">
+<option value="action">Action required first</option>
+<option value="date-newest">Date: Soonest first</option>
+<option value="ref-desc">Order: High to low</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Desktop Delivery Queue Table -->
+<div class="overflow-x-auto mt-space-sm hidden md:block" id="table-wrapper">
+<table class="w-full text-left">
+<thead>
+<tr class="text-secondary font-label-sm text-label-sm uppercase tracking-wider bg-surface-container-low/70">
+<th class="py-2.5 px-space-md font-semibold">Order</th>
+<th class="py-2.5 px-space-sm font-semibold">Fulfillment Date</th>
+<th class="py-2.5 px-space-sm font-semibold">Customer</th>
+<th class="py-2.5 px-space-sm font-semibold">Delivery Destination</th>
+<th class="py-2.5 px-space-sm font-semibold">Delivery Fee</th>
+<th class="py-2.5 px-space-sm font-semibold">Courier Status</th>
+<th class="py-2.5 px-space-md text-right font-semibold">Action</th>
+</tr>
+</thead>
+<tbody class="text-body-md" id="deliveries-tbody">
+<!-- Rendered dynamically -->
+</tbody>
+</table>
+</div>
+<!-- Mobile Delivery Cards Container -->
+<div class="flex flex-col gap-2 md:hidden mt-2" id="mobile-cards-wrapper">
+<!-- Rendered dynamically -->
+</div>
+<!-- Empty / Filter State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-16 px-4 text-center" id="deliveries-empty-state">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary mb-3">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface" id="empty-state-title">No deliveries match filter</h4>
+<p class="font-body-md text-body-md text-secondary max-w-sm mt-1" id="empty-state-desc">
+          Try clearing search keywords or switching tabs to view scheduled courier packages.
+        </p>
+<button class="mt-4 px-3.5 py-1.5 rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" onclick="clearAllFilters()" type="button">
+          Reset All Filters
+        </button>
+</div>
+<!-- Footer Info -->
+<div class="flex items-center justify-between pt-space-sm mt-2 text-xs text-secondary font-body-sm">
+<span id="queue-count-label">Showing 6 delivery dispatches</span>
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Automated Lalamove webhook sync active</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- ACTIVE DETAIL OVERLAY DRAWER (Right-side slide-over)     -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-100 flex justify-end" id="delivery-drawer-backdrop" onclick="closeDeliveryDrawer()">
+<aside class="h-screen w-full md:w-[460px] bg-surface-container-lowest shadow-2xl z-50 flex flex-col justify-between overflow-y-auto transition-transform duration-300 ease-in-out translate-x-0" id="delivery-drawer" onclick="event.stopPropagation()">
+<!-- Top Header -->
+<div class="p-space-md lg:p-space-lg flex flex-col gap-space-md flex-1">
+<div class="flex items-start justify-between pb-space-xs">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Courier Dispatch Details</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Delivery Details</h3>
+</div>
+<button aria-label="Close delivery details" class="text-secondary hover:text-on-surface p-1.5 rounded hover:bg-surface-container-high transition-colors" onclick="closeDeliveryDrawer()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Order Summary Card -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-3"><div class="flex items-center justify-between"><div><span class="font-title-md text-title-md text-on-surface font-bold" id="drawer-order-id">Order K406-1048</span><span class="block font-body-sm text-body-sm text-secondary" id="drawer-order-type">Standard Order · Today, Oct 4, 2026</span></div><div class="flex items-center gap-1.5"><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold" id="drawer-bakery-pill">Bakery: Ready</span><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold" id="drawer-courier-pill">Ready to Book</span></div></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">This order is ready for delivery. Kitchen406 will use the confirmed delivery information from checkout when requesting a courier.</p><div class="flex flex-col gap-2 pt-1" id="drawer-primary-action-wrap"><button class="w-full py-2.5 px-4 rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm transition-colors" onclick="promptBookingModal('K406-1048')" type="button"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Book Lalamove Courier</span></button><a class="text-center font-label-md text-label-md text-primary hover:text-primary-container py-1 transition-colors" href="#" onclick="showToast('Navigating to full Order Details...')">View Full Order →</a></div></div>
+<!-- Section 1: Delivery Destination -->
+<div class="flex flex-col gap-2 p-space-md rounded-xl bg-surface-container-low"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Delivery Destination</span><span class="px-2 py-0.5 rounded text-[11px] font-label-sm bg-surface-container text-secondary font-medium">Address used for this order</span></div><div class="flex flex-col text-on-surface"><span class="font-title-sm text-title-sm font-bold" id="drawer-cust-name">Maria Santos</span><span class="font-body-sm text-body-sm text-secondary font-mono mt-0.5" id="drawer-cust-phone">+63 920 882 1104</span></div><div class="p-2.5 rounded bg-surface-container-lowest mt-1"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">location_on</span><span class="font-body-sm text-body-sm text-on-surface leading-snug" id="drawer-full-address">Unit 402, Acacia Residences, Gorordo Avenue, Lahug, Cebu City 6000</span></div></div><div class="flex items-center justify-between pt-1 text-xs text-secondary"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm bg-secondary-container px-2 py-0.5 rounded text-on-secondary-container"><span class="material-symbols-outlined text-[12px]">location_city</span> Lahug, Cebu City</span><span class="italic text-[11px]">Read-only checkout snapshot</span></div></div>
+<!-- Section 2: Order Package Summary -->
+<div class="flex flex-col gap-2.5 p-space-md rounded-xl bg-surface-container-low"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Order Package Summary</span><span class="font-label-sm text-label-sm text-secondary font-semibold">3 items</span></div><div class="flex flex-col gap-1.5"><div class="flex items-center justify-between text-body-sm text-on-surface p-2 rounded bg-surface-container-lowest"><span>Pandesal Loaf (Pack of 12)</span><span class="font-semibold">× 2</span></div><div class="flex items-center justify-between text-body-sm text-on-surface p-2 rounded bg-surface-container-lowest"><span>Bespoke Cinnamon Rolls (Box of 4)</span><span class="font-semibold">× 1</span></div><div class="flex items-center justify-between text-body-sm text-on-surface p-2 rounded bg-surface-container-lowest"><span>Fudgy Chocolate Brownies (Box of 6)</span><span class="font-semibold">× 2</span></div></div></div>
+<!-- Section 3: Delivery Fee -->
+<div class="flex flex-col gap-1.5 p-space-md rounded-xl bg-surface-container-low"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Delivery Fee</span><div class="flex items-center justify-between"><span class="font-body-sm text-body-sm text-secondary">Delivery Fee:</span><span class="font-price-md text-price-md font-bold text-on-surface" id="drawer-fee">₱100.00</span></div><p class="font-body-sm text-body-sm text-on-surface-variant text-xs leading-relaxed pt-1">Included in the customer's paid order total.</p></div>
+<!-- Section 4: Courier Lifecycle Timeline -->
+<div class="flex flex-col gap-2 p-space-md rounded-xl bg-surface-container-low"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Courier Lifecycle Timeline</span><div class="flex flex-col gap-3 relative pl-4 mt-1 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-highest"><div class="relative flex items-start gap-2.5"><span class="w-3.5 h-3.5 rounded-full bg-tertiary flex items-center justify-center text-on-tertiary text-[10px] shrink-0 mt-0.5 -ml-[19px]">✓</span><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface">Order Ready</span><span class="font-body-sm text-body-sm text-secondary text-xs">Oct 4, 2026 · 8:45 AM</span></div></div><div class="relative flex items-start gap-2.5"><span class="w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center text-on-primary text-[9px] shrink-0 mt-0.5 -ml-[19px]">●</span><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary font-semibold">Courier Booking</span><span class="font-body-sm text-body-sm text-secondary text-xs">Ready to Book (Waiting for owner trigger)</span></div></div><div class="relative flex items-start gap-2.5 opacity-60"><span class="w-3.5 h-3.5 rounded-full bg-surface-container-highest shrink-0 mt-0.5 -ml-[19px]"></span><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface">Courier In Transit</span><span class="font-body-sm text-body-sm text-secondary text-xs">Pending pickup</span></div></div><div class="relative flex items-start gap-2.5 opacity-60"><span class="w-3.5 h-3.5 rounded-full bg-surface-container-highest shrink-0 mt-0.5 -ml-[19px]"></span><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface">Delivered</span><span class="font-body-sm text-body-sm text-secondary text-xs">Pending drop-off</span></div></div></div><p class="font-body-sm text-body-sm text-secondary text-[11px] pt-2 leading-relaxed">Courier progress updates automatically when Kitchen406 receives status updates from Lalamove.</p></div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-space-md border-t border-outline-variant/30 bg-surface-container-lowest flex gap-2">
+<button class="flex-1 py-2 px-3 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="closeDeliveryDrawer()" type="button">
+        Close Drawer
+      </button>
+</div>
+</aside>
+</div>
+<!-- ======================================================== -->
+<!-- INTERACTIVE CONFIRMATION MODAL: BOOK COURIER             -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-[90] hidden items-center justify-center p-4" id="booking-modal-overlay">
+<div class="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-2xl p-space-md lg:p-space-lg flex flex-col gap-4 animate-in fade-in zoom-in duration-200">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Book courier for this order?</h3>
+<span class="font-label-sm text-label-sm text-secondary">Kitchen406 × Lalamove Direct Dispatch</span>
+</div>
+</div>
+<button class="text-secondary hover:text-on-surface p-1 rounded hover:bg-surface-container transition-colors" onclick="closeBookingModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1.5 text-xs text-secondary">
+<div class="flex justify-between">
+<span>Order:</span>
+<span class="font-semibold text-on-surface" id="modal-order-id">K406-1048</span>
+</div>
+<div class="flex justify-between">
+<span>Recipient:</span>
+<span class="font-medium text-on-surface" id="modal-customer">Maria Santos</span>
+</div>
+<div class="flex justify-between">
+<span>Destination:</span>
+<span class="font-medium text-on-surface truncate max-w-[200px]" id="modal-destination">Acacia Residences, Lahug</span>
+</div>
+<div class="flex justify-between pt-1 border-t border-surface-container-highest">
+<span>Courier Fee:</span>
+<span class="font-bold text-primary" id="modal-fee">₱100.00 (Customer Prepaid)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+      The courier request will be sent immediately using the delivery details confirmed for this order. A rider will be scheduled for bakery pickup.
+    </p>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 px-3 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="closeBookingModal()" type="button">
+        Cancel
+      </button>
+<button class="flex-1 py-2 px-3 rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors shadow-sm" onclick="confirmCourierBooking()" type="button">
+<span>Confirm Booking</span>
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- SCRIPT: APPLICATION LOGIC & MOCK DATA                    -->
+<!-- ======================================================== -->
+<script>
+  // Strictly adhering to business rules:
+  // - No custom cakes
+  // - No pickup orders
+  // - Provider-driven lifecycle statuses
+  const DELIVERIES_DATA = [
+    {
+      orderId: 'K406-1048',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      dateText: 'Oct 6, 2026',
+      dateKey: 'oct-6',
+      customer: 'Maria Santos',
+      phone: '+63 920 882 1104',
+      destination: 'Acacia Residences, Lahug, Cebu City',
+      fullAddress: 'Unit 402, Acacia Residences, Gorordo Avenue, Lahug, Cebu City 6000',
+      note: 'Please leave at lobby concierge if unavailable. Ring doorbell 402.',
+      fee: '₱100.00',
+      status: 'ready',
+      statusBadge: 'Ready to Book',
+      trackingRef: null,
+      bakeryStatus: 'Ready'
+    },
+    {
+      orderId: 'K406-1049',
+      type: 'Subscription Delivery · Week 2 of 4',
+      typeCode: 'subscription',
+      dateText: 'Oct 6, 2026',
+      dateKey: 'oct-6',
+      customer: 'Carlo Reyes',
+      phone: '+63 917 554 2901',
+      destination: 'Maria Luisa Estate Park, Banilad, Cebu City',
+      fullAddress: 'Phase 8, Lot 14, Maria Luisa Estate Park, Banilad, Cebu City 6000',
+      note: 'Gate code 4492. Leave on garden bench.',
+      fee: '₱120.00',
+      status: 'ready',
+      statusBadge: 'Ready to Book',
+      trackingRef: null,
+      bakeryStatus: 'Ready'
+    },
+    {
+      orderId: 'K406-1052',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      dateText: 'Today · Oct 4, 2026',
+      dateKey: 'today',
+      customer: 'Nina Garcia',
+      phone: '+63 918 332 9901',
+      destination: 'Baseline Residences, Juana Osmeña, Cebu City',
+      fullAddress: 'Tower 1, Unit 12B, Baseline Residences, Juana Osmeña Ext., Cebu City 6000',
+      note: 'Rider call before arriving. Tower security requires ID.',
+      fee: '₱90.00',
+      status: 'issues',
+      statusBadge: 'Booking Failed',
+      trackingRef: null,
+      bakeryStatus: 'Ready'
+    },
+    {
+      orderId: 'K406-1044',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      dateText: 'Today · Oct 4, 2026',
+      dateKey: 'today',
+      customer: 'Joshua Tan',
+      phone: '+63 922 411 0089',
+      destination: 'AppleOne Tower, Cebu Business Park, Cebu City',
+      fullAddress: '15th Floor Suite 1502, AppleOne Equicom Tower, Mindanao Ave, CBP, Cebu City',
+      note: 'Hand to reception desk.',
+      fee: '₱110.00',
+      status: 'transit',
+      statusBadge: 'In Transit',
+      trackingRef: 'LLM-2940112',
+      bakeryStatus: 'Dispatched'
+    },
+    {
+      orderId: 'K406-1043',
+      type: 'Subscription Delivery · Week 1 of 4',
+      typeCode: 'subscription',
+      dateText: 'Today · Oct 4, 2026',
+      dateKey: 'today',
+      customer: 'Elena Lim',
+      phone: '+63 908 771 2234',
+      destination: 'Solinea Tower 2, Cebu Business Park, Cebu City',
+      fullAddress: 'Unit 912, Solinea Tower 2, Cardinal Rosales Ave, Cebu Business Park, Cebu City',
+      note: 'Drop off at mail reception.',
+      fee: '₱105.00',
+      status: 'booked',
+      statusBadge: 'Booked',
+      trackingRef: 'LLM-2940899',
+      bakeryStatus: 'Ready'
+    },
+    {
+      orderId: 'K406-1040',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      dateText: 'Today · Oct 4, 2026',
+      dateKey: 'today',
+      customer: 'Beatriz Gomez',
+      phone: '+63 917 662 4455',
+      destination: 'Avenir Building, Archbishop Reyes Ave, Cebu City',
+      fullAddress: 'Unit 704, Avenir Building, Archbishop Reyes Ave, Lahug, Cebu City 6000',
+      note: 'Delivered to office pantry.',
+      fee: '₱95.00',
+      status: 'delivered',
+      statusBadge: 'Delivered',
+      trackingRef: 'LLM-2939882',
+      bakeryStatus: 'Completed'
+    }
+  ];
+
+  let activeDeliveryTab = 'all';
+  let activeSelectedOrderId = 'K406-1048'; // Default open preview
+  let pendingBookingOrderId = null;
+
+  function renderStatusBadge(item) {
+    if (item.status === 'ready') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Ready to Book
+      </span>`;
+    } else if (item.status === 'booked') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Booked <span class="text-secondary font-mono text-[11px]">(${item.trackingRef})</span>
+      </span>`;
+    } else if (item.status === 'transit') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> In Transit
+      </span>`;
+    } else if (item.status === 'delivered') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Delivered
+      </span>`;
+    } else if (item.status === 'issues') {
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+        <span class="material-symbols-outlined text-[13px]">warning</span> Booking Failed
+      </span>`;
+    }
+    return '';
+  }
+
+  function renderActionButton(item) {
+    if (item.status === 'ready') {
+      return `<button onclick="event.stopPropagation(); promptBookingModal('${item.orderId}')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-primary text-on-primary hover:bg-primary-container text-label-sm font-label-sm transition-colors shadow-xs">
+        <span>Book Courier</span> <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+      </button>`;
+    } else if (item.status === 'issues') {
+      return `<button onclick="event.stopPropagation(); promptBookingModal('${item.orderId}')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-error-container text-on-error-container hover:bg-error/20 text-label-sm font-label-sm font-semibold transition-colors">
+        <span>Retry Booking</span> <span class="material-symbols-outlined text-[14px]">refresh</span>
+      </button>`;
+    } else if (item.status === 'delivered') {
+      return `<button onclick="event.stopPropagation(); openDeliveryDrawer('${item.orderId}')" class="inline-flex items-center gap-1 text-secondary hover:text-on-surface text-label-sm font-label-sm transition-colors">
+        <span>View Details</span> <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      </button>`;
+    } else {
+      return `<button onclick="event.stopPropagation(); openDeliveryDrawer('${item.orderId}')" class="inline-flex items-center gap-1 text-primary hover:text-primary-container text-label-sm font-label-sm font-semibold transition-colors">
+        <span>View Delivery</span> <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+      </button>`;
+    }
+  }
+
+  function renderQueue(items) {
+    const tbody = document.getElementById('deliveries-tbody');
+    const mobileWrap = document.getElementById('mobile-cards-wrapper');
+    const emptyState = document.getElementById('deliveries-empty-state');
+    const tableWrap = document.getElementById('table-wrapper');
+    const countLabel = document.getElementById('queue-count-label');
+
+    if (items.length === 0) {
+      tableWrap.classList.add('hidden');
+      mobileWrap.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      countLabel.innerText = 'Showing 0 delivery dispatches';
+      return;
+    }
+
+    tableWrap.classList.remove('hidden');
+    mobileWrap.classList.remove('hidden');
+    emptyState.classList.add('hidden');
+    countLabel.innerText = `Showing ${items.length} delivery dispatches`;
+
+    // Render Table
+    tbody.innerHTML = items.map(item => {
+      const isSelected = item.orderId === activeSelectedOrderId;
+      const isIssue = item.status === 'issues';
+      const rowBg = isSelected 
+        ? 'bg-primary-fixed/20' 
+        : isIssue 
+          ? 'bg-error-container/20 hover:bg-error-container/30' 
+          : 'hover:bg-surface-container-low';
+
+      return `
+        <tr class="cursor-pointer transition-colors ${rowBg}" onclick="openDeliveryDrawer('${item.orderId}')">
+          <td class="py-3 px-space-md">
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm ${isSelected ? 'text-primary font-bold' : 'text-on-surface'}">${item.orderId}</span>
+              <span class="font-body-sm text-body-sm text-secondary">${item.type}</span>
+            </div>
+          </td>
+          <td class="py-3 px-space-sm font-body-sm text-body-sm text-on-surface">${item.dateText}</td>
+          <td class="py-3 px-space-sm">
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm text-on-surface">${item.customer}</span>
+              <span class="font-body-sm text-body-sm text-secondary text-xs">${item.phone}</span>
+            </div>
+          </td>
+          <td class="py-3 px-space-sm">
+            <span class="font-body-sm text-body-sm text-on-surface line-clamp-1 max-w-[220px]" title="${item.destination}">
+              ${item.destination}
+            </span>
+          </td>
+          <td class="py-3 px-space-sm">
+            <div class="flex flex-col">
+              <span class="font-price-md text-price-md font-bold text-on-surface">${item.fee}</span>
+              <span class="font-body-sm text-[11px] text-secondary">Paid at checkout</span>
+            </div>
+          </td>
+          <td class="py-3 px-space-sm">
+            ${renderStatusBadge(item)}
+          </td>
+          <td class="py-3 px-space-md text-right">
+            ${renderActionButton(item)}
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Render Mobile Cards
+    mobileWrap.innerHTML = items.map(item => {
+      const isSelected = item.orderId === activeSelectedOrderId;
+      return `
+        <div onclick="openDeliveryDrawer('${item.orderId}')" class="p-3.5 rounded-lg border ${isSelected ? 'bg-primary-fixed/20 border-primary-fixed' : 'bg-surface-container-low border-surface-container'} flex flex-col gap-2 cursor-pointer">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-title-sm text-title-sm font-bold text-on-surface">${item.orderId}</span>
+              <span class="block font-body-sm text-body-sm text-secondary">${item.type}</span>
+            </div>
+            ${renderStatusBadge(item)}
+          </div>
+          <div class="text-xs text-secondary flex flex-col gap-0.5 pt-1 border-t border-surface-container-highest">
+            <div><strong class="text-on-surface">${item.customer}</strong> · ${item.phone}</div>
+            <div class="text-on-surface-variant">${item.destination}</div>
+            <div class="text-on-surface pt-1 flex justify-between">
+              <span>Date: ${item.dateText}</span>
+              <span class="font-bold text-primary">Fee: ${item.fee}</span>
+            </div>
+          </div>
+          <div class="pt-2 flex justify-end">
+            ${renderActionButton(item)}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function applyDeliveryFilters() {
+    const searchVal = document.getElementById('delivery-search').value.trim().toLowerCase();
+    const typeVal = document.getElementById('type-select').value;
+    const dateVal = document.getElementById('date-select').value;
+    const sortVal = document.getElementById('sort-select').value;
+    const clearIcon = document.getElementById('clear-search-icon');
+
+    if (searchVal.length > 0) {
+      clearIcon.classList.remove('hidden');
+    } else {
+      clearIcon.classList.add('hidden');
+    }
+
+    let filtered = DELIVERIES_DATA.filter(item => {
+      // Tab filter
+      if (activeDeliveryTab !== 'all') {
+        if (item.status !== activeDeliveryTab) return false;
+      }
+      // Type filter
+      if (typeVal !== 'all' && item.typeCode !== typeVal) return false;
+      // Date filter
+      if (dateVal !== 'all-dates' && item.dateKey !== dateVal) return false;
+      // Search
+      if (searchVal) {
+        const matchesRef = item.orderId.toLowerCase().includes(searchVal);
+        const matchesCust = item.customer.toLowerCase().includes(searchVal);
+        if (!matchesRef && !matchesCust) return false;
+      }
+      return true;
+    });
+
+    // Sorting
+    filtered.sort((a, b) => {
+      if (sortVal === 'action') {
+        const orderPriority = { 'ready': 1, 'issues': 2, 'booked': 3, 'transit': 4, 'delivered': 5 };
+        return (orderPriority[a.status] || 99) - (orderPriority[b.status] || 99);
+      } else if (sortVal === 'ref-desc') {
+        return b.orderId.localeCompare(a.orderId);
+      }
+      return 0;
+    });
+
+    renderQueue(filtered);
+  }
+
+  function setTabFilter(tabKey) {
+    activeDeliveryTab = tabKey;
+    const tabs = ['all', 'ready', 'booked', 'transit', 'delivered', 'issues'];
+    tabs.forEach(t => {
+      const btn = document.getElementById(`tab-btn-${t}`);
+      if (btn) {
+        if (t === tabKey) {
+          btn.className = 'tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-secondary-container text-on-secondary-fixed transition-colors whitespace-nowrap shadow-xs';
+        } else {
+          btn.className = 'tab-btn px-3 py-1.5 rounded text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap';
+        }
+      }
+    });
+    applyDeliveryFilters();
+  }
+
+  function clearDeliverySearch() {
+    document.getElementById('delivery-search').value = '';
+    document.getElementById('clear-search-icon').classList.add('hidden');
+    applyDeliveryFilters();
+  }
+
+  function clearAllFilters() {
+    document.getElementById('delivery-search').value = '';
+    document.getElementById('type-select').value = 'all';
+    document.getElementById('date-select').value = 'today';
+    document.getElementById('sort-select').value = 'action';
+    clearDeliverySearch();
+    setTabFilter('all');
+  }
+
+  // Slide-over Drawer Interactions
+  function openDeliveryDrawer(orderId) {
+    activeSelectedOrderId = orderId;
+    const item = DELIVERIES_DATA.find(d => d.orderId === orderId);
+    if (!item) return;
+
+    // Update Drawer Elements
+    document.getElementById('drawer-order-id').innerText = `Order ${item.orderId}`;
+    document.getElementById('drawer-order-type').innerText = item.type;
+    document.getElementById('drawer-cust-name').innerText = item.customer;
+    document.getElementById('drawer-cust-phone').innerText = item.phone;
+    document.getElementById('drawer-full-address').innerText = item.fullAddress;
+    document.getElementById('drawer-courier-note').innerText = `"${item.note}"`;
+    document.getElementById('drawer-fee').innerText = item.fee;
+
+    const pill = document.getElementById('drawer-courier-pill');
+    pill.innerText = item.statusBadge;
+    if (item.status === 'ready') {
+      pill.className = 'px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold';
+    } else if (item.status === 'issues') {
+      pill.className = 'px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold';
+    } else {
+      pill.className = 'px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-medium';
+    }
+
+    const actionWrap = document.getElementById('drawer-primary-action-wrap');
+    if (item.status === 'ready') {
+      actionWrap.innerHTML = `
+        <button onclick="promptBookingModal('${item.orderId}')" class="w-full py-2.5 px-4 rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm transition-colors" type="button">
+          <span class="material-symbols-outlined text-[18px]">local_shipping</span>
+          <span>Book Lalamove Courier</span>
+        </button>
+        <a href="#" onclick="showToast('Navigating to full Order Details...')" class="text-center font-label-md text-label-md text-primary hover:text-primary-container py-1 transition-colors">
+          View Full Order →
+        </a>
+      `;
+    } else if (item.status === 'issues') {
+      actionWrap.innerHTML = `
+        <button onclick="promptBookingModal('${item.orderId}')" class="w-full py-2.5 px-4 rounded bg-error text-on-error hover:bg-error-container hover:text-on-error-container font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm transition-colors" type="button">
+          <span class="material-symbols-outlined text-[18px]">refresh</span>
+          <span>Retry Lalamove Booking</span>
+        </button>
+        <a href="#" onclick="showToast('Navigating to full Order Details...')" class="text-center font-label-md text-label-md text-primary hover:text-primary-container py-1 transition-colors">
+          View Full Order →
+        </a>
+      `;
+    } else {
+      actionWrap.innerHTML = `
+        <div class="p-2.5 rounded bg-surface-container flex items-center justify-between text-xs">
+          <span class="text-secondary font-medium">Tracking Reference:</span>
+          <span class="font-mono font-bold text-on-surface">${item.trackingRef || 'Assigned via provider'}</span>
+        </div>
+        <a href="#" onclick="showToast('Navigating to full Order Details...')" class="text-center font-label-md text-label-md text-primary hover:text-primary-container py-1 transition-colors">
+          View Full Order →
+        </a>
+      `;
+    }
+
+    const backdrop = document.getElementById('delivery-drawer-backdrop');
+    const drawer = document.getElementById('delivery-drawer');
+    backdrop.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      drawer.classList.remove('translate-x-full');
+    }, 10);
+
+    applyDeliveryFilters();
+  }
+
+  function closeDeliveryDrawer() {
+    const backdrop = document.getElementById('delivery-drawer-backdrop');
+    const drawer = document.getElementById('delivery-drawer');
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    setTimeout(() => {
+      backdrop.classList.add('hidden');
+    }, 280);
+  }
+
+  // Booking Modal
+  function promptBookingModal(orderId) {
+    pendingBookingOrderId = orderId;
+    const item = DELIVERIES_DATA.find(d => d.orderId === orderId);
+    if (!item) return;
+
+    document.getElementById('modal-order-id').innerText = item.orderId;
+    document.getElementById('modal-customer').innerText = item.customer;
+    document.getElementById('modal-destination').innerText = item.destination;
+    document.getElementById('modal-fee').innerText = `${item.fee} (Customer Prepaid)`;
+
+    const modal = document.getElementById('booking-modal-overlay');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeBookingModal() {
+    const modal = document.getElementById('booking-modal-overlay');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    pendingBookingOrderId = null;
+  }
+
+  function confirmCourierBooking() {
+    if (!pendingBookingOrderId) return;
+    const orderId = pendingBookingOrderId;
+    const item = DELIVERIES_DATA.find(d => d.orderId === orderId);
+    if (item) {
+      item.status = 'booked';
+      item.statusBadge = 'Booked';
+      item.trackingRef = 'LLM-' + Math.floor(2940000 + Math.random() * 9000);
+      showToast(`Courier booked with Lalamove: ${item.trackingRef}`);
+    }
+    closeBookingModal();
+    openDeliveryDrawer(orderId);
+    applyDeliveryFilters();
+  }
+
+  function refreshDeliveryStatuses() {
+    showToast('Syncing status with Lalamove webhooks...');
+    setTimeout(() => {
+      applyDeliveryFilters();
+      showToast('Delivery statuses up to date');
+    }, 600);
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    applyDeliveryFilters();
+  });
+</script></main>
+</div>
+<!-- ======================================================== -->
+<!-- STATE-AWARE PAYMENT DETAILS OVERLAY DRAWER & BACKDROP    -->
+<!-- ======================================================== -->
+<script>
+  // Canonical Payments Data with separated operational triage vs payment status
+  const PAYMENTS_DATA = [
+    {
+      orderId: 'K406-1052',
+      customer: 'Claire D.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 860.00,
+      formattedAmount: '₱860.00',
+      status: 'failed', // Canonical: paid | pending | failed | expired
+      statusLabel: 'Failed',
+      needsAttention: true, // Operational triage flag
+      attemptCount: 2,
+      latestAttempt: 'Attempt 2',
+      latestAttemptDate: 'Oct 4, 2026, 2:31 PM',
+      createdDate: 'Oct 4, 2026 · 2:31 PM',
+      expiresDate: 'Oct 4, 2026 · 2:46 PM',
+      holdStatus: 'Released',
+      holdInitiated: 'Oct 4, 2026 · 2:31 PM',
+      holdReleased: 'Oct 4, 2026 · 2:46 PM',
+      refId: 'pi_9xL2pQ81nm4K',
+      dateKey: 'today',
+      timestamp: 1728023460000,
+      attempts: [
+        { num: 2, isLatest: true, status: 'Failed', statusClass: 'text-error', dotClass: 'bg-error', date: 'Oct 4, 2026 · 2:31 PM', amount: '₱860.00' },
+        { num: 1, isLatest: false, status: 'Expired', statusClass: 'text-secondary', dotClass: 'bg-outline', date: 'Oct 4, 2026 · 2:05 PM', amount: '₱860.00' }
+      ],
+      gatewayCode: 'payment_failed',
+      gatewayResponse: 'Transaction timed out at checkout partner or authorization incomplete.'
+    },
+    {
+      orderId: 'K406-1054',
+      customer: 'Andrea M.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 1480.00,
+      formattedAmount: '₱1,480.00',
+      status: 'paid',
+      statusLabel: 'Paid',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:35 PM',
+      createdDate: 'Oct 4, 2026 · 2:35 PM',
+      paidAtDate: 'Oct 4, 2026 · 2:37 PM',
+      holdStatus: 'Confirmed',
+      holdConfirmedAt: 'Oct 4, 2026 · 2:37 PM',
+      refId: 'pi_7kL90A2bCx9Z',
+      dateKey: 'today',
+      timestamp: 1728023700000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Paid', statusClass: 'text-tertiary', dotClass: 'bg-tertiary', date: 'Oct 4, 2026 · 2:35 PM', amount: '₱1,480.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1053',
+      customer: 'Miguel R.',
+      type: 'Subscription · 4-Week Prepaid',
+      typeCode: 'subscription',
+      amount: 3920.00,
+      formattedAmount: '₱3,920.00',
+      status: 'pending',
+      statusLabel: 'Pending',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:40 PM',
+      createdDate: 'Oct 4, 2026 · 2:40 PM',
+      expiresDate: 'Oct 4, 2026 · 2:55 PM',
+      holdStatus: 'Active',
+      holdInitiated: 'Oct 4, 2026 · 2:40 PM',
+      refId: 'pi_4wQ11Zx98LmQ',
+      dateKey: 'today',
+      timestamp: 1728024000000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Pending', statusClass: 'text-primary', dotClass: 'bg-primary', date: 'Oct 4, 2026 · 2:40 PM', amount: '₱3,920.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1051',
+      customer: 'Bea S.',
+      type: 'Custom Cake',
+      typeContext: 'Accepted quotation',
+      typeCode: 'custom',
+      amount: 2750.00,
+      formattedAmount: '₱2,750.00',
+      status: 'expired',
+      statusLabel: 'Expired',
+      needsAttention: true, // Bea S. requires owner triage since custom cake holds are released
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:10 PM',
+      createdDate: 'Oct 4, 2026 · 2:10 PM',
+      expiresDate: 'Oct 4, 2026 · 2:25 PM',
+      holdStatus: 'Released',
+      holdInitiated: 'Oct 4, 2026 · 2:10 PM',
+      holdReleased: 'Oct 4, 2026 · 2:25 PM',
+      refId: 'pi_2bM44P01Rt8X',
+      dateKey: 'today',
+      timestamp: 1728022200000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Expired', statusClass: 'text-secondary', dotClass: 'bg-outline', date: 'Oct 4, 2026 · 2:10 PM', amount: '₱2,750.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1048',
+      customer: 'Maria S.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 1420.00,
+      formattedAmount: '₱1,420.00',
+      status: 'paid',
+      statusLabel: 'Paid',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 1:45 PM',
+      createdDate: 'Oct 4, 2026 · 1:45 PM',
+      paidAtDate: 'Oct 4, 2026 · 1:47 PM',
+      holdStatus: 'Confirmed',
+      holdConfirmedAt: 'Oct 4, 2026 · 1:47 PM',
+      refId: 'pi_8vN33M12Qw5J',
+      dateKey: 'today',
+      timestamp: 1728020700000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Paid', statusClass: 'text-tertiary', dotClass: 'bg-tertiary', date: 'Oct 4, 2026 · 1:45 PM', amount: '₱1,420.00' }
+      ]
+    }
+  ];
+
+  let currentTab = 'all';
+  let selectedOrderId = null;
+  let currentViewMode = 'live';
+
+  function renderStatusBadge(status) {
+    if (status === 'paid') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm border border-secondary-container">
+        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Paid
+      </span>`;
+    } else if (status === 'pending') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed/50 text-primary font-label-sm text-label-sm border border-primary-fixed">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Pending
+      </span>`;
+    } else if (status === 'failed') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm border border-error-container">
+        <span class="w-1.5 h-1.5 rounded-full bg-error"></span> Failed
+      </span>`;
+    } else if (status === 'expired') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm border border-outline-variant/60">
+        <span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Expired
+      </span>`;
+    }
+    return '';
+  }
+
+  function renderAttentionBadge(needsAttention) {
+    if (needsAttention) {
+      // Restrained, static muted amber warning badge (no animation)
+      return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[11px] bg-primary-fixed/40 text-primary font-semibold border border-primary-fixed">
+        <span class="material-symbols-outlined text-[13px]">flag</span>
+        Needs Attention
+      </span>`;
+    }
+    return `<span class="text-xs text-secondary/60">—</span>`;
+  }
+
+  function renderHoldBadge(holdStatus) {
+    if (holdStatus === 'Confirmed') {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-tertiary font-label-sm text-label-sm bg-secondary-container/60">Confirmed</span>`;
+    } else if (holdStatus === 'Active') {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-primary font-label-sm text-label-sm bg-primary-fixed/30 border border-primary-fixed">Active</span>`;
+    } else {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-secondary font-label-sm text-label-sm bg-surface-container">Released</span>`;
+    }
+  }
+
+  function applyFilters() {
+    if (currentViewMode !== 'live') return;
+
+    const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+    const orderType = document.getElementById('order-type-select').value;
+    const sortBy = document.getElementById('sort-select').value;
+    const clearBtn = document.getElementById('clear-filters-btn');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+
+    if (searchTerm.length > 0) {
+      clearSearchBtn.classList.remove('hidden');
+    } else {
+      clearSearchBtn.classList.add('hidden');
+    }
+
+    // Check if any non-default filter is active
+    const isFiltered = currentTab !== 'all' || searchTerm !== '' || orderType !== 'all' || sortBy !== 'newest';
+    if (isFiltered) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+
+    let list = PAYMENTS_DATA.filter(item => {
+      // Tab filter
+      if (currentTab === 'attention' && !item.needsAttention) return false;
+      if (currentTab === 'pending' && item.status !== 'pending') return false;
+      if (currentTab === 'paid' && item.status !== 'paid') return false;
+      if (currentTab === 'failed' && item.status !== 'failed') return false;
+      if (currentTab === 'expired' && item.status !== 'expired') return false;
+
+      // Order type filter
+      if (orderType !== 'all' && item.typeCode !== orderType) return false;
+
+      // Search term (Order ID or PayMongo ID or Customer)
+      if (searchTerm) {
+        const matchesRef = item.refId.toLowerCase().includes(searchTerm);
+        const matchesOrder = item.orderId.toLowerCase().includes(searchTerm);
+        const matchesCust = item.customer.toLowerCase().includes(searchTerm);
+        if (!matchesRef && !matchesOrder && !matchesCust) return false;
+      }
+
+      return true;
+    });
+
+    // Sorting
+    list.sort((a, b) => {
+      if (sortBy === 'newest') return b.timestamp - a.timestamp;
+      if (sortBy === 'oldest') return a.timestamp - b.timestamp;
+      if (sortBy === 'amount-high') return b.amount - a.amount;
+      if (sortBy === 'amount-low') return a.amount - b.amount;
+      return 0;
+    });
+
+    renderTableRows(list);
+    renderMobileCards(list);
+
+    // Update table info / empty state
+    const emptyMsg = document.getElementById('empty-results-message');
+    const tableEl = document.getElementById('payments-table');
+    const paginationInfo = document.getElementById('pagination-info');
+
+    if (list.length === 0) {
+      tableEl.classList.add('hidden');
+      emptyMsg.classList.remove('hidden');
+      if (currentTab === 'attention') {
+        document.getElementById('empty-title').innerText = 'No payment issues need attention';
+        document.getElementById('empty-desc').innerText = 'All recent payment attempts are either verified, actively in checkout, or successfully resolved.';
+      } else {
+        document.getElementById('empty-title').innerText = 'No payments match these filters';
+        document.getElementById('empty-desc').innerText = 'Try clearing your filters or changing your search terms to see payment transactions.';
+      }
+      paginationInfo.innerText = 'Showing 0 of 21 transactions';
+    } else {
+      tableEl.classList.remove('hidden');
+      emptyMsg.classList.add('hidden');
+      paginationInfo.innerText = `Showing ${list.length} of 21 transactions`;
+    }
+  }
+
+  function renderTableRows(items) {
+    const tbody = document.getElementById('payments-tbody');
+    tbody.innerHTML = items.map(item => {
+      const isSelected = item.orderId === selectedOrderId;
+      const typeSub = item.typeContext ? `<span class="font-body-sm text-body-sm text-secondary">${item.type} · <span class="italic text-xs">${item.typeContext}</span></span>` : `<span class="font-body-sm text-body-sm text-secondary">${item.type}</span>`;
+
+      return `
+        <tr class="order-row ${isSelected ? 'bg-primary-fixed/20' : 'hover:bg-surface-container-low'} cursor-pointer transition-colors" data-order="${item.orderId}" onclick="openDrawer('${item.orderId}')">
+          <td class="py-3.5 px-space-md">
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm ${isSelected ? 'text-primary font-bold' : 'text-on-surface'}">${item.orderId}</span>
+              ${typeSub}
+            </div>
+          </td>
+          <td class="py-3.5 px-space-sm font-body-md text-body-md text-on-surface">${item.customer}</td>
+          <td class="py-3.5 px-space-sm font-price-md text-price-md text-on-surface font-semibold">${item.formattedAmount}</td>
+          <td class="py-3.5 px-space-sm">
+            <div class="flex flex-col">
+              <span class="font-body-md text-body-md text-on-surface">${item.latestAttempt}</span>
+              <span class="font-body-sm text-body-sm text-secondary text-xs">${item.latestAttemptDate}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderStatusBadge(item.status)}
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderAttentionBadge(item.needsAttention)}
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderHoldBadge(item.holdStatus)}
+          </td>
+          <td class="py-3.5 px-space-md text-right">
+            <button class="inline-flex items-center gap-1 ${isSelected ? 'text-primary font-bold' : 'text-secondary hover:text-primary'} font-label-md text-label-md transition-colors" onclick="event.stopPropagation(); openDrawer('${item.orderId}')" type="button">
+              View <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderMobileCards(items) {
+    const container = document.getElementById('mobile-cards-container');
+    container.innerHTML = items.map(item => {
+      const isSelected = item.orderId === selectedOrderId;
+      return `
+        <div class="p-space-md flex flex-col gap-2 ${isSelected ? 'bg-primary-fixed/20' : 'bg-surface-container-lowest'} active:bg-surface-container transition-colors cursor-pointer" onclick="openDrawer('${item.orderId}')">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-title-sm text-title-sm font-bold text-on-surface">${item.orderId}</span>
+                ${renderStatusBadge(item.status)}
+              </div>
+              <span class="font-body-sm text-body-sm text-secondary">${item.type} ${item.typeContext ? '(' + item.typeContext + ')' : ''}</span>
+            </div>
+            <span class="font-price-md text-price-md font-bold text-on-surface">${item.formattedAmount}</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary pt-1 border-t border-surface-container">
+            <span>Customer: <strong class="text-on-surface">${item.customer}</strong></span>
+            <span>Hold: ${renderHoldBadge(item.holdStatus)}</span>
+          </div>
+          ${item.needsAttention ? `<div class="mt-1">${renderAttentionBadge(true)}</div>` : ''}
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-xs text-secondary">${item.latestAttemptDate}</span>
+            <span class="text-xs text-primary font-semibold flex items-center gap-0.5">Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function setTabFilter(tabKey) {
+    currentTab = tabKey;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if (btn.getAttribute('data-filter') === tabKey) {
+        btn.className = 'tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-secondary-container text-on-secondary-fixed transition-colors whitespace-nowrap shadow-xs';
+      } else {
+        btn.className = 'tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap';
+      }
+    });
+    applyFilters();
+  }
+
+  function clearFilters() {
+    currentTab = 'all';
+    document.getElementById('search-input').value = '';
+    document.getElementById('order-type-select').value = 'all';
+    document.getElementById('date-select').value = 'today';
+    document.getElementById('sort-select').value = 'newest';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    setTabFilter('all');
+  }
+
+  function clearSearch() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    applyFilters();
+  }
+
+  // ========================================================
+  // STATE-AWARE DRAWER RENDERING
+  // ========================================================
+  function openDrawer(orderId) {
+    selectedOrderId = orderId;
+    const item = PAYMENTS_DATA.find(d => d.orderId === orderId);
+    if (!item) return;
+
+    // Highlight row
+    document.querySelectorAll('.order-row').forEach(row => {
+      if (row.getAttribute('data-order') === orderId) {
+        row.classList.add('bg-primary-fixed/20');
+      } else {
+        row.classList.remove('bg-primary-fixed/20');
+      }
+    });
+
+    const drawer = document.getElementById('payment-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const drawerContent = document.getElementById('drawer-content');
+
+    // Build State-Aware Content
+    drawerContent.innerHTML = buildDrawerHTML(item);
+
+    backdrop.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+    }, 10);
+
+    drawer.classList.remove('translate-x-full');
+  }
+
+  function closeDrawer() {
+    selectedOrderId = null;
+    const drawer = document.getElementById('payment-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    setTimeout(() => {
+      backdrop.classList.add('hidden');
+    }, 300);
+
+    document.querySelectorAll('.order-row').forEach(row => {
+      row.classList.remove('bg-primary-fixed/20');
+    });
+  }
+
+  function buildDrawerHTML(item) {
+    // 1. Header with separated Payment Status and Needs Attention
+    const statusBadge = renderStatusBadge(item.status);
+    const attentionBadge = item.needsAttention 
+      ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[11px] bg-primary-fixed/50 text-primary font-semibold border border-primary-fixed"><span class="material-symbols-outlined text-[13px]">flag</span> Needs Attention</span>` 
+      : '';
+
+    // 2. State-Specific Middle Block
+    let stateBlock = '';
+    if (item.status === 'paid') {
+      stateBlock = `
+        <div class="bg-secondary-container/40 border border-secondary-container p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-tertiary">
+            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+            <span class="font-title-sm text-title-sm font-semibold">Payment completed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            PayMongo confirmed the full payment for this transaction via QR Ph. Order capacity and schedule slots are fully verified.
+          </p>
+          <div class="mt-1 pt-1.5 border-t border-outline-variant/30 flex justify-between text-xs text-secondary">
+            <span>Paid at:</span>
+            <span class="font-medium text-on-surface">${item.paidAtDate}</span>
+          </div>
+        </div>
+      `;
+    } else if (item.status === 'pending') {
+      stateBlock = `
+        <div class="bg-primary-fixed/25 border border-primary-fixed/60 p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+            <span class="font-title-sm text-title-sm font-semibold">Waiting for payment</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            The QR Ph payment attempt is still active. The order remains unconfirmed until PayMongo reports a successful payment.
+          </p>
+        </div>
+      `;
+    } else if (item.status === 'failed') {
+      stateBlock = `
+        <div class="bg-error-container/30 border border-error-container p-space-sm rounded-lg flex flex-col gap-2">
+          <div class="flex items-center gap-1.5 text-error">
+            <span class="material-symbols-outlined text-[18px]">error</span>
+            <span class="font-title-sm text-title-sm font-semibold">Payment could not be completed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            The payment gateway returned an unsuccessful result for this attempt. The customer may start a new payment attempt.
+          </p>
+          <div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/30 flex flex-col gap-1 font-body-sm text-body-sm mt-0.5">
+            <div class="flex items-center justify-between text-secondary text-xs">
+              <span>Gateway code:</span>
+              <code class="text-error font-mono font-semibold">${item.gatewayCode || 'payment_failed'}</code>
+            </div>
+            <div class="text-on-surface pt-1 border-t border-surface-container text-xs">
+              <span class="text-secondary font-medium">Gateway response:</span> "${item.gatewayResponse || 'Authorization incomplete.'}"
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (item.status === 'expired') {
+      stateBlock = `
+        <div class="bg-surface-container-low border border-outline-variant/50 p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-secondary">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">Payment attempt expired</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            This QR Ph payment was not completed before its expiration time. The attempt did not confirm the order. A new payment attempt must be initiated by the customer.
+          </p>
+        </div>
+      `;
+    }
+
+    // 3. Checkout Resource Hold Block
+    let holdBlock = '';
+    if (item.holdStatus === 'Confirmed') {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container/70 text-tertiary font-semibold">Confirmed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Kitchen capacity and pantry inventory holds are secured and scheduled for production.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex justify-between text-xs mt-1 border border-outline-variant/20">
+            <span class="text-secondary">Confirmed At:</span>
+            <span class="font-medium text-on-surface">${item.holdConfirmedAt || item.paidAtDate}</span>
+          </div>
+        </div>
+      `;
+    } else if (item.holdStatus === 'Active') {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-primary-fixed/40 text-primary font-semibold border border-primary-fixed">Active</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Baking slot and required inventory are temporarily held while waiting for QR Ph fulfillment.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex flex-col gap-1 text-xs mt-1 border border-outline-variant/20">
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Initiated:</span>
+              <span class="font-medium text-on-surface">${item.holdInitiated}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-secondary">Expires:</span>
+              <span class="font-medium text-primary font-semibold">${item.expiresDate}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-secondary">Released</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Baking capacity slot and pantry inventory reservations were released when the payment failed or timed out.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex flex-col gap-1 text-xs mt-1 border border-outline-variant/20">
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Initiated:</span>
+              <span class="font-medium text-on-surface">${item.holdInitiated}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Released:</span>
+              <span class="font-medium text-on-surface">${item.holdReleased}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. Attempt History
+    let attemptsHTML = item.attempts.map(att => `
+      <div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between ${att.isLatest ? '' : 'opacity-70'}">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full ${att.dotClass}"></span>
+          <div class="flex flex-col">
+            <span class="font-title-sm text-title-sm text-on-surface text-xs">Attempt ${att.num} ${att.isLatest ? '(Latest)' : ''}</span>
+            <span class="font-body-sm text-body-sm text-secondary text-[11px]">${att.date}</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="font-label-sm text-label-sm ${att.statusClass} font-semibold">${att.status}</span>
+          <span class="block font-price-md text-price-md text-xs text-secondary">${att.amount}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <!-- Drawer Top Bar -->
+      <div class="flex items-start justify-between pb-space-xs border-b border-outline-variant/50">
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Payment Details</h3>
+            ${statusBadge}
+            ${attentionBadge}
+          </div>
+          <span class="font-label-md text-label-md text-secondary">Order ${item.orderId}</span>
+        </div>
+        <button aria-label="Close details drawer" class="text-secondary hover:text-on-surface p-1.5 rounded-lg hover:bg-surface-container-high transition-colors" onclick="closeDrawer()" type="button">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Transaction Summary Card -->
+      <div class="bg-surface-container-low border border-outline-variant/40 p-space-sm rounded-lg flex flex-col gap-2">
+        <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Transaction Summary</span>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Order Type</span>
+          <span class="font-title-sm text-title-sm text-on-surface">${item.type} ${item.typeContext ? '<span class="text-xs font-normal text-secondary">(' + item.typeContext + ')</span>' : ''}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Customer</span>
+          <span class="font-title-sm text-title-sm text-on-surface">${item.customer}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">${item.status === 'paid' ? 'Amount Paid' : 'Amount Due'}</span>
+          <span class="font-price-md text-price-md text-primary font-bold">${item.formattedAmount}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Payment Method</span>
+          <span class="font-body-md text-body-md text-on-surface flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span>
+            QR Ph via PayMongo
+          </span>
+        </div>
+      </div>
+
+      <!-- State-Aware Block -->
+      ${stateBlock}
+
+      <!-- Current Attempt & PayMongo Reference -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Attempt Details</span>
+          <span class="font-label-sm text-label-sm text-secondary">${item.latestAttempt} of ${item.attemptCount}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-on-surface">
+          <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">Created</span>
+            <span class="font-body-sm text-body-sm font-medium mt-0.5">${item.createdDate}</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">${item.status === 'paid' ? 'Completed' : 'Expires'}</span>
+            <span class="font-body-sm text-body-sm font-medium mt-0.5">${item.status === 'paid' ? item.paidAtDate : item.expiresDate}</span>
+          </div>
+        </div>
+
+        <!-- Reference & Copy with Toast -->
+        <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">PayMongo Reference ID</span>
+            <span class="font-body-sm text-body-sm font-mono text-on-surface font-semibold">${item.refId}</span>
+          </div>
+          <button class="p-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-secondary hover:text-primary transition-colors border border-outline-variant/30" onclick="copyRef('${item.refId}')" title="Copy Reference ID" type="button">
+            <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Checkout Resource Hold -->
+      ${holdBlock}
+
+      <!-- Payment Attempts History -->
+      <div class="flex flex-col gap-1.5">
+        <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Attempt History (${item.attemptCount})</span>
+        <div class="flex flex-col gap-1.5">
+          ${attemptsHTML}
+        </div>
+      </div>
+
+      <!-- Drawer Bottom Action Footer -->
+      <div class="pt-space-sm border-t border-outline-variant/40 flex flex-col gap-2 mt-auto">
+        ${(item.status === 'failed' || item.status === 'expired') ? `
+          <div class="flex items-center gap-2 p-2 rounded bg-surface-container-low text-secondary text-xs border border-outline-variant/20">
+            <span class="material-symbols-outlined text-[16px] text-primary">sync_problem</span>
+            <span>Customer retry required on their mobile portal</span>
+          </div>
+        ` : ''}
+        <div class="flex gap-2">
+          <button class="flex-1 py-2 px-3 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md text-center" onclick="closeDrawer()" type="button">
+            Close
+          </button>
+          <a class="flex-1 py-2 px-3 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-colors font-label-md text-label-md text-center flex items-center justify-center gap-1.5 shadow-sm" href="#" title="Navigate to Phase 6.3 Order Details" onclick="showToast('Navigating to Order ' + '${item.orderId}')">
+            <span>View Order Details</span>
+            <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // Toast Functionality
+  function copyRef(val) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(val);
+    }
+    showToast('Reference copied: ' + val);
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    toastMsg.innerText = msg;
+    toast.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
+    }, 2800);
+  }
+
+  // Prototype State Switcher (Live, Loading, Empty, Error)
+  function setViewMode(mode) {
+    currentViewMode = mode;
+    const states = ['live', 'loading', 'empty', 'error'];
+    states.forEach(s => {
+      const btn = document.getElementById(`state-btn-${s}`);
+      if (s === mode) {
+        btn.className = 'px-2 py-0.5 rounded text-xs font-semibold bg-surface-container-lowest text-primary shadow-xs transition-colors';
+      } else {
+        btn.className = 'px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors';
+      }
+    });
+
+    const liveSummary = document.getElementById('live-summary');
+    const skeletonSummary = document.getElementById('skeleton-summary');
+    const liveTableWrapper = document.getElementById('view-table-wrapper');
+    const errorState = document.getElementById('view-error-state');
+    const skeletonTable = document.getElementById('skeleton-table');
+    const liveTableContainer = document.getElementById('live-table-container');
+
+    // Reset base display
+    errorState.classList.add('hidden');
+    skeletonSummary.classList.add('hidden');
+    skeletonTable.classList.add('hidden');
+    liveSummary.classList.remove('hidden');
+    liveTableWrapper.classList.remove('hidden');
+    liveTableContainer.classList.remove('hidden');
+
+    if (mode === 'live') {
+      applyFilters();
+    } else if (mode === 'loading') {
+      liveSummary.classList.add('hidden');
+      skeletonSummary.classList.remove('hidden');
+      liveTableContainer.classList.add('hidden');
+      skeletonTable.classList.remove('hidden');
+    } else if (mode === 'empty') {
+      renderTableRows([]);
+      renderMobileCards([]);
+      document.getElementById('payments-table').classList.add('hidden');
+      const emptyMsg = document.getElementById('empty-results-message');
+      emptyMsg.classList.remove('hidden');
+      document.getElementById('empty-title').innerText = 'No payment activity yet';
+      document.getElementById('empty-desc').innerText = 'Payment attempts will appear here when customers proceed to QR Ph payment.';
+      document.getElementById('pagination-info').innerText = 'Showing 0 of 0 transactions';
+    } else if (mode === 'error') {
+      liveTableWrapper.classList.add('hidden');
+      errorState.classList.remove('hidden');
+    }
+  }
+
+  function refreshData() {
+    showToast('Refreshing payments feed...');
+    setTimeout(() => {
+      applyFilters();
+    }, 400);
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+    }
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    applyFilters();
+  });
+</script>
+</body></html>

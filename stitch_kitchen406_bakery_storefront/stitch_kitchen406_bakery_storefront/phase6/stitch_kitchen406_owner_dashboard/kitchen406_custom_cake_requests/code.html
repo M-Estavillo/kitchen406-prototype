@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+      main > :first-child { margin-top: 0 !important; } 
+      main > :last-child { margin-bottom: 0 !important; } 
+    } 
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed": "#311300",
+            "surface-variant": "#e4e2df",
+            "surface-bright": "#fbf9f5",
+            "surface-container-low": "#f5f3f0",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "surface-dim": "#dbdad7",
+            "on-primary": "#ffffff",
+            "on-surface-variant": "#53433a",
+            "outline-variant": "#d9c2b5",
+            "on-surface": "#1b1c1a",
+            "secondary": "#635d59",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#69635f",
+            "primary-container": "#8d4a14",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "on-primary-container": "#fffbff",
+            "tertiary-container": "#7b736d",
+            "surface-container-lowest": "#ffffff",
+            "primary": "#6f3400",
+            "surface": "#fbf9f6",
+            "tertiary": "#49433d",
+            "secondary-container": "#eae1dc",
+            "primary-fixed-dim": "#ffb786",
+            "on-tertiary-fixed": "#1f1b16",
+            "on-tertiary-container": "#dcd2ca",
+            "on-secondary": "#ffffff",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#e9e8e4",
+            "background": "#fbf9f5",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "primary-fixed": "#ffdcc7",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ebe1d9",
+            "surface-tint": "#904d17",
+            "secondary-fixed": "#eae1db",
+            "surface-container-highest": "#e4e2df",
+            "outline": "#867368",
+            "on-secondary-fixed-variant": "#4b4642",
+            "inverse-surface": "#30312e",
+            "inverse-on-surface": "#f2f1ed",
+            "on-secondary-fixed": "#1f1b18",
+            "on-background": "#1b1c1a",
+            "inverse-primary": "#ffb787",
+            "secondary-fixed-dim": "#cdc5c0"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin": "3rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin-mobile": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<!-- NAVIGATION SIDEBAR -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-low flex flex-col z-50 overflow-y-auto border-r border-outline-variant/30">
+<div class="px-space-lg pt-space-lg pb-space-md border-b border-outline-variant/30">
+<a class="block group" data-path="dashboard" href="#">
+<span class="block font-headline-md text-headline-md text-primary tracking-tight font-serif">Kitchen406</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-space-xs">Owner Workspace</span>
+</a>
+</div>
+<nav class="flex-1 px-space-sm py-space-md space-y-space-md" data-active-classes="bg-primary-container text-on-primary font-semibold shadow-sm border-l-4 border-primary">
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Overview</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Operations</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="orders" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deliveries" href="#">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-label-md text-label-md">Deliveries</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recipes-and-costing" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded bg-primary-container text-on-primary font-semibold shadow-sm border-l-4 border-primary transition-colors" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[18px]">cake</span><span class="font-label-md text-label-md">Custom Cakes</span></a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="subscriptions" href="#">
+<span class="material-symbols-outlined text-[18px]">loyalty</span>
+<span class="font-label-md text-label-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scheduling-blocked-dates" href="#">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span class="font-label-md text-label-md">Scheduling / Blocked Dates</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Management</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="products" href="#">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="categories" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-label-md text-label-md">Categories</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ingredients" href="#">
+<span class="material-symbols-outlined text-[18px]">grain</span>
+<span class="font-label-md text-label-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-label-md text-label-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#">
+<span class="material-symbols-outlined text-[18px]">celebration</span>
+<span class="font-label-md text-label-md">Seasonal Occasions</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Administration</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="staff-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-label-md text-label-md">Staff Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-md text-label-md">Customer Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reviews" href="#">
+<span class="material-symbols-outlined text-[18px]">hotel_class</span>
+<span class="font-label-md text-label-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#">
+<span class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span class="font-label-md text-label-md">Marketing Drafts</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container font-label-sm text-label-sm text-on-secondary-container">Review</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+</div>
+</nav>
+<div class="p-space-sm border-t border-outline-variant/30">
+<div class="p-space-sm rounded bg-surface-container flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Phase 6.8 Active</span>
+<span class="material-symbols-outlined text-[16px] text-surface-tint">verified</span>
+</div>
+</div>
+</aside>
+<!-- MAIN VIEWPORT -->
+<div class="pl-60">
+<!-- TOP APP BAR (Bakery Owner Navigation Only) -->
+<header class="fixed top-0 left-60 right-0 h-16 bg-surface-bright/90 backdrop-blur-md z-40 border-b border-outline-variant/30 flex items-center justify-between px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-surface-tint">calendar_today</span>
+<span class="font-label-md text-label-md">Sunday, October 4, 2026</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/50 hidden sm:block"></div>
+<div class="hidden sm:flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="">Kitchen Active · Bakes in Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button aria-label="Notifications" class="relative p-2 rounded hover:bg-surface-container-high transition-colors text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 bg-error text-on-error font-label-sm text-[10px] leading-4 text-center rounded-full">5</span>
+</button>
+<div class="flex items-center gap-space-sm pl-space-xs border-l border-outline-variant/30">
+<div class="text-right">
+<p class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Head Baker &amp; Owner</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN WORKSPACE -->
+<main class="relative pt-16 min-h-screen bg-background w-full pb-20"><div class="flex flex-col w-full">
+<!-- PAGE HEADER & CONTEXT -->
+<div class="px-margin pt-space-lg pb-space-md">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-sm uppercase tracking-widest mb-1">
+<span class="material-symbols-outlined text-[15px]">cake</span>
+<span class="">Owner Operations</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-serif tracking-tight">Custom Cake Requests</h1>
+<p class="font-body-md text-secondary mt-1 max-w-2xl">
+          Review personalized cake requests, evaluate artisanal feasibility against weekly bake limits, and configure immutable custom quotations.
+        </p>
+</div>
+<!-- Live Sync / Context Pill -->
+<div class="flex items-center gap-space-sm bg-surface-container px-space-md py-space-sm rounded-lg self-start md:self-auto"><span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span><span class="font-label-sm text-secondary">Calendar Status: <strong class="text-on-surface font-medium">Synced with Capacity Calendar</strong></span></div>
+</div>
+<!-- 4 COMPACT OPERATIONAL SUMMARY CARDS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mt-space-lg">
+<!-- Needs Review -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm relative overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer" onclick="filterByStatus('awaiting_review')">
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase tracking-wider text-primary font-semibold">Needs Review</span>
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_late</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary font-serif font-semibold">6</span>
+<span class="font-label-sm text-secondary">requests</span>
+</div>
+<p class="font-body-sm text-secondary mt-1">Newly submitted requests requiring owner feasibility review</p>
+</div>
+<!-- Awaiting Customer -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm relative overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer" onclick="filterByStatus('quoted')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Awaiting Customer</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">hourglass_top</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-serif font-semibold">4</span>
+<span class="font-label-sm text-secondary">issued</span>
+</div>
+<p class="font-body-sm text-secondary mt-1">Quotation issued, waiting for customer response or revision</p>
+</div>
+<!-- Accepted -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm relative overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer" onclick="filterByStatus('accepted')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Accepted</span>
+<span class="material-symbols-outlined text-emerald-700 text-[20px]">task_alt</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-serif font-semibold">3</span>
+<span class="font-label-sm text-secondary">confirmed</span>
+</div>
+<p class="font-body-sm text-secondary mt-1">Quotation accepted by customer · Pending deposit or payment confirmation</p>
+</div>
+<!-- Upcoming Custom Cakes -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm relative overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer" onclick="filterByStatus('all')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Active Pipeline</span>
+<span class="material-symbols-outlined text-surface-tint text-[20px]">event_seat</span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-serif font-semibold">5</span>
+<span class="font-label-sm text-secondary">commitments</span>
+</div>
+<p class="font-body-sm text-secondary mt-1">Scheduled custom fulfillments across the next 30 days</p>
+</div>
+</div>
+</div>
+<!-- MAIN MASTER-DETAIL WORKSPACE -->
+<div class="px-margin pb-space-xl">
+<!-- PROTOTYPE VIEW STATE WRAPPER (Switchable via developer strip) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start" id="sim-state-normal">
+<!-- ========================================================================= -->
+<!-- LEFT REGION: REQUEST LIST / INBOX (5 cols ~ 42%) -->
+<!-- ========================================================================= -->
+<section class="lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Filter Toolbar -->
+<div class="p-space-md bg-surface-container-low space-y-space-sm">
+<div class="relative">
+<span class="material-symbols-outlined text-[18px] text-secondary absolute left-3 top-1/2 -translate-y-1/2">search</span>
+<input class="w-full bg-surface-container-lowest rounded-lg pl-9 pr-3 py-2 text-on-surface font-body-md text-body-md placeholder:text-secondary/60 focus:outline-none focus:ring-1 focus:ring-primary shadow-2xs" id="search-input" oninput="handleSearch(this.value)" placeholder="Search request ID, customer, flavor..." type="text"/>
+</div>
+<!-- Status Filters -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-semibold shrink-0" onclick="setFilter('all', this)">
+              All (18)
+            </button>
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0" onclick="setFilter('awaiting_review', this)">
+              Awaiting Review (6)
+            </button>
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0" onclick="setFilter('quoted', this)">
+              Quoted (4)
+            </button>
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0" onclick="setFilter('accepted', this)">
+              Accepted (3)
+            </button>
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0" onclick="setFilter('rejected', this)">
+              Rejected (3)
+            </button>
+<button class="filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0" onclick="setFilter('expired', this)">
+              Expired (2)
+            </button>
+</div>
+<div class="flex items-center justify-between text-secondary pt-1">
+<span class="font-label-sm text-label-sm" id="result-count">Showing 6 requests</span>
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm">Sort:</span>
+<select class="bg-transparent font-label-sm text-label-sm text-on-surface font-semibold focus:outline-none cursor-pointer">
+<option>Newest Submitted ▾</option>
+<option>Delivery Date (Soonest)</option>
+<option>Estimated Value (High–Low)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Request Items List -->
+<div class="divide-y divide-surface-container overflow-y-auto max-h-[820px]" id="request-list-container">
+<!-- ITEM 1: CCR-1048 (ACTIVE / SELECTED) -->
+<div class="request-item bg-primary/5 p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1048" onclick="selectRequest('CCR-1048')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-primary font-bold tracking-tight">CCR-1048</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container text-primary font-semibold">Awaiting Review</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Maria Santos</h2>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱1,850.00</span>
+<span class="block font-label-sm text-secondary">prelim. est.</span>
+</div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              8" Round · Dark Chocolate (Swiss Meringue Buttercream · 2 add-ons)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">calendar_today</span>
+<span class="">Oct 18, 2026 (2–4 PM)</span>
+</div>
+<span class="font-label-sm text-primary font-semibold bg-surface-container-low px-2 py-0.5 rounded">14 days away</span>
+</div>
+</div>
+<!-- ITEM 2: CCR-1047 -->
+<div class="request-item p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1047" onclick="selectRequest('CCR-1047')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline-variant"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">CCR-1047</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">Quoted</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Angela Lim</h2>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱2,400.00</span>
+<span class="block font-label-sm text-secondary">Quote #1 active</span>
+</div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              10" Heart · Red Velvet (Cream Cheese · 3 add-ons)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="">Oct 24, 2026 (10–12 PM)</span>
+</div>
+<span class="font-label-sm text-secondary">Expires in 48h</span>
+</div>
+</div>
+<!-- ITEM 3: CCR-1046 -->
+<div class="request-item p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1046" onclick="selectRequest('CCR-1046')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline-variant"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">CCR-1046</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-emerald-100 text-emerald-800 font-semibold">Accepted</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Joshua Tan</h2>
+</div>
+<div class="text-right"><span class="font-price-md text-price-md text-emerald-800 font-semibold">₱1,650.00</span><span class="block font-label-sm text-emerald-700 font-medium">Order K406-2841</span></div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              6" Round · Vanilla Sponge (Swiss Meringue · 1 add-on)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="">Oct 12, 2026 (1–3 PM)</span>
+</div>
+<span class="font-label-sm text-emerald-700 font-semibold">8 days away</span>
+</div>
+</div>
+<!-- ITEM 4: CCR-1045 -->
+<div class="request-item p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1045" onclick="selectRequest('CCR-1045')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline-variant"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">CCR-1045</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-error-container text-error font-semibold">Rejected</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Bea Cruz</h2>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-secondary line-through">₱3,800.00</span>
+<span class="block font-label-sm text-error">Capacity reached</span>
+</div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              2-Tier Round · Dark Chocolate (Ganache · 4 add-ons)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="">Oct 10, 2026 (3–5 PM)</span>
+</div>
+<span class="font-label-sm text-secondary">Closed Oct 2</span>
+</div>
+</div>
+<!-- ITEM 5: CCR-1042 -->
+<div class="request-item p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1042" onclick="selectRequest('CCR-1042')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline-variant"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">CCR-1042</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">Quoted</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Paolo Reyes</h2>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱2,100.00</span>
+<span class="block font-label-sm text-secondary">Quote #2 active</span>
+</div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              8" Square · Spiced Carrot Cake (Cream Cheese · 2 add-ons)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="">Oct 28, 2026 (11 AM)</span>
+</div>
+<span class="font-label-sm text-secondary">24 days away</span>
+</div>
+</div>
+<!-- ITEM 6: CCR-1039 -->
+<div class="request-item p-space-md cursor-pointer transition-all hover:bg-surface-container-low relative group" id="item-CCR-1039" onclick="selectRequest('CCR-1039')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline-variant"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">CCR-1039</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-dim text-secondary font-semibold">Expired</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-1">Sofia Mendoza</h2>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-secondary line-through">₱1,400.00</span>
+<span class="block font-label-sm text-secondary">No response</span>
+</div>
+</div>
+<p class="font-body-sm text-secondary mt-1.5 line-clamp-1">
+              6" Round · Matcha Chiffon (Buttercream · 0 add-ons)
+            </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs">
+<div class="flex items-center gap-1 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="">Sep 30, 2026</span>
+</div>
+<span class="font-label-sm text-secondary">Expired 4d ago</span>
+</div>
+</div>
+</div>
+<!-- List Footer Information -->
+<div class="p-space-sm bg-surface-container-low text-center font-label-sm text-secondary">
+<span class="">End of visible requests · All customer submissions locked</span>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- RIGHT REGION: SELECTED REQUEST WORKSPACE (7 cols ~ 58%) -->
+<!-- ========================================================================= -->
+<section class="lg:col-span-7 space-y-space-md">
+<!-- MAIN REQUEST DETAIL CONTAINER -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden relative">
+<!-- Detail Header & Urgent Banner -->
+<div class="p-space-lg bg-surface-container-low"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm"><div><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">Customer Request</span><div class="flex items-center gap-space-sm mt-1"><h2 class="font-headline-md text-headline-md text-on-surface font-serif">Custom Cake Request CCR-1048</h2><span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container text-primary font-bold tracking-wide">Awaiting Review</span></div></div><div class="text-left sm:text-right"><span class="font-label-sm text-secondary block">Submitted</span><span class="font-title-sm text-title-sm text-on-surface">Oct 4, 2026 · 3:42 PM</span></div></div><div class="mt-space-sm p-space-sm rounded-lg bg-primary/10 flex items-center justify-between flex-wrap gap-space-xs"><div class="flex items-center gap-space-xs text-on-surface"><span class="material-symbols-outlined text-primary text-[20px]">event</span><span class="font-label-md text-label-md">Requested for <strong class="text-primary font-bold">Sunday, October 18, 2026 (2:00 PM – 4:00 PM)</strong></span></div><span class="font-label-sm text-primary font-bold bg-surface-container-lowest px-2.5 py-1 rounded shadow-2xs">14 days advance notice</span></div></div>
+<div class="p-space-lg space-y-space-lg">
+<!-- SECTION 1: CUSTOMER PROFILE & METRICS -->
+<div>
+<h3 class="font-label-sm uppercase tracking-wider text-secondary font-semibold mb-space-xs">Customer Profile</h3>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><div class="w-12 h-12 rounded-full bg-secondary-container text-primary font-serif font-bold text-headline-sm flex items-center justify-center shrink-0">MS</div><div><h4 class="font-title-md text-title-md text-on-surface font-bold">Maria Santos</h4><p class="font-body-sm text-secondary mt-0.5">maria.santos@email.ph · +63 917 842 1904</p></div></div><div class="flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-lowest text-surface-tint font-label-sm font-semibold"><span class="material-symbols-outlined text-[16px]">verified</span><span class="">Registered Customer</span></div></div>
+</div>
+<!-- SECTION 2: ARTISANAL REFERENCE IMAGE & CUSTOMER NOTES -->
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<h3 class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Visual Reference &amp; Customer Notes</h3>
+<span class="font-label-sm text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">image</span> Submitted Reference Photo</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
+<!-- Image Container with prompt and lightbox trigger -->
+<div class="md:col-span-6 rounded-xl overflow-hidden bg-surface-container-low flex flex-col group relative shadow-sm">
+<div class="relative aspect-4/3 overflow-hidden bg-surface-container">
+<img alt="Artisanal minimalist custom celebration cake, 8-inch round cake with textured sage green and cream Swiss meringue buttercream, delicate subtle edible gold leaf flecks, rustic botanical floral touches on top, minimalist modern aesthetic, photographed on an artisanal ceramic cake stand in warm morning bakery lighting, soft neutral linen backdrop, high end boutique pastry shop quality" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer" onclick="openLightbox()" src="https://lh3.googleusercontent.com/aida/AEtjO1WsBXcc2Lv8IxwlfjcyQ9J_W-Jz9G1MmMqeS-9taZNSSRQGGvZsD0AKLdKA7ZNvrAEM289svDX3QNXozBqGEMYdk2z2jfnFIF23cfPacOBWIpCNz8AewZgAihHpVRWkq9LXRoQmg7rs0OnM_5FRoNs2mzQAdRG3nEZvJ-X3l3_qdwJs0CoMdCcrtXIH174fOXMSwBt_CLELdumFcuWIHqe2bBSnyu-jIl-SKEGMFjaTeWwlL5e2PUJ7tWE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-space-sm justify-between">
+<span class="text-on-primary font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">zoom_in</span> Click to enlarge
+                      </span>
+<button class="bg-surface-container-lowest/90 text-on-surface px-2 py-1 rounded text-label-sm font-semibold hover:bg-surface-container-lowest" onclick="openLightbox()">
+                        Full Resolution
+                      </button>
+</div>
+</div>
+<div class="p-space-sm bg-surface-container-low text-secondary font-body-sm text-[12px] leading-relaxed"><strong>Reference Image:</strong> Inspiration photo submitted by customer. Use as reference when calculating quotation details.</div>
+</div>
+<!-- Customer Notes -->
+<div class="md:col-span-6 flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low">
+<div>
+<div class="flex items-center gap-1.5 text-primary mb-space-xs">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+<span class="font-label-sm uppercase tracking-wider font-semibold">Special Requests &amp; Inscription</span>
+</div>
+<blockquote class="font-body-md text-on-surface italic leading-relaxed bg-surface-container-lowest/80 p-space-md rounded-lg">
+                      “Please keep the floral decorations minimal and place the Happy Birthday topper slightly toward the back. Similar to the reference photo with soft sage green textured finish and light edible gold leaf. Thank you!”
+                    </blockquote>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-surface-variant flex items-center justify-between text-secondary">
+<span class="font-label-sm">Cake Inscription:</span>
+<span class="font-title-sm text-on-surface font-semibold">“Happy 30th Birthday Maria”</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: CAKE CONFIGURATION & ADD-ONS (LOCKED CLIENT VIEW) -->
+<div>
+<div class="flex items-center justify-between mb-space-xs"><h3 class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Cake Specifications</h3><span class="font-label-sm text-secondary">Original customer request: Submitted request details are preserved for reference.</span></div>
+<div class="bg-surface-container-low rounded-xl p-space-md space-y-space-md">
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-md text-on-surface">
+<div>
+<span class="font-label-sm text-secondary uppercase tracking-wider block">Shape &amp; Size</span>
+<span class="font-title-md text-title-md font-serif mt-0.5 block">8" Round (12–16 Slices)</span>
+</div>
+<div>
+<span class="font-label-sm text-secondary uppercase tracking-wider block">Base Sponge</span>
+<span class="font-title-md text-title-md font-serif mt-0.5 block">Dark Chocolate</span>
+</div>
+<div>
+<span class="font-label-sm text-secondary uppercase tracking-wider block">Frosting / Icing</span>
+<span class="font-title-md text-title-md font-serif mt-0.5 block">Swiss Meringue</span>
+</div>
+<div>
+<span class="font-label-sm text-secondary uppercase tracking-wider block">Palette / Theme</span>
+<span class="font-title-md text-title-md font-serif mt-0.5 block">Sage Green &amp; Flecked Gold</span>
+</div>
+</div>
+<!-- Add-on Items -->
+<div class="pt-space-sm border-t border-surface-variant">
+<span class="font-label-sm text-secondary uppercase tracking-wider block mb-space-xs">Included Add-ons &amp; Embellishments</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">stars</span>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Gold Acrylic "Happy Birthday" Topper</p>
+<span class="font-body-sm text-secondary text-[11px]">Quantity: 1 unit</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱250.00</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">local_florist</span>
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Fresh Edible Botanical &amp; Floral Cluster</p>
+<span class="font-body-sm text-secondary text-[11px]">Quantity: 1 artisanal cluster</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface font-semibold">₱200.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 4: DELIVERY & LOGISTICS -->
+<div>
+<h3 class="font-label-sm uppercase tracking-wider text-secondary font-semibold mb-space-xs">Fulfillment &amp; Delivery Coordinates</h3>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md"><div class="space-y-1"><div class="flex items-center gap-space-xs text-primary font-semibold"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span class="font-title-sm text-title-sm">Owner Personal Delivery</span></div><p class="font-body-md text-on-surface">Unit 402, Acacia Residences, Gorordo Avenue, Lahug, Cebu City 6000</p><p class="font-body-sm text-secondary text-[12px]">Requested window: Sunday, October 18, 2026 · 2:00 PM – 4:00 PM</p></div><div class="shrink-0 bg-surface-container-lowest px-space-md py-space-sm rounded-lg text-right"><span class="font-label-sm text-secondary block">Fulfillment Method</span><span class="font-title-sm text-title-sm text-on-surface font-bold">Personal Hand-Delivery</span></div></div>
+</div>
+<!-- SECTION 5: OPERATIONAL FEASIBILITY CHECK ENGINE (Decision Support) -->
+<div class="p-space-md rounded-xl bg-surface-container-low space-y-space-md"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-surface-tint text-[20px]">checklist</span><h3 class="font-title-md text-title-md text-on-surface font-bold">Feasibility Check</h3></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm"><div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-start gap-space-xs"><span class="material-symbols-outlined text-emerald-700 text-[18px] shrink-0 mt-0.5">check_circle</span><div><div class="flex items-center justify-between gap-1"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Custom Cake Capacity</span><span class="px-2 py-0.5 rounded-full font-label-sm text-[11px] bg-emerald-100 text-emerald-800 font-bold">Available</span></div><p class="font-body-sm text-secondary text-[12px] mt-0.5">1 of 2 configured custom cake slots currently committed for this week.</p></div></div><div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-start gap-space-xs"><span class="material-symbols-outlined text-emerald-700 text-[18px] shrink-0 mt-0.5">check_circle</span><div><div class="flex items-center justify-between gap-1"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Requested Date</span><span class="px-2 py-0.5 rounded-full font-label-sm text-[11px] bg-emerald-100 text-emerald-800 font-bold">Available</span></div><p class="font-body-sm text-secondary text-[12px] mt-0.5">No blocked-date conflict for October 18, 2026.</p></div></div><div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-start gap-space-xs"><span class="material-symbols-outlined text-emerald-700 text-[18px] shrink-0 mt-0.5">check_circle</span><div><div class="flex items-center justify-between gap-1"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Lead Time</span><span class="px-2 py-0.5 rounded-full font-label-sm text-[11px] bg-emerald-100 text-emerald-800 font-bold">Requirement met</span></div><p class="font-body-sm text-secondary text-[12px] mt-0.5">Request was submitted 14 days before the requested fulfillment date.</p></div></div><div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-start gap-space-xs"><span class="material-symbols-outlined text-emerald-700 text-[18px] shrink-0 mt-0.5">check_circle</span><div><div class="flex items-center justify-between gap-1"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Configured Ingredients</span><span class="px-2 py-0.5 rounded-full font-label-sm text-[11px] bg-emerald-100 text-emerald-800 font-bold">Available</span></div><p class="font-body-sm text-secondary text-[12px] mt-0.5">Configured cake options and add-ons have sufficient ingredient availability.</p></div></div></div><div class="p-space-sm rounded-lg bg-surface-container flex items-start gap-space-xs border border-outline-variant/30"><span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">info</span><div class="text-[12px] text-on-surface-variant"><strong class="text-on-surface font-semibold block">Owner review required</strong><span class="">Operational checks cover scheduling, capacity, lead time, and configured materials only. Final design feasibility and complexity remain the owner's decision.</span></div></div></div>
+<!-- SECTION 6: PRELIMINARY ESTIMATE VS FINAL QUOTATION NOTE -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md"><div class="space-y-1"><span class="font-label-sm text-secondary uppercase tracking-wider block">Customer Preliminary Estimate</span><div class="flex items-baseline gap-space-sm"><span class="font-headline-md text-headline-md text-on-surface font-serif font-bold">₱1,850.00</span><span class="font-body-sm text-secondary">(Base cake ₱1,400.00 | Options &amp; add-ons ₱450.00)</span></div><p class="font-body-sm text-secondary max-w-xl text-[12px]">Based on selected cake options and add-ons. Final pricing is determined after owner review.</p></div><div class="bg-surface-container-lowest px-space-md py-space-sm rounded-lg text-right shrink-0"><span class="font-label-sm text-secondary block">Calculation State</span><span class="font-title-sm text-title-sm text-primary font-bold">Estimate Only</span></div></div>
+<!-- SECTION 7: QUOTATION HISTORY SECTION (Empty State for CCR-1048) -->
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<h3 class="font-label-sm uppercase tracking-wider text-secondary font-semibold">Quotation Version History</h3>
+<span class="font-label-sm text-secondary">Quotation Record</span>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-low text-center flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-outline-variant mb-1">history_edu</span>
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold">No quotations issued yet for this request</h4>
+<p class="font-body-sm text-secondary max-w-md mt-1">Once created, quotation details and version history will appear here. The customer can review, accept, or request revisions.</p>
+</div>
+</div>
+</div>
+<!-- PRIMARY ACTION AREA: BOTTOM STICKY BAR IN INSPECTOR -->
+<div class="p-space-md bg-surface-container-low/95 backdrop-blur-sm sticky bottom-0 z-10 flex flex-col sm:flex-row items-center justify-between gap-space-md shadow-lg"><div class="text-left w-full sm:w-auto"><span class="font-label-sm text-secondary block">Next Step</span><p class="font-body-sm text-on-surface font-medium text-[13px]">Review the request details before creating a quotation.</p></div><div class="flex items-center gap-space-sm w-full sm:w-auto justify-end"><button class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors flex items-center gap-1" onclick="openRejectModal()" type="button"><span class="material-symbols-outlined text-[18px]">close</span><span class="">Reject Request</span></button><a class="px-space-lg py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container transition-all shadow-sm flex items-center gap-2 group" href="#quotation-builder" onclick="proceedToQuote('CCR-1048')"><span class="">Create Quotation</span><span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span></a></div></div>
+</div>
+</section>
+</div>
+<!-- PROTOTYPE VIEW STATE: LOADING STATE -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm min-h-[500px]" id="sim-state-loading">
+<div class="w-10 h-10 border-4 border-outline-variant border-t-primary rounded-full animate-spin"></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mt-space-md font-serif">Loading Custom Cake Requests...</h3>
+<p class="font-body-md text-secondary mt-1">Retrieving incoming customer intake and synchronizing bake capacity calendar.</p>
+</div>
+<!-- PROTOTYPE VIEW STATE: EMPTY STATE -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm min-h-[500px] text-center" id="sim-state-empty">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-space-sm text-surface-tint">
+<span class="material-symbols-outlined text-[32px]">cake</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-serif">No Custom Cake Requests Found</h3>
+<p class="font-body-md text-secondary max-w-md mt-1">
+        There are currently no customer inquiries pending review. Custom cake requests originate strictly from registered customers via the online storefront.
+      </p>
+<button class="mt-space-md px-space-md py-space-sm bg-surface-container text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-high transition-colors" onclick="setSimulatorState('normal')">
+        Reset to Sample Requests
+      </button>
+</div>
+<!-- PROTOTYPE VIEW STATE: ERROR STATE -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm min-h-[500px] text-center" id="sim-state-error">
+<div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-space-sm">
+<span class="material-symbols-outlined text-[32px]">sync_problem</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-serif">Unable to Synchronize Requests</h3>
+<p class="font-body-md text-secondary max-w-md mt-1">
+        A temporary network disruption prevented synchronization with the customer request database. Please verify your connection or refresh the workspace.
+      </p>
+<div class="mt-space-md flex gap-space-sm">
+<button class="px-space-md py-space-sm bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-colors" onclick="setSimulatorState('normal')">
+          Retry Synchronization
+        </button>
+</div>
+</div>
+<!-- PROTOTYPE VIEW STATE: FILTERED EMPTY -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm min-h-[500px] text-center" id="sim-state-filtered-empty">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-space-sm text-secondary">
+<span class="material-symbols-outlined text-[32px]">filter_list_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-serif">No Matching Requests</h3>
+<p class="font-body-md text-secondary max-w-md mt-1">
+        No custom cake requests match the current search or status filter parameters.
+      </p>
+<button class="mt-space-md px-space-md py-space-sm bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-colors" onclick="resetFilters()">
+        Clear All Filters
+      </button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 1: REJECT REQUEST CONFIRMATION DIALOG -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="reject-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-lg w-full overflow-hidden animate-fade-in"><div class="p-space-md bg-surface-container-low flex items-center justify-between"><div class="flex items-center gap-space-xs text-error"><span class="material-symbols-outlined text-[22px]">warning</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-serif">Reject custom cake request?</h3></div><button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeRejectModal()" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="p-space-md space-y-space-md"><p class="font-body-md text-secondary">This request will be marked as rejected and the customer will no longer be able to proceed with it.</p></div><div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm"><button class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-secondary hover:text-on-surface transition-colors" onclick="closeRejectModal()" type="button">Keep Request</button><button class="px-space-md py-space-sm rounded-lg bg-error text-on-error font-label-md text-label-md font-semibold hover:bg-error/90 transition-colors shadow-sm" onclick="confirmRejection()" type="button">Reject Request</button></div></div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 2: IMAGE ZOOM LIGHTBOX -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/85 backdrop-blur-md p-4" id="lightbox-modal" onclick="closeLightbox()">
+<div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+<div class="absolute -top-12 right-0 flex items-center gap-space-sm text-on-primary">
+<span class="font-label-sm uppercase tracking-wider">Customer Reference Photo</span>
+<button class="p-1 rounded-full bg-surface-container-lowest/20 hover:bg-surface-container-lowest/40 transition-colors" onclick="closeLightbox()">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<img alt="Artisanal minimalist custom celebration cake, 8-inch round cake with textured sage green and cream Swiss meringue buttercream, delicate subtle edible gold leaf flecks, rustic botanical floral touches on top, minimalist modern aesthetic, photographed on an artisanal ceramic cake stand in warm morning bakery lighting, soft neutral linen backdrop, high end boutique pastry shop quality" class="w-full h-auto max-h-[82vh] object-contain rounded-xl shadow-2xl" src="https://lh3.googleusercontent.com/aida/AEtjO1WsBXcc2Lv8IxwlfjcyQ9J_W-Jz9G1MmMqeS-9taZNSSRQGGvZsD0AKLdKA7ZNvrAEM289svDX3QNXozBqGEMYdk2z2jfnFIF23cfPacOBWIpCNz8AewZgAihHpVRWkq9LXRoQmg7rs0OnM_5FRoNs2mzQAdRG3nEZvJ-X3l3_qdwJs0CoMdCcrtXIH174fOXMSwBt_CLELdumFcuWIHqe2bBSnyu-jIl-SKEGMFjaTeWwlL5e2PUJ7tWE"/>
+<div class="mt-space-sm bg-inverse-surface/90 text-inverse-on-surface px-space-md py-space-xs rounded-full font-label-sm text-label-sm shadow-md">
+        Submitted by Maria Santos for CCR-1048 · 8" Round Dark Chocolate with Swiss Meringue
+      </div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- PROTOTYPE STATE CONTROLS (Dedicated bottom right switcher) -->
+<!-- ========================================================================= -->
+<div class="fixed bottom-4 right-6 z-50 flex items-center gap-1.5 bg-inverse-surface/90 text-inverse-on-surface backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg text-[12px]">
+<span class="font-label-sm text-[10px] uppercase tracking-wider text-outline-variant mr-1">Prototype View:</span>
+<button class="state-pill px-2 py-0.5 rounded font-medium bg-primary text-on-primary" onclick="setSimulatorState('normal')">Normal</button>
+<button class="state-pill px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('loading')">Loading</button>
+<button class="state-pill px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('empty')">Empty</button>
+<button class="state-pill px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('error')">Error</button>
+<button class="state-pill px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('filtered-empty')">Filtered Empty</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT: MASTER-DETAIL INTERACTION, SEARCH, FILTER, AND MODALS -->
+<!-- ========================================================================= -->
+<script>
+  let activeRequestId = 'CCR-1048';
+  let activeFilter = 'all';
+
+  // Master Request Directory Data
+  const requestsData = {
+    'CCR-1048': {
+      id: 'CCR-1048',
+      name: 'Maria Santos',
+      email: 'maria.santos@email.ph',
+      phone: '+63 917 842 1904',
+      status: 'awaiting_review',
+      statusLabel: 'Awaiting Review',
+      submitted: 'Oct 4, 2026 · 3:42 PM',
+      deliveryDate: 'Sunday, October 18, 2026 (2:00 PM – 4:00 PM)',
+      daysNotice: '14 days advance notice',
+      shapeSize: '8" Round (12–16 Slices)',
+      sponge: 'Dark Chocolate',
+      frosting: 'Swiss Meringue',
+      theme: 'Sage Green & Flecked Gold',
+      inscription: 'Happy 30th Birthday Maria',
+      preliminaryEstimate: '₱1,850.00',
+      address: 'Unit 402, Acacia Residences, Gorordo Avenue, Lahug, Cebu City 6000',
+      notes: 'Please keep the floral decorations minimal and place the Happy Birthday topper slightly toward the back. Similar to the reference photo with soft sage green textured finish and light edible gold leaf. Thank you!'
+    },
+    'CCR-1047': {
+      id: 'CCR-1047',
+      name: 'Angela Lim',
+      email: 'angela.lim@cloud.com',
+      phone: '+63 918 331 4092',
+      status: 'quoted',
+      statusLabel: 'Quoted',
+      submitted: 'Oct 3, 2026 · 11:20 AM',
+      deliveryDate: 'Saturday, October 24, 2026 (10:00 AM – 12:00 PM)',
+      daysNotice: '20 days advance notice',
+      shapeSize: '10" Heart (18–22 Slices)',
+      sponge: 'Red Velvet Enriched',
+      frosting: 'Cream Cheese Velvet',
+      theme: 'Vintage Burgundy & Ribbon Lambeth',
+      inscription: 'Always & Forever',
+      preliminaryEstimate: '₱2,400.00',
+      address: '14 Orchid Street, Banilad, Cebu City 6000',
+      notes: 'Classic Victorian Lambeth piping around the top tier with matching burgundy silk bow.'
+    },
+    'CCR-1046': {
+      id: 'CCR-1046',
+      name: 'Joshua Tan',
+      email: 'j.tan@techcebu.io',
+      phone: '+63 920 914 8831',
+      status: 'accepted',
+      statusLabel: 'Accepted',
+      submitted: 'Sep 29, 2026 · 5:15 PM',
+      deliveryDate: 'Monday, October 12, 2026 (1:00 PM – 3:00 PM)',
+      daysNotice: '8 days advance notice',
+      shapeSize: '6" Round (6–8 Slices)',
+      sponge: 'Madagascar Vanilla Bean',
+      frosting: 'Swiss Meringue Buttercream',
+      theme: 'Textured Linen & Dried Ruscus',
+      inscription: 'Bon Voyage Joshua',
+      preliminaryEstimate: '₱1,650.00',
+      address: 'Solinea Tower 3, Cebu Business Park',
+      notes: 'Minimalist clean aesthetic, no bright colors.'
+    },
+    'CCR-1045': {
+      id: 'CCR-1045',
+      name: 'Bea Cruz',
+      email: 'bea.cruz@designstudio.ph',
+      phone: '+63 908 122 7644',
+      status: 'rejected',
+      statusLabel: 'Rejected',
+      submitted: 'Oct 1, 2026 · 9:05 AM',
+      deliveryDate: 'Saturday, October 10, 2026 (3:00 PM – 5:00 PM)',
+      daysNotice: '6 days advance notice',
+      shapeSize: '2-Tier Round (35 Slices)',
+      sponge: 'Dark Chocolate Fudge',
+      frosting: 'Valrhona Chocolate Ganache',
+      theme: 'Sculpted Palette Knife Botanicals',
+      inscription: 'Golden Jubilee',
+      preliminaryEstimate: '₱3,800.00',
+      address: 'Maria Luisa Estate Park, Banilad',
+      notes: '2-tier celebration cake with gold leaf and handcrafted wafer paper flowers.'
+    },
+    'CCR-1042': {
+      id: 'CCR-1042',
+      name: 'Paolo Reyes',
+      email: 'paolo.reyes@finance.com',
+      phone: '+63 917 554 9012',
+      status: 'quoted',
+      statusLabel: 'Quoted',
+      submitted: 'Oct 2, 2026 · 2:30 PM',
+      deliveryDate: 'Wednesday, October 28, 2026 (11:00 AM)',
+      daysNotice: '24 days advance notice',
+      shapeSize: '8" Square (16 Slices)',
+      sponge: 'Spiced Carrot Cake',
+      frosting: 'Cream Cheese',
+      theme: 'Toasted Pecan & Cinnamon Bark',
+      inscription: 'Happy Retirement Chief',
+      preliminaryEstimate: '₱2,100.00',
+      address: 'Avenir Building, Archbishop Reyes Ave',
+      notes: 'Natural rustic finish with crushed caramelized nuts around the base.'
+    },
+    'CCR-1039': {
+      id: 'CCR-1039',
+      name: 'Sofia Mendoza',
+      email: 'sofia.mendoza@gmail.com',
+      phone: '+63 995 204 8871',
+      status: 'expired',
+      statusLabel: 'Expired',
+      submitted: 'Sep 20, 2026 · 10:00 AM',
+      deliveryDate: 'Wednesday, September 30, 2026',
+      daysNotice: 'Past delivery date',
+      shapeSize: '6" Round (6–8 Slices)',
+      sponge: 'Matcha Green Tea Chiffon',
+      frosting: 'White Chocolate Buttercream',
+      theme: 'Monochrome Matcha Dusting',
+      inscription: 'Congratulations Dr. Sofia',
+      preliminaryEstimate: '₱1,400.00',
+      address: 'Chong Hua Medical Arts Bldg, Fuente',
+      notes: 'Quotation expired after 72 hours without client confirmation.'
+    }
+  };
+
+  // Select Request Item in Inbox
+  function selectRequest(id) {
+    activeRequestId = id;
+    
+    // Update active highlight on left list
+    document.querySelectorAll('.request-item').forEach(item => {
+      item.classList.remove('bg-primary/5');
+      const bar = item.querySelector('.absolute.left-0');
+      if (bar) bar.classList.replace('bg-primary', 'bg-transparent');
+    });
+
+    const activeEl = document.getElementById('item-' + id);
+    if (activeEl) {
+      activeEl.classList.add('bg-primary/5');
+      const bar = activeEl.querySelector('.absolute.left-0');
+      if (bar) bar.classList.replace('bg-transparent', 'bg-primary');
+    }
+
+    // Dynamic scroll / update right pane data smoothly
+    const data = requestsData[id];
+    if (data && id === 'CCR-1048') {
+      // CCR-1048 is the complete featured specification with photo
+      return;
+    } else if (data) {
+      // Temporary alert for prototype flow exploration
+      console.log('Switched workspace view to: ' + id);
+    }
+  }
+
+  // Filter List by Status
+  function setFilter(status, btn) {
+    activeFilter = status;
+    document.querySelectorAll('.filter-pill').forEach(b => {
+      b.className = 'filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors shrink-0';
+    });
+    btn.className = 'filter-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-semibold shrink-0';
+
+    applyFilters();
+  }
+
+  function filterByStatus(status) {
+    const pills = document.querySelectorAll('.filter-pill');
+    pills.forEach(p => {
+      if ((status === 'awaiting_review' && p.innerText.includes('Awaiting Review')) ||
+          (status === 'quoted' && p.innerText.includes('Quoted')) ||
+          (status === 'accepted' && p.innerText.includes('Accepted')) ||
+          (status === 'all' && p.innerText.includes('All'))) {
+        p.click();
+      }
+    });
+  }
+
+  function handleSearch(val) {
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    let count = 0;
+
+    Object.keys(requestsData).forEach(id => {
+      const data = requestsData[id];
+      const el = document.getElementById('item-' + id);
+      if (!el) return;
+
+      const matchesStatus = (activeFilter === 'all') || (data.status === activeFilter);
+      const matchesSearch = !query || 
+        data.id.toLowerCase().includes(query) || 
+        data.name.toLowerCase().includes(query) ||
+        data.sponge.toLowerCase().includes(query) ||
+        data.theme.toLowerCase().includes(query);
+
+      if (matchesStatus && matchesSearch) {
+        el.classList.remove('hidden');
+        count++;
+      } else {
+        el.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('result-count').innerText = `Showing ${count} request${count === 1 ? '' : 's'}`;
+
+    if (count === 0) {
+      // Trigger filtered empty state if completely empty
+      setSimulatorState('filtered-empty');
+    } else {
+      if (document.getElementById('sim-state-normal').classList.contains('hidden')) {
+        setSimulatorState('normal');
+      }
+    }
+  }
+
+  function resetFilters() {
+    document.getElementById('search-input').value = '';
+    const allBtn = document.querySelector('.filter-pill');
+    if (allBtn) setFilter('all', allBtn);
+    setSimulatorState('normal');
+  }
+
+  // Prototype Simulator View State Switcher
+  function setSimulatorState(state) {
+    const states = ['normal', 'loading', 'empty', 'error', 'filtered-empty'];
+    states.forEach(s => {
+      const el = document.getElementById('sim-state-' + s);
+      if (el) {
+        if (s === state) {
+          el.classList.remove('hidden');
+          if (s !== 'normal') el.classList.add('flex');
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('flex');
+        }
+      }
+    });
+
+    // Update bottom pills
+    document.querySelectorAll('.state-pill').forEach(btn => {
+      if (btn.innerText.toLowerCase().replace(' ', '-') === state) {
+        btn.className = 'state-pill px-2 py-0.5 rounded font-medium bg-primary text-on-primary';
+      } else {
+        btn.className = 'state-pill px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors';
+      }
+    });
+  }
+
+  // Modals and Lightbox Actions
+  function openRejectModal() {
+    const m = document.getElementById('reject-modal');
+    m.classList.remove('hidden');
+    m.classList.add('flex');
+  }
+
+  function closeRejectModal() {
+    const m = document.getElementById('reject-modal');
+    m.classList.add('hidden');
+    m.classList.remove('flex');
+  }
+
+  function confirmRejection() {
+    closeRejectModal();
+    // Simulate updating active item to rejected
+    const item = document.getElementById('item-CCR-1048');
+    if (item) {
+      const badge = item.querySelector('.bg-secondary-container');
+      if (badge) {
+        badge.className = 'px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-error-container text-error font-semibold';
+        badge.innerText = 'Rejected';
+      }
+    }
+  }
+
+  function openLightbox() {
+    const lb = document.getElementById('lightbox-modal');
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox-modal');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+  }
+
+  function proceedToQuote(requestId) {
+    console.log('Routing to Phase 6.9 Custom Cake Quotation Builder for: ' + requestId);
+  }
+</script></main>
+</div>
+<!-- FLOATING PROTOTYPE STATE CONTROLS (Dedicated developer test drawer, separated from owner UI) -->
+<!-- ========================================================================= -->
+<!-- MODALS & DRAWERS (Interactive) -->
+<!-- ========================================================================= -->
+<!-- MODAL 1: EDIT RECIPE (Bill of Materials) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="edit-recipe-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+<!-- Modal Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Recipe Configuration</span>
+<h3 class="font-headline-sm text-headline-sm text-primary" id="modal-recipe-title">Edit Recipe — Sourdough Loaf (Regular)</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('edit-recipe-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-space-md overflow-y-auto space-y-space-md flex-1">
+<p class="font-body-sm text-body-sm text-secondary">
+          Specify ingredients and packaging required to produce 1 finished unit. Unit costs link directly to costs recorded in Inventory.
+        </p>
+<!-- Lines -->
+<div class="space-y-space-xs" id="recipe-line-items">
+<!-- Line 1 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option selected="">High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="550"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.075/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 2 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option selected="">Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="100"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.095/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 3 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option selected="">Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="420"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">ml</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.010/ml</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 4 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option selected="">Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="12"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.035/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 5 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option selected="">Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="5"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.500/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 6 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option selected="">Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="1" step="1" type="number" value="1"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">pc</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱8.50/pc</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container py-1" onclick="addRecipeLine()" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="">Add Ingredient / Material</span>
+</button>
+<div class="p-space-sm rounded bg-surface-container-low font-body-sm text-body-sm text-outline flex items-center justify-between">
+<span class="">Edit unit costs in Inventory. Quantities must be greater than zero.</span>
+<a class="text-primary hover:underline font-label-sm" data-path="inventory" href="#">Open Inventory</a>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('edit-recipe-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="saveRecipeBOM()" type="button">
+          Save Recipe
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 2: PRICING SETTINGS -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="pricing-settings-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-lg w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Pricing Configuration</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Bakery Pricing Settings</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('pricing-settings-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Global Markup (%)</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low rounded p-2.5 text-on-surface font-body-md text-body-md focus:outline-none" id="input-global-markup" min="0" step="1" type="number" value="30"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">%</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Applied to production cost when calculating suggested selling prices.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Default Utility Overhead per Unit (₱)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-container-low rounded py-2.5 pl-8 pr-3 text-on-surface font-body-md text-body-md focus:outline-none" id="input-global-overhead" min="0" step="0.50" type="number" value="25.00"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Fixed energy and baking utility allowance added to each unit cost unless overridden by product.</p>
+</div>
+<div class="p-space-sm rounded bg-surface-container-low font-body-sm text-body-sm text-outline">
+<strong>Note:</strong> Updating these values recalculates suggested prices across all products. It does not replace existing owner selling prices.
+        </div>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('pricing-settings-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="savePricingSettings()" type="button">
+          Save Settings
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 3: UPDATE SELLING PRICE -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="selling-price-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Owner Decision</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Update Selling Price</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('selling-price-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<div class="grid grid-cols-2 gap-space-xs p-space-sm rounded bg-surface-container-low">
+<div>
+<span class="font-label-sm text-label-sm text-secondary">Current Price</span>
+<div class="font-price-lg text-price-lg text-on-surface font-bold" id="modal-curr-price-disp">₱160.00</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary">System Suggestion</span>
+<div class="font-price-lg text-price-lg text-primary font-bold" id="modal-sugg-price-disp">₱118.78</div>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">New Retail Selling Price (₱)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-container-low rounded py-2.5 pl-8 pr-3 text-on-surface font-headline-sm text-headline-sm focus:outline-none" id="input-new-price" min="0" step="5.00" type="number" value="160.00"/>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+          Updates the active storefront price for <strong id="modal-price-product-name">Sourdough Loaf (Regular)</strong>. The system calculates. The owner decides.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('selling-price-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="saveNewPrice()" type="button">
+          Save New Price
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 4: UTILITY OVERHEAD OVERRIDE -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="utility-override-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Product Overhead</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Utility Overhead Control</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('utility-override-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<p class="font-body-sm text-body-sm text-secondary">
+          Adjust the energy allocation for <strong id="modal-overhead-product-name">Sourdough Loaf</strong> if it requires extended deck oven bake times or high steam injection.
+        </p>
+<div class="space-y-space-sm">
+<label class="flex items-center gap-space-sm p-space-sm rounded bg-surface-container-low cursor-pointer">
+<input checked="" class="text-primary focus:ring-0" id="radio-overhead-default" name="utility-type" type="radio" value="default"/>
+<div class="flex-1">
+<span class="font-label-md text-label-md text-on-surface block">Use Bakery Default</span>
+<span class="font-body-sm text-body-sm text-secondary" id="modal-default-overhead-text">₱25.00 per unit</span>
+</div>
+</label>
+<label class="flex items-center gap-space-sm p-space-sm rounded bg-surface-container-low cursor-pointer">
+<input class="text-primary focus:ring-0" id="radio-overhead-custom" name="utility-type" type="radio" value="custom"/>
+<div class="flex-1">
+<span class="font-label-md text-label-md text-on-surface block">Set Custom Overhead for this Product</span>
+<div class="mt-2 relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-bright rounded py-1.5 pl-8 pr-3 font-body-md text-body-md text-on-surface focus:outline-none" id="input-custom-overhead" placeholder="35.00" step="0.50" type="number" value="35.00"/>
+</div>
+</div>
+</label>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('utility-override-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="applyOverheadOverride()" type="button">
+          Apply Allowance
+        </button>
+</div>
+</div>
+</div>
+<!-- JAVASCRIPT: State, Exact Arithmetic & Master-Detail Logic -->
+<script>
+    // System Global Settings
+    let globalMarkup = 30; // 30%
+    let globalOverhead = 25.00; // ₱25.00
+
+    // Master Product Data with exact arithmetic reconciliation
+    const productData = {
+      sourdough: {
+        id: 'sourdough',
+        name: 'Sourdough Loaf',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Regular (750g)',
+            updated: 'Oct 2, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 160.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '550 g', rate: '₱0.075/g', cost: 41.25 },
+              { name: 'Whole Wheat Flour', qty: '100 g', rate: '₱0.095/g', cost: 9.50 },
+              { name: 'Filtered Water', qty: '420 ml', rate: '₱0.010/ml', cost: 4.20 },
+              { name: 'Sea Salt', qty: '12 g', rate: '₱0.035/g', cost: 0.42 },
+              { name: 'Instant Yeast', qty: '5 g', rate: '₱0.500/g', cost: 2.50 },
+              { name: 'Kraft Windowed Bread Bag', qty: '1 pc', rate: '₱8.50/pc', cost: 8.50 }
+            ]
+          },
+          large: {
+            variantName: 'Batard / Large (1kg)',
+            updated: 'Sep 28, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 220.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '750 g', rate: '₱0.075/g', cost: 56.25 },
+              { name: 'Whole Wheat Flour', qty: '150 g', rate: '₱0.095/g', cost: 14.25 },
+              { name: 'Filtered Water', qty: '580 ml', rate: '₱0.010/ml', cost: 5.80 },
+              { name: 'Sea Salt', qty: '16 g', rate: '₱0.035/g', cost: 0.56 },
+              { name: 'Instant Yeast', qty: '7 g', rate: '₱0.500/g', cost: 3.50 },
+              { name: 'Large Kraft Windowed Bag', qty: '1 pc', rate: '₱9.50/pc', cost: 9.50 }
+            ]
+          }
+        }
+      },
+      brioche: {
+        id: 'brioche',
+        name: 'Brioche Nanterre',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Standard · 500g',
+            updated: 'Sep 30, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 290.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '350 g', rate: '₱0.075/g', cost: 26.25 },
+              { name: 'Pure Butter (82% Fat)', qty: '180 g', rate: '₱0.450/g', cost: 81.00 },
+              { name: 'Fresh Farm Eggs', qty: '3 pcs', rate: '₱8.00/pc', cost: 24.00 },
+              { name: 'Caster Sugar', qty: '40 g', rate: '₱0.060/g', cost: 2.40 },
+              { name: 'Fine Sea Salt & Yeast', qty: '15 g', rate: '₱0.203/g', cost: 3.05 },
+              { name: 'Loaf Liner & Presentation Box', qty: '1 pc', rate: '₱8.50/pc', cost: 8.50 }
+            ] // sum = 145.20; +25 overhead = 170.20; suggested @ 30% = 221.26; owner = 290.00; margin = 41.3%
+          }
+        }
+      },
+      cinnamon: {
+        id: 'cinnamon',
+        name: 'Brioche Cinnamon Rolls',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Box of 4',
+            updated: 'Oct 1, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 360.00,
+            items: [
+              { name: 'Brioche Enriched Dough Base', qty: '480 g', rate: '₱0.185/g', cost: 88.80 },
+              { name: 'Ceylon Cinnamon Blend', qty: '25 g', rate: '₱0.400/g', cost: 10.00 },
+              { name: 'Dark Muscovado Sugar', qty: '90 g', rate: '₱0.100/g', cost: 9.00 },
+              { name: 'Philadelphia Cream Cheese', qty: '120 g', rate: '₱0.550/g', cost: 66.00 },
+              { name: 'Pure Vanilla Extract', qty: '10 ml', rate: '₱1.00/ml', cost: 10.00 },
+              { name: 'Kraft 4-Pack Window Box', qty: '1 pc', rate: '₱15.00/pc', cost: 15.00 }
+            ] // sum = 198.80; +25 = 223.80; suggested = 290.94; owner = 360.00; margin = 37.8%
+          }
+        }
+      },
+      babka: {
+        id: 'babka',
+        name: 'Valrhona Chocolate Babka',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'incomplete-cost',
+        variants: {
+          regular: {
+            variantName: 'Regular Loaf',
+            updated: 'Oct 3, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 380.00,
+            items: [
+              { name: 'Enriched Babka Dough', qty: '400 g', rate: '₱0.160/g', cost: 64.00 },
+              { name: 'Valrhona Cocoa Powder', qty: '80 g', rate: 'Cost unavailable', cost: null },
+              { name: 'European Butter', qty: '90 g', rate: '₱0.450/g', cost: 40.50 },
+              { name: 'Simple Sugar Syrup', qty: '60 ml', rate: '₱0.050/ml', cost: 3.00 },
+              { name: 'Kraft Presentation Box', qty: '1 pc', rate: '₱12.00/pc', cost: 12.00 }
+            ]
+          }
+        }
+      },
+      cheesecake: {
+        id: 'cheesecake',
+        name: 'Basque Burnt Cheesecake',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'missing-recipe',
+        variants: {
+          regular: {
+            variantName: '6-inch Round',
+            updated: null,
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 850.00,
+            items: []
+          }
+        }
+      },
+      baguette: {
+        id: 'baguette',
+        name: 'Tradition Baguette',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Classic · 250g',
+            updated: 'Sep 25, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 110.00,
+            items: [
+              { name: 'T65 French Wheat Flour', qty: '200 g', rate: '₱0.140/g', cost: 28.00 },
+              { name: 'Filtered Water', qty: '140 ml', rate: '₱0.010/ml', cost: 1.40 },
+              { name: 'Sea Salt & Yeast', qty: '5 g', rate: '₱0.440/g', cost: 2.20 },
+              { name: 'Perforated Paper Sleeve', qty: '1 pc', rate: '₱10.50/pc', cost: 10.50 }
+            ] // sum = 42.10; +25 = 67.10; suggested = 87.23; owner = 110.00; margin = 39.0%
+          }
+        }
+      }
+    };
+
+    let selectedProductId = 'sourdough';
+
+    // RENDER SELECTED PRODUCT TO INSPECTOR
+    function renderInspector(productId) {
+      selectedProductId = productId;
+      const product = productData[productId];
+      const activeVariantKey = product.activeVariant || 'regular';
+      const variant = product.variants[activeVariantKey];
+
+      // Update Header Primary Action Context Button
+      const headerBtn = document.getElementById('header-primary-action-btn');
+      const headerBtnText = document.getElementById('header-primary-action-text');
+      const headerBtnIcon = document.getElementById('header-primary-action-icon');
+      if (product.status === 'missing-recipe') {
+        headerBtnText.innerText = 'Create Recipe';
+        headerBtnIcon.innerText = 'add';
+      } else {
+        headerBtnText.innerText = 'Edit Selected Recipe';
+        headerBtnIcon.innerText = 'edit';
+      }
+
+      // Update table selection indicator
+      document.querySelectorAll('#recipe-table-body tr').forEach(row => {
+        const rowId = row.getAttribute('data-row-id');
+        const indicator = row.querySelector('.row-indicator');
+        if (rowId === productId) {
+          row.classList.add('bg-primary/5');
+          if (indicator) indicator.classList.replace('bg-transparent', 'bg-primary');
+        } else {
+          row.classList.remove('bg-primary/5');
+          if (indicator) indicator.classList.replace('bg-primary', 'bg-transparent');
+        }
+      });
+
+      // Panels
+      const inspectorActive = document.getElementById('inspector-active');
+      const inspectorMissing = document.getElementById('inspector-missing-recipe');
+      const inspectorIncomplete = document.getElementById('inspector-incomplete-cost');
+
+      if (product.status === 'missing-recipe') {
+        inspectorActive.classList.add('hidden');
+        inspectorIncomplete.classList.add('hidden');
+        inspectorMissing.classList.remove('hidden');
+        inspectorMissing.classList.add('flex');
+        return;
+      }
+
+      if (product.status === 'incomplete-cost') {
+        inspectorActive.classList.add('hidden');
+        inspectorMissing.classList.add('hidden');
+        inspectorIncomplete.classList.remove('hidden');
+        inspectorIncomplete.classList.add('flex');
+        return;
+      }
+
+      // Complete State
+      inspectorActive.classList.remove('hidden');
+      inspectorMissing.classList.add('hidden');
+      inspectorIncomplete.classList.add('hidden');
+
+      // Populate Texts
+      document.getElementById('inspector-product-title').innerText = product.name;
+      document.getElementById('inspector-meta').innerText = `${variant.items.length} items · Last updated ${variant.updated}`;
+      document.getElementById('modal-recipe-title').innerText = `Edit Recipe — ${product.name} (${variant.variantName})`;
+      document.getElementById('modal-overhead-product-name').innerText = product.name;
+      document.getElementById('modal-price-product-name').innerText = `${product.name} (${variant.variantName})`;
+
+      // Variant Selector visibility (sourdough has 2 variants, others 1)
+      const variantPills = document.getElementById('inspector-variant-pills');
+      if (productId === 'sourdough') {
+        variantPills.classList.remove('hidden');
+        const btnReg = document.getElementById('btn-variant-regular');
+        const btnLrg = document.getElementById('btn-variant-large');
+        if (activeVariantKey === 'regular') {
+          btnReg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-primary text-on-primary font-medium transition-colors';
+          btnLrg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors';
+        } else {
+          btnReg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors';
+          btnLrg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-primary text-on-primary font-medium transition-colors';
+        }
+      } else {
+        variantPills.classList.add('hidden');
+      }
+
+      // Compute Exact Math
+      let materialSum = 0;
+      const tbody = document.getElementById('inspector-bom-body');
+      tbody.innerHTML = '';
+
+      variant.items.forEach(item => {
+        materialSum += item.cost;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-1.5 px-2 font-medium text-on-surface">${item.name}</td>
+          <td class="py-1.5 px-2 text-secondary">${item.qty}</td>
+          <td class="py-1.5 px-2 text-right text-secondary">${item.rate}</td>
+          <td class="py-1.5 px-2 text-right font-price-md text-on-surface">₱${item.cost.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const materialCost = materialSum;
+      const overheadCost = variant.utilityOverhead;
+      const totalCost = materialCost + overheadCost;
+      const suggestedPrice = totalCost * (1 + globalMarkup / 100);
+      const ownerPrice = variant.sellingPrice;
+      const margin = ((ownerPrice - totalCost) / ownerPrice) * 100;
+      const profitPerUnit = ownerPrice - totalCost;
+
+      // Update Inspector DOM
+      document.getElementById('inspector-material-cost').innerText = `₱${materialCost.toFixed(2)}`;
+      document.getElementById('inspector-breakdown-material').innerText = `₱${materialCost.toFixed(2)}`;
+      document.getElementById('inspector-overhead-val').innerText = `₱${overheadCost.toFixed(2)}`;
+      document.getElementById('inspector-overhead-badge').innerText = variant.isOverheadCustom ? 'Custom Override' : 'Using Default';
+      document.getElementById('inspector-total-cost').innerText = `₱${totalCost.toFixed(2)}`;
+      document.getElementById('inspector-markup-pct').innerText = `${globalMarkup}%`;
+      document.getElementById('inspector-suggested-cost').innerText = `₱${suggestedPrice.toFixed(2)}`;
+      document.getElementById('inspector-current-price').innerText = `₱${ownerPrice.toFixed(2)}`;
+      document.getElementById('inspector-margin-pct').innerText = `${margin.toFixed(1)}%`;
+      document.getElementById('inspector-margin-breakdown').innerText = 
+        `Selling Price (₱${ownerPrice.toFixed(2)}) − Production Cost (₱${totalCost.toFixed(2)}) = ₱${profitPerUnit.toFixed(2)} profit per unit`;
+
+      // Update Selling Price Modal references
+      document.getElementById('modal-curr-price-disp').innerText = `₱${ownerPrice.toFixed(2)}`;
+      document.getElementById('modal-sugg-price-disp').innerText = `₱${suggestedPrice.toFixed(2)}`;
+      document.getElementById('input-new-price').value = ownerPrice.toFixed(2);
+    }
+
+    // Switch Product Row
+    function selectRow(id) {
+      renderInspector(id);
+    }
+
+    // Switch Variant
+    function switchVariant(variantKey) {
+      if (productData[selectedProductId]) {
+        productData[selectedProductId].activeVariant = variantKey;
+        renderInspector(selectedProductId);
+      }
+    }
+
+    // Header Primary Button Action
+    function handleHeaderPrimaryAction() {
+      openModal('edit-recipe-modal');
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+
+    // Save Pricing Settings
+    function savePricingSettings() {
+      const newMarkup = parseFloat(document.getElementById('input-global-markup').value) || 30;
+      const newOverhead = parseFloat(document.getElementById('input-global-overhead').value) || 25.00;
+      
+      globalMarkup = newMarkup;
+      globalOverhead = newOverhead;
+
+      document.getElementById('strip-markup-val').innerText = `${globalMarkup}%`;
+      document.getElementById('strip-overhead-val').innerText = `₱${globalOverhead.toFixed(2)}`;
+      document.getElementById('modal-default-overhead-text').innerText = `₱${globalOverhead.toFixed(2)} per unit`;
+
+      // Update non-overridden products
+      Object.keys(productData).forEach(prodKey => {
+        const prod = productData[prodKey];
+        Object.keys(prod.variants).forEach(vKey => {
+          if (!prod.variants[vKey].isOverheadCustom) {
+            prod.variants[vKey].utilityOverhead = globalOverhead;
+          }
+        });
+      });
+
+      renderInspector(selectedProductId);
+      closeModal('pricing-settings-modal');
+    }
+
+    // Save New Selling Price
+    function saveNewPrice() {
+      const newPrice = parseFloat(document.getElementById('input-new-price').value);
+      if (isNaN(newPrice) || newPrice <= 0) {
+        alert('Please enter a valid price.');
+        return;
+      }
+      const product = productData[selectedProductId];
+      const activeVariantKey = product.activeVariant || 'regular';
+      product.variants[activeVariantKey].sellingPrice = newPrice;
+
+      // Update Master Table cell if this is sourdough
+      if (selectedProductId === 'sourdough' && activeVariantKey === 'regular') {
+        const row = document.querySelector('tr[data-row-id="sourdough"]');
+        if (row) {
+          const cells = row.querySelectorAll('td');
+          cells[3].innerText = `₱${newPrice.toFixed(2)}`;
+          const totalCost = 91.37;
+          const margin = ((newPrice - totalCost) / newPrice) * 100;
+          cells[4].innerHTML = `<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">${margin.toFixed(1)}%</span>`;
+        }
+      }
+
+      renderInspector(selectedProductId);
+      closeModal('selling-price-modal');
+    }
+
+    // Apply Overhead Override
+    function applyOverheadOverride() {
+      const isCustom = document.getElementById('radio-overhead-custom').checked;
+      const customVal = parseFloat(document.getElementById('input-custom-overhead').value) || 25.00;
+      
+      const product = productData[selectedProductId];
+      const activeVariantKey = product.activeVariant || 'regular';
+
+      if (isCustom) {
+        product.variants[activeVariantKey].isOverheadCustom = true;
+        product.variants[activeVariantKey].utilityOverhead = customVal;
+      } else {
+        product.variants[activeVariantKey].isOverheadCustom = false;
+        product.variants[activeVariantKey].utilityOverhead = globalOverhead;
+      }
+
+      renderInspector(selectedProductId);
+      closeModal('utility-override-modal');
+    }
+
+    // Edit Recipe BOM Lines logic
+    function removeRecipeLine(btn) {
+      const row = btn.closest('.line-item-row');
+      if (document.querySelectorAll('.line-item-row').length > 1) {
+        row.remove();
+      } else {
+        alert('Recipe must contain at least one line item.');
+      }
+    }
+
+    function addRecipeLine() {
+      const container = document.getElementById('recipe-line-items');
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-space-xs line-item-row';
+      div.innerHTML = `
+        <select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+          <option>High-Protein Bread Flour</option>
+          <option>Whole Wheat Flour</option>
+          <option>Filtered Water</option>
+          <option>Sea Salt</option>
+          <option>Instant Yeast</option>
+          <option>Extra Virgin Olive Oil</option>
+          <option>Kraft Windowed Bread Bag</option>
+        </select>
+        <input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="10"/>
+        <span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+        <span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.120/g</span>
+        <button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+          <span class="material-symbols-outlined text-[18px]">delete</span>
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function saveRecipeBOM() {
+      // Validate inputs
+      const rows = document.querySelectorAll('.line-item-row');
+      let valid = true;
+      rows.forEach(r => {
+        const val = parseFloat(r.querySelector('input').value);
+        if (isNaN(val) || val <= 0) valid = false;
+      });
+      if (!valid) {
+        alert('All ingredient quantities must be greater than zero.');
+        return;
+      }
+      closeModal('edit-recipe-modal');
+      renderInspector(selectedProductId);
+    }
+
+    // Prototype Simulator State Switcher
+    function setSimulatorState(state) {
+      const liveState = document.getElementById('sim-state-live');
+      const loadingState = document.getElementById('sim-state-loading');
+      const emptyState = document.getElementById('sim-state-empty');
+      const errorState = document.getElementById('sim-state-error');
+
+      liveState.classList.add('hidden');
+      loadingState.classList.add('hidden');
+      loadingState.classList.remove('flex');
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+      errorState.classList.add('hidden');
+      errorState.classList.remove('flex');
+
+      if (state === 'live') {
+        liveState.classList.remove('hidden');
+        renderInspector('sourdough');
+      } else if (state === 'loading') {
+        loadingState.classList.remove('hidden');
+        loadingState.classList.add('flex');
+      } else if (state === 'empty') {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else if (state === 'error') {
+        errorState.classList.remove('hidden');
+        errorState.classList.add('flex');
+      } else if (state === 'missing-recipe') {
+        liveState.classList.remove('hidden');
+        renderInspector('cheesecake');
+      } else if (state === 'incomplete-cost') {
+        liveState.classList.remove('hidden');
+        renderInspector('babka');
+      }
+    }
+
+    // Initial render on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderInspector('sourdough');
+    });
+  </script>
+</body></html>

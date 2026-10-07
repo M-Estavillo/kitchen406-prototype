@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#cfc5bd","on-primary-fixed-variant":"#723600","on-background":"#1b1c1a","surface-dim":"#dbdad6","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#4b4642","outline-variant":"#d9c2b5","inverse-surface":"#30312e","surface-container":"#efeeea","on-error":"#ffffff","on-tertiary-fixed":"#1f1b16","on-tertiary":"#ffffff","inverse-on-surface":"#f2f1ed","inverse-primary":"#ffb787","secondary":"#635d59","primary-fixed-dim":"#ffb786","surface-container-low":"#f5f3f0","on-primary":"#ffffff","surface-container-high":"#e9e8e4","on-tertiary-container":"#dcd2ca","surface-tint":"#904d17","primary-fixed":"#ffdcc6","error-container":"#ffdad6","on-primary-fixed":"#311300","outline":"#867368","on-surface-variant":"#53433a","surface-bright":"#fbf9f6","background":"#fbf9f5","secondary-container":"#eae1db","on-error-container":"#93000a","tertiary-fixed":"#ebe1d9","on-secondary":"#ffffff","on-primary-container":"#ffc9a8","surface":"#fbf9f6","primary-container":"#8d4a14","secondary-fixed-dim":"#cdc5c0","tertiary-container":"#7b736d","surface-variant":"#e4e2df","secondary-fixed":"#eae1db","on-secondary-fixed":"#1f1b18","primary":"#6f3400","surface-container-highest":"#e4e2df","on-secondary-container":"#69635f","on-surface":"#1b1c1a","on-tertiary-fixed-variant":"#4c4640","tertiary":"#49433d","error":"#ba1a1a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xl":"2.5rem","space-md":"1rem","space-lg":"1.5rem","gutter-mobile":"1rem","gutter":"1.5rem","margin":"3rem","margin-mobile":"1.25rem","space-sm":"0.5rem","space-xs":"0.25rem"},fontFamily:{"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"],"title-md":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"headline-lg-mobile":["Playfair Display"],"price-lg":["Plus Jakarta Sans"],"headline-sm":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"display":["Playfair Display"],"label-md":["Plus Jakarta Sans"],"title-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Playfair Display"],"price-md":["Plus Jakarta Sans"]},fontSize:{"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"display-mobile":["34px",{"lineHeight":"42px","letterSpacing":"-0.01em","fontWeight":"500"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"500"}],"price-lg":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(83,68,58,0.06)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="px-space-lg pt-space-lg pb-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">bakery_dining</span></div><div><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface block leading-tight">Kitchen406</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant block">Owner Workspace</span></div></div></div><nav class="flex-1 px-space-sm space-y-space-md py-space-xs" data-active-classes="bg-secondary-container text-primary font-title-sm border-l-2 border-primary"><div class="space-y-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-secondary">Overview</span><div class="space-y-0.5"><a aria-current="page" class="flex items-center justify-between px-space-md py-space-xs rounded transition-colors bg-secondary-container text-primary font-title-sm border-l-2 border-primary" data-path="dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">grid_view</span><span class="font-title-sm text-title-sm">Dashboard</span></div></a></div></div><div class="space-y-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-secondary">Operations</span><div class="space-y-0.5"><a class="flex items-center justify-between px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="orders" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">receipt_long</span><span class="font-title-sm text-title-sm">Orders</span></div><span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">12</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="payments" href="#"><span class="material-symbols-outlined text-[18px]">payments</span><span class="font-title-sm text-title-sm">Payments</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span class="font-title-sm text-title-sm">Deliveries</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="inventory" href="#"><span class="material-symbols-outlined text-[18px]">inventory_2</span><span class="font-title-sm text-title-sm">Inventory</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="recipes-costing" href="#"><span class="material-symbols-outlined text-[18px]">menu_book</span><span class="font-title-sm text-title-sm">Recipes &amp; Costing</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[18px]">cake</span><span class="font-title-sm text-title-sm">Custom Cakes</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[18px]">event_repeat</span><span class="font-title-sm text-title-sm">Subscriptions</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_month</span><span class="font-title-sm text-title-sm">Capacity Calendar</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="scheduling-blocked-dates" href="#"><span class="material-symbols-outlined text-[18px]">event_busy</span><span class="font-title-sm text-title-sm">Scheduling / Blocked</span></a></div></div><div class="space-y-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-secondary">Management</span><div class="space-y-0.5"><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="products" href="#"><span class="material-symbols-outlined text-[18px]">storefront</span><span class="font-title-sm text-title-sm">Products</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="categories" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span class="font-title-sm text-title-sm">Categories</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[18px]">egg_alt</span><span class="font-title-sm text-title-sm">Ingredients</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="cake-options" href="#"><span class="material-symbols-outlined text-[18px]">tune</span><span class="font-title-sm text-title-sm">Cake Options &amp; Add-ons</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[18px]">celebration</span><span class="font-title-sm text-title-sm">Seasonal Occasions</span></a></div></div><div class="space-y-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-secondary">Administration</span><div class="space-y-0.5"><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-title-sm text-title-sm">Staff Accounts</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-title-sm text-title-sm">Customer Accounts</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="reviews" href="#"><span class="material-symbols-outlined text-[18px]">star</span><span class="font-title-sm text-title-sm">Reviews</span></a><a class="flex items-center justify-between px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">edit_note</span><span class="font-title-sm text-title-sm">Marketing Drafts</span></div><span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Review</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">insights</span><span class="font-title-sm text-title-sm">Reports</span></a></div></div></nav></div><div class="px-space-sm py-space-md bg-surface-container/60 space-y-space-xs"><div class="space-y-0.5"><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="notifications" href="#"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="font-title-sm text-title-sm">Notifications</span></a><a class="flex items-center px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors gap-space-sm" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-title-sm text-title-sm">Settings</span></a></div><div class="mt-space-sm pt-space-sm px-space-sm flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0"><span class="font-title-sm text-title-sm text-on-surface truncate leading-tight">Elena Vance</span><span class="font-body-sm text-body-sm text-secondary truncate">Owner</span></div></div><a class="p-space-xs text-on-surface-variant hover:text-error transition-colors" data-path="sign-out" href="#" title="Sign Out"><span class="material-symbols-outlined text-[18px]">logout</span></a></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="w-full h-full px-gutter flex items-center justify-between"><div class="flex flex-col justify-center"><div><span class="font-headline-sm text-headline-sm text-on-surface font-medium leading-snug">Dashboard</span></div><div class="flex items-center gap-space-sm"><span class="font-body-sm text-body-sm text-on-surface-variant">Here’s what’s happening at Kitchen406 today.</span><span class="text-outline-variant font-body-sm">•</span><span class="font-body-sm text-body-sm text-secondary font-medium">Sunday, October 4, 2026</span></div></div><div class="flex items-center gap-space-md"><div class="relative"><button class="flex items-center gap-space-xs px-space-md py-space-sm rounded bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface" type="button"><span class="material-symbols-outlined text-[18px] text-primary">bolt</span><span class="font-label-md text-label-md">Quick Actions</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_drop_down</span></button></div><a class="relative p-space-sm rounded-full text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors flex items-center justify-center" data-path="notifications" href="#"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[10px] flex items-center justify-center leading-none font-semibold">5</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 px-gutter bg-background min-h-screen"><div class="flex flex-col w-full pb-space-xl space-y-space-xl">
+<!-- TOP SUMMARY: CONCISE OPERATIONAL METRICS -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Card 1: Orders Due Today -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Orders Due Today</span>
+<span class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</span>
+</div>
+<div class="my-space-sm">
+<div class="font-display text-[32px] leading-tight font-medium text-on-surface">8</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">5 standard · 2 subscription · 1 custom cake</p>
+</div>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="orders" href="#">
+<span>View orders</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2: Ready for Fulfillment -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Ready for Fulfillment</span>
+<span class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display text-[32px] leading-tight font-medium text-on-surface">3</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">2 delivery · 1 pickup</p>
+</div>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="deliveries" href="#">
+<span>View deliveries</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 3: Requires Attention -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between overflow-hidden">
+<div class="absolute -right-4 -top-4 w-16 h-16 rounded-full bg-error-container/40 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Requires Attention</span>
+<span class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-[18px]">priority_high</span>
+</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display text-[32px] leading-tight font-medium text-error">5</span>
+<span class="px-space-xs py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-semibold">Action needed</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Payments, quotations, delivery &amp; stock</p>
+</div>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-error hover:underline" href="#needs-attention">
+<span>Jump to review</span>
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</a>
+</div>
+</div>
+<!-- Card 4: Low Stock -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Low Stock</span>
+<span class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display text-[32px] leading-tight font-medium text-on-surface">4</span>
+<span class="font-title-sm text-title-sm text-on-surface">ingredients</span>
+</div>
+<p class="font-body-sm text-body-sm text-error mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>1 critical: Unsalted Butter</span>
+</p>
+</div>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="inventory" href="#">
+<span>View inventory</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 5: Paid Sales Today -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Paid Sales Today</span>
+<span class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</span>
+</div>
+<div class="my-space-sm">
+<div class="font-display text-[32px] leading-tight font-medium text-on-surface">₱8,450</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">From successfully paid orders</p>
+</div>
+<div class="pt-space-xs">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-on-surface hover:underline" data-path="reports" href="#">
+<span>View reports</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- PRIMARY SECTION: NEEDS YOUR ATTENTION -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm" id="needs-attention">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-pulse"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Needs Your Attention</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">5 prioritized items that may require an owner decision or action before morning prep.</p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="notifications" href="#">
+<span>View all notifications &amp; tasks (5)</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Actionable Task Stream -->
+<div class="space-y-space-sm pt-space-xs">
+<!-- Item 1: Payment Review -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">credit_card_off</span>
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Order #K406-1048 — payment requires attention</span>
+<span class="px-space-xs py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">error</span>
+<span>Payment Issue</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Latest QR Ph payment attempt was unsuccessful. Payment remains pending.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 pl-14 md:pl-0">
+<a class="px-space-md py-space-xs rounded bg-error text-on-error hover:opacity-95 font-label-md text-label-md shadow-sm transition-opacity" data-path="payments" href="#">Review payment</a>
+</div>
+</div>
+<!-- Item 2: Delivery Booking -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">two_wheeler</span>
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Order #K406-1042 is ready for delivery</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+<span>Ready to Book</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Paid standard order packaged &amp; ready. Lalamove courier has not been booked yet.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 pl-14 md:pl-0">
+<a class="px-space-md py-space-xs rounded bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md shadow-sm transition-colors" data-path="deliveries" href="#">Book courier</a>
+</div>
+</div>
+<!-- Item 3: Custom Cake Request -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">cake</span>
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">New custom cake request awaiting review (CAKE-091)</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">hourglass_top</span>
+<span>Needs Review</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Requested fulfillment: October 12, 2026 · Ube Leche Flan Theme · Customer: Bea Santos</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 pl-14 md:pl-0">
+<a class="px-space-md py-space-xs rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-colors" data-path="custom-cakes" href="#">Review request</a>
+</div>
+</div>
+<!-- Item 4: Subscription Deferment -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">published_with_changes</span>
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">1 deferment request awaiting review (SUB-104)</span>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">pause_circle</span>
+<span>Deferment Request</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Requested skip for Tuesday, Oct 6 batch (Milk Bread) due to travel.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 pl-14 md:pl-0">
+<a class="px-space-md py-space-xs rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-colors" data-path="subscriptions" href="#">Review request</a>
+</div>
+</div>
+<!-- Item 5: Critical Inventory -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">egg_alt</span>
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Unsalted Butter is below minimum threshold</span>
+<span class="px-space-xs py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">inventory_2</span>
+<span>Critical Stock</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Current: 1.2 kg (Min: 2.0 kg). May affect 4 active scheduled batches for Monday morning.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 pl-14 md:pl-0">
+<a class="px-space-md py-space-xs rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md shadow-sm transition-colors" data-path="inventory" href="#">View inventory</a>
+</div>
+</div>
+</div>
+</section>
+<!-- TODAY'S OPERATIONS: WORKFLOW SUMMARY & QUEUE -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-space-md gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Today's Fulfillment Queue</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Live bake house order workflow for Sunday, October 4.</p>
+</div>
+<!-- Counter Pills -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-low">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Preparing:</span>
+<span class="font-title-sm text-title-sm text-on-surface">5</span>
+</div>
+<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-primary-fixed">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-on-primary-fixed uppercase">Ready:</span>
+<span class="font-title-sm text-title-sm text-on-primary-fixed font-bold">3</span>
+</div>
+<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-secondary-container">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-secondary-container uppercase">Out for Delivery:</span>
+<span class="font-title-sm text-title-sm text-on-surface">1</span>
+</div>
+<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Completed:</span>
+<span class="font-title-sm text-title-sm text-on-surface">4</span>
+</div>
+</div>
+</div>
+<!-- Active Production Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md pt-space-xs">
+<!-- Card 1 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md font-semibold text-primary">#K406-1044</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Standard</span>
+</div>
+<div class="space-y-1 my-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span>10:00–12:00</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+<span>Lalamove Delivery</span>
+</div>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">sync</span>
+<span>Preparing</span>
+</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md font-semibold text-primary">SUB-218 / Wk 2</span>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">Subscription</span>
+</div>
+<div class="space-y-1 my-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span>13:00–15:00</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+<span>Lalamove Delivery</span>
+</div>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Ready</span>
+</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md font-semibold text-primary">CAKE-087</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container text-primary font-label-sm text-label-sm">Custom Cake</span>
+</div>
+<div class="space-y-1 my-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span>16:00</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary font-body-sm text-body-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">directions_car</span>
+<span>Owner Delivery (Manual)</span>
+</div>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">palette</span>
+<span>Preparing</span>
+</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md font-semibold text-primary">#K406-1046</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Standard</span>
+</div>
+<div class="space-y-1 my-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span>11:30</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">storefront</span>
+<span>Customer Pickup</span>
+</div>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Ready</span>
+</span>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex justify-end">
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="orders" href="#">
+<span>View all orders queue</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</section>
+<!-- TWO-COLUMN BALANCED OPERATIONAL GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN: Capacity Overview & Upcoming Commitments (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-lg">
+<!-- CAPACITY OVERVIEW -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Capacity Overview</h3>
+<p class="font-body-sm text-body-sm text-secondary">Upcoming production commitments &amp; capacity usage</p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="capacity-calendar" href="#">
+<span>Open Capacity Calendar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="space-y-space-md pt-space-xs">
+<!-- Standard Order Schedule -->
+<div class="p-space-md rounded-lg bg-surface-container-low space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Standard Order Batches</span>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm pt-1">
+<div class="p-space-xs rounded bg-surface-container-lowest flex flex-col justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Mon, Oct 5</span>
+<span class="font-title-sm text-title-sm text-on-surface mt-1">3 / 4 varieties</span>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-2">
+<div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-lowest flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Tue, Oct 6</span>
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container text-[10px] font-bold">FULL</span>
+</div>
+<span class="font-title-sm text-title-sm text-error mt-1">4 / 4 varieties</span>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-2">
+<div class="bg-error h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-lowest flex flex-col justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Wed, Oct 7</span>
+<span class="font-title-sm text-title-sm text-on-surface mt-1">2 / 4 varieties</span>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-2">
+<div class="bg-primary h-1.5 rounded-full" style="width: 50%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Subscription Weekly Allocations -->
+<div class="p-space-md rounded-lg bg-surface-container-low space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Weekly Subscription Allocations</span>
+<div class="space-y-space-xs pt-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface font-medium">Japanese Milk Bread</span>
+<span class="text-secondary font-title-sm">7 / 10 committed (70%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 70%"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm pt-1">
+<span class="text-on-surface font-medium">Rustic Artisan Sourdough</span>
+<span class="text-secondary font-title-sm">9 / 10 committed (90%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm pt-1">
+<span class="text-on-surface font-medium">Bespoke Cinnamon Rolls</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container text-[10px] font-bold">FULL</span>
+<span class="text-error font-title-sm">10 / 10 committed</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-error h-2 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<!-- Custom Cake Capacity -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block">Custom Cake Slots (Week of Oct 5–11)</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">1 / 2 cakes booked</span>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Remaining slot must use a different fulfillment date.</p>
+</div>
+<a class="px-space-md py-space-xs rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-label-md font-label-md shadow-sm transition-colors text-center shrink-0" data-path="custom-cakes" href="#">
+              Manage Slots
+            </a>
+</div>
+</div>
+</div>
+<!-- UPCOMING COMMITMENTS TIMELINE -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Upcoming Commitments</h3>
+<p class="font-body-sm text-body-sm text-secondary">Next 5–7 days schedule outlook</p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="scheduling-blocked-dates" href="#">
+<span>View full calendar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="space-y-space-sm pt-space-xs">
+<div class="flex items-start gap-space-md p-space-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-16 text-center shrink-0">
+<span class="font-label-sm text-label-sm text-secondary block uppercase">Mon</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 5</span>
+</div>
+<div class="flex-1 space-y-0.5">
+<p class="font-title-sm text-title-sm text-on-surface">6 standard order fulfillments</p>
+<p class="font-body-sm text-body-sm text-secondary">Lalamove deliveries &amp; customer pickups · Cutoff passed</p>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm shrink-0">Confirmed</span>
+</div>
+<div class="flex items-start gap-space-md p-space-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-16 text-center shrink-0">
+<span class="font-label-sm text-label-sm text-secondary block uppercase">Tue</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 6</span>
+</div>
+<div class="flex-1 space-y-0.5">
+<p class="font-title-sm text-title-sm text-on-surface">Milk Bread subscription batch</p>
+<p class="font-body-sm text-body-sm text-secondary">8 deliveries scheduled · Morning bake at 04:30 AM</p>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm shrink-0">Sub Batch</span>
+</div>
+<div class="flex items-start gap-space-md p-space-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-16 text-center shrink-0">
+<span class="font-label-sm text-label-sm text-secondary block uppercase">Thu</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 8</span>
+</div>
+<div class="flex-1 space-y-0.5">
+<p class="font-title-sm text-title-sm text-on-surface">Custom cake fulfillment — CAKE-087</p>
+<p class="font-body-sm text-body-sm text-primary font-medium">Owner delivery (Manual dispatch to Cebu Business Park)</p>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container text-primary font-label-sm text-label-sm shrink-0">Custom Cake</span>
+</div>
+<div class="flex items-start gap-space-md p-space-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-16 text-center shrink-0">
+<span class="font-label-sm text-label-sm text-secondary block uppercase">Fri</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 9</span>
+</div>
+<div class="flex-1 space-y-0.5">
+<p class="font-title-sm text-title-sm text-on-surface">4 standard deliveries scheduled</p>
+<p class="font-body-sm text-body-sm text-secondary">Pre-orders active until Wednesday 6:00 PM</p>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm shrink-0">Pending</span>
+</div>
+<div class="flex items-start gap-space-md p-space-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-16 text-center shrink-0">
+<span class="font-label-sm text-label-sm text-secondary block uppercase">Sun</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 11</span>
+</div>
+<div class="flex-1 space-y-0.5">
+<p class="font-title-sm text-title-sm text-on-surface">Custom cake capacity: 1 slot remaining</p>
+<p class="font-body-sm text-body-sm text-secondary">Slot reserved for inquiries in review</p>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm shrink-0">Open Slot</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Inventory Health & Snapshot Cards (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col space-y-space-lg">
+<!-- INVENTORY HEALTH -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Inventory Health</h3>
+<p class="font-body-sm text-body-sm text-error">4 ingredients need attention</p>
+</div>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<!-- Row 1: Butter -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Unsalted Butter</span>
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container text-[11px] font-semibold">Critical · 1.2 kg</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary block">Threshold: 2.0 kg</span>
+</div>
+<a class="px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-primary font-label-sm text-label-sm shadow-sm transition-colors" data-path="inventory" href="#">Restock</a>
+</div>
+<!-- Row 2: Bread Flour -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Bread Flour</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-semibold">Low · 6.0 kg</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary block">Threshold: 8.0 kg</span>
+</div>
+<a class="px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-primary font-label-sm text-label-sm shadow-sm transition-colors" data-path="inventory" href="#">Restock</a>
+</div>
+<!-- Row 3: Cream Cheese -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Cream Cheese</span>
+<span class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container text-[11px] font-semibold">Out of Stock</span>
+</div>
+<span class="font-body-sm text-body-sm text-error block">3 products affected · Min: 1.5 kg</span>
+</div>
+<a class="px-space-sm py-1 rounded bg-error text-on-error hover:opacity-90 font-label-sm text-label-sm shadow-sm transition-opacity" data-path="inventory" href="#">Restock</a>
+</div>
+<!-- Row 4: Vanilla Bean Paste -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Vanilla Bean Paste</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-semibold">Low · 80g</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary block">Threshold: 150g</span>
+</div>
+<a class="px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-primary font-label-sm text-label-sm shadow-sm transition-colors" data-path="inventory" href="#">Restock</a>
+</div>
+</div>
+<div class="pt-space-md">
+<a class="w-full py-space-xs rounded bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1 transition-colors" data-path="inventory" href="#">
+<span>View Inventory</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- SNAPSHOT MINI CARDS (Cakes, Subscriptions, Deliveries) -->
+<div class="space-y-space-md">
+<!-- Mini Card 1: Custom Cake Requests -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">cake</span>
+<span class="font-title-sm text-title-sm text-on-surface">Custom Cake Requests</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">Requests &amp; Quotations</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">2 Awaiting Review · 1 Quotation Sent · 1 Awaiting Response</p>
+<div class="p-space-xs rounded bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">CAKE-091 · Oct 12</span>
+<a class="font-label-sm text-label-sm text-primary hover:underline" data-path="custom-cakes" href="#">Review request →</a>
+</div>
+</div>
+<!-- Mini Card 2: Subscriptions -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_month</span>
+<span class="font-title-sm text-title-sm text-on-surface">Active Subscriptions</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">18 active</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">7 Deliveries This Week · 1 Deferment Request</p>
+<div class="p-space-xs rounded bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface">Next: Milk Bread (Tue, Oct 6) · 8 deliveries</span>
+<a class="font-label-sm text-label-sm text-primary hover:underline" data-path="subscriptions" href="#">Manage →</a>
+</div>
+</div>
+<!-- Mini Card 3: Deliveries Dispatch -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">local_shipping</span>
+<span class="font-title-sm text-title-sm text-on-surface">Daily Delivery Dispatch</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">3 completed</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">2 Ready to Book · 1 Rider Assigned</p>
+<div class="p-space-xs rounded bg-primary-fixed/60 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-primary-fixed font-medium">#K406-1042 · Ready 2:00 PM</span>
+<a class="font-label-sm text-label-sm text-primary font-semibold hover:underline" data-path="deliveries" href="#">Book courier →</a>
+</div>
+<span class="font-label-sm text-[10px] text-secondary italic block pt-0.5">* Custom cakes strictly handled via Owner Delivery only.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RECENT ORDERS SECTION -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h2>
+<p class="font-body-sm text-body-sm text-secondary">Master record of active and recently processed orders</p>
+</div>
+<!-- Filter Tabs -->
+<div class="flex flex-wrap items-center gap-1 p-1 bg-surface-container-low rounded-lg" id="orderFilterTabs">
+<button class="order-filter-btn px-space-md py-1 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm shadow-sm transition-all" data-filter="all" type="button">All (12)</button>
+<button class="order-filter-btn px-space-md py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-all" data-filter="standard" type="button">Standard (7)</button>
+<button class="order-filter-btn px-space-md py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-all" data-filter="subscription" type="button">Subscriptions (3)</button>
+<button class="order-filter-btn px-space-md py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-all" data-filter="custom" type="button">Custom Cakes (2)</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-sm px-space-md rounded-l">Order ID</th>
+<th class="py-space-sm px-space-md">Type</th>
+<th class="py-space-sm px-space-md">Customer</th>
+<th class="py-space-sm px-space-md">Fulfillment</th>
+<th class="py-space-sm px-space-md">Method</th>
+<th class="py-space-sm px-space-md">Payment</th>
+<th class="py-space-sm px-space-md">Status</th>
+<th class="py-space-sm px-space-md text-right">Total</th>
+<th class="py-space-sm px-space-md text-center rounded-r">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-surface-container">
+<!-- Row 1: K406-1048 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors order-row" data-type="standard">
+<td class="py-space-md px-space-md font-semibold text-primary">#K406-1048</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Standard</span>
+</td>
+<td class="py-space-md px-space-md font-medium">Andrea M.</td>
+<td class="py-space-md px-space-md text-secondary">Oct 5, 10:30 AM</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[15px]">local_shipping</span>
+<span>Lalamove</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">error</span>
+<span>Payment Issue</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm">Awaiting Payment</span>
+</td>
+<td class="py-space-md px-space-md text-right font-title-sm text-title-sm font-semibold">₱1,280</td>
+<td class="py-space-md px-space-md text-center">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" title="Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: K406-1047 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors order-row" data-type="subscription">
+<td class="py-space-md px-space-md font-semibold text-primary">#K406-1047</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">Subscription</span>
+</td>
+<td class="py-space-md px-space-md font-medium">Miguel R.</td>
+<td class="py-space-md px-space-md text-secondary">Oct 5, 11:00 AM</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[15px]">local_shipping</span>
+<span>Lalamove</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Preparing</span>
+</td>
+<td class="py-space-md px-space-md text-right font-title-sm text-title-sm font-semibold">₱640</td>
+<td class="py-space-md px-space-md text-center">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" title="Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: K406-1045 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors order-row" data-type="custom">
+<td class="py-space-md px-space-md font-semibold text-primary">#K406-1045</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-secondary-container text-primary font-label-sm text-label-sm">Custom Cake</span>
+</td>
+<td class="py-space-md px-space-md font-medium">Sarah T.</td>
+<td class="py-space-md px-space-md text-secondary">Oct 8, 4:00 PM</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-primary font-medium">
+<span class="material-symbols-outlined text-[15px]">directions_car</span>
+<span>Owner Delivery</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Confirmed</span>
+</td>
+<td class="py-space-md px-space-md text-right font-title-sm text-title-sm font-semibold">₱3,500</td>
+<td class="py-space-md px-space-md text-center">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" title="Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: K406-1042 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors order-row" data-type="standard">
+<td class="py-space-md px-space-md font-semibold text-primary">#K406-1042</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Standard</span>
+</td>
+<td class="py-space-md px-space-md font-medium">Carlos D.</td>
+<td class="py-space-md px-space-md text-secondary">Today, 2:00 PM</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[15px]">local_shipping</span>
+<span>Lalamove</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Ready to Dispatch</span>
+</td>
+<td class="py-space-md px-space-md text-right font-title-sm text-title-sm font-semibold">₱890</td>
+<td class="py-space-md px-space-md text-center">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" title="Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: K406-1040 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors order-row" data-type="standard">
+<td class="py-space-md px-space-md font-semibold text-primary">#K406-1040</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">Standard</span>
+</td>
+<td class="py-space-md px-space-md font-medium">Jasmine P.</td>
+<td class="py-space-md px-space-md text-secondary">Today, 11:30 AM</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[15px]">storefront</span>
+<span>Customer Pickup</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+<span>Paid (QR Ph)</span>
+</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Ready for Pickup</span>
+</td>
+<td class="py-space-md px-space-md text-right font-title-sm text-title-sm font-semibold">₱1,450</td>
+<td class="py-space-md px-space-md text-center">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" title="Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pt-space-xs gap-space-sm">
+<span class="font-body-sm text-body-sm text-secondary">Showing 5 of 12 orders</span>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="orders" href="#">
+<span>View all orders</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</section>
+</div>
+<script>
+  // Simple order filtering behavior
+  document.querySelectorAll('.order-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle button states
+      document.querySelectorAll('.order-filter-btn').forEach(b => {
+        b.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+        b.classList.add('text-secondary');
+      });
+      btn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+      btn.classList.remove('text-secondary');
+
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.order-row').forEach(row => {
+        if (filter === 'all' || row.dataset.type === filter) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script></main></div></body></html>

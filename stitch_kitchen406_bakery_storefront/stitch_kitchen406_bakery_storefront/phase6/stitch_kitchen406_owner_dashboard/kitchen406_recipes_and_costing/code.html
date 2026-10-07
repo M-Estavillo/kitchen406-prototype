@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+      main > :first-child { margin-top: 0 !important; } 
+      main > :last-child { margin-bottom: 0 !important; } 
+    } 
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed": "#311300",
+            "surface-variant": "#e4e2df",
+            "surface-bright": "#fbf9f5",
+            "surface-container-low": "#f5f3f0",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "surface-dim": "#dbdad7",
+            "on-primary": "#ffffff",
+            "on-surface-variant": "#53433a",
+            "outline-variant": "#d9c2b5",
+            "on-surface": "#1b1c1a",
+            "secondary": "#635d59",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#69635f",
+            "primary-container": "#8d4a14",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "on-primary-container": "#fffbff",
+            "tertiary-container": "#7b736d",
+            "surface-container-lowest": "#ffffff",
+            "primary": "#6f3400",
+            "surface": "#fbf9f6",
+            "tertiary": "#49433d",
+            "secondary-container": "#eae1dc",
+            "primary-fixed-dim": "#ffb786",
+            "on-tertiary-fixed": "#1f1b16",
+            "on-tertiary-container": "#dcd2ca",
+            "on-secondary": "#ffffff",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#e9e8e4",
+            "background": "#fbf9f5",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "primary-fixed": "#ffdcc7",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ebe1d9",
+            "surface-tint": "#904d17",
+            "secondary-fixed": "#eae1db",
+            "surface-container-highest": "#e4e2df",
+            "outline": "#867368",
+            "on-secondary-fixed-variant": "#4b4642",
+            "inverse-surface": "#30312e",
+            "inverse-on-surface": "#f2f1ed",
+            "on-secondary-fixed": "#1f1b18",
+            "on-background": "#1b1c1a",
+            "inverse-primary": "#ffb787",
+            "secondary-fixed-dim": "#cdc5c0"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin": "3rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin-mobile": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "display-mobile": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "price-lg": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<!-- NAVIGATION SIDEBAR -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-low flex flex-col z-50 overflow-y-auto border-r border-outline-variant/30">
+<div class="px-space-lg pt-space-lg pb-space-md border-b border-outline-variant/30">
+<a class="block group" data-path="dashboard" href="#">
+<span class="block font-headline-md text-headline-md text-primary tracking-tight font-serif">Kitchen406</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-space-xs">Owner Workspace</span>
+</a>
+</div>
+<nav class="flex-1 px-space-sm py-space-md space-y-space-md" data-active-classes="bg-primary-container text-on-primary font-semibold shadow-sm border-l-4 border-primary">
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Overview</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Operations</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="orders" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deliveries" href="#">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-label-md text-label-md">Deliveries</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs rounded transition-colors bg-primary-container text-on-primary font-semibold shadow-sm border-l-4 border-primary" data-path="recipes-and-costing" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+<span class="font-label-md text-label-md">Custom Cakes</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="subscriptions" href="#">
+<span class="material-symbols-outlined text-[18px]">loyalty</span>
+<span class="font-label-md text-label-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scheduling-blocked-dates" href="#">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span class="font-label-md text-label-md">Scheduling / Blocked Dates</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Management</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="products" href="#">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="categories" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-label-md text-label-md">Categories</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ingredients" href="#">
+<span class="material-symbols-outlined text-[18px]">grain</span>
+<span class="font-label-md text-label-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-label-md text-label-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#">
+<span class="material-symbols-outlined text-[18px]">celebration</span>
+<span class="font-label-md text-label-md">Seasonal Occasions</span>
+</a>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="px-space-sm font-label-sm text-label-sm text-outline uppercase tracking-wider">Administration</p>
+<div class="space-y-0.5">
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="staff-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-label-md text-label-md">Staff Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-md text-label-md">Customer Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reviews" href="#">
+<span class="material-symbols-outlined text-[18px]">hotel_class</span>
+<span class="font-label-md text-label-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#">
+<span class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span class="font-label-md text-label-md">Marketing Drafts</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container font-label-sm text-label-sm text-on-secondary-container">Review</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+</div>
+</nav>
+<div class="p-space-sm border-t border-outline-variant/30">
+<div class="p-space-sm rounded bg-surface-container flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">v6.7 Active</span>
+<span class="material-symbols-outlined text-[16px] text-surface-tint">verified</span>
+</div>
+</div>
+</aside>
+<!-- MAIN VIEWPORT -->
+<div class="pl-60">
+<!-- TOP APP BAR (Bakery Owner Navigation Only) -->
+<header class="fixed top-0 left-60 right-0 h-16 bg-surface-bright/90 backdrop-blur-md z-40 border-b border-outline-variant/30 flex items-center justify-between px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-surface-tint">calendar_today</span>
+<span class="font-label-md text-label-md">Sunday, October 4, 2026</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/50 hidden sm:block"></div>
+<div class="hidden sm:flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span>Kitchen Active · Bakes in Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button aria-label="Notifications" class="relative p-2 rounded hover:bg-surface-container-high transition-colors text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 bg-error text-on-error font-label-sm text-[10px] leading-4 text-center rounded-full">5</span>
+</button>
+<div class="flex items-center gap-space-sm pl-space-xs border-l border-outline-variant/30">
+<div class="text-right">
+<p class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Head Baker &amp; Owner</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN WORKSPACE -->
+<main class="relative pt-16 min-h-screen bg-background w-full pb-20">
+<div class="flex flex-col w-full p-space-lg lg:p-space-xl gap-space-lg text-on-surface" id="recipe-view-container">
+<!-- PAGE HEADER -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="space-y-space-xs">
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Owner Operations</p>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Recipes &amp; Costing</h1>
+<p class="font-body-md text-body-md text-secondary">Manage product recipes, review production costs, and evaluate suggested selling prices.</p>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors shadow-sm" onclick="openModal('pricing-settings-modal')" type="button">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">tune</span>
+<span class="font-label-md text-label-md">Pricing Settings</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded bg-primary text-on-primary hover:bg-primary-container transition-colors shadow-sm" id="header-primary-action-btn" onclick="handleHeaderPrimaryAction()" type="button">
+<span class="material-symbols-outlined text-[18px]" id="header-primary-action-icon">edit</span>
+<span class="font-label-md text-label-md" id="header-primary-action-text">Edit Selected Recipe</span>
+</button>
+</div>
+</header>
+<!-- PRICING CONFIGURATION STRIP -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-lg">
+<div class="flex items-center gap-space-xs text-primary font-semibold">
+<span class="material-symbols-outlined text-[20px]">calculate</span>
+<span class="font-title-sm text-title-sm uppercase tracking-wide">Pricing Configuration</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/40 hidden sm:block"></div>
+<div class="flex flex-wrap items-center gap-space-lg">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Global Markup:</span>
+<span class="font-price-md text-price-md text-on-surface" id="strip-markup-val">30%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Applied to production cost when calculating suggested selling prices.</p>
+</div>
+<div class="h-4 w-px bg-outline-variant/40 hidden md:block"></div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Default Utility Overhead:</span>
+<span class="font-price-md text-price-md text-on-surface" id="strip-overhead-val">₱25.00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Default allowance for gas and electricity per product unless overridden.</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md pt-space-xs lg:pt-0">
+<span class="font-body-sm text-body-sm text-outline hidden xl:inline">Calculated suggestions only. Existing selling prices are not automatically replaced.</span>
+<button class="font-label-md text-label-md text-primary hover:text-primary-container underline underline-offset-4 shrink-0" onclick="openModal('pricing-settings-modal')" type="button">
+              Edit Settings
+            </button>
+</div>
+</section>
+<!-- SIMULATION: LOADING STATE -->
+<div class="hidden flex-col gap-space-md animate-pulse py-space-xl" id="sim-state-loading">
+<div class="h-8 bg-surface-container-high rounded w-1/3"></div>
+<div class="grid grid-cols-12 gap-space-lg">
+<div class="col-span-7 space-y-space-sm">
+<div class="h-12 bg-surface-container rounded-lg"></div>
+<div class="h-20 bg-surface-container-lowest rounded-lg"></div>
+<div class="h-20 bg-surface-container-lowest rounded-lg"></div>
+<div class="h-20 bg-surface-container-lowest rounded-lg"></div>
+</div>
+<div class="col-span-5 h-96 bg-surface-container rounded-lg"></div>
+</div>
+</div>
+<!-- SIMULATION: EMPTY STATE -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-surface-container-lowest rounded-xl shadow-sm text-center my-space-lg space-y-space-md" id="sim-state-empty">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[32px]">menu_book</span>
+</div>
+<div class="max-w-md space-y-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No product recipes yet</h3>
+<p class="font-body-md text-body-md text-secondary">Begin assembling recipe ingredients to calculate unit production costs and margin projections.</p>
+</div>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="openModal('edit-recipe-modal')" type="button">
+            Create First Recipe
+          </button>
+</div>
+<!-- SIMULATION: ERROR STATE -->
+<div class="hidden flex-col items-center justify-center p-space-xl bg-error-container/40 rounded-xl shadow-sm text-center my-space-lg space-y-space-md text-on-surface" id="sim-state-error">
+<div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">cloud_off</span>
+</div>
+<div class="max-w-md space-y-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-error-container">Recipes and costing data could not be loaded</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">There was an issue loading recipe costing data. Please try again.</p>
+</div>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="setSimulatorState('live')" type="button">
+            Retry Loading
+          </button>
+</div>
+<!-- MAIN WORKSPACE: MASTER-DETAIL VIEW (62% Left, 38% Right) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start" id="sim-state-live">
+<!-- LEFT COLUMN: RECIPE LIBRARY (~62% = 7.5/12 cols or 7 cols on lg / 8 cols on xl) -->
+<section class="lg:col-span-7 xl:col-span-7 flex flex-col gap-space-md">
+<!-- Toolbar & Filter Suite -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+<div class="flex flex-col sm:flex-row gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-outline">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-container-low rounded text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-bright transition-colors" placeholder="Search products or variants..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative">
+<select class="appearance-none bg-surface-container-low font-label-md text-label-md text-on-surface pl-3 pr-8 py-2 rounded focus:outline-none cursor-pointer">
+<option>All Categories</option>
+<option>Breads</option>
+<option>Pastries &amp; Cakes</option>
+<option>Pantry</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[16px] text-outline">arrow_drop_down</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low font-label-md text-label-md text-on-surface pl-3 pr-8 py-2 rounded focus:outline-none cursor-pointer">
+<option>Product A–Z</option>
+<option>Highest Cost</option>
+<option>Lowest Margin</option>
+<option>Recently Updated</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[16px] text-outline">sort</span>
+</div>
+</div>
+</div>
+<!-- Status Filter Tabs / Pills -->
+<div class="flex items-center gap-space-xs overflow-x-auto pt-1 pb-0.5">
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap shadow-sm" type="button">All (14)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm whitespace-nowrap transition-colors" type="button">Complete (11)</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm whitespace-nowrap transition-colors flex items-center gap-1" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                  Cost Incomplete (2)
+                </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm whitespace-nowrap transition-colors flex items-center gap-1" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  Missing Recipe (1)
+                </button>
+</div>
+</div>
+<!-- Recipe Master Table (Material column removed to eliminate cramping; 6 clean columns) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-sm text-label-sm text-outline uppercase tracking-wider">
+<th class="py-3 px-4">Product / Variant</th>
+<th class="py-3 px-3">Recipe</th>
+<th class="py-3 px-3 text-right">Production Cost</th>
+<th class="py-3 px-3 text-right">Selling Price</th>
+<th class="py-3 px-3 text-right">Margin</th>
+<th class="py-3 px-3 text-center">Status</th>
+<th class="py-3 px-3 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high font-body-md text-body-md" id="recipe-table-body">
+<!-- ROW 1: Active Selection (Sourdough Loaf) -->
+<tr class="bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer group" data-row-id="sourdough" onclick="selectRow('sourdough')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-primary rounded-full row-indicator"></span>
+<span>Sourdough Loaf</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">Regular · 750g</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-md text-label-md text-on-surface">6 items</span>
+</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-on-surface font-bold">₱91.37</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱160.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">42.9%</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant font-medium">Recipe Complete</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-primary hover:text-primary-container p-1 rounded font-label-md text-label-md" onclick="event.stopPropagation(); selectRow('sourdough'); openModal('edit-recipe-modal');" type="button">Edit</button>
+</td>
+</tr>
+<!-- ROW 2: Brioche Nanterre -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" data-row-id="brioche" onclick="selectRow('brioche')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-transparent rounded-full row-indicator"></span>
+<span>Brioche Nanterre</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">Standard · 500g</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-md text-label-md text-on-surface">6 items</span>
+</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-on-surface font-bold">₱170.20</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱290.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">41.3%</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant font-medium">Recipe Complete</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-secondary hover:text-primary p-1 rounded font-label-md text-label-md" type="button">View</button>
+</td>
+</tr>
+<!-- ROW 3: Brioche Cinnamon Rolls -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" data-row-id="cinnamon" onclick="selectRow('cinnamon')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-transparent rounded-full row-indicator"></span>
+<span>Brioche Cinnamon Rolls</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">Box of 4</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-md text-label-md text-on-surface">8 items</span>
+</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-on-surface font-bold">₱223.80</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱360.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">37.8%</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant font-medium">Recipe Complete</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-secondary hover:text-primary p-1 rounded font-label-md text-label-md" type="button">View</button>
+</td>
+</tr>
+<!-- ROW 4: Valrhona Chocolate Babka (Cost Incomplete sample) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" data-row-id="babka" onclick="selectRow('babka')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-transparent rounded-full row-indicator"></span>
+<span>Valrhona Chocolate Babka</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">Regular Loaf</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-md text-label-md text-on-surface">5 items</span>
+</td>
+<td class="py-3.5 px-3 text-right font-body-sm text-body-sm text-outline italic">Cost pending</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱380.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="font-label-sm text-label-sm text-outline">—</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-tint/15 text-surface-tint font-medium">Cost Incomplete</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-surface-tint hover:text-primary p-1 rounded font-label-md text-label-md" type="button">Review</button>
+</td>
+</tr>
+<!-- ROW 5: Basque Burnt Cheesecake (Missing Recipe sample) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" data-row-id="cheesecake" onclick="selectRow('cheesecake')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-transparent rounded-full row-indicator"></span>
+<span>Basque Burnt Cheesecake</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">6-inch Round</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-sm text-label-sm text-error font-medium">Not configured</span>
+</td>
+<td class="py-3.5 px-3 text-right font-body-sm text-body-sm text-outline italic">—</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱850.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="font-label-sm text-label-sm text-outline">—</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-error-container text-on-error-container font-medium">Missing Recipe</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-primary hover:text-primary-container p-1 rounded font-label-md text-label-md" onclick="event.stopPropagation(); selectRow('cheesecake'); openModal('edit-recipe-modal');" type="button">Create</button>
+</td>
+</tr>
+<!-- ROW 6: Tradition Baguette -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer" data-row-id="baguette" onclick="selectRow('baguette')">
+<td class="py-3.5 px-4">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-2">
+<span class="w-1.5 h-4 bg-transparent rounded-full row-indicator"></span>
+<span>Tradition Baguette</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pl-3.5">Classic · 250g</div>
+</td>
+<td class="py-3.5 px-3">
+<span class="font-label-md text-label-md text-on-surface">4 items</span>
+</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-on-surface font-bold">₱67.10</td>
+<td class="py-3.5 px-3 text-right font-price-md text-price-md text-primary font-bold">₱110.00</td>
+<td class="py-3.5 px-3 text-right">
+<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">39.0%</span>
+</td>
+<td class="py-3.5 px-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant font-medium">Recipe Complete</span>
+</td>
+<td class="py-3.5 px-3 text-right">
+<button class="text-secondary hover:text-primary p-1 rounded font-label-md text-label-md" type="button">View</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Bar -->
+<div class="px-space-md py-space-sm bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm text-secondary font-label-sm text-label-sm">
+<span>Showing 6 of 14 product variants</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-surface-container text-outline cursor-not-allowed" type="button">Prev</button>
+<button class="px-2 py-1 rounded bg-primary text-on-primary" type="button">1</button>
+<button class="px-2 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high" type="button">2</button>
+<button class="px-2 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high" type="button">Next</button>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: SELECTED RECIPE & COSTING INSPECTOR (~38% = 5/12 cols) -->
+<section class="lg:col-span-5 xl:col-span-5 flex flex-col gap-space-md lg:sticky lg:top-20">
+<!-- STATE 1: Complete Recipe Inspector Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col divide-y divide-surface-container-high" id="inspector-active">
+<!-- Selected Recipe Header -->
+<div class="p-space-md bg-surface-bright flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Selected Recipe</span>
+<h2 class="font-headline-sm text-headline-sm text-primary" id="inspector-product-title">Sourdough Loaf</h2>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface font-medium" id="inspector-badge">Recipe Complete</span>
+<span class="font-body-sm text-body-sm text-secondary" id="inspector-meta">6 items · Last updated Oct 2, 2026</span>
+</div>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md shadow-sm shrink-0" onclick="openModal('edit-recipe-modal')" type="button">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">edit</span>
+<span>Edit Recipe</span>
+</button>
+</div>
+<!-- Variant Selector Pills -->
+<div class="flex items-center gap-space-xs pt-1" id="inspector-variant-pills">
+<span class="font-label-sm text-label-sm text-secondary uppercase mr-1">Variant:</span>
+<button class="px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-primary text-on-primary font-medium transition-colors" id="btn-variant-regular" onclick="switchVariant('regular')" type="button">Regular (750g)</button>
+<button class="px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" id="btn-variant-large" onclick="switchVariant('large')" type="button">Batard / Large (1kg)</button>
+</div>
+</div>
+<!-- SECTION 1: Recipe Table -->
+<div class="p-space-md space-y-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Recipe</h3>
+<span class="font-label-sm text-label-sm text-outline">Single-level Raw Materials</span>
+</div>
+<div class="overflow-x-auto rounded bg-surface-container-low/40 p-1">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="font-label-sm text-label-sm text-outline uppercase border-b border-surface-container-high">
+<th class="py-1.5 px-2">Item / Material</th>
+<th class="py-1.5 px-2">Quantity</th>
+<th class="py-1.5 px-2 text-right">Current Unit Cost</th>
+<th class="py-1.5 px-2 text-right">Cost Contribution</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/60" id="inspector-bom-body">
+<!-- Rendered dynamically via JS with exact math -->
+</tbody>
+<tfoot>
+<tr class="border-t border-surface-container-high font-semibold text-on-surface">
+<td class="py-2 px-2 text-right font-label-md" colspan="3">Direct Materials &amp; Packaging:</td>
+<td class="py-2 px-2 text-right font-price-md text-price-md text-primary font-bold" id="inspector-material-cost">₱66.37</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<p class="font-body-sm text-body-sm text-outline italic">
+                  Based on current cost recorded in Inventory. Contributions recalculate automatically when unit costs update.
+                </p>
+</div>
+<!-- SECTION 2: Cost Breakdown -->
+<div class="p-space-md space-y-space-sm bg-surface-container-low/20">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Cost Breakdown</h3>
+<div class="bg-surface-container-lowest rounded-lg p-space-sm space-y-space-xs shadow-sm">
+<div class="flex items-center justify-between font-body-md text-body-md text-on-surface">
+<span>Direct Materials &amp; Packaging</span>
+<span class="font-price-md text-price-md" id="inspector-breakdown-material">₱66.37</span>
+</div>
+<!-- Utility Overhead Control -->
+<div class="flex items-center justify-between font-body-md text-body-md text-on-surface pt-1 border-t border-surface-container-high">
+<div class="flex items-center gap-space-xs">
+<span>Utility Overhead</span>
+<span class="inline-block px-1.5 py-0.5 rounded text-[10px] font-label-sm bg-surface-container text-secondary" id="inspector-overhead-badge">Using Default</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-price-md text-price-md" id="inspector-overhead-val">₱25.00</span>
+<button class="text-primary hover:text-primary-container text-body-sm underline font-label-sm" onclick="openModal('utility-override-modal')" type="button">
+                        Override
+                      </button>
+</div>
+</div>
+<!-- Total Production Cost -->
+<div class="flex items-center justify-between pt-2 border-t border-surface-container-high">
+<div>
+<span class="font-title-md text-title-md text-on-surface font-bold">Total Production Cost</span>
+<p class="font-body-sm text-body-sm text-secondary">Material Cost + Utility Overhead</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight" id="inspector-total-cost">₱91.37</span>
+</div>
+</div>
+</div>
+<!-- SECTION 3: Pricing -->
+<div class="p-space-md space-y-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Pricing</h3>
+<span class="font-label-sm text-label-sm text-secondary">Global Markup: <strong class="text-on-surface" id="inspector-markup-pct">30%</strong></span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- System Suggestion -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between space-y-space-xs">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Suggested Selling Price</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1" id="inspector-suggested-cost">₱118.78</div>
+</div>
+<div class="font-body-sm text-body-sm text-outline">
+                      System suggestion (+30% markup)
+                    </div>
+</div>
+<!-- Owner-Set Current Price -->
+<div class="p-space-sm rounded-lg bg-primary/5 flex flex-col justify-between space-y-space-xs border border-primary/20">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Current Selling Price</span>
+<span class="inline-block px-1 py-0.5 rounded text-[10px] font-label-sm bg-primary text-on-primary">Active</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-primary font-bold mt-1" id="inspector-current-price">₱160.00</div>
+</div>
+<button class="w-full py-1.5 rounded bg-primary text-on-primary font-label-sm text-label-sm hover:bg-primary-container transition-colors text-center shadow-sm" onclick="openModal('selling-price-modal')" type="button">
+                      Update Price
+                    </button>
+</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">info</span>
+<span>The system calculates. The owner decides.</span>
+</div>
+</div>
+<!-- SECTION 4: Estimated Margin -->
+<div class="p-space-md space-y-space-sm bg-surface-bright">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Estimated Margin</h3>
+<p class="font-body-sm text-body-sm text-secondary" id="inspector-margin-breakdown">Selling Price (₱160.00) − Production Cost (₱91.37) = ₱68.63 profit per unit</p>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold" id="inspector-margin-pct">42.9%</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">
+                  Calculated based on active owner-set price and current recipe production cost.
+                </p>
+</div>
+</div>
+<!-- STATE 2: Missing Recipe Warning Panel -->
+<div class="hidden bg-surface-container-lowest rounded-xl shadow-sm p-space-xl flex-col items-center justify-center text-center space-y-space-md" id="inspector-missing-recipe">
+<div class="w-14 h-14 rounded-full bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px]">assignment_late</span>
+</div>
+<div class="max-w-xs space-y-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No Recipe Configured</h3>
+<p class="font-body-md text-body-md text-secondary">No recipe configured. Add ingredients and quantities required for this variant before production cost can be calculated.</p>
+</div>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="openModal('edit-recipe-modal')" type="button">
+                Create Recipe
+              </button>
+</div>
+<!-- STATE 3: Incomplete Cost Warning Panel -->
+<div class="hidden bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex-col space-y-space-md" id="inspector-incomplete-cost">
+<div class="flex items-center gap-space-sm p-space-sm rounded bg-surface-tint/10 text-on-surface">
+<span class="material-symbols-outlined text-surface-tint text-[24px]">warning</span>
+<div>
+<p class="font-title-sm text-title-sm font-semibold text-primary">Ingredient Unit Cost Missing</p>
+<p class="font-body-sm text-body-sm text-secondary">One or more recipe items are missing current unit cost data in Inventory.</p>
+</div>
+</div>
+<div class="space-y-space-xs">
+<p class="font-label-sm text-label-sm uppercase text-outline">Affected Ingredients:</p>
+<div class="p-space-sm bg-surface-container-low rounded flex items-center justify-between text-body-sm">
+<div>
+<span class="font-medium text-on-surface block">Valrhona Cocoa Powder</span>
+<span class="text-secondary text-body-sm">Quantity: 80 g</span>
+</div>
+<span class="text-surface-tint font-label-sm font-semibold bg-surface-tint/10 px-2 py-0.5 rounded">Cost unavailable</span>
+</div>
+</div>
+<div class="p-space-sm rounded bg-surface-container-low font-body-sm text-body-sm text-outline">
+                Production cost cannot be fully calculated because one or more recipe items are missing current cost data.
+              </div>
+<div class="flex items-center gap-space-sm">
+<a class="flex-1 py-2 bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md text-center rounded transition-colors shadow-sm block" data-path="inventory" href="#">
+                  Open Inventory
+                </a>
+<button class="px-space-md py-2 bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md rounded transition-colors" onclick="openModal('edit-recipe-modal')" type="button">
+                  Edit Recipe
+                </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- FLOATING PROTOTYPE STATE CONTROLS (Dedicated developer test drawer, separated from owner UI) -->
+<div class="fixed bottom-4 right-6 z-50 flex items-center gap-1.5 bg-inverse-surface/90 text-inverse-on-surface backdrop-blur-md px-3 py-1.5 rounded-full shadow-lg border border-outline-variant/40 text-[12px]">
+<span class="font-label-sm text-[10px] uppercase tracking-wider text-outline-variant mr-1">Prototype State:</span>
+<button class="px-2 py-0.5 rounded font-medium bg-primary text-on-primary" onclick="setSimulatorState('live')" type="button">Normal</button>
+<button class="px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('loading')" type="button">Loading</button>
+<button class="px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('empty')" type="button">Empty</button>
+<button class="px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('error')" type="button">Error</button>
+<button class="px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('missing-recipe')" type="button">Missing Recipe</button>
+<button class="px-2 py-0.5 rounded font-medium hover:bg-surface-container-high hover:text-on-surface transition-colors" onclick="setSimulatorState('incomplete-cost')" type="button">Cost Incomplete</button>
+</div>
+<!-- ========================================================================= -->
+<!-- MODALS & DRAWERS (Interactive) -->
+<!-- ========================================================================= -->
+<!-- MODAL 1: EDIT RECIPE (Bill of Materials) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="edit-recipe-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+<!-- Modal Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Recipe Configuration</span>
+<h3 class="font-headline-sm text-headline-sm text-primary" id="modal-recipe-title">Edit Recipe — Sourdough Loaf (Regular)</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('edit-recipe-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-space-md overflow-y-auto space-y-space-md flex-1">
+<p class="font-body-sm text-body-sm text-secondary">
+          Specify ingredients and packaging required to produce 1 finished unit. Unit costs link directly to costs recorded in Inventory.
+        </p>
+<!-- Lines -->
+<div class="space-y-space-xs" id="recipe-line-items">
+<!-- Line 1 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option selected="">High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="550"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.075/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 2 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option selected="">Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="100"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.095/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 3 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option selected="">Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="420"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">ml</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.010/ml</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 4 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option selected="">Sea Salt</option>
+<option>Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="12"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.035/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 5 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option selected="">Instant Yeast</option>
+<option>Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="5"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.500/g</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+<!-- Line 6 -->
+<div class="flex items-center gap-space-xs line-item-row">
+<select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+<option>High-Protein Bread Flour</option>
+<option>Whole Wheat Flour</option>
+<option>Filtered Water</option>
+<option>Sea Salt</option>
+<option>Instant Yeast</option>
+<option selected="">Kraft Windowed Bread Bag</option>
+</select>
+<input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="1" step="1" type="number" value="1"/>
+<span class="font-label-md text-label-md text-secondary w-10 text-center">pc</span>
+<span class="font-price-md text-price-md text-secondary w-20 text-right">₱8.50/pc</span>
+<button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container py-1" onclick="addRecipeLine()" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Add Ingredient / Material</span>
+</button>
+<div class="p-space-sm rounded bg-surface-container-low font-body-sm text-body-sm text-outline flex items-center justify-between">
+<span>Edit unit costs in Inventory. Quantities must be greater than zero.</span>
+<a class="text-primary hover:underline font-label-sm" data-path="inventory" href="#">Open Inventory</a>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('edit-recipe-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="saveRecipeBOM()" type="button">
+          Save Recipe
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 2: PRICING SETTINGS -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="pricing-settings-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-lg w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Pricing Configuration</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Bakery Pricing Settings</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('pricing-settings-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Global Markup (%)</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low rounded p-2.5 text-on-surface font-body-md text-body-md focus:outline-none" id="input-global-markup" min="0" step="1" type="number" value="30"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">%</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Applied to production cost when calculating suggested selling prices.</p>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Default Utility Overhead per Unit (₱)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-container-low rounded py-2.5 pl-8 pr-3 text-on-surface font-body-md text-body-md focus:outline-none" id="input-global-overhead" min="0" step="0.50" type="number" value="25.00"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-1">Fixed energy and baking utility allowance added to each unit cost unless overridden by product.</p>
+</div>
+<div class="p-space-sm rounded bg-surface-container-low font-body-sm text-body-sm text-outline">
+<strong>Note:</strong> Updating these values recalculates suggested prices across all products. It does not replace existing owner selling prices.
+        </div>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('pricing-settings-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="savePricingSettings()" type="button">
+          Save Settings
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 3: UPDATE SELLING PRICE -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="selling-price-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Owner Decision</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Update Selling Price</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('selling-price-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<div class="grid grid-cols-2 gap-space-xs p-space-sm rounded bg-surface-container-low">
+<div>
+<span class="font-label-sm text-label-sm text-secondary">Current Price</span>
+<div class="font-price-lg text-price-lg text-on-surface font-bold" id="modal-curr-price-disp">₱160.00</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary">System Suggestion</span>
+<div class="font-price-lg text-price-lg text-primary font-bold" id="modal-sugg-price-disp">₱118.78</div>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">New Retail Selling Price (₱)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-container-low rounded py-2.5 pl-8 pr-3 text-on-surface font-headline-sm text-headline-sm focus:outline-none" id="input-new-price" min="0" step="5.00" type="number" value="160.00"/>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+          Updates the active storefront price for <strong id="modal-price-product-name">Sourdough Loaf (Regular)</strong>. The system calculates. The owner decides.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('selling-price-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="saveNewPrice()" type="button">
+          Save New Price
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 4: UTILITY OVERHEAD OVERRIDE -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="utility-override-modal">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full flex flex-col overflow-hidden animate-fade-in">
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Product Overhead</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Utility Overhead Control</h3>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary" onclick="closeModal('utility-override-modal')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<p class="font-body-sm text-body-sm text-secondary">
+          Adjust the energy allocation for <strong id="modal-overhead-product-name">Sourdough Loaf</strong> if it requires extended deck oven bake times or high steam injection.
+        </p>
+<div class="space-y-space-sm">
+<label class="flex items-center gap-space-sm p-space-sm rounded bg-surface-container-low cursor-pointer">
+<input checked="" class="text-primary focus:ring-0" id="radio-overhead-default" name="utility-type" type="radio" value="default"/>
+<div class="flex-1">
+<span class="font-label-md text-label-md text-on-surface block">Use Bakery Default</span>
+<span class="font-body-sm text-body-sm text-secondary" id="modal-default-overhead-text">₱25.00 per unit</span>
+</div>
+</label>
+<label class="flex items-center gap-space-sm p-space-sm rounded bg-surface-container-low cursor-pointer">
+<input class="text-primary focus:ring-0" id="radio-overhead-custom" name="utility-type" type="radio" value="custom"/>
+<div class="flex-1">
+<span class="font-label-md text-label-md text-on-surface block">Set Custom Overhead for this Product</span>
+<div class="mt-2 relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-md text-secondary">₱</span>
+<input class="w-full bg-surface-bright rounded py-1.5 pl-8 pr-3 font-body-md text-body-md text-on-surface focus:outline-none" id="input-custom-overhead" placeholder="35.00" step="0.50" type="number" value="35.00"/>
+</div>
+</div>
+</label>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-space-sm rounded font-label-md text-label-md text-secondary hover:text-on-surface" onclick="closeModal('utility-override-modal')" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="applyOverheadOverride()" type="button">
+          Apply Allowance
+        </button>
+</div>
+</div>
+</div>
+<!-- JAVASCRIPT: State, Exact Arithmetic & Master-Detail Logic -->
+<script>
+    // System Global Settings
+    let globalMarkup = 30; // 30%
+    let globalOverhead = 25.00; // ₱25.00
+
+    // Master Product Data with exact arithmetic reconciliation
+    const productData = {
+      sourdough: {
+        id: 'sourdough',
+        name: 'Sourdough Loaf',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Regular (750g)',
+            updated: 'Oct 2, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 160.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '550 g', rate: '₱0.075/g', cost: 41.25 },
+              { name: 'Whole Wheat Flour', qty: '100 g', rate: '₱0.095/g', cost: 9.50 },
+              { name: 'Filtered Water', qty: '420 ml', rate: '₱0.010/ml', cost: 4.20 },
+              { name: 'Sea Salt', qty: '12 g', rate: '₱0.035/g', cost: 0.42 },
+              { name: 'Instant Yeast', qty: '5 g', rate: '₱0.500/g', cost: 2.50 },
+              { name: 'Kraft Windowed Bread Bag', qty: '1 pc', rate: '₱8.50/pc', cost: 8.50 }
+            ]
+          },
+          large: {
+            variantName: 'Batard / Large (1kg)',
+            updated: 'Sep 28, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 220.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '750 g', rate: '₱0.075/g', cost: 56.25 },
+              { name: 'Whole Wheat Flour', qty: '150 g', rate: '₱0.095/g', cost: 14.25 },
+              { name: 'Filtered Water', qty: '580 ml', rate: '₱0.010/ml', cost: 5.80 },
+              { name: 'Sea Salt', qty: '16 g', rate: '₱0.035/g', cost: 0.56 },
+              { name: 'Instant Yeast', qty: '7 g', rate: '₱0.500/g', cost: 3.50 },
+              { name: 'Large Kraft Windowed Bag', qty: '1 pc', rate: '₱9.50/pc', cost: 9.50 }
+            ]
+          }
+        }
+      },
+      brioche: {
+        id: 'brioche',
+        name: 'Brioche Nanterre',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Standard · 500g',
+            updated: 'Sep 30, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 290.00,
+            items: [
+              { name: 'High-Protein Bread Flour', qty: '350 g', rate: '₱0.075/g', cost: 26.25 },
+              { name: 'Pure Butter (82% Fat)', qty: '180 g', rate: '₱0.450/g', cost: 81.00 },
+              { name: 'Fresh Farm Eggs', qty: '3 pcs', rate: '₱8.00/pc', cost: 24.00 },
+              { name: 'Caster Sugar', qty: '40 g', rate: '₱0.060/g', cost: 2.40 },
+              { name: 'Fine Sea Salt & Yeast', qty: '15 g', rate: '₱0.203/g', cost: 3.05 },
+              { name: 'Loaf Liner & Presentation Box', qty: '1 pc', rate: '₱8.50/pc', cost: 8.50 }
+            ] // sum = 145.20; +25 overhead = 170.20; suggested @ 30% = 221.26; owner = 290.00; margin = 41.3%
+          }
+        }
+      },
+      cinnamon: {
+        id: 'cinnamon',
+        name: 'Brioche Cinnamon Rolls',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Box of 4',
+            updated: 'Oct 1, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 360.00,
+            items: [
+              { name: 'Brioche Enriched Dough Base', qty: '480 g', rate: '₱0.185/g', cost: 88.80 },
+              { name: 'Ceylon Cinnamon Blend', qty: '25 g', rate: '₱0.400/g', cost: 10.00 },
+              { name: 'Dark Muscovado Sugar', qty: '90 g', rate: '₱0.100/g', cost: 9.00 },
+              { name: 'Philadelphia Cream Cheese', qty: '120 g', rate: '₱0.550/g', cost: 66.00 },
+              { name: 'Pure Vanilla Extract', qty: '10 ml', rate: '₱1.00/ml', cost: 10.00 },
+              { name: 'Kraft 4-Pack Window Box', qty: '1 pc', rate: '₱15.00/pc', cost: 15.00 }
+            ] // sum = 198.80; +25 = 223.80; suggested = 290.94; owner = 360.00; margin = 37.8%
+          }
+        }
+      },
+      babka: {
+        id: 'babka',
+        name: 'Valrhona Chocolate Babka',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'incomplete-cost',
+        variants: {
+          regular: {
+            variantName: 'Regular Loaf',
+            updated: 'Oct 3, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 380.00,
+            items: [
+              { name: 'Enriched Babka Dough', qty: '400 g', rate: '₱0.160/g', cost: 64.00 },
+              { name: 'Valrhona Cocoa Powder', qty: '80 g', rate: 'Cost unavailable', cost: null },
+              { name: 'European Butter', qty: '90 g', rate: '₱0.450/g', cost: 40.50 },
+              { name: 'Simple Sugar Syrup', qty: '60 ml', rate: '₱0.050/ml', cost: 3.00 },
+              { name: 'Kraft Presentation Box', qty: '1 pc', rate: '₱12.00/pc', cost: 12.00 }
+            ]
+          }
+        }
+      },
+      cheesecake: {
+        id: 'cheesecake',
+        name: 'Basque Burnt Cheesecake',
+        category: 'Pastries & Cakes',
+        activeVariant: 'regular',
+        status: 'missing-recipe',
+        variants: {
+          regular: {
+            variantName: '6-inch Round',
+            updated: null,
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 850.00,
+            items: []
+          }
+        }
+      },
+      baguette: {
+        id: 'baguette',
+        name: 'Tradition Baguette',
+        category: 'Breads',
+        activeVariant: 'regular',
+        status: 'complete',
+        variants: {
+          regular: {
+            variantName: 'Classic · 250g',
+            updated: 'Sep 25, 2026',
+            utilityOverhead: 25.00,
+            isOverheadCustom: false,
+            sellingPrice: 110.00,
+            items: [
+              { name: 'T65 French Wheat Flour', qty: '200 g', rate: '₱0.140/g', cost: 28.00 },
+              { name: 'Filtered Water', qty: '140 ml', rate: '₱0.010/ml', cost: 1.40 },
+              { name: 'Sea Salt & Yeast', qty: '5 g', rate: '₱0.440/g', cost: 2.20 },
+              { name: 'Perforated Paper Sleeve', qty: '1 pc', rate: '₱10.50/pc', cost: 10.50 }
+            ] // sum = 42.10; +25 = 67.10; suggested = 87.23; owner = 110.00; margin = 39.0%
+          }
+        }
+      }
+    };
+
+    let selectedProductId = 'sourdough';
+
+    // RENDER SELECTED PRODUCT TO INSPECTOR
+    function renderInspector(productId) {
+      selectedProductId = productId;
+      const product = productData[productId];
+      const activeVariantKey = product.activeVariant || 'regular';
+      const variant = product.variants[activeVariantKey];
+
+      // Update Header Primary Action Context Button
+      const headerBtn = document.getElementById('header-primary-action-btn');
+      const headerBtnText = document.getElementById('header-primary-action-text');
+      const headerBtnIcon = document.getElementById('header-primary-action-icon');
+      if (product.status === 'missing-recipe') {
+        headerBtnText.innerText = 'Create Recipe';
+        headerBtnIcon.innerText = 'add';
+      } else {
+        headerBtnText.innerText = 'Edit Selected Recipe';
+        headerBtnIcon.innerText = 'edit';
+      }
+
+      // Update table selection indicator
+      document.querySelectorAll('#recipe-table-body tr').forEach(row => {
+        const rowId = row.getAttribute('data-row-id');
+        const indicator = row.querySelector('.row-indicator');
+        if (rowId === productId) {
+          row.classList.add('bg-primary/5');
+          if (indicator) indicator.classList.replace('bg-transparent', 'bg-primary');
+        } else {
+          row.classList.remove('bg-primary/5');
+          if (indicator) indicator.classList.replace('bg-primary', 'bg-transparent');
+        }
+      });
+
+      // Panels
+      const inspectorActive = document.getElementById('inspector-active');
+      const inspectorMissing = document.getElementById('inspector-missing-recipe');
+      const inspectorIncomplete = document.getElementById('inspector-incomplete-cost');
+
+      if (product.status === 'missing-recipe') {
+        inspectorActive.classList.add('hidden');
+        inspectorIncomplete.classList.add('hidden');
+        inspectorMissing.classList.remove('hidden');
+        inspectorMissing.classList.add('flex');
+        return;
+      }
+
+      if (product.status === 'incomplete-cost') {
+        inspectorActive.classList.add('hidden');
+        inspectorMissing.classList.add('hidden');
+        inspectorIncomplete.classList.remove('hidden');
+        inspectorIncomplete.classList.add('flex');
+        return;
+      }
+
+      // Complete State
+      inspectorActive.classList.remove('hidden');
+      inspectorMissing.classList.add('hidden');
+      inspectorIncomplete.classList.add('hidden');
+
+      // Populate Texts
+      document.getElementById('inspector-product-title').innerText = product.name;
+      document.getElementById('inspector-meta').innerText = `${variant.items.length} items · Last updated ${variant.updated}`;
+      document.getElementById('modal-recipe-title').innerText = `Edit Recipe — ${product.name} (${variant.variantName})`;
+      document.getElementById('modal-overhead-product-name').innerText = product.name;
+      document.getElementById('modal-price-product-name').innerText = `${product.name} (${variant.variantName})`;
+
+      // Variant Selector visibility (sourdough has 2 variants, others 1)
+      const variantPills = document.getElementById('inspector-variant-pills');
+      if (productId === 'sourdough') {
+        variantPills.classList.remove('hidden');
+        const btnReg = document.getElementById('btn-variant-regular');
+        const btnLrg = document.getElementById('btn-variant-large');
+        if (activeVariantKey === 'regular') {
+          btnReg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-primary text-on-primary font-medium transition-colors';
+          btnLrg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors';
+        } else {
+          btnReg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors';
+          btnLrg.className = 'px-2.5 py-0.5 rounded font-label-sm text-label-sm bg-primary text-on-primary font-medium transition-colors';
+        }
+      } else {
+        variantPills.classList.add('hidden');
+      }
+
+      // Compute Exact Math
+      let materialSum = 0;
+      const tbody = document.getElementById('inspector-bom-body');
+      tbody.innerHTML = '';
+
+      variant.items.forEach(item => {
+        materialSum += item.cost;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-1.5 px-2 font-medium text-on-surface">${item.name}</td>
+          <td class="py-1.5 px-2 text-secondary">${item.qty}</td>
+          <td class="py-1.5 px-2 text-right text-secondary">${item.rate}</td>
+          <td class="py-1.5 px-2 text-right font-price-md text-on-surface">₱${item.cost.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const materialCost = materialSum;
+      const overheadCost = variant.utilityOverhead;
+      const totalCost = materialCost + overheadCost;
+      const suggestedPrice = totalCost * (1 + globalMarkup / 100);
+      const ownerPrice = variant.sellingPrice;
+      const margin = ((ownerPrice - totalCost) / ownerPrice) * 100;
+      const profitPerUnit = ownerPrice - totalCost;
+
+      // Update Inspector DOM
+      document.getElementById('inspector-material-cost').innerText = `₱${materialCost.toFixed(2)}`;
+      document.getElementById('inspector-breakdown-material').innerText = `₱${materialCost.toFixed(2)}`;
+      document.getElementById('inspector-overhead-val').innerText = `₱${overheadCost.toFixed(2)}`;
+      document.getElementById('inspector-overhead-badge').innerText = variant.isOverheadCustom ? 'Custom Override' : 'Using Default';
+      document.getElementById('inspector-total-cost').innerText = `₱${totalCost.toFixed(2)}`;
+      document.getElementById('inspector-markup-pct').innerText = `${globalMarkup}%`;
+      document.getElementById('inspector-suggested-cost').innerText = `₱${suggestedPrice.toFixed(2)}`;
+      document.getElementById('inspector-current-price').innerText = `₱${ownerPrice.toFixed(2)}`;
+      document.getElementById('inspector-margin-pct').innerText = `${margin.toFixed(1)}%`;
+      document.getElementById('inspector-margin-breakdown').innerText = 
+        `Selling Price (₱${ownerPrice.toFixed(2)}) − Production Cost (₱${totalCost.toFixed(2)}) = ₱${profitPerUnit.toFixed(2)} profit per unit`;
+
+      // Update Selling Price Modal references
+      document.getElementById('modal-curr-price-disp').innerText = `₱${ownerPrice.toFixed(2)}`;
+      document.getElementById('modal-sugg-price-disp').innerText = `₱${suggestedPrice.toFixed(2)}`;
+      document.getElementById('input-new-price').value = ownerPrice.toFixed(2);
+    }
+
+    // Switch Product Row
+    function selectRow(id) {
+      renderInspector(id);
+    }
+
+    // Switch Variant
+    function switchVariant(variantKey) {
+      if (productData[selectedProductId]) {
+        productData[selectedProductId].activeVariant = variantKey;
+        renderInspector(selectedProductId);
+      }
+    }
+
+    // Header Primary Button Action
+    function handleHeaderPrimaryAction() {
+      openModal('edit-recipe-modal');
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+
+    // Save Pricing Settings
+    function savePricingSettings() {
+      const newMarkup = parseFloat(document.getElementById('input-global-markup').value) || 30;
+      const newOverhead = parseFloat(document.getElementById('input-global-overhead').value) || 25.00;
+      
+      globalMarkup = newMarkup;
+      globalOverhead = newOverhead;
+
+      document.getElementById('strip-markup-val').innerText = `${globalMarkup}%`;
+      document.getElementById('strip-overhead-val').innerText = `₱${globalOverhead.toFixed(2)}`;
+      document.getElementById('modal-default-overhead-text').innerText = `₱${globalOverhead.toFixed(2)} per unit`;
+
+      // Update non-overridden products
+      Object.keys(productData).forEach(prodKey => {
+        const prod = productData[prodKey];
+        Object.keys(prod.variants).forEach(vKey => {
+          if (!prod.variants[vKey].isOverheadCustom) {
+            prod.variants[vKey].utilityOverhead = globalOverhead;
+          }
+        });
+      });
+
+      renderInspector(selectedProductId);
+      closeModal('pricing-settings-modal');
+    }
+
+    // Save New Selling Price
+    function saveNewPrice() {
+      const newPrice = parseFloat(document.getElementById('input-new-price').value);
+      if (isNaN(newPrice) || newPrice <= 0) {
+        alert('Please enter a valid price.');
+        return;
+      }
+      const product = productData[selectedProductId];
+      const activeVariantKey = product.activeVariant || 'regular';
+      product.variants[activeVariantKey].sellingPrice = newPrice;
+
+      // Update Master Table cell if this is sourdough
+      if (selectedProductId === 'sourdough' && activeVariantKey === 'regular') {
+        const row = document.querySelector('tr[data-row-id="sourdough"]');
+        if (row) {
+          const cells = row.querySelectorAll('td');
+          cells[3].innerText = `₱${newPrice.toFixed(2)}`;
+          const totalCost = 91.37;
+          const margin = ((newPrice - totalCost) / newPrice) * 100;
+          cells[4].innerHTML = `<span class="inline-block px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold">${margin.toFixed(1)}%</span>`;
+        }
+      }
+
+      renderInspector(selectedProductId);
+      closeModal('selling-price-modal');
+    }
+
+    // Apply Overhead Override
+    function applyOverheadOverride() {
+      const isCustom = document.getElementById('radio-overhead-custom').checked;
+      const customVal = parseFloat(document.getElementById('input-custom-overhead').value) || 25.00;
+      
+      const product = productData[selectedProductId];
+      const activeVariantKey = product.activeVariant || 'regular';
+
+      if (isCustom) {
+        product.variants[activeVariantKey].isOverheadCustom = true;
+        product.variants[activeVariantKey].utilityOverhead = customVal;
+      } else {
+        product.variants[activeVariantKey].isOverheadCustom = false;
+        product.variants[activeVariantKey].utilityOverhead = globalOverhead;
+      }
+
+      renderInspector(selectedProductId);
+      closeModal('utility-override-modal');
+    }
+
+    // Edit Recipe BOM Lines logic
+    function removeRecipeLine(btn) {
+      const row = btn.closest('.line-item-row');
+      if (document.querySelectorAll('.line-item-row').length > 1) {
+        row.remove();
+      } else {
+        alert('Recipe must contain at least one line item.');
+      }
+    }
+
+    function addRecipeLine() {
+      const container = document.getElementById('recipe-line-items');
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-space-xs line-item-row';
+      div.innerHTML = `
+        <select class="flex-1 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface focus:outline-none">
+          <option>High-Protein Bread Flour</option>
+          <option>Whole Wheat Flour</option>
+          <option>Filtered Water</option>
+          <option>Sea Salt</option>
+          <option>Instant Yeast</option>
+          <option>Extra Virgin Olive Oil</option>
+          <option>Kraft Windowed Bread Bag</option>
+        </select>
+        <input class="w-24 bg-surface-container-low font-body-md text-body-md rounded p-2 text-on-surface text-right focus:outline-none" min="0.1" step="any" type="number" value="10"/>
+        <span class="font-label-md text-label-md text-secondary w-10 text-center">g</span>
+        <span class="font-price-md text-price-md text-secondary w-20 text-right">₱0.120/g</span>
+        <button class="p-2 text-outline hover:text-error rounded" onclick="removeRecipeLine(this)" type="button">
+          <span class="material-symbols-outlined text-[18px]">delete</span>
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function saveRecipeBOM() {
+      // Validate inputs
+      const rows = document.querySelectorAll('.line-item-row');
+      let valid = true;
+      rows.forEach(r => {
+        const val = parseFloat(r.querySelector('input').value);
+        if (isNaN(val) || val <= 0) valid = false;
+      });
+      if (!valid) {
+        alert('All ingredient quantities must be greater than zero.');
+        return;
+      }
+      closeModal('edit-recipe-modal');
+      renderInspector(selectedProductId);
+    }
+
+    // Prototype Simulator State Switcher
+    function setSimulatorState(state) {
+      const liveState = document.getElementById('sim-state-live');
+      const loadingState = document.getElementById('sim-state-loading');
+      const emptyState = document.getElementById('sim-state-empty');
+      const errorState = document.getElementById('sim-state-error');
+
+      liveState.classList.add('hidden');
+      loadingState.classList.add('hidden');
+      loadingState.classList.remove('flex');
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+      errorState.classList.add('hidden');
+      errorState.classList.remove('flex');
+
+      if (state === 'live') {
+        liveState.classList.remove('hidden');
+        renderInspector('sourdough');
+      } else if (state === 'loading') {
+        loadingState.classList.remove('hidden');
+        loadingState.classList.add('flex');
+      } else if (state === 'empty') {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else if (state === 'error') {
+        errorState.classList.remove('hidden');
+        errorState.classList.add('flex');
+      } else if (state === 'missing-recipe') {
+        liveState.classList.remove('hidden');
+        renderInspector('cheesecake');
+      } else if (state === 'incomplete-cost') {
+        liveState.classList.remove('hidden');
+        renderInspector('babka');
+      }
+    }
+
+    // Initial render on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderInspector('sourdough');
+    });
+  </script>
+</body></html>

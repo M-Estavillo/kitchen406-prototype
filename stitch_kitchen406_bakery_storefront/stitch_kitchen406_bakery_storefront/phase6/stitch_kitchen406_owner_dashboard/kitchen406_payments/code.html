@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Payments — Kitchen406 Owner Workspace</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #e4e2df; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #cfc5bd; }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#eae1dc",
+            "inverse-surface": "#30312e",
+            "outline-variant": "#e8e2d9",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#1f1b16",
+            "primary": "#6f3400",
+            "tertiary-container": "#7b736d",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e4e2df",
+            "primary-fixed": "#ffdcc7",
+            "secondary": "#635d59",
+            "on-primary-fixed": "#311300",
+            "on-secondary-container": "#69635f",
+            "surface": "#fbf9f6",
+            "on-tertiary-container": "#fffbff",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed-variant": "#4b4642",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "surface-container-low": "#f5f3f0",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#53443a",
+            "primary-fixed-dim": "#ffb787",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1b1c1a",
+            "background": "#fbf9f5",
+            "surface-container": "#efeeea",
+            "surface-bright": "#fbf9f6",
+            "outline": "#867368",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "primary-container": "#8d4a14",
+            "inverse-primary": "#ffb787",
+            "on-primary-container": "#ffc9a8",
+            "secondary-fixed": "#eae1db",
+            "on-secondary-fixed": "#1f1b18",
+            "on-primary": "#ffffff",
+            "surface-tint": "#904d17",
+            "surface-container-high": "#e9e8e4",
+            "tertiary": "#49433d",
+            "surface-variant": "#e4e2df",
+            "inverse-on-surface": "#f2f1ed"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "display": ["Playfair Display"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    }
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased relative">
+<!-- Toast Notification -->
+<div class="fixed bottom-6 right-6 z-[80] translate-y-12 opacity-0 pointer-events-none transition-all duration-200 ease-out flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-inverse-surface text-inverse-on-surface text-body-sm shadow-lg" id="toast">
+<span class="material-symbols-outlined text-[18px] text-inverse-primary">check_circle</span>
+<span id="toast-message">Reference copied</span>
+</div>
+<!-- Mobile Sidebar Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 z-40 hidden lg:hidden" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+<!-- Persistent Sidebar (240px = w-60) -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface border-r border-outline-variant/60 z-50 flex flex-col justify-between overflow-y-auto transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant/40 flex items-center justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-tight">Kitchen406</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-0.5">Owner Workspace</p>
+</div>
+<button aria-label="Close sidebar" class="lg:hidden text-secondary hover:text-on-surface" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<nav class="px-space-xs py-space-sm flex flex-col gap-0.5">
+<!-- Overview Group -->
+<div class="px-space-sm pt-space-sm pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overview</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#">
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Operations Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Operations</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="orders" href="#">
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<!-- Payments: ACTIVE ITEM WITH TERRACOTTA / PRIMARY-CONTAINER TINT -->
+<a class="flex items-center px-space-sm py-1.5 rounded-lg bg-primary-fixed/60 text-primary-container font-semibold transition-all shadow-sm" data-path="payments" href="#">
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="deliveries" href="#">
+<span class="font-body-md text-body-md">Deliveries</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="inventory" href="#">
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="recipes-and-costing" href="#">
+<span class="font-body-md text-body-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="custom-cakes" href="#">
+<span class="font-body-md text-body-md">Custom Cakes</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="subscriptions" href="#">
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="capacity-calendar" href="#">
+<span class="font-body-md text-body-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="scheduling-blocked-dates" href="#">
+<span class="font-body-md text-body-md">Scheduling / Blocked Dates</span>
+</a>
+<!-- Management Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Management</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="products" href="#">
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories" href="#">
+<span class="font-body-md text-body-md">Categories</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ingredients" href="#">
+<span class="font-body-md text-body-md">Ingredients</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="cake-options-and-add-ons" href="#">
+<span class="font-body-md text-body-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="seasonal-occasions" href="#">
+<span class="font-body-md text-body-md">Seasonal Occasions</span>
+</a>
+<!-- Administration Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Administration</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="staff-accounts" href="#">
+<span class="font-body-md text-body-md">Staff Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="customer-accounts" href="#">
+<span class="font-body-md text-body-md">Customer Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reviews" href="#">
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="marketing-drafts" href="#">
+<span class="font-body-md text-body-md">Marketing Drafts</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">Review</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#">
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer -->
+<div class="p-space-sm border-t border-outline-variant/40 bg-surface flex flex-col gap-1">
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="notifications" href="#">
+<span class="font-body-md text-body-md">Notifications</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#">
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<div class="mt-space-xs pt-space-xs border-t border-outline-variant/30 flex items-center justify-between px-space-sm py-1">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Vance</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Owner</span>
+</div>
+<a class="text-secondary hover:text-error transition-colors p-1" data-path="login" href="#" title="Sign out">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Layout Area -->
+<div class="lg:pl-60 min-h-screen flex flex-col bg-background">
+<!-- Top Bar with Prototype View Switcher -->
+<header class="fixed top-0 left-0 lg:left-60 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-30 flex items-center justify-between px-space-md lg:px-space-lg shadow-[0_1px_8px_rgba(83,68,58,0.04)]">
+<div class="flex items-center gap-3">
+<button aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+<span class="font-body-md text-body-md text-secondary hidden sm:inline">Sunday, October 4, 2026</span>
+</div>
+<!-- Prototype State Switchers & User Chrome -->
+<div class="flex items-center gap-space-md">
+<!-- Prototype State Switchers -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg border border-outline-variant/40">
+<span class="font-label-sm text-[10px] text-secondary uppercase px-2 font-semibold tracking-wider hidden md:inline">View:</span>
+<div class="flex items-center gap-0.5">
+<button class="px-2 py-0.5 rounded text-xs font-medium transition-colors bg-surface-container-lowest text-primary font-semibold shadow-xs" id="state-btn-live" onclick="setViewMode('live')">Live</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-loading" onclick="setViewMode('loading')">Loading</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-empty" onclick="setViewMode('empty')">Empty</button>
+<button class="px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors" id="state-btn-error" onclick="setViewMode('error')">Error</button>
+</div>
+</div>
+<div class="relative flex items-center justify-center p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] flex items-center justify-center leading-none font-semibold">5</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative pt-16 w-full flex-1 bg-background">
+<div class="flex flex-col w-full">
+<div class="p-space-md lg:p-space-lg flex flex-col gap-space-lg max-w-[1600px] mx-auto w-full">
+<!-- Top Workspace Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">OWNER OPERATIONS</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Payments</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              Monitor QR Ph payment activity and review transactions that need attention.
+            </p>
+</div>
+<div class="flex items-center gap-2 self-start sm:self-auto bg-surface-container-low px-space-sm py-1.5 rounded-lg shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+<span class="font-label-sm text-label-sm text-secondary">Last updated: just now</span>
+<button aria-label="Refresh payment records" class="p-1 text-secondary hover:text-primary transition-colors flex items-center justify-center" onclick="refreshData()" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- SKELETON: SUMMARY TILES (Visible only in Loading state) -->
+<div class="hidden grid grid-cols-2 lg:grid-cols-4 gap-space-sm lg:gap-space-md" id="skeleton-summary">
+<div class="bg-surface-container-lowest p-space-md rounded-xl animate-pulse space-y-3">
+<div class="h-4 bg-surface-container-high rounded w-24"></div>
+<div class="h-8 bg-surface-container-high rounded w-16"></div>
+<div class="h-3 bg-surface-container-high rounded w-32"></div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl animate-pulse space-y-3">
+<div class="h-4 bg-surface-container-high rounded w-20"></div>
+<div class="h-8 bg-surface-container-high rounded w-16"></div>
+<div class="h-3 bg-surface-container-high rounded w-28"></div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl animate-pulse space-y-3">
+<div class="h-4 bg-surface-container-high rounded w-24"></div>
+<div class="h-8 bg-surface-container-high rounded w-16"></div>
+<div class="h-3 bg-surface-container-high rounded w-32"></div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl animate-pulse space-y-3">
+<div class="h-4 bg-surface-container-high rounded w-28"></div>
+<div class="h-8 bg-surface-container-high rounded w-16"></div>
+<div class="h-3 bg-surface-container-high rounded w-28"></div>
+</div>
+</div>
+<!-- Operational Status Summary Tiles (Live & Default) -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-sm lg:gap-space-md" id="live-summary">
+<!-- Tile 1: Needs Attention (Static, restrained amber highlight - no pulsing) -->
+<div class="bg-primary-fixed/30 border border-primary-fixed p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-primary">Needs Attention</span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary/70"></span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-lg text-headline-lg text-primary font-bold leading-none" id="metric-attention">2</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Payment cases requiring review</p>
+</div>
+</div>
+<!-- Tile 2: Pending -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Pending</span>
+<span class="material-symbols-outlined text-[18px] text-primary-container">hourglass_top</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metric-pending">3</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Active payment attempts</p>
+</div>
+</div>
+<!-- Tile 3: Paid Today -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Paid Today</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">check_circle</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metric-paid">12</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Successfully completed</p>
+</div>
+</div>
+<!-- Tile 4: Failed / Expired Today -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Failed / Expired Today</span>
+<span class="material-symbols-outlined text-[18px] text-outline">cancel</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metric-unsuccessful">4</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Unsuccessful attempts</p>
+</div>
+</div>
+</div>
+<!-- ERROR STATE VIEW (Preserves shell) -->
+<div class="hidden p-space-lg bg-surface-container-lowest rounded-xl border border-error/20 flex flex-col items-center justify-center text-center py-16 gap-3" id="view-error-state">
+<div class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[26px]">error</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-medium">Payment activity couldn't be loaded</h3>
+<p class="font-body-md text-secondary max-w-md">There was a problem reaching the bakery payment service. Check your connection and try again.</p>
+<button class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="setViewMode('live')">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Retry</span>
+</button>
+</div>
+<!-- MAIN TABLE & FILTER CONTAINER (Primary content area) -->
+<div class="w-full flex flex-col gap-space-md" id="view-table-wrapper">
+<!-- Filter Toolbar & Tabs Container -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 p-space-md rounded-xl shadow-sm flex flex-col gap-space-md">
+<!-- Status Tabs -->
+<div class="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/30 pb-space-sm">
+<div class="flex flex-wrap items-center gap-1.5 overflow-x-auto">
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-secondary-container text-on-secondary-fixed transition-colors whitespace-nowrap" data-filter="all" onclick="setTabFilter('all')" type="button">
+                  All <span class="ml-1 opacity-70" id="tab-count-all">21</span>
+</button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-filter="attention" onclick="setTabFilter('attention')" type="button">
+                  Needs Attention <span class="ml-1 px-1.5 py-0.5 rounded-full bg-primary-fixed text-primary font-bold text-[10px]">2</span>
+</button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-filter="pending" onclick="setTabFilter('pending')" type="button">
+                  Pending <span class="ml-1 opacity-70">3</span>
+</button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-filter="paid" onclick="setTabFilter('paid')" type="button">
+                  Paid <span class="ml-1 opacity-70">12</span>
+</button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-filter="failed" onclick="setTabFilter('failed')" type="button">
+                  Failed <span class="ml-1 opacity-70">2</span>
+</button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-filter="expired" onclick="setTabFilter('expired')" type="button">
+                  Expired <span class="ml-1 opacity-70">2</span>
+</button>
+</div>
+<!-- Active filters count / clear button -->
+<button class="hidden text-xs text-primary hover:underline font-label-md flex items-center gap-1 self-end sm:self-auto py-1" id="clear-filters-btn" onclick="clearFilters()">
+<span class="material-symbols-outlined text-[14px]">close</span>
+<span>Clear filters</span>
+</button>
+</div>
+<!-- Controls Bar -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-sm items-end">
+<!-- Search field -->
+<div class="md:col-span-5 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider" for="search-input">Search Reference / Customer</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-[18px] text-secondary">search</span>
+<input class="w-full bg-surface-container-low border border-transparent focus:border-outline-variant pl-9 pr-8 py-2 rounded-lg font-body-md text-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest transition-colors" id="search-input" oninput="applyFilters()" placeholder="Search order or payment reference" type="text"/>
+<button class="hidden absolute right-2.5 text-secondary hover:text-on-surface p-1" id="clear-search-btn" onclick="clearSearch()" title="Clear text">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+</button>
+</div>
+</div>
+<!-- Order Type -->
+<div class="md:col-span-3 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider" for="order-type-select">Order Type</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-transparent focus:border-outline-variant px-3 py-2 rounded-lg font-body-md text-body-md text-on-surface appearance-none focus:outline-none cursor-pointer pr-8" id="order-type-select" onchange="applyFilters()">
+<option value="all">All Types</option>
+<option value="standard">Standard Order</option>
+<option value="subscription">Subscription · 4-Week Prepaid</option>
+<option value="custom">Custom Cake</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Date Filter -->
+<div class="md:col-span-2 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider" for="date-select">Date</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-transparent focus:border-outline-variant px-3 py-2 rounded-lg font-body-md text-body-md text-on-surface appearance-none focus:outline-none cursor-pointer pr-8" id="date-select" onchange="applyFilters()">
+<option value="today">Today</option>
+<option value="last7">Last 7 Days</option>
+<option value="last30">Last 30 Days</option>
+<option value="custom">Custom Range</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Sort By -->
+<div class="md:col-span-2 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider" for="sort-select">Sort</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-transparent focus:border-outline-variant px-3 py-2 rounded-lg font-body-md text-body-md text-on-surface appearance-none focus:outline-none cursor-pointer pr-8" id="sort-select" onchange="applyFilters()">
+<option value="newest">Newest first</option>
+<option value="oldest">Oldest first</option>
+<option value="amount-high">Amount: High to Low</option>
+<option value="amount-low">Amount: Low to High</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SKELETON: TABLE ROWS (Visible only in Loading state) -->
+<div class="hidden bg-surface-container-lowest rounded-xl border border-outline-variant/50 p-6 space-y-4 animate-pulse" id="skeleton-table">
+<div class="h-6 bg-surface-container-high rounded w-full"></div>
+<div class="h-12 bg-surface-container-low rounded w-full"></div>
+<div class="h-12 bg-surface-container-low rounded w-full"></div>
+<div class="h-12 bg-surface-container-low rounded w-full"></div>
+<div class="h-12 bg-surface-container-low rounded w-full"></div>
+</div>
+<!-- Master Payments Table Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-sm overflow-hidden flex flex-col" id="live-table-container">
+<!-- Desktop / Tablet Table View (hidden on small mobile screens) -->
+<div class="hidden md:block overflow-x-auto w-full">
+<table class="w-full text-left border-collapse" id="payments-table">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider border-b border-outline-variant/40">
+<th class="py-3 px-space-md font-semibold">Order</th>
+<th class="py-3 px-space-sm font-semibold">Customer</th>
+<th class="py-3 px-space-sm font-semibold">Amount</th>
+<th class="py-3 px-space-sm font-semibold">Latest Attempt</th>
+<th class="py-3 px-space-sm font-semibold">Payment Status</th>
+<th class="py-3 px-space-sm font-semibold">Operational Status</th>
+<th class="py-3 px-space-sm font-semibold">Checkout Hold</th>
+<th class="py-3 px-space-md text-right font-semibold">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container" id="payments-tbody">
+<!-- Dynamically rendered via JS -->
+</tbody>
+</table>
+</div>
+<!-- Mobile Stacked Operational Cards View (Visible on mobile <= 767px) -->
+<div class="md:hidden flex flex-col divide-y divide-surface-container" id="mobile-cards-container">
+<!-- Dynamically populated via JS -->
+</div>
+<!-- Empty Match State (when search/filters result in 0 records) -->
+<div class="hidden py-16 px-4 flex flex-col items-center justify-center text-center gap-2" id="empty-results-message">
+<span class="material-symbols-outlined text-[36px] text-secondary/60">payments</span>
+<p class="font-title-sm text-title-sm text-on-surface" id="empty-title">No payments match these filters</p>
+<p class="font-body-sm text-body-sm text-secondary max-w-sm" id="empty-desc">Try clearing your filters or changing your search terms to see payment transactions.</p>
+<button class="mt-2 text-primary font-label-md text-label-md underline" onclick="clearFilters()">Reset all filters</button>
+</div>
+<!-- Bottom Pagination / Info Row -->
+<div class="p-space-sm px-space-md bg-surface-container-low border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-2">
+<span class="font-body-sm text-body-sm text-secondary" id="pagination-info">Showing 5 of 21 transactions</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary/40 font-label-sm text-label-sm cursor-not-allowed border border-outline-variant/20" disabled="" type="button">Previous</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm shadow-xs" type="button">1</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-secondary hover:text-on-surface font-label-sm text-label-sm border border-outline-variant/30" type="button">2</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-secondary hover:text-on-surface font-label-sm text-label-sm border border-outline-variant/30" type="button">3</button>
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary hover:text-on-surface font-label-sm text-label-sm border border-outline-variant/30" type="button">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ======================================================== -->
+<!-- STATE-AWARE PAYMENT DETAILS OVERLAY DRAWER & BACKDROP    -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0" id="drawer-backdrop" onclick="closeDrawer()"></div>
+<aside class="fixed top-0 right-0 h-screen w-full md:w-[460px] bg-surface-container-lowest border-l border-outline-variant shadow-2xl z-50 flex flex-col justify-between overflow-y-auto translate-x-full transition-transform duration-300 ease-in-out" id="payment-drawer">
+<!-- Dynamic Drawer Content populated by renderDrawer() -->
+<div class="flex flex-col p-space-md lg:p-space-lg gap-space-md" id="drawer-content">
+<!-- Populated by JavaScript based on payment record state -->
+</div>
+</aside>
+<script>
+  // Canonical Payments Data with separated operational triage vs payment status
+  const PAYMENTS_DATA = [
+    {
+      orderId: 'K406-1052',
+      customer: 'Claire D.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 860.00,
+      formattedAmount: '₱860.00',
+      status: 'failed', // Canonical: paid | pending | failed | expired
+      statusLabel: 'Failed',
+      needsAttention: true, // Operational triage flag
+      attemptCount: 2,
+      latestAttempt: 'Attempt 2',
+      latestAttemptDate: 'Oct 4, 2026, 2:31 PM',
+      createdDate: 'Oct 4, 2026 · 2:31 PM',
+      expiresDate: 'Oct 4, 2026 · 2:46 PM',
+      holdStatus: 'Released',
+      holdInitiated: 'Oct 4, 2026 · 2:31 PM',
+      holdReleased: 'Oct 4, 2026 · 2:46 PM',
+      refId: 'pi_9xL2pQ81nm4K',
+      dateKey: 'today',
+      timestamp: 1728023460000,
+      attempts: [
+        { num: 2, isLatest: true, status: 'Failed', statusClass: 'text-error', dotClass: 'bg-error', date: 'Oct 4, 2026 · 2:31 PM', amount: '₱860.00' },
+        { num: 1, isLatest: false, status: 'Expired', statusClass: 'text-secondary', dotClass: 'bg-outline', date: 'Oct 4, 2026 · 2:05 PM', amount: '₱860.00' }
+      ],
+      gatewayCode: 'payment_failed',
+      gatewayResponse: 'Transaction timed out at checkout partner or authorization incomplete.'
+    },
+    {
+      orderId: 'K406-1054',
+      customer: 'Andrea M.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 1480.00,
+      formattedAmount: '₱1,480.00',
+      status: 'paid',
+      statusLabel: 'Paid',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:35 PM',
+      createdDate: 'Oct 4, 2026 · 2:35 PM',
+      paidAtDate: 'Oct 4, 2026 · 2:37 PM',
+      holdStatus: 'Confirmed',
+      holdConfirmedAt: 'Oct 4, 2026 · 2:37 PM',
+      refId: 'pi_7kL90A2bCx9Z',
+      dateKey: 'today',
+      timestamp: 1728023700000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Paid', statusClass: 'text-tertiary', dotClass: 'bg-tertiary', date: 'Oct 4, 2026 · 2:35 PM', amount: '₱1,480.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1053',
+      customer: 'Miguel R.',
+      type: 'Subscription · 4-Week Prepaid',
+      typeCode: 'subscription',
+      amount: 3920.00,
+      formattedAmount: '₱3,920.00',
+      status: 'pending',
+      statusLabel: 'Pending',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:40 PM',
+      createdDate: 'Oct 4, 2026 · 2:40 PM',
+      expiresDate: 'Oct 4, 2026 · 2:55 PM',
+      holdStatus: 'Active',
+      holdInitiated: 'Oct 4, 2026 · 2:40 PM',
+      refId: 'pi_4wQ11Zx98LmQ',
+      dateKey: 'today',
+      timestamp: 1728024000000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Pending', statusClass: 'text-primary', dotClass: 'bg-primary', date: 'Oct 4, 2026 · 2:40 PM', amount: '₱3,920.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1051',
+      customer: 'Bea S.',
+      type: 'Custom Cake',
+      typeContext: 'Accepted quotation',
+      typeCode: 'custom',
+      amount: 2750.00,
+      formattedAmount: '₱2,750.00',
+      status: 'expired',
+      statusLabel: 'Expired',
+      needsAttention: true, // Bea S. requires owner triage since custom cake holds are released
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 2:10 PM',
+      createdDate: 'Oct 4, 2026 · 2:10 PM',
+      expiresDate: 'Oct 4, 2026 · 2:25 PM',
+      holdStatus: 'Released',
+      holdInitiated: 'Oct 4, 2026 · 2:10 PM',
+      holdReleased: 'Oct 4, 2026 · 2:25 PM',
+      refId: 'pi_2bM44P01Rt8X',
+      dateKey: 'today',
+      timestamp: 1728022200000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Expired', statusClass: 'text-secondary', dotClass: 'bg-outline', date: 'Oct 4, 2026 · 2:10 PM', amount: '₱2,750.00' }
+      ]
+    },
+    {
+      orderId: 'K406-1048',
+      customer: 'Maria S.',
+      type: 'Standard Order',
+      typeCode: 'standard',
+      amount: 1420.00,
+      formattedAmount: '₱1,420.00',
+      status: 'paid',
+      statusLabel: 'Paid',
+      needsAttention: false,
+      attemptCount: 1,
+      latestAttempt: 'Attempt 1',
+      latestAttemptDate: 'Oct 4, 2026, 1:45 PM',
+      createdDate: 'Oct 4, 2026 · 1:45 PM',
+      paidAtDate: 'Oct 4, 2026 · 1:47 PM',
+      holdStatus: 'Confirmed',
+      holdConfirmedAt: 'Oct 4, 2026 · 1:47 PM',
+      refId: 'pi_8vN33M12Qw5J',
+      dateKey: 'today',
+      timestamp: 1728020700000,
+      attempts: [
+        { num: 1, isLatest: true, status: 'Paid', statusClass: 'text-tertiary', dotClass: 'bg-tertiary', date: 'Oct 4, 2026 · 1:45 PM', amount: '₱1,420.00' }
+      ]
+    }
+  ];
+
+  let currentTab = 'all';
+  let selectedOrderId = null;
+  let currentViewMode = 'live';
+
+  function renderStatusBadge(status) {
+    if (status === 'paid') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm border border-secondary-container">
+        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Paid
+      </span>`;
+    } else if (status === 'pending') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed/50 text-primary font-label-sm text-label-sm border border-primary-fixed">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Pending
+      </span>`;
+    } else if (status === 'failed') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm border border-error-container">
+        <span class="w-1.5 h-1.5 rounded-full bg-error"></span> Failed
+      </span>`;
+    } else if (status === 'expired') {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm border border-outline-variant/60">
+        <span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Expired
+      </span>`;
+    }
+    return '';
+  }
+
+  function renderAttentionBadge(needsAttention) {
+    if (needsAttention) {
+      // Restrained, static muted amber warning badge (no animation)
+      return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[11px] bg-primary-fixed/40 text-primary font-semibold border border-primary-fixed">
+        <span class="material-symbols-outlined text-[13px]">flag</span>
+        Needs Attention
+      </span>`;
+    }
+    return `<span class="text-xs text-secondary/60">—</span>`;
+  }
+
+  function renderHoldBadge(holdStatus) {
+    if (holdStatus === 'Confirmed') {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-tertiary font-label-sm text-label-sm bg-secondary-container/60">Confirmed</span>`;
+    } else if (holdStatus === 'Active') {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-primary font-label-sm text-label-sm bg-primary-fixed/30 border border-primary-fixed">Active</span>`;
+    } else {
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-secondary font-label-sm text-label-sm bg-surface-container">Released</span>`;
+    }
+  }
+
+  function applyFilters() {
+    if (currentViewMode !== 'live') return;
+
+    const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+    const orderType = document.getElementById('order-type-select').value;
+    const sortBy = document.getElementById('sort-select').value;
+    const clearBtn = document.getElementById('clear-filters-btn');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+
+    if (searchTerm.length > 0) {
+      clearSearchBtn.classList.remove('hidden');
+    } else {
+      clearSearchBtn.classList.add('hidden');
+    }
+
+    // Check if any non-default filter is active
+    const isFiltered = currentTab !== 'all' || searchTerm !== '' || orderType !== 'all' || sortBy !== 'newest';
+    if (isFiltered) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+
+    let list = PAYMENTS_DATA.filter(item => {
+      // Tab filter
+      if (currentTab === 'attention' && !item.needsAttention) return false;
+      if (currentTab === 'pending' && item.status !== 'pending') return false;
+      if (currentTab === 'paid' && item.status !== 'paid') return false;
+      if (currentTab === 'failed' && item.status !== 'failed') return false;
+      if (currentTab === 'expired' && item.status !== 'expired') return false;
+
+      // Order type filter
+      if (orderType !== 'all' && item.typeCode !== orderType) return false;
+
+      // Search term (Order ID or PayMongo ID or Customer)
+      if (searchTerm) {
+        const matchesRef = item.refId.toLowerCase().includes(searchTerm);
+        const matchesOrder = item.orderId.toLowerCase().includes(searchTerm);
+        const matchesCust = item.customer.toLowerCase().includes(searchTerm);
+        if (!matchesRef && !matchesOrder && !matchesCust) return false;
+      }
+
+      return true;
+    });
+
+    // Sorting
+    list.sort((a, b) => {
+      if (sortBy === 'newest') return b.timestamp - a.timestamp;
+      if (sortBy === 'oldest') return a.timestamp - b.timestamp;
+      if (sortBy === 'amount-high') return b.amount - a.amount;
+      if (sortBy === 'amount-low') return a.amount - b.amount;
+      return 0;
+    });
+
+    renderTableRows(list);
+    renderMobileCards(list);
+
+    // Update table info / empty state
+    const emptyMsg = document.getElementById('empty-results-message');
+    const tableEl = document.getElementById('payments-table');
+    const paginationInfo = document.getElementById('pagination-info');
+
+    if (list.length === 0) {
+      tableEl.classList.add('hidden');
+      emptyMsg.classList.remove('hidden');
+      if (currentTab === 'attention') {
+        document.getElementById('empty-title').innerText = 'No payment issues need attention';
+        document.getElementById('empty-desc').innerText = 'All recent payment attempts are either verified, actively in checkout, or successfully resolved.';
+      } else {
+        document.getElementById('empty-title').innerText = 'No payments match these filters';
+        document.getElementById('empty-desc').innerText = 'Try clearing your filters or changing your search terms to see payment transactions.';
+      }
+      paginationInfo.innerText = 'Showing 0 of 21 transactions';
+    } else {
+      tableEl.classList.remove('hidden');
+      emptyMsg.classList.add('hidden');
+      paginationInfo.innerText = `Showing ${list.length} of 21 transactions`;
+    }
+  }
+
+  function renderTableRows(items) {
+    const tbody = document.getElementById('payments-tbody');
+    tbody.innerHTML = items.map(item => {
+      const isSelected = item.orderId === selectedOrderId;
+      const typeSub = item.typeContext ? `<span class="font-body-sm text-body-sm text-secondary">${item.type} · <span class="italic text-xs">${item.typeContext}</span></span>` : `<span class="font-body-sm text-body-sm text-secondary">${item.type}</span>`;
+
+      return `
+        <tr class="order-row ${isSelected ? 'bg-primary-fixed/20' : 'hover:bg-surface-container-low'} cursor-pointer transition-colors" data-order="${item.orderId}" onclick="openDrawer('${item.orderId}')">
+          <td class="py-3.5 px-space-md">
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm ${isSelected ? 'text-primary font-bold' : 'text-on-surface'}">${item.orderId}</span>
+              ${typeSub}
+            </div>
+          </td>
+          <td class="py-3.5 px-space-sm font-body-md text-body-md text-on-surface">${item.customer}</td>
+          <td class="py-3.5 px-space-sm font-price-md text-price-md text-on-surface font-semibold">${item.formattedAmount}</td>
+          <td class="py-3.5 px-space-sm">
+            <div class="flex flex-col">
+              <span class="font-body-md text-body-md text-on-surface">${item.latestAttempt}</span>
+              <span class="font-body-sm text-body-sm text-secondary text-xs">${item.latestAttemptDate}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderStatusBadge(item.status)}
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderAttentionBadge(item.needsAttention)}
+          </td>
+          <td class="py-3.5 px-space-sm">
+            ${renderHoldBadge(item.holdStatus)}
+          </td>
+          <td class="py-3.5 px-space-md text-right">
+            <button class="inline-flex items-center gap-1 ${isSelected ? 'text-primary font-bold' : 'text-secondary hover:text-primary'} font-label-md text-label-md transition-colors" onclick="event.stopPropagation(); openDrawer('${item.orderId}')" type="button">
+              View <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderMobileCards(items) {
+    const container = document.getElementById('mobile-cards-container');
+    container.innerHTML = items.map(item => {
+      const isSelected = item.orderId === selectedOrderId;
+      return `
+        <div class="p-space-md flex flex-col gap-2 ${isSelected ? 'bg-primary-fixed/20' : 'bg-surface-container-lowest'} active:bg-surface-container transition-colors cursor-pointer" onclick="openDrawer('${item.orderId}')">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-title-sm text-title-sm font-bold text-on-surface">${item.orderId}</span>
+                ${renderStatusBadge(item.status)}
+              </div>
+              <span class="font-body-sm text-body-sm text-secondary">${item.type} ${item.typeContext ? '(' + item.typeContext + ')' : ''}</span>
+            </div>
+            <span class="font-price-md text-price-md font-bold text-on-surface">${item.formattedAmount}</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-secondary pt-1 border-t border-surface-container">
+            <span>Customer: <strong class="text-on-surface">${item.customer}</strong></span>
+            <span>Hold: ${renderHoldBadge(item.holdStatus)}</span>
+          </div>
+          ${item.needsAttention ? `<div class="mt-1">${renderAttentionBadge(true)}</div>` : ''}
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-xs text-secondary">${item.latestAttemptDate}</span>
+            <span class="text-xs text-primary font-semibold flex items-center gap-0.5">Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function setTabFilter(tabKey) {
+    currentTab = tabKey;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if (btn.getAttribute('data-filter') === tabKey) {
+        btn.className = 'tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-secondary-container text-on-secondary-fixed transition-colors whitespace-nowrap shadow-xs';
+      } else {
+        btn.className = 'tab-btn px-3 py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap';
+      }
+    });
+    applyFilters();
+  }
+
+  function clearFilters() {
+    currentTab = 'all';
+    document.getElementById('search-input').value = '';
+    document.getElementById('order-type-select').value = 'all';
+    document.getElementById('date-select').value = 'today';
+    document.getElementById('sort-select').value = 'newest';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    setTabFilter('all');
+  }
+
+  function clearSearch() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    applyFilters();
+  }
+
+  // ========================================================
+  // STATE-AWARE DRAWER RENDERING
+  // ========================================================
+  function openDrawer(orderId) {
+    selectedOrderId = orderId;
+    const item = PAYMENTS_DATA.find(d => d.orderId === orderId);
+    if (!item) return;
+
+    // Highlight row
+    document.querySelectorAll('.order-row').forEach(row => {
+      if (row.getAttribute('data-order') === orderId) {
+        row.classList.add('bg-primary-fixed/20');
+      } else {
+        row.classList.remove('bg-primary-fixed/20');
+      }
+    });
+
+    const drawer = document.getElementById('payment-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const drawerContent = document.getElementById('drawer-content');
+
+    // Build State-Aware Content
+    drawerContent.innerHTML = buildDrawerHTML(item);
+
+    backdrop.classList.remove('hidden');
+    setTimeout(() => {
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+    }, 10);
+
+    drawer.classList.remove('translate-x-full');
+  }
+
+  function closeDrawer() {
+    selectedOrderId = null;
+    const drawer = document.getElementById('payment-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    setTimeout(() => {
+      backdrop.classList.add('hidden');
+    }, 300);
+
+    document.querySelectorAll('.order-row').forEach(row => {
+      row.classList.remove('bg-primary-fixed/20');
+    });
+  }
+
+  function buildDrawerHTML(item) {
+    // 1. Header with separated Payment Status and Needs Attention
+    const statusBadge = renderStatusBadge(item.status);
+    const attentionBadge = item.needsAttention 
+      ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[11px] bg-primary-fixed/50 text-primary font-semibold border border-primary-fixed"><span class="material-symbols-outlined text-[13px]">flag</span> Needs Attention</span>` 
+      : '';
+
+    // 2. State-Specific Middle Block
+    let stateBlock = '';
+    if (item.status === 'paid') {
+      stateBlock = `
+        <div class="bg-secondary-container/40 border border-secondary-container p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-tertiary">
+            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+            <span class="font-title-sm text-title-sm font-semibold">Payment completed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            PayMongo confirmed the full payment for this transaction via QR Ph. Order capacity and schedule slots are fully verified.
+          </p>
+          <div class="mt-1 pt-1.5 border-t border-outline-variant/30 flex justify-between text-xs text-secondary">
+            <span>Paid at:</span>
+            <span class="font-medium text-on-surface">${item.paidAtDate}</span>
+          </div>
+        </div>
+      `;
+    } else if (item.status === 'pending') {
+      stateBlock = `
+        <div class="bg-primary-fixed/25 border border-primary-fixed/60 p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+            <span class="font-title-sm text-title-sm font-semibold">Waiting for payment</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            The QR Ph payment attempt is still active. The order remains unconfirmed until PayMongo reports a successful payment.
+          </p>
+        </div>
+      `;
+    } else if (item.status === 'failed') {
+      stateBlock = `
+        <div class="bg-error-container/30 border border-error-container p-space-sm rounded-lg flex flex-col gap-2">
+          <div class="flex items-center gap-1.5 text-error">
+            <span class="material-symbols-outlined text-[18px]">error</span>
+            <span class="font-title-sm text-title-sm font-semibold">Payment could not be completed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            The payment gateway returned an unsuccessful result for this attempt. The customer may start a new payment attempt.
+          </p>
+          <div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/30 flex flex-col gap-1 font-body-sm text-body-sm mt-0.5">
+            <div class="flex items-center justify-between text-secondary text-xs">
+              <span>Gateway code:</span>
+              <code class="text-error font-mono font-semibold">${item.gatewayCode || 'payment_failed'}</code>
+            </div>
+            <div class="text-on-surface pt-1 border-t border-surface-container text-xs">
+              <span class="text-secondary font-medium">Gateway response:</span> "${item.gatewayResponse || 'Authorization incomplete.'}"
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (item.status === 'expired') {
+      stateBlock = `
+        <div class="bg-surface-container-low border border-outline-variant/50 p-space-sm rounded-lg flex flex-col gap-1.5">
+          <div class="flex items-center gap-1.5 text-secondary">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">Payment attempt expired</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            This QR Ph payment was not completed before its expiration time. The attempt did not confirm the order. A new payment attempt must be initiated by the customer.
+          </p>
+        </div>
+      `;
+    }
+
+    // 3. Checkout Resource Hold Block
+    let holdBlock = '';
+    if (item.holdStatus === 'Confirmed') {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container/70 text-tertiary font-semibold">Confirmed</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Kitchen capacity and pantry inventory holds are secured and scheduled for production.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex justify-between text-xs mt-1 border border-outline-variant/20">
+            <span class="text-secondary">Confirmed At:</span>
+            <span class="font-medium text-on-surface">${item.holdConfirmedAt || item.paidAtDate}</span>
+          </div>
+        </div>
+      `;
+    } else if (item.holdStatus === 'Active') {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-primary-fixed/40 text-primary font-semibold border border-primary-fixed">Active</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Baking slot and required inventory are temporarily held while waiting for QR Ph fulfillment.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex flex-col gap-1 text-xs mt-1 border border-outline-variant/20">
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Initiated:</span>
+              <span class="font-medium text-on-surface">${item.holdInitiated}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-secondary">Expires:</span>
+              <span class="font-medium text-primary font-semibold">${item.expiresDate}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      holdBlock = `
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Checkout Resource Hold</span>
+            <span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-secondary">Released</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-secondary leading-snug">
+            Baking capacity slot and pantry inventory reservations were released when the payment failed or timed out.
+          </p>
+          <div class="p-2 rounded bg-surface-container-low flex flex-col gap-1 text-xs mt-1 border border-outline-variant/20">
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Initiated:</span>
+              <span class="font-medium text-on-surface">${item.holdInitiated}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-secondary">Hold Released:</span>
+              <span class="font-medium text-on-surface">${item.holdReleased}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. Attempt History
+    let attemptsHTML = item.attempts.map(att => `
+      <div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between ${att.isLatest ? '' : 'opacity-70'}">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full ${att.dotClass}"></span>
+          <div class="flex flex-col">
+            <span class="font-title-sm text-title-sm text-on-surface text-xs">Attempt ${att.num} ${att.isLatest ? '(Latest)' : ''}</span>
+            <span class="font-body-sm text-body-sm text-secondary text-[11px]">${att.date}</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="font-label-sm text-label-sm ${att.statusClass} font-semibold">${att.status}</span>
+          <span class="block font-price-md text-price-md text-xs text-secondary">${att.amount}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <!-- Drawer Top Bar -->
+      <div class="flex items-start justify-between pb-space-xs border-b border-outline-variant/50">
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Payment Details</h3>
+            ${statusBadge}
+            ${attentionBadge}
+          </div>
+          <span class="font-label-md text-label-md text-secondary">Order ${item.orderId}</span>
+        </div>
+        <button aria-label="Close details drawer" class="text-secondary hover:text-on-surface p-1.5 rounded-lg hover:bg-surface-container-high transition-colors" onclick="closeDrawer()" type="button">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Transaction Summary Card -->
+      <div class="bg-surface-container-low border border-outline-variant/40 p-space-sm rounded-lg flex flex-col gap-2">
+        <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Transaction Summary</span>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Order Type</span>
+          <span class="font-title-sm text-title-sm text-on-surface">${item.type} ${item.typeContext ? '<span class="text-xs font-normal text-secondary">(' + item.typeContext + ')</span>' : ''}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Customer</span>
+          <span class="font-title-sm text-title-sm text-on-surface">${item.customer}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">${item.status === 'paid' ? 'Amount Paid' : 'Amount Due'}</span>
+          <span class="font-price-md text-price-md text-primary font-bold">${item.formattedAmount}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-body-sm text-body-sm text-secondary">Payment Method</span>
+          <span class="font-body-md text-body-md text-on-surface flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-primary">qr_code_2</span>
+            QR Ph via PayMongo
+          </span>
+        </div>
+      </div>
+
+      <!-- State-Aware Block -->
+      ${stateBlock}
+
+      <!-- Current Attempt & PayMongo Reference -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Attempt Details</span>
+          <span class="font-label-sm text-label-sm text-secondary">${item.latestAttempt} of ${item.attemptCount}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-on-surface">
+          <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">Created</span>
+            <span class="font-body-sm text-body-sm font-medium mt-0.5">${item.createdDate}</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">${item.status === 'paid' ? 'Completed' : 'Expires'}</span>
+            <span class="font-body-sm text-body-sm font-medium mt-0.5">${item.status === 'paid' ? item.paidAtDate : item.expiresDate}</span>
+          </div>
+        </div>
+
+        <!-- Reference & Copy with Toast -->
+        <div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-secondary">PayMongo Reference ID</span>
+            <span class="font-body-sm text-body-sm font-mono text-on-surface font-semibold">${item.refId}</span>
+          </div>
+          <button class="p-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-secondary hover:text-primary transition-colors border border-outline-variant/30" onclick="copyRef('${item.refId}')" title="Copy Reference ID" type="button">
+            <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Checkout Resource Hold -->
+      ${holdBlock}
+
+      <!-- Payment Attempts History -->
+      <div class="flex flex-col gap-1.5">
+        <span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Attempt History (${item.attemptCount})</span>
+        <div class="flex flex-col gap-1.5">
+          ${attemptsHTML}
+        </div>
+      </div>
+
+      <!-- Drawer Bottom Action Footer -->
+      <div class="pt-space-sm border-t border-outline-variant/40 flex flex-col gap-2 mt-auto">
+        ${(item.status === 'failed' || item.status === 'expired') ? `
+          <div class="flex items-center gap-2 p-2 rounded bg-surface-container-low text-secondary text-xs border border-outline-variant/20">
+            <span class="material-symbols-outlined text-[16px] text-primary">sync_problem</span>
+            <span>Customer retry required on their mobile portal</span>
+          </div>
+        ` : ''}
+        <div class="flex gap-2">
+          <button class="flex-1 py-2 px-3 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md text-center" onclick="closeDrawer()" type="button">
+            Close
+          </button>
+          <a class="flex-1 py-2 px-3 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-colors font-label-md text-label-md text-center flex items-center justify-center gap-1.5 shadow-sm" href="#" title="Navigate to Phase 6.3 Order Details" onclick="showToast('Navigating to Order ' + '${item.orderId}')">
+            <span>View Order Details</span>
+            <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // Toast Functionality
+  function copyRef(val) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(val);
+    }
+    showToast('Reference copied: ' + val);
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    toastMsg.innerText = msg;
+    toast.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
+    }, 2800);
+  }
+
+  // Prototype State Switcher (Live, Loading, Empty, Error)
+  function setViewMode(mode) {
+    currentViewMode = mode;
+    const states = ['live', 'loading', 'empty', 'error'];
+    states.forEach(s => {
+      const btn = document.getElementById(`state-btn-${s}`);
+      if (s === mode) {
+        btn.className = 'px-2 py-0.5 rounded text-xs font-semibold bg-surface-container-lowest text-primary shadow-xs transition-colors';
+      } else {
+        btn.className = 'px-2 py-0.5 rounded text-xs font-medium text-secondary hover:text-on-surface transition-colors';
+      }
+    });
+
+    const liveSummary = document.getElementById('live-summary');
+    const skeletonSummary = document.getElementById('skeleton-summary');
+    const liveTableWrapper = document.getElementById('view-table-wrapper');
+    const errorState = document.getElementById('view-error-state');
+    const skeletonTable = document.getElementById('skeleton-table');
+    const liveTableContainer = document.getElementById('live-table-container');
+
+    // Reset base display
+    errorState.classList.add('hidden');
+    skeletonSummary.classList.add('hidden');
+    skeletonTable.classList.add('hidden');
+    liveSummary.classList.remove('hidden');
+    liveTableWrapper.classList.remove('hidden');
+    liveTableContainer.classList.remove('hidden');
+
+    if (mode === 'live') {
+      applyFilters();
+    } else if (mode === 'loading') {
+      liveSummary.classList.add('hidden');
+      skeletonSummary.classList.remove('hidden');
+      liveTableContainer.classList.add('hidden');
+      skeletonTable.classList.remove('hidden');
+    } else if (mode === 'empty') {
+      renderTableRows([]);
+      renderMobileCards([]);
+      document.getElementById('payments-table').classList.add('hidden');
+      const emptyMsg = document.getElementById('empty-results-message');
+      emptyMsg.classList.remove('hidden');
+      document.getElementById('empty-title').innerText = 'No payment activity yet';
+      document.getElementById('empty-desc').innerText = 'Payment attempts will appear here when customers proceed to QR Ph payment.';
+      document.getElementById('pagination-info').innerText = 'Showing 0 of 0 transactions';
+    } else if (mode === 'error') {
+      liveTableWrapper.classList.add('hidden');
+      errorState.classList.remove('hidden');
+    }
+  }
+
+  function refreshData() {
+    showToast('Refreshing payments feed...');
+    setTimeout(() => {
+      applyFilters();
+    }, 400);
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+    }
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    applyFilters();
+  });
+</script>
+</body></html>

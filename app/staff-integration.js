@@ -5,23 +5,20 @@ const A=K406,C=A.commerce,I=A.inventory,S=A.staff,K=A.cakes,B=A.subscriptions;
 I.catalogEnabled=new Map(A.products.map(p=>[p.id,p.available]));
 I.productAvailable=(id,variant,exclude)=>{const p=A.products.find(p=>p.id===Number(id));return !!p&&I.catalogEnabled.get(p.id)!==false&&(variant?[variant]:p.variants.map(v=>v.id)).some(v=>!I.reason(I.recipe(p.id,v),exclude));};
 for(const p of A.products)Object.defineProperty(p,'available',{configurable:true,enumerable:true,get:()=>I.productAvailable(p.id),set:value=>I.catalogEnabled.set(p.id,value)});
-// Shared primitives retain the customer helper interfaces and selectors.
-C.ui.page=(title,subtitle,body)=>A.ui.pageIntro({title,subtitle})+body;
-C.ui.panel=(title,body,action='')=>A.ui.panel({title,bodyHtml:body,actionsHtml:action});
-const originalAuth=A.setAuth;A.setAuth=function(value){if(value==='guest'){S.generation++;S.role='customer';}originalAuth.call(A,value);A.shell.sync();};
+const originalAuth=A.setAuth;A.setAuth=function(value){if(A.session)A.session.generation++;if(value==='guest'){A.closeModal(true);A.owner?.drafts.clear();S.generation++;S.role='customer';}originalAuth.call(A,value);A.shell.sync();A.owner?.render();};
 // An order's customer is always explicit when staff trigger customer notifications.
 const emit=A.notifications.emit;A.notifications.emit=(key,category,title,message,path,customer,channels)=>{
- if(S.role==='staff'&&!customer)return null;return emit(key,category,title,message,path,customer,channels);
+ if(S.role!=='customer'&&!customer)return null;return emit(key,category,title,message,path,customer,channels);
 };
 // Legacy ready labels are accepted at the boundary; courier progress has its own record.
-C.recordHistory=(o,next)=>{const history=S.history.get(o.id)||[];if(history[0]?.status===next)return;history.unshift({history_id:o.id+':'+(history.length+1),order_id:o.id,status:next,actor:S.allowed()?S.name():'System',changed_by_account_id:S.allowed()?S.account.id:null,changed_at:Date.now(),at:Date.now()});S.history.set(o.id,history);};
+C.recordHistory=(o,next)=>{const history=S.history.get(o.id)||[];if(history[0]?.status===next)return;history.unshift({history_id:o.id+':'+(history.length+1),order_id:o.id,status:next,actor:A.session?.actor()?.name||'System',changed_by_account_id:A.session?.actor()?.id||null,changed_at:Date.now(),at:Date.now()});S.history.set(o.id,history);};
 const status=C.setStatus;C.setStatus=(o,next)=>{if(!o)return;if(next==='cancelled')I.release(o.id);if(next==='in-transit'){o.delivery={...o.delivery,order_id:o.id,status:'in_transit'};next='ready';}if(['ready-pickup','ready-delivery'].includes(next))next='ready';status(o,next);C.recordHistory(o,S.orderStatus(o));};
 C.orderRecord=o=>({order_id:o.id,customer_id:o.customer_id,type:({standard:'standard_purchase',subscription:'subscription_fulfillment',cake:'custom_cake_purchase'})[o.type],status:({'pending-payment':'pending_payment','payment-failed':'pending_payment','payment-resolution':'payment_resolution_required'})[o.status]||S.orderStatus(o),fulfillment_date:o.fulfillment.date,fulfillment_method:o.fulfillment.method});
 const create=C.createOrder;C.createOrder=()=>{C.state.serial=Math.max(C.state.serial,...I.allOrders().map(o=>Number(o.id.match(/^K406-(\d+)$/)?.[1])||0));const o=create();if(!o)return o;const error=I.reserve(o);if(error){o.payment='revalidation';o.status='payment-failed';C.checkout.message=error;return null;}return o;};
 const payment=C.setPayment;C.setPayment=(o,state)=>{
  if(!o||o.paid||o.status==='cancelled')return;
- if(state==='waiting'&&!o.paid&&!o.quotationId){const capacity=A.schedule.standard(o.fulfillment.date,o.items),error=capacity||I.reserve(o);if(error){I.release(o.id);o.payment='revalidation';o.status='payment-failed';o.resolution=error;return;}}
- if(state==='confirmed'&&!o.paid&&!o.quotationId){const error=I.reserve(o,true);if(error){o.paid=true;o.payment='resolution';o.status='payment-resolution';o.resolution=error;I.release(o.id);return;}}
+ if(state==='waiting'&&!o.paid&&!o.quotationId){const capacity=A.schedule.standard(o.fulfillment.date,o.items,'normal',o.id),error=capacity||I.reserve(o);if(error){I.release(o.id);o.payment='revalidation';o.status='payment-failed';o.resolution=error;return;}}
+ if(state==='confirmed'&&!o.paid&&!o.quotationId){const error=(!A.checkoutHolds?.active(o)&&A.schedule.standard(o.fulfillment.date,o.items,'normal',o.id))||I.reserve(o,true);if(error){o.paid=true;o.payment='resolution';o.status='payment-resolution';o.resolution=error;I.release(o.id);return;}}
  payment(o,state);if(['failed','expired','revalidation','cancelled'].includes(state))I.release(o.id);
  if(o.paid&&o.status==='confirmed'){I.reserve(o,true);S.emit('new:'+o.id,'orders',o.id+' is ready for preparation.','staff/production/'+o.id);}
 };
@@ -35,7 +32,7 @@ const cakeRelease=K.release;K.release=id=>{cakeRelease(id);I.release(id);};
 const cakePay=K.pay;K.pay=(o,state)=>{cakePay(o,state);if(o?.paid&&o.status==='confirmed'){C.recordHistory(o,'confirmed');const error=I.reserve(o,true);if(error){o.status='payment-resolution';o.payment='resolution';o.resolution=error;}else S.emit('new:'+o.id,'orders',o.id+' is ready for preparation.','staff/production/'+o.id);}};
 // Capacity remains reserved for four dates. Material holds cover the next unprepared delivery.
 B.syncSerial=()=>{B.state.serial=Math.max(B.state.serial,...Array.from(A.account.buckets.values()).map(b=>b.subscription?.serial||0));};
-B.materialOrder=p=>({id:p.id,type:'subscription',deadline:p.deadline,attempts:p.attempts,items:[C.line(p.snapshot.productId,p.snapshot.variantId,p.snapshot.quantity)],fulfillment:{date:p.snapshot.dates[0]},reserveAt:A.schedule.today()});
+B.materialOrder=p=>({id:p.id,type:'subscription',total:p.snapshot.total,deadline:p.deadline,attempts:p.attempts,items:[C.line(p.snapshot.productId,p.snapshot.variantId,p.snapshot.quantity)],fulfillment:{date:p.snapshot.dates[0]},reserveAt:A.schedule.today()});
 B.materialReason=(snapshot,exclude)=>I.reason(I.materials(B.materialOrder({id:exclude||'draft',snapshot})),exclude);
 const offering=B.offering;B.offering=id=>{const result=offering(id);return result==='available'&&!I.productAvailable(id,undefined,B.pending()?.id)?'unavailable':result;};
 const configReason=B.configReason;B.configReason=()=>configReason()||B.materialReason({productId:B.state.draft.productId,variantId:B.state.draft.variant,quantity:B.state.draft.quantity,dates:B.dates()},B.pending()?.id);
@@ -46,7 +43,7 @@ const change=B.change;B.change=()=>{const pending=B.pending(),result=change();if
 B.allRecords=()=>[...new Map([...Array.from(A.account.buckets.values()).flatMap(b=>b.subscription?.records||[]),...B.state.records].map(r=>[r.id,r])).values()];
 // Demonstration schedule defaults; the owner will maintain these in production.
 for(const schedule of B.schedules){schedule.fulfillment_day=schedule.day;schedule.preparation_day=(schedule.day+6)%7;}
-B.preparationDate=o=>{const r=B.allRecords().find(r=>r.id===o.subscriptionId),schedule=B.schedules.find(s=>s.id===r?.snapshot.scheduleId);if(!schedule||!Number.isInteger(schedule.preparation_day))return null;const days=(A.schedule.day(o.fulfillment.date)-schedule.preparation_day+7)%7;return A.schedule.add(o.fulfillment.date,-days);};
+B.preparationDate=o=>{const r=B.allRecords().find(r=>r.id===o.subscriptionId),schedule=r?.snapshot.scheduleSnapshot||B.schedules.find(s=>s.id===r?.snapshot.scheduleId);if(!schedule||!Number.isInteger(schedule.preparation_day))return null;const days=(A.schedule.day(o.fulfillment.date)-schedule.preparation_day+7)%7;return A.schedule.add(o.fulfillment.date,-days);};
 B.reserveNext=r=>{
  const pending=r.deliveries.map(d=>({d,o:I.allOrders().find(o=>o.id===d.orderId)})).filter(x=>x.o&&S.orderStatus(x.o)==='confirmed').sort((a,b)=>a.d.date.localeCompare(b.d.date));
  const next=pending[0];
@@ -74,7 +71,6 @@ const pay=B.pay;B.pay=(p,state)=>{
 };
 const sync=B.sync;B.sync=r=>{const result=sync(r);for(const d of r.deliveries){const o=I.allOrders().find(o=>o.id===d.orderId),status=o?S.orderStatus(o):'confirmed';d.status=({confirmed:'scheduled',preparing:'preparing',ready:'ready',completed:'fulfilled',cancelled:'cancelled'})[status]||'scheduled';if(d.status==='fulfilled')d.fulfilled_at=o.completedAt||d.fulfilled_at||Date.now();}return result;};
 const defer=B.defer;B.defer=(r,d,option)=>{const error=defer(r,d,option);if(!error){d.status='scheduled';B.reserveNext(r);S.emit('defer:'+d.orderId+':'+d.date,'orders',d.orderId+' moved from '+d.originalDate+' to '+d.date+'.','staff/production/'+d.orderId);}return error;};
-const transition=S.transition;S.transition=(...args)=>{const error=transition(...args);if(!error&&args[1]==='preparing'){const r=B.allRecords().find(r=>r.deliveries.some(d=>d.orderId===args[0]));if(r)B.reserveNext(r);}return error;};
 // Stock reconciliation retries outstanding next-delivery reservations, never deducting stock.
 const stockChanged=S.changed;S.changed=()=>{for(const r of B.allRecords())B.reserveNext(r);stockChanged();};
 let availabilitySignature='';setInterval(()=>{const signature=I.items.map(i=>I.available(i.id)).join(',');if(signature===availabilitySignature)return;availabilitySignature=signature;I.notify();if(A.route==='shop')A.catalog.refresh();if(A.route==='product')window.updatePricing();},1000);

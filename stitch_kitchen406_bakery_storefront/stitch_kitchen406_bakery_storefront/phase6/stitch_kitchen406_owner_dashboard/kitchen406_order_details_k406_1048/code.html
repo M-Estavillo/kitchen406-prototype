@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#cfc5bd",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#eae1dc",
+            "inverse-surface": "#30312e",
+            "outline-variant": "#e8e2d9",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed": "#1f1b16",
+            "primary": "#6f3400",
+            "tertiary-container": "#7b736d",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e4e2df",
+            "primary-fixed": "#ffdcc7",
+            "secondary": "#635d59",
+            "on-primary-fixed": "#311300",
+            "on-secondary-container": "#69635f",
+            "surface": "#fbf9f6",
+            "on-tertiary-container": "#fffbff",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed-variant": "#4b4642",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-fixed-variant": "#4c4640",
+            "on-primary-fixed-variant": "#723600",
+            "surface-container-low": "#f5f3f0",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#53443a",
+            "primary-fixed-dim": "#ffb787",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1b1c1a",
+            "background": "#fbf9f5",
+            "surface-container": "#efeeea",
+            "surface-bright": "#fbf9f6",
+            "outline": "#867368",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "primary-container": "#8d4a14",
+            "inverse-primary": "#ffb787",
+            "on-primary-container": "#ffc9a8",
+            "secondary-fixed": "#eae1db",
+            "on-secondary-fixed": "#1f1b18",
+            "on-primary": "#ffffff",
+            "surface-tint": "#904d17",
+            "surface-container-high": "#e9e8e4",
+            "tertiary": "#49433d",
+            "surface-variant": "#e4e2df",
+            "inverse-on-surface": "#f2f1ed"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "display": ["Playfair Display"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<!-- Mobile Sidebar Backdrop -->
+<div class="fixed inset-0 bg-inverse-surface/40 z-40 hidden lg:hidden" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+<!-- Persistent Sidebar (240px = w-60) -->
+<aside class="fixed left-0 top-0 h-screen w-60 bg-surface border-r border-outline-variant/60 z-50 flex flex-col justify-between overflow-y-auto transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant/40 flex items-center justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary tracking-tight">Kitchen406</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-0.5">Owner Workspace</p>
+</div>
+<button aria-label="Close sidebar" class="lg:hidden text-secondary hover:text-on-surface" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<nav class="px-space-xs py-space-sm flex flex-col gap-0.5">
+<!-- Overview Group -->
+<div class="px-space-sm pt-space-sm pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overview</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#">
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Operations Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Operations</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg bg-primary-fixed/60 text-primary-container font-semibold transition-all shadow-sm" data-path="orders" href="#">
+<span class="font-body-md text-body-md">Orders</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="payments" href="#">
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="deliveries" href="#">
+<span class="font-body-md text-body-md">Deliveries</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="inventory" href="#">
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="recipes-and-costing" href="#">
+<span class="font-body-md text-body-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="custom-cakes" href="#">
+<span class="font-body-md text-body-md">Custom Cakes</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="subscriptions" href="#">
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="capacity-calendar" href="#">
+<span class="font-body-md text-body-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="scheduling-blocked-dates" href="#">
+<span class="font-body-md text-body-md">Scheduling / Blocked Dates</span>
+</a>
+<!-- Management Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Management</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="products" href="#">
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories" href="#">
+<span class="font-body-md text-body-md">Categories</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ingredients" href="#">
+<span class="font-body-md text-body-md">Ingredients</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="cake-options-and-add-ons" href="#">
+<span class="font-body-md text-body-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="seasonal-occasions" href="#">
+<span class="font-body-md text-body-md">Seasonal Occasions</span>
+</a>
+<!-- Administration Group -->
+<div class="px-space-sm pt-space-md pb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Administration</span>
+</div>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="staff-accounts" href="#">
+<span class="font-body-md text-body-md">Staff Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="customer-accounts" href="#">
+<span class="font-body-md text-body-md">Customer Accounts</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reviews" href="#">
+<span class="font-body-md text-body-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="marketing-drafts" href="#">
+<span class="font-body-md text-body-md">Marketing Drafts</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">Review</span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports" href="#">
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer -->
+<div class="p-space-sm border-t border-outline-variant/40 bg-surface flex flex-col gap-1">
+<a class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="notifications" href="#">
+<span class="font-body-md text-body-md">Notifications</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<a class="flex items-center px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#">
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<div class="mt-space-xs pt-space-xs border-t border-outline-variant/30 flex items-center justify-between px-space-sm py-1">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Vance</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Owner</span>
+</div>
+<a class="text-secondary hover:text-error transition-colors p-1" data-path="login" href="#" title="Sign out">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Layout Area -->
+<div class="lg:pl-60 min-h-screen flex flex-col bg-background">
+<!-- Top Bar -->
+<header class="fixed top-0 left-0 lg:left-60 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-30 flex items-center justify-between px-space-md lg:px-space-lg shadow-[0_1px_8px_rgba(83,68,58,0.04)]">
+<div class="flex items-center gap-3">
+<button aria-label="Open menu" class="lg:hidden p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high" onclick="toggleSidebar()" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+<span class="font-body-md text-body-md text-secondary">Sunday, October 4, 2026</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="relative flex items-center justify-center p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] flex items-center justify-center leading-none font-semibold">5</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="relative pt-16 w-full flex-1 bg-background"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow -->
+<div class="relative w-full max-w-7xl mx-auto px-space-md lg:px-space-lg py-space-md">
+<div class="absolute -top-16 -left-12 w-96 h-96 bg-primary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-48 right-0 w-80 h-80 bg-secondary-container/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Header Navigation & Summary Bar -->
+<div class="flex flex-col gap-space-sm mb-space-md">
+<!-- Breadcrumb row -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary hover:text-primary-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+<span>Back to Orders</span>
+</a>
+<span class="text-outline-variant font-label-md">/</span>
+<span class="font-label-md text-label-md text-secondary">Orders</span>
+<span class="text-outline-variant font-label-md">/</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">K406-1048</span>
+</div>
+</div>
+<!-- Main Order Title & Primary Action Area -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pt-space-xs">
+<div class="flex flex-col gap-1.5">
+<div class="flex flex-wrap items-center gap-2.5">
+<h1 class="font-headline-lg text-headline-lg text-inverse-surface tracking-tight">Order K406-1048</h1>
+<!-- Badges -->
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+              Standard Order
+            </span>
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+              Preparing
+            </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Paid
+            </span>
+</div>
+<!-- Metadata row -->
+<div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-secondary font-body-sm text-body-sm">
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+              Placed: Sun, Oct 4, 2026 · 4:42 PM
+            </span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1 font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">event</span>
+              Fulfillment Date: Tuesday, Oct 6, 2026
+            </span>
+<span class="text-outline-variant">•</span>
+<span class="inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+              Method: Delivery
+            </span>
+</div>
+</div>
+<!-- Action Button Strip -->
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="px-space-md py-space-sm rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-all inline-flex items-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99]" id="primaryMarkReadyBtn" onclick="openMarkReadyModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">soup_kitchen</span>
+<span>Mark Ready</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Production Progression Tracker -->
+<div class="w-full bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md mb-space-lg shadow-sm">
+<!-- Tracker Stepper Grid -->
+<div class="relative grid grid-cols-4 gap-2 pt-2">
+<!-- Connecting Track Line -->
+<div class="absolute top-[21px] left-[12%] right-[12%] h-0.5 bg-surface-container-highest -z-0">
+<!-- Filled Portion (step 1 to 2) -->
+<div class="h-full bg-primary-container w-[35%] transition-all duration-700"></div>
+</div>
+<!-- Step 1: Confirmed -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface mt-2">Confirmed</span>
+<span class="font-body-sm text-body-sm text-secondary text-[11px] leading-tight">Oct 4 · 4:45 PM</span>
+</div>
+<!-- Step 2: Preparing (Active) -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-md ring-4 ring-primary-fixed/40">
+<span class="material-symbols-outlined text-[16px] animate-spin" style="animation-duration: 6s;">autorenew</span>
+</div>
+<span class="font-title-sm text-title-sm text-primary font-semibold mt-2">Preparing</span>
+<span class="font-body-sm text-body-sm text-primary-container text-[11px] leading-tight font-medium">Oct 6 · 8:30 AM</span>
+</div>
+<!-- Step 3: Ready (Upcoming) -->
+<div class="relative z-10 flex flex-col items-center text-center opacity-60 transition-opacity" id="trackerStepReady">
+<div class="w-7 h-7 rounded-full bg-surface-container text-secondary flex items-center justify-center ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined text-[15px]">inventory_2</span>
+</div>
+<span class="font-title-sm text-title-sm text-secondary mt-2">Ready</span>
+</div>
+<!-- Step 4: Completed -->
+<div class="relative z-10 flex flex-col items-center text-center opacity-40 transition-opacity" id="trackerStepCompleted">
+<div class="w-7 h-7 rounded-full bg-surface-container text-secondary flex items-center justify-center ring-4 ring-surface-container-lowest">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+</div>
+<span class="font-title-sm text-title-sm text-secondary mt-2">Completed</span>
+</div>
+</div>
+</div>
+<!-- 12-Column Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: 8 Columns (Operational Specifics, Line Items, Logistics & Timelines) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- CARD A: Order Items -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md lg:p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-inverse-surface">Order Items</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">3 items · 5 units</span>
+</div>
+</div>
+<!-- Items Table / Row List -->
+<div class="flex flex-col divide-y divide-outline-variant/20">
+<!-- Line 1: Pandesal Loaf -->
+<div class="py-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md group">
+<div class="flex items-center gap-space-md">
+<img class="w-16 h-16 rounded-lg object-cover bg-surface-container flex-shrink-0 shadow-inner" data-alt="Golden brown freshly baked artisanal pandesal rolls lightly dusted with toasted breadcrumbs stacked inside a rustic linen-lined bakery tray with warm morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUCDLAGKZBSJITRRatzI_Q31LTZB7TO1_ZcvRlZ4lDvK3DJM63q9U7MQ2UAyMGk7Wwv5jIBelMV4hxV1-g16xI4xZFW_6u_op81_T_s-Fp7nAQT1Y6SquebQkaWl6xd0yjCWQuS54ce2ar22-he-wgST6c64stNPTjp5mcTFBRNUuz07LXsgaSe5sC_cFEnHnMT1V-9IPtmwQYJEKqDfoiXdkflI_oNNkCFg4LbmauHMD1626Pmj_-"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-inverse-surface group-hover:text-primary transition-colors">Pandesal Loaf (Pack of 12)</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">Variant: Classic Sea Salt</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1">₱160.00 × 2</span>
+</div>
+</div>
+<div class="sm:text-right flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto">
+<span class="font-price-lg text-price-lg text-on-surface font-semibold">₱320.00</span>
+</div>
+</div>
+<!-- Line 2: Bespoke Cinnamon Rolls -->
+<div class="py-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md group">
+<div class="flex items-center gap-space-md">
+<img class="w-16 h-16 rounded-lg object-cover bg-surface-container flex-shrink-0 shadow-inner" data-alt="Plump golden glazed bespoke artisanal cinnamon rolls with swirls of Ceylon cinnamon and rich whipped vanilla cream cheese icing on parchment paper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHp_OCDvwu87gjAYeAqUd_KXSBj9-3LdTts7zP33BVcmPEU7vnbjBPAMvxgsYCky2mDRsqV4D0PKlt4gLG6y2FRgulAwCXIgt0ct63QaQ6vpVqE-RT_91LqKw7U7vfS2R86m4po4eAxUNja92yuLvjHbHMG5697ala2JbJLl5G7Hvk6i5PjK4FMOd17xhidg2UcL9c6zqLZa3I2Zrepz-KD_WeFAM97gm45TrY4jk_ID9mgZXoHebd"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-inverse-surface group-hover:text-primary transition-colors">Bespoke Cinnamon Rolls (Box of 4)</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">Variant: Cream Cheese Glaze</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1">₱480.00 × 1</span>
+</div>
+</div>
+<div class="sm:text-right flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto">
+<span class="font-price-lg text-price-lg text-on-surface font-semibold">₱480.00</span>
+</div>
+</div>
+<!-- Line 3: Fudgy Chocolate Brownies -->
+<div class="py-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md group">
+<div class="flex items-center gap-space-md">
+<img class="w-16 h-16 rounded-lg object-cover bg-surface-container flex-shrink-0 shadow-inner" data-alt="Dense decadent chocolate brownies with flaky crinkled crust topped with toasted walnut halves and coarse sea salt crystals against a warm wooden surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB89rRyjMWgFlXjW7LaytPK5s1GsT_hzMaDM9wrk9wmiEqr5m0E_Z4h8hECARreJ3kzL-XSVOvubaAsoVmkm_y6UfCVyVUMCVX6toKBx6uSTgZbazyq-mDVVgkcX4K4awnOHeNVN4lM99Hfkw9nq4Ujgy5PPm8PfKBd2p-P22G5wGxAzuX3P4G_e20DIOuct9RY6WJeEXet-w4cYH-JL_cJdOQdW90WuL8zoI0sko5sPj0HdK48Hnl"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-inverse-surface group-hover:text-primary transition-colors">Fudgy Chocolate Brownies (Box of 6)</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">Variant: Sea Salt Walnuts</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary mt-1">₱260.00 × 2</span>
+</div>
+</div>
+<div class="sm:text-right flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto">
+<span class="font-price-lg text-price-lg text-on-surface font-semibold">₱520.00</span>
+</div>
+</div>
+</div>
+<!-- Subtotal & Capture Footer -->
+<div class="mt-space-md pt-space-md bg-surface-container-low rounded-lg p-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+<div class="flex items-center gap-2 text-secondary font-body-sm text-body-sm">
+<span>Prices captured at checkout on Oct 4, 2026</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-label-md text-label-md text-secondary">Items Subtotal:</span>
+<span class="font-price-lg text-price-lg text-inverse-surface font-semibold">₱1,320.00</span>
+</div>
+</div>
+</div>
+<!-- CARD B: Fulfillment Details -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md lg:p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">local_shipping</span>
+<h2 class="font-headline-sm text-headline-sm text-inverse-surface">Fulfillment</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Method: Delivery</span>
+</div>
+</div>
+<!-- Clean Schedule Info -->
+<div class="mb-space-md">
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Fulfillment Date</span>
+<span class="font-title-md text-title-md text-on-surface mt-1">Tuesday, October 6, 2026</span>
+</div>
+</div>
+<!-- Address Snapshot Box -->
+<div class="p-space-md rounded-lg bg-surface-container-high/60 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">lock</span>
+                Delivery address recorded at checkout
+              </span>
+</div>
+<div class="mt-1 flex flex-col">
+<span class="font-title-md text-title-md text-inverse-surface">Maria Santos</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Unit 402, Acacia Residences, Gorordo Avenue, Lahug, Cebu City, Cebu 6000</span>
+</div>
+<div class="mt-2 pt-2 border-t border-outline-variant/30 flex items-start gap-2 text-primary-container">
+<span class="material-symbols-outlined text-[18px] flex-shrink-0 mt-0.5">info</span>
+<p class="font-body-sm text-body-sm leading-relaxed">
+<strong class="font-semibold text-on-surface">Courier Note:</strong> "Please leave at lobby concierge if unavailable. Ring doorbell 402."
+              </p>
+</div>
+</div>
+</div>
+<!-- CARD C: Order Status History -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md lg:p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-md border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">history</span>
+<h2 class="font-headline-sm text-headline-sm text-inverse-surface">Order Status History</h2>
+</div>
+</div>
+<!-- Vertical Timeline -->
+<div class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-highest">
+<!-- Event 1: Preparing -->
+<div class="relative flex flex-col items-start gap-1">
+<div class="absolute -left-6 top-1 w-4 h-4 rounded-full bg-primary-container ring-4 ring-surface-container-lowest flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-on-primary"></div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface">Preparation Started</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-semibold">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Oct 6, 2026 · 8:30 AM · Owner</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 bg-surface-container-low p-2 rounded w-full">
+                Order status updated to Preparing.
+              </p>
+</div>
+<!-- Event 2: Confirmed -->
+<div class="relative flex flex-col items-start gap-1">
+<div class="absolute -left-6 top-1 w-4 h-4 rounded-full bg-surface-container text-secondary ring-4 ring-surface-container-lowest flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface">Order Confirmed</span>
+<span class="font-body-sm text-body-sm text-secondary">Oct 4, 2026 · 4:45 PM · System</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Order accepted for the October 6 fulfillment date.
+              </p>
+</div>
+<!-- Event 3: Payment Confirmed -->
+<div class="relative flex flex-col items-start gap-1">
+<div class="absolute -left-6 top-1 w-4 h-4 rounded-full bg-surface-container text-secondary ring-4 ring-surface-container-lowest flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface">Payment Confirmed</span>
+<span class="font-body-sm text-body-sm text-secondary">Oct 4, 2026 · 4:45 PM · System</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                QR Ph payment successfully confirmed via PayMongo.
+              </p>
+</div>
+<!-- Event 4: Placed -->
+<div class="relative flex flex-col items-start gap-1">
+<div class="absolute -left-6 top-1 w-4 h-4 rounded-full bg-surface-container text-secondary ring-4 ring-surface-container-lowest flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface">Order Placed</span>
+<span class="font-body-sm text-body-sm text-secondary">Oct 4, 2026 · 4:42 PM · Customer</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Customer submitted cart items through Online Bakery storefront.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: 4 Columns (Financial breakdown, Customer Profile, Production Checks, Courier Dispatch) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg lg:sticky lg:top-20">
+<!-- SIDE CARD 1: Customer Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<h3 class="font-headline-sm text-headline-sm text-inverse-surface">Customer</h3>
+<span class="material-symbols-outlined text-secondary text-[20px]">person</span>
+</div>
+<div class="flex items-center gap-3 mb-space-sm">
+<div class="w-11 h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-headline-sm text-headline-sm font-semibold">
+              MS
+            </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Maria Santos</span>
+</div>
+</div>
+<div class="space-y-2 py-space-xs text-body-sm font-body-sm">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[17px] text-tertiary">mail</span>
+<a class="hover:text-primary transition-colors truncate" href="mailto:maria.santos.cebu@gmail.com">maria.santos.cebu@gmail.com</a>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[17px] text-tertiary">phone</span>
+<span>+63 920 882 1104</span>
+</div>
+</div>
+<a class="mt-space-sm inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container font-semibold transition-colors" href="#">
+<span>View Customer Account</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- SIDE CARD 2: Payment & Order Total -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<h3 class="font-headline-sm text-headline-sm text-inverse-surface">Payment &amp; Total</h3>
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                Paid
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">QR Ph</span>
+</div>
+</div>
+<!-- Financial Breakdown -->
+<div class="space-y-2 font-body-md text-body-md">
+<div class="flex items-center justify-between text-secondary">
+<span>Items Subtotal</span>
+<span>₱1,320.00</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-secondary">
+<span>Delivery Fee</span>
+<span>₱100.00</span>
+</div>
+<span class="text-[11px] text-secondary/70">Lalamove quote captured at checkout</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/30 flex items-baseline justify-between">
+<span class="font-title-md text-title-md text-inverse-surface">Total Paid</span>
+<span class="font-headline-sm text-headline-sm text-primary font-semibold">₱1,420.00</span>
+</div>
+</div>
+<!-- Settlement Reference Box -->
+<div class="mt-space-md p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Settlement Ref</span>
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<code class="font-mono text-[12px] text-on-surface font-semibold tracking-wide">PAY-QRPH-884920</code>
+<span class="font-body-sm text-body-sm text-secondary text-[11px]">Cleared: Oct 4, 2026 · 4:45 PM</span>
+</div>
+<a class="mt-space-sm inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:text-on-surface transition-colors" href="#">
+<span>View Payment in Payments Log</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- SIDE CARD 3: Production Resources (Operational Check) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md shadow-sm">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<h3 class="font-headline-sm text-headline-sm text-inverse-surface">Production Resources</h3>
+<span class="material-symbols-outlined text-secondary text-[20px]">layers</span>
+</div>
+<!-- Resource item 1: Capacity -->
+<div class="flex flex-col gap-1 pb-space-sm border-b border-outline-variant/20">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Kitchen Capacity</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Confirmed</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-snug">
+              Production capacity is reserved for October 6, 2026.
+            </p>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:underline mt-0.5" href="#">
+<span>View Capacity Calendar</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+<!-- Resource item 2: Ingredients -->
+<div class="flex flex-col gap-1 pt-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Ingredients</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Issued to Production</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-snug">
+              Required ingredients have progressed into production for this order.
+            </p>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:underline mt-0.5" href="#">
+<span>View Inventory</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- SIDE CARD 4: Delivery Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 p-space-md shadow-sm transition-all duration-300" id="courierDispatchCard">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-inverse-surface">Delivery</h3>
+<span class="material-symbols-outlined text-secondary text-[20px]">moped</span>
+</div>
+<!-- Neutral / Pending State Box -->
+<div class="flex flex-col gap-2" id="courierPendingState">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-start gap-2 text-secondary">
+<span class="material-symbols-outlined text-[18px] text-tertiary flex-shrink-0 mt-0.5">hourglass_empty</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Lalamove booking not yet available</span>
+<span class="font-body-sm text-body-sm text-secondary mt-0.5">
+                  Courier booking becomes available when this order is marked Ready.
+                </span>
+</div>
+</div>
+<button class="w-full mt-1 px-space-md py-space-sm rounded bg-surface-container-highest text-secondary/60 font-label-md text-label-md cursor-not-allowed inline-flex items-center justify-center gap-2" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Book Lalamove Delivery</span>
+</button>
+</div>
+<!-- Unlocked State (Hidden initially, shown after marking ready) -->
+<div class="hidden flex-col gap-2" id="courierUnlockedState">
+<div class="p-space-sm rounded-lg bg-primary-fixed/50 flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">check_circle</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-primary-fixed">Ready for Courier</span>
+<span class="font-body-sm text-body-sm text-on-primary-fixed-variant mt-0.5">
+                  Order is ready. You can now book Lalamove courier delivery.
+                </span>
+</div>
+</div>
+<button class="w-full mt-1 px-space-md py-space-sm rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-md transition-all inline-flex items-center justify-center gap-2" onclick="triggerLalamoveBooking()" type="button">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span>Book Lalamove Delivery</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL: Confirmation for 'Mark Ready' -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/50 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="markReadyModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl border border-outline-variant/60 p-space-lg shadow-xl relative animate-in fade-in duration-200">
+<div class="flex items-start justify-between pb-space-sm mb-space-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">soup_kitchen</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-inverse-surface">Mark this order as Ready?</h3>
+</div>
+</div>
+<button class="text-secondary hover:text-on-surface p-1 rounded" onclick="closeMarkReadyModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="space-y-space-sm my-space-md font-body-md text-body-md text-on-surface-variant">
+<p>
+          This will update Order K406-1048 from Preparing to Ready. For delivery orders, Lalamove booking will become available after the order is marked Ready.
+        </p>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-sm border-t border-outline-variant/30">
+<button class="px-space-md py-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="closeMarkReadyModal()" type="button">
+          Cancel
+        </button>
+<button class="px-space-md py-space-sm rounded bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow transition-colors inline-flex items-center gap-1.5" onclick="confirmOrderReady()" type="button">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span>Mark Ready</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Inline Micro-interactions Script -->
+<script>
+    function openMarkReadyModal() {
+      const modal = document.getElementById('markReadyModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeMarkReadyModal() {
+      const modal = document.getElementById('markReadyModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function confirmOrderReady() {
+      closeMarkReadyModal();
+
+      // Update Primary Button
+      const btn = document.getElementById('primaryMarkReadyBtn');
+      if (btn) {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span><span>Ready</span>';
+        btn.classList.remove('bg-primary', 'hover:bg-primary-container');
+        btn.classList.add('bg-surface-container-highest', 'text-on-surface', 'cursor-default');
+        btn.disabled = true;
+      }
+
+      // Update Progression Tracker (Step 3: Ready)
+      const stepReady = document.getElementById('trackerStepReady');
+      if (stepReady) {
+        stepReady.classList.remove('opacity-60');
+        const iconContainer = stepReady.querySelector('.rounded-full');
+        if (iconContainer) {
+          iconContainer.classList.remove('bg-surface-container', 'text-secondary');
+          iconContainer.classList.add('bg-primary', 'text-on-primary', 'shadow-md');
+          iconContainer.innerHTML = '<span class="material-symbols-outlined text-[15px]">check</span>';
+        }
+      }
+
+      // Unlock Delivery Card
+      const courierCard = document.getElementById('courierDispatchCard');
+      const pendingState = document.getElementById('courierPendingState');
+      const unlockedState = document.getElementById('courierUnlockedState');
+      if (courierCard && pendingState && unlockedState) {
+        courierCard.classList.add('ring-2', 'ring-primary-fixed');
+        pendingState.classList.add('hidden');
+        unlockedState.classList.remove('hidden');
+        unlockedState.classList.add('flex');
+      }
+    }
+
+    function triggerLalamoveBooking() {
+      alert("Opening Lalamove courier delivery booking for Order K406-1048...");
+    }
+  </script>
+</div></main>
+</div>
+<script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+  </script>
+</body></html>

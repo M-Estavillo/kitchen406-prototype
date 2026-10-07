@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#f5f3f0",
+            "secondary": "#635d59",
+            "surface-bright": "#fbf9f6",
+            "on-secondary-container": "#69635f",
+            "on-tertiary-fixed": "#1f1b16",
+            "secondary-fixed": "#eae1db",
+            "secondary-container": "#eae1db",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#723600",
+            "tertiary-container": "#7b736d",
+            "on-primary-fixed": "#311300",
+            "on-surface-variant": "#53433a",
+            "primary-container": "#8d4a14",
+            "surface": "#faf8f5",
+            "on-surface": "#1b1c1a",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface-container-high": "#eae8e5",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed": "#1f1b18",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f2f1ed",
+            "surface-container": "#efeeeb",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-container": "#fffbff",
+            "inverse-surface": "#30312e",
+            "primary": "#8d4a14",
+            "on-error-container": "#93000a",
+            "outline-variant": "#e8e2d9",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb786",
+            "on-primary-container": "#ffffff",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "surface-variant": "#e4e2df",
+            "on-secondary-fixed-variant": "#4b4642",
+            "inverse-primary": "#ffb787",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            "background": "#faf8f5",
+            "outline": "#867368",
+            "surface-tint": "#8d4a14",
+            "tertiary": "#49433d",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#4c4640"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "margin": "3rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased">
+<!-- Persistent Left Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-[240px] bg-surface-container-low border-r border-outline-variant z-50 flex flex-col justify-between overflow-y-auto">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-outline-variant">
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-space-xs">Owner Workspace</span>
+<span class="block font-headline-sm text-headline-sm text-primary font-medium tracking-tight">Kitchen406</span>
+</div>
+<nav class="px-space-sm py-space-md space-y-space-md">
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Overview</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-label-md text-label-md">Deliveries</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+<span class="font-label-md text-label-md">Custom Cakes</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span class="font-label-md text-label-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded bg-primary text-on-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span class="font-label-md text-label-md">Scheduling / Blocked Dates</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Management</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-label-md text-label-md">Categories</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">egg</span>
+<span class="font-label-md text-label-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-label-md text-label-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">nature</span>
+<span class="font-label-md text-label-md">Seasonal Occasions</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Administration</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-label-md text-label-md">Staff Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-md text-label-md">Customer Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="font-label-md text-label-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span class="font-label-md text-label-md">Marketing Drafts</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Review</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+</nav>
+</div>
+<div class="p-space-md border-t border-outline-variant bg-surface-container-low text-xs text-secondary">
+  Kitchen406 Operations Studio
+</div>
+</aside>
+<!-- Main View Container -->
+<div class="pl-[240px]">
+<!-- Persistent Top Bar -->
+<header class="fixed top-0 left-[240px] right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface font-medium">Sunday, October 4, 2026</span>
+<span class="text-outline-variant font-body-sm text-body-sm">|</span>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Kitchen Active · Bakes in Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">notifications</span>
+<span class="absolute -top-1 -right-2 px-1 py-0.2 rounded-full bg-primary text-on-primary font-label-sm text-[10px] leading-tight flex items-center justify-center font-bold min-w-[16px]">5</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Head Baker &amp; Owner</span>
+</div>
+</div>
+</div>
+</header>
+<main class="relative pt-16 bg-background min-h-screen w-full px-gutter py-gutter pb-28">
+<div class="flex flex-col w-full max-w-7xl mx-auto">
+<!-- State Management & Tab Handling -->
+<script>
+  window.schedApp = {
+    activeTab: 'blocked-dates',
+    selectedDate: '2026-12-24',
+    selectedDayTitle: 'Thursday, Dec 24, 2026',
+    blockedDates: {
+      '2026-12-24': {
+        dayName: 'Thursday, Dec 24, 2026',
+        shortReason: 'Christmas Eve Closure',
+        fullReason: 'Christmas Eve Closure & Annual Kitchen Deep Clean',
+        standardOrders: 2,
+        subscriptions: 1,
+        customCakes: 0,
+        createdBy: 'Eleanor Vance',
+        createdOn: 'Dec 02, 2026'
+      },
+      '2026-12-25': {
+        dayName: 'Friday, Dec 25, 2026',
+        shortReason: 'Christmas Day',
+        fullReason: 'Christmas Day Closure',
+        standardOrders: 0,
+        subscriptions: 0,
+        customCakes: 0,
+        createdBy: 'Eleanor Vance',
+        createdOn: 'Dec 02, 2026'
+      },
+      '2027-01-01': {
+        dayName: 'Friday, Jan 1, 2027',
+        shortReason: 'New Year',
+        fullReason: 'New Year Kitchen Maintenance & Inventory Audit',
+        standardOrders: 0,
+        subscriptions: 0,
+        customCakes: 0,
+        createdBy: 'Eleanor Vance',
+        createdOn: 'Dec 02, 2026'
+      }
+    },
+    unblockedData: {
+      '2026-12-18': {
+        dayName: 'Friday, Dec 18, 2026',
+        standardOrders: 2,
+        subscriptions: 1,
+        customCakes: 0
+      },
+      '2026-12-04': {
+        dayName: 'Friday, Dec 4, 2026',
+        standardOrders: 1,
+        subscriptions: 1,
+        customCakes: 0
+      }
+    }
+  };
+
+  function switchTab(tabId) {
+    window.schedApp.activeTab = tabId;
+    document.querySelectorAll('.tab-content-panel').forEach(p => p.classList.add('hidden'));
+    document.querySelectorAll('.sched-main-tab').forEach(b => {
+      b.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+      b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+    });
+
+    const targetPanel = document.getElementById('panel-' + tabId);
+    const targetBtn = document.getElementById('tab-btn-' + tabId);
+    if (targetPanel) targetPanel.classList.remove('hidden');
+    if (targetBtn) {
+      targetBtn.classList.add('bg-primary', 'text-white', 'shadow-sm');
+      targetBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+    }
+  }
+
+  function selectDate(dateStr, title) {
+    window.schedApp.selectedDate = dateStr;
+    window.schedApp.selectedDayTitle = title;
+
+    // Visual selection highlight on calendar cells
+    document.querySelectorAll('.cal-day-cell').forEach(cell => {
+      cell.classList.remove('ring-2', 'ring-primary', 'ring-offset-1');
+    });
+    const cellEl = document.getElementById('day-cell-' + dateStr);
+    if (cellEl) {
+      cellEl.classList.add('ring-2', 'ring-primary', 'ring-offset-1');
+    }
+
+    renderInspector();
+  }
+
+  function renderInspector() {
+    const inspector = document.getElementById('dateInspector');
+    if (!inspector) return;
+    const dateStr = window.schedApp.selectedDate;
+    const isBlocked = !!window.schedApp.blockedDates[dateStr];
+
+    if (isBlocked) {
+      const data = window.schedApp.blockedDates[dateStr];
+      const totalCommitments = data.standardOrders + data.subscriptions + data.customCakes;
+      inspector.innerHTML = `
+        <div class="flex items-start justify-between pb-space-xs border-b border-outline-variant">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Configured Date</span>
+            <h3 class="font-headline-sm text-headline-sm font-display text-on-surface">${data.dayName}</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-[#F8ECE8] text-[#8D4A14] font-label-sm text-label-sm font-bold tracking-wider flex items-center gap-1 border border-[#E8D0C5]">
+            <span class="material-symbols-outlined text-[15px]">lock</span>
+            BLOCKED
+          </span>
+        </div>
+
+        <!-- Existing Commitments Breakdown -->
+        <div class="flex flex-col gap-space-xs bg-surface-container-lowest p-space-md rounded-lg border border-outline-variant">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Existing Commitments</span>
+            <span class="font-label-sm text-label-sm text-secondary font-medium">${totalCommitments} total scheduled</span>
+          </div>
+          <div class="grid grid-cols-3 gap-space-sm mt-1 text-center">
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${data.standardOrders}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Standard Orders</span>
+            </div>
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${data.subscriptions}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Subscriptions</span>
+            </div>
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${data.customCakes}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Custom Cakes</span>
+            </div>
+          </div>
+        </div>
+
+        ${totalCommitments > 0 ? `
+          <div class="p-space-md bg-[#FFF5F2] border border-[#F0D5CC] rounded-lg flex items-start gap-space-sm text-on-surface">
+            <span class="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">info</span>
+            <div class="flex flex-col text-body-sm leading-snug">
+              <span class="font-semibold text-primary mb-0.5">Existing Commitments Scheduled</span>
+              Blocking prevents new bookings but will not automatically alter existing customer commitments. Review the Capacity Calendar.
+            </div>
+          </div>
+        ` : `
+          <div class="p-space-sm bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-space-xs text-body-sm text-secondary">
+            <span class="material-symbols-outlined text-[18px] text-primary">check_circle</span>
+            <span>No commitments scheduled for this fulfillment date.</span>
+          </div>
+        `}
+
+        <!-- Reason Display -->
+        <div class="flex flex-col gap-space-xs">
+          <span class="font-label-sm text-[11px] text-outline uppercase tracking-wider font-semibold">Registered Reason</span>
+          <div class="p-space-md bg-surface-container-lowest rounded-lg border border-outline-variant text-body-md text-on-surface font-medium">
+            ${data.fullReason}
+          </div>
+          <span class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">
+            Logged by ${data.createdBy} on ${data.createdOn}
+          </span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-space-sm pt-space-xs">
+          <button onclick="openEditReasonModal('${dateStr}')" class="flex-1 py-2 px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors flex items-center justify-center gap-1.5 border border-outline-variant">
+            <span class="material-symbols-outlined text-[18px]">edit_note</span>
+            Edit Reason
+          </button>
+          <button onclick="openUnblockModal('${dateStr}')" class="py-2 px-space-md bg-surface-container-lowest hover:bg-[#FFF2EE] text-primary font-label-md text-label-md rounded font-semibold transition-colors flex items-center justify-center gap-1.5 border border-[#E8D0C5]">
+            <span class="material-symbols-outlined text-[18px]">lock_open</span>
+            Remove Block
+          </button>
+        </div>
+      `;
+    } else {
+      // Unblocked Date
+      const unblocked = window.schedApp.unblockedData[dateStr] || { standardOrders: 0, subscriptions: 0, customCakes: 0 };
+      const totalCommitments = unblocked.standardOrders + unblocked.subscriptions + unblocked.customCakes;
+      const title = window.schedApp.selectedDayTitle || dateStr;
+
+      inspector.innerHTML = `
+        <div class="flex items-start justify-between pb-space-xs border-b border-outline-variant">
+          <div class="flex flex-col">
+            <span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Selected Date</span>
+            <h3 class="font-headline-sm text-headline-sm font-display text-on-surface">${title}</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold tracking-wider border border-outline-variant">
+            NOT BLOCKED
+          </span>
+        </div>
+
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          This date has no administrative block. Booking eligibility still depends on capacity, inventory, lead time, cutoff, and applicable scheduling rules.
+        </p>
+
+        <!-- Existing Commitments Breakdown -->
+        <div class="flex flex-col gap-space-xs bg-surface-container-lowest p-space-md rounded-lg border border-outline-variant">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Existing Commitments</span>
+            <span class="font-label-sm text-label-sm text-secondary font-medium">${totalCommitments} scheduled</span>
+          </div>
+          <div class="grid grid-cols-3 gap-space-sm mt-1 text-center">
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${unblocked.standardOrders}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Standard Orders</span>
+            </div>
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${unblocked.subscriptions}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Subscriptions</span>
+            </div>
+            <div class="p-space-xs bg-surface-container-low rounded border border-outline-variant/60">
+              <span class="block font-headline-sm text-headline-sm font-display font-semibold text-primary">${unblocked.customCakes}</span>
+              <span class="font-label-sm text-[11px] text-on-surface-variant">Custom Cakes</span>
+            </div>
+          </div>
+        </div>
+
+        ${totalCommitments > 0 ? `
+          <div class="p-space-md bg-[#FAF4ED] border border-[#E9DACB] rounded-lg flex items-start gap-space-sm text-on-surface">
+            <span class="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">info</span>
+            <div class="flex flex-col text-body-sm leading-snug">
+              <span class="font-semibold text-on-surface mb-0.5">Existing commitments scheduled</span>
+              Blocking this date will prevent new bookings but will not automatically change existing confirmed commitments.
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-space-sm pt-space-xs">
+          <button onclick="openBlockModal('${dateStr}', '${title}', ${totalCommitments})" class="w-full py-2.5 px-space-md bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm">
+            <span class="material-symbols-outlined text-[18px]">lock</span>
+            Block This Date
+          </button>
+          <a href="#" class="w-full py-2 px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors flex items-center justify-center gap-1.5 border border-outline-variant">
+            <span>View Capacity Calendar</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+          </a>
+        </div>
+      `;
+    }
+  }
+
+  // Modals Handling
+  function openBlockModal(dateStr, title, commitments) {
+    document.getElementById('blockDateModalTitle').textContent = `Block ${title}?`;
+    document.getElementById('blockDateModalDesc').innerHTML = `
+      New bookings will no longer be accepted for this fulfillment date. <strong>${commitments} existing commitments</strong> are already scheduled for this date. These commitments will remain unchanged. Review them separately if operational changes are required.
+    `;
+    window.schedApp.pendingBlockDate = dateStr;
+    window.schedApp.pendingBlockTitle = title;
+    document.getElementById('blockConfirmModal').classList.remove('hidden');
+    document.getElementById('blockConfirmModal').classList.add('flex');
+  }
+
+  function confirmBlockAction() {
+    const dateStr = window.schedApp.pendingBlockDate;
+    const title = window.schedApp.pendingBlockTitle;
+    const reason = document.getElementById('blockInputReason').value || 'Owner Scheduled Closure';
+    const unblocked = window.schedApp.unblockedData[dateStr] || { standardOrders: 0, subscriptions: 0, customCakes: 0 };
+
+    window.schedApp.blockedDates[dateStr] = {
+      dayName: title,
+      shortReason: reason.length > 18 ? reason.substring(0, 18) + '...' : reason,
+      fullReason: reason,
+      standardOrders: unblocked.standardOrders,
+      subscriptions: unblocked.subscriptions,
+      customCakes: unblocked.customCakes,
+      createdBy: 'Eleanor Vance',
+      createdOn: 'Dec 02, 2026'
+    };
+
+    closeModal('blockConfirmModal');
+    updateCalendarCellVisual(dateStr, true, reason);
+    renderInspector();
+  }
+
+  function openUnblockModal(dateStr) {
+    const data = window.schedApp.blockedDates[dateStr];
+    const dayLabel = data ? data.dayName : dateStr;
+    document.getElementById('unblockModalTitle').textContent = `Remove block from ${dayLabel}?`;
+    window.schedApp.pendingUnblockDate = dateStr;
+    document.getElementById('unblockConfirmModal').classList.remove('hidden');
+    document.getElementById('unblockConfirmModal').classList.add('flex');
+  }
+
+  function confirmUnblockAction() {
+    const dateStr = window.schedApp.pendingUnblockDate;
+    delete window.schedApp.blockedDates[dateStr];
+    closeModal('unblockConfirmModal');
+    updateCalendarCellVisual(dateStr, false);
+    renderInspector();
+  }
+
+  function openEditReasonModal(dateStr) {
+    const data = window.schedApp.blockedDates[dateStr];
+    if (!data) return;
+    document.getElementById('editReasonModalTitle').textContent = `Edit Reason: ${data.dayName}`;
+    document.getElementById('editReasonTextarea').value = data.fullReason;
+    window.schedApp.pendingEditDate = dateStr;
+    document.getElementById('editReasonModal').classList.remove('hidden');
+    document.getElementById('editReasonModal').classList.add('flex');
+  }
+
+  function saveEditedReason() {
+    const dateStr = window.schedApp.pendingEditDate;
+    const newReason = document.getElementById('editReasonTextarea').value.trim();
+    if (window.schedApp.blockedDates[dateStr] && newReason) {
+      window.schedApp.blockedDates[dateStr].fullReason = newReason;
+      window.schedApp.blockedDates[dateStr].shortReason = newReason.length > 18 ? newReason.substring(0, 18) + '...' : newReason;
+    }
+    closeModal('editReasonModal');
+    updateCalendarCellVisual(dateStr, true, newReason);
+    renderInspector();
+  }
+
+  function closeModal(id) {
+    const m = document.getElementById(id);
+    if (m) {
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+  }
+
+  function updateCalendarCellVisual(dateStr, isBlocked, reasonText) {
+    const cell = document.getElementById('day-cell-' + dateStr);
+    if (!cell) return;
+    if (isBlocked) {
+      cell.className = 'cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-[#FAF4F0] border border-[#EBDDD4] hover:border-primary transition-all flex flex-col justify-between';
+      cell.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-label-sm font-bold text-primary">${dateStr.split('-')[2].replace(/^0+/, '')}</span>
+          <span class="px-1.5 py-0.2 rounded bg-[#EEDCD3] text-[#8D4A14] font-label-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5">
+            <span class="material-symbols-outlined text-[10px]">lock</span>
+            Blocked
+          </span>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[10px] text-primary font-medium truncate">${reasonText || 'Closure'}</span>
+          <span class="text-[10px] text-on-surface-variant font-medium">3 comm</span>
+        </div>
+      `;
+    } else {
+      cell.className = 'cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between';
+      cell.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-label-sm text-label-sm text-on-surface">${dateStr.split('-')[2].replace(/^0+/, '')}</span>
+          <span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+        </div>
+      `;
+    }
+  }
+
+  // Subscription Schedule Modal Logic
+  function openAddScheduleModal(mode, data) {
+    const modal = document.getElementById('scheduleModal');
+    if (!modal) return;
+    document.getElementById('schedModalTitle').textContent = mode === 'edit' ? 'Edit Subscription Rhythm' : 'Add Subscription Rhythm';
+    if (data) {
+      document.getElementById('schedProductInput').value = data.product;
+      document.getElementById('schedPrepDay').value = data.prep;
+      document.getElementById('schedFulfillDay').value = data.fulfill;
+      document.getElementById('schedStatus').value = data.status;
+      document.getElementById('schedActiveNotice').classList.remove('hidden');
+    } else {
+      document.getElementById('schedProductInput').value = 'All Subscription Products';
+      document.getElementById('schedPrepDay').value = 'Monday';
+      document.getElementById('schedFulfillDay').value = 'Tuesday';
+      document.getElementById('schedStatus').value = 'Active';
+      document.getElementById('schedActiveNotice').classList.add('hidden');
+    }
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  // Notify unsaved changes in Fulfillment Rules
+  function markRuleChanged() {
+    const bar = document.getElementById('fulfillmentSaveBar');
+    if (bar) bar.classList.remove('hidden');
+  }
+  function discardRuleChanges() {
+    const bar = document.getElementById('fulfillmentSaveBar');
+    if (bar) bar.classList.add('hidden');
+  }
+</script>
+<!-- Breadcrumb and Top Navigation Header -->
+<div class="flex flex-col gap-space-xs mb-space-md">
+<nav class="flex items-center gap-space-xs text-body-sm font-body-sm text-secondary">
+<span class="hover:text-primary transition-colors cursor-pointer">Owner Operations</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">Scheduling</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mt-space-xs">
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg font-display text-on-surface tracking-tight">Blocked Dates &amp; Scheduling</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-0.5">
+  Control unavailable booking dates, operational cutoffs, fulfillment lead rules, and recurring subscription bake rhythms.
+</p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="inline-flex items-center gap-1.5 px-space-md py-2 bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" href="#">
+<span>View Capacity Calendar</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Primary Segmented Tab Navigation -->
+<div class="flex items-center gap-space-xs p-1 bg-surface-container-low rounded-lg w-fit mb-space-lg border border-outline-variant">
+<button class="sched-main-tab flex items-center gap-2 px-space-md py-2 rounded font-label-md text-label-md bg-primary text-white font-semibold transition-all shadow-sm" id="tab-btn-blocked-dates" onclick="switchTab('blocked-dates')">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span>Blocked Dates</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-primary text-[11px] font-bold">3</span>
+</button>
+<button class="sched-main-tab flex items-center gap-2 px-space-md py-2 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all" id="tab-btn-fulfillment-rules" onclick="switchTab('fulfillment-rules')">
+<span class="material-symbols-outlined text-[18px]">timelapse</span>
+<span>Fulfillment Rules</span>
+</button>
+<button class="sched-main-tab flex items-center gap-2 px-space-md py-2 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all" id="tab-btn-subscription-schedules" onclick="switchTab('subscription-schedules')">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span>Subscription Schedules</span>
+</button>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB 1: BLOCKED DATES VIEW                                                 -->
+<!-- ========================================================================= -->
+<div class="tab-content-panel flex flex-col gap-space-lg w-full" id="panel-blocked-dates">
+<!-- Required Informational Banner -->
+<div class="p-space-md bg-surface-container-low rounded-xl border border-outline-variant flex items-start gap-space-md">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5 shrink-0">info</span>
+<div class="flex flex-col text-body-sm font-body-sm text-on-surface">
+<h4 class="font-semibold text-primary font-display text-base">Blocked dates prevent new bookings</h4>
+<p class="text-on-surface-variant mt-0.5">
+  Customers cannot select a blocked date for new fulfillment bookings. Existing confirmed commitments are not automatically changed.
+</p>
+<p class="text-secondary font-medium mt-1">
+  Review existing commitments before blocking a date that already contains scheduled production.
+</p>
+</div>
+</div>
+<!-- 7/5 Grid Split: Monthly Calendar & Date Inspector -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column (7 cols): Monthly Calendar -->
+<div class="lg:col-span-7 flex flex-col bg-surface-container-low p-space-lg rounded-xl border border-outline-variant">
+<!-- Calendar Header -->
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-md text-headline-md font-display text-on-surface">December 2026</span>
+<span class="px-2.5 py-0.5 bg-surface-container-highest rounded text-on-surface-variant font-label-sm text-label-sm font-semibold border border-outline-variant">
+  Peak Holiday Season
+</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-semibold border border-outline-variant">Today</button>
+<button class="w-8 h-8 rounded bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Day of Week Bar -->
+<div class="grid grid-cols-7 gap-1 text-center font-label-sm text-label-sm uppercase tracking-wider text-outline py-2 border-b border-outline-variant mb-2">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span class="text-primary font-bold">Sat</span>
+<span class="text-primary font-bold">Sun</span>
+</div>
+<!-- Calendar Day Grid (December 2026 starts on Tuesday) -->
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Offset: Nov 30 -->
+<div class="p-2 min-h-[82px] rounded-lg bg-surface-container-high/30 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-secondary">30</span>
+</div>
+<!-- Dec 1 to 3 -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-01" onclick="selectDate('2026-12-01', 'Tuesday, Dec 1, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">1</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-02" onclick="selectDate('2026-12-02', 'Wednesday, Dec 2, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">2</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-03" onclick="selectDate('2026-12-03', 'Thursday, Dec 3, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">3</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Dec 4: with 2 commitments -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-04" onclick="selectDate('2026-12-04', 'Friday, Dec 4, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">4</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] font-semibold">2 comm</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+<div class="flex gap-1 self-end">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</div>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-05" onclick="selectDate('2026-12-05', 'Saturday, Dec 5, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">5</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-06" onclick="selectDate('2026-12-06', 'Sunday, Dec 6, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">6</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Week 2: Dec 7 to 13 -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-07" onclick="selectDate('2026-12-07', 'Monday, Dec 7, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">7</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-08" onclick="selectDate('2026-12-08', 'Tuesday, Dec 8, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">8</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-09" onclick="selectDate('2026-12-09', 'Wednesday, Dec 9, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">9</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-10" onclick="selectDate('2026-12-10', 'Thursday, Dec 10, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">10</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-11" onclick="selectDate('2026-12-11', 'Friday, Dec 11, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">11</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-12" onclick="selectDate('2026-12-12', 'Saturday, Dec 12, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">12</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-13" onclick="selectDate('2026-12-13', 'Sunday, Dec 13, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">13</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Week 3: Dec 14 to 20 -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-14" onclick="selectDate('2026-12-14', 'Monday, Dec 14, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">14</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-15" onclick="selectDate('2026-12-15', 'Tuesday, Dec 15, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">15</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-16" onclick="selectDate('2026-12-16', 'Wednesday, Dec 16, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">16</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-17" onclick="selectDate('2026-12-17', 'Thursday, Dec 17, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">17</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Dec 18: with 3 commitments, Unblocked -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-18" onclick="selectDate('2026-12-18', 'Friday, Dec 18, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">18</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] font-semibold">3 comm</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+<div class="flex gap-1 self-end">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</div>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-19" onclick="selectDate('2026-12-19', 'Saturday, Dec 19, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">19</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-20" onclick="selectDate('2026-12-20', 'Sunday, Dec 20, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">20</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Week 4: Dec 21 to 27 -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-21" onclick="selectDate('2026-12-21', 'Monday, Dec 21, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">21</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-22" onclick="selectDate('2026-12-22', 'Tuesday, Dec 22, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">22</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-23" onclick="selectDate('2026-12-23', 'Wednesday, Dec 23, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">23</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Dec 24: Christmas Eve Closure (BLOCKED, DEFAULT SELECTED) -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-[#FAF4F0] border border-[#EBDDD4] ring-2 ring-primary ring-offset-1 transition-all flex flex-col justify-between" id="day-cell-2026-12-24" onclick="selectDate('2026-12-24', 'Thursday, Dec 24, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary">24</span>
+<span class="px-1.5 py-0.2 rounded bg-[#EEDCD3] text-[#8D4A14] font-label-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[10px]">lock</span>
+  Blocked
+</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-[10px] text-primary font-medium truncate">Christmas Eve Closure</span>
+<span class="text-[10px] text-on-surface-variant font-medium">3 comm</span>
+</div>
+</div>
+<!-- Dec 25: Christmas Day Closure (BLOCKED) -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-[#FAF4F0] border border-[#EBDDD4] hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-25" onclick="selectDate('2026-12-25', 'Friday, Dec 25, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary">25</span>
+<span class="px-1.5 py-0.2 rounded bg-[#EEDCD3] text-[#8D4A14] font-label-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[10px]">lock</span>
+  Blocked
+</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-[10px] text-primary font-medium truncate">Christmas Day</span>
+<span class="text-[10px] text-outline font-medium">0 comm</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-26" onclick="selectDate('2026-12-26', 'Saturday, Dec 26, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">26</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-27" onclick="selectDate('2026-12-27', 'Sunday, Dec 27, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">27</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Week 5: Dec 28 to Dec 31 -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-28" onclick="selectDate('2026-12-28', 'Monday, Dec 28, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">28</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-29" onclick="selectDate('2026-12-29', 'Tuesday, Dec 29, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">29</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-30" onclick="selectDate('2026-12-30', 'Wednesday, Dec 30, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">30</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-surface-container-lowest border border-outline-variant hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2026-12-31" onclick="selectDate('2026-12-31', 'Thursday, Dec 31, 2026')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">31</span>
+<span class="font-label-sm text-[10px] text-outline">Not Blocked</span>
+</div>
+</div>
+<!-- Jan 1 2027 (BLOCKED) -->
+<div class="cal-day-cell cursor-pointer p-2 min-h-[82px] rounded-lg bg-[#FAF4F0] border border-[#EBDDD4] hover:border-primary transition-all flex flex-col justify-between" id="day-cell-2027-01-01" onclick="selectDate('2027-01-01', 'Friday, Jan 1, 2027')">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary">1</span>
+<span class="px-1.5 py-0.2 rounded bg-[#EEDCD3] text-[#8D4A14] font-label-sm text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[10px]">lock</span>
+  Blocked
+</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-[10px] text-primary font-medium truncate">New Year</span>
+<span class="text-[10px] text-outline font-medium">0 comm</span>
+</div>
+</div>
+<div class="p-2 min-h-[82px] rounded-lg bg-surface-container-high/30 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-secondary">2</span>
+</div>
+<div class="p-2 min-h-[82px] rounded-lg bg-surface-container-high/30 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-secondary">3</span>
+</div>
+</div>
+<!-- Calendar Legend -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-lg mt-space-sm text-body-sm font-body-sm text-secondary border-t border-outline-variant">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-surface-container-lowest border border-outline-variant"></span>
+<span>Not Blocked</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-[#FAF4F0] border border-[#EBDDD4]"></span>
+<span>Blocked Date</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span>Scheduled Commitments</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-surface-container-lowest ring-2 ring-primary ring-offset-1"></span>
+<span>Selected Date</span>
+</div>
+</div>
+</div>
+<!-- Right Column (5 cols): Selected Date Inspector -->
+<div class="lg:col-span-5 flex flex-col bg-surface-container-low p-space-lg rounded-xl border border-outline-variant gap-space-md" id="dateInspector">
+<!-- Initialized dynamically via renderInspector() -->
+</div>
+</div>
+<!-- Upcoming Blocked Dates Registry Table -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-lg border border-outline-variant mt-space-md">
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm font-display text-on-surface">Upcoming Blocked Dates Registry</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Central directory of owner-managed dates unavailable for fulfillment.</span>
+</div>
+<button class="inline-flex items-center gap-1.5 px-space-md py-1.5 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="selectDate('2026-12-31', 'Thursday, Dec 31, 2026')">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Add Blocked Date</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-outline border-y border-outline-variant">
+<th class="py-space-sm px-space-md">Date</th>
+<th class="py-space-sm px-space-md">Day</th>
+<th class="py-space-sm px-space-md">Reason</th>
+<th class="py-space-sm px-space-md text-center">Existing Commitments</th>
+<th class="py-space-sm px-space-md">Created By</th>
+<th class="py-space-sm px-space-md">Created On</th>
+<th class="py-space-sm px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-md text-body-md text-on-surface">
+<!-- Dec 24, 2026 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md font-semibold text-primary">Dec 24, 2026</td>
+<td class="py-space-md px-space-md text-secondary">Thursday</td>
+<td class="py-space-md px-space-md font-medium">Christmas Eve Closure &amp; Deep Clean</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#FAF4ED] text-[#8D4A14] font-label-sm text-[11px] font-bold border border-[#E9DACB]">
+  3 commitments
+</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-label-sm text-label-sm">Eleanor Vance</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">Dec 02, 2026</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="selectDate('2026-12-24', 'Thursday, Dec 24, 2026')">View</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openEditReasonModal('2026-12-24')">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[12px] rounded transition-colors" onclick="openUnblockModal('2026-12-24')">Remove</button>
+</div>
+</td>
+</tr>
+<!-- Dec 25, 2026 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md font-semibold text-primary">Dec 25, 2026</td>
+<td class="py-space-md px-space-md text-secondary">Friday</td>
+<td class="py-space-md px-space-md font-medium">Christmas Day Closure</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] font-semibold border border-outline-variant">
+  0 commitments
+</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-label-sm text-label-sm">Eleanor Vance</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">Dec 02, 2026</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="selectDate('2026-12-25', 'Friday, Dec 25, 2026')">View</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openEditReasonModal('2026-12-25')">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[12px] rounded transition-colors" onclick="openUnblockModal('2026-12-25')">Remove</button>
+</div>
+</td>
+</tr>
+<!-- Jan 1, 2027 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md font-semibold text-primary">Jan 01, 2027</td>
+<td class="py-space-md px-space-md text-secondary">Friday</td>
+<td class="py-space-md px-space-md font-medium">New Year Kitchen Maintenance</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] font-semibold border border-outline-variant">
+  0 commitments
+</span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-label-sm text-label-sm">Eleanor Vance</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">Dec 02, 2026</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="selectDate('2027-01-01', 'Friday, Jan 1, 2027')">View</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openEditReasonModal('2027-01-01')">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[12px] rounded transition-colors" onclick="openUnblockModal('2027-01-01')">Remove</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB 2: FULFILLMENT RULES VIEW                                             -->
+<!-- ========================================================================= -->
+<div class="tab-content-panel hidden flex flex-col gap-space-lg w-full" id="panel-fulfillment-rules">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md font-display text-on-surface">Operational Fulfillment Rules</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Set required baker preparation lead windows, daily booking cutoffs, and intake constraints.</p>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-low rounded font-label-sm text-label-sm text-primary border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-semibold">Engine Synced</span>
+</div>
+</div>
+<!-- 3 Rule Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg items-stretch">
+<!-- Section 1: Standard Orders -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col justify-between border border-outline-variant">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-[28px] text-primary">bakery_dining</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold uppercase tracking-wider border border-outline-variant">Active</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-headline-sm text-headline-sm font-display text-on-surface">Standard Orders</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Controls when customers may select fulfillment dates for standard cart orders.</p>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Minimum Lead Time input with dropdown -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Minimum Lead Time</label>
+<div class="flex items-center gap-2 mt-0.5">
+<input class="w-20 bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" min="1" onchange="markRuleChanged()" type="number" value="2"/>
+<select class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-medium border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" onchange="markRuleChanged()">
+<option selected="" value="days">Days</option>
+<option value="hours">Hours</option>
+</select>
+</div>
+</div>
+<!-- Booking Cutoff Time -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Booking Cutoff Time</label>
+<input class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none w-full mt-0.5" onchange="markRuleChanged()" type="time" value="17:00"/>
+</div>
+<!-- Same-Day Fulfillment -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Same-Day Fulfillment</span>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+<strong class="font-semibold text-on-surface">Not Supported</strong> — The platform does not allow same-day fulfillment.
+</p>
+</div>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant flex flex-col gap-1.5 text-body-sm">
+<span class="text-on-surface-variant text-[12px]">Standard Order Capacity is configured separately.</span>
+<a class="inline-flex items-center gap-1 font-semibold text-primary hover:underline text-[13px]" href="#">
+<span>View Capacity Calendar</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Section 2: Subscriptions -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col justify-between border border-outline-variant">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-[28px] text-primary">event_repeat</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold uppercase tracking-wider border border-outline-variant">Active</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-headline-sm text-headline-sm font-display text-on-surface">Subscriptions</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Controls timing rules applied when customers enroll in the four-week prepaid subscription program.</p>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Minimum Lead Time input with dropdown -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Minimum Lead Time</label>
+<div class="flex items-center gap-2 mt-0.5">
+<input class="w-20 bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" min="1" onchange="markRuleChanged()" type="number" value="48"/>
+<select class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-medium border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" onchange="markRuleChanged()">
+<option selected="" value="hours">Hours</option>
+<option value="days">Days</option>
+</select>
+</div>
+</div>
+<!-- Booking Cutoff Time -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Weekly Booking Cutoff Time</label>
+<input class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none w-full mt-0.5" onchange="markRuleChanged()" type="time" value="12:00"/>
+</div>
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Fulfillment Generation</span>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+  Each subscription generates four weekly fulfillment dates based on the selected subscription schedule.
+</p>
+</div>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant flex flex-col gap-1.5 text-body-sm">
+<span class="text-on-surface-variant text-[12px]">Schedule rhythms are configured per product scope.</span>
+<button class="inline-flex items-center gap-1 font-semibold text-primary hover:underline text-[13px] text-left" onclick="switchTab('subscription-schedules')">
+<span>Manage Subscription Schedules</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Section 3: Custom Cakes -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col justify-between border border-outline-variant">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-[28px] text-primary">cake</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-bold uppercase tracking-wider border border-outline-variant">Active</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-headline-sm text-headline-sm font-display text-on-surface">Custom Cakes</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Controls when customers may request custom cake fulfillment dates.</p>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Minimum Lead Time input with dropdown -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Minimum Lead Time</label>
+<div class="flex items-center gap-2 mt-0.5">
+<input class="w-20 bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" min="1" onchange="markRuleChanged()" type="number" value="7"/>
+<select class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-medium border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" onchange="markRuleChanged()">
+<option selected="" value="days">Days</option>
+<option value="hours">Hours</option>
+</select>
+</div>
+</div>
+<!-- Booking Cutoff Time -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Daily Inquiry Cutoff</label>
+<input class="bg-surface-container-low rounded px-2.5 py-1.5 text-body-md text-on-surface font-semibold border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none w-full mt-0.5" onchange="markRuleChanged()" type="time" value="18:00"/>
+</div>
+<!-- Same-Day Fulfillment -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg border border-outline-variant flex flex-col gap-1">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Same-Day Fulfillment</span>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+<strong class="font-semibold text-on-surface">Not Supported</strong> — Custom cake requests may be submitted at any time, but the requested fulfillment date must satisfy the configured minimum lead time.
+</p>
+</div>
+</div>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant flex flex-col gap-1.5 text-body-sm">
+<span class="text-on-surface-variant text-[12px]">Custom cake capacity is managed in the Capacity Calendar.</span>
+<a class="inline-flex items-center gap-1 font-semibold text-primary hover:underline text-[13px]" href="#">
+<span>View Capacity Calendar</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Sticky/Subtle Bottom Bar when unsaved changes exist -->
+<div class="hidden sticky bottom-4 z-30 p-space-md bg-surface-container-lowest rounded-xl border border-outline-variant shadow-lg flex items-center justify-between" id="fulfillmentSaveBar">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">pending_actions</span>
+<span class="font-body-md text-body-md font-medium text-on-surface">Unsaved scheduling changes detected across fulfillment rules.</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" onclick="discardRuleChanges()">
+  Discard
+</button>
+<button class="px-space-md py-1.5 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="discardRuleChanges()">
+  Save Changes
+</button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB 3: SUBSCRIPTION SCHEDULES VIEW                                        -->
+<!-- ========================================================================= -->
+<div class="tab-content-panel hidden flex flex-col gap-space-lg w-full" id="panel-subscription-schedules">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md font-display text-on-surface">Subscription Schedules</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Scheduled preparation-to-fulfillment sequences powering weekly recurring member boxes.</p>
+</div>
+<button class="inline-flex items-center gap-1.5 px-space-md py-1.5 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="openAddScheduleModal('add')">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Subscription Schedule</span>
+</button>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-lg border border-outline-variant">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-outline border-y border-outline-variant">
+<th class="py-space-sm px-space-md">Product / Scope</th>
+<th class="py-space-sm px-space-md">Preparation Day</th>
+<th class="py-space-sm px-space-md">Fulfillment Day</th>
+<th class="py-space-sm px-space-md">Status</th>
+<th class="py-space-sm px-space-md">Updated</th>
+<th class="py-space-sm px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-md text-body-md text-on-surface">
+<!-- Schedule 1: All Subscription Products (Fallback) -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">All Subscription Products</span>
+<span class="text-secondary font-label-sm text-[11px]">Global Fallback Rule</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-medium text-secondary">
+  Monday
+</td>
+<td class="py-space-md px-space-md font-semibold text-primary">
+  Tuesday
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold border border-[#3D5941]/30">Active</span>
+</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">
+  Oct 01, 2026
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openAddScheduleModal('edit', { product: 'All Subscription Products', prep: 'Monday', fulfill: 'Tuesday', status: 'Active' })">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-secondary font-label-sm text-[12px] rounded transition-colors">Deactivate</button>
+</div>
+</td>
+</tr>
+<!-- Schedule 2: Japanese Shokupan Loaf -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Japanese Shokupan Loaf</span>
+<span class="text-secondary font-label-sm text-[11px]">450g Milk Bread Batches</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-medium text-secondary">
+  Thursday
+</td>
+<td class="py-space-md px-space-md font-semibold text-primary">
+  Friday
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold border border-[#3D5941]/30">Active</span>
+</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">
+  Oct 01, 2026
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openAddScheduleModal('edit', { product: 'Japanese Shokupan Loaf', prep: 'Thursday', fulfill: 'Friday', status: 'Active' })">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-secondary font-label-sm text-[12px] rounded transition-colors">Deactivate</button>
+</div>
+</td>
+</tr>
+<!-- Schedule 3: Braided Chocolate Babka -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">cookie</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Braided Chocolate Babka</span>
+<span class="text-secondary font-label-sm text-[11px]">Valrhona Ganache Swirled</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-medium text-secondary">
+  Tuesday
+</td>
+<td class="py-space-md px-space-md font-semibold text-primary">
+  Wednesday
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold border border-[#3D5941]/30">Active</span>
+</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">
+  Oct 01, 2026
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openAddScheduleModal('edit', { product: 'Braided Chocolate Babka', prep: 'Tuesday', fulfill: 'Wednesday', status: 'Active' })">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-secondary font-label-sm text-[12px] rounded transition-colors">Deactivate</button>
+</div>
+</td>
+</tr>
+<!-- Schedule 4: Artisan Brioche Buns (Inactive) -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">lunch_dining</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Artisan Brioche Buns</span>
+<span class="text-secondary font-label-sm text-[11px]">6-Pack Rich Butter</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-medium text-secondary">
+  Friday
+</td>
+<td class="py-space-md px-space-md font-semibold text-primary">
+  Saturday
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-[11px] font-semibold border border-outline-variant">Inactive</span>
+</td>
+<td class="py-space-md px-space-md text-secondary font-label-sm text-label-sm">
+  Oct 01, 2026
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] rounded transition-colors" onclick="openAddScheduleModal('edit', { product: 'Artisan Brioche Buns', prep: 'Friday', fulfill: 'Saturday', status: 'Inactive' })">Edit</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[12px] rounded transition-colors font-medium">Activate</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 1: BLOCK DATE CONFIRMATION MODAL                                    -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden items-center justify-center p-space-md" id="blockConfirmModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl p-space-xl shadow-xl flex flex-col gap-space-md border border-outline-variant">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">lock</span>
+<h3 class="font-headline-sm text-headline-sm font-display text-on-surface" id="blockDateModalTitle">Block Date?</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('blockConfirmModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant" id="blockDateModalDesc">
+  New bookings will no longer be accepted for this fulfillment date. Existing commitments scheduled for this date will remain unchanged. Review them separately if operational changes are required.
+</p>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold" for="blockInputReason">Block Reason</label>
+<textarea class="w-full bg-surface-container-low rounded-lg p-space-sm text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary border border-outline-variant" id="blockInputReason" placeholder="e.g. Christmas Eve Closure &amp; Deep Clean" rows="2"></textarea>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" onclick="closeModal('blockConfirmModal')">
+  Cancel
+</button>
+<button class="px-space-md py-2 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="confirmBlockAction()">
+  Confirm Block
+</button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 2: UNBLOCK / REMOVE BLOCK CONFIRMATION MODAL                        -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden items-center justify-center p-space-md" id="unblockConfirmModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl p-space-xl shadow-xl flex flex-col gap-space-md border border-outline-variant">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">lock_open</span>
+<h3 class="font-headline-sm text-headline-sm font-display text-on-surface" id="unblockModalTitle">Remove block?</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('unblockConfirmModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+  This removes the administrative restriction from this date. The date may become eligible for new bookings if its capacity, inventory, lead-time, cutoff, and other scheduling requirements are satisfied.
+</p>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" onclick="closeModal('unblockConfirmModal')">
+  Cancel
+</button>
+<button class="px-space-md py-2 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="confirmUnblockAction()">
+  Remove Block
+</button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 3: EDIT REASON MODAL                                                -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden items-center justify-center p-space-md" id="editReasonModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl p-space-xl shadow-xl flex flex-col gap-space-md border border-outline-variant">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">edit_calendar</span>
+<h3 class="font-headline-sm text-headline-sm font-display text-on-surface" id="editReasonModalTitle">Edit Reason</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('editReasonModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold" for="editReasonTextarea">Registered Reason Description</label>
+<textarea class="w-full bg-surface-container-low rounded-lg p-space-sm text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary border border-outline-variant" id="editReasonTextarea" rows="3"></textarea>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" onclick="closeModal('editReasonModal')">
+  Cancel
+</button>
+<button class="px-space-md py-2 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="saveEditedReason()">
+  Save Reason
+</button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 4: ADD/EDIT SUBSCRIPTION SCHEDULE MODAL / DRAWER                     -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden items-center justify-center p-space-md" id="scheduleModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl p-space-xl shadow-xl flex flex-col gap-space-md border border-outline-variant">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">event_repeat</span>
+<h3 class="font-headline-sm text-headline-sm font-display text-on-surface" id="schedModalTitle">Add Subscription Schedule</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('scheduleModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Active subscription warning note if edited -->
+<div class="p-space-sm bg-[#FAF4ED] border border-[#E9DACB] rounded-lg flex items-start gap-space-sm text-on-surface hidden" id="schedActiveNotice">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">warning</span>
+<div class="flex flex-col text-body-sm leading-snug">
+<span class="font-semibold text-on-surface">Active subscriptions use this schedule</span>
+<span class="text-on-surface-variant text-[12px] mt-0.5">Existing subscription deliveries must not be silently changed by modifying this configuration.</span>
+<a class="inline-flex items-center gap-1 font-semibold text-primary hover:underline text-[12px] mt-1" href="#">
+    Review Subscription Commitments <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Product Scope -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Product Scope</label>
+<select class="bg-surface-container-low rounded-lg p-space-sm text-body-md text-on-surface border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" id="schedProductInput">
+<option value="All Subscription Products">All Subscription Products (Fallback)</option>
+<option value="Japanese Shokupan Loaf">Japanese Shokupan Loaf</option>
+<option value="Braided Chocolate Babka">Braided Chocolate Babka</option>
+<option value="Artisan Brioche Buns">Artisan Brioche Buns</option>
+</select>
+</div>
+<!-- Visual relationship: Preparation Day ↓ Fulfillment Day -->
+<div class="p-space-md bg-surface-container-low rounded-lg border border-outline-variant flex flex-col gap-space-sm">
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Schedule Sequence</span>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary font-medium">Preparation Day</label>
+<select class="bg-surface-container-lowest rounded-lg p-2 text-body-md text-on-surface border border-outline-variant font-semibold" id="schedPrepDay">
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option selected="">Thursday</option>
+<option>Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+</select>
+</div>
+<div class="flex flex-col items-center justify-center pt-5 text-primary">
+<span class="material-symbols-outlined text-[22px]">arrow_downward</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary font-medium">Fulfillment Day</label>
+<select class="bg-surface-container-lowest rounded-lg p-2 text-body-md text-on-surface border border-outline-variant font-semibold" id="schedFulfillDay">
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option>Thursday</option>
+<option selected="">Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Status -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Rhythm Status</label>
+<select class="bg-surface-container-low rounded-lg p-space-sm text-body-md text-on-surface border border-outline-variant focus:ring-1 focus:ring-primary focus:outline-none" id="schedStatus">
+<option value="Active">Active</option>
+<option value="Inactive">Inactive</option>
+</select>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs border-t border-outline-variant">
+<button class="px-space-md py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded font-semibold transition-colors border border-outline-variant" onclick="closeModal('scheduleModal')">
+  Cancel
+</button>
+<button class="px-space-md py-2 bg-primary hover:bg-[#773E10] text-white font-label-md text-label-md rounded font-semibold transition-colors shadow-sm" onclick="closeModal('scheduleModal')">
+  Save Schedule
+</button>
+</div>
+</div>
+</div>
+<!-- Initializer Call -->
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    renderInspector();
+  });
+</script>
+</body></html>

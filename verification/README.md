@@ -1,5 +1,46 @@
 # Browser verification
 
+## Phase 6 paper revisions - October 7, 2026
+
+Fresh verification after the [paper-review fixes](../docs/phase-6-paper-revisions.md): **435 passing checks across nine suites**.
+
+| Suite | Passing checks |
+| --- | ---: |
+| `node verification/phase6-revisions.cjs` | 23 |
+| `node verification/owner-browser.cjs` | 78 |
+| `node verification/owner-integration.cjs` | 32 |
+| `node verification/phase5-browser.cjs` | 63 |
+| `node verification/phase5-revisions.cjs` | 32 |
+| `node verification/phase2-browser.cjs` | 95 |
+| `node verification/subscription-browser.cjs` | 71 |
+| `node verification/phase4-state.cjs` | 28 |
+| `node verification/subscription-state.cjs` | 13 |
+
+All 54 application JavaScript files passed `node --check`. The new suite covers late payments, immutable checkout references, subscription hold transfer, cancellation, pickup quotation presentation, Manila date filtering, overhead inheritance, and owner-only notification failure/retry history. It closes its isolated tab afterward. Existing browser suites ran sequentially; their responsive checks cover 1440, 768, 390, and 320 px. Browser exception checks passed.
+
+This verifies the browser prototype, not live providers, durable database transactions, or participant UAT. Other historical suites were not rerun for this revision.
+
+## Phase 6 ? Owner Operations ? October 6, 2026
+
+The integrated owner workspace uses the shared brand shell and existing customer/staff records. Open Mock Controls ? Enter owner preview ? Load owner examples, or sign in with `owner@kitchen406.example` / `Kitchen406!` (local preview only).
+
+| Suite | Passing checks |
+| --- | ---: |
+| `node verification/owner-browser.cjs` | 78 |
+| `node verification/owner-integration.cjs` | 32 |
+| `node verification/phase5-browser.cjs` | 63 |
+| `node verification/phase5-revisions.cjs` | 32 |
+| `node verification/phase2-browser.cjs` | 95 |
+| `node verification/subscription-browser.cjs` | 71 |
+| `node verification/phase4-state.cjs` | 28 |
+| `node verification/subscription-state.cjs` | 13 |
+
+Total: **412 checks**, including **110 new owner checks**. All application JavaScript passed `node --check`; browser suites reported no uncaught exceptions. Browser suites share the Chrome CDP page on port 9222 and must run sequentially.
+
+Owner coverage includes all subphases, role/actor handling, cross-customer records, shared fulfillment, immutable material and price snapshots, cost/recipe forms, versioned quotations and pickup payment, notification retry, distinct payment/hold states, unknown courier outcomes, allocation history, dirty/stale forms, schedule preservation, fixtures/reset, and widths of 1440/768/390/320 px. The existing Phase 5 production-copy test now uses authorized owner access instead of the former customer-accessible simulator.
+
+See [implementation details and limits](../docs/phase-6-implementation.md), [desktop screenshot](owner-dashboard-desktop.png), and [mobile screenshot](owner-dashboard-mobile.png). These checks cover the browser prototype, not live payment/courier/notification services or backend authorization.
+
 ## Phase 5 paper-review revisions — October 4, 2026
 
 `node verification/phase5-revisions.cjs` passes **32 checks** covering stock-short subscription payments, checkout/retry holds, competing reservations, rolling subscription material planning, deferment, stock recovery, stable audit IDs, separate courier/order statuses, low-stock events, the production-copy approval form, and preparation dates. Approved cake details fit 1440/390/320 px. No uncaught browser exceptions.

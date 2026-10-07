@@ -6,19 +6,20 @@ A.$('site-footer-mount').outerHTML="<footer class=\"w-full bg-surface-container-
 const header=document.querySelector('#app-shell>header'),nav=header.querySelector('nav'),customerNav=nav.innerHTML;
 const footerNav=document.querySelector('footer .flex.flex-wrap'),customerFooter=footerNav.innerHTML;
 A.shell={sync(){
- const staff=A.route==='staff',S=A.staff;
- if(nav.dataset.mode!==(staff?'staff':'customer')){
- nav.innerHTML=staff?'<a href="#/staff">Dashboard</a><a href="#/staff/production">Production</a><a href="#/staff/inventory">Inventory</a>':customerNav;
- footerNav.innerHTML=staff?'<a href="#/staff">Staff workspace</a><a href="#/staff/notifications">Notifications</a><a href="#/staff/settings">Account settings</a>':customerFooter;
- nav.dataset.mode=staff?'staff':'customer';
+ const staff=A.route==='staff',owner=A.route==='owner',workspace=staff||owner,mode=owner?'owner':staff?'staff':'customer',S=A.staff;
+ if(nav.dataset.mode!==mode){
+ nav.innerHTML=owner?'<a href="#/owner">Dashboard</a><a href="#/owner/orders">Orders</a><a href="#/owner/inventory">Inventory</a>':staff?'<a href="#/staff">Dashboard</a><a href="#/staff/production">Production</a><a href="#/staff/inventory">Inventory</a>':customerNav;
+ footerNav.innerHTML=owner?'<a href="#/owner">Owner workspace</a><a href="#/owner/capacity">Capacity calendar</a><a href="#/owner/scheduling">Scheduling</a>':staff?'<a href="#/staff">Staff workspace</a><a href="#/staff/notifications">Notifications</a><a href="#/staff/settings">Account settings</a>':customerFooter;
+ nav.dataset.mode=mode;
  }
- A.$('nav-search-input')?.parentElement?.classList.toggle('staff-hidden',staff);
- header.querySelector('[data-path="cart"]')?.classList.toggle('staff-hidden',staff);
- header.querySelector('a[href="#/orders"]')?.classList.toggle('staff-hidden',staff);
+ A.$('nav-search-input')?.parentElement?.classList.toggle('staff-hidden',workspace);
+ header.querySelector('[data-path="cart"]')?.classList.toggle('staff-hidden',workspace);
+ header.querySelector('a[href="#/orders"]')?.classList.toggle('staff-hidden',workspace);
  A.$('header-auth-signin').classList.toggle('hidden',A.auth==='signedin');
  A.$('header-auth-user').classList.toggle('hidden',A.auth!=='signedin');
  const menu=A.$('account-menu');if(menu){
- if(staff&&S?.allowed())menu.innerHTML='<a href="#/staff/settings">'+A.escape(S.name())+'</a><a href="#/staff/notifications">Notifications ('+S.events.filter(e=>!e.read).length+')</a><button class="btn" data-staff="signout">Sign Out</button>';
+ if(owner&&A.session?.ownerAllowed())menu.innerHTML='<a href="#/owner">Kitchen406 Owner</a><button class="btn" data-owner="signout">Sign Out</button>';
+ else if(staff&&S?.allowed())menu.innerHTML='<a href="#/staff/settings">'+A.escape(S.name())+'</a><a href="#/staff/notifications">Notifications ('+S.events.filter(e=>!e.read).length+')</a><button class="btn" data-staff="signout">Sign Out</button>';
  else if(A.phase4)menu.innerHTML=A.phase4.links.map(([path,,label])=>'<a href="#/'+path+'">'+label+'</a>').join('')+A.phase4.button('sign-out','Sign Out');
  }
 }};

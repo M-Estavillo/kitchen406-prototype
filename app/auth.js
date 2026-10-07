@@ -117,6 +117,12 @@ function submit(e){
   if(view==='sign-in'){
    const hash=await A.account.hash(values.password),known=A.account.records.find(p=>p.email.toLowerCase()===values.email.toLowerCase());
    if(S.generation!==generation||A.modal!=='auth-modal')return;
+   if(A.session && values.email.toLowerCase()===A.session.owner.email.toLowerCase()){
+    const owner=A.session.owner,expected=owner.hash||await A.account.hash('Kitchen406!');
+    if(S.generation!==generation||A.modal!=='auth-modal')return;
+    if(hash!==expected||owner.status!=='active'||!owner.setup){S.mode='autherror';render();return;}
+    S.values={};close();A.session.enter();return;
+   }
    if(A.staff && values.email.toLowerCase()===A.staff.account.email.toLowerCase()){
     const staff=A.staff,expected=staff.account.hash||await A.account.hash('Kitchen406!');
     if(S.generation!==generation||A.modal!=='auth-modal')return;

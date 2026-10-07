@@ -8,18 +8,19 @@ B.active=()=>B.routes.includes(A.route);
 B.address=()=>C.state.addresses.find(a=>a.address_id===S.draft.addressId&&a.status==='active');
 B.product=()=>A.products.find(p=>p.id===S.draft.productId);
 B.variant=()=>A.variant(S.draft.productId,S.draft.variant);
-B.schedule=()=>B.schedules.find(x=>x.id===S.draft.scheduleId);
+B.availableSchedules=(productId=S.draft.productId)=>{const active=B.schedules.filter(s=>s.status!=='inactive');const specific=active.filter(s=>Number(s.product_id)===Number(productId));return specific.length?specific:active.filter(s=>!s.product_id);};
+B.schedule=()=>B.availableSchedules().find(x=>x.id===S.draft.scheduleId);
 B.dates=(d=S.draft)=>d.start?Array.from({length:4},(_,i)=>D.add(d.start,i*7)):[];
 B.offering=id=>B.mock.catalog==='full'?'full':B.mock.catalog==='unavailable'?'unavailable':B.mock.catalog==='available'?'available':Number(id)===2?'full':Number(id)===5?'unavailable':'available';
 B.starts=()=>{const schedule=B.schedule();if(!schedule)return [];const dates=[];for(let i=1;i<70;i++){const date=D.add(D.today(),i);if(D.day(date)===schedule.day&&!D.subscription(S.draft.productId,S.draft.quantity,Array.from({length:4},(_,n)=>D.add(date,n*7)),(B.pending()?.paid?null:B.pending()?.id)))dates.push(date);}return dates;};
 B.pending=()=>S.purchases.find(p=>p.id===S.draft.purchaseId);
 B.locked=()=>S.purchases.some(p=>['detected','delayed'].includes(p.payment));
 B.change=()=>{if(B.locked()){A.toast('Payment verification is pending. Check its status before changing your subscription.');return false;}const p=B.pending();if(p&&!p.paid&&p.payment!=='cancelled'){p.payment='revalidation';D.release(p.id);}S.draft.revision++;B.message='';return true;};
-B.begin=(id,variant='standard',quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));if(!p?.subscription||B.offering(p.id)!=='available')return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.config.subscriptionUnits,Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
+B.begin=(id,variant='standard',quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));if(!p?.subscription||B.offering(p.id)!=='available')return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.config.subscriptionUnits,Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};if(!B.schedule())S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
 B.configReason=()=>{if(!B.product()?.subscription||!B.variant())return 'Choose a subscription product and variant.';if(B.offering(S.draft.productId)!=='available')return 'This product is currently unavailable for subscription enrollment.';if(B.mock.schedule!=='normal')return 'Choose an available schedule.';if(!B.schedule()||!S.draft.start||D.day(S.draft.start)!==B.schedule().day)return 'Select a schedule and first delivery date.';return D.subscription(S.draft.productId,S.draft.quantity,B.dates(),(B.pending()?.paid?null:B.pending()?.id));};
 B.totals=(unit=B.variant()?.price||0,quantity=S.draft.quantity,fee=A.quoteFee())=>({unit,quantity,fee,products:unit*quantity*4,delivery:fee*4,total:unit*quantity*4+fee*4});
 B.ready=()=>!B.configReason()&&C.addressValid(B.address())&&B.deliveryRoute?.eligible()&&S.draft.quote==='ok'&&!B.addressUI.form;
-B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:S.draft.scheduleId,schedule:B.schedule().label,dates:B.dates(),address:C.copy(B.address()),...B.totals()});
+B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:S.draft.scheduleId,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:C.copy(B.address()),...B.totals()});
 B.createPurchase=()=>{
  if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.mock.price!=='normal'||B.locked())return null;
  const old=B.pending();if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&old.deadline>Date.now())return old;
@@ -46,7 +47,7 @@ B.pay=(p,state)=>{
  });
  p.subscriptionId=record.id;S.records.unshift(record);return record;
 };
-B.sync=record=>{record.deliveries.forEach(d=>{const order=C.state.orders.find(o=>o.id===d.orderId);d.status=order?.status==='completed'?'fulfilled':record.deferments.some(change=>change.deliveryId===d.id)?'deferred':'pending';});record.status=record.deliveries.every(d=>d.status==='fulfilled')?'completed':'active';return record;};
+B.sync=record=>{record.deliveries.forEach(d=>{const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===d.orderId);d.status=order?.status==='completed'?'fulfilled':record.deferments.some(change=>change.deliveryId===d.id)?'deferred':'pending';});if(record.status!=='cancelled')record.status=record.deliveries.every(d=>d.status==='fulfilled')?'completed':'active';return record;};
 B.next=record=>record.deliveries.filter(d=>d.status!=='fulfilled').sort((a,b)=>a.date.localeCompare(b.date))[0];
 B.deferTarget=(record,delivery,option)=>{
  if(option==='day')return D.add(delivery.date,1);
@@ -63,24 +64,25 @@ B.replacementReason=(record,delivery,date)=>{
  return '';
 };
 B.deferReason=(record,delivery,option)=>{
- if(!record||!delivery)return 'Delivery not found.';
- const order=C.state.orders.find(o=>o.id===delivery.orderId);
+ if(!record||!delivery||!record.deliveries.includes(delivery))return 'Delivery not found.';
+ if(!['day','week'].includes(option))return 'Choose next day or next week.';
+ const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);
  if(record.deferments.length||B.mock.defer==='used')return 'Your one deferment has already been used.';
  if(record.status!=='active'||delivery.status==='fulfilled'||order?.status!=='confirmed')return 'This delivery can no longer be deferred.';
- if(Date.parse(D.config.clock)>=D.cutoff(delivery.date,record.snapshot.productId))return 'The cutoff for changing this delivery has passed.';
+ if(Date.parse(D.config.clock)>=D.cutoff(delivery.date,record.snapshot.productId,'subscription'))return 'The cutoff for changing this delivery has passed.';
  if(['loading','error'].includes(B.mock.defer))return B.mock.defer==='loading'?'Checking replacement availability…':'Unable to check availability. Please try again.';
  if(B.mock.defer==='both'||B.mock.defer===option)return 'This replacement date is unavailable.';
  return B.replacementReason(record,delivery,B.deferTarget(record,delivery,option));
 };
 B.defer=(record,delivery,option)=>{
- if(A.auth!=='signedin')return 'Sign in to continue.';
+ if(A.auth!=='signedin'||A.account&&(!A.account.allowed()||record?.customer_id&&!A.account.owns(record)))return 'Sign in with the subscription customer account.';
  const reason=B.deferReason(record,delivery,option);if(reason)return reason;
  const date=B.deferTarget(record,delivery,option),oldDate=delivery.date;
  const allocation=D.allocations.find(a=>a.owner===record.purchaseId&&a.cycle===delivery.cycle);
  if(!allocation)return 'The original reservation could not be found.';
  record.deferments.push({deliveryId:delivery.id,option,originalDate:oldDate,newDate:date,originalAllocation:{...allocation},at:new Date().toLocaleString()});
- allocation.date=date;delivery.date=date;delivery.status='deferred';
- const order=C.state.orders.find(o=>o.id===delivery.orderId);order.fulfillment.date=date;order.activity.unshift({text:'Delivery deferred from '+oldDate+' to '+date,at:new Date().toLocaleString()});return '';
+ const replacement={...allocation,id:D.nextAllocationId(),date};if(A.capacity)A.capacity.history.push({...allocation,status:'released',released_at:Date.now()});D.allocations.splice(D.allocations.indexOf(allocation),1,replacement);Object.assign(record.deferments.at(-1),{original_allocation_id:allocation.id,replacement_allocation_id:replacement.id});delivery.date=date;delivery.status='deferred';
+ const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);order.fulfillment.date=date;order.activity.unshift({text:'Delivery deferred from '+oldDate+' to '+date,at:new Date().toLocaleString()});return '';
 };
 B.reset=()=>{A.resetProductData?.();B.deferOption='day';B.confirmation=null;S.draft=blank();S.purchases=[];S.records=[];B.addressUI.form=null;B.deliveryRoute?.reset();D.reset();Object.keys(B.mock).forEach(k=>B.mock[k]='normal');B.message='';B.query='';B.filter='all';B.category='all';};
 })();

@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#f5f3f0",
+            "secondary": "#635d59",
+            "surface-bright": "#fbf9f6",
+            "on-secondary-container": "#69635f",
+            "on-tertiary-fixed": "#1f1b16",
+            "secondary-fixed": "#eae1db",
+            "secondary-container": "#eae1db",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#723600",
+            "tertiary-container": "#7b736d",
+            "on-primary-fixed": "#311300",
+            "on-surface-variant": "#53433a",
+            "primary-container": "#8d4a14",
+            "surface": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface-container-high": "#eae8e5",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed": "#1f1b18",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f2f1ed",
+            "surface-container": "#efeeeb",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-container": "#fffbff",
+            "inverse-surface": "#30312e",
+            "primary": "#6f3400",
+            "on-error-container": "#93000a",
+            "outline-variant": "#d9c2b5",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb786",
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "surface-variant": "#e4e2df",
+            "on-secondary-fixed-variant": "#4b4642",
+            "inverse-primary": "#ffb787",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            "background": "#fbf9f5",
+            "outline": "#867368",
+            "surface-tint": "#904d17",
+            "tertiary": "#49433d",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#4c4640"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "margin": "3rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+<!-- Persistent Left Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-[240px] bg-surface-container-low border-r border-[#E8E2D9] z-50 flex flex-col justify-between overflow-y-auto">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-[#E8E2D9]">
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-space-xs">Owner Workspace</span>
+<span class="block font-headline-sm text-headline-sm text-primary font-medium tracking-tight">Kitchen406</span>
+</div>
+<nav class="px-space-sm py-space-md space-y-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded">
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Overview</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="orders" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deliveries" href="#">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-label-md text-label-md">Deliveries</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recipes-and-costing" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+<span class="font-label-md text-label-md">Custom Cakes</span>
+</a>
+<a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs transition-colors bg-[#8D4A14] text-white font-semibold rounded" data-path="subscriptions" href="#">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span class="font-label-md text-label-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scheduling-blocked-dates" href="#">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span class="font-label-md text-label-md">Scheduling / Blocked Dates</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Management</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="products" href="#">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="categories" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-label-md text-label-md">Categories</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ingredients" href="#">
+<span class="material-symbols-outlined text-[18px]">egg</span>
+<span class="font-label-md text-label-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-label-md text-label-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#">
+<span class="material-symbols-outlined text-[18px]">nature</span>
+<span class="font-label-md text-label-md">Seasonal Occasions</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Administration</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="staff-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-label-md text-label-md">Staff Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-md text-label-md">Customer Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reviews" href="#">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="font-label-md text-label-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span class="font-label-md text-label-md">Marketing Drafts</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Review</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+</nav>
+</div>
+<div class="p-space-md border-t border-[#E8E2D9] bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Phase 6.10 Active</span>
+</div>
+</div>
+</aside>
+<!-- Main View Container -->
+<div class="pl-[240px]">
+<!-- Persistent Top Bar -->
+<header class="fixed top-0 left-[240px] right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-[#E8E2D9] z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface font-medium">Sunday, October 4, 2026</span>
+<span class="text-outline-variant font-body-sm text-body-sm">|</span>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Kitchen Active · Bakes in Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">notifications</span>
+<span class="absolute -top-1 -right-2 px-1 py-0.2 rounded-full bg-primary text-on-primary font-label-sm text-[10px] leading-tight flex items-center justify-center font-bold min-w-[16px]">5</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-[#8D4A14] flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Head Baker &amp; Owner</span>
+</div>
+</div>
+</div>
+</header>
+<main class="relative pt-16 bg-surface min-h-screen w-full px-gutter py-gutter pb-28">
+<div class="flex flex-col w-full">
+<!-- Top Breadcrumb & Live Notice -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm mb-space-md">
+<nav class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span>Owner Workspace</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">Subscriptions</span>
+</nav>
+<div class="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm self-start md:self-auto border border-[#E8E2D9]">
+<span class="material-symbols-outlined text-[16px] text-primary">info</span>
+<span>Subscription capacity is managed separately from standard orders.</span>
+</div>
+</div>
+<!-- Editorial Page Header -->
+<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-lg">
+<div class="max-w-2xl">
+<span class="block font-label-sm text-label-sm uppercase tracking-widest text-outline font-semibold mb-space-xs">Owner Operations</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-display mb-space-xs">Subscriptions</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Monitor four-week prepaid commitments and upcoming weekly deliveries.</p>
+</div>
+<div class="flex items-center gap-space-md font-label-md text-label-md pb-1">
+<a class="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span>View in Capacity Calendar</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+<span class="text-outline-variant">·</span>
+<a class="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span>Scheduling Rules</span>
+<span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+</a>
+</div>
+</header>
+<!-- Operational Summary Strip (Consistent with active commitments) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md mb-space-lg">
+<div class="bg-surface-container-lowest p-space-md rounded-lg border border-[#E8E2D9] shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1 font-semibold">Active Commitments</span>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-display text-[32px] leading-tight text-on-surface font-semibold">18</span>
+<span class="font-label-sm text-label-sm text-emerald-800 font-semibold bg-emerald-50 px-1.5 py-0.5 rounded">Current</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Active 4-week commitments in progress</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-[#8D4A14]">
+<span class="material-symbols-outlined text-[20px]">event_repeat</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-lg border border-[#E8E2D9] shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1 font-semibold">Deliveries Due This Week</span>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-display text-[32px] leading-tight text-[#8D4A14] font-semibold">7</span>
+<span class="font-label-sm text-label-sm text-[#8D4A14] bg-surface-container-low px-1.5 py-0.5 rounded font-medium">Wed / Fri batches</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Scheduled across Wed &amp; Fri bake cycles</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-[#8D4A14]">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-lg border border-[#E8E2D9] shadow-sm flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1 font-semibold">Completed Cycles</span>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-display text-[32px] leading-tight text-secondary font-semibold">3</span>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded font-medium">This cycle</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Fully concluded 4-of-4 commitments</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+</section>
+<!-- Toolbar Filters & Search -->
+<section class="bg-surface-container-lowest rounded-lg p-space-md border border-[#E8E2D9] shadow-sm mb-space-md flex flex-col gap-space-md">
+<!-- Row 1: Search & Dropdowns -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-sm">
+<div class="relative flex-1 max-w-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full pl-9 pr-space-md py-2 bg-surface-container-low text-on-surface rounded border border-[#E8E2D9] font-body-md text-body-md focus:bg-surface-container-lowest focus:border-[#8D4A14] focus:outline-none transition-colors" id="searchInput" oninput="handleSearch(this.value)" placeholder="Search subscription (#SUB-...), customer, or product..." type="text"/>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm">
+<!-- Product Filter -->
+<div class="relative">
+<select class="bg-surface-container-low text-on-surface rounded border border-[#E8E2D9] font-label-md text-label-md px-3 py-2 pr-8 appearance-none focus:outline-none cursor-pointer" id="productFilter" onchange="applyFilters()">
+<option value="all">All Products (All Loaves &amp; Bakes)</option>
+<option value="shokupan">Japanese Shokupan Loaf</option>
+<option value="babka">Braided Chocolate Babka</option>
+<option value="brioche">Artisan Brioche Buns</option>
+<option value="sourdough">Country Sourdough Batard</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Timing Filter -->
+<div class="relative">
+<select class="bg-surface-container-low text-on-surface rounded border border-[#E8E2D9] font-label-md text-label-md px-3 py-2 pr-8 appearance-none focus:outline-none cursor-pointer" id="timingFilter" onchange="applyFilters()">
+<option value="all">All Deliveries</option>
+<option value="due-week">Due This Week (7)</option>
+<option value="upcoming">Upcoming Subsequent Weeks</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Sort Filter -->
+<div class="relative">
+<select class="bg-surface-container-low text-on-surface rounded border border-[#E8E2D9] font-label-md text-label-md px-3 py-2 pr-8 appearance-none focus:outline-none cursor-pointer" id="sortFilter">
+<option>Next Delivery: Soonest ▾</option>
+<option>Newest Enrollment</option>
+<option>Oldest Enrollment</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Row 2: Status Tabs (Counts Synchronized: All 23, Active 18, Pending 2, Completed 3) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1" id="statusTabs">
+<button class="px-space-md py-1.5 rounded font-label-md text-label-md bg-[#8D4A14] text-white font-medium whitespace-nowrap transition-colors" data-status="all" onclick="filterByTab('all', this)">
+              All <span class="ml-1 opacity-90">(23)</span>
+</button>
+<button class="px-space-md py-1.5 rounded font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-status="active" onclick="filterByTab('active', this)">
+              Active <span class="ml-1 opacity-80">(18)</span>
+</button>
+<button class="px-space-md py-1.5 rounded font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-status="pending" onclick="filterByTab('pending', this)">
+              Pending Payment <span class="ml-1 opacity-80">(2)</span>
+</button>
+<button class="px-space-md py-1.5 rounded font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-status="completed" onclick="filterByTab('completed', this)">
+              Completed <span class="ml-1 opacity-80">(3)</span>
+</button>
+</div>
+</section>
+<!-- Master-Detail Content Area -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md items-start">
+<!-- LEFT: Streamlined Subscription Commitments Table (Span 7 on desktop) -->
+<div class="xl:col-span-7 bg-surface-container-lowest rounded-lg border border-[#E8E2D9] shadow-sm overflow-hidden flex flex-col" id="tableContainer">
+<div class="overflow-x-auto min-w-0">
+<table class="w-full text-left" id="subscriptionTable">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider border-b border-[#E8E2D9]">
+<tr>
+<th class="py-3 px-space-md font-semibold">Subscription</th>
+<th class="py-3 px-space-md font-semibold">Customer</th>
+<th class="py-3 px-space-md font-semibold">Product</th>
+<th class="py-3 px-space-md font-semibold">Qty / Wk</th>
+<th class="py-3 px-space-md font-semibold">Progress</th>
+<th class="py-3 px-space-md font-semibold">Next Delivery</th>
+<th class="py-3 px-space-md font-semibold">Status</th>
+<th class="py-3 px-space-md font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#E8E2D9] text-body-sm font-body-sm text-on-surface" id="tableBody">
+<!-- Row 1: Active with Pending Deferment (Selected by default) -->
+<tr class="sub-row bg-secondary-container/40 hover:bg-secondary-container/60 cursor-pointer transition-colors" data-status="active" data-sub-id="SUB-894210" onclick="selectSubscription('SUB-894210')">
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm font-semibold text-primary">#SUB-894210</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-medium text-on-surface">Maria Clara Santos</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-medium text-on-surface block leading-tight">Japanese Shokupan Loaf</span>
+<span class="text-on-surface-variant text-[11px]">Thick Sliced 450g</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-on-surface font-medium">1 loaf / wk</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col gap-1">
+<span class="font-medium text-[11px] text-on-surface">2 of 4</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-[12px] font-semibold text-amber-950 flex items-center gap-1">
+                          Sat, Oct 31
+                          <span class="text-[10px] bg-amber-100 text-amber-900 px-1 py-0.2 rounded font-semibold uppercase">Pending</span>
+</span>
+<span class="text-[11px] text-on-surface-variant">Fridays 9AM–1PM</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span> Active
+                      </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="row-view-btn px-2.5 py-1 rounded bg-[#8D4A14] text-white font-label-sm text-[11px] hover:bg-primary transition-colors">
+                        View
+                      </button>
+</td>
+</tr>
+<!-- Row 2: Active, Clean (No Deferment Used) -->
+<tr class="sub-row hover:bg-surface-container-low cursor-pointer transition-colors" data-status="active" data-sub-id="SUB-894208" onclick="selectSubscription('SUB-894208')">
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">#SUB-894208</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-medium text-on-surface">Alejandro Ramos</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-medium text-on-surface block leading-tight">Braided Chocolate Babka</span>
+<span class="text-on-surface-variant text-[11px]">Whole Loaf 500g</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-on-surface font-medium">1 loaf / wk</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col gap-1">
+<span class="font-medium text-[11px] text-on-surface">3 of 4</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-[12px] font-medium text-on-surface">Wed, Oct 28</span>
+<span class="text-[11px] text-on-surface-variant block">Wednesdays 10AM–2PM</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span> Active
+                      </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="row-view-btn px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-[11px] hover:bg-surface-container-high transition-colors">
+                        View
+                      </button>
+</td>
+</tr>
+<!-- Row 3: Active, Standard -->
+<tr class="sub-row hover:bg-surface-container-low cursor-pointer transition-colors" data-status="active" data-sub-id="SUB-894205" onclick="selectSubscription('SUB-894205')">
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">#SUB-894205</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-medium text-on-surface">Sofia Beatrice Cruz</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-medium text-on-surface block leading-tight">Artisan Brioche Buns</span>
+<span class="text-on-surface-variant text-[11px]">6-Pack Rich Butter</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-on-surface font-medium">2 packs / wk</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col gap-1">
+<span class="font-medium text-[11px] text-on-surface">1 of 4</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#8D4A14]"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-[12px] font-medium text-on-surface">Fri, Oct 30</span>
+<span class="text-[11px] text-on-surface-variant block">Fridays 9AM–1PM</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EBF0EC] text-[#2F4733] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3D5941]"></span> Active
+                      </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="row-view-btn px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-[11px] hover:bg-surface-container-high transition-colors">
+                        View
+                      </button>
+</td>
+</tr>
+<!-- Row 4: Completed (Dominic Mendoza) -->
+<tr class="sub-row hover:bg-surface-container-low cursor-pointer transition-colors" data-status="completed" data-sub-id="SUB-894199" onclick="selectSubscription('SUB-894199')">
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">#SUB-894199</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-medium text-on-surface">Dominic Mendoza</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-medium text-on-surface block leading-tight">Country Sourdough Batard</span>
+<span class="text-on-surface-variant text-[11px]">Sliced Batard 550g</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-on-surface font-medium">1 loaf / wk</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col gap-1">
+<span class="font-medium text-[11px] text-secondary">4 of 4</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-[12px] text-secondary font-medium">Cycle Completed</span>
+<span class="text-[11px] text-on-surface-variant block">Concluded Oct 21</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Completed
+                      </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="row-view-btn px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-[11px] hover:bg-surface-container-high transition-colors">
+                        View
+                      </button>
+</td>
+</tr>
+<!-- Row 5: Pending Payment (Carmela Reyes) -->
+<tr class="sub-row hover:bg-surface-container-low cursor-pointer transition-colors" data-status="pending" data-sub-id="SUB-894215" onclick="selectSubscription('SUB-894215')">
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">#SUB-894215</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-medium text-on-surface">Carmela Reyes</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-medium text-on-surface block leading-tight">Japanese Shokupan Loaf</span>
+<span class="text-on-surface-variant text-[11px]">Standard Unsliced</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-on-surface font-medium">1 loaf / wk</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex flex-col gap-1">
+<span class="font-medium text-[11px] text-on-surface-variant">0 of 4</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="text-[12px] text-amber-800 font-medium">Awaiting Payment</span>
+<span class="text-[11px] text-on-surface-variant block">Preview: Fridays</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-900 font-label-sm text-[11px] font-semibold border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Pending Payment
+                      </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<button class="row-view-btn px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-[11px] hover:bg-surface-container-high transition-colors">
+                        View
+                      </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-space-md bg-surface-container-lowest border-t border-[#E8E2D9] flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-md text-label-md text-on-surface-variant">
+<span>Showing <strong class="text-on-surface font-semibold">1–5</strong> of <strong class="text-on-surface font-semibold">23</strong> subscriptions</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface-variant opacity-50 cursor-not-allowed">Previous</button>
+<button class="w-8 h-8 rounded bg-[#8D4A14] text-white font-semibold flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center">3</button>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center">4</button>
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- RIGHT: Subscription Detail Drawer (Span 5 on desktop) -->
+<div class="xl:col-span-5 bg-surface-container-lowest rounded-lg border border-[#E8E2D9] shadow-sm p-space-lg flex flex-col gap-space-md" id="detailDrawer">
+<!-- Dynamic Content Injected Here via JavaScript -->
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Interactive Prototype State Switcher (Sticky at bottom viewport) -->
+<aside class="fixed bottom-4 left-[260px] right-6 z-50 flex justify-center pointer-events-none">
+<div class="pointer-events-auto bg-surface-container-lowest/95 backdrop-blur-md rounded-full shadow-lg border border-[#E8E2D9] p-2 flex items-center justify-between gap-2 overflow-x-auto max-w-4xl w-full">
+<div class="flex items-center gap-1.5 pl-3">
+<span class="w-2 h-2 rounded-full bg-[#8D4A14] animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold whitespace-nowrap">Views:</span>
+</div>
+<div class="flex items-center gap-1 overflow-x-auto py-0.5">
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-[#8D4A14] text-white font-medium whitespace-nowrap transition-colors" onclick="setPrototypeState('review', this)">
+          Default (Active - Deferment Review)
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('active-nodefer', this)">
+          Active (No Deferment Used)
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('deferred-approved', this)">
+          Deferred Delivery Approved
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('pending', this)">
+          Pending Payment
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('completed', this)">
+          Completed 4-of-4
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('empty', this)">
+          Empty State
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('no-results', this)">
+          No Filter Results
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setPrototypeState('loading', this)">
+          Loading Skeleton
+        </button>
+</div>
+</div>
+</aside>
+<!-- Complete Synchronized Detail Rendering Script -->
+<script>
+    // Subscriptions Data Model
+    const subscriptionsDB = {
+      'SUB-894210': {
+        id: '#SUB-894210',
+        customer: 'Maria Clara Santos',
+        phone: '+63 917 552 8941',
+        email: 'maria.clara@email.ph',
+        address: 'Unit 8B, Solinea Tower 2, Cebu Business Park, Cebu City 6000',
+        product: 'Japanese Shokupan Loaf (Thick Sliced 450g)',
+        productShort: 'Japanese Shokupan Loaf',
+        qty: '1 loaf per weekly delivery',
+        term: '4 Weeks (Fixed Prepaid)',
+        frequency: 'Weekly (Fridays)',
+        deliveryWindow: '9:00 AM – 1:00 PM',
+        bakePrep: 'Thursday Afternoon Batch',
+        started: 'Oct 16, 2026',
+        progress: '2 of 4 fulfilled',
+        status: 'Active',
+        statusStyle: 'bg-[#EBF0EC] text-[#2F4733] border-[#3D5941]/30',
+        statusDot: 'bg-[#3D5941]',
+        defermentState: 'pending_review', // 'none' | 'pending_review' | 'approved'
+        defermentInfo: {
+          deliveryIndex: 'Delivery 3 of 4',
+          requestedChange: 'Move to Next Day (Saturday Batch)',
+          originalDate: 'Friday, October 30, 2026',
+          requestedReplacement: 'Saturday, October 31, 2026',
+          requestedOn: 'October 27, 2026',
+          validation: [
+            { label: 'Bake Capacity', status: 'Available (1 slot open for Sat batch)', valid: true },
+            { label: 'Blocked Date', status: 'No holiday / blocked conflict', valid: true },
+            { label: 'Ingredient Inventory', status: 'Ingredients Allocated', valid: true },
+            { label: 'Schedule Validation', status: 'Valid (Notice meets 48h cut-off)', valid: true }
+          ]
+        },
+        deliveries: [
+          { num: 1, date: 'Friday, Oct 16, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 11:24 AM', orderRef: '#K406-10216' },
+          { num: 2, date: 'Friday, Oct 23, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 10:45 AM', orderRef: '#K406-10231' },
+          { num: 3, date: 'Friday, Oct 30, 2026', replacementDate: 'Saturday, Oct 31, 2026', badge: 'Pending Deferment', badgeStyle: 'bg-amber-100 text-amber-900 border border-amber-300', isDeferredPending: true, note: 'Requested shift to Saturday batch · 9:00 AM – 1:00 PM', orderRef: '#K406-10304' },
+          { num: 4, date: 'Friday, Nov 6, 2026', badge: 'Scheduled', badgeStyle: 'bg-surface-container text-on-surface-variant', note: '9:00 AM – 1:00 PM · Prep Thursday Nov 5', orderRef: '#K406-11061' }
+        ],
+        pricing: {
+          orderRef: '#K406-SUB-894210',
+          channel: 'QR Ph via PayMongo (Oct 12, 2026)',
+          itemTotal: '₱1,120.00',
+          itemLabel: 'Shokupan Loaf (₱280.00 × 4)',
+          deliveryTotal: '₱400.00',
+          deliveryLabel: 'Courier Delivery (₱100.00 × 4)',
+          grandTotal: '₱1,520.00 PHP',
+          paidStatus: 'Paid in Full'
+        }
+      },
+      'SUB-894208': {
+        id: '#SUB-894208',
+        customer: 'Alejandro Ramos',
+        phone: '+63 920 441 2309',
+        email: 'alejandro.ramos@gmail.com',
+        address: 'Villa 14, Maria Luisa Estate Park, Banilad, Cebu City 6000',
+        product: 'Braided Chocolate Babka (Whole Loaf 500g)',
+        productShort: 'Chocolate Babka',
+        qty: '1 loaf per weekly delivery',
+        term: '4 Weeks (Fixed Prepaid)',
+        frequency: 'Weekly (Wednesdays)',
+        deliveryWindow: '10:00 AM – 2:00 PM',
+        bakePrep: 'Tuesday Evening Batch',
+        started: 'Oct 7, 2026',
+        progress: '3 of 4 fulfilled',
+        status: 'Active',
+        statusStyle: 'bg-[#EBF0EC] text-[#2F4733] border-[#3D5941]/30',
+        statusDot: 'bg-[#3D5941]',
+        defermentState: 'none',
+        deliveries: [
+          { num: 1, date: 'Wednesday, Oct 7, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 11:05 AM', orderRef: '#K406-10074' },
+          { num: 2, date: 'Wednesday, Oct 14, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 10:50 AM', orderRef: '#K406-10142' },
+          { num: 3, date: 'Wednesday, Oct 21, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 11:15 AM', orderRef: '#K406-10214' },
+          { num: 4, date: 'Wednesday, Oct 28, 2026', badge: 'Scheduled', badgeStyle: 'bg-[#8D4A14]/10 text-[#8D4A14] font-semibold', note: 'Final Fulfillment · Next: Wed, Oct 28', orderRef: '#K406-10283' }
+        ],
+        pricing: {
+          orderRef: '#K406-SUB-894208',
+          channel: 'GCash via PayMongo (Oct 3, 2026)',
+          itemTotal: '₱1,520.00',
+          itemLabel: 'Chocolate Babka (₱380.00 × 4)',
+          deliveryTotal: '₱400.00',
+          deliveryLabel: 'Courier Delivery (₱100.00 × 4)',
+          grandTotal: '₱1,920.00 PHP',
+          paidStatus: 'Paid in Full'
+        }
+      },
+      'SUB-894205': {
+        id: '#SUB-894205',
+        customer: 'Sofia Beatrice Cruz',
+        phone: '+63 918 803 1194',
+        email: 'sofia.cruz@outlook.com',
+        address: 'Penthouse 3, 32 Sanson by Rockwell, Lahug, Cebu City 6000',
+        product: 'Artisan Brioche Buns (6-Pack Rich Butter)',
+        productShort: 'Artisan Brioche Buns',
+        qty: '2 packs per weekly delivery',
+        term: '4 Weeks (Fixed Prepaid)',
+        frequency: 'Weekly (Fridays)',
+        deliveryWindow: '9:00 AM – 1:00 PM',
+        bakePrep: 'Thursday Afternoon Batch',
+        started: 'Oct 23, 2026',
+        progress: '1 of 4 fulfilled',
+        status: 'Active',
+        statusStyle: 'bg-[#EBF0EC] text-[#2F4733] border-[#3D5941]/30',
+        statusDot: 'bg-[#3D5941]',
+        defermentState: 'none',
+        deliveries: [
+          { num: 1, date: 'Friday, Oct 23, 2026', badge: 'Fulfilled', badgeStyle: 'bg-emerald-100 text-emerald-800', note: 'Lalamove Courier · Delivered 10:12 AM', orderRef: '#K406-10237' },
+          { num: 2, date: 'Friday, Oct 30, 2026', badge: 'Scheduled', badgeStyle: 'bg-surface-container text-on-surface-variant', note: 'Prep Thursday Oct 29 · 9:00 AM – 1:00 PM', orderRef: '#K406-10309' },
+          { num: 3, date: 'Friday, Nov 6, 2026', badge: 'Scheduled', badgeStyle: 'bg-surface-container text-on-surface-variant', note: 'Prep Thursday Nov 5 · 9:00 AM – 1:00 PM', orderRef: '#K406-11068' },
+          { num: 4, date: 'Friday, Nov 13, 2026', badge: 'Scheduled', badgeStyle: 'bg-surface-container text-on-surface-variant', note: 'Prep Thursday Nov 12 · 9:00 AM – 1:00 PM', orderRef: '#K406-11132' }
+        ],
+        pricing: {
+          orderRef: '#K406-SUB-894205',
+          channel: 'Maya via PayMongo (Oct 20, 2026)',
+          itemTotal: '₱1,760.00',
+          itemLabel: 'Brioche Buns 2pk (₱440.00 × 4)',
+          deliveryTotal: '₱400.00',
+          deliveryLabel: 'Courier Delivery (₱100.00 × 4)',
+          grandTotal: '₱2,160.00 PHP',
+          paidStatus: 'Paid in Full'
+        }
+      },
+      'SUB-894199': {
+        id: '#SUB-894199',
+        customer: 'Dominic Mendoza',
+        phone: '+63 905 311 9882',
+        email: 'dom.mendoza@mendozalaw.ph',
+        address: '12 Acacia Street, San Antonio Village, Apas, Cebu City 6000',
+        product: 'Country Sourdough Batard (Country Loaf Sliced)',
+        productShort: 'Country Sourdough Batard',
+        qty: '1 loaf per weekly delivery',
+        term: '4 Weeks (Fixed Prepaid)',
+        frequency: 'Weekly (Wednesdays)',
+        deliveryWindow: '10:00 AM – 2:00 PM',
+        bakePrep: 'Concluded Cycle',
+        started: 'Sep 30, 2026',
+        progress: '4 of 4 fulfilled',
+        status: 'Completed',
+        statusStyle: 'bg-surface-container text-secondary border-outline/20',
+        statusDot: 'bg-secondary',
+        defermentState: 'none',
+        completedNote: 'Four scheduled deliveries completed. This subscription does not automatically renew.',
+        deliveries: [
+          { num: 1, date: 'Wednesday, Sep 30, 2026', badge: 'Fulfilled', badgeStyle: 'bg-surface-container text-secondary', note: 'Lalamove Courier · Delivered 10:55 AM', orderRef: '#K406-09301' },
+          { num: 2, date: 'Wednesday, Oct 7, 2026', badge: 'Fulfilled', badgeStyle: 'bg-surface-container text-secondary', note: 'Lalamove Courier · Delivered 11:20 AM', orderRef: '#K406-10072' },
+          { num: 3, date: 'Wednesday, Oct 14, 2026', badge: 'Fulfilled', badgeStyle: 'bg-surface-container text-secondary', note: 'Lalamove Courier · Delivered 10:40 AM', orderRef: '#K406-10148' },
+          { num: 4, date: 'Wednesday, Oct 21, 2026', badge: 'Fulfilled', badgeStyle: 'bg-surface-container text-secondary', note: 'Lalamove Courier · Delivered 11:02 AM', orderRef: '#K406-10219' }
+        ],
+        pricing: {
+          orderRef: '#K406-SUB-894199',
+          channel: 'Bank Transfer (BDO) · Sep 26, 2026',
+          itemTotal: '₱1,280.00',
+          itemLabel: 'Sourdough Batard (₱320.00 × 4)',
+          deliveryTotal: '₱400.00',
+          deliveryLabel: 'Courier Delivery (₱100.00 × 4)',
+          grandTotal: '₱1,680.00 PHP',
+          paidStatus: 'Paid in Full'
+        }
+      },
+      'SUB-894215': {
+        id: '#SUB-894215',
+        customer: 'Carmela Reyes',
+        phone: '+63 927 619 4402',
+        email: 'carmela.reyes@gmail.com',
+        address: 'Tower 1, 19th Floor, Horizons 101, General Maxilom Ave, Cebu City 6000',
+        product: 'Japanese Shokupan Loaf (Standard Unsliced)',
+        productShort: 'Japanese Shokupan Loaf',
+        qty: '1 loaf per weekly delivery',
+        term: '4 Weeks (Fixed Prepaid)',
+        frequency: 'Weekly (Fridays - Unconfirmed)',
+        deliveryWindow: '9:00 AM – 1:00 PM',
+        bakePrep: 'Awaiting Prepaid Confirmation',
+        started: 'Enrolled Oct 26, 2026',
+        progress: '0 of 4 fulfilled',
+        status: 'Pending Payment',
+        statusStyle: 'bg-amber-50 text-amber-900 border border-amber-300',
+        statusDot: 'bg-amber-600',
+        defermentState: 'none',
+        pendingNotice: 'Awaiting successful prepaid payment. This enrollment is not yet an active production commitment.',
+        deliveries: [
+          { num: 1, date: 'Friday, Nov 6, 2026 (Preview)', badge: 'Unconfirmed', badgeStyle: 'bg-surface-container-high text-on-surface-variant', note: 'Will schedule once payment clears', orderRef: 'Unassigned' },
+          { num: 2, date: 'Friday, Nov 13, 2026 (Preview)', badge: 'Unconfirmed', badgeStyle: 'bg-surface-container-high text-on-surface-variant', note: 'Will schedule once payment clears', orderRef: 'Unassigned' },
+          { num: 3, date: 'Friday, Nov 20, 2026 (Preview)', badge: 'Unconfirmed', badgeStyle: 'bg-surface-container-high text-on-surface-variant', note: 'Will schedule once payment clears', orderRef: 'Unassigned' },
+          { num: 4, date: 'Friday, Nov 27, 2026 (Preview)', badge: 'Unconfirmed', badgeStyle: 'bg-surface-container-high text-on-surface-variant', note: 'Will schedule once payment clears', orderRef: 'Unassigned' }
+        ],
+        pricing: {
+          orderRef: '#K406-SUB-894215',
+          channel: 'QR Ph Invoice (Generated Oct 26, 2026)',
+          itemTotal: '₱1,120.00',
+          itemLabel: 'Shokupan Standard (₱280.00 × 4)',
+          deliveryTotal: '₱400.00',
+          deliveryLabel: 'Courier Delivery (₱100.00 × 4)',
+          grandTotal: '₱1,520.00 PHP',
+          paidStatus: 'Pending Payment'
+        }
+      }
+    };
+
+    let currentSelectedId = 'SUB-894210';
+    let currentDeferApproved = false;
+
+    function renderDetail(subId) {
+      const data = subscriptionsDB[subId];
+      if (!data) return;
+
+      const container = document.getElementById('detailDrawer');
+      const isApproved = (subId === 'SUB-894210' && currentDeferApproved);
+      const isPendingReview = (subId === 'SUB-894210' && !currentDeferApproved);
+
+      // Build Top Header
+      let deferBadgeHTML = '';
+      if (isApproved) {
+        deferBadgeHTML = `<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-[11px] font-semibold tracking-wide uppercase border border-amber-300">Deferment Used</span>`;
+      } else if (isPendingReview) {
+        deferBadgeHTML = `<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-[11px] font-semibold tracking-wide uppercase border border-amber-300 animate-pulse">Deferment Requested</span>`;
+      }
+
+      // Check for pending notice or completed notice banner
+      let statusAlertBanner = '';
+      if (data.status === 'Pending Payment') {
+        statusAlertBanner = `
+          <div class="mt-space-xs p-space-sm bg-amber-50 border border-amber-200 rounded flex items-start gap-space-sm text-amber-950">
+            <span class="material-symbols-outlined text-[18px] text-amber-800 mt-0.5">hourglass_top</span>
+            <div class="flex-1">
+              <span class="font-title-sm text-[13px] font-semibold block">Awaiting Prepaid Settlement</span>
+              <p class="font-body-sm text-[12px] text-amber-900 mt-0.5">${data.pendingNotice}</p>
+              <a href="#" class="inline-flex items-center gap-1 font-label-sm text-[11px] text-[#8D4A14] font-semibold mt-1 hover:underline">
+                View in Payments (Phase 6.4) <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+              </a>
+            </div>
+          </div>
+        `;
+      } else if (data.status === 'Completed') {
+        statusAlertBanner = `
+          <div class="mt-space-xs p-space-sm bg-[#EBF0EC] border border-[#3D5941]/20 rounded flex items-start gap-space-sm text-[#2F4733]">
+            <span class="material-symbols-outlined text-[18px] text-[#3D5941] mt-0.5">check_circle</span>
+            <div class="flex-1">
+              <span class="font-title-sm text-[13px] font-semibold block">Commitment Concluded</span>
+              <p class="font-body-sm text-[12px] text-secondary mt-0.5">${data.completedNote}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        statusAlertBanner = `
+          <div class="mt-space-xs p-space-sm bg-surface-container-low rounded flex items-center gap-space-sm border border-[#E8E2D9]">
+            <span class="material-symbols-outlined text-[18px] text-[#8D4A14]">lock_clock</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Prepaid 4-week commitment. Does not automatically renew.</span>
+          </div>
+        `;
+      }
+
+      // Pending Deferment Request Review Workflow Section
+      let defermentReviewSection = '';
+      if (isPendingReview && data.defermentInfo) {
+        const dInfo = data.defermentInfo;
+        defermentReviewSection = `
+          <div class="p-space-md bg-amber-50/70 border border-amber-200 rounded-lg flex flex-col gap-space-sm" id="defermentActionBlock">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-amber-900">schedule</span>
+                <span class="font-title-md text-title-md font-display font-semibold text-amber-950">Pending Deferment Request</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-amber-200 text-amber-950 font-label-sm text-[10px] font-bold uppercase tracking-wider">Awaiting Owner Review</span>
+            </div>
+
+            <div class="bg-surface-container-lowest p-space-sm rounded border border-amber-200/80 flex flex-col gap-1.5 text-body-sm">
+              <div class="flex justify-between items-center text-[12px]">
+                <span class="text-on-surface-variant">Affected Delivery:</span>
+                <span class="font-semibold text-on-surface">${dInfo.deliveryIndex}</span>
+              </div>
+              <div class="flex justify-between items-center text-[12px]">
+                <span class="text-on-surface-variant">Original Date:</span>
+                <span class="text-on-surface font-medium line-through opacity-80">${dInfo.originalDate}</span>
+              </div>
+              <div class="flex justify-between items-center text-[12px]">
+                <span class="text-amber-900 font-semibold">Requested Replacement:</span>
+                <span class="font-bold text-[#8D4A14] flex items-center gap-1">
+                  ${dInfo.requestedReplacement}
+                  <span class="text-[10px] bg-[#8D4A14]/10 px-1 rounded font-semibold">+1 Day</span>
+                </span>
+              </div>
+              <div class="flex justify-between items-center text-[11px] pt-1 border-t border-[#E8E2D9]">
+                <span class="text-on-surface-variant">Customer Requested On:</span>
+                <span class="text-secondary font-medium">${dInfo.requestedOn}</span>
+              </div>
+            </div>
+
+            <!-- System Validation Panel -->
+            <div class="bg-surface-container-low p-space-sm rounded border border-[#E8E2D9] flex flex-col gap-1.5">
+              <span class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">Automatic Capacity &amp; Cut-Off Validation</span>
+              <div class="grid grid-cols-2 gap-2 mt-0.5">
+                ${dInfo.validation.map(v => `
+                  <div class="flex items-center gap-1.5 text-[11px]">
+                    <span class="material-symbols-outlined text-[15px] text-emerald-700">check_circle</span>
+                    <span class="text-on-surface"><strong class="font-semibold">${v.label}:</strong> ${v.status}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Owner Action Buttons -->
+            <div class="flex items-center gap-space-sm pt-1">
+              <button onclick="approveDeferment()" class="flex-1 py-2 px-3 bg-[#8D4A14] hover:bg-primary text-white rounded font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                <span class="material-symbols-outlined text-[18px]">check</span>
+                Approve Deferment
+              </button>
+              <button onclick="rejectDeferment()" class="py-2 px-3 border border-outline/50 hover:bg-surface-container text-on-surface-variant hover:text-on-surface rounded font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-[18px]">close</span>
+                Reject Request
+              </button>
+            </div>
+            <p class="font-body-sm text-[11px] text-on-surface-variant italic">
+              Note: Approving consumes the 1-of-1 deferment allowance for this 4-week commitment.
+            </p>
+          </div>
+        `;
+      }
+
+      // Deferment Allowance Section (Clean & Informative)
+      let defermentAllowanceBlock = '';
+      if (data.status === 'Active') {
+        if (isApproved) {
+          defermentAllowanceBlock = `
+            <div class="p-space-md bg-amber-50 border border-amber-200 rounded-lg flex flex-col gap-space-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-title-sm text-title-sm font-semibold text-on-surface">Deferment Allowance</span>
+                <span class="font-label-sm text-label-sm font-semibold text-amber-900 bg-amber-100 px-2 py-0.5 rounded border border-amber-200">1 of 1 Used</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Active commitments permit strictly <strong>one deferment</strong> for the entire 4-week prepaid cycle. Delivery #3 was shifted from Oct 30 to Oct 31, 2026.
+              </p>
+              <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold mt-1">
+                No additional deferments remain for this subscription commitment.
+              </span>
+            </div>
+          `;
+        } else if (!isPendingReview) {
+          defermentAllowanceBlock = `
+            <div class="p-space-md bg-surface-container-low border border-[#E8E2D9] rounded-lg flex flex-col gap-space-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-title-sm text-title-sm font-semibold text-on-surface">Deferment Allowance</span>
+                <span class="font-label-sm text-label-sm font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Available (0 of 1 Used)</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Customer is eligible to request 1 deferment with at least 48 hours notice prior to weekly bake date.
+              </p>
+            </div>
+          `;
+        }
+      }
+
+      // Four-Delivery Cycle HTML
+      let deliveryCycleHTML = data.deliveries.map(del => {
+        let isCurrentDeferredApproved = (isApproved && del.num === 3);
+        let isCurrentDeferredPending = (isPendingReview && del.num === 3);
+
+        if (isCurrentDeferredApproved) {
+          return `
+            <div class="p-space-md bg-amber-50 rounded-lg border border-amber-200 flex flex-col gap-2 shadow-sm transition-all">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-amber-700 text-white font-label-sm text-[10px] flex items-center justify-center font-bold">3</span>
+                  <span class="font-title-sm text-title-sm font-semibold text-on-surface">Delivery 3 of 4</span>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-amber-200 text-amber-950 font-label-sm text-[11px] font-bold tracking-wide uppercase border border-amber-300">
+                  DEFERRED
+                </span>
+              </div>
+              <div class="pl-7 flex flex-col gap-1">
+                <div class="flex items-center gap-2 font-body-md text-body-md">
+                  <span class="line-through text-outline">Fri, Oct 30, 2026</span>
+                  <span class="material-symbols-outlined text-[16px] text-amber-700">arrow_forward</span>
+                  <span class="font-bold text-amber-950">Sat, Oct 31, 2026</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-amber-900">
+                  Rescheduled to Saturday Batch · Customer request approved under bakery capacity rules.
+                </p>
+                <div class="flex items-center justify-between pt-1 mt-1 font-body-sm text-body-sm text-amber-800 border-t border-amber-200/60">
+                  <span class="text-[11px]">Approved &amp; Scheduled for Dispatch</span>
+                  <a class="text-amber-950 font-semibold hover:underline text-[12px] flex items-center gap-0.5" href="#">
+                    ${del.orderRef} <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (isCurrentDeferredPending) {
+          return `
+            <div class="p-space-md bg-amber-50/60 rounded-lg border border-amber-300 border-dashed flex flex-col gap-2 transition-all">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-amber-600 text-white font-label-sm text-[10px] flex items-center justify-center font-bold">3</span>
+                  <span class="font-title-sm text-title-sm font-semibold text-on-surface">Delivery 3 of 4</span>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-[11px] font-semibold border border-amber-200">
+                  Pending Deferment Review
+                </span>
+              </div>
+              <div class="pl-7 flex flex-col gap-1">
+                <div class="flex items-center gap-2 font-body-md text-body-md">
+                  <span class="text-on-surface">Fri, Oct 30</span>
+                  <span class="material-symbols-outlined text-[16px] text-amber-700">arrow_forward</span>
+                  <span class="font-semibold text-amber-900">Sat, Oct 31 (Requested)</span>
+                </div>
+                <div class="flex items-center justify-between pt-1 mt-1 font-body-sm text-body-sm text-on-surface-variant">
+                  <span class="text-[11px]">${del.note}</span>
+                  <span class="text-[12px] font-mono">${del.orderRef}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-1.5 transition-all">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full ${del.badge === 'Fulfilled' ? 'bg-emerald-700 text-white' : 'bg-surface-container-highest text-on-surface'} font-label-sm text-[10px] flex items-center justify-center font-bold">${del.num}</span>
+                <span class="font-title-sm text-title-sm font-semibold text-on-surface">${del.date}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded ${del.badgeStyle} font-label-sm text-[11px] font-semibold">${del.badge}</span>
+            </div>
+            <div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant pl-7">
+              <span>${del.note}</span>
+              ${del.orderRef !== 'Unassigned' ? `
+                <a class="text-primary font-medium hover:underline text-[12px] flex items-center gap-0.5" href="#">
+                  ${del.orderRef} <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+                </a>
+              ` : `<span class="text-outline text-[12px]">Unassigned</span>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <!-- Drawer Header -->
+        <div class="flex flex-col gap-space-xs pb-space-sm border-b border-[#E8E2D9]">
+          <div class="flex items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-xs">
+              <span class="font-display text-headline-sm text-primary font-semibold tracking-tight">${data.id}</span>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full ${data.statusStyle} font-label-sm text-label-sm font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full ${data.statusDot}"></span> ${data.status}
+              </span>
+            </div>
+            ${deferBadgeHTML}
+          </div>
+          <h3 class="font-headline-md text-headline-md font-display text-on-surface leading-tight mt-1">${data.product}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">${data.qty} · ${data.term}</p>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-label-sm text-label-sm text-secondary mt-1">
+            <span>Started: ${data.started}</span>
+            <span>·</span>
+            <span>Progress: ${data.progress}</span>
+          </div>
+          ${statusAlertBanner}
+        </div>
+
+        ${defermentReviewSection}
+
+        <!-- Recipient & Delivery Location (Clean, no fake concierge notes) -->
+        <div class="bg-surface-container-low p-space-md rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+          <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Recipient &amp; Delivery Location</span>
+          <div class="flex items-center justify-between">
+            <span class="font-title-md text-title-md font-semibold text-on-surface">${data.customer}</span>
+            <a class="font-label-sm text-label-sm text-primary font-medium hover:underline" href="tel:${data.phone.replace(/\\s/g,'')}">${data.phone}</a>
+          </div>
+          <span class="font-body-sm text-body-sm text-on-surface-variant">${data.email}</span>
+          <div class="flex items-start gap-space-xs mt-1">
+            <span class="material-symbols-outlined text-[18px] text-outline mt-0.5">location_on</span>
+            <p class="font-body-sm text-body-sm text-on-surface leading-snug">${data.address}</p>
+          </div>
+        </div>
+
+        <!-- Commitment Schedule Summary -->
+        <div class="grid grid-cols-2 gap-space-sm">
+          <div class="p-space-sm bg-surface-container-low rounded border border-[#E8E2D9]">
+            <span class="block font-label-sm text-label-sm text-outline uppercase font-semibold">Commitment Term</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">${data.term}</span>
+          </div>
+          <div class="p-space-sm bg-surface-container-low rounded border border-[#E8E2D9]">
+            <span class="block font-label-sm text-label-sm text-outline uppercase font-semibold">Frequency</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">${data.frequency}</span>
+          </div>
+          <div class="p-space-sm bg-surface-container-low rounded border border-[#E8E2D9]">
+            <span class="block font-label-sm text-label-sm text-outline uppercase font-semibold">Delivery Window</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">${data.deliveryWindow}</span>
+          </div>
+          <div class="p-space-sm bg-surface-container-low rounded border border-[#E8E2D9]">
+            <span class="block font-label-sm text-label-sm text-outline uppercase font-semibold">Bake Schedule</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">${data.bakePrep}</span>
+          </div>
+        </div>
+
+        <!-- Four-Delivery Cycle Visual Centerpiece -->
+        <div class="flex flex-col gap-space-sm">
+          <div class="flex flex-col">
+            <h4 class="font-headline-sm text-headline-sm font-display text-on-surface">Four-Delivery Cycle</h4>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">Each weekly fulfillment order is generated for production and courier dispatch without additional billing.</span>
+          </div>
+          <div class="flex flex-col gap-space-sm mt-space-xs">
+            ${deliveryCycleHTML}
+          </div>
+        </div>
+
+        ${defermentAllowanceBlock}
+
+        <!-- Prepaid Settlement Snapshot -->
+        <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Prepaid Settlement</span>
+            <span class="px-2 py-0.5 rounded ${data.pricing.paidStatus === 'Paid in Full' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900 border border-amber-300'} font-label-sm text-label-sm font-semibold">
+              ${data.pricing.paidStatus}
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-body-sm">
+            <span class="text-on-surface-variant">Order Ref:</span>
+            <span class="font-mono text-on-surface font-semibold">${data.pricing.orderRef}</span>
+          </div>
+          <div class="flex justify-between items-center text-body-sm">
+            <span class="text-on-surface-variant">Payment Channel:</span>
+            <span class="text-on-surface font-medium">${data.pricing.channel}</span>
+          </div>
+          <div class="flex flex-col gap-1 py-space-xs bg-surface-container-lowest p-space-sm rounded border border-[#E8E2D9]">
+            <div class="flex justify-between text-body-sm">
+              <span class="text-on-surface-variant">${data.pricing.itemLabel}:</span>
+              <span class="font-medium text-on-surface">${data.pricing.itemTotal}</span>
+            </div>
+            <div class="flex justify-between text-body-sm">
+              <span class="text-on-surface-variant">${data.pricing.deliveryLabel}:</span>
+              <span class="font-medium text-on-surface">${data.pricing.deliveryTotal}</span>
+            </div>
+            <div class="flex justify-between items-baseline pt-2 mt-1 border-t border-[#E8E2D9]">
+              <span class="font-title-sm text-title-sm font-semibold text-on-surface">Total Prepaid:</span>
+              <span class="font-price-lg text-price-lg text-[#8D4A14] font-bold">${data.pricing.grandTotal}</span>
+            </div>
+          </div>
+          <span class="font-body-sm text-[11px] text-on-surface-variant italic">
+            Weekly fulfillment orders do not create recurring billing or require further customer charges.
+          </span>
+        </div>
+      `;
+    }
+
+    function selectSubscription(subId) {
+      currentSelectedId = subId;
+
+      // Update table rows selected visual state
+      document.querySelectorAll('.sub-row').forEach(row => {
+        row.classList.remove('bg-secondary-container/40', 'bg-secondary-container/60');
+        const btn = row.querySelector('.row-view-btn');
+        if (btn) {
+          btn.className = 'row-view-btn px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-sm text-[11px] hover:bg-surface-container-high transition-colors';
+        }
+      });
+
+      const selectedRow = document.querySelector(`[data-sub-id="${subId}"]`);
+      if (selectedRow) {
+        selectedRow.classList.add('bg-secondary-container/40');
+        const btn = selectedRow.querySelector('.row-view-btn');
+        if (btn) {
+          btn.className = 'row-view-btn px-2.5 py-1 rounded bg-[#8D4A14] text-white font-label-sm text-[11px] hover:bg-primary transition-colors';
+        }
+      }
+
+      renderDetail(subId);
+    }
+
+    function approveDeferment() {
+      currentDeferApproved = true;
+      // Update table row #SUB-894210 delivery label to show confirmed deferred
+      const targetRow = document.querySelector('[data-sub-id="SUB-894210"]');
+      if (targetRow) {
+        const nextCell = targetRow.children[5];
+        nextCell.innerHTML = `
+          <div class="flex flex-col">
+            <span class="text-[12px] font-semibold text-[#8D4A14] flex items-center gap-1">
+              Sat, Oct 31
+              <span class="text-[10px] bg-amber-100 text-amber-900 px-1 py-0.2 rounded font-semibold uppercase">Deferred</span>
+            </span>
+            <span class="text-[11px] text-on-surface-variant">Saturday Batch 9AM–1PM</span>
+          </div>
+        `;
+      }
+      renderDetail('SUB-894210');
+    }
+
+    function rejectDeferment() {
+      currentDeferApproved = false;
+      alert("Deferment request rejected. Customer notified and schedule remains Friday, Oct 30.");
+      const targetRow = document.querySelector('[data-sub-id="SUB-894210"]');
+      if (targetRow) {
+        const nextCell = targetRow.children[5];
+        nextCell.innerHTML = `
+          <div class="flex flex-col">
+            <span class="text-[12px] font-medium text-on-surface">Fri, Oct 30</span>
+            <span class="text-[11px] text-on-surface-variant">Fridays 9AM–1PM</span>
+          </div>
+        `;
+      }
+      subscriptionsDB['SUB-894210'].defermentState = 'none';
+      renderDetail('SUB-894210');
+    }
+
+    function filterByTab(status, buttonEl) {
+      document.querySelectorAll('#statusTabs button').forEach(b => {
+        b.className = 'px-space-md py-1.5 rounded font-label-md text-label-md bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors';
+      });
+      buttonEl.className = 'px-space-md py-1.5 rounded font-label-md text-label-md bg-[#8D4A14] text-white font-medium whitespace-nowrap transition-colors';
+
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        const rowStatus = row.getAttribute('data-status');
+        if (status === 'all' || rowStatus === status) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function handleSearch(query) {
+      const q = query.toLowerCase().trim();
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        if (text.includes(q)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function applyFilters() {
+      const pVal = document.getElementById('productFilter').value;
+      const tVal = document.getElementById('timingFilter').value;
+      const rows = document.querySelectorAll('#tableBody tr');
+
+      rows.forEach(row => {
+        let match = true;
+        const text = row.innerText.toLowerCase();
+        if (pVal !== 'all' && !text.includes(pVal)) match = false;
+        if (tVal === 'due-week' && !text.includes('oct 28') && !text.includes('oct 30') && !text.includes('oct 31')) match = false;
+        row.style.display = match ? '' : 'none';
+      });
+    }
+
+    // Prototype State Management
+    function setPrototypeState(state, btnEl) {
+      document.querySelectorAll('.proto-btn').forEach(btn => {
+        btn.classList.remove('bg-[#8D4A14]', 'text-white');
+        btn.classList.add('bg-surface-container', 'text-on-surface');
+      });
+      btnEl.classList.remove('bg-surface-container', 'text-on-surface');
+      btnEl.classList.add('bg-[#8D4A14]', 'text-white');
+
+      const tableContainer = document.getElementById('tableContainer');
+      const detailDrawer = document.getElementById('detailDrawer');
+
+      tableContainer.style.display = 'flex';
+      detailDrawer.style.display = 'flex';
+
+      if (state === 'review') {
+        currentDeferApproved = false;
+        selectSubscription('SUB-894210');
+      } else if (state === 'active-nodefer') {
+        selectSubscription('SUB-894208');
+      } else if (state === 'deferred-approved') {
+        approveDeferment();
+        selectSubscription('SUB-894210');
+      } else if (state === 'pending') {
+        selectSubscription('SUB-894215');
+      } else if (state === 'completed') {
+        selectSubscription('SUB-894199');
+      } else if (state === 'empty') {
+        tableContainer.innerHTML = `
+          <div class="p-space-xl flex flex-col items-center justify-center text-center my-8">
+            <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-[#8D4A14] mb-space-sm">
+              <span class="material-symbols-outlined text-[32px]">event_repeat</span>
+            </div>
+            <h3 class="font-headline-sm text-headline-sm font-display text-on-surface font-semibold">No active subscriptions</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mt-1">Prepaid subscription commitments will appear here once customers enroll for 4-week bake cycles.</p>
+          </div>
+        `;
+        detailDrawer.innerHTML = `
+          <div class="p-space-xl flex flex-col items-center justify-center text-center h-full text-on-surface-variant font-body-md my-12">
+            <span class="material-symbols-outlined text-[36px] text-outline mb-2">touch_app</span>
+            <span class="font-medium text-on-surface">No subscription commitment selected</span>
+            <span class="text-body-sm text-on-surface-variant mt-1">Select an item from the list to review the weekly fulfillment timeline.</span>
+          </div>
+        `;
+      } else if (state === 'no-results') {
+        tableContainer.innerHTML = `
+          <div class="p-space-xl flex flex-col items-center justify-center text-center my-8">
+            <span class="material-symbols-outlined text-[40px] text-outline mb-2">search_off</span>
+            <h4 class="font-headline-sm text-headline-sm font-display text-on-surface font-semibold">No matching subscriptions found</h4>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mt-1">No commitments matched your criteria. Try adjusting your search term or product filters.</p>
+            <button onclick="window.location.reload()" class="mt-space-md px-space-md py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors">Reset Search &amp; Filters</button>
+          </div>
+        `;
+      } else if (state === 'loading') {
+        tableContainer.innerHTML = `
+          <div class="p-space-lg flex flex-col gap-space-md animate-pulse">
+            <div class="h-8 bg-surface-container rounded w-1/3"></div>
+            <div class="h-12 bg-surface-container rounded"></div>
+            <div class="h-12 bg-surface-container rounded"></div>
+            <div class="h-12 bg-surface-container rounded"></div>
+            <div class="h-12 bg-surface-container rounded"></div>
+          </div>
+        `;
+        detailDrawer.innerHTML = `
+          <div class="p-space-lg flex flex-col gap-space-md animate-pulse">
+            <div class="h-8 bg-surface-container rounded w-1/2"></div>
+            <div class="h-20 bg-surface-container rounded"></div>
+            <div class="h-32 bg-surface-container rounded"></div>
+            <div class="h-40 bg-surface-container rounded"></div>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize Default View
+    window.addEventListener('DOMContentLoaded', () => {
+      renderDetail('SUB-894210');
+    });
+  </script>
+</body></html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-container": "#8d4a14", "on-error-container": "#93000a", "background": "#fbf9f5", "surface-container-high": "#eae8e5", "surface-container-low": "#f5f3f0", "on-primary-fixed-variant": "#723600", "on-tertiary-fixed-variant": "#4c4640", "surface-container-highest": "#e4e2df", "error": "#ba1a1a", "tertiary-container": "#615a54", "on-tertiary-fixed": "#1f1b16", "surface-container": "#efeeea", "primary-fixed": "#ffdcc7", "surface-container-lowest": "#ffffff", "on-surface": "#1b1c1a", "on-surface-variant": "#53433a", "on-secondary": "#ffffff", "outline": "#867368", "inverse-surface": "#30312e", "secondary-container": "#eae1db", "tertiary-fixed": "#ebe1d9", "on-tertiary-container": "#fffbff", "surface-bright": "#fbf9f5", "primary-fixed-dim": "#ffb786", "on-error": "#ffffff", "tertiary": "#49433d", "on-secondary-container": "#69635f", "secondary-fixed-dim": "#cdc5c0", "on-primary": "#ffffff", "on-primary-fixed": "#311300", "on-primary-container": "#ffc9a8", "secondary-fixed": "#eae1db", "tertiary-fixed-dim": "#cfc5bd", "outline-variant": "#d9c2b5", "inverse-on-surface": "#f2f1ed", "secondary": "#635d59", "surface-dim": "#dbdad6", "on-secondary-fixed": "#1f1b18", "primary": "#6f3400", "surface-tint": "#904d17", "surface-variant": "#e4e2df", "on-secondary-fixed-variant": "#4b4642", "error-container": "#ffdad6", "inverse-primary": "#ffb787", "on-tertiary": "#ffffff", "on-background": "#1b1c1a", "surface": "#fbf9f6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-mobile": "1rem", "margin-mobile": "1.25rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin": "3rem", "space-md": "1rem", "gutter": "1.5rem", "space-sm": "0.5rem", "space-xl": "2.5rem" }, "fontFamily": { "display-mobile": [ "Playfair Display" ], "price-lg": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "price-md": [ "Plus Jakarta Sans" ], "title-sm": [ "Plus Jakarta Sans" ], "body-lg": [ "Plus Jakarta Sans" ], "title-md": [ "Plus Jakarta Sans" ], "headline-sm": [ "Playfair Display" ], "body-md": [ "Plus Jakarta Sans" ], "headline-lg-mobile": [ "Playfair Display" ], "label-sm": [ "Plus Jakarta Sans" ], "display": [ "Playfair Display" ], "label-md": [ "Plus Jakarta Sans" ], "headline-lg": [ "Playfair Display" ], "headline-md": [ "Playfair Display" ] }, "fontSize": { "display-mobile": [ "34px", { "lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "price-lg": [ "20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "price-md": [ "15px", { "lineHeight": "20px", "fontWeight": "600" } ], "title-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "600" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "title-md": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" } ], "headline-sm": [ "20px", { "lineHeight": "28px", "fontWeight": "500" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ], "headline-lg-mobile": [ "26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "label-sm": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" } ], "display": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "label-md": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-low flex flex-col z-50 overflow-y-auto"><div class="p-space-lg pb-space-md"><div class="font-headline-md text-headline-md text-primary tracking-tight">Kitchen406</div><div class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mt-space-xs">Owner Workspace</div></div><nav class="flex-1 px-space-sm space-y-space-md pb-space-xl" data-active-classes="bg-primary-container text-on-tertiary-container font-title-sm text-title-sm rounded-lg"><div class="space-y-space-xs"><div class="px-space-sm font-label-sm text-label-sm text-secondary tracking-wider uppercase">Overview</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span>Dashboard</span></a></div><div class="space-y-space-xs"><div class="px-space-sm font-label-sm text-label-sm text-secondary tracking-wider uppercase">Operations</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="orders" href="#"><span class="material-symbols-outlined text-[18px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="payments" href="#"><span class="material-symbols-outlined text-[18px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Deliveries</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-xs transition-colors bg-primary-container text-on-tertiary-container font-title-sm text-title-sm rounded-lg" data-path="inventory" href="#"><span class="material-symbols-outlined text-[18px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[18px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[18px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[18px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="scheduling-and-blocked-dates" href="#"><span class="material-symbols-outlined text-[18px]">event_busy</span><span>Scheduling / Blocked Dates</span></a></div><div class="space-y-space-xs"><div class="px-space-sm font-label-sm text-label-sm text-secondary tracking-wider uppercase">Management</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="products" href="#"><span class="material-symbols-outlined text-[18px]">bakery_dining</span><span>Products</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="categories" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span>Categories</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[18px]">grain</span><span>Ingredients</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[18px]">palette</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[18px]">spa</span><span>Seasonal Occasions</span></a></div><div class="space-y-space-xs"><div class="px-space-sm font-label-sm text-label-sm text-secondary tracking-wider uppercase">Administration</div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reviews" href="#"><span class="material-symbols-outlined text-[18px]">reviews</span><span>Reviews</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="marketing-drafts" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">campaign</span><span>Marketing Drafts</span></div><span class="px-space-xs py-0.5 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm rounded-full">Review</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">monitoring</span><span>Reports</span></a></div></nav></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(83,68,58,0.06)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><span class="font-label-md text-label-md text-secondary">Sunday, October 4, 2026</span><div class="h-4 w-px bg-outline-variant"></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-lg"><span class="font-label-sm text-label-sm text-secondary uppercase">View:</span><button class="font-label-sm text-label-sm text-primary hover:text-primary-container font-semibold transition-colors" type="button">Live</button><span class="font-label-sm text-label-sm text-outline-variant">|</span><button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Loading</button><span class="font-label-sm text-label-sm text-outline-variant">|</span><button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Empty</button><span class="font-label-sm text-label-sm text-outline-variant">|</span><button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Error</button></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-space-xs text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 flex items-center justify-center min-w-4 h-4 px-1 bg-primary text-on-primary font-label-sm text-[10px] leading-none rounded-full">5</span></button><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><div class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</div><div class="font-label-sm text-label-sm text-secondary leading-none">Head Baker &amp; Owner</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 px-space-lg py-space-lg bg-surface"><div class="max-w-7xl mx-auto"><div class="flex flex-col w-full pb-space-xl">
+<!-- Top Bar / Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div>
+<div class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-1">Owner Operations</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Inventory</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+        Monitor ingredient stock, reserved quantities, upcoming requirements, and inventory movements.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary-container transition-colors shadow-sm" onclick="openMovementModal(null)" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+<span>Record stock movement</span>
+</button>
+</div>
+</div>
+<!-- Operational Summary Row (4 KPI Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary">Total Ingredients</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">grain</span>
+</div>
+<div class="mt-space-md">
+<div class="font-headline-lg text-headline-lg text-on-surface leading-none">24</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Active baking staples &amp; packaging</div>
+</div>
+</div>
+<!-- Card 2: Low Stock -->
+<button class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between text-left hover:bg-surface-container-low transition-colors group cursor-pointer" onclick="filterByStatus('low')" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-md text-label-md text-secondary">Low Stock</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#fef3c7] text-[#92400e]">
+          Threshold reached
+        </span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-[#92400e] leading-none">4</span>
+<span class="font-label-sm text-label-sm text-secondary">items</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1 group-hover:text-primary transition-colors">
+          At or below reorder threshold →
+        </div>
+</div>
+</button>
+<!-- Card 3: Unavailable -->
+<button class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between text-left hover:bg-surface-container-low transition-colors group cursor-pointer" onclick="filterByStatus('unavailable')" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-label-md text-label-md text-secondary">Unavailable</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#fee2e2] text-[#991b1b]">
+          Depleted
+        </span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-[#ba1a1a] leading-none">1</span>
+<span class="font-label-sm text-label-sm text-secondary">ingredient</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1 group-hover:text-primary transition-colors">
+          Completely exhausted →
+        </div>
+</div>
+</button>
+<!-- Card 4: Upcoming Shortages -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between"><span class="font-label-md text-label-md text-secondary">Upcoming Shortages</span><span class="material-symbols-outlined text-primary text-[20px]">warning_amber</span></div><div class="mt-space-md"><div class="flex items-baseline gap-2"><span class="font-headline-lg text-headline-lg text-primary leading-none">1</span><span class="font-label-sm text-label-sm text-secondary">required for 7d orders</span></div><div class="font-body-sm text-body-sm text-secondary mt-1">Identified from confirmed production</div></div></div>
+</div>
+<!-- Attention Banner -->
+<div class="bg-[#fef9ee] p-space-md rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[#b45309] text-[22px] shrink-0">inventory_2</span>
+<div>
+<span class="font-title-sm text-title-sm text-[#78350f]">5 ingredients need attention</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm ml-1.5 hidden md:inline">
+          4 ingredients are below their reorder threshold and 1 is currently depleted.
+        </span>
+</div>
+</div>
+<button class="text-[#8d4a14] hover:text-primary font-label-md text-label-md font-semibold inline-flex items-center gap-1 self-start sm:self-auto cursor-pointer" onclick="filterAffected()" type="button">
+<span>Filter affected ingredients</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Primary Workspace: Table + Detail Drawer Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Table & List View (8 or 12 cols depending on drawer) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md transition-all duration-300" id="table-container">
+<!-- Toolbar & Filters -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col md:flex-row gap-space-sm md:items-center justify-between">
+<!-- Status Tabs -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded">
+<button class="filter-tab px-space-sm py-1 rounded text-label-sm font-label-sm bg-surface-container-lowest text-on-surface shadow-xs font-semibold" id="tab-all" onclick="setActiveTab('all')" type="button">
+            All (24)
+          </button>
+<button class="filter-tab px-space-sm py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface" id="tab-available" onclick="setActiveTab('available')" type="button">
+            Available (19)
+          </button>
+<button class="filter-tab px-space-sm py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface" id="tab-low" onclick="setActiveTab('low')" type="button">
+            Low Stock (4)
+          </button>
+<button class="filter-tab px-space-sm py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface" id="tab-unavailable" onclick="setActiveTab('unavailable')" type="button">
+            Unavailable (1)
+          </button>
+</div>
+<!-- Search & Sorting -->
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-1 sm:w-64">
+<span class="material-symbols-outlined text-secondary absolute left-2.5 top-1/2 -translate-y-1/2 text-[18px]">search</span>
+<input class="w-full pl-8 pr-space-sm py-1.5 bg-surface-container-low rounded font-body-sm text-body-sm text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all" id="search-input" oninput="handleSearch(this.value)" placeholder="Search ingredients..." type="text"/>
+</div>
+<div class="relative shrink-0">
+<select class="appearance-none bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm px-3 py-1.5 pr-7 rounded cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary" id="sort-select" onchange="handleSort(this.value)">
+<option value="lowest">Sort: Lowest available</option>
+<option value="name">Sort: Name (A-Z)</option>
+<option value="recent">Sort: Recently updated</option>
+</select>
+<span class="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[16px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- High-Density Inventory Table -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm tracking-wider uppercase">
+<th class="py-space-sm px-space-md">Ingredient</th>
+<th class="py-space-sm px-space-sm text-right">Physical</th>
+<th class="py-space-sm px-space-sm text-right">
+<div class="inline-flex items-center gap-1 cursor-help" title="Quantity committed to confirmed active checkout orders">
+<span>Reserved</span>
+<span class="material-symbols-outlined text-[13px] text-secondary">info</span>
+</div>
+</th>
+<th class="py-space-sm px-space-sm text-right font-semibold text-on-surface">Available</th>
+<th class="py-space-sm px-space-sm text-right hidden xl:table-cell">Reorder</th>
+<th class="py-space-sm px-space-sm text-right hidden md:table-cell">Unit Cost</th>
+<th class="py-space-sm px-space-sm text-center">Status</th>
+<th class="py-space-sm px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface" id="inventory-tbody">
+<!-- Row 1: Bread Flour -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="bread-flour" data-status="available" onclick="selectIngredient('Bread Flour')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Bread Flour</div>
+<div class="font-body-sm text-body-sm text-secondary">Unbleached High-Protein · kg</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">18.5 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">6.25 kg</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-on-surface">12.25 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">5.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱72.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#e7f4eb] text-[#1b6a3d]">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Available
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Unsalted Butter (ACTIVE) -->
+<tr class="inventory-row bg-surface-container-low hover:bg-surface-container-high/60 transition-colors cursor-pointer" data-id="unsalted-butter" data-status="low" onclick="selectIngredient('Unsalted Butter')">
+<td class="py-space-sm px-space-md"><div class="font-title-sm text-title-sm text-on-surface font-semibold">Unsalted Butter</div><div class="font-body-sm text-body-sm text-secondary">82% European Cultured · kg</div></td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">5.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">3.8 kg</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-[#8d4a14]">1.2 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">2.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱420.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#fef3c7] text-[#92400e]">
+<span class="material-symbols-outlined text-[13px]">warning</span> Low Stock
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-primary rounded hover:bg-surface-container font-semibold" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Farm Fresh Eggs -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="farm-fresh-eggs" data-status="low" onclick="selectIngredient('Eggs (Farm Fresh)')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Eggs (Farm Fresh)</div>
+<div class="font-body-sm text-body-sm text-secondary">Grade AA Organic Brown · pcs</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">84 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">60 pcs</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-[#8d4a14]">24 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">30 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱9.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#fef3c7] text-[#92400e]">
+<span class="material-symbols-outlined text-[13px]">warning</span> Low Stock
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Whole Milk -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="whole-milk" data-status="available" onclick="selectIngredient('Whole Milk')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Whole Milk</div>
+<div class="font-body-sm text-body-sm text-secondary">Pasteurized Local Dairy · L</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">9.0 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">2.5 L</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-on-surface">6.5 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">3.0 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱105.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#e7f4eb] text-[#1b6a3d]">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Available
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Cream Cheese (UNAVAILABLE) -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="cream-cheese" data-status="unavailable" onclick="selectIngredient('Cream Cheese')">
+<td class="py-space-sm px-space-md"><div class="font-title-sm text-title-sm text-on-surface flex items-center gap-1.5"><span>Cream Cheese</span><span class="px-1.5 py-0.2 bg-[#fee2e2] text-[#991b1b] text-[10px] font-bold rounded">Affects 2 product variants</span></div><div class="font-body-sm text-body-sm text-secondary">Traditional Block · kg</div></td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-[#ba1a1a]">0.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">0.0 kg</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-[#ba1a1a]">0.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">1.0 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱510.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#fee2e2] text-[#991b1b]">
+<span class="material-symbols-outlined text-[13px]">error</span> Unavailable
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 6: Cake Box (8x8) -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="cake-box-8x8" data-status="available" onclick="selectIngredient('Cake Box (8×8)')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Cake Box (8×8)</div>
+<div class="font-body-sm text-body-sm text-secondary">Kraft Windowed Premium · pcs</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">25 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">10 pcs</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-on-surface">15 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">8 pcs</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱28.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#e7f4eb] text-[#1b6a3d]">
+<span class="material-symbols-outlined text-[13px]">check_circle</span> Available
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 7: Valrhona Cocoa Powder -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="valrhona-cocoa" data-status="low" onclick="selectIngredient('Valrhona Cocoa Powder')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Valrhona Cocoa Powder</div>
+<div class="font-body-sm text-body-sm text-secondary">100% Dutch Processed Dutch · kg</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">3.2 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">2.5 kg</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-[#8d4a14]">0.7 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">1.5 kg</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱840.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#fef3c7] text-[#92400e]">
+<span class="material-symbols-outlined text-[13px]">warning</span> Low Stock
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 8: Pure Vanilla Extract -->
+<tr class="inventory-row hover:bg-surface-container-low/60 transition-colors cursor-pointer" data-id="pure-vanilla" data-status="low" onclick="selectIngredient('Pure Vanilla Extract')">
+<td class="py-space-sm px-space-md">
+<div class="font-title-sm text-title-sm text-on-surface">Pure Vanilla Extract</div>
+<div class="font-body-sm text-body-sm text-secondary">Madagascar Bourbon Double-Fold · L</div>
+</td>
+<td class="py-space-sm px-space-sm text-right font-title-sm text-secondary">1.8 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary">1.2 L</td>
+<td class="py-space-sm px-space-sm text-right font-semibold text-[#8d4a14]">0.6 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary hidden xl:table-cell">1.0 L</td>
+<td class="py-space-sm px-space-sm text-right text-secondary font-mono text-[13px] hidden md:table-cell">₱1,250.00</td>
+<td class="py-space-sm px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[11px] font-semibold bg-[#fef3c7] text-[#92400e]">
+<span class="material-symbols-outlined text-[13px]">warning</span> Low Stock
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1 text-secondary hover:text-primary rounded hover:bg-surface-container" title="Details" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="p-space-sm px-space-md bg-surface-container-low flex items-center justify-between text-secondary font-body-sm text-body-sm">
+<div>Showing <span class="font-semibold text-on-surface">8</span> of <span class="font-semibold text-on-surface">24</span> active ingredients</div>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-surface-container text-secondary text-[12px] font-semibold cursor-not-allowed opacity-60">Prev</button>
+<span class="px-2 text-on-surface font-semibold text-[12px]">1</span>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-semibold transition-colors">2</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-semibold transition-colors">3</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-semibold transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Right-Side Detail Drawer (Active for Unsalted Butter) -->
+<div class="lg:col-span-4 bg-surface-container-lowest rounded-lg shadow-sm p-space-lg flex flex-col gap-space-md" id="detail-drawer"><div class="flex items-start justify-between"><div><div class="flex items-center gap-2"><span class="font-headline-sm text-headline-sm text-on-surface" id="drawer-title">Unsalted Butter</span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-label-sm text-[10px] font-bold bg-[#fef3c7] text-[#92400e]">Low Stock</span></div><div class="font-body-sm text-body-sm text-secondary mt-0.5" id="drawer-unit">Inventory Unit: kg · Category: Dairy &amp; Fats</div></div><button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleDrawer()" title="Close details" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="grid grid-cols-2 gap-space-xs"><button class="flex items-center justify-center gap-1.5 py-1.5 px-space-sm bg-primary text-on-primary font-label-sm text-label-sm rounded hover:bg-primary-container transition-colors" onclick="openMovementModal('Unsalted Butter', 'restock')" type="button"><span class="material-symbols-outlined text-[16px]">add_box</span><span>Record Restock</span></button><button class="flex items-center justify-center gap-1.5 py-1.5 px-space-sm bg-surface-container-low text-on-surface font-label-sm text-label-sm rounded hover:bg-surface-container-high transition-colors" onclick="openMovementModal('Unsalted Butter', 'adjustment')" type="button"><span class="material-symbols-outlined text-[16px]">tune</span><span>Adjust Stock</span></button></div><div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-1.5"><div class="flex items-center justify-between font-label-sm text-label-sm text-secondary"><span>STOCK COMPUTATION</span><span class="text-[10px] text-primary font-bold">PHYSICAL − RESERVED</span></div><div class="font-body-sm text-body-sm text-on-surface font-mono bg-surface-container-lowest px-2 py-1 rounded">Available (<strong class="text-primary">1.2 kg</strong>) = 5.0 kg − 3.8 kg</div><div class="font-body-sm text-[11px] text-secondary">3.8 kg is currently locked for bake runs scheduled through Oct 8.</div></div><div class="grid grid-cols-3 gap-2"><div class="bg-surface-container-low p-2 rounded"><div class="font-label-sm text-[10px] text-secondary uppercase">Physical</div><div class="font-title-sm text-title-sm text-on-surface mt-0.5">5.0 kg</div></div><div class="bg-surface-container-low p-2 rounded"><div class="font-label-sm text-[10px] text-secondary uppercase">Reserved</div><div class="font-title-sm text-title-sm text-secondary mt-0.5">3.8 kg</div></div><div class="bg-[#fef3c7] p-2 rounded"><div class="font-label-sm text-[10px] text-[#92400e] uppercase font-bold">Available</div><div class="font-title-sm text-title-sm text-[#92400e] mt-0.5">1.2 kg</div></div><div class="bg-surface-container-low p-2 rounded"><div class="font-label-sm text-[10px] text-secondary uppercase">Threshold</div><div class="font-title-sm text-title-sm text-on-surface mt-0.5">2.0 kg</div></div><div class="bg-surface-container-low p-2 rounded col-span-2"><div class="font-label-sm text-[10px] text-secondary uppercase">Current Unit Cost</div><div class="font-title-sm text-title-sm text-on-surface mt-0.5 font-mono">₱420.00 / kg</div></div></div><div class="bg-[#fef9ee] p-space-sm rounded flex items-start gap-2"><span class="material-symbols-outlined text-[#b45309] text-[18px] shrink-0 mt-0.5">info</span><div class="font-body-sm text-body-sm text-on-surface-variant">Products requiring this ingredient may become unavailable for new orders when remaining inventory is insufficient to satisfy their recipe requirements.</div></div><div><div class="flex items-center justify-between mb-2"><span class="font-label-md text-label-md text-on-surface font-semibold">Upcoming Commitments</span><span class="font-label-sm text-label-sm text-secondary">Next 7 Days</span></div><div class="space-y-1.5 font-body-sm text-body-sm"><div class="p-2 bg-surface-container-low rounded flex items-center justify-between"><div><div class="font-title-sm text-[13px] text-on-surface">Order K406-1048</div><div class="text-secondary text-[11px]">Oct 6 · Brioche &amp; Cinnamon Batch</div></div><span class="font-mono text-on-surface font-semibold text-[13px]">1.4 kg</span></div><div class="p-2 bg-surface-container-low rounded flex items-center justify-between"><div><div class="font-title-sm text-[13px] text-on-surface">Order K406-1052</div><div class="text-secondary text-[11px]">Oct 7 · Laminated Croissants (12)</div></div><span class="font-mono text-on-surface font-semibold text-[13px]">1.2 kg</span></div><div class="p-2 bg-surface-container-low rounded flex items-center justify-between"><div><div class="font-title-sm text-[13px] text-on-surface">Subscription Week 2</div><div class="text-secondary text-[11px]">Oct 9 · Scheduled Fulfillment</div></div><span class="font-mono text-on-surface font-semibold text-[13px]">1.5 kg</span></div></div></div><div><span class="font-label-md text-label-md text-on-surface font-semibold mb-2 block">Used in Product Variants</span><div class="flex flex-wrap gap-1.5"><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Milk Bread — Regular</span><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Milk Bread — Large</span><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Cinnamon Roll (Box of 6)</span><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Brioche Loaf</span><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Laminated Croissants</span><span class="px-2 py-1 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm rounded">Fudgy Brownies</span></div></div></div>
+</div>
+<!-- Section 2: Upcoming Material Requirements (Shortage Forecast) -->
+<div class="mt-space-xl bg-surface-container-lowest p-space-lg rounded-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Upcoming Material Requirements</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+          Ingredient requirements generated from upcoming confirmed orders and scheduled fulfillments.
+        </p>
+</div>
+<!-- Time range toggle -->
+<div class="flex items-center bg-surface-container-low p-1 rounded self-start sm:self-auto">
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-semibold shadow-xs" type="button">Next 7 days</button>
+<button class="px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">Next 14 days</button>
+<button class="px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">Next 30 days</button>
+</div>
+</div>
+<!-- Shortage Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Shortage Card 1: Unsalted Butter -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Unsalted Butter</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[10px] font-bold bg-[#fef3c7] text-[#92400e]">
+              Shortage Anticipated
+            </span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Needed by <strong class="text-on-surface">Wednesday, Oct 7</strong></div>
+<div class="mt-space-md space-y-2 text-body-sm font-body-sm">
+<div class="flex items-center justify-between">
+<span class="text-secondary">Required Total:</span>
+<span class="font-mono text-on-surface font-semibold">4.1 kg</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-secondary">Currently Available:</span>
+<span class="font-mono text-secondary">1.2 kg</span>
+</div>
+<div class="pt-2 flex items-center justify-between bg-surface-container px-2 py-1.5 rounded">
+<span class="font-bold text-[#b45309]">Projected Shortfall:</span>
+<span class="font-mono font-bold text-[#b45309] text-[15px]">2.9 kg</span>
+</div>
+</div>
+</div>
+<button class="mt-space-md w-full py-1.5 bg-surface-container-lowest hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold rounded text-center transition-colors" onclick="openMovementModal('Unsalted Butter', 'restock')" type="button">
+          + Prepare Restock Entry
+        </button>
+</div>
+<!-- Shortage Card 2: Eggs (Farm Fresh) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Eggs (Farm Fresh)</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[10px] font-bold bg-[#fef3c7] text-[#92400e]">
+              Shortage Anticipated
+            </span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Needed by <strong class="text-on-surface">Tuesday, Oct 6</strong></div>
+<div class="mt-space-md space-y-2 text-body-sm font-body-sm">
+<div class="flex items-center justify-between">
+<span class="text-secondary">Required Total:</span>
+<span class="font-mono text-on-surface font-semibold">36 pcs</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-secondary">Currently Available:</span>
+<span class="font-mono text-secondary">24 pcs</span>
+</div>
+<div class="pt-2 flex items-center justify-between bg-surface-container px-2 py-1.5 rounded">
+<span class="font-bold text-[#b45309]">Projected Shortfall:</span>
+<span class="font-mono font-bold text-[#b45309] text-[15px]">12 pcs</span>
+</div>
+</div>
+</div>
+<button class="mt-space-md w-full py-1.5 bg-surface-container-lowest hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold rounded text-center transition-colors" onclick="openMovementModal('Eggs (Farm Fresh)', 'restock')" type="button">
+          + Prepare Restock Entry
+        </button>
+</div>
+<!-- Shortage Card 3: Cream Cheese -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Cream Cheese</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-sm text-[10px] font-bold bg-[#fee2e2] text-[#991b1b]">
+              Immediate Shortage
+            </span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">Needed by <strong class="text-on-surface">Thursday, Oct 8</strong></div>
+<div class="mt-space-md space-y-2 text-body-sm font-body-sm">
+<div class="flex items-center justify-between">
+<span class="text-secondary">Required Total:</span>
+<span class="font-mono text-on-surface font-semibold">1.5 kg</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-secondary">Currently Available:</span>
+<span class="font-mono text-[#ba1a1a]">0.0 kg</span>
+</div>
+<div class="pt-2 flex items-center justify-between bg-surface-container px-2 py-1.5 rounded">
+<span class="font-bold text-[#ba1a1a]">Projected Shortfall:</span>
+<span class="font-mono font-bold text-[#ba1a1a] text-[15px]">1.5 kg</span>
+</div>
+</div>
+</div>
+<button class="mt-space-md w-full py-1.5 bg-[#ba1a1a] hover:bg-[#93000a] text-on-error font-label-sm text-label-sm font-semibold rounded text-center transition-colors" onclick="openMovementModal('Cream Cheese', 'restock')" type="button">
+          Emergency Restock
+        </button>
+</div>
+</div>
+</div>
+<!-- Section 3: Recent Inventory Movement Ledger (Audit Trail) -->
+<div class="mt-space-xl bg-surface-container-lowest p-space-lg rounded-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Inventory Movement History</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+          Immutable ledger of restocks, production consumptions, and physical adjustments.
+        </p>
+</div>
+<!-- Movement Filters -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded self-start sm:self-auto">
+<button class="mov-filter-tab px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-semibold shadow-xs" onclick="filterMovements('all')" type="button">All Movements</button>
+<button class="mov-filter-tab px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" onclick="filterMovements('restock')" type="button">Restocks</button>
+<button class="mov-filter-tab px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" onclick="filterMovements('consumption')" type="button">Consumption</button>
+<button class="mov-filter-tab px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" onclick="filterMovements('adjustment')" type="button">Adjustments</button>
+</div>
+</div>
+<!-- Movement Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm tracking-wider uppercase">
+<th class="py-space-sm px-space-md">Date &amp; Time</th>
+<th class="py-space-sm px-space-sm">Ingredient</th>
+<th class="py-space-sm px-space-sm text-center">Movement Type</th>
+<th class="py-space-sm px-space-sm text-right">Quantity Change</th>
+<th class="py-space-sm px-space-sm">Reason / Context</th>
+<th class="py-space-sm px-space-sm hidden md:table-cell">Related Order</th>
+<th class="py-space-sm px-space-md text-right">Performed By</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface" id="movement-tbody"><!-- Movement Record 1 --><tr class="movement-row hover:bg-surface-container-low/50 transition-colors" data-type="adjustment"><td class="py-space-sm px-space-md font-mono text-[13px] text-secondary">Oct 4, 2026 · 11:20 AM</td><td class="py-space-sm px-space-sm font-title-sm text-title-sm text-on-surface">Unsalted Butter</td><td class="py-space-sm px-space-sm text-center"><span class="inline-flex items-center px-2 py-0.5 rounded font-label-sm text-[11px] font-semibold bg-[#eae1db] text-[#69635f]">Adjustment</span></td><td class="py-space-sm px-space-sm text-right font-mono font-semibold text-[#ba1a1a]">-0.3 kg</td><td class="py-space-sm px-space-sm text-on-surface-variant font-body-sm">Spoilage</td><td class="py-space-sm px-space-sm text-secondary font-body-sm hidden md:table-cell">—</td><td class="py-space-sm px-space-md text-right"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span class="material-symbols-outlined text-[14px]">shield_person</span> Owner</span></td></tr><!-- Movement Record 2 --><tr class="movement-row hover:bg-surface-container-low/50 transition-colors" data-type="consumption"><td class="py-space-sm px-space-md font-mono text-[13px] text-secondary">Oct 4, 2026 · 10:15 AM</td><td class="py-space-sm px-space-sm font-title-sm text-title-sm text-on-surface">Bread Flour</td><td class="py-space-sm px-space-sm text-center"><span class="inline-flex items-center px-2 py-0.5 rounded font-label-sm text-[11px] font-semibold bg-[#e4e2df] text-[#53433a]">Consumption</span></td><td class="py-space-sm px-space-sm text-right font-mono font-semibold text-secondary">-2.4 kg</td><td class="py-space-sm px-space-sm text-on-surface-variant font-body-sm">Production run: Pandesal batch</td><td class="py-space-sm px-space-sm text-primary font-mono text-[13px] hidden md:table-cell">K406-1048</td><td class="py-space-sm px-space-md text-right"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span class="material-symbols-outlined text-[14px]">memory</span> System</span></td></tr><!-- Movement Record 3 --><tr class="movement-row hover:bg-surface-container-low/50 transition-colors" data-type="consumption"><td class="py-space-sm px-space-md font-mono text-[13px] text-secondary">Oct 4, 2026 · 8:45 AM</td><td class="py-space-sm px-space-sm font-title-sm text-title-sm text-on-surface">Whole Milk</td><td class="py-space-sm px-space-sm text-center"><span class="inline-flex items-center px-2 py-0.5 rounded font-label-sm text-[11px] font-semibold bg-[#e4e2df] text-[#53433a]">Consumption</span></td><td class="py-space-sm px-space-sm text-right font-mono font-semibold text-secondary">-1.2 L</td><td class="py-space-sm px-space-sm text-on-surface-variant font-body-sm">Production run: Cinnamon rolls</td><td class="py-space-sm px-space-sm text-primary font-mono text-[13px] hidden md:table-cell">K406-1048</td><td class="py-space-sm px-space-md text-right"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span class="material-symbols-outlined text-[14px]">memory</span> System</span></td></tr><!-- Movement Record 4 --><tr class="movement-row hover:bg-surface-container-low/50 transition-colors" data-type="restock"><td class="py-space-sm px-space-md font-mono text-[13px] text-secondary">Oct 3, 2026 · 4:10 PM</td><td class="py-space-sm px-space-sm font-title-sm text-title-sm text-on-surface">Bread Flour</td><td class="py-space-sm px-space-sm text-center"><span class="inline-flex items-center px-2 py-0.5 rounded font-label-sm text-[11px] font-semibold bg-[#e7f4eb] text-[#1b6a3d]">Restock</span></td><td class="py-space-sm px-space-sm text-right font-mono font-semibold text-[#1b6a3d]">+25.0 kg</td><td class="py-space-sm px-space-sm text-on-surface-variant font-body-sm">Weekly ingredient restock</td><td class="py-space-sm px-space-sm text-secondary font-body-sm hidden md:table-cell">—</td><td class="py-space-sm px-space-md text-right"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span class="material-symbols-outlined text-[14px]">badge</span> Elena M.</span></td></tr><!-- Movement Record 5 --><tr class="movement-row hover:bg-surface-container-low/50 transition-colors" data-type="adjustment"><td class="py-space-sm px-space-md font-mono text-[13px] text-secondary">Oct 3, 2026 · 2:30 PM</td><td class="py-space-sm px-space-sm font-title-sm text-title-sm text-on-surface">Cake Box (8×8)</td><td class="py-space-sm px-space-sm text-center"><span class="inline-flex items-center px-2 py-0.5 rounded font-label-sm text-[11px] font-semibold bg-[#eae1db] text-[#69635f]">Adjustment</span></td><td class="py-space-sm px-space-sm text-right font-mono font-semibold text-[#1b6a3d]">+2 pcs</td><td class="py-space-sm px-space-sm text-on-surface-variant font-body-sm">Miscount</td><td class="py-space-sm px-space-sm text-secondary font-body-sm hidden md:table-cell">—</td><td class="py-space-sm px-space-md text-right"><span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span class="material-symbols-outlined text-[14px]">shield_person</span> Owner</span></td></tr></tbody>
+</table>
+</div>
+</div>
+<!-- Interactive Modal: Record Stock Movement (Overlay) -->
+<div class="fixed inset-0 z-50 bg-on-surface/40 backdrop-blur-xs hidden items-center justify-center p-space-md" id="movement-modal"><div class="bg-surface-container-lowest rounded-lg shadow-xl w-full max-w-lg overflow-hidden flex flex-col"><!-- Modal Header --><div class="p-space-lg bg-surface-container-low flex items-center justify-between"><div><h3 class="font-headline-sm text-headline-sm text-on-surface">Record Stock Movement</h3><p class="font-body-sm text-body-sm text-secondary mt-0.5" id="modal-subtitle">Update physical quantities and audit records for <span class="font-semibold text-on-surface" id="modal-item-name">Unsalted Butter</span></p></div><button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeMovementModal()" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button></div><!-- Action Mode Tabs --><div class="p-space-md pb-0 flex border-b-0"><div class="flex items-center gap-1 bg-surface-container-low p-1 rounded w-full"><button class="flex-1 py-1.5 rounded text-label-sm font-label-sm bg-surface-container-lowest text-on-surface shadow-xs font-semibold transition-all text-center" id="modal-mode-restock" onclick="setModalMode('restock')" type="button">Restock (Receive stock)</button><button class="flex-1 py-1.5 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface transition-all text-center" id="modal-mode-adjust" onclick="setModalMode('adjustment')" type="button">Adjustment (Audit correction)</button></div></div><!-- Form Container --><div class="p-space-lg flex flex-col gap-space-md"><!-- Ingredient Selector Container --><div class="space-y-1"><label class="block font-label-sm text-label-sm text-secondary uppercase">Target Ingredient</label><!-- Pre-selected View --><div class="flex items-center justify-between p-2.5 bg-surface-container-low rounded" id="modal-locked-ingredient"><div><div class="font-title-sm text-title-sm text-on-surface" id="modal-selected-ingredient">Unsalted Butter</div><div class="text-[12px] text-secondary" id="modal-selected-stats">Unit: kg · Reserved: 3.8 kg · Threshold: 2.0 kg</div></div><div class="text-right"><span class="font-label-sm text-[11px] text-secondary block">Current Physical</span><span class="font-title-sm text-title-sm font-mono text-on-surface" id="modal-current-phys">5.0 kg</span></div></div><!-- Unselected Searchable Dropdown View --><div class="hidden" id="modal-select-container"><select class="w-full bg-surface-container-low px-3 py-2 rounded text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="modal-ingredient-select" onchange="handleIngredientSelectChange(this.value)"><option value="">Search or select ingredient...</option><option value="Unsalted Butter">Unsalted Butter (5.0 kg physical, 3.8 kg reserved)</option><option value="Bread Flour">Bread Flour (18.5 kg physical, 6.25 kg reserved)</option><option value="Eggs (Farm Fresh)">Eggs (Farm Fresh) (84 pcs physical, 60 pcs reserved)</option><option value="Whole Milk">Whole Milk (9.0 L physical, 2.5 L reserved)</option><option value="Cream Cheese">Cream Cheese (0.0 kg physical, 0.0 kg reserved)</option><option value="Cake Box (8x8)">Cake Box (8×8) (25 pcs physical, 10 pcs reserved)</option><option value="Valrhona Cocoa Powder">Valrhona Cocoa Powder (3.2 kg physical, 2.5 kg reserved)</option><option value="Pure Vanilla Extract">Pure Vanilla Extract (1.8 L physical, 1.2 L reserved)</option></select></div></div><!-- Restock View --><div class="space-y-space-md" id="restock-fields"><div class="grid grid-cols-2 gap-space-md"><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Quantity Received</label><div class="relative"><input class="w-full bg-surface-container-low focus:bg-surface-container-lowest px-3 py-2 rounded font-mono text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="restock-qty" oninput="updateRestockCalculation()" step="0.1" type="number" value="3.0"/><span class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-body-sm" id="restock-unit-label">kg</span></div></div><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">New Unit Cost</label><div class="relative"><input class="w-full bg-surface-container-low focus:bg-surface-container-lowest pl-6 pr-3 py-2 rounded font-mono text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="420.00"/><span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-secondary text-body-sm">₱</span></div></div></div><div class="bg-[#e7f4eb] p-space-sm rounded text-[#1b6a3d] flex items-center justify-between text-body-sm font-body-sm"><span>Resulting Physical Stock:</span><span class="font-mono font-bold text-[15px]" id="restock-preview-result">8.0 kg</span></div><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Delivery / Restock Note</label><input class="w-full bg-surface-container-low focus:bg-surface-container-lowest px-3 py-2 rounded text-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Weekly ingredient restock" type="text" value="Weekly ingredient restock"/></div></div><!-- Adjustment View --><div class="space-y-space-md hidden" id="adjustment-fields"><div class="grid grid-cols-2 gap-space-md"><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Adjustment Type</label><select class="w-full bg-surface-container-low px-3 py-2 rounded text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="adjust-direction" onchange="updateAdjustmentCalculation()"><option value="remove">Remove Stock (−)</option><option value="add">Add Stock (+)</option></select></div><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Quantity</label><div class="relative"><input class="w-full bg-surface-container-low focus:bg-surface-container-lowest px-3 py-2 rounded font-mono text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="adjust-qty" oninput="updateAdjustmentCalculation()" step="0.1" type="number" value="0.5"/><span class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-body-sm" id="adjust-unit-label">kg</span></div></div></div><div><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Reason for Audit Adjustment</label><select class="w-full bg-surface-container-low px-3 py-2 rounded text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="adjust-reason" onchange="handleReasonChange(this.value)"><option value="spoilage">Spoilage</option><option value="damage">Damage</option><option value="miscount">Miscount</option><option value="theft">Theft</option><option value="correction">Correction</option><option value="other">Other</option></select></div><div class="hidden" id="other-reason-container"><label class="block font-label-sm text-label-sm text-secondary uppercase mb-1">Explanation for Other</label><input class="w-full bg-surface-container-low focus:bg-surface-container-lowest px-3 py-2 rounded text-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Short explanation" type="text"/></div><div class="bg-surface-container-low p-space-sm rounded text-secondary flex items-center justify-between text-body-sm font-body-sm"><span>Resulting Physical Stock:</span><span class="font-mono font-bold text-on-surface text-[15px]" id="adjust-preview-result">4.5 kg</span></div><!-- Hard Validation Error Box --><div class="hidden p-space-sm rounded bg-[#fee2e2] text-[#991b1b] text-body-sm flex items-start gap-2" id="reservation-hard-error"><span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">block</span><span id="reservation-error-msg">This adjustment cannot be recorded. Physical stock cannot be reduced below the 3.8 kg currently reserved for active commitments.</span></div></div></div><!-- Modal Footer --><div class="p-space-lg pt-0 flex items-center justify-end gap-space-sm"><button class="px-space-md py-space-sm text-secondary hover:text-on-surface font-label-md text-label-md rounded transition-colors" onclick="closeMovementModal()" type="button">Cancel</button><button class="px-space-md py-space-sm bg-primary text-on-primary font-label-md text-label-md rounded hover:bg-primary-container transition-colors shadow-sm cursor-pointer" id="modal-submit-btn" onclick="submitMovement()" type="button">Record Restock</button></div></div></div>
+</div>
+<!-- Client-side Interactive Behavior -->
+<script>
+  let currentFilter = 'all';
+  let isDrawerOpen = true;
+
+  function filterByStatus(status) {
+    setActiveTab(status);
+  }
+
+  function filterAffected() {
+    setActiveTab('low');
+  }
+
+  function setActiveTab(status) {
+    currentFilter = status;
+    const tabs = document.querySelectorAll('.filter-tab');
+    tabs.forEach(tab => {
+      tab.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      tab.classList.add('text-secondary');
+    });
+
+    const activeBtn = document.getElementById('tab-' + status);
+    if (activeBtn) {
+      activeBtn.classList.remove('text-secondary');
+      activeBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+    }
+
+    applyFilters();
+  }
+
+  function handleSearch(query) {
+    applyFilters();
+  }
+
+  function handleSort(criteria) {
+    const tbody = document.getElementById('inventory-tbody');
+    const rows = Array.from(tbody.querySelectorAll('.inventory-row'));
+
+    rows.sort((a, b) => {
+      if (criteria === 'name') {
+        const nameA = a.querySelector('.font-title-sm').innerText.trim();
+        const nameB = b.querySelector('.font-title-sm').innerText.trim();
+        return nameA.localeCompare(nameB);
+      } else if (criteria === 'lowest') {
+        // Compare available stock value
+        const availA = parseFloat(a.cells[3].innerText) || 0;
+        const availB = parseFloat(b.cells[3].innerText) || 0;
+        return availA - availB;
+      }
+      return 0;
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+  }
+
+  function applyFilters() {
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.inventory-row');
+
+    rows.forEach(row => {
+      const status = row.getAttribute('data-status');
+      const text = row.innerText.toLowerCase();
+
+      const matchesStatus = (currentFilter === 'all') || (status === currentFilter);
+      const matchesSearch = !query || text.includes(query);
+
+      if (matchesStatus && matchesSearch) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function selectIngredient(name) {
+    const drawer = document.getElementById('detail-drawer');
+    const title = document.getElementById('drawer-title');
+    
+    // Ensure drawer is open
+    if (!isDrawerOpen) {
+      toggleDrawer();
+    }
+    
+    title.innerText = name;
+  }
+
+  function toggleDrawer() {
+    const drawer = document.getElementById('detail-drawer');
+    const container = document.getElementById('table-container');
+
+    isDrawerOpen = !isDrawerOpen;
+    if (isDrawerOpen) {
+      drawer.classList.remove('hidden');
+      container.classList.remove('lg:col-span-12');
+      container.classList.add('lg:col-span-8');
+    } else {
+      drawer.classList.add('hidden');
+      container.classList.remove('lg:col-span-8');
+      container.classList.add('lg:col-span-12');
+    }
+  }
+
+  // Movements Audit Trail Filter
+  function filterMovements(type) {
+    const tabs = document.querySelectorAll('.mov-filter-tab');
+    tabs.forEach(t => {
+      t.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      t.classList.add('text-secondary');
+    });
+    event.currentTarget.classList.remove('text-secondary');
+    event.currentTarget.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+
+    const rows = document.querySelectorAll('.movement-row');
+    rows.forEach(row => {
+      const rowType = row.getAttribute('data-type');
+      if (type === 'all' || rowType === type) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  // Modal Handling
+  let currentModalMode = 'restock';
+
+  function openMovementModal(itemName, initialMode = 'restock') {
+    const modal = document.getElementById('movement-modal');
+    document.getElementById('modal-item-name').innerText = itemName;
+    document.getElementById('modal-selected-ingredient').innerText = itemName;
+    setModalMode(initialMode);
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeMovementModal() {
+    const modal = document.getElementById('movement-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function setModalMode(mode) {
+    currentModalMode = mode;
+    const restockBtn = document.getElementById('modal-mode-restock');
+    const adjustBtn = document.getElementById('modal-mode-adjust');
+    const restockFields = document.getElementById('restock-fields');
+    const adjustFields = document.getElementById('adjustment-fields');
+    const submitBtn = document.getElementById('modal-submit-btn');
+
+    if (mode === 'restock') {
+      restockBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      restockBtn.classList.remove('text-secondary');
+      adjustBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      adjustBtn.classList.add('text-secondary');
+
+      restockFields.classList.remove('hidden');
+      adjustFields.classList.add('hidden');
+      submitBtn.innerText = 'Record Restock';
+    } else {
+      adjustBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      adjustBtn.classList.remove('text-secondary');
+      restockBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      restockBtn.classList.add('text-secondary');
+
+      adjustFields.classList.remove('hidden');
+      restockFields.classList.add('hidden');
+      submitBtn.innerText = 'Save Audit Adjustment';
+    }
+  }
+
+  function updateRestockCalculation() {
+    const qty = parseFloat(document.getElementById('restock-qty').value) || 0;
+    const base = 5.0; // Current physical for unsalted butter
+    const total = (base + qty).toFixed(1);
+    document.getElementById('restock-preview-result').innerText = total + ' kg';
+  }
+
+  function updateAdjustmentCalculation() {
+    const dir = document.getElementById('adjust-direction').value;
+    const qty = parseFloat(document.getElementById('adjust-qty').value) || 0;
+    const base = 5.0;
+    const reserved = 3.8;
+    const res = dir === 'add' ? base + qty : base - qty;
+    
+    document.getElementById('adjust-preview-result').innerText = res.toFixed(1) + ' kg';
+
+    const warning = document.getElementById('reservation-warning');
+    if (dir === 'remove' && res < reserved) {
+      warning.classList.remove('hidden');
+    } else {
+      warning.classList.add('hidden');
+    }
+  }
+
+  function submitMovement() {
+    closeMovementModal();
+  }
+</script></div></main></div></body></html>

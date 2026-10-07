@@ -19,7 +19,7 @@ K.activeHolds=()=>K.holds.filter(h=>h.status==='confirmed'||h.status==='held'&&h
 K.dateReason=(date,exclude)=>{
  if(!D.valid(date)||date<=D.today())return 'Past / same day';
  if(D.config.blocked.includes(date))return 'Owner blocked';
- if(Date.parse(D.config.clock)>=Date.parse(D.add(date,-T.config.leadDays)+'T'+String(T.config.cutoffHour).padStart(2,'0')+':00:00+08:00'))return 'Lead time / cutoff';
+ if(Date.parse(D.config.clock)>=(D.config.timing?.cake?D.cutoff(date,null,'cake'):Date.parse(D.add(date,-T.config.leadDays)+'T'+String(T.config.cutoffHour).padStart(2,'0')+':00:00+08:00')))return 'Lead time / cutoff';
  const held=K.activeHolds().filter(h=>h.orderId!==exclude);
  if(held.filter(h=>D.week(h.date)===D.week(date)).length>=T.config.maxPerWeek)return 'Weekly capacity reached';
  if(held.filter(h=>h.date===date).length>=T.config.maxPerDay)return 'Date fully booked';
@@ -85,7 +85,7 @@ K.accept=q=>{
  const reason=K.quoteReason(q);if(reason){K.message=reason;return null;}
  let o=K.orders.find(o=>o.quotationId===q.id);if(o){if(o.paid||['waiting','detected','delayed'].includes(o.payment))return o;K.message='Resume or retry your existing payment from the order.';return o;}
  const snap=C.copy(q.snapshot),id='K406-CAKE-'+(++S.serial);
- o={id,customer_id:P.id(),type:'cake',domainType:'custom_cake_purchase',quotationId:q.id,requestId:q.requestId,items:[{key:'quotation:'+q.id,quotation_id:q.id,productId:0,name:'Custom celebration cake',variant:snap.options.map(x=>x.name).join(' · '),price:(q.total-q.delivery_fee)/100,quantity:1,image:snap.images[0]?.url||'assets/celebration-cake.jpg'}],fulfillment:{method:'delivery',date:snap.date,window:snap.window,windowLabel:snap.windowLabel},address:snap.address,contact:snap.contact,fee:q.delivery_fee/100,total:q.total/100,status:'pending-payment',payment:'waiting',created:Date.now(),reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Quotation accepted · awaiting payment',at:new Date().toLocaleString()}]};
+ o={id,customer_id:P.id(),type:'cake',domainType:'custom_cake_purchase',quotationId:q.id,requestId:q.requestId,items:[{key:'quotation:'+q.id,quotation_id:q.id,productId:0,name:'Custom celebration cake',variant:snap.options.map(x=>x.name).join(' · '),price:(q.total-q.delivery_fee)/100,quantity:1,image:snap.images[0]?.url||'assets/celebration-cake.jpg'}],fulfillment:{method:snap.method||'delivery',date:snap.date,window:snap.window,windowLabel:snap.windowLabel},address:snap.address,contact:snap.contact,fee:q.delivery_fee/100,total:q.total/100,status:'pending-payment',payment:'waiting',created:Date.now(),reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Quotation accepted · awaiting payment',at:new Date().toLocaleString()}]};
  const failure=K.reserve(o,q);if(failure){K.message=failure;return null;}
  q.status='accepted';q.accepted_at=Date.now();const r=K.request(q.requestId);r.status='accepted';r.accepted_quotation_id=q.id;K.orders.push(o);C.state.orders.unshift(o);return o;
 };

@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#f5f3f0",
+            "secondary": "#635d59",
+            "surface-bright": "#fbf9f6",
+            "on-secondary-container": "#69635f",
+            "on-tertiary-fixed": "#1f1b16",
+            "secondary-fixed": "#eae1db",
+            "secondary-container": "#eae1db",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#723600",
+            "tertiary-container": "#615a54",
+            "on-primary-fixed": "#311300",
+            "on-surface-variant": "#53433a",
+            "primary-container": "#8d4a14",
+            "surface": "#fbf9f6",
+            "on-surface": "#1b1c1a",
+            "tertiary-fixed-dim": "#cfc5bd",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e4e2df",
+            "surface-container-high": "#e9e8e4",
+            "secondary-fixed-dim": "#cdc5c0",
+            "on-secondary-fixed": "#1f1b18",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f2f1ed",
+            "surface-container": "#efeeea",
+            "surface-dim": "#dbdad7",
+            "on-tertiary-container": "#fffbff",
+            "inverse-surface": "#30312e",
+            "primary": "#6f3400",
+            "on-error-container": "#93000a",
+            "outline-variant": "#d9c2b5",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb787",
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed": "#ebe1d9",
+            "on-background": "#1b1c1a",
+            "surface-variant": "#e4e2df",
+            "on-secondary-fixed-variant": "#4b4642",
+            "inverse-primary": "#ffb787",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            "background": "#fbf9f5",
+            "outline": "#867368",
+            "surface-tint": "#904d17",
+            "tertiary": "#49433d",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#4c4640"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1.25rem",
+            "margin": "3rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Playfair Display"],
+            "price-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "display": ["Playfair Display"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "headline-sm": ["Playfair Display"],
+            "headline-md": ["Playfair Display"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "price-lg": ["Plus Jakarta Sans"],
+            "display-mobile": ["Playfair Display"],
+            "headline-lg": ["Playfair Display"]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+<!-- Persistent Left Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-[240px] bg-surface-container-low border-r border-[#E8E2D9] z-50 flex flex-col justify-between overflow-y-auto">
+<div class="flex flex-col">
+<div class="px-space-md pt-space-lg pb-space-md border-b border-[#E8E2D9]">
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-space-xs">Owner Workspace</span>
+<span class="block font-headline-sm text-headline-sm text-primary font-medium tracking-tight">Kitchen406</span>
+</div>
+<nav class="px-space-sm py-space-md space-y-space-md">
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Overview</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="orders" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deliveries" href="#">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+<span class="font-label-md text-label-md">Deliveries</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recipes-and-costing" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-md text-label-md">Recipes &amp; Costing</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="custom-cakes" href="#">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+<span class="font-label-md text-label-md">Custom Cakes</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="subscriptions" href="#">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span class="font-label-md text-label-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded bg-primary-container text-on-primary-container font-semibold transition-colors" data-path="capacity-calendar" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md">Capacity Calendar</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scheduling-blocked-dates" href="#">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+<span class="font-label-md text-label-md">Scheduling / Blocked Dates</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Management</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="products" href="#">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="categories" href="#">
+<span class="material-symbols-outlined text-[18px]">category</span>
+<span class="font-label-md text-label-md">Categories</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ingredients" href="#">
+<span class="material-symbols-outlined text-[18px]">egg</span>
+<span class="font-label-md text-label-md">Ingredients</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span class="font-label-md text-label-md">Cake Options &amp; Add-ons</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#">
+<span class="material-symbols-outlined text-[18px]">nature</span>
+<span class="font-label-md text-label-md">Seasonal Occasions</span>
+</a>
+</div>
+<div class="space-y-space-xs">
+<span class="px-space-sm block font-label-sm text-label-sm uppercase tracking-wider text-outline">Administration</span>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="staff-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="font-label-md text-label-md">Staff Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-accounts" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-md text-label-md">Customer Accounts</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reviews" href="#">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="font-label-md text-label-md">Reviews</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span class="font-label-md text-label-md">Marketing Drafts</span>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Review</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</div>
+</nav>
+</div>
+<div class="p-space-md border-t border-[#E8E2D9] bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Phase 6.11 Active</span>
+</div>
+</div>
+</aside>
+<!-- Main View Container -->
+<div class="pl-[240px]">
+<!-- Persistent Top Bar -->
+<header class="fixed top-0 left-[240px] right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-[#E8E2D9] z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface font-medium">Sunday, October 4, 2026</span>
+<span class="text-outline-variant font-body-sm text-body-sm">|</span>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Kitchen Active · Bakes in Progress</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">notifications</span>
+<span class="absolute -top-1 -right-2 px-1 py-0.2 rounded-full bg-primary text-on-primary font-label-sm text-[10px] leading-tight flex items-center justify-center font-bold min-w-[16px]">5</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-[#8D4A14] flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Eleanor Vance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Head Baker &amp; Owner</span>
+</div>
+</div>
+</div>
+</header>
+<main class="relative pt-16 bg-surface min-h-screen w-full px-gutter py-gutter pb-28">
+<div class="flex flex-col w-full">
+<!-- Capacity Settings Modal (Dialog Overlay) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-space-md bg-inverse-surface/40 backdrop-blur-sm transition-opacity duration-200" id="capacitySettingsModal">
+<div class="w-full max-w-xl bg-surface-container-lowest rounded-xl shadow-xl p-space-xl flex flex-col gap-space-lg max-h-[90vh] overflow-y-auto border border-[#E8E2D9]">
+<div class="flex items-start justify-between pb-space-sm border-b border-[#E8E2D9]">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Production Rules Engine</span>
+<h2 class="font-headline-sm text-headline-sm font-display text-on-surface mt-0.5">Capacity Settings</h2>
+</div>
+<button aria-label="Close dialog" class="p-1 rounded-full text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleModal('capacitySettingsModal', false)">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-start gap-space-sm text-on-surface-variant font-body-sm text-body-sm border border-[#E8E2D9]">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">info</span>
+<span class="leading-relaxed">Changes modify validation rules for future bookings only. Existing confirmed commitments remain unchanged.</span>
+</div>
+<form class="flex flex-col gap-space-md" id="capacitySettingsForm" onsubmit="saveCapacitySettings(event)">
+<!-- Standard Orders Configuration -->
+<div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Standard Orders</span>
+</div>
+<div class="grid grid-cols-2 gap-space-md pt-space-xs">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline uppercase font-semibold">Max Varieties / Day</label>
+<input class="w-full px-space-sm py-1.5 bg-surface-container-lowest border border-[#E8E2D9] rounded font-body-md text-on-surface focus:outline-none focus:border-primary text-right font-medium" id="inputMaxVarieties" min="1" required="" type="number" value="4"/>
+<span class="font-body-sm text-[11px] text-secondary">Up to 4 baked varieties daily</span>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline uppercase font-semibold">Max Units / Variety</label>
+<input class="w-full px-space-sm py-1.5 bg-surface-container-lowest border border-[#E8E2D9] rounded font-body-md text-on-surface focus:outline-none focus:border-primary text-right font-medium" id="inputMaxUnitsVariety" min="1" required="" type="number" value="10"/>
+<span class="font-body-sm text-[11px] text-secondary">Per product batch maximum</span>
+</div>
+</div>
+</div>
+<!-- Subscriptions Configuration -->
+<div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">event_repeat</span>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Subscriptions</span>
+</div>
+<div class="pt-space-xs flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline uppercase font-semibold">Max Units / Product / Week</label>
+<input class="w-full px-space-sm py-1.5 bg-surface-container-lowest border border-[#E8E2D9] rounded font-body-md text-on-surface focus:outline-none focus:border-primary text-right font-medium" id="inputMaxUnitsProductWeek" min="1" required="" type="number" value="10"/>
+<span class="font-body-sm text-[11px] text-secondary">Weekly subscriber batch ceiling per SKU</span>
+</div>
+</div>
+<!-- Custom Cakes Configuration -->
+<div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Custom Cakes</span>
+</div>
+<div class="pt-space-xs flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline uppercase font-semibold">Max Custom Cakes / Week</label>
+<input class="w-full px-space-sm py-1.5 bg-surface-container-lowest border border-[#E8E2D9] rounded font-body-md text-on-surface focus:outline-none focus:border-primary text-right font-medium" id="inputMaxCakesWeek" min="1" required="" type="number" value="2"/>
+<div class="flex items-start gap-1.5 mt-1.5 text-on-surface-variant font-body-sm text-[12px] bg-secondary-container/40 p-2 rounded">
+<span class="material-symbols-outlined text-[16px] text-primary mt-0.5">lock</span>
+<span class="leading-relaxed">Rule Enforced: Custom cakes must use different fulfillment dates within the same week.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-sm border-t border-[#E8E2D9]">
+<button class="px-space-md py-2 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors" onclick="toggleModal('capacitySettingsModal', false)" type="button">
+          Cancel
+        </button>
+<button class="px-space-lg py-2 rounded bg-primary-container text-on-primary-container hover:bg-primary font-label-md text-label-md font-semibold transition-colors shadow-sm" type="submit">
+          Save Capacity Settings
+        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Toast Notification -->
+<div class="fixed top-20 right-8 z-50 transform translate-y-[-20px] opacity-0 pointer-events-none transition-all duration-300 bg-surface-container-lowest text-on-surface px-space-md py-2.5 rounded-lg shadow-lg border border-[#E8E2D9] flex items-center gap-2" id="capacityToast">
+<span class="material-symbols-outlined text-emerald-700 text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md font-medium" id="toastMessage">Capacity settings updated.</span>
+</div>
+<!-- Breadcrumbs & Page Header Section -->
+<section class="flex flex-col gap-space-xs mb-space-lg">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-outline uppercase tracking-wider">
+<span>Owner Workspace</span>
+<span class="text-secondary-container">/</span>
+<span class="text-primary font-semibold">Capacity Calendar</span>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mt-1">
+<div>
+<h1 class="font-headline-lg text-headline-lg font-display text-on-surface tracking-tight">Capacity Calendar</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Monitor production commitments and remaining capacity across upcoming fulfillment dates.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="px-space-md py-2 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-[#E8E2D9] shadow-sm font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5" onclick="toggleModal('capacitySettingsModal', true)">
+<span class="material-symbols-outlined text-[18px] text-primary">tune</span>
+          Capacity Settings
+        </button>
+<a class="px-space-md py-2 rounded bg-secondary-container text-on-secondary-container hover:bg-surface-container-highest font-label-md text-label-md font-semibold transition-colors flex items-center gap-1" href="#">
+<span>Manage Blocked Dates &amp; Scheduling</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Capacity Summary Strip: 3 Clean Independent Capacity Cards -->
+<section aria-label="Capacity Pool Definitions" class="grid grid-cols-1 md:grid-cols-3 gap-space-md mb-space-lg">
+<!-- Card 1: Standard Orders -->
+<div class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm border border-[#E8E2D9] flex flex-col justify-between relative overflow-hidden">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold" id="card1Eyebrow">Daily Capacity</span>
+<span class="material-symbols-outlined text-primary text-[20px]">bakery_dining</span>
+</div>
+<span class="font-title-md text-title-md font-display font-semibold text-on-surface mt-1">STANDARD ORDERS</span>
+<p class="font-body-md text-body-md text-on-surface font-medium mt-1 leading-snug" id="card1Values">
+          Up to <strong class="font-bold text-primary" id="dispVarieties">4</strong> varieties/day · Up to <strong class="font-bold text-primary" id="dispUnitsVariety">10</strong> units/variety
+        </p>
+</div>
+<div class="pt-space-md mt-space-md bg-surface-container-low -mx-space-lg -mb-space-lg p-space-sm px-space-lg flex items-center justify-between text-body-sm text-secondary border-t border-[#E8E2D9]">
+<span class="text-[12px] font-medium text-on-surface-variant">Variety + per-product limits</span>
+<span class="text-[11px] font-label-sm uppercase tracking-wider text-outline">Independent Daily</span>
+</div>
+</div>
+<!-- Card 2: Subscriptions -->
+<div class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm border border-[#E8E2D9] flex flex-col justify-between relative overflow-hidden">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold" id="card2Eyebrow">Weekly Product Capacity</span>
+<span class="material-symbols-outlined text-primary text-[20px]">event_repeat</span>
+</div>
+<span class="font-title-md text-title-md font-display font-semibold text-on-surface mt-1">SUBSCRIPTIONS</span>
+<p class="font-body-md text-body-md text-on-surface font-medium mt-1 leading-snug" id="card2Values">
+          Up to <strong class="font-bold text-primary" id="dispSubWeekly">10</strong> units/product/week
+        </p>
+</div>
+<div class="pt-space-md mt-space-md bg-surface-container-low -mx-space-lg -mb-space-lg p-space-sm px-space-lg flex items-center justify-between text-body-sm text-secondary border-t border-[#E8E2D9]">
+<span class="text-[12px] font-medium text-on-surface-variant">Product-bound weekly limit</span>
+<span class="text-[11px] font-label-sm uppercase tracking-wider text-outline">Independent Weekly</span>
+</div>
+</div>
+<!-- Card 3: Custom Cakes -->
+<div class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm border border-[#E8E2D9] flex flex-col justify-between relative overflow-hidden">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold" id="card3Eyebrow">Weekly Capacity</span>
+<span class="material-symbols-outlined text-primary text-[20px]">cake</span>
+</div>
+<span class="font-title-md text-title-md font-display font-semibold text-on-surface mt-1">CUSTOM CAKES</span>
+<p class="font-body-md text-body-md text-on-surface font-medium mt-1 leading-snug" id="card3Values">
+          Up to <strong class="font-bold text-primary" id="dispCakesWeekly">2</strong> cakes/week
+        </p>
+</div>
+<div class="pt-space-md mt-space-md bg-surface-container-low -mx-space-lg -mb-space-lg p-space-sm px-space-lg flex items-center justify-between text-body-sm text-secondary border-t border-[#E8E2D9]">
+<span class="text-[12px] font-medium text-on-surface-variant">Different fulfillment dates required</span>
+<span class="text-[11px] font-label-sm uppercase tracking-wider text-outline">Independent Weekly</span>
+</div>
+</div>
+</section>
+<!-- Operational Calendar Toolbar -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-[#E8E2D9] mb-space-md">
+<!-- Left Navigation Controls -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="px-space-md py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-colors" onclick="selectCalendarDate('2026-10-04')">
+        Today
+      </button>
+<div class="flex items-center gap-1 bg-surface-container-low p-0.5 rounded border border-[#E8E2D9]">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Previous Month">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface px-space-sm whitespace-nowrap">October 2026</span>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Next Month">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="inline-flex rounded p-0.5 bg-surface-container-low border border-[#E8E2D9]">
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface shadow-xs font-label-sm text-label-sm font-semibold" id="viewMonthBtn" onclick="setViewMode('month')">Month</button>
+<button class="px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm font-semibold transition-colors" id="viewWeekBtn" onclick="setViewMode('week')">Week</button>
+</div>
+</div>
+<!-- Right Capacity Filter Pills -->
+<div class="flex flex-wrap items-center gap-1.5 overflow-x-auto" id="filterPills">
+<button class="filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-semibold transition-colors" onclick="setCalendarFilter('all', this)">
+        All Capacity
+      </button>
+<button class="filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-medium transition-colors" onclick="setCalendarFilter('standard', this)">
+        Standard Orders
+      </button>
+<button class="filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-medium transition-colors" onclick="setCalendarFilter('subscriptions', this)">
+        Subscriptions
+      </button>
+<button class="filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-medium transition-colors" onclick="setCalendarFilter('cakes', this)">
+        Custom Cakes
+      </button>
+</div>
+</section>
+<!-- Inline Calm Notice for Empty State (Hidden by default, shown during empty state without destroying grid) -->
+<div class="hidden mb-space-md p-space-md bg-surface-container-low rounded-xl border border-[#E8E2D9] flex items-center justify-between gap-space-md" id="emptyNoticeBanner">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">calendar_month</span>
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface block">No production commitments this month</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Confirmed orders, subscription deliveries, and custom cake allocations will appear here as they are scheduled. Capacity configuration and blocked dates remain active.</p>
+</div>
+</div>
+<button class="shrink-0 px-space-md py-1.5 rounded bg-surface-container-lowest border border-[#E8E2D9] text-on-surface font-label-sm text-label-sm font-semibold hover:bg-surface-container transition-colors" onclick="toggleModal('capacitySettingsModal', true)">
+Configure Rules
+</button>
+</div>
+<!-- Main Calendar + Inspector Split Layout -->
+<div class="flex flex-col lg:flex-row gap-space-lg items-start w-full">
+<!-- Month Grid View Container (~62-65% width on desktop) -->
+<div class="flex-1 w-full flex flex-col gap-space-md" id="calendarGridContainer">
+<!-- Week-based Capacity Ledger & 7-Day Month Grid -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-[#E8E2D9] p-space-md overflow-hidden flex flex-col">
+<!-- Calendar Days Header -->
+<div class="grid grid-cols-7 gap-1.5 text-center pb-space-sm border-b border-[#E8E2D9] mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Mon</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Tue</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Wed</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Thu</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Fri</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Sat</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Sun</span>
+</div>
+<!-- Month Grid: 5 Weeks of October 2026 -->
+<div class="flex flex-col gap-space-sm" id="calendarWeeksWrapper">
+<!-- Week 1: Sep 28 - Oct 4 -->
+<div class="week-row flex flex-col gap-1" data-week="1">
+<div class="flex items-center justify-between px-space-sm py-1 bg-surface-container-low rounded text-[11px] font-label-sm text-secondary border border-[#E8E2D9]">
+<span class="font-semibold text-on-surface">Sep 28 – Oct 4</span>
+<div class="flex items-center gap-space-md">
+<span class="item-sub">Subs: <strong class="text-on-surface">3 scheduled</strong></span>
+<span class="item-cake">Cakes: <strong class="text-on-surface">2/2 (At Limit)</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Sep 28-30 Prev Month -->
+<div class="min-h-[110px] p-2 rounded-lg bg-surface-container-lowest/40 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-outline">28</span>
+</div>
+<div class="min-h-[110px] p-2 rounded-lg bg-surface-container-lowest/40 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-outline">29</span>
+</div>
+<div class="min-h-[110px] p-2 rounded-lg bg-surface-container-lowest/40 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-outline">30</span>
+</div>
+<!-- Thu Oct 1 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-01')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">1</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary text-[10px] font-semibold uppercase">Closed</span>
+</div>
+<div class="text-[12px] text-secondary">No bake day</div>
+<div></div>
+</div>
+<!-- Fri Oct 2 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-02')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">2</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
+<span class="item-std">Std: 2/4 varieties</span>
+<span class="item-sub text-secondary">Sub: 1 scheduled</span>
+</div>
+<span class="text-[11px] text-outline">Fulfilled</span>
+</div>
+<!-- Sat Oct 3 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-03')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">3</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
+<span class="item-std">Std: 3/4 varieties</span>
+<span class="item-cake text-primary">Cake: 1 booked</span>
+</div>
+<span class="text-[11px] text-outline">Fulfilled</span>
+</div>
+<!-- Sun Oct 4 (Today) -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-high/60 shadow-xs flex flex-col justify-between border border-primary/30" onclick="selectCalendarDate('2026-10-04')">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-primary">4</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-primary text-on-primary text-[10px] font-bold uppercase">Today</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface font-medium">
+<span class="item-std text-error font-semibold">Std: 4/4 [At Limit]</span>
+<span class="item-cake text-secondary">Cake: 1 booked</span>
+</div>
+<span class="text-[11px] text-primary font-medium">Bakes in Progress</span>
+</div>
+</div>
+</div>
+<!-- Week 2: Oct 5 - Oct 11 (Focus Week: Tue Oct 6) -->
+<div class="week-row flex flex-col gap-1" data-week="2">
+<div class="flex items-center justify-between px-space-sm py-1 bg-surface-container-low rounded text-[11px] font-label-sm text-secondary border border-[#E8E2D9]">
+<span class="font-semibold text-on-surface">Oct 5 – Oct 11</span>
+<div class="flex items-center gap-space-md">
+<span class="item-sub">Subs: <strong class="text-error font-semibold">1 product at limit</strong> (Chocolate Babka)</span>
+<span class="item-cake">Cakes: <strong class="text-on-surface font-semibold">1/2 booked</strong> (1 slot remaining)</span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Mon Oct 5 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-05')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">5</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary text-[10px] font-semibold uppercase">Off</span>
+</div>
+<div class="text-[12px] text-secondary">Preps &amp; Levain</div>
+<div></div>
+</div>
+<!-- Tue Oct 6 (Selected Date) -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-primary/10 shadow-sm transition-all flex flex-col justify-between border border-primary" id="day-2026-10-06" onclick="selectCalendarDate('2026-10-06')">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-primary">6</span>
+<span class="px-1 py-0.2 rounded bg-primary text-on-primary text-[9px] font-bold uppercase tracking-wider">Selected</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-bold uppercase" id="badge-2026-10-06">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px]">
+<span class="item-std font-medium text-on-surface" id="cellStd-2026-10-06">Std: 3/4 varieties</span>
+<span class="item-sub text-primary font-medium" id="cellSub-2026-10-06">Sub: 3 scheduled</span>
+<span class="item-cake text-amber-900 font-semibold flex items-center gap-0.5" id="cellCake-2026-10-06">
+<span class="material-symbols-outlined text-[13px]">cake</span> Cake: 1 booked
+</span>
+</div>
+<div class="flex items-center justify-between text-[11px] pt-0.5 border-t border-primary/20">
+<span class="item-hold text-amber-800 font-medium flex items-center gap-0.5" id="cellHold-2026-10-06">
+<span class="material-symbols-outlined text-[12px]">lock_clock</span> 1 hold
+</span>
+<span class="text-primary font-semibold text-[11px]">3 Pools</span>
+</div>
+</div>
+<!-- Wed Oct 7 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-07')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">7</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
+<span class="item-std">Std: 2/4 varieties</span>
+<span class="item-sub text-error font-semibold">Sub: Babka at limit</span>
+<span class="item-cake text-outline">Cake: 0 booked</span>
+</div>
+<span class="text-[11px] text-secondary">Wednesday Batch</span>
+</div>
+<!-- Thu Oct 8 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-08')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">8</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary text-[10px] font-semibold uppercase">Off</span>
+</div>
+<div class="text-[12px] text-secondary">PM Bake Prep</div>
+<div></div>
+</div>
+<!-- Fri Oct 9 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-09')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">9</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
+<span class="item-std text-error font-semibold">Std: 4/4 [At Limit]</span>
+<span class="item-sub">Sub: 2 scheduled</span>
+<span class="item-cake text-emerald-800 font-semibold">Cake: 1 slot open</span>
+</div>
+<span class="text-[11px] text-secondary">Friday Batch</span>
+</div>
+<!-- Sat Oct 10 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-10')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">10</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[12px] text-on-surface-variant font-medium">
+<span class="item-std">Std: 3/4 varieties</span>
+<span class="item-sub">Sub: 1 scheduled</span>
+</div>
+<span class="text-[11px] text-secondary">Weekend Batch</span>
+</div>
+<!-- Sun Oct 11 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-11')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">11</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary text-[10px] font-semibold uppercase">Rest</span>
+</div>
+<div class="text-[12px] text-secondary">Kitchen Clean Down</div>
+<div></div>
+</div>
+</div>
+</div>
+<!-- Week 3: Oct 12 - Oct 18 (Includes Blocked Date Oct 15) -->
+<div class="week-row flex flex-col gap-1" data-week="3">
+<div class="flex items-center justify-between px-space-sm py-1 bg-surface-container-low rounded text-[11px] font-label-sm text-secondary border border-[#E8E2D9]">
+<span class="font-semibold text-on-surface">Oct 12 – Oct 18</span>
+<div class="flex items-center gap-space-md">
+<span class="item-sub">Subs: <strong class="text-on-surface font-semibold">2 scheduled</strong></span>
+<span class="item-cake">Cakes: <strong class="text-error font-semibold">2/2 booked [At Limit]</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Mon Oct 12 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-12')">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">12</span>
+<span class="text-[12px] text-secondary">Prep Only</span>
+<div></div>
+</div>
+<!-- Tue Oct 13 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-13')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">13</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+<span class="item-std block">Std: 1/4 varieties</span>
+<span class="item-cake block text-primary font-semibold">Cake: 1 booked</span>
+</div>
+<span class="text-[11px] text-secondary">Tue Batch</span>
+</div>
+<!-- Wed Oct 14 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-14')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">14</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+<span class="item-std block">Std: 2/4 varieties</span>
+<span class="item-sub block">Sub: 1 scheduled</span>
+</div>
+<span class="text-[11px] text-secondary">Wed Batch</span>
+</div>
+<!-- Thu Oct 15: BLOCKED DATE -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-high/90 relative overflow-hidden flex flex-col justify-between border border-outline/30" id="day-2026-10-15" onclick="selectCalendarDate('2026-10-15')">
+<div class="flex items-center justify-between z-10">
+<span class="font-title-sm text-title-sm font-bold text-secondary">15</span>
+<span class="px-1.5 py-0.5 rounded bg-inverse-surface text-inverse-on-surface text-[10px] font-bold uppercase tracking-wider flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">block</span> Blocked
+</span>
+</div>
+<div class="flex flex-col gap-0.5 z-10 text-[12px] text-secondary">
+<span class="font-semibold text-on-surface">Scheduled Deep Clean</span>
+<span class="text-error font-medium">0 bookings allowed</span>
+</div>
+<div class="z-10 text-[11px] text-outline font-semibold uppercase">No Capacity</div>
+</div>
+<!-- Fri Oct 16 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-16')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">16</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+<span class="item-std block">Std: 3/4 varieties</span>
+<span class="item-sub block">Sub: 1 scheduled</span>
+</div>
+<span class="text-[11px] text-secondary">Cycle Week 1</span>
+</div>
+<!-- Sat Oct 17 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-17')">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">17</span>
+<span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-semibold uppercase">Cakes Max</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+<span class="item-std block">Std: 4/4 [At Limit]</span>
+<span class="item-cake block text-primary font-bold">Cake: 2/2 booked</span>
+</div>
+<span class="text-[11px] text-secondary">Sat Batch</span>
+</div>
+<!-- Sun Oct 18 -->
+<div class="cal-day cursor-pointer min-h-[110px] p-2 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between border border-[#E8E2D9]" onclick="selectCalendarDate('2026-10-18')">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">18</span>
+<span class="text-[12px] text-secondary">Rest</span>
+<div></div>
+</div>
+</div>
+</div>
+<!-- Week 4: Oct 19 - Oct 25 -->
+<div class="week-row flex flex-col gap-1" data-week="4">
+<div class="flex items-center justify-between px-space-sm py-1 bg-surface-container-low rounded text-[11px] font-label-sm text-secondary border border-[#E8E2D9]">
+<span class="font-semibold text-on-surface">Oct 19 – Oct 25</span>
+<div class="flex items-center gap-space-md">
+<span class="item-sub">Subs: <strong class="text-on-surface font-semibold">2 scheduled</strong></span>
+<span class="item-cake">Cakes: <strong class="text-emerald-700 font-semibold">0/2 (2 slots available)</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Mon Oct 19 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">19</span>
+<span class="text-[12px] text-secondary">Off</span>
+<div></div>
+</div>
+<!-- Tue Oct 20 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">20</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-std">Std: 2/4 varieties</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Wed Oct 21 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">21</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-sub">Sub: Babka (Final)</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Thu Oct 22 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">22</span>
+<span class="text-[12px] text-secondary">Off</span>
+<div></div>
+</div>
+<!-- Fri Oct 23 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">23</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-sub">Sub: 2 scheduled</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Sat Oct 24 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">24</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-std">Std: 3/4 varieties</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Sun Oct 25 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">25</span>
+<span class="text-[12px] text-secondary">Rest</span>
+<div></div>
+</div>
+</div>
+</div>
+<!-- Week 5: Oct 26 - Oct 31 -->
+<div class="week-row flex flex-col gap-1" data-week="5">
+<div class="flex items-center justify-between px-space-sm py-1 bg-surface-container-low rounded text-[11px] font-label-sm text-secondary border border-[#E8E2D9]">
+<span class="font-semibold text-on-surface">Oct 26 – Nov 1</span>
+<div class="flex items-center gap-space-md">
+<span class="item-sub">Subs: <strong class="text-on-surface font-semibold">2 scheduled</strong></span>
+<span class="item-cake">Cakes: <strong class="text-on-surface font-semibold">1/2 booked</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Mon Oct 26 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">26</span>
+<span class="text-[12px] text-secondary">Off</span>
+<div></div>
+</div>
+<!-- Tue Oct 27 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">27</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-std">Std: 1/4 varieties</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Wed Oct 28 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">28</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-std">Std: 3/4 varieties</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Thu Oct 29 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">29</span>
+<span class="text-[12px] text-secondary">Off</span>
+<div></div>
+</div>
+<!-- Fri Oct 30 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">30</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium item-sub">Sub: 2 scheduled</div>
+<span class="text-[11px] text-secondary">Friday Batch</span>
+</div>
+<!-- Sat Oct 31 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-low flex flex-col justify-between border border-[#E8E2D9]">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">31</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-semibold uppercase">Available</span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-medium">
+<span class="item-std block">Std: 2/4 varieties</span>
+<span class="item-cake block text-primary font-medium">Cake: 1 booked</span>
+</div>
+<span class="text-[11px] text-outline">Open</span>
+</div>
+<!-- Sun Nov 1 -->
+<div class="min-h-[100px] p-2 rounded-lg bg-surface-container-lowest/40 opacity-40 flex flex-col justify-between border border-transparent">
+<span class="font-label-sm text-label-sm text-outline">1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Capacity Legend Strip -->
+<div class="p-space-sm bg-surface-container-lowest rounded-lg shadow-sm border border-[#E8E2D9] flex flex-wrap items-center justify-between text-body-sm text-on-surface-variant gap-space-sm">
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-emerald-100 border border-emerald-300"></span>
+<span class="text-[12px] font-medium text-on-surface">Capacity Available</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-error-container border border-error/30"></span>
+<span class="text-[12px] font-medium text-on-surface">At Limit</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-amber-100 border border-amber-300"></span>
+<span class="text-[12px] font-medium text-on-surface">Temporary Hold</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-inverse-surface"></span>
+<span class="text-[12px] font-medium text-on-surface">Blocked Date</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Independent Pools · No Aggregate Combining</span>
+</div>
+</div>
+<!-- Selected Date Inspector (Right-hand Drawer/Panel, ~35-38% width) -->
+<div class="w-full lg:w-[460px] flex flex-col gap-space-md shrink-0" id="dateInspectorPanel">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-[#E8E2D9] p-space-lg flex flex-col gap-space-md" id="inspectorContent">
+<!-- Populated dynamically via renderInspector() -->
+</div>
+</div>
+</div>
+<!-- Interactive Prototype State Switcher Docked at Bottom (Strictly Phase 6.11 Capacity Scenarios) -->
+<aside class="fixed bottom-4 left-[260px] right-6 z-40 flex justify-center pointer-events-none">
+<div class="pointer-events-auto bg-surface-container-lowest/95 backdrop-blur-md rounded-full shadow-lg border border-[#E8E2D9] p-2 flex items-center justify-between gap-2 overflow-x-auto max-w-5xl w-full">
+<div class="flex items-center gap-1.5 pl-3">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold whitespace-nowrap">Capacity Calendar Scenarios:</span>
+</div>
+<div class="flex items-center gap-1 overflow-x-auto py-0.5">
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-medium whitespace-nowrap transition-colors" onclick="setCalendarScenario('date-selected', this)">
+          Date Selected (Tue Oct 6)
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('blocked-date', this)">
+          Blocked Date (Thu Oct 15)
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('standard-full', this)">
+          Standard Capacity Full
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('subscription-full', this)">
+          Subscription Capacity Full
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('cakes-full', this)">
+          Custom Cake Capacity Full
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('temp-hold', this)">
+          Temporary Hold
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="toggleModal('capacitySettingsModal', true)">
+          Capacity Settings
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('loading', this)">
+          Loading
+        </button>
+<button class="proto-btn px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface hover:bg-surface-container-high whitespace-nowrap transition-colors" onclick="setCalendarScenario('empty', this)">
+          Empty
+        </button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Complete Clean Capacity Calendar Script -->
+<script>
+  // Dynamic Capacity Settings State
+  const capacityConfig = {
+    standardVarietiesDay: 4,
+    standardUnitsPerVariety: 10,
+    subscriptionUnitsPerWeek: 10,
+    customCakesPerWeek: 2
+  };
+
+  // Scenario Data Store for Capacity Calendar
+  let currentScenario = 'date-selected';
+
+  function getScenarioData(scenario) {
+    if (scenario === 'blocked-date') {
+      return {
+        dateFormatted: 'Thursday, October 15, 2026',
+        isBlocked: true,
+        blockReason: 'Scheduled Deep Clean · No new bookings allowed',
+        blockType: 'Full Kitchen Closure',
+        note: 'All production capacity pools are closed for this date. No pickups or deliveries can be scheduled.'
+      };
+    }
+
+    const base = {
+      dateFormatted: 'Tuesday, October 6, 2026',
+      isBlocked: false,
+      standard: {
+        varietiesUsed: 3,
+        varietiesLimit: capacityConfig.standardVarietiesDay,
+        items: [
+          { name: 'Classic Sourdough Batard', variant: 'Whole Loaf', allocated: 8, hold: 1, limit: capacityConfig.standardUnitsPerVariety, remaining: 2, status: 'Available', badgeStyle: 'bg-emerald-100 text-emerald-900' },
+          { name: 'Croissant Box (6-Pack)', variant: 'Traditional Butter', allocated: 10, hold: 0, limit: capacityConfig.standardUnitsPerVariety, remaining: 0, status: 'At Limit', badgeStyle: 'bg-error-container text-on-error-container' },
+          { name: 'Ube Cheese Pandesal', variant: 'Pack of 8', allocated: 6, hold: 0, limit: capacityConfig.standardUnitsPerVariety, remaining: 4, status: 'Available', badgeStyle: 'bg-emerald-100 text-emerald-900' }
+        ]
+      },
+      subscriptions: {
+        weekLabel: 'Week of Oct 5–11',
+        items: [
+          { name: 'Japanese Shokupan Loaf', scheduled: 7, limit: capacityConfig.subscriptionUnitsPerWeek, remaining: 3, status: 'Available', badgeStyle: 'bg-emerald-100 text-emerald-900' },
+          { name: 'Braided Chocolate Babka', scheduled: 10, limit: capacityConfig.subscriptionUnitsPerWeek, remaining: 0, status: 'At Limit', badgeStyle: 'bg-error-container text-on-error-container' },
+          { name: 'Artisan Brioche Buns', scheduled: 5, limit: capacityConfig.subscriptionUnitsPerWeek, remaining: 5, status: 'Available', badgeStyle: 'bg-emerald-100 text-emerald-900' }
+        ]
+      },
+      customCakes: {
+        weekLabel: 'Week of Oct 5–11',
+        weeklyUsed: 1,
+        weeklyLimit: capacityConfig.customCakesPerWeek,
+        remainingSlots: 1,
+        bookedDate: 'Tuesday, Oct 6',
+        orderRef: 'Order CCR-1046',
+        notice: 'Tue Oct 6 booked for Order CCR-1046. A second custom cake must be scheduled on a different fulfillment date.'
+      },
+      holds: [
+        { product: 'Classic Sourdough Batard', qty: '1 loaf', expires: '8m', pool: 'Standard Orders' }
+      ]
+    };
+
+    if (scenario === 'standard-full') {
+      base.standard.varietiesUsed = 4;
+      base.standard.items.push({
+        name: 'Country Baguette', variant: 'Single Loaf', allocated: 10, hold: 0, limit: 10, remaining: 0, status: 'At Limit', badgeStyle: 'bg-error-container text-on-error-container'
+      });
+      base.standard.items[0].allocated = 10;
+      base.standard.items[0].remaining = 0;
+      base.standard.items[0].status = 'At Limit';
+      base.standard.items[0].badgeStyle = 'bg-error-container text-on-error-container';
+      base.standard.items[2].allocated = 10;
+      base.standard.items[2].remaining = 0;
+      base.standard.items[2].status = 'At Limit';
+      base.standard.items[2].badgeStyle = 'bg-error-container text-on-error-container';
+      base.holds = [];
+    } else if (scenario === 'subscription-full') {
+      base.subscriptions.items.forEach(i => {
+        i.scheduled = 10;
+        i.remaining = 0;
+        i.status = 'At Limit';
+        i.badgeStyle = 'bg-error-container text-on-error-container';
+      });
+    } else if (scenario === 'cakes-full') {
+      base.customCakes.weeklyUsed = 2;
+      base.customCakes.remainingSlots = 0;
+      base.customCakes.notice = 'Weekly custom cake limit reached (2/2 cakes booked). No additional cake allocations permitted for this week.';
+    } else if (scenario === 'temp-hold') {
+      base.holds = [
+        { product: 'Classic Sourdough Batard', qty: '2 loaves', expires: '5m', pool: 'Standard Orders' },
+        { product: 'Japanese Shokupan Loaf', qty: '1 loaf', expires: '12m', pool: 'Subscriptions' }
+      ];
+    }
+
+    return base;
+  }
+
+  function renderInspector() {
+    const container = document.getElementById('inspectorContent');
+    if (!container) return;
+
+    const data = getScenarioData(currentScenario);
+
+    if (data.isBlocked) {
+      container.innerHTML = `
+        <div class="flex items-start justify-between pb-space-xs border-b border-[#E8E2D9]">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-inverse-surface text-inverse-on-surface font-label-sm text-[11px] font-bold uppercase tracking-wider">Blocked Date</span>
+              <span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Calendar Notice</span>
+            </div>
+            <h2 class="font-headline-sm text-headline-sm font-display text-on-surface mt-1 leading-tight">${data.dateFormatted}</h2>
+            <span class="font-body-sm text-body-sm text-error font-medium mt-0.5">Kitchen Fully Closed · 0 Capacity Available</span>
+          </div>
+          <button onclick="setCalendarScenario('date-selected')" class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Back to Active Date">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+
+        <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+          <div class="flex items-center gap-2 text-error">
+            <span class="material-symbols-outlined text-[20px]">event_busy</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">${data.blockType}</span>
+          </div>
+          <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            ${data.blockReason}
+          </p>
+          <div class="p-2.5 bg-surface-container-lowest rounded border border-[#E8E2D9] text-[12px] font-body-sm text-on-surface-variant">
+            ${data.note}
+          </div>
+        </div>
+
+        <div class="p-space-sm bg-surface-container-low rounded-lg border border-[#E8E2D9] flex items-center justify-between text-body-sm">
+          <span class="font-body-sm text-[12px] text-on-surface-variant">Need to modify kitchen blackout dates?</span>
+          <a href="#" class="inline-flex items-center gap-1 text-primary hover:underline font-label-md text-label-md font-semibold">
+            Manage Blocked Dates &amp; Scheduling →
+          </a>
+        </div>
+      `;
+      return;
+    }
+
+    // Render Active Tuesday Oct 6 Full Inspector
+    const stdSlotsRem = Math.max(0, data.standard.varietiesLimit - data.standard.varietiesUsed);
+
+    container.innerHTML = `
+      <!-- Header -->
+      <div class="flex items-start justify-between pb-space-xs border-b border-[#E8E2D9]">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded ${stdSlotsRem > 0 ? 'bg-emerald-100 text-emerald-900' : 'bg-error-container text-on-error-container'} font-label-sm text-[11px] font-semibold uppercase tracking-wider">
+              ${stdSlotsRem > 0 ? 'Available' : 'At Limit'}
+            </span>
+            <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Inspection</span>
+          </div>
+          <h2 class="font-headline-sm text-headline-sm font-display text-on-surface mt-1 leading-tight">${data.dateFormatted}</h2>
+          <span class="font-body-sm text-body-sm text-primary font-medium mt-0.5">3 Independent Capacity Pools</span>
+        </div>
+        <button onclick="renderInspector()" class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Refresh Panel">
+          <span class="material-symbols-outlined text-[18px]">sync</span>
+        </button>
+      </div>
+
+      <!-- Section A: Standard Orders (Daily) -->
+      <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-primary">bakery_dining</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">Standard Orders</span>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-surface-container-highest text-secondary font-mono text-[11px] font-semibold">
+            Varieties: ${data.standard.varietiesUsed} / ${data.standard.varietiesLimit}
+          </span>
+        </div>
+        <div class="flex items-center justify-between text-body-sm text-on-surface-variant pb-1">
+          <span class="text-[12px]">Daily limit: ${data.standard.varietiesLimit} varieties · Up to ${capacityConfig.standardUnitsPerVariety} units/variety</span>
+          <span class="text-[12px] font-medium ${stdSlotsRem > 0 ? 'text-emerald-800' : 'text-error'}">
+            ${stdSlotsRem > 0 ? stdSlotsRem + ' variety slot remaining' : '0 varieties remaining'}
+          </span>
+        </div>
+
+        <!-- Table of Standard Orders -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-body-sm">
+            <thead>
+              <tr class="text-[11px] font-label-sm text-outline uppercase tracking-wider border-b border-[#E8E2D9]">
+                <th class="py-1">Product</th>
+                <th class="py-1 text-right">Allocated</th>
+                <th class="py-1 text-right">Limit</th>
+                <th class="py-1 text-right">Rem.</th>
+                <th class="py-1 text-right">State</th>
+              </tr>
+            </thead>
+            <tbody class="text-body-sm divide-y divide-[#E8E2D9]/60">
+              ${data.standard.items.map(item => `
+                <tr class="hover:bg-surface-container/60 transition-colors">
+                  <td class="py-1.5 pr-2">
+                    <span class="font-medium text-on-surface block text-[13px] leading-tight">${item.name}</span>
+                    <span class="text-[11px] text-secondary">${item.variant}</span>
+                  </td>
+                  <td class="py-1.5 text-right font-mono text-[12px]">
+                    ${item.allocated}
+                    ${item.hold > 0 ? `<span class="text-[10px] text-amber-800 block">(${item.hold}h)</span>` : ''}
+                  </td>
+                  <td class="py-1.5 text-right font-mono text-[12px] text-secondary">${item.limit}</td>
+                  <td class="py-1.5 text-right font-mono text-[12px] font-semibold ${item.remaining === 0 ? 'text-error' : 'text-on-surface'}">${item.remaining}</td>
+                  <td class="py-1.5 text-right">
+                    <span class="px-1.5 py-0.2 rounded ${item.badgeStyle} text-[10px] font-semibold uppercase whitespace-nowrap">
+                      ${item.status}
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex justify-end pt-1">
+          <a href="#" class="inline-flex items-center gap-1 text-[12px] font-label-sm text-primary font-semibold hover:underline">
+            View Source Orders →
+          </a>
+        </div>
+      </div>
+
+      <!-- Section B: Subscriptions (Weekly) -->
+      <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-primary">event_repeat</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">Subscriptions (${data.subscriptions.weekLabel})</span>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-surface-container-highest text-secondary font-mono text-[11px] font-semibold">
+            Weekly Product Limits
+          </span>
+        </div>
+        <span class="text-[12px] text-on-surface-variant">Up to ${capacityConfig.subscriptionUnitsPerWeek} units/product/week across active prepaid commitments</span>
+
+        <!-- Table of Subscriptions -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-body-sm">
+            <thead>
+              <tr class="text-[11px] font-label-sm text-outline uppercase tracking-wider border-b border-[#E8E2D9]">
+                <th class="py-1">Product</th>
+                <th class="py-1 text-right">Scheduled</th>
+                <th class="py-1 text-right">Limit</th>
+                <th class="py-1 text-right">Rem.</th>
+                <th class="py-1 text-right">State</th>
+              </tr>
+            </thead>
+            <tbody class="text-body-sm divide-y divide-[#E8E2D9]/60">
+              ${data.subscriptions.items.map(sub => `
+                <tr class="hover:bg-surface-container/60 transition-colors">
+                  <td class="py-1.5 pr-2">
+                    <span class="font-medium text-on-surface block text-[13px] leading-tight">${sub.name}</span>
+                  </td>
+                  <td class="py-1.5 text-right font-mono text-[12px]">${sub.scheduled}</td>
+                  <td class="py-1.5 text-right font-mono text-[12px] text-secondary">${sub.limit}</td>
+                  <td class="py-1.5 text-right font-mono text-[12px] font-semibold ${sub.remaining === 0 ? 'text-error' : 'text-on-surface'}">${sub.remaining}</td>
+                  <td class="py-1.5 text-right">
+                    <span class="px-1.5 py-0.2 rounded ${sub.badgeStyle} text-[10px] font-semibold uppercase whitespace-nowrap">
+                      ${sub.status}
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex justify-end pt-1">
+          <a href="#" class="inline-flex items-center gap-1 text-[12px] font-label-sm text-primary font-semibold hover:underline">
+            View Subscriptions →
+          </a>
+        </div>
+      </div>
+
+      <!-- Section C: Custom Cakes (Weekly) -->
+      <div class="p-space-md bg-surface-container-low rounded-lg border border-[#E8E2D9] flex flex-col gap-space-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-primary">cake</span>
+            <span class="font-title-sm text-title-sm font-semibold text-on-surface">Custom Cakes (${data.customCakes.weekLabel})</span>
+          </div>
+          <span class="px-2 py-0.5 rounded ${data.customCakes.remainingSlots === 0 ? 'bg-error-container text-on-error-container' : 'bg-emerald-100 text-emerald-900'} font-mono text-[11px] font-bold">
+            ${data.customCakes.weeklyUsed} / ${data.customCakes.weeklyLimit} Used
+          </span>
+        </div>
+
+        <div class="bg-surface-container-lowest p-space-sm rounded border border-[#E8E2D9] flex flex-col gap-1 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-on-surface text-[13px]">${data.customCakes.bookedDate}</span>
+            <a href="#" class="font-mono text-primary font-semibold text-[11px] hover:underline">${data.customCakes.orderRef}</a>
+          </div>
+          <span class="text-[12px] text-secondary">1 Custom Cake Allocation Booked</span>
+        </div>
+
+        <div class="p-space-xs px-space-sm bg-amber-50 rounded border border-amber-200 flex items-start gap-1.5 text-amber-950 font-body-sm text-[12px]">
+          <span class="material-symbols-outlined text-[16px] text-amber-800 mt-0.5">info</span>
+          <span class="leading-tight">${data.customCakes.notice}</span>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <span class="font-label-sm text-[11px] ${data.customCakes.remainingSlots > 0 ? 'text-emerald-800 font-semibold' : 'text-error font-semibold'}">
+            ${data.customCakes.remainingSlots > 0 ? data.customCakes.remainingSlots + ' Cake Slot Available in Week' : 'Weekly Capacity Full'}
+          </span>
+          <a href="#" class="inline-flex items-center gap-1 text-[12px] font-label-sm text-primary font-semibold hover:underline">
+            View Custom Cake Order →
+          </a>
+        </div>
+      </div>
+
+      <!-- Section D: Active Checkout Holds -->
+      <div class="p-space-md bg-amber-50/70 border border-amber-200 rounded-lg flex flex-col gap-space-xs">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 text-amber-950">
+            <span class="material-symbols-outlined text-[18px] text-amber-800">lock_clock</span>
+            <span class="font-title-sm text-title-sm font-semibold">Active Checkout Holds</span>
+          </div>
+          <span class="px-2 py-0.2 rounded bg-amber-200 text-amber-900 font-mono text-[11px] font-bold">
+            ${data.holds.length} Hold${data.holds.length === 1 ? '' : 's'} Active
+          </span>
+        </div>
+        ${data.holds.length > 0 ? data.holds.map(h => `
+          <div class="bg-surface-container-lowest p-space-sm rounded border border-amber-200/70 flex flex-col gap-1 shadow-xs">
+            <div class="flex justify-between items-center text-[12px]">
+              <span class="font-semibold text-on-surface">${h.product} × ${h.qty}</span>
+              <span class="font-mono text-amber-900 font-bold text-[11px]">Expires in ${h.expires}</span>
+            </div>
+            <div class="flex justify-between items-center text-[11px] text-secondary">
+              <span>Temporarily reserved during checkout</span>
+              <span>Pool: ${h.pool}</span>
+            </div>
+          </div>
+        `).join('') : `
+          <div class="bg-surface-container-lowest p-space-sm rounded border border-[#E8E2D9] text-[12px] text-secondary text-center">
+            No active temporary holds for this date.
+          </div>
+        `}
+        <p class="font-body-sm text-[11px] text-amber-900 leading-tight mt-1">
+          Holds are automatically released back to available capacity if payment is not completed within the timeout window.
+        </p>
+      </div>
+
+      <!-- Section E: Informational Notice -->
+      <div class="p-space-sm bg-surface-container-low rounded-lg border border-[#E8E2D9] flex items-start gap-space-sm text-on-surface-variant font-body-sm text-[12px]">
+        <span class="material-symbols-outlined text-outline text-[18px] mt-0.5">warehouse</span>
+        <div class="flex-1">
+          <span>Capacity availability does not override ingredient inventory requirements.</span>
+          <a href="#" class="font-semibold text-primary hover:underline ml-1">View Inventory →</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function selectCalendarDate(dateKey) {
+    document.querySelectorAll('.cal-day').forEach(el => {
+      el.classList.remove('bg-primary/10', 'border-primary', 'shadow-sm');
+    });
+
+    const targetEl = document.getElementById('day-' + dateKey);
+    if (targetEl) {
+      targetEl.classList.add('bg-primary/10', 'border-primary', 'shadow-sm');
+    }
+
+    if (dateKey === '2026-10-15') {
+      currentScenario = 'blocked-date';
+    } else {
+      currentScenario = 'date-selected';
+    }
+    renderInspector();
+  }
+
+  function setCalendarFilter(pool, btnEl) {
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.className = 'filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-medium transition-colors';
+    });
+    btnEl.className = 'filter-pill px-space-md py-1 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-semibold transition-colors';
+
+    const stdItems = document.querySelectorAll('.item-std');
+    const subItems = document.querySelectorAll('.item-sub');
+    const cakeItems = document.querySelectorAll('.item-cake');
+    const holdItems = document.querySelectorAll('.item-hold');
+
+    if (pool === 'all') {
+      stdItems.forEach(el => el.classList.remove('opacity-20'));
+      subItems.forEach(el => el.classList.remove('opacity-20'));
+      cakeItems.forEach(el => el.classList.remove('opacity-20'));
+      holdItems.forEach(el => el.classList.remove('opacity-20'));
+    } else if (pool === 'standard') {
+      stdItems.forEach(el => el.classList.remove('opacity-20'));
+      subItems.forEach(el => el.classList.add('opacity-20'));
+      cakeItems.forEach(el => el.classList.add('opacity-20'));
+      holdItems.forEach(el => el.classList.remove('opacity-20'));
+    } else if (pool === 'subscriptions') {
+      stdItems.forEach(el => el.classList.add('opacity-20'));
+      subItems.forEach(el => el.classList.remove('opacity-20'));
+      cakeItems.forEach(el => el.classList.add('opacity-20'));
+      holdItems.forEach(el => el.classList.add('opacity-20'));
+    } else if (pool === 'cakes') {
+      stdItems.forEach(el => el.classList.add('opacity-20'));
+      subItems.forEach(el => el.classList.add('opacity-20'));
+      cakeItems.forEach(el => el.classList.remove('opacity-20'));
+      holdItems.forEach(el => el.classList.add('opacity-20'));
+    }
+  }
+
+  function setViewMode(mode) {
+    const monthBtn = document.getElementById('viewMonthBtn');
+    const weekBtn = document.getElementById('viewWeekBtn');
+    const allWeeks = document.querySelectorAll('.week-row');
+
+    if (mode === 'week') {
+      monthBtn.className = 'px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm font-semibold transition-colors';
+      weekBtn.className = 'px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface shadow-xs font-label-sm text-label-sm font-semibold';
+      // Show only current active focus week (Week 2)
+      allWeeks.forEach(w => {
+        if (w.getAttribute('data-week') === '2') {
+          w.style.display = 'flex';
+        } else {
+          w.style.display = 'none';
+        }
+      });
+    } else {
+      weekBtn.className = 'px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm font-semibold transition-colors';
+      monthBtn.className = 'px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface shadow-xs font-label-sm text-label-sm font-semibold';
+      allWeeks.forEach(w => w.style.display = 'flex');
+    }
+  }
+
+  function toggleModal(modalId, show) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    if (show) {
+      modal.classList.remove('hidden');
+    } else {
+      modal.classList.add('hidden');
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('capacityToast');
+    const msgEl = document.getElementById('toastMessage');
+    if (!toast || !msgEl) return;
+    msgEl.textContent = message;
+    toast.classList.remove('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+    }, 2800);
+  }
+
+  function saveCapacitySettings(event) {
+    event.preventDefault();
+    const vMax = parseInt(document.getElementById('inputMaxVarieties').value, 10);
+    const uMax = parseInt(document.getElementById('inputMaxUnitsVariety').value, 10);
+    const subMax = parseInt(document.getElementById('inputMaxUnitsProductWeek').value, 10);
+    const cakesMax = parseInt(document.getElementById('inputMaxCakesWeek').value, 10);
+
+    if (isNaN(vMax) || vMax < 1 || isNaN(uMax) || uMax < 1 || isNaN(subMax) || subMax < 1 || isNaN(cakesMax) || cakesMax < 1) {
+      alert("All limits must be numeric and greater than 0.");
+      return;
+    }
+
+    capacityConfig.standardVarietiesDay = vMax;
+    capacityConfig.standardUnitsPerVariety = uMax;
+    capacityConfig.subscriptionUnitsPerWeek = subMax;
+    capacityConfig.customCakesPerWeek = cakesMax;
+
+    document.getElementById('dispVarieties').textContent = vMax;
+    document.getElementById('dispUnitsVariety').textContent = uMax;
+    document.getElementById('dispSubWeekly').textContent = subMax;
+    document.getElementById('dispCakesWeekly').textContent = cakesMax;
+
+    toggleModal('capacitySettingsModal', false);
+    renderInspector();
+    showToast('Capacity settings updated.');
+  }
+
+  function setCalendarScenario(scenario, btnEl) {
+    document.querySelectorAll('.proto-btn').forEach(btn => {
+      btn.classList.remove('bg-primary', 'text-on-primary');
+      btn.classList.add('bg-surface-container', 'text-on-surface');
+    });
+    if (btnEl) {
+      btnEl.classList.remove('bg-surface-container', 'text-on-surface');
+      btnEl.classList.add('bg-primary', 'text-on-primary');
+    }
+
+    const emptyBanner = document.getElementById('emptyNoticeBanner');
+    const gridContainer = document.getElementById('calendarGridContainer');
+
+    if (scenario === 'empty') {
+      emptyBanner.classList.remove('hidden');
+      // Hide all operational markings on grid while leaving structure and blocked dates completely visible
+      document.querySelectorAll('.item-std, .item-sub, .item-cake, .item-hold').forEach(el => el.style.display = 'none');
+      document.getElementById('cellStd-2026-10-06').textContent = 'No bookings';
+      document.getElementById('cellStd-2026-10-06').style.display = 'block';
+      currentScenario = 'date-selected';
+      renderInspector();
+      return;
+    } else {
+      emptyBanner.classList.add('hidden');
+      document.querySelectorAll('.item-std, .item-sub, .item-cake, .item-hold').forEach(el => el.style.display = '');
+      document.getElementById('cellStd-2026-10-06').textContent = 'Std: 3/4 varieties';
+    }
+
+    if (scenario === 'loading') {
+      gridContainer.classList.add('animate-pulse');
+      document.getElementById('inspectorContent').innerHTML = `
+        <div class="p-space-lg flex flex-col gap-space-md animate-pulse">
+          <div class="h-6 bg-surface-container rounded w-1/2"></div>
+          <div class="h-32 bg-surface-container rounded"></div>
+          <div class="h-32 bg-surface-container rounded"></div>
+          <div class="h-24 bg-surface-container rounded"></div>
+        </div>
+      `;
+      setTimeout(() => {
+        gridContainer.classList.remove('animate-pulse');
+        currentScenario = 'date-selected';
+        renderInspector();
+      }, 700);
+      return;
+    }
+
+    currentScenario = scenario;
+
+    if (scenario === 'blocked-date') {
+      selectCalendarDate('2026-10-15');
+    } else {
+      selectCalendarDate('2026-10-06');
+    }
+
+    // Update live indicators on Tue Oct 6 cell based on scenario
+    const badgeEl = document.getElementById('badge-2026-10-06');
+    const stdCell = document.getElementById('cellStd-2026-10-06');
+    const subCell = document.getElementById('cellSub-2026-10-06');
+    const cakeCell = document.getElementById('cellCake-2026-10-06');
+
+    if (scenario === 'standard-full') {
+      badgeEl.className = 'px-1.5 py-0.5 rounded bg-error-container text-on-error-container text-[10px] font-bold uppercase';
+      badgeEl.textContent = 'At Limit';
+      stdCell.textContent = 'Std: 4/4 [At Limit]';
+      stdCell.className = 'item-std font-bold text-error';
+    } else if (scenario === 'subscription-full') {
+      badgeEl.className = 'px-1.5 py-0.5 rounded bg-error-container text-on-error-container text-[10px] font-bold uppercase';
+      badgeEl.textContent = 'Sub Limit';
+      subCell.textContent = 'Sub: 3/3 at limit';
+      subCell.className = 'item-sub text-error font-bold';
+    } else if (scenario === 'cakes-full') {
+      cakeCell.innerHTML = '<span class="material-symbols-outlined text-[13px]">cake</span> Cake: 2/2 booked [Limit]';
+      cakeCell.className = 'item-cake text-error font-bold flex items-center gap-0.5';
+    } else {
+      badgeEl.className = 'px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-bold uppercase';
+      badgeEl.textContent = 'Available';
+      stdCell.textContent = 'Std: 3/4 varieties';
+      stdCell.className = 'item-std font-medium text-on-surface';
+      subCell.textContent = 'Sub: 3 scheduled';
+      subCell.className = 'item-sub text-primary font-medium';
+      cakeCell.innerHTML = '<span class="material-symbols-outlined text-[13px]">cake</span> Cake: 1 booked';
+      cakeCell.className = 'item-cake text-amber-900 font-semibold flex items-center gap-0.5';
+    }
+
+    renderInspector();
+  }
+
+  // Initialize view
+  window.addEventListener('DOMContentLoaded', () => {
+    renderInspector();
+  });
+</script>
+</main>
+</div>
+</body></html>

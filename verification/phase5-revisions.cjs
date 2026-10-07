@@ -43,8 +43,8 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  await check('S.events.filter(e=>e.related_entity_id==="flour").length===alerts+1','recovery then renewed shortage creates a new alert');
  await run('I.change({id:"flour",quantity:50000,type:"restock",key:"restore-final"});S.leave()');await wait();
  await run('A.cakes.sampleDraft();window.request=A.cakes.submit();window.quote=A.cakes.issue(request);window.cake=A.cakes.accept(quote);A.cakes.pay(cake,"confirmed")');
- await run('document.querySelector("[data-production-review]").click();document.querySelector("#production-instructions").value="Cream finish and botanical decoration";document.querySelector("[name=reference]").checked=true;document.querySelector("[name=reviewed]").checked=true;document.querySelector("[data-production-copy]").requestSubmit()');
- await check('A.cakes.productionCopy(quote)?.notes==="Cream finish and botanical decoration"','owner simulator form approves quotation-specific production copy');
+ await run('A.session.enter();A.cakes.openProductionCopy(quote.id);document.querySelector("#production-instructions").value="Cream finish and botanical decoration";document.querySelector("[name=reference]").checked=true;document.querySelector("[name=reviewed]").checked=true;document.querySelector("[data-production-copy]").requestSubmit()');
+ await check('A.cakes.productionCopy(quote)?.notes==="Cream finish and botanical decoration"','owner form approves quotation-specific production copy');
  await run('S.enter()');await wait();await go('staff/production/'+await run('cake.id'));
  await check('A.$("staff-view").textContent.includes("Cream finish and botanical decoration") && !!A.$("staff-view").querySelector("img[alt^=Approved]")','staff sees approved instructions and image');
  await check('!!A.cakes.approveProductionCopy(quote,"change",[quote.snapshot.images[0].url])','staff cannot approve production copies');
