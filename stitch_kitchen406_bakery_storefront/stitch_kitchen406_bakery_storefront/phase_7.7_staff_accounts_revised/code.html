@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#53443a", "secondary-container": "#eae1db", "tertiary-fixed-dim": "#cfc5bd", "secondary": "#635d59", "inverse-surface": "#30312e", "error-container": "#ffdad6", "tertiary-container": "#615a54", "inverse-on-surface": "#f2f1ed", "surface-container": "#efeeea", "on-error": "#ffffff", "surface-tint": "#904d17", "on-secondary-container": "#69635f", "inverse-primary": "#ffb787", "surface-container-lowest": "#ffffff", "tertiary-fixed": "#ebe1d9", "error": "#ba1a1a", "on-background": "#1b1c1a", "surface-container-high": "#eae8e5", "outline-variant": "#d9c2b5", "surface": "#fbf9f6", "primary-fixed-dim": "#ffb787", "primary-container": "#8d4a14", "primary-fixed": "#ffdcc7", "primary": "#6f3400", "surface-container-highest": "#e4e2df", "on-tertiary": "#ffffff", "on-secondary": "#ffffff", "on-surface": "#1b1c1a", "surface-variant": "#e4e2df", "on-primary-fixed-variant": "#723600", "on-tertiary-container": "#dcd2ca", "on-secondary-fixed-variant": "#4b4642", "surface-container-low": "#f5f3f0", "on-error-container": "#93000a", "surface-dim": "#dbdad6", "background": "#fbf9f5", "on-primary-fixed": "#311300", "surface-bright": "#fbf9f6", "on-tertiary-fixed-variant": "#4c4640", "tertiary": "#49433d", "on-primary-container": "#ffc9a8", "on-secondary-fixed": "#1f1b18", "on-primary": "#ffffff", "secondary-fixed-dim": "#cdc5c0", "on-tertiary-fixed": "#1f1b16", "outline": "#867368", "secondary-fixed": "#eae1db" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-sm": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem", "gutter-sm": "1rem", "margin": "2rem", "space-xl": "2.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-lg": [ "Playfair Display" ], "title-md": [ "Plus Jakarta Sans" ], "display-mobile": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "headline-md": [ "Playfair Display" ], "title-sm": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "price-md": [ "Plus Jakarta Sans" ], "label-sm": [ "Plus Jakarta Sans" ], "display": [ "Playfair Display" ], "headline-lg-mobile": [ "Playfair Display" ], "price-lg": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "title-md": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "display-mobile": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "title-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "600" } ], "label-md": [ "13px", { "lineHeight": "18px", "fontWeight": "600" } ], "price-md": [ "15px", { "lineHeight": "20px", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "16px", "fontWeight": "600" } ], "display": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "price-lg": [ "20px", { "lineHeight": "26px", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low flex flex-col z-50 shadow-[0_1px_8px_rgba(83,68,58,0.06)]"><div class="h-20 px-space-lg flex items-center gap-space-sm bg-surface-container-low shrink-0"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[24px]">local_fire_department</span></div><div class="flex flex-col min-w-0"><span class="font-headline-md text-title-md font-bold tracking-tight text-on-surface truncate">Kitchen406</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-on-surface-variant font-semibold">Owner Portal</span></div></div><div class="flex-1 overflow-y-auto px-space-md py-space-sm space-y-space-lg"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-sm rounded-full shadow-sm"><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Operations</span></div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[20px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[20px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Scheduling</span></a></nav><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-sm rounded-full shadow-sm"><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Management</span></div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">bakery_dining</span><span>Products</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="categories" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Categories</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[20px]">egg</span><span>Ingredients</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[20px]">celebration</span><span>Seasonal Occasions</span></a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-all bg-primary-container text-on-primary font-title-sm rounded-full shadow-sm" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[20px]">rate_review</span><span>Review Moderation</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Reports</span></a></nav></div><div class="p-space-md bg-surface-container-low shrink-0"><div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="flex items-center gap-space-sm"><div class="w-3 h-3 rounded-full bg-emerald-600 animate-pulse"></div><div><div class="font-title-sm text-title-sm text-on-surface">Kitchen406</div><div class="font-label-sm text-label-sm text-secondary">Open • Online</div></div></div><span class="material-symbols-outlined text-secondary text-[18px]">storefront</span></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-margin shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="flex items-center gap-space-sm font-title-sm text-title-sm"><span class="text-secondary">Management</span><span class="material-symbols-outlined text-secondary text-[16px]">chevron_right</span><span class="text-on-surface font-semibold">Staff Accounts</span></div><div class="flex items-center gap-space-md"><div class="relative w-80"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-11 pl-10 pr-12 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 font-body-md text-body-md focus:outline-none shadow-[0_1px_8px_rgba(83,68,58,0.04)]" placeholder="Search staff, records, orders..." type="text"/><kbd class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-[10px]">⌘K</kbd></div><button class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center font-title-sm text-title-sm text-on-primary font-bold shadow-sm">ME</div><div class="hidden xl:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">OWNER</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-20 w-full px-margin py-margin bg-background flex-1"><div class="flex flex-col w-full relative">
+<!-- TOP CONTEXT TOOLBAR & INTERACTIVE VIEW SWITCHER -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-sm mb-1">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Staff Accounts</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-secondary-container text-on-secondary-container">
+          RBAC v2.4
+        </span>
+</div>
+<p class="font-body-md text-body-md text-secondary">
+        Create and manage staff access to Kitchen406 operations.
+      </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm"><!-- Prototype State Switcher Pills -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-full shadow-sm text-label-sm font-label-sm">
+<button class="px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface" id="viewBtn-list" onclick="setViewState('list')">
+    List View
+  </button>
+<button class="px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm" id="viewBtn-drawer" onclick="setViewState('drawer')">
+    Drawer (Andrea · Completed)
+  </button>
+<button class="px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface" id="viewBtn-drawer-mika" onclick="setViewState('drawer-mika')">
+    Drawer (Mika · Pwd Required)
+  </button>
+<button class="px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface" id="viewBtn-modal" onclick="setViewState('modal')">
+    + Add Staff Modal
+  </button>
+<button class="px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface" id="viewBtn-reset" onclick="setViewState('reset')">
+    Reset Temp Pwd Modal
+  </button>
+<button class="px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface" id="viewBtn-deactivate" onclick="setViewState('deactivate')">
+    Deactivate Dialog
+  </button>
+</div>
+<!-- Add Staff Trigger Button -->
+<button class="inline-flex items-center gap-space-xs px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm cursor-pointer" onclick="openModal('addStaffModal')">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Add Staff Account</span>
+</button></div>
+</div>
+<!-- SUMMARY METRICS STRIP -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg"><!-- Card 1: Total Staff -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest shadow-[0_1px_8px_rgba(83,68,58,0.05)] flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold block mb-1">Total Staff</span>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">6</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Registered accounts</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<!-- Card 2: Active -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest shadow-[0_1px_8px_rgba(83,68,58,0.05)] flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Active</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">5</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Allowed to sign in</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-emerald-700">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+<!-- Card 3: Password Change Required -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest shadow-[0_1px_8px_rgba(83,68,58,0.05)] flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2 h-2 rounded-full bg-amber-600"></span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Password Change Required</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">1</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Temporary password active</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-amber-700">
+<span class="material-symbols-outlined text-[20px]">key</span>
+</div>
+</div>
+<!-- Card 4: Inactive -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest shadow-[0_1px_8px_rgba(83,68,58,0.05)] flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">Inactive</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface font-semibold">1</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Access disabled</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">person_off</span>
+</div>
+</div></div>
+<!-- RBAC COMPLIANCE BANNER -->
+<div class="mb-space-lg p-space-md rounded-xl bg-surface-container-low shadow-[0_1px_6px_rgba(83,68,58,0.03)] flex items-start gap-space-md"><div class="w-9 h-9 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">shield_person</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-space-sm mb-0.5">
+<h2 class="font-title-sm text-title-sm text-on-surface font-bold">Predefined Staff Role Access</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-secondary font-semibold">Policy Enforced</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+    Staff accounts have fixed access strictly for production, baking queues, inventory logging, and order packaging. Customer contact details, revenue numbers, pricing configuration, and recipe costing remain restricted to the owner.
+  </p>
+</div></div>
+<!-- MAIN TABLE CARD & TOOLBAR -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_1px_12px_rgba(83,68,58,0.06)] overflow-hidden flex flex-col" id="mainTableCard">
+<!-- Search & Filter Bar -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md"><!-- Search Input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/60 font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="staffSearchInput" oninput="filterStaffTable()" placeholder="Search staff by name or email..." type="text"/>
+<kbd class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-[10px]">⌘K</kbd>
+</div>
+<!-- Filters & Sorting -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Status Tabs (All, Active, Inactive) -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-full text-label-sm font-label-sm">
+<button class="px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-bold shadow-sm transition-all" id="filterTab-all" onclick="filterStatus('all')">
+      All (6)
+    </button>
+<button class="px-3 py-1.5 rounded-full text-secondary hover:text-on-surface transition-all" id="filterTab-active" onclick="filterStatus('active')">
+      Active (5)
+    </button>
+<button class="px-3 py-1.5 rounded-full text-secondary hover:text-on-surface transition-all" id="filterTab-inactive" onclick="filterStatus('inactive')">
+      Inactive (1)
+    </button>
+</div>
+<!-- Account Setup Dropdown Filter -->
+<div class="relative">
+<select class="h-10 pl-3 pr-8 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm appearance-none focus:outline-none cursor-pointer" id="setupFilterSelect" onchange="filterSetup(this.value)">
+<option value="all">All Setup States</option>
+<option value="completed">Setup Completed (5)</option>
+<option value="pwd-required">Password Change Required (1)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-secondary text-[18px]">expand_more</span>
+</div>
+<!-- Sort Select -->
+<div class="relative">
+<select class="h-10 pl-3 pr-8 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm appearance-none focus:outline-none cursor-pointer" id="sortSelect" onchange="sortStaffTable()">
+<option value="newest">Sort: Newest first</option>
+<option value="name-asc">Sort: Name A–Z</option>
+<option value="name-desc">Sort: Name Z–A</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-secondary text-[18px]">expand_more</span>
+</div>
+</div></div>
+<!-- Data Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md font-semibold">Staff Member</th>
+<th class="py-3 px-space-md font-semibold">Email</th>
+<th class="py-3 px-space-md font-semibold">Status</th>
+<th class="py-3 px-space-md font-semibold">Account Setup</th>
+<th class="py-3 px-space-md font-semibold">Created By</th>
+<th class="py-3 px-space-md font-semibold">Date Created</th>
+<th class="py-3 px-space-md font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface" id="staffTableBody"><!-- Row 1: Andrea Reyes -->
+<tr class="cursor-pointer transition-colors bg-primary-fixed/20 hover:bg-primary-fixed/30 group" id="row-andrea" onclick="selectStaff('andrea')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center font-title-sm text-title-sm font-bold text-primary shrink-0">
+        AR
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-bold text-on-surface group-hover:text-primary transition-colors flex items-center gap-2">
+          Andrea Reyes
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-body-sm">andrea@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+      Active
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span>Completed</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Sep 18, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-andrea');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-andrea">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('andrea'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('andrea', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-error-container/30 text-error flex items-center gap-2" onclick="event.stopPropagation(); openDeactivateModal('Andrea Reyes'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-error">person_off</span> Deactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2: Carlo Mendoza -->
+<tr class="cursor-pointer transition-colors hover:bg-surface-container-low group" id="row-carlo" onclick="selectStaff('carlo')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center font-title-sm text-title-sm font-bold text-on-surface shrink-0">
+        CM
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-2">
+          Carlo Mendoza
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-body-sm">carlo@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+      Active
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span>Completed</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Sep 19, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-carlo');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-carlo">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('carlo'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('carlo', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-error-container/30 text-error flex items-center gap-2" onclick="event.stopPropagation(); openDeactivateModal('Carlo Mendoza'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-error">person_off</span> Deactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3: Mika Flores (Password Change Required) -->
+<tr class="cursor-pointer transition-colors hover:bg-surface-container-low group" id="row-mika" onclick="selectStaff('mika')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center font-title-sm text-title-sm font-bold text-amber-900 shrink-0">
+        MF
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-2">
+          Mika Flores
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-body-sm">mika@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+      Active
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-amber-100 text-amber-900 font-semibold">
+<span class="material-symbols-outlined text-[15px] text-amber-700">key</span>
+      Password Change Required
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Oct 5, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-mika');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-mika">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('mika'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('mika', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-amber-100/70 text-amber-900 flex items-center gap-2" onclick="event.stopPropagation(); openResetModal('Mika Flores'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-amber-700">lock_reset</span> Reset Temporary Password
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-error-container/30 text-error flex items-center gap-2" onclick="event.stopPropagation(); openDeactivateModal('Mika Flores'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-error">person_off</span> Deactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4: Joshua Tan -->
+<tr class="cursor-pointer transition-colors hover:bg-surface-container-low group" id="row-joshua" onclick="selectStaff('joshua')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center font-title-sm text-title-sm font-bold text-on-surface shrink-0">
+        JT
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-2">
+          Joshua Tan
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-body-sm">joshua@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+      Active
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span>Completed</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Sep 22, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-joshua');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-joshua">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('joshua'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('joshua', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-error-container/30 text-error flex items-center gap-2" onclick="event.stopPropagation(); openDeactivateModal('Joshua Tan'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-error">person_off</span> Deactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 5: Bea Soriano -->
+<tr class="cursor-pointer transition-colors hover:bg-surface-container-low group" id="row-bea" onclick="selectStaff('bea')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center font-title-sm text-title-sm font-bold text-on-surface shrink-0">
+        BS
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-2">
+          Bea Soriano
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-on-surface-variant font-body-sm">bea@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+      Active
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span>Completed</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-on-surface-variant">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Sep 24, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-bea');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-bea">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('bea'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('bea', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-error-container/30 text-error flex items-center gap-2" onclick="event.stopPropagation(); openDeactivateModal('Bea Soriano'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-error">person_off</span> Deactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 6: Paolo Cruz (Inactive) -->
+<tr class="cursor-pointer transition-colors hover:bg-surface-container-low group opacity-75" id="row-paolo" onclick="selectStaff('paolo')">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center font-title-sm text-title-sm font-bold text-secondary shrink-0">
+        PC
+      </div>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-secondary flex items-center gap-2">
+          Paolo Cruz
+        </div>
+<span class="font-body-sm text-body-sm text-secondary">Staff</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-body-sm">paolo@kitchen406.com</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-high text-secondary">
+<span class="material-symbols-outlined text-[14px]">block</span>
+      Inactive
+    </span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-secondary">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span>Completed</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-body-sm text-secondary">
+<span>Maria Santos · Owner</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-secondary">Sep 18, 2026</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="relative inline-block text-left">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="event.stopPropagation(); toggleRowMenu('menu-paolo');" title="Actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-48 bg-surface-container-lowest rounded-lg shadow-xl border border-surface-container p-1 z-20 text-left font-title-sm text-title-sm" id="menu-paolo">
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('paolo'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">visibility</span> View Account
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-surface-container text-on-surface flex items-center gap-2" onclick="event.stopPropagation(); selectStaff('paolo', true); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-secondary">edit</span> Edit Details
+        </button>
+<button class="w-full text-left px-3 py-2 rounded hover:bg-emerald-100/70 text-emerald-900 flex items-center gap-2" onclick="event.stopPropagation(); reactivateStaff('Paolo Cruz'); closeRowMenus();">
+<span class="material-symbols-outlined text-[18px] text-emerald-700">check_circle</span> Reactivate Account
+        </button>
+</div>
+</div>
+</td>
+</tr></tbody>
+</table>
+</div>
+<!-- Table Footer with Audit Note & Pagination -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">history_toggle_off</span>
+<span>Showing 6 registered staff accounts. Staff creations and status alterations are permanently logged.</span>
+</div>
+<div class="flex items-center gap-space-xs text-label-sm font-label-sm">
+<button class="w-8 h-8 rounded-md bg-surface-container-low text-secondary/50 flex items-center justify-center cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="px-3 py-1 rounded-md bg-primary text-on-primary font-bold">1</span>
+<button class="w-8 h-8 rounded-md bg-surface-container-low text-secondary/50 flex items-center justify-center cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- EMPTY STATE CONTAINER (Toggled via prototype button) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-xl text-center shadow-[0_1px_12px_rgba(83,68,58,0.06)]" id="emptyStateContainer">
+<div class="w-16 h-16 rounded-full bg-primary-fixed/50 mx-auto flex items-center justify-center text-primary mb-space-md">
+<span class="material-symbols-outlined text-[32px]">group_off</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold mb-1">No Staff Accounts Found</h3>
+<p class="font-body-md text-body-md text-secondary max-w-md mx-auto mb-space-lg">
+      There are currently no staff accounts matching this view filter. You can invite kitchen helpers to safely assist with daily bakery operations.
+    </p>
+<button class="inline-flex items-center gap-space-xs px-4 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="openModal('addStaffModal')">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Add First Staff Account</span>
+</button>
+</div>
+<!-- ========================================================================= -->
+<!-- RIGHT-SIDE DETAIL DRAWER (VISIBLY OPEN FOR ANDREA REYES) -->
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- RIGHT-SIDE DETAIL DRAWER -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 flex justify-end" id="staffDrawerContainer">
+<!-- Scrim -->
+<div class="absolute inset-0 bg-inverse-surface/30 backdrop-blur-sm transition-opacity" onclick="closeDrawer()"></div>
+<!-- Drawer Panel -->
+<div class="relative w-full max-w-[480px] bg-surface-container-lowest h-full shadow-2xl flex flex-col overflow-hidden z-10 animate-in slide-in-from-right duration-200">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-surface-container-low shrink-0 relative">
+<div class="flex items-center justify-between mb-space-md">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">
+          Staff Account Overview
+        </span>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeDrawer()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-headline-md text-headline-md font-bold shrink-0 shadow-inner" id="drawerAvatar">
+          AR
+        </div>
+<div class="flex-1 min-w-0">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold leading-tight truncate mb-1" id="drawerName">
+            Andrea Reyes
+          </h2>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-secondary">
+              Staff
+            </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-emerald-100/70 text-emerald-800" id="drawerStatusBadge">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+              Active
+            </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container-highest text-secondary font-medium" id="drawerSetupBadge">
+<span class="material-symbols-outlined text-emerald-600 text-[14px]">check_circle</span>
+              Completed
+            </span>
+</div>
+</div>
+</div>
+<!-- Top Action Buttons (Read-Only Mode) -->
+<div class="mt-space-md flex items-center gap-space-sm pt-space-sm" id="drawerHeaderActions">
+<button class="flex-1 py-2 px-3 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface font-title-sm text-title-sm shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer" onclick="setDrawerEditMode(true)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+<span>Edit Details</span>
+</button>
+<button class="py-2 px-3 rounded-lg bg-amber-50 text-amber-900 hover:bg-amber-100 font-title-sm text-title-sm hidden items-center justify-center gap-1.5 transition-colors cursor-pointer" id="drawerResetPwdBtn" onclick="openResetModalFromDrawer()">
+<span class="material-symbols-outlined text-[16px] text-amber-700">lock_reset</span>
+<span>Reset Temp Password</span>
+</button>
+<button class="py-2 px-3 rounded-lg bg-error-container/30 text-error hover:bg-error-container font-title-sm text-title-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer" id="drawerDeactivateBtn" onclick="openDeactivateModalFromDrawer()">
+<span class="material-symbols-outlined text-[16px]">person_off</span>
+<span>Deactivate</span>
+</button>
+</div>
+</div>
+<!-- Drawer Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-space-lg space-y-space-lg">
+<!-- SECTION 1: ACCOUNT INFORMATION (READ-ONLY VIEW) -->
+<section id="drawerSectionReadOnly">
+<div class="flex items-center gap-2 mb-space-sm pb-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">badge</span>
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold">Account Information</h3>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md space-y-3">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Full Name</span>
+<span class="text-on-surface font-semibold" id="infoFullName">Andrea Reyes</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Email Address</span>
+<div class="flex items-center gap-1.5 text-on-surface font-semibold font-mono text-[13px]">
+<span id="infoEmail">andrea@kitchen406.com</span>
+<button class="text-secondary hover:text-primary" onclick="copyDrawerEmail()" title="Copy email">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Role</span>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-0.5 rounded text-label-sm font-label-sm text-on-surface font-semibold shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">lock</span>
+<span>Staff (Locked)</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Account Status</span>
+<span class="text-emerald-800 font-semibold" id="infoStatus">Active</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Account Setup</span>
+<span class="text-on-surface font-medium" id="infoSetup">Completed</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Created By</span>
+<span class="text-on-surface font-medium" id="infoCreatedBy">Maria Santos (Owner)</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-secondary">Date Created</span>
+<span class="text-on-surface font-medium" id="infoDateCreated">September 18, 2026</span>
+</div>
+</div>
+</section>
+<!-- SECTION 1B: EDIT DETAILS FORM (HIDDEN BY DEFAULT) -->
+<section class="hidden" id="drawerSectionEditMode">
+<div class="flex items-center gap-2 mb-space-sm pb-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">edit_note</span>
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold">Edit Staff Details</h3>
+</div>
+<form class="bg-surface-container-low rounded-xl p-space-md space-y-space-md" id="drawerEditForm" onsubmit="saveDrawerEdit(event)">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">First Name</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none border border-outline-variant" id="editFirstName" required="" type="text" value="Andrea"/>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Last Name</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none border border-outline-variant" id="editLastName" required="" type="text" value="Reyes"/>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Email Address</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none border border-outline-variant" id="editEmail" required="" type="email" value="andrea@kitchen406.com"/>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-title-sm text-title-sm text-on-surface">System Role</label>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Predefined &amp; Locked</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Staff</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">lock</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container text-secondary text-body-sm">
+            Passwords cannot be viewed or edited here. To re-issue access credentials, use Reset Temporary Password.
+          </div>
+</form>
+</section>
+<!-- SECTION 2: STAFF ROLE ACCESS PERMISSIONS (TRANSPARENT BREAKDOWN) -->
+<section>
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">shield_person</span>
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold">Staff Access</h3>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Predefined Role</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+          Kitchen406 uses predefined role-based access. Staff receive only the operational tools required for production and fulfillment.
+        </p>
+<div class="space-y-space-md">
+<!-- Operational Access Permitted -->
+<div class="p-space-md rounded-xl bg-emerald-50/70 shadow-sm">
+<div class="flex items-center gap-2 mb-space-sm text-emerald-900 font-title-sm text-title-sm font-bold">
+<span class="material-symbols-outlined text-emerald-700 text-[20px]">check_circle</span>
+<h4>Operational Access (Permitted)</h4>
+</div>
+<ul class="space-y-2 text-body-sm font-body-sm text-emerald-950">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Staff Dashboard</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Production Queue</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Production / Order Preparation Details</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Inventory</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Stock Movements</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Recipe Information Required for Production</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Production Calendar</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Courier / Delivery Status Visibility</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Staff Notifications</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[16px] shrink-0 mt-0.5">done</span>
+<span>Their own permitted account settings</span>
+</li>
+</ul>
+</div>
+<!-- Restricted From Staff (Owner-Only) -->
+<div class="p-space-md rounded-xl bg-amber-50/70 shadow-sm">
+<div class="flex items-center gap-2 mb-1 text-amber-950 font-title-sm text-title-sm font-bold">
+<span class="material-symbols-outlined text-amber-800 text-[20px]">lock</span>
+<h4>Restricted from Staff (Owner-Only)</h4>
+</div>
+<p class="font-body-sm text-body-sm text-amber-900 mb-space-sm">
+              Staff have fixed access to the tools needed for production and fulfillment. Customer information, financial data, pricing, costing, and owner settings remain restricted.
+            </p>
+<ul class="space-y-2 text-body-sm font-body-sm text-amber-950">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Customer identity and contact information</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Customer delivery addresses</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Sales and revenue information</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Profit and margin information</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Product costing</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Pricing configuration</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Customer account management</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Staff account management</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Review moderation</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Marketing draft management</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Reports and analytics</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[16px] shrink-0 mt-0.5">block</span>
+<span>Owner configuration tools</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<!-- Drawer Sticky Footer (Read-Only shows solely Close Drawer; Edit Mode shows Cancel & Save Changes) -->
+<div class="p-space-md bg-surface-container-low shrink-0 flex items-center justify-end gap-space-sm" id="drawerFooterReadOnly">
+<button class="w-full py-2.5 px-4 rounded-lg bg-surface-container-lowest hover:bg-surface text-on-surface font-title-sm text-title-sm shadow-sm transition-colors cursor-pointer text-center" onclick="closeDrawer()">
+        Close Drawer
+      </button>
+</div>
+<div class="hidden p-space-md bg-surface-container-low shrink-0 items-center justify-end gap-space-sm" id="drawerFooterEditMode">
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-lowest hover:bg-surface text-secondary font-title-sm text-title-sm shadow-sm transition-colors cursor-pointer" onclick="setDrawerEditMode(false)" type="button">
+        Cancel
+      </button>
+<button class="py-2.5 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm cursor-pointer" onclick="document.getElementById('drawerEditForm').requestSubmit()" type="button">
+        Save Changes
+      </button>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 1: ADD STAFF ACCOUNT MODAL -->
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- MODAL 1: ADD STAFF ACCOUNT MODAL -->
+<!-- ========================================================================= -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-space-md" id="addStaffModal">
+<!-- Scrim -->
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="closeModal('addStaffModal')"></div>
+<!-- Dialog -->
+<div class="relative w-full max-w-lg bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg z-10 flex flex-col animate-in zoom-in-95 duration-150">
+<div class="flex items-center justify-between pb-space-sm mb-space-md border-b border-surface-container">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">person_add</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Add Staff Account</h3>
+<p class="font-body-sm text-body-sm text-secondary">Create login access for a Kitchen406 staff member. Staff accounts use predefined operational permissions.</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeModal('addStaffModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="space-y-space-md" onsubmit="handleCreateStaff(event)">
+<!-- Name Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">First Name</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/50 font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="newStaffFirstName" placeholder="e.g. Sofia" required="" type="text"/>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Last Name</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/50 font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="newStaffLastName" placeholder="e.g. Ramirez" required="" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Email Address</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/50 font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="newStaffEmail" placeholder="sofia@kitchen406.com" required="" type="email"/>
+</div>
+<!-- Role (Locked) -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-title-sm text-title-sm text-on-surface">Role</label>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Read-only</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between border border-surface-container">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">shield_person</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">Staff</div>
+<div class="font-body-sm text-body-sm text-secondary">Predefined operational production &amp; fulfillment tools</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]" title="Role is fixed by policy">lock</span>
+</div>
+</div>
+<!-- Temporary Password and Confirm -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Temporary Password</label>
+<div class="relative">
+<input class="w-full h-11 pl-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="tempPwdInput" required="" type="password" value="Bake@406#Temp"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface" onclick="togglePwdVisibility('tempPwdInput', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Confirm Temporary Password</label>
+<div class="relative">
+<input class="w-full h-11 pl-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="confirmTempPwdInput" required="" type="password" value="Bake@406#Temp"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface" onclick="togglePwdVisibility('confirmTempPwdInput', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Helper Note -->
+<div class="p-space-sm rounded-lg bg-amber-50/70 border border-amber-200/60 text-amber-950 font-body-sm text-body-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[18px] shrink-0 mt-0.5">info</span>
+<span>The staff member will be required to change this temporary password after signing in for the first time.</span>
+</div>
+<!-- Actions -->
+<div class="pt-space-sm flex items-center justify-end gap-space-sm">
+<button class="py-2.5 px-4 rounded-lg bg-surface-container text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors cursor-pointer" onclick="closeModal('addStaffModal')" type="button">
+          Cancel
+        </button>
+<button class="py-2.5 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer" type="submit">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Create Staff Account</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL 2: DEACTIVATE STAFF CONFIRMATION MODAL -->
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- MODAL 3: RESET TEMPORARY PASSWORD MODAL -->
+<!-- ========================================================================= -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-space-md" id="resetPasswordModal">
+<!-- Scrim -->
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="closeModal('resetPasswordModal')"></div>
+<!-- Dialog -->
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg z-10 flex flex-col animate-in zoom-in-95 duration-150">
+<div class="flex items-center justify-between pb-space-sm mb-space-md border-b border-surface-container">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-800">
+<span class="material-symbols-outlined text-[22px]">lock_reset</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Reset Temporary Password</h3>
+<p class="font-body-sm text-body-sm text-secondary" id="resetModalTargetName">Issue a temporary password for Mika Flores</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeModal('resetPasswordModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<form class="space-y-space-md" onsubmit="handleResetPassword(event)">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">New Temporary Password</label>
+<div class="relative">
+<input class="w-full h-11 pl-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="newResetPwdInput" required="" type="password" value="TempPass@2026!"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface" onclick="togglePwdVisibility('newResetPwdInput', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Confirm Temporary Password</label>
+<div class="relative">
+<input class="w-full h-11 pl-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-lowest shadow-inner transition-colors" id="confirmResetPwdInput" required="" type="password" value="TempPass@2026!"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface" onclick="togglePwdVisibility('confirmResetPwdInput', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-amber-50/70 border border-amber-200/60 text-amber-950 font-body-sm text-body-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-amber-800 text-[18px] shrink-0 mt-0.5">info</span>
+<span>The staff member will be required to change this password after signing in.</span>
+</div>
+<div class="pt-space-sm flex items-center justify-end gap-space-sm">
+<button class="py-2.5 px-4 rounded-lg bg-surface-container text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors cursor-pointer" onclick="closeModal('resetPasswordModal')" type="button">
+          Cancel
+        </button>
+<button class="py-2.5 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm cursor-pointer" type="submit">
+          Reset Password
+        </button>
+</div>
+</form>
+</div>
+</div><div class="hidden fixed inset-0 z-50 flex items-center justify-center p-space-md" id="deactivateModal"><!-- Scrim -->
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="closeModal('deactivateModal')"></div>
+<!-- Dialog -->
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg z-10 flex flex-col animate-in zoom-in-95 duration-150">
+<div class="w-12 h-12 rounded-full bg-error-container/40 text-error flex items-center justify-center mx-auto mb-space-md">
+<span class="material-symbols-outlined text-[28px]">person_off</span>
+</div>
+<div class="text-center mb-space-md">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-1" id="deactivateModalTitle">Deactivate Andrea Reyes?</h3>
+<p class="font-body-md text-body-md text-secondary" id="deactivateModalDesc">
+      This staff member will immediately lose access to the Kitchen406 staff portal.
+    </p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface-variant mb-space-lg flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">lock_clock</span>
+<span>Historical production records, stock movements, and preparation logs will remain intact for audit logs.</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex-1 py-2.5 px-4 rounded-lg bg-surface-container-low text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors cursor-pointer" onclick="closeModal('deactivateModal')" type="button">
+      Keep Account Active
+    </button>
+<button class="flex-1 py-2.5 px-4 rounded-lg bg-error hover:bg-red-800 text-on-error font-title-sm text-title-sm transition-colors shadow-sm cursor-pointer" onclick="confirmDeactivate()" type="button">
+      Deactivate Account
+    </button>
+</div>
+</div></div>
+<!-- TOAST NOTIFICATION FLOATER -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-xl flex items-center gap-space-sm font-title-sm text-title-sm" id="feedbackToast">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">check_circle</span>
+<span id="feedbackToastMessage">Staff updated</span>
+</div>
+</div>
+<!-- SCRIPT: INTERACTIVE VIEW & MODAL CONTROLLERS -->
+<script>
+  function setViewState(view) {
+    const listBtn = document.getElementById('viewBtn-list');
+    const drawerBtn = document.getElementById('viewBtn-drawer');
+    const modalBtn = document.getElementById('viewBtn-modal');
+    const deactivateBtn = document.getElementById('viewBtn-deactivate');
+    const emptyBtn = document.getElementById('viewBtn-empty');
+
+    const drawer = document.getElementById('staffDrawerContainer');
+    const tableCard = document.getElementById('mainTableCard');
+    const emptyState = document.getElementById('emptyStateContainer');
+    const addModal = document.getElementById('addStaffModal');
+    const deactModal = document.getElementById('deactivateModal');
+
+    // Reset pill styles
+    [listBtn, drawerBtn, modalBtn, deactivateBtn, emptyBtn].forEach(btn => {
+      btn.className = "px-3 py-1.5 rounded-full transition-all text-secondary hover:text-on-surface";
+    });
+
+    // Close overlays by default
+    drawer.classList.add('hidden');
+    addModal.classList.add('hidden');
+    deactModal.classList.add('hidden');
+    tableCard.classList.remove('hidden');
+    emptyState.classList.add('hidden');
+
+    if (view === 'list') {
+      listBtn.className = "px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm";
+    } else if (view === 'drawer') {
+      drawerBtn.className = "px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm";
+      drawer.classList.remove('hidden');
+    } else if (view === 'modal') {
+      modalBtn.className = "px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm";
+      addModal.classList.remove('hidden');
+    } else if (view === 'deactivate') {
+      deactivateBtn.className = "px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm";
+      deactModal.classList.remove('hidden');
+    } else if (view === 'empty') {
+      emptyBtn.className = "px-3 py-1.5 rounded-full transition-all bg-surface-container-lowest text-primary font-bold shadow-sm";
+      tableCard.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+    }
+  }
+
+  function openDrawer() {
+    document.getElementById('staffDrawerContainer').classList.remove('hidden');
+  }
+
+  function closeDrawer() {
+    document.getElementById('staffDrawerContainer').classList.add('hidden');
+  }
+
+  function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+  }
+
+  function selectStaffRow(staffId) {
+    openDrawer();
+  }
+
+  function filterStatus(status) {
+    const tabs = ['all', 'active', 'pending', 'inactive'];
+    tabs.forEach(tab => {
+      const btn = document.getElementById('filterTab-' + tab);
+      if (tab === status) {
+        btn.className = 'px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-bold shadow-sm transition-all';
+      } else {
+        btn.className = 'px-3 py-1.5 rounded-full text-secondary hover:text-on-surface transition-all';
+      }
+    });
+
+    const rows = document.querySelectorAll('#staffTableBody tr');
+    rows.forEach(row => {
+      if (status === 'all') {
+        row.style.display = '';
+      } else if (status === 'active') {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes('active') && !text.includes('inactive') ? '' : 'none';
+      } else if (status === 'pending') {
+        row.style.display = row.innerText.toLowerCase().includes('pending setup') ? '' : 'none';
+      } else if (status === 'inactive') {
+        row.style.display = row.innerText.toLowerCase().includes('inactive') ? '' : 'none';
+      }
+    });
+  }
+
+  function filterStaffTable() {
+    const query = document.getElementById('staffSearchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#staffTableBody tr');
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(query) ? '' : 'none';
+    });
+  }
+
+  function sortStaffTable() {
+    const sortVal = document.getElementById('sortSelect').value;
+    triggerToast('List sorted: ' + sortVal);
+  }
+
+  function handleCreateStaff(e) {
+    e.preventDefault();
+    closeModal('addStaffModal');
+    triggerToast('Activation invite email sent to staff member.');
+  }
+
+  function confirmDeactivate() {
+    closeModal('deactivateModal');
+    closeDrawer();
+    triggerToast('Andrea Reyes account deactivated successfully.');
+  }
+
+  function triggerToast(msg) {
+    const toast = document.getElementById('feedbackToast');
+    const toastMsg = document.getElementById('feedbackToastMessage');
+    toastMsg.textContent = msg;
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+    }, 3200);
+  }
+</script></main></div></body></html>

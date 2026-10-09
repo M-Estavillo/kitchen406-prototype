@@ -23,7 +23,7 @@ P.beginEmail=async(email,password)=>{
  if(!P.allowed())return 'Sign in to change your email.';
  const owner=P.current,generation=P.securityGeneration;email=email.trim().toLowerCase();
  if(!/^\S+@\S+\.\S+$/.test(email))return 'Enter a valid email address.';
- if(P.records.some(p=>p.email.toLowerCase()===email))return 'This email is already in use.';
+ if(A.catalogState?A.catalogState.emailUsed(email):P.records.some(p=>p.email.toLowerCase()===email))return 'This email is already in use.';
  if(await P.hash(password)!==(owner.passwordHash||await P.hash('Kitchen406!')))return 'Incorrect current password.';
  if(P.current!==owner||!P.allowed()||P.securityGeneration!==generation)return 'This change was cancelled. Start again.';
  if(P.mock.email==='error')return 'The verification code could not be sent. Please retry.';
@@ -40,7 +40,7 @@ P.verifyEmail=code=>{
  if(v.expires_at<=Date.now())return 'This code has expired. Request a new code.';
  if(v.attempt_count>=5)return 'Too many attempts. Request a new code.';
  if(code!==v.code){v.attempt_count++;return 'Incorrect code. '+(5-v.attempt_count)+' attempts remaining.';}
- if(P.records.some(p=>p!==P.current&&p.email.toLowerCase()===v.target_email))return 'This email is already in use.';
+ if(A.catalogState?A.catalogState.emailUsed(v.target_email,P.current):P.records.some(p=>p!==P.current&&p.email.toLowerCase()===v.target_email))return 'This email is already in use.';
  P.current.email=v.target_email;P.current.email_verified_at=new Date().toISOString();A.email=v.target_email;v.status='verified';v.code='';P.current.passwordVersion++;
  A.notifications?.emit('email-'+P.current.passwordVersion,'account','Email address changed','Your account email was updated.','account/profile');P.verification=null;return '';
 };

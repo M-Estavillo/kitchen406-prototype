@@ -30,6 +30,7 @@ A.inspector=()=>{
  else html+=select('mock-catalog','Catalog',['normal','loading','empty','error'],A.catalog.state());
  html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders','subscriptions','my-subscriptions','custom-cakes','cake-requests','account/profile','account/addresses','account/notifications',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
  $('mock-panel').innerHTML=html;
+ A.phase7?.inspector();
 };
 function titlesFor(view){return {verify:'Verification state',register:'Registration state','sign-in':'Sign-in state',forgot:'Forgot password state',reset:'Reset password state'}[view];}
 $('mock-toggle').addEventListener('click',()=>{

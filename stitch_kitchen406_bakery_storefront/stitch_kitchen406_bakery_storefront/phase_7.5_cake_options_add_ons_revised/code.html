@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Phase 7.5 — Cake Options & Add-ons (Revised)</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#fbf9f6",
+            "surface-dim": "#dbdad7",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f3f0",
+            "surface-container": "#efeeeb",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "on-surface": "#1b1c1a",
+            "on-surface-variant": "#53443a",
+            outline: "#867368",
+            "outline-variant": "#d9c2b5",
+            primary: "#8d4a14",
+            "primary-container": "#ab622b",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdcc6",
+            secondary: "#635d59",
+            "secondary-container": "#eae1dc",
+            background: "#fbf9f6"
+          },
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fbf9f6; color: #1b1c1a; }
+    h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #d9c2b5; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-background min-h-screen text-on-surface antialiased flex flex-col">
+
+  <!-- LEFT PERSISTENT SIDEBAR (72 = 18rem = 288px) -->
+  <aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low border-r border-outline-variant/30 z-30 flex flex-col justify-between overflow-y-auto">
+    <div class="flex flex-col">
+      <!-- Brand Masthead -->
+      <div class="px-6 pt-6 pb-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0 shadow-sm text-on-primary">
+          <span class="material-symbols-outlined text-[22px]">bakery_dining</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="font-serif text-xl font-bold tracking-tight text-primary leading-none">Kitchen406</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-primary-container text-on-primary">PORTAL</span>
+          </div>
+          <span class="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant mt-1">Owner Administration</span>
+        </div>
+      </div>
+
+      <!-- Navigation Groups -->
+      <div class="px-3 py-2">
+        <p class="px-3 mb-1.5 text-[11px] font-bold uppercase tracking-wider text-outline">Operations</p>
+        <nav class="flex flex-col gap-0.5 text-sm">
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">space_dashboard</span>Dashboard</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">receipt_long</span>Orders</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">payments</span>Payments</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">local_shipping</span>Deliveries</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">inventory_2</span>Inventory</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">menu_book</span>Recipes & Costing</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">cake</span>Custom Cakes</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">card_membership</span>Subscriptions</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">calendar_month</span>Capacity Calendar</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">schedule</span>Scheduling</a>
+        </nav>
+      </div>
+
+      <div class="px-3 py-2">
+        <p class="px-3 mb-1.5 text-[11px] font-bold uppercase tracking-wider text-outline">Management</p>
+        <nav class="flex flex-col gap-0.5 text-sm">
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">shopping_bag</span>Products</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">category</span>Categories</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">nutrition</span>Ingredients</a>
+          <a aria-current="page" class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-secondary-container text-on-surface font-semibold border-l-4 border-primary transition-colors" href="#"><span class="material-symbols-outlined text-[19px] text-primary">tune</span>Cake Options & Add-ons</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">celebration</span>Seasonal Occasions</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">badge</span>Staff Accounts</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">group</span>Customer Accounts</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">rate_review</span>Review Moderation</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">campaign</span>Marketing Drafts</a>
+          <a class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#"><span class="material-symbols-outlined text-[19px]">monitoring</span>Reports</a>
+        </nav>
+      </div>
+    </div>
+    
+    <!-- Clean Footer (No IoT / Kitchen Oven Active indicators) -->
+    <div class="p-4 border-t border-outline-variant/30 text-xs text-on-surface-variant/70 flex items-center justify-between">
+      <span>Kitchen406 v2.4</span>
+      <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> Online</span>
+    </div>
+  </aside>
+
+  <!-- TOP HEADER -->
+  <header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 z-20 px-8 flex items-center justify-between">
+    <div class="flex items-center gap-2 text-sm">
+      <span class="text-on-surface-variant">Management</span>
+      <span class="material-symbols-outlined text-xs text-outline">chevron_right</span>
+      <span class="font-semibold text-on-surface">Cake Options & Add-ons</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="relative hidden md:block">
+        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+        <input class="w-64 h-9 pl-8 pr-3 text-xs bg-surface-container-low rounded-lg border border-outline-variant/40 focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary text-on-surface" placeholder="Search portal... ⌘K" type="text"/>
+      </div>
+      <button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container relative" type="button">
+        <span class="material-symbols-outlined text-[20px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span>
+      </button>
+      <div class="flex items-center gap-2 pl-3 border-l border-outline-variant/30">
+        <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">ME</div>
+        <div class="hidden sm:flex flex-col text-left leading-tight">
+          <span class="text-xs font-semibold text-on-surface">Maria Elena</span>
+          <span class="text-[10px] text-on-surface-variant">Owner</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="ml-72 pt-16 min-h-screen p-8 relative flex-1">
+    
+    <!-- Top Action / Contextual Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xs uppercase tracking-wider font-bold text-primary">Management</span>
+          <span class="material-symbols-outlined text-[12px] text-outline">chevron_right</span>
+          <span class="text-xs uppercase tracking-wider font-medium text-on-surface-variant">Custom Cake Architecture</span>
+        </div>
+        <h1 class="font-serif text-3xl font-medium tracking-tight text-on-surface">Cake Options & Add-ons</h1>
+        <p class="text-sm text-on-surface-variant mt-1">
+          Manage the choices, extras, pricing, and ingredient requirements used in custom cake requests.
+        </p>
+      </div>
+
+      <!-- Header Tools & View Switcher -->
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Interactive View Switcher for Reviewing Both States -->
+        <div class="bg-surface-container-low p-1 rounded-lg border border-outline-variant/30 flex items-center shadow-sm">
+          <button class="px-3 py-1.5 rounded text-xs font-semibold transition-all bg-surface-container-lowest text-on-surface shadow-sm" id="btn-view-options" onclick="switchMainTab('options'); openDrawer('8-inch (Classic)', 'Size', '900.00', '1.50', 'Available');" type="button">
+            Cake Options (Drawer Open)
+          </button>
+          <button class="px-3 py-1.5 rounded text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface" id="btn-view-addons" onclick="switchMainTab('addons'); openAddonDrawer('Fondant Flowers', '180.00', 'Available');" type="button">
+            Add-ons (Drawer Open)
+          </button>
+        </div>
+
+        <!-- Primary Contextual CTA -->
+        <button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-semibold hover:bg-primary-container transition-colors shadow-sm" id="main-cta-btn" onclick="handlePrimaryCTA()" type="button">
+          <span class="material-symbols-outlined text-[18px]">add</span>
+          <span id="main-cta-label">New Cake Option</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUMMARY STRIP (Mathematically Consistent: 19 Available + 4 Unavailable = 23 Total Cake Options; 7 Add-ons) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <!-- Card 1: Available Options -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm flex items-start justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-outline">Available Options</span>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="font-serif text-3xl font-medium text-on-surface">19</span>
+            <span class="text-xs font-medium text-primary">Active Choices</span>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-1.5">Across 5 structural categories (Shape, Flavor, Size, Color, Icing)</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-surface-container-low text-primary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[20px]">cake</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Cake Add-ons -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm flex items-start justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-outline">Cake Add-ons</span>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="font-serif text-3xl font-medium text-on-surface">7</span>
+            <span class="text-xs font-medium text-on-surface-variant">Optional Extras</span>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-1.5">Per-unit additions with custom customer quantities</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-surface-container-low text-primary-container flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[20px]">extension</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Unavailable -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm flex items-start justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-outline">Unavailable</span>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="font-serif text-3xl font-medium text-on-surface">4</span>
+            <span class="text-xs font-medium text-secondary">Hidden Choices</span>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-1.5">Excluded from new requests; historical quotations preserved</p>
+        </div>
+        <div class="w-9 h-9 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS BAR -->
+    <div class="flex items-center justify-between gap-4 mb-4">
+      <div class="inline-flex p-1 rounded-xl bg-surface-container-low border border-outline-variant/30 shadow-sm">
+        <button class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all bg-primary text-on-primary shadow-sm" id="tab-opt-btn" onclick="switchMainTab('options')" type="button">
+          <span class="material-symbols-outlined text-[17px]">tune</span>
+          <span>Cake Options</span>
+          <span class="ml-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary text-[10px]">23</span>
+        </button>
+        <button class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface" id="tab-add-btn" onclick="switchMainTab('addons')" type="button">
+          <span class="material-symbols-outlined text-[17px]">extension</span>
+          <span>Cake Add-ons</span>
+          <span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface text-[10px]">7</span>
+        </button>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2 text-xs text-on-surface-variant">
+        <span class="material-symbols-outlined text-[16px] text-outline">info</span>
+        <span>Contributes to preliminary builder estimate</span>
+      </div>
+    </div>
+
+    <!-- TAB 1: CAKE OPTIONS TOOLBAR & TABLE -->
+    <div class="flex flex-col" id="options-tab-container">
+      <!-- Toolbar -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm mb-4 flex flex-col gap-3">
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+          <div class="relative flex-1 min-w-[260px]">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+            <input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-xs border border-outline-variant/40 focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/60" id="search-options" oninput="filterOptionsTable()" placeholder="Search cake options (e.g. 8-inch, Vanilla, Buttercream)..." type="text"/>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <select class="h-10 px-3 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-outline-variant/40 focus:outline-none cursor-pointer" id="select-type-filter" onchange="setChipFilter(this.value)">
+              <option value="All">All Types (5 categories)</option>
+              <option value="Shape">Shape</option>
+              <option value="Flavor">Flavor</option>
+              <option selected="" value="Size">Size</option>
+              <option value="Color">Color</option>
+              <option value="Icing">Icing</option>
+            </select>
+            <select class="h-10 px-3 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-outline-variant/40 focus:outline-none cursor-pointer" id="select-status-filter" onchange="filterOptionsTable()">
+              <option value="All">Status: All</option>
+              <option value="Available">Available</option>
+              <option value="Unavailable">Unavailable</option>
+            </select>
+            <select class="h-10 px-3 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-outline-variant/40 focus:outline-none cursor-pointer">
+              <option>Sort: Recently updated</option>
+              <option>Sort: Name (A-Z)</option>
+              <option>Sort: Price (Low to High)</option>
+              <option>Sort: Price (High to Low)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Quick Chips -->
+        <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-outline-variant/20">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline mr-1">Quick filter:</span>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors" id="chip-all" onclick="setChipFilter('All')">All</button>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors" id="chip-shape" onclick="setChipFilter('Shape')">Shape</button>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors" id="chip-flavor" onclick="setChipFilter('Flavor')">Flavor</button>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-primary text-on-primary font-bold shadow-sm transition-colors" id="chip-size" onclick="setChipFilter('Size')">Size</button>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors" id="chip-color" onclick="setChipFilter('Color')">Color</button>
+          <button class="px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors" id="chip-icing" onclick="setChipFilter('Icing')">Icing</button>
+        </div>
+      </div>
+
+      <!-- Cake Options Table (No Internal IDs) -->
+      <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden mb-6">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-surface-container-low/80 text-on-surface-variant font-bold uppercase tracking-wider border-b border-outline-variant/30">
+                <th class="py-3 px-4">Option</th>
+                <th class="py-3 px-3">Type</th>
+                <th class="py-3 px-3 text-right">Added Price</th>
+                <th class="py-3 px-4">Ingredient Requirements</th>
+                <th class="py-3 px-3 text-center">Status</th>
+                <th class="py-3 px-3">Updated</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/20" id="options-tbody">
+              <!-- Row 1: Round -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="round base silhouette" data-status="Available" data-type="Shape">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Round</span>
+                      <span class="text-outline text-[11px]">Base silhouette</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Shape</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱0.00 <span class="block text-[10px] text-outline font-normal">Base shape</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>1 ingredient mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Cake board base round</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 7, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Round', 'Shape', '0.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 2: Square -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="square corner pan" data-status="Available" data-type="Shape">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">crop_square</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Square</span>
+                      <span class="text-outline text-[11px]">Corner pan layout</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Shape</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱100.00 <span class="block text-[10px] text-outline font-normal">Pan surcharge</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>1 ingredient mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Square board support</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 5, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Square', 'Shape', '100.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 3: Chocolate Velvet -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="chocolate velvet valrhona cocoa sponge" data-status="Available" data-type="Flavor">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary-container flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">bakery_dining</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Chocolate Velvet</span>
+                      <span class="text-outline text-[11px]">Valrhona cocoa sponge</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Flavor</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱350.00 <span class="block text-[10px] text-outline font-normal">Premium sponge</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>4 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Cocoa, Buttermilk, Espresso, Dark Chocolate</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 6, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Chocolate Velvet', 'Flavor', '350.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 4: 6-inch (Petite) -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="6-inch petite serves 6-8 guests" data-status="Available" data-type="Size">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">straighten</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">6-inch (Petite)</span>
+                      <span class="text-outline text-[11px]">Serves 6–8 guests</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-bold">Size</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱600.00 <span class="block text-[10px] text-outline font-normal">Base size tier</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-primary font-semibold">Scale factor 1.00×</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 6, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('6-inch (Petite)', 'Size', '600.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 5: 8-inch (Classic) [ACTIVE HIGHLIGHTED ROW] -->
+              <tr class="bg-secondary-container/60 transition-colors opt-row shadow-inner" data-name="8-inch classic serves 12-16 guests" data-status="Available" data-type="Size" id="row-8-inch">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-primary text-on-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">straighten</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="font-bold text-on-surface text-sm block">8-inch (Classic)</span>
+                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold uppercase bg-primary text-on-primary">Selected</span>
+                      </div>
+                      <span class="text-on-surface-variant text-[11px]">Serves 12–16 guests</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-bold">Size</span></td>
+                <td class="py-3 px-3 text-right font-bold text-primary">+₱900.00 <span class="block text-[10px] text-outline font-normal">Custom standard</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface font-semibold">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-primary font-bold">Scale factor 1.50×</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 6, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold shadow-sm" onclick="openDrawer('8-inch (Classic)', 'Size', '900.00', '1.50', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 6: 10-inch (Grand) -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="10-inch grand serves 24-30 guests" data-status="Available" data-type="Size">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">straighten</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">10-inch (Grand)</span>
+                      <span class="text-outline text-[11px]">Serves 24–30 guests</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-bold">Size</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱1,400.00 <span class="block text-[10px] text-outline font-normal">Celebration tier</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-primary font-semibold">Scale factor 2.10×</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 1, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('10-inch (Grand)', 'Size', '1400.00', '2.10', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 7: Classic Ivory / White -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="classic ivory white natural butter shade" data-status="Available" data-type="Color">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary-container flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">palette</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Classic Ivory / White</span>
+                      <span class="text-outline text-[11px]">Natural butter shade</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Color</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱0.00 <span class="block text-[10px] text-outline font-normal">Natural baseline</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-outline">
+                    <span class="material-symbols-outlined text-[15px]">remove_circle_outline</span>
+                    <span>No separate ingredients</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Uses core icing formulation</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Sep 29, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Classic Ivory / White', 'Color', '0.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 8: Swiss Meringue Buttercream -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opt-row" data-name="swiss meringue buttercream silky low sweetness exterior" data-status="Available" data-type="Icing">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">cookie</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Swiss Meringue Buttercream</span>
+                      <span class="text-outline text-[11px]">Silky, low-sweetness exterior</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Icing</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱250.00 <span class="block text-[10px] text-outline font-normal">Standard coat</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>3 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Egg whites, European butter, cane sugar</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 6, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Swiss Meringue Buttercream', 'Icing', '250.00', '1.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Row 9: Dark Chocolate Ganache (Unavailable - No Draft label) -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opacity-85 opt-row" data-name="dark chocolate ganache 70 single origin glaze" data-status="Unavailable" data-type="Icing">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-outline flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">cookie</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Dark Chocolate Ganache</span>
+                      <span class="text-outline text-[11px]">70% single origin glaze</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-medium">Icing</span></td>
+                <td class="py-3 px-3 text-right font-semibold text-on-surface">+₱320.00 <span class="block text-[10px] text-outline font-normal">Rich coating</span></td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-outline">
+                    <span class="material-symbols-outlined text-[15px]">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Heavy dairy cream, 70% dark chocolate</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Unavailable
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 2, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openDrawer('Dark Chocolate Ganache', 'Icing', '320.00', '1.00', 'Unavailable')">Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination & Summary Count (Matches 19 Available + 4 Unavailable = 23 Total) -->
+        <div class="p-3 bg-surface-container-low/70 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant">
+          <span>Showing <strong class="text-on-surface">9</strong> of <strong class="text-on-surface">23</strong> registered options across custom cake builder</span>
+          <div class="flex items-center gap-1">
+            <button class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface-variant disabled:opacity-40" disabled><span class="material-symbols-outlined text-[14px]">chevron_left</span></button>
+            <button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold">1</button>
+            <button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface">2</button>
+            <button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface">3</button>
+            <button class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container"><span class="material-symbols-outlined text-[14px]">chevron_right</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CAKE ADD-ONS TOOLBAR & TABLE (Shown when Add-ons tab is active) -->
+    <div class="hidden flex-col" id="addons-tab-container">
+      <!-- Toolbar (Contextual: NO Shape/Flavor/Size/Color/Icing chips) -->
+      <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div class="relative flex-1 min-w-[260px]">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+          <input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-xs border border-outline-variant/40 focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/60" id="search-addons" placeholder="Search cake add-ons (e.g. Fondant Flowers, Topper, Macarons)..." type="text"/>
+        </div>
+        <div class="flex items-center gap-2">
+          <select class="h-10 px-3 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-outline-variant/40 focus:outline-none cursor-pointer">
+            <option value="All">Status: All</option>
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
+          </select>
+          <select class="h-10 px-3 rounded-lg bg-surface-container-low text-xs font-semibold text-on-surface border border-outline-variant/40 focus:outline-none cursor-pointer">
+            <option>Sort: Recently updated</option>
+            <option>Sort: Name (A-Z)</option>
+            <option>Sort: Price (Low to High)</option>
+            <option>Sort: Price (High to Low)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Add-ons Table (Simple Structure: Name | Price per Unit | Ingredient Requirements | Status | Updated | Actions) -->
+      <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden mb-6">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-surface-container-low/80 text-on-surface-variant font-bold uppercase tracking-wider border-b border-outline-variant/30">
+                <th class="py-3 px-4">Add-on</th>
+                <th class="py-3 px-3 text-right">Price per Unit</th>
+                <th class="py-3 px-4">Ingredient Requirements</th>
+                <th class="py-3 px-3 text-center">Status</th>
+                <th class="py-3 px-3">Updated</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/20">
+              <!-- Add-on 1: Fondant Flowers -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors" id="row-addon-fondant">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">local_florist</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Fondant Flowers</span>
+                      <span class="text-outline text-[11px]">Handcrafted sugar petals & roses</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-right font-bold text-on-surface">₱180.00 / unit</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Gumpaste sugar dough, luster dust</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 6, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold shadow-sm" onclick="openAddonDrawer('Fondant Flowers', '180.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Add-on 2: Custom Cake Topper -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary-container flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">label</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Custom Cake Topper</span>
+                      <span class="text-outline text-[11px]">Laser-cut acrylic / metallic cardstock</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-right font-bold text-on-surface">₱150.00 / unit</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>1 ingredient mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Acrylic topper blank (Inventory)</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 5, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openAddonDrawer('Custom Cake Topper', '150.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Add-on 3: Gold Leaf Accent -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Gold Leaf Accent</span>
+                      <span class="text-outline text-[11px]">Edible 24-karat gold leaf flakes</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-right font-bold text-on-surface">₱120.00 / unit</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>1 ingredient mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Edible 24K leaf sheets</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 4, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openAddonDrawer('Gold Leaf Accent', '120.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Add-on 4: Extra Macarons -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-primary-container flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">cookie</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Extra Macarons</span>
+                      <span class="text-outline text-[11px]">French almond macarons garnish</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-right font-bold text-on-surface">₱70.00 / unit</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary">inventory_2</span>
+                    <span>4 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Almond flour, ganache, egg whites</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-surface font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Available
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Oct 2, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openAddonDrawer('Extra Macarons', '70.00', 'Available')">Edit</button>
+                </td>
+              </tr>
+
+              <!-- Add-on 5: Chocolate Drip (Unavailable) -->
+              <tr class="hover:bg-surface-container-low/50 transition-colors opacity-85">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded bg-surface-container-high text-outline flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[16px]">water_drop</span>
+                    </div>
+                    <div>
+                      <span class="font-bold text-on-surface text-sm block">Chocolate Drip</span>
+                      <span class="text-outline text-[11px]">Cascading dark chocolate drip</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-right font-bold text-on-surface">₱100.00 / unit</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-1.5 text-outline">
+                    <span class="material-symbols-outlined text-[15px]">inventory_2</span>
+                    <span>2 ingredients mapped</span>
+                  </div>
+                  <span class="text-[11px] text-outline">Belgian chocolate, heavy cream</span>
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Unavailable
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-on-surface-variant">Sep 28, 2026</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="px-2.5 py-1 rounded hover:bg-surface-container text-primary font-bold" onclick="openAddonDrawer('Chocolate Drip', '100.00', 'Unavailable')">Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRELIMINARY ESTIMATE INFORMATIONAL BANNER -->
+    <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm relative overflow-hidden flex items-start gap-3">
+      <div class="w-1 bg-primary self-stretch rounded-full shrink-0"></div>
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[18px]">info</span>
+          <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider">Where these settings appear</h4>
+        </div>
+        <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+          Available options and add-ons appear in the customer Custom Cake Request builder. Their configured prices contribute to the preliminary estimate. Additional design or complexity pricing may still be applied by the owner when preparing the final quotation.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- OVERLAID RIGHT-SIDE DRAWER: EDIT CAKE OPTION (FIXED / OVERLAID) -->
+  <!-- ======================================================== -->
+  <div class="fixed inset-0 bg-[#1b1c1a]/25 backdrop-blur-[2px] z-40 transition-opacity duration-300" id="drawer-backdrop" onclick="closeAllDrawers()"></div>
+
+  <!-- Cake Option Drawer (Width: 460px, fits 100% cleanly in standard viewports without horizontal overflow) -->
+  <aside aria-label="Edit Cake Option Drawer" class="fixed top-0 right-0 bottom-0 w-[460px] max-w-full bg-surface-container-lowest shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-0 border-l border-outline-variant/30" id="drawer-cake-option">
+    <!-- Header -->
+    <div class="p-5 bg-surface-container-low/70 border-b border-outline-variant/30 flex items-start justify-between shrink-0">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[20px]">edit_note</span>
+          <h2 class="font-serif text-xl font-medium text-on-surface" id="drawer-title">Edit Cake Option</h2>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-1" id="drawer-meta">Last updated Oct 6, 2026</p>
+      </div>
+      <button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" onclick="closeAllDrawers()" title="Close side panel" type="button">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+
+    <!-- Scrollable Body -->
+    <div class="p-5 flex flex-col gap-5 overflow-y-auto flex-1 text-xs">
+      
+      <!-- Section 1: Basic Information -->
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2 border-b border-outline-variant/20 pb-1.5">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">1. Basic Information</span>
+        </div>
+
+        <div>
+          <label class="font-bold text-on-surface block mb-1">Option Type</label>
+          <div class="relative">
+            <select class="w-full h-10 pl-3 pr-8 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-xs font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer appearance-none" id="drawer-option-type" onchange="toggleSizeConfiguration(this.value)">
+              <option value="Shape">Shape</option>
+              <option value="Flavor">Flavor</option>
+              <option selected="" value="Size">Size</option>
+              <option value="Color">Color</option>
+              <option value="Icing">Icing</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-outline text-[16px] pointer-events-none">expand_more</span>
+          </div>
+          <p class="text-[11px] text-on-surface-variant mt-1">Defines the structural category. Custom requests select exactly one per category.</p>
+        </div>
+
+        <div>
+          <label class="font-bold text-on-surface block mb-1">Option Name</label>
+          <input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-xs font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="drawer-option-name" type="text" value="8-inch (Classic)"/>
+        </div>
+
+        <div>
+          <label class="font-bold text-on-surface block mb-1">Added Price (Preliminary Contribution)</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 font-semibold text-on-surface text-sm">₱</span>
+            <input class="w-full h-10 pl-8 pr-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-sm font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="drawer-option-price" step="10.00" type="number" value="900.00"/>
+          </div>
+          <p class="text-[11px] text-on-surface-variant mt-1">Added to preliminary custom cake estimate. Final complexity fees are quoted separately.</p>
+        </div>
+      </div>
+
+      <!-- Section 2: Size-Specific Configuration (Conditional) -->
+      <div class="bg-surface-container-low/70 rounded-xl p-4 border border-outline-variant/30 flex flex-col gap-2" id="size-config-card">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 font-bold text-on-surface">
+            <span class="material-symbols-outlined text-primary text-[17px]">straighten</span>
+            <span>Size-Specific Configuration</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-primary-container text-on-primary">Scaling Active</span>
+        </div>
+
+        <label class="font-bold text-on-surface mt-1">Ingredient Scale Factor</label>
+        <div class="flex items-center gap-2">
+          <input class="w-24 h-9 px-2 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-center font-bold text-primary text-sm focus:outline-none focus:ring-1 focus:ring-primary" id="drawer-scale-factor" min="0.1" step="0.05" type="number" value="1.50"/>
+          <span class="text-xs text-outline font-medium">× Multiplier of baseline</span>
+        </div>
+        
+        <!-- Corrected Helper Copy -->
+        <p class="text-[11px] text-on-surface-variant leading-relaxed mt-1 bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/20">
+          Adjusts applicable cake ingredient requirements relative to the bakery's base cake size (e.g. 1.50 means applicable ingredient quantities are multiplied by 1.5 when this size is selected).
+        </p>
+      </div>
+
+      <!-- Section 3: Availability Controls -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 border-b border-outline-variant/20 pb-1.5">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">2. Availability Controls</span>
+        </div>
+        <div class="bg-surface-container-low/70 p-3.5 rounded-xl border border-outline-variant/30 flex items-center justify-between">
+          <div>
+            <span class="font-bold text-on-surface text-xs block">Available to customers</span>
+            <span class="text-[11px] text-on-surface-variant block mt-0.5">Customers can select this in new requests. Historical quotations are retained.</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-3">
+            <input checked="" class="sr-only peer" id="drawer-avail-toggle" type="checkbox"/>
+            <div class="w-10 h-5 bg-outline-variant/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 4: Ingredient Requirements (Renamed from BOM / Master Materials) -->
+      <div class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-outline">3. Ingredient Requirements</span>
+          </div>
+          <span class="text-[11px] font-bold text-primary">2 ingredients mapped</span>
+        </div>
+        <p class="text-[11px] text-on-surface-variant">
+          Connect this cake choice to the ingredients it consumes so Kitchen406 can include them in custom-cake material requirements and inventory planning.
+        </p>
+
+        <!-- Dynamic Rows Container -->
+        <div class="flex flex-col gap-2" id="opt-ingredient-list">
+          <!-- Row 1: All-Purpose Flour -->
+          <div class="bg-surface-container-low/70 p-2.5 rounded-lg border border-outline-variant/30 flex items-center justify-between gap-2" id="opt-ing-1">
+            <div class="flex-1 min-w-0">
+              <select class="w-full h-8 px-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-xs text-on-surface focus:outline-none">
+                <option selected="">All-Purpose Flour</option>
+                <option>Bleached Cake Flour</option>
+                <option>European Butter (82%)</option>
+                <option>Pure Cane Sugar</option>
+              </select>
+            </div>
+            <div class="w-24 flex items-center gap-1 shrink-0">
+              <input class="w-full h-8 px-2 text-right rounded bg-surface-container-lowest border border-outline-variant/40 text-xs font-bold text-on-surface focus:outline-none" step="0.001" type="number" value="0.1500"/>
+              <span class="text-[10px] font-bold px-1.5 py-1 bg-surface-container-high rounded text-on-surface-variant">kg</span>
+            </div>
+            <button class="p-1 rounded text-outline hover:text-red-700 hover:bg-surface-container transition-colors" onclick="removeIngredientRow('opt-ing-1')" title="Remove ingredient" type="button">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+            </button>
+          </div>
+
+          <!-- Row 2: Unsalted Butter -->
+          <div class="bg-surface-container-low/70 p-2.5 rounded-lg border border-outline-variant/30 flex items-center justify-between gap-2" id="opt-ing-2">
+            <div class="flex-1 min-w-0">
+              <select class="w-full h-8 px-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-xs text-on-surface focus:outline-none">
+                <option selected="">Unsalted Butter</option>
+                <option>All-Purpose Flour</option>
+                <option>Pure Cane Sugar</option>
+                <option>Madagascar Vanilla Paste</option>
+              </select>
+            </div>
+            <div class="w-24 flex items-center gap-1 shrink-0">
+              <input class="w-full h-8 px-2 text-right rounded bg-surface-container-lowest border border-outline-variant/40 text-xs font-bold text-on-surface focus:outline-none" step="0.001" type="number" value="0.0800"/>
+              <span class="text-[10px] font-bold px-1.5 py-1 bg-surface-container-high rounded text-on-surface-variant">kg</span>
+            </div>
+            <button class="p-1 rounded text-outline hover:text-red-700 hover:bg-surface-container transition-colors" onclick="removeIngredientRow('opt-ing-2')" title="Remove ingredient" type="button">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="w-full py-2 px-3 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-semibold transition-colors flex items-center justify-center gap-1.5 text-xs" onclick="addIngredientRow('opt-ingredient-list')" type="button">
+          <span class="material-symbols-outlined text-[16px]">add</span>
+          <span>+ Add Ingredient</span>
+        </button>
+
+        <p class="text-[11px] text-outline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">info</span>
+          <span>Ingredients are managed in the Ingredients module.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Sticky Drawer Footer (Cancel & Save Changes) -->
+    <div class="p-4 bg-surface-container-low/90 border-t border-outline-variant/30 flex items-center justify-end gap-3 shrink-0">
+      <button class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition-colors" onclick="closeAllDrawers()" type="button">
+        Cancel
+      </button>
+      <button class="px-5 py-2 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container shadow-sm transition-colors flex items-center gap-1.5" onclick="saveDrawer()" type="button">
+        <span class="material-symbols-outlined text-[16px]">check</span>
+        <span>Save Changes</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======================================================== -->
+  <!-- OVERLAID RIGHT-SIDE DRAWER: EDIT CAKE ADD-ON -->
+  <!-- ======================================================== -->
+  <aside aria-label="Edit Cake Add-on Drawer" class="fixed top-0 right-0 bottom-0 w-[460px] max-w-full bg-surface-container-lowest shadow-2xl z-50 flex flex-col transition-transform duration-300 transform translate-x-full border-l border-outline-variant/30" id="drawer-cake-addon">
+    <!-- Header -->
+    <div class="p-5 bg-surface-container-low/70 border-b border-outline-variant/30 flex items-start justify-between shrink-0">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[20px]">extension</span>
+          <h2 class="font-serif text-xl font-medium text-on-surface" id="addon-drawer-title">Edit Cake Add-on</h2>
+        </div>
+        <p class="text-[11px] text-on-surface-variant mt-1">Customer Custom Extra · Last updated Oct 6, 2026</p>
+      </div>
+      <button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" onclick="closeAllDrawers()" title="Close side panel" type="button">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+
+    <!-- Scrollable Body -->
+    <div class="p-5 flex flex-col gap-5 overflow-y-auto flex-1 text-xs">
+      <!-- Section 1: Add-on Details -->
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2 border-b border-outline-variant/20 pb-1.5">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">1. Add-on Details</span>
+        </div>
+
+        <div>
+          <label class="font-bold text-on-surface block mb-1">Add-on Name</label>
+          <input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-xs font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="addon-input-name" type="text" value="Fondant Flowers"/>
+        </div>
+
+        <div>
+          <label class="font-bold text-on-surface block mb-1">Price per Unit</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 font-semibold text-on-surface text-sm">₱</span>
+            <input class="w-full h-10 pl-8 pr-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-sm font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="addon-input-price" step="10.00" type="number" value="180.00"/>
+          </div>
+          <p class="text-[11px] text-on-surface-variant mt-1">Multiplied by the quantity selected by the customer and included in the preliminary cake estimate.</p>
+        </div>
+      </div>
+
+      <!-- Section 2: Availability Controls -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 border-b border-outline-variant/20 pb-1.5">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">2. Availability Controls</span>
+        </div>
+        <div class="bg-surface-container-low/70 p-3.5 rounded-xl border border-outline-variant/30 flex items-center justify-between">
+          <div>
+            <span class="font-bold text-on-surface text-xs block">Available to customers</span>
+            <span class="text-[11px] text-on-surface-variant block mt-0.5">Customers can select this add-on in custom cake requests. Existing requests remain unchanged.</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-3">
+            <input checked="" class="sr-only peer" id="addon-input-avail" type="checkbox"/>
+            <div class="w-10 h-5 bg-outline-variant/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 3: Ingredient Requirements -->
+      <div class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between border-b border-outline-variant/20 pb-1.5">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-outline">3. Ingredient Requirements</span>
+          </div>
+          <span class="text-[11px] font-bold text-primary">2 ingredients mapped</span>
+        </div>
+        <p class="text-[11px] text-on-surface-variant leading-relaxed">
+          Ingredient quantities are defined per add-on unit. Kitchen406 multiplies these requirements by the quantity selected in the customer's cake request.
+        </p>
+
+        <!-- Dynamic List -->
+        <div class="flex flex-col gap-2" id="addon-ingredient-list">
+          <div class="bg-surface-container-low/70 p-2.5 rounded-lg border border-outline-variant/30 flex items-center justify-between gap-2" id="addon-ing-1">
+            <div class="flex-1 min-w-0">
+              <select class="w-full h-8 px-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-xs text-on-surface focus:outline-none">
+                <option selected="">Gumpaste Sugar Dough</option>
+                <option>Edible 24K Gold Leaf</option>
+                <option>Acrylic Topper Blank</option>
+              </select>
+            </div>
+            <div class="w-24 flex items-center gap-1 shrink-0">
+              <input class="w-full h-8 px-2 text-right rounded bg-surface-container-lowest border border-outline-variant/40 text-xs font-bold text-on-surface focus:outline-none" step="0.001" type="number" value="0.0300"/>
+              <span class="text-[10px] font-bold px-1.5 py-1 bg-surface-container-high rounded text-on-surface-variant">kg</span>
+            </div>
+            <button class="p-1 rounded text-outline hover:text-red-700 hover:bg-surface-container transition-colors" onclick="removeIngredientRow('addon-ing-1')" type="button">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="w-full py-2 px-3 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-semibold transition-colors flex items-center justify-center gap-1.5 text-xs" onclick="addIngredientRow('addon-ingredient-list')" type="button">
+          <span class="material-symbols-outlined text-[16px]">add</span>
+          <span>+ Add Ingredient</span>
+        </button>
+
+        <p class="text-[11px] text-outline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">info</span>
+          <span>Ingredients are managed in the Ingredients module.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Sticky Drawer Footer -->
+    <div class="p-4 bg-surface-container-low/90 border-t border-outline-variant/30 flex items-center justify-end gap-3 shrink-0">
+      <button class="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition-colors" onclick="closeAllDrawers()" type="button">
+        Cancel
+      </button>
+      <button class="px-5 py-2 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container shadow-sm transition-colors flex items-center gap-1.5" onclick="saveDrawer()" type="button">
+        <span class="material-symbols-outlined text-[16px]">check</span>
+        <span>Save Changes</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Interactive JavaScript Controller -->
+  <script>
+    let currentTab = 'options';
+    let rowCounter = 10;
+
+    function handlePrimaryCTA() {
+      if (currentTab === 'options') {
+        openDrawer('New Cake Option', 'Flavor', '0.00', '1.00', 'Available');
+      } else {
+        openAddonDrawer('New Cake Add-on', '100.00', 'Available');
+      }
+    }
+
+    function switchMainTab(tab) {
+      currentTab = tab;
+      const optBtn = document.getElementById('tab-opt-btn');
+      const addBtn = document.getElementById('tab-add-btn');
+      const optContainer = document.getElementById('options-tab-container');
+      const addContainer = document.getElementById('addons-tab-container');
+      const ctaLabel = document.getElementById('main-cta-label');
+
+      if (tab === 'options') {
+        optBtn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all bg-primary text-on-primary shadow-sm';
+        addBtn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface';
+        optContainer.classList.remove('hidden');
+        addContainer.classList.add('hidden');
+        if (ctaLabel) ctaLabel.innerText = 'New Cake Option';
+        
+        document.getElementById('btn-view-options').className = 'px-3 py-1.5 rounded text-xs font-semibold transition-all bg-surface-container-lowest text-on-surface shadow-sm';
+        document.getElementById('btn-view-addons').className = 'px-3 py-1.5 rounded text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface';
+      } else {
+        addBtn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all bg-primary text-on-primary shadow-sm';
+        optBtn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface';
+        optContainer.classList.add('hidden');
+        addContainer.classList.remove('hidden');
+        if (ctaLabel) ctaLabel.innerText = 'New Add-on';
+
+        document.getElementById('btn-view-addons').className = 'px-3 py-1.5 rounded text-xs font-semibold transition-all bg-surface-container-lowest text-on-surface shadow-sm';
+        document.getElementById('btn-view-options').className = 'px-3 py-1.5 rounded text-xs font-medium transition-all text-on-surface-variant hover:text-on-surface';
+      }
+    }
+
+    function openDrawer(name, type, price, scale, status) {
+      closeAllDrawers();
+      const drawer = document.getElementById('drawer-cake-option');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const title = document.getElementById('drawer-title');
+      const nameInp = document.getElementById('drawer-option-name');
+      const typeSel = document.getElementById('drawer-option-type');
+      const priceInp = document.getElementById('drawer-option-price');
+      const scaleInp = document.getElementById('drawer-scale-factor');
+      const toggle = document.getElementById('drawer-avail-toggle');
+
+      if (drawer) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('hidden');
+        title.innerText = (name === 'New Cake Option') ? 'New Cake Option' : 'Edit Cake Option';
+        nameInp.value = (name === 'New Cake Option') ? '' : name;
+        typeSel.value = type;
+        priceInp.value = price;
+        if (scaleInp) scaleInp.value = scale;
+        if (toggle) toggle.checked = (status === 'Available');
+        toggleSizeConfiguration(type);
+      }
+    }
+
+    function openAddonDrawer(name, price, status) {
+      closeAllDrawers();
+      const drawer = document.getElementById('drawer-cake-addon');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const title = document.getElementById('addon-drawer-title');
+      const nameInp = document.getElementById('addon-input-name');
+      const priceInp = document.getElementById('addon-input-price');
+      const toggle = document.getElementById('addon-input-avail');
+
+      if (drawer) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('hidden');
+        title.innerText = (name === 'New Cake Add-on') ? 'New Cake Add-on' : 'Edit Cake Add-on';
+        nameInp.value = (name === 'New Cake Add-on') ? '' : name;
+        priceInp.value = price;
+        if (toggle) toggle.checked = (status === 'Available');
+      }
+    }
+
+    function closeAllDrawers() {
+      const drawerOpt = document.getElementById('drawer-cake-option');
+      const drawerAdd = document.getElementById('drawer-cake-addon');
+      const backdrop = document.getElementById('drawer-backdrop');
+      if (drawerOpt) drawerOpt.classList.add('translate-x-full');
+      if (drawerAdd) drawerAdd.classList.add('translate-x-full');
+      if (backdrop) backdrop.classList.add('hidden');
+    }
+
+    function toggleSizeConfiguration(type) {
+      const card = document.getElementById('size-config-card');
+      if (card) {
+        if (type === 'Size') {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      }
+    }
+
+    function removeIngredientRow(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function addIngredientRow(containerId) {
+      rowCounter++;
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const div = document.createElement('div');
+      div.id = `row-dyn-${rowCounter}`;
+      div.className = 'bg-surface-container-low/70 p-2.5 rounded-lg border border-outline-variant/30 flex items-center justify-between gap-2';
+      div.innerHTML = `
+        <div class="flex-1 min-w-0">
+          <select class="w-full h-8 px-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-xs text-on-surface focus:outline-none">
+            <option>Dutch Dark Cocoa Powder</option>
+            <option>Pure Vanilla Caviar Extract</option>
+            <option>Whole Farmhouse Eggs</option>
+            <option>Heavy Cream (36%)</option>
+          </select>
+        </div>
+        <div class="w-24 flex items-center gap-1 shrink-0">
+          <input type="number" step="0.001" value="0.0500" class="w-full h-8 px-2 text-right rounded bg-surface-container-lowest border border-outline-variant/40 text-xs font-bold text-on-surface focus:outline-none" />
+          <span class="text-[10px] font-bold px-1.5 py-1 bg-surface-container-high rounded text-on-surface-variant">kg</span>
+        </div>
+        <button onclick="removeIngredientRow('row-dyn-${rowCounter}')" type="button" class="p-1 rounded text-outline hover:text-red-700 hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined text-[16px]">delete</span>
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function saveDrawer() {
+      closeAllDrawers();
+    }
+
+    function setChipFilter(type) {
+      ['all', 'shape', 'flavor', 'size', 'color', 'icing'].forEach(c => {
+        const el = document.getElementById(`chip-${c}`);
+        if (el) {
+          if (c === type.toLowerCase()) {
+            el.className = 'px-2.5 py-1 rounded-full text-xs bg-primary text-on-primary font-bold shadow-sm transition-colors';
+          } else {
+            el.className = 'px-2.5 py-1 rounded-full text-xs bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors';
+          }
+        }
+      });
+      const sel = document.getElementById('select-type-filter');
+      if (sel) sel.value = type;
+      filterOptionsTable();
+    }
+
+    function filterOptionsTable() {
+      const query = (document.getElementById('search-options')?.value || '').toLowerCase().trim();
+      const typeFilter = document.getElementById('select-type-filter')?.value || 'All';
+      const statusFilter = document.getElementById('select-status-filter')?.value || 'All';
+
+      const rows = document.querySelectorAll('.opt-row');
+      rows.forEach(r => {
+        const name = r.getAttribute('data-name') || '';
+        const type = r.getAttribute('data-type') || '';
+        const status = r.getAttribute('data-status') || '';
+
+        const matchQ = !query || name.includes(query);
+        const matchT = (typeFilter === 'All') || (type === typeFilter);
+        const matchS = (statusFilter === 'All') || (status === statusFilter);
+
+        if (matchQ && matchT && matchS) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

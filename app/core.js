@@ -15,6 +15,7 @@ window.K406 = {
   closeModal(force=false) {
     if(!this.modal)return;
     if(!force&&this.modal==='owner-modal'&&this.owner?.confirmDismiss?.()===false)return false;
+    if(this.modal==='owner-modal')this.$('owner-dialog-body').replaceChildren();
     if(this.modal==='phase4-modal'){this.account.securityGeneration++;this.account.verification=null;this.phase4.dialog=null;this.$('phase4-dialog-body').replaceChildren();}
     const root=this.$(this.modal); root.hidden=true; root.classList.add('hidden'); this.modal=null;
     this.$('app-shell').inert=false; document.body.classList.remove('modal-open'); this.previousFocus?.focus();

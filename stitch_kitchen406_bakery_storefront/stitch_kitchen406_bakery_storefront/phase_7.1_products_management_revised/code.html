@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-high":"#e9e8e4","surface-variant":"#e4e2df","surface-bright":"#fbf9f5","on-surface-variant":"#53443a","on-background":"#1b1c1a","surface-container-low":"#f5f3f0","on-secondary":"#ffffff","on-tertiary-fixed":"#1f1b16","inverse-surface":"#30312e","on-primary-fixed":"#311300","outline-variant":"#d9c2b5","on-primary":"#ffffff","on-surface":"#1b1c1a","primary-fixed-dim":"#ffb786","error-container":"#ffdad6","surface-tint":"#904d17","tertiary-fixed":"#ebe1d9","surface":"#fbf9f6","tertiary":"#49433d","surface-container":"#efeeea","secondary-fixed":"#eae1db","on-secondary-fixed-variant":"#4b4642","on-tertiary-container":"#dcd2ca","surface-container-lowest":"#ffffff","surface-container-highest":"#e4e2df","on-tertiary":"#ffffff","background":"#fbf9f5","on-secondary-fixed":"#1f1b18","primary-container":"#ab622b","on-tertiary-fixed-variant":"#4c4640","inverse-primary":"#ffb787","secondary":"#635d59","secondary-fixed-dim":"#cdc5c0","inverse-on-surface":"#f2f1ed","outline":"#867368","tertiary-container":"#7b736d","secondary-container":"#eae1dc","on-error-container":"#93000a","on-secondary-container":"#69635f","on-primary-container":"#fffbff","surface-dim":"#dbdad7","on-primary-fixed-variant":"#723600","tertiary-fixed-dim":"#cfc5bd","primary-fixed":"#ffdcc7","on-error":"#ffffff","error":"#ba1a1a","primary":"#6f3400"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","margin":"2rem","gutter":"1.5rem","space-xl":"2.5rem","space-xs":"0.25rem","gutter-sm":"1rem","space-lg":"1.5rem","margin-sm":"1rem","space-md":"1rem"},"fontFamily":{"title-md":["Plus Jakarta Sans"],"price-lg":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"],"label-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-md":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"price-md":["Plus Jakarta Sans"],"title-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"display":["Playfair Display"],"headline-lg":["Playfair Display"]},"fontSize":{"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"price-lg":["20px",{"lineHeight":"26px","fontWeight":"600"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"16px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(83,68,58,0.06)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="px-6 py-6 pb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-sm"><span class="material-symbols-outlined text-[22px]">bakery_dining</span></div><div><h1 class="font-headline-md text-headline-md font-medium text-on-surface tracking-tight leading-tight">Kitchen406</h1><p class="font-label-sm text-label-sm text-on-surface-variant font-medium tracking-wide uppercase">Owner Portal</p></div></div></div><nav class="px-4 py-2 flex flex-col gap-5" data-active-classes="bg-primary text-on-primary shadow-sm font-semibold rounded-lg"><div class="flex flex-col gap-1"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span class="font-title-sm text-title-sm font-medium">Dashboard</span></a></div><div class="flex flex-col gap-1"><p class="px-3 font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold mb-1">Operations</p><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="orders" href="#"><span class="material-symbols-outlined text-[19px]">receipt_long</span><span class="font-body-md text-body-md">Orders</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments" href="#"><span class="material-symbols-outlined text-[19px]">payments</span><span class="font-body-md text-body-md">Payments</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[19px]">local_shipping</span><span class="font-body-md text-body-md">Deliveries</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[19px]">inventory_2</span><span class="font-body-md text-body-md">Inventory</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[19px]">menu_book</span><span class="font-body-md text-body-md">Recipes &amp; Costing</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[19px]">cake</span><span class="font-body-md text-body-md">Custom Cakes</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[19px]">autorenew</span><span class="font-body-md text-body-md">Subscriptions</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[19px]">calendar_month</span><span class="font-body-md text-body-md">Capacity Calendar</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[19px]">schedule</span><span class="font-body-md text-body-md">Scheduling</span></a></div><div class="flex flex-col gap-1"><p class="px-3 font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold mb-1">Management</p><a aria-current="page" class="flex items-center gap-3 px-3 py-1.5 transition-colors bg-primary text-on-primary shadow-sm font-semibold rounded-lg" data-path="products" href="#"><span class="material-symbols-outlined text-[19px]">storefront</span><span class="font-body-md text-body-md">Products</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="categories" href="#"><span class="material-symbols-outlined text-[19px]">category</span><span class="font-body-md text-body-md">Categories</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[19px]">grain</span><span class="font-body-md text-body-md">Ingredients</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[19px]">interests</span><span class="font-body-md text-body-md">Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[19px]">celebration</span><span class="font-body-md text-body-md">Seasonal Occasions</span></a></div><div class="flex flex-col gap-1"><p class="px-3 font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold mb-1">Administration</p><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[19px]">badge</span><span class="font-body-md text-body-md">Staff Accounts</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[19px]">group</span><span class="font-body-md text-body-md">Customer Accounts</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[19px]">rate_review</span><span class="font-body-md text-body-md">Review Moderation</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[19px]">campaign</span><span class="font-body-md text-body-md">Marketing Drafts</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[19px]">bar_chart</span><span class="font-body-md text-body-md">Reports</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="notifications" href="#"><span class="material-symbols-outlined text-[19px]">notifications</span><span class="font-body-md text-body-md">Notifications</span></a><a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[19px]">settings</span><span class="font-body-md text-body-md">Settings</span></a></div></nav></div><div class="p-4 mx-4 mb-4 rounded-xl bg-surface-container flex items-center justify-between"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div><p class="font-title-sm text-title-sm text-on-surface leading-snug">Maria Elena</p><p class="font-label-sm text-label-sm text-on-surface-variant">Proprietor</p></div></div><button aria-label="Sign out" class="p-1 text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">logout</span></button></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(83,68,58,0.05)] z-40 flex items-center justify-between px-8"><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm text-on-surface-variant">Management</span><span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span><span class="font-title-sm text-title-sm font-semibold text-primary">Products</span></div><div class="flex items-center gap-4"><button class="flex items-center gap-3 bg-surface-container-lowest px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(83,68,58,0.04)] transition-all" type="button"><span class="material-symbols-outlined text-[18px] text-outline">search</span><span class="font-body-sm text-body-sm">Search orders, batches, items...</span><kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-medium">⌘K</kbd></button><button aria-label="View notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span></button><div class="flex items-center gap-3 pl-2 py-1 pr-3 rounded-full bg-surface-container-low shadow-[0_1px_3px_rgba(83,68,58,0.05)]"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col pr-1"><span class="font-title-sm text-title-sm text-on-surface leading-tight font-medium">Maria Elena</span><span class="font-label-sm text-label-sm text-primary font-semibold">Owner</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface px-8 py-8"><div class="flex flex-col w-full">
+<!-- Toast Container -->
+<div class="fixed top-20 right-8 z-50 flex flex-col gap-2 pointer-events-none" id="toast-container"></div>
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">PRODUCT CATALOG</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-medium text-on-surface tracking-tight">Products</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+        Manage the products and variants available across the Kitchen406 storefront. Keep catalog status and ingredient availability synchronized.
+      </p>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center gap-3 shrink-0">
+<a class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" data-path="categories" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline">category</span>
+<span>Manage Categories</span>
+</a>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all" onclick="showAddNotification()" type="button">
+<span class="material-symbols-outlined text-[19px]">add</span>
+<span>Add Product</span>
+</button>
+</div>
+</section>
+<!-- Top Metrics Summary Strip -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<!-- Card 1: Total Products -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Total Products</span>
+<span class="font-headline-md text-headline-md font-semibold text-on-surface mt-1">12</span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Across 4 categories</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+</div>
+</div>
+<!-- Card 2: Active Products -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Active Products</span>
+<span class="font-headline-md text-headline-md font-semibold text-on-surface mt-1">10</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Visible in catalog configuration</span>
+</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[24px]">check_circle</span>
+</div>
+</div>
+<!-- Card 3: Currently Unavailable -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Currently Unavailable</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-md text-headline-md font-semibold text-on-surface">2</span>
+<span class="font-label-sm text-label-sm text-error font-medium">Requires attention</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Require attention</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-error-container/60 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[24px]">error_outline</span>
+</div>
+</div>
+<!-- Card 4: Subscription Products -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Subscription Products</span>
+<span class="font-headline-md text-headline-md font-semibold text-primary mt-1">4</span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Available for subscription</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-fixed/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">event_repeat</span>
+</div>
+</div>
+</section>
+<!-- Catalog Toolbar -->
+<section class="bg-surface-container-lowest p-4 rounded-xl shadow-sm mb-4 flex flex-col gap-3">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<!-- Search Input -->
+<div class="relative flex-1 min-w-[260px] max-w-md">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[19px] text-outline">search</span>
+<input class="w-full pl-10 pr-9 py-2.5 rounded-lg bg-surface-container-low text-on-surface text-body-md font-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all" id="product-search" oninput="handleSearch(this.value)" placeholder="Search products by name, variant, category..." type="text"/>
+<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" id="clear-search-btn" onclick="clearSearch()">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Filters & Sort -->
+<div class="flex flex-wrap items-center gap-2.5">
+<!-- Category Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3.5 py-2.5 pr-8 rounded-lg cursor-pointer focus:outline-none hover:bg-surface-container transition-colors" id="filter-category" onchange="applyFilters()">
+<option value="all">All Categories</option>
+<option value="bread">Bread &amp; Pastries</option>
+<option value="cakes">Cakes</option>
+<option value="savory">Savory &amp; Pantry</option>
+<option value="seasonal">Seasonal</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">arrow_drop_down</span>
+</div>
+<!-- Catalog Status Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3.5 py-2.5 pr-8 rounded-lg cursor-pointer focus:outline-none hover:bg-surface-container transition-colors" id="filter-status" onchange="applyFilters()">
+<option value="all">Catalog Status</option>
+<option value="active">Active Only</option>
+<option value="inactive">Inactive Only</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">arrow_drop_down</span>
+</div>
+<!-- Storefront Availability Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3.5 py-2.5 pr-8 rounded-lg cursor-pointer focus:outline-none hover:bg-surface-container transition-colors" id="filter-availability" onchange="applyFilters()">
+<option value="all">Storefront Availability</option>
+<option value="available">Available</option>
+<option value="partially">Partially Available</option>
+<option value="unavailable">Unavailable</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">arrow_drop_down</span>
+</div>
+<!-- Subscription Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3.5 py-2.5 pr-8 rounded-lg cursor-pointer focus:outline-none hover:bg-surface-container transition-colors" id="filter-subscription" onchange="applyFilters()">
+<option value="all">Subscription</option>
+<option value="subscribed">Subscription Available</option>
+<option value="standard">Standard Purchase Only</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">arrow_drop_down</span>
+</div>
+<div class="h-6 w-[1px] bg-surface-container-high hidden xl:block"></div>
+<!-- Sort Select -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-3.5 py-2.5 pr-8 rounded-lg cursor-pointer focus:outline-none hover:bg-surface-container transition-colors" id="sort-select" onchange="applyFilters()">
+<option value="recent">Recently Updated</option>
+<option value="name-asc">Name A–Z</option>
+<option value="name-desc">Name Z–A</option>
+<option value="price-asc">Price Low–High</option>
+<option value="price-desc">Price High–Low</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">sort</span>
+</div>
+<!-- View Segmented Switch -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg">
+<button class="px-2.5 py-1.5 rounded-md flex items-center justify-center bg-surface-container-lowest text-on-surface shadow-xs transition-all" id="view-list-btn" onclick="setViewMode('list')" title="List View" type="button">
+<span class="material-symbols-outlined text-[19px]">table_rows</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-md flex items-center justify-center text-outline hover:text-on-surface transition-all" id="view-grid-btn" onclick="setViewMode('grid')" title="Grid View" type="button">
+<span class="material-symbols-outlined text-[19px]">grid_view</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Active Filter Feedback / Bulk Bar -->
+<div class="hidden bg-surface-container px-4 py-2 rounded-lg flex items-center justify-between transition-all" id="bulk-bar">
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm uppercase font-bold text-primary tracking-wider" id="selected-count">0 products selected</span>
+<span class="text-outline text-xs">|</span>
+<button class="px-3 py-1 bg-surface-container-lowest hover:bg-surface-container-high rounded text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="bulkUpdateStatus('Active')" type="button">
+          Activate Selected
+        </button>
+<button class="px-3 py-1 bg-surface-container-lowest hover:bg-surface-container-high rounded text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="bulkUpdateStatus('Inactive')" type="button">
+          Deactivate Selected
+        </button>
+</div>
+<button class="text-outline hover:text-on-surface font-label-sm text-label-sm" onclick="clearSelection()" type="button">
+        Clear selection
+      </button>
+</div>
+</section>
+<!-- Empty State Container (Hidden by default) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-16 text-center shadow-sm my-4" id="empty-state">
+<div class="w-16 h-16 rounded-full bg-surface-container mx-auto flex items-center justify-center text-outline mb-4">
+<span class="material-symbols-outlined text-[32px]">inventory</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-medium">No products match your criteria</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mt-2">
+      Try loosening your category, status, or search query to find products in Kitchen406's atelier catalog.
+    </p>
+<button class="mt-6 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md" onclick="resetAllFilters()" type="button">
+      Reset All Filters
+    </button>
+</div>
+<!-- Primary View: List View (Table Hybrid) -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-6" id="list-view-container">
+<div class="w-full">
+<table class="w-full text-left border-collapse table-auto">
+<thead>
+<tr class="bg-surface-container-low/70 text-on-surface-variant font-label-sm text-label-sm tracking-wider uppercase select-none">
+<th class="py-3.5 px-3 w-10 text-center">
+<input class="w-4 h-4 rounded accent-primary cursor-pointer align-middle" id="select-all" onclick="toggleSelectAll(this)" type="checkbox"/>
+</th>
+<th class="py-3.5 px-2 w-8"></th>
+<th class="py-3.5 px-4 font-semibold">Product</th>
+<th class="py-3.5 px-4 font-semibold">Variants</th>
+<th class="py-3.5 px-4 font-semibold">Selling Price</th>
+<th class="py-3.5 px-4 font-semibold">Catalog Status</th>
+<th class="py-3.5 px-4 font-semibold">Storefront Availability</th>
+<th class="py-3.5 px-4 font-semibold">Subscription</th>
+<th class="py-3.5 px-4 w-14 text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/60" id="product-table-body">
+<!-- Row 1: Pandesal (Expanded state initially as required) -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="available" data-category="bread" data-id="1" data-status="active" data-sub="subscribed">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(1)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform rotate-90" id="chevron-1">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Golden brown traditional Filipino pandesal rolls dusted with breadcrumbs piled neatly in a warm bakery kitchen setting with soft morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEbYHjJ3CAy_L9jnxRAe76X3LOpGTso0p7JtA-EzUH1OUaUd-ubguVzJl-XISslRekc4ldyEKwuRmzqv_QjrHgn_MZH9Bw918zKF9YzDCnzZKD7aCtwRCbMquxEezsLmpkvoqIracS4_eQFeKkox6ta2JESaFvr0ACP5XFY06hQwl49biWAPdLGZWJeaqn5tRzR_s2Fc0-uQlxJcaEKjEAQfvE6nsUNXHzl2KnejeO"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Pandesal</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">2 variants</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Pack of 6</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Pack of 12</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱90.00 – ₱170.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900 font-label-sm text-label-sm font-semibold">
+                  Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Ingredients available</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed/40 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">autorenew</span>
+                Subscription Available
+              </span>
+</td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 1)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Accordion Detail Row for Pandesal (Expanded) -->
+<tr class="bg-surface-container-low/50" id="expand-row-1">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<!-- Variant Sub-table -->
+<table class="w-full text-left text-body-sm mb-4">
+<thead>
+<tr class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider border-b border-surface-container pb-2">
+<th class="py-2 px-3 font-semibold">Variant Name</th>
+<th class="py-2 px-3 font-semibold">Selling Price</th>
+<th class="py-2 px-3 font-semibold">Variant Status</th>
+<th class="py-2 px-3 font-semibold">Storefront Availability</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr>
+<td class="py-2.5 px-3 font-medium text-on-surface">Pack of 6</td>
+<td class="py-2.5 px-3 font-title-sm text-title-sm font-bold text-on-surface">₱90.00</td>
+<td class="py-2.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-xs font-semibold">Active</span>
+</td>
+<td class="py-2.5 px-3 text-emerald-700 font-medium">Available (Ingredients available)</td>
+</tr>
+<tr>
+<td class="py-2.5 px-3 font-medium text-on-surface">Pack of 12</td>
+<td class="py-2.5 px-3 font-title-sm text-title-sm font-bold text-on-surface">₱170.00</td>
+<td class="py-2.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-xs font-semibold">Active</span>
+</td>
+<td class="py-2.5 px-3 text-emerald-700 font-medium">Available (Ingredients available)</td>
+</tr>
+</tbody>
+</table>
+<!-- Product Metadata & Quick Action Links Below -->
+<div class="flex flex-wrap items-center justify-between pt-3 border-t border-surface-container gap-3">
+<div class="flex flex-wrap items-center gap-3 text-body-sm font-body-sm text-on-surface-variant">
+<span><strong>Category:</strong> Bread &amp; Pastries</span>
+<span>•</span>
+<span><strong>Subscription:</strong> Available</span>
+<span>•</span>
+<span><strong>Last Updated:</strong> Oct 7, 2026 by Maria E.</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:text-primary-container font-label-md text-label-md font-semibold flex items-center gap-1" onclick="showToast('Navigating to Product Editor (Pandesal)...')" type="button">
+                    Edit Product &amp; Variants <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium flex items-center gap-1" onclick="showToast('Viewing recipe for Pandesal...')" type="button">
+                    View Recipe <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium flex items-center gap-1" onclick="showToast('Managing schedule for Pandesal...')" type="button">
+                    Manage Schedule <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2: Cinnamon Rolls -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="available" data-category="bread" data-id="2" data-status="active" data-sub="subscribed">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(2)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-2">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Freshly baked artisan cinnamon rolls glazed with vanilla bean cream cheese frosting placed on parchment paper in a rustic bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9_r9lKlNR2kDTu8woX0ynAAglyhUowp83uWa4LxnXqoswsfmFSkTq6v9akHkRq_5Byypo64qwk9UrgdSOb0czEcPoxK7I9MqGAEfvLzX44w_wfk7VW_Ky0XAsQXxt-hg_9Jff_sb9Ppx2xOMzjN9vyW5oYjKYUS3ujNp2R0YvpSI0kKcnhPH1J9OHYxxyZ9fneR0JQRofN-B-BGwe4nEf6Tx4Uc_mroxyv5hBhyaQ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Cinnamon Rolls</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">2 variants</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Box of 4</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Box of 6</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱240.00 – ₱350.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900 font-label-sm text-label-sm font-semibold">
+                  Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Ingredients available</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed/40 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">autorenew</span>
+                Subscription Available
+              </span>
+</td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 2)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-2">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<table class="w-full text-left text-body-sm mb-4">
+<thead>
+<tr class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider border-b border-surface-container pb-2">
+<th class="py-2 px-3 font-semibold">Variant Name</th>
+<th class="py-2 px-3 font-semibold">Selling Price</th>
+<th class="py-2 px-3 font-semibold">Variant Status</th>
+<th class="py-2 px-3 font-semibold">Storefront Availability</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr>
+<td class="py-2 px-3 font-medium">Box of 4</td>
+<td class="py-2 px-3 font-bold">₱240.00</td>
+<td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-xs font-semibold">Active</span></td>
+<td class="py-2 px-3 text-emerald-700">Available (Ingredients available)</td>
+</tr>
+<tr>
+<td class="py-2 px-3 font-medium">Box of 6</td>
+<td class="py-2 px-3 font-bold">₱350.00</td>
+<td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-xs font-semibold">Active</span></td>
+<td class="py-2 px-3 text-emerald-700">Available (Ingredients available)</td>
+</tr>
+</tbody>
+</table>
+<div class="flex flex-wrap items-center justify-between pt-3 border-t border-surface-container gap-3 text-body-sm text-on-surface-variant">
+<div>Category: Bread &amp; Pastries • Subscription: Available • Last Updated: Oct 6, 2026 by Maria E.</div>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md font-semibold flex items-center gap-1" type="button">
+                  Edit Product &amp; Variants <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3: Chocolate Brownies (Unavailable State) -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="unavailable" data-category="bread" data-id="3" data-status="active" data-sub="subscribed">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(3)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-3">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Dense fudgy chocolate brownie squares with glossy crackly tops cut neatly on an artisan wooden board in Kitchen406 bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJT24RqifUUcZw50LmIF4wsoppz8rVJprU_PBHyUq4zoW_0oGJtXDBXmBtxfxouAGPP1B4Cn-TWir_ipYmYWo9_5F8GRwEMZdaU7LoKyvnSkF14IiLmPwCf11ONYZH61ZjKDi1kL-0BmLhD4DPyhn7xUqiP24zqpT2pXgQAjhnHngDdteDgoT5GNH193-S5lzYlNk85pIrdIX5xI1vISi8Vp7mpoKZ850Os63T3KjP"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Chocolate Brownies</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">1 variant</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Box of 6</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱280.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold">
+                  Unavailable
+                </span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Required ingredient unavailable · Cocoa shortage</span>
+<a class="font-label-sm text-label-sm text-primary hover:underline font-semibold" data-path="inventory" href="#">View Inventory →</a>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed/40 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">autorenew</span>
+                Subscription Available
+              </span>
+</td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 3)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-3">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<div class="flex items-center justify-between">
+<p class="text-body-sm text-error font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                      Ingredient shortage: Valrhona Cocoa 70% powder below required batch quantity.
+                    </p>
+<a class="px-3 py-1.5 bg-primary text-on-primary rounded text-xs font-semibold" data-path="inventory" href="#">View Inventory →</a>
+</div>
+<div class="pt-3 mt-3 border-t border-surface-container text-body-sm text-on-surface-variant">
+                    Category: Bread &amp; Pastries • Last Updated: Oct 5, 2026 by Maria E.
+                  </div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4: Butter Cookies -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="available" data-category="bread" data-id="4" data-status="active" data-sub="subscribed">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(4)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-4">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Golden crisp fluted Danish style butter cookies arranged neatly in an open tin with bakery crumbs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaR1lGGa0C2KxzB1_HOHUP2_JDnHOp9L8j7bRn36QY5GOPTX81QtNR4EVl2q25CB6k9MQcnVIoGBYuO5OxkYFrYAT9fbuSWeW5303l7Ap700VWYYJRXTi_tblm7r9DF4MhNyNwPYumUalASLTf-qbc8zC8Vjpd-CqWR1-Hxl1VJw-TAUuTasRVTduW6Vk09jnLG1bVwScoYx40ciWxiHxVf7Jgje6X5R2kYGlxJdwH"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Butter Cookies</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">1 variant</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Pack of 12</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱180.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900 font-label-sm text-label-sm font-semibold">
+                  Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Ingredients available</span>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed/40 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">autorenew</span>
+                Subscription Available
+              </span>
+</td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 4)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-4">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<p class="text-body-sm text-on-surface">Pack of 12 • Selling Price: ₱180.00 • Last Updated: Oct 4, 2026 by Maria E.</p>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 5: Sourdough Boule -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="available" data-category="bread" data-id="5" data-status="active" data-sub="standard">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(5)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-5">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Rustic country sourdough boule loaf with blistered dark brown crust and flour scored ear pattern on a linen cloth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm98tvp5oFpB2XWZmVbNrP-Ug7gefs5pHr5gbKUl8rHUx8tJ7CbKQaiUAk1OZpJSuYwaPzbq2AQOA7VTy0ClIeJ6nODrgBq1HGXJegvF8HubwBq4OBq4nV-7CWrl5oWFnL7ktz1Gkve6spRerV_yBUyhNRc7sazl4Mkwndy9VTc34yOjMjiWjFl0KwWxPsfeKGqP3_LjPRT-vs-HINETEzfRH3a8ZBDnY5Kca6xyI9"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Sourdough Boule</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">1 variant</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Whole 750g</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱260.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900 font-label-sm text-label-sm font-semibold">
+                  Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Ingredients available</span>
+</div>
+</td>
+<td class="py-4 px-4 text-on-surface-variant font-body-sm text-body-sm">
+              —
+            </td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 5)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-5">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<p class="text-body-sm text-on-surface">Whole 750g • Selling Price: ₱260.00 • Last Updated: Oct 3, 2026 by Maria E.</p>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 6: Basque Burnt Cheesecake (Partially Available) -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="partially" data-category="cakes" data-id="6" data-status="active" data-sub="standard">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(6)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-6">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Caramelized dark topped Basque burnt cheesecake slice with creamy molten center on ceramic plate in warm ambient bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYbhZwT1V3WBYThBi1RGhwhRB_77fQqTXod6S3Q0hz1J38k9MUsEegpa4K-mEu5PfWEAPqfJcCCuu8Jq-E_ctaXJlL8QO7-S_REYMXxH0kNMsf9sdON666AyXMlFWeN8JtX2mvNZ4pTDvahk6DEaBt25aPJZrqqGNdFGBOwEVbbkpAT7kYZsu0VXHqAjeIiQ57daaOoCdXgOAmiGFfFodvimlScR-3iHx0KRKzPLwX"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Basque Burnt Cheesecake</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cakes</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">2 variants</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">6-inch</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">8-inch</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱650.00 – ₱980.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">
+                  Partially Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">8-inch unavailable — insufficient cream cheese</span>
+</div>
+</td>
+<td class="py-4 px-4 text-on-surface-variant font-body-sm text-body-sm">
+              —
+            </td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 6)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-6">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<div class="grid grid-cols-2 gap-4 mb-3">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="font-title-sm text-title-sm font-semibold text-on-surface">6-inch Round</p>
+<p class="font-body-sm text-body-sm text-emerald-700">Available (Ingredients available) • ₱650.00</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="font-title-sm text-title-sm font-semibold text-on-surface">8-inch Round</p>
+<p class="font-body-sm text-body-sm text-error">Unavailable (Insufficient cream cheese) • ₱980.00</p>
+</div>
+</div>
+<div class="pt-2 border-t border-surface-container text-body-sm text-on-surface-variant">
+                    Category: Cakes • Last Updated: Oct 1, 2026 by Maria E.
+                  </div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 7: Seasonal Cookie Box (Inactive State) -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors opacity-80" data-avail="unavailable" data-category="seasonal" data-id="7" data-status="inactive" data-sub="standard">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(7)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-7">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative filter grayscale-[30%]">
+<img class="w-full h-full object-cover" data-alt="Assorted festive seasonal holiday cookies in an artisan gift box." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAui1aokRsziPO80pRzF_enbwEuu6CzDUa76lW5FNgSSEiMQ297YRZP9uGwwGYIZeEK_aemNN9c8X98kfOpk8usVKARCKUxVm8qkArf4-0pvekydGsaB8JUcg7Ne98uhYIcOq7Epnrgevof2P9pSTvM8YGLKJ9c7r1MxXCKZeE8tSLLqm3RrnAF8pHqYFmEavI4OB-bv7Y2ubJiIcNDo3mv2ZsbZKo6wD-uyNOnqoGb"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Seasonal Cookie Box</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Seasonal</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">1 variant</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Box of 16</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱520.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                Inactive
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="text-outline font-label-sm text-label-sm font-bold">—</span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Hidden from storefront</span>
+</div>
+</td>
+<td class="py-4 px-4 text-on-surface-variant font-body-sm text-body-sm">
+              —
+            </td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 7)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-7">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs flex items-center justify-between">
+<p class="text-body-sm text-outline">Category: Seasonal • Inactive catalog status • Last Updated: Sep 20, 2026 by Maria E.</p>
+<button class="px-3 py-1 bg-surface-container-high hover:bg-surface-container text-on-surface rounded text-xs font-semibold" onclick="openActivateModal('Seasonal Cookie Box')" type="button">
+                    Activate Now
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 8: Ensaymada Especial -->
+<tr class="product-row hover:bg-surface-container-low/40 transition-colors" data-avail="available" data-category="bread" data-id="8" data-status="active" data-sub="standard">
+<td class="py-4 px-3 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="onRowCheckChange()" type="checkbox"/>
+</td>
+<td class="py-4 px-2 text-center">
+<button aria-label="Toggle details" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors" onclick="toggleRowExpand(8)" type="button">
+<span class="material-symbols-outlined text-[18px] transition-transform" id="chevron-8">chevron_right</span>
+</button>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded bg-surface-container shrink-0 overflow-hidden shadow-xs relative">
+<img class="w-full h-full object-cover" data-alt="Traditional soft brioche Filipino Ensaymada swirled pastry topped with rich butter cream and aged grated queso de bola." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd7jipVuyEmQhTFr8LI4dycTNQNPFS2UczloaQmUDGnuZQCdDpT2YNalcUBpkMCXpYSUURnfYEFPpTe9xsLlu37HnIa37I6jHu7PVw2hIKaYm6KaE1BXgWT9gnMbhlsJb2spdvtfvsCkF-12zbdZsBoJpw86EOGzBkpcqerLrLUYX-jM2TcHi3rZbgF7rxQKHHLQLvh1ykmiT_6l8m0GOeJjCRjkLP5MyZmo_jbek8"/>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ensaymada Especial</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">1 variant</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Box of 4</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">₱320.00</span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center w-max px-2.5 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900 font-label-sm text-label-sm font-semibold">
+                  Available
+                </span>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Ingredients available</span>
+</div>
+</td>
+<td class="py-4 px-4 text-on-surface-variant font-body-sm text-body-sm">
+              —
+            </td>
+<td class="py-4 px-4 text-center relative">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleActionMenu(event, 8)" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hidden bg-surface-container-low/50" id="expand-row-8">
+<td class="p-0" colspan="9">
+<div class="px-12 py-4 bg-surface-container-low/40">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-xs">
+<p class="text-body-sm text-on-surface">Box of 4 • Selling Price: ₱320.00 • Last Updated: Sep 18, 2026 by Maria E.</p>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Alternate View: Grid View Cards (Hidden by default) -->
+<div class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="grid-view-container">
+<!-- Card 1: Pandesal -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div>
+<div class="relative h-44 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Traditional fresh hot pandesal bread rolls in a woven basket beside organic butter on a rustic Cebu table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGn1UAh_X5pu8T5RDEasAe_VdnK8-pcf4fNV6TPYHQGHZrdUkt7s0KzCQrAU8_SfHXzPBHMwY44nTkbgQUZquEJmMZlKo_cXj-9OoJDTl9pgGUURx0S4wUZ4GN69FmXxm_KTUqbSMZ8bVEjbOJoc3yqhK2ythJXwOOYUtg97HNpgpFVzvfE6MemaK8KX7vkQrjg_FpcWLUKplypgdo97FmyI0HbK5gTzd9R-6DhOKn"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Active</span>
+</div>
+<span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-primary-fixed/90 backdrop-blur-md text-primary font-label-sm text-label-sm font-semibold">
+            Subscription Available
+          </span>
+</div>
+<div class="flex items-start justify-between gap-2 mb-1">
+<div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface">Pandesal</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries • 2 Variants</p>
+</div>
+<span class="font-title-md text-title-md font-bold text-primary">₱90–₱170</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-label-sm text-label-sm font-semibold">Available</span>
+<span class="font-body-sm text-body-sm text-outline">Ingredients available</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 mt-4 border-t border-surface-container">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline" onclick="showToast('Navigating to Product Editor...')" type="button">
+          View / Edit Details →
+        </button>
+<button class="text-outline hover:text-error p-1 rounded" onclick="openDeactivateModal('Pandesal')" title="Deactivate" type="button">
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Cinnamon Rolls -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div>
+<div class="relative h-44 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Cinnamon rolls glistening under warm bakery glass cabinet with decadent swirl of caramelized sugar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJGyLeXLtwLgrw2TlJP274ilno8ZiWlWQOtckPVgr5wcrUcqjYg8kTXv2M8WTOLb4b00tqBzJ4sfJ44GN7B9wOzbAMcisOu2no8XG81KfbgBDjPMSBHhU-gmympLdWe-y6Oi2y0v61Dk06mWFTj63em2E6t6JWChV_rvI6zojmpgIzBoQT72mcs61LQsrFlwbqnK3xVhPM2NyJvCHfMTLgdj6anO28g-Z879UoswCw"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Active</span>
+</div>
+<span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-primary-fixed/90 backdrop-blur-md text-primary font-label-sm text-label-sm font-semibold">
+            Subscription Available
+          </span>
+</div>
+<div class="flex items-start justify-between gap-2 mb-1">
+<div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface">Cinnamon Rolls</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries • 2 Variants</p>
+</div>
+<span class="font-title-md text-title-md font-bold text-primary">₱240–₱350</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-label-sm text-label-sm font-semibold">Available</span>
+<span class="font-body-sm text-body-sm text-outline">Ingredients available</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 mt-4 border-t border-surface-container">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline" onclick="showToast('Navigating to Product Editor...')" type="button">
+          View / Edit Details →
+        </button>
+<button class="text-outline hover:text-error p-1 rounded" onclick="openDeactivateModal('Cinnamon Rolls')" type="button">
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Chocolate Brownies -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div>
+<div class="relative h-44 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Rich dark chocolate brownies cut on cutting board with cacao nib dusting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmu15cvFHdpzZnKtgTuGBeQdg8k6PjG2gE39-6Kp52Fh3KMMLh3jr6zBpF-R3k_fR3A9wip_dz6OItJ6TrCG7TYRKsrLQv4qRof4NKAUrhnkhsVEknz_f2jtXzcvUQRcBV2gOsJ1kns9bRhuxAVXbPuhuAF4SUHvklUfuRBfNtGojEVDtdPLRFLvmgzO0O_vtDzd9Ggxj7BNq9y23YE5kCKu9baTTSiowemJ9EeKxl"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Active</span>
+</div>
+<span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold">
+            Shortage
+          </span>
+</div>
+<div class="flex items-start justify-between gap-2 mb-1">
+<div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface">Chocolate Brownies</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Bread &amp; Pastries • 1 Variant</p>
+</div>
+<span class="font-title-md text-title-md font-bold text-primary">₱280.00</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold">Unavailable</span>
+<span class="font-body-sm text-body-sm text-outline">Cocoa shortage</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 mt-4 border-t border-surface-container">
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline" data-path="inventory" href="#">
+          View Inventory →
+        </a>
+<button class="text-outline hover:text-error p-1 rounded" onclick="openDeactivateModal('Chocolate Brownies')" type="button">
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination Strip -->
+<section class="bg-surface-container-lowest px-6 py-4 rounded-xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="pagination-summary">Showing 1–8 of 12 products</span>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-sm text-label-sm px-3 py-1.5 pr-7 rounded-lg cursor-pointer focus:outline-none">
+<option>8 per page</option>
+<option>16 per page</option>
+<option>24 per page</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[16px] text-outline">arrow_drop_down</span>
+</div>
+</div>
+<!-- Page Controls -->
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-outline opacity-50 cursor-not-allowed font-label-sm text-label-sm flex items-center gap-1" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+        Previous
+      </button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-center" type="button">
+        1
+      </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold flex items-center justify-center" onclick="showToast('Navigated to page 2')" type="button">
+        2
+      </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-colors" onclick="showToast('Navigated to page 2')" type="button">
+        Next
+        <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Global Action Overflow Dropdown Menu (Floating singleton) -->
+<div class="hidden fixed z-50 w-60 bg-surface-container-lowest rounded-xl shadow-xl py-1.5 border border-surface-container-high/40 backdrop-blur-md" id="action-dropdown">
+<a class="flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container transition-colors" href="#" onclick="showToast('Opening Product Editor...')">
+<span class="material-symbols-outlined text-[18px] text-outline">edit</span>
+      Edit Product
+    </a>
+<a class="flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container transition-colors" href="#" onclick="showToast('Previewing customer storefront view...')">
+<span class="material-symbols-outlined text-[18px] text-outline">open_in_new</span>
+      View Storefront
+    </a>
+<a class="flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container transition-colors" data-path="recipes-and-costing" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline">menu_book</span>
+      View Recipe
+    </a>
+<a class="flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container transition-colors" data-path="subscriptions" href="#" id="dropdown-sub-btn">
+<span class="material-symbols-outlined text-[18px] text-outline">calendar_month</span>
+      Manage Subscription Schedule
+    </a>
+<a class="flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container transition-colors" data-path="inventory" href="#" id="dropdown-inv-btn">
+<span class="material-symbols-outlined text-[18px] text-outline">inventory_2</span>
+      View Inventory
+    </a>
+<div class="h-[1px] bg-surface-container my-1"></div>
+<button class="w-full text-left flex items-center gap-2.5 px-4 py-2 font-body-sm text-body-sm text-error hover:bg-error-container/40 transition-colors" id="dropdown-deactivate-btn" onclick="triggerDeactivateFromMenu()" type="button">
+<span class="material-symbols-outlined text-[18px] text-error">pause_circle</span>
+      Deactivate Product
+    </button>
+</div>
+<!-- Deactivate Confirmation Modal Overlay -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 backdrop-blur-xs p-4" id="deactivate-modal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-lg w-full p-6 shadow-2xl transition-all scale-100 animate-in">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-error-container/80 text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[26px]">warning</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface" id="modal-product-title">Deactivate Pandesal?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">
+            This product will be hidden from the customer storefront and customers will no longer be able to add its variants to new orders. Existing order records and recurring schedules will not be affected.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-surface-container">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeDeactivateModal()" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2.5 rounded-lg bg-error text-on-error hover:bg-red-700 font-label-md text-label-md shadow-sm transition-colors" onclick="confirmDeactivate()" type="button">
+          Deactivate Product
+        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Client-side Interactivity Script -->
+<script>
+  let currentActiveProductId = null;
+  let currentProductActionName = 'Pandesal';
+
+  // Search and Filtering
+  function handleSearch(val) {
+    const clearBtn = document.getElementById('clear-search-btn');
+    if (val.trim().length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+    applyFilters();
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('product-search');
+    input.value = '';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const searchVal = (document.getElementById('product-search').value || '').toLowerCase();
+    const catVal = document.getElementById('filter-category').value;
+    const statusVal = document.getElementById('filter-status').value;
+    const availVal = document.getElementById('filter-availability').value;
+    const subVal = document.getElementById('filter-subscription').value;
+
+    const rows = document.querySelectorAll('.product-row');
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const rowId = row.getAttribute('data-id');
+      const expandRow = document.getElementById('expand-row-' + rowId);
+      const rowCat = row.getAttribute('data-category');
+      const rowStatus = row.getAttribute('data-status');
+      const rowAvail = row.getAttribute('data-avail');
+      const rowSub = row.getAttribute('data-sub');
+      const rowText = row.innerText.toLowerCase();
+
+      let matches = true;
+
+      if (searchVal && !rowText.includes(searchVal)) matches = false;
+      if (catVal !== 'all' && rowCat !== catVal) matches = false;
+      if (statusVal !== 'all' && rowStatus !== statusVal) matches = false;
+      if (availVal !== 'all' && rowAvail !== availVal) matches = false;
+      if (subVal !== 'all' && rowSub !== subVal) matches = false;
+
+      if (matches) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+        if (expandRow) expandRow.classList.add('hidden');
+      }
+    });
+
+    // Toggle Empty State
+    const emptyState = document.getElementById('empty-state');
+    const tableContainer = document.getElementById('list-view-container');
+    const gridContainer = document.getElementById('grid-view-container');
+    const summary = document.getElementById('pagination-summary');
+
+    if (visibleCount === 0) {
+      emptyState.classList.remove('hidden');
+      tableContainer.classList.add('hidden');
+      gridContainer.classList.add('hidden');
+      summary.innerText = 'Showing 0 products';
+    } else {
+      emptyState.classList.add('hidden');
+      const currentMode = document.getElementById('view-list-btn').classList.contains('bg-surface-container-lowest') ? 'list' : 'grid';
+      if (currentMode === 'list') {
+        tableContainer.classList.remove('hidden');
+        gridContainer.classList.add('hidden');
+      } else {
+        tableContainer.classList.add('hidden');
+        gridContainer.classList.remove('hidden');
+      }
+      summary.innerText = `Showing 1–${visibleCount} of 12 products`;
+    }
+  }
+
+  function resetAllFilters() {
+    document.getElementById('product-search').value = '';
+    document.getElementById('clear-search-btn').classList.add('hidden');
+    document.getElementById('filter-category').value = 'all';
+    document.getElementById('filter-status').value = 'all';
+    document.getElementById('filter-availability').value = 'all';
+    document.getElementById('filter-subscription').value = 'all';
+    document.getElementById('sort-select').value = 'recent';
+    applyFilters();
+    showToast('Filters cleared');
+  }
+
+  // Row Expand / Collapse
+  function toggleRowExpand(id) {
+    const expandRow = document.getElementById('expand-row-' + id);
+    const chevron = document.getElementById('chevron-' + id);
+    if (!expandRow) return;
+
+    if (expandRow.classList.contains('hidden')) {
+      expandRow.classList.remove('hidden');
+      chevron.classList.add('rotate-90');
+    } else {
+      expandRow.classList.add('hidden');
+      chevron.classList.remove('rotate-90');
+    }
+  }
+
+  // View Mode Switch
+  function setViewMode(mode) {
+    const listBtn = document.getElementById('view-list-btn');
+    const gridBtn = document.getElementById('view-grid-btn');
+    const listContainer = document.getElementById('list-view-container');
+    const gridContainer = document.getElementById('grid-view-container');
+
+    if (mode === 'list') {
+      listBtn.className = 'px-2.5 py-1.5 rounded-md flex items-center justify-center bg-surface-container-lowest text-on-surface shadow-xs transition-all';
+      gridBtn.className = 'px-2.5 py-1.5 rounded-md flex items-center justify-center text-outline hover:text-on-surface transition-all';
+      listContainer.classList.remove('hidden');
+      gridContainer.classList.add('hidden');
+    } else {
+      gridBtn.className = 'px-2.5 py-1.5 rounded-md flex items-center justify-center bg-surface-container-lowest text-on-surface shadow-xs transition-all';
+      listBtn.className = 'px-2.5 py-1.5 rounded-md flex items-center justify-center text-outline hover:text-on-surface transition-all';
+      listContainer.classList.add('hidden');
+      gridContainer.classList.remove('hidden');
+    }
+    applyFilters();
+  }
+
+  // Multi-Selection Checkbox & Bulk Bar
+  function toggleSelectAll(master) {
+    const checks = document.querySelectorAll('.row-checkbox');
+    checks.forEach(c => c.checked = master.checked);
+    onRowCheckChange();
+  }
+
+  function onRowCheckChange() {
+    const checks = document.querySelectorAll('.row-checkbox:checked');
+    const bulkBar = document.getElementById('bulk-bar');
+    const countLabel = document.getElementById('selected-count');
+
+    if (checks.length > 0) {
+      bulkBar.classList.remove('hidden');
+      countLabel.innerText = `${checks.length} product${checks.length > 1 ? 's' : ''} selected`;
+    } else {
+      bulkBar.classList.add('hidden');
+      document.getElementById('select-all').checked = false;
+    }
+  }
+
+  function clearSelection() {
+    document.querySelectorAll('.row-checkbox').forEach(c => c.checked = false);
+    document.getElementById('select-all').checked = false;
+    document.getElementById('bulk-bar').classList.add('hidden');
+  }
+
+  function bulkUpdateStatus(status) {
+    const count = document.querySelectorAll('.row-checkbox:checked').length;
+    clearSelection();
+    showToast(`${count} products updated to ${status}`);
+  }
+
+  // Action Menu Dropdown
+  function toggleActionMenu(event, productId) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('action-dropdown');
+    currentActiveProductId = productId;
+
+    // Determine row name
+    const row = document.querySelector(`.product-row[data-id="${productId}"]`);
+    currentProductActionName = row ? row.querySelector('.font-title-sm').innerText : 'Selected Product';
+
+    // Position menu near the button
+    const rect = event.currentTarget.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+    dropdown.style.left = (rect.right - 240) + 'px';
+
+    dropdown.classList.remove('hidden');
+  }
+
+  function triggerDeactivateFromMenu() {
+    document.getElementById('action-dropdown').classList.add('hidden');
+    openDeactivateModal(currentProductActionName);
+  }
+
+  // Global click to close menu
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('action-dropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+
+  // Modal Handlers
+  function openDeactivateModal(name) {
+    currentProductActionName = name;
+    document.getElementById('modal-product-title').innerText = `Deactivate ${name}?`;
+    document.getElementById('deactivate-modal').classList.remove('hidden');
+  }
+
+  function closeDeactivateModal() {
+    document.getElementById('deactivate-modal').classList.add('hidden');
+  }
+
+  function confirmDeactivate() {
+    closeDeactivateModal();
+    showToast(`${currentProductActionName} has been deactivated`);
+  }
+
+  function openActivateModal(name) {
+    showToast(`${name} is now activated on the storefront catalog`);
+  }
+
+  function showAddNotification() {
+    showToast('Directing to Product Creator...');
+  }
+
+  // Toast Notification System
+  function showToast(msg) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'px-4 py-3 rounded-xl bg-on-background text-on-primary shadow-xl font-label-md text-label-md flex items-center gap-3 pointer-events-auto transition-all transform translate-y-2 opacity-0';
+    toast.innerHTML = `
+      <span class="material-symbols-outlined text-[18px] text-primary-fixed">check_circle</span>
+      <span>${msg}</span>
+      <button onclick="this.parentElement.remove()" class="ml-2 text-outline hover:text-white">&times;</button>
+    `;
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-y-2', 'opacity-0');
+    });
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-y-2');
+      setTimeout(() => toast.remove(), 300);
+    }, 3200);
+  }
+</script></main></div></body></html>

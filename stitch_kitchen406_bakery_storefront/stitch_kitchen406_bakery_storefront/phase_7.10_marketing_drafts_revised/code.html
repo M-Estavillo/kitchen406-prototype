@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-container":"#69635f","on-secondary-fixed":"#1f1b18","surface-container-low":"#f5f3f0","secondary-container":"#eae1db","on-tertiary-fixed-variant":"#4c4640","primary-fixed":"#ffdcc6","primary-container":"#8d4a14","on-primary-fixed":"#311300","inverse-primary":"#ffb787","surface-tint":"#904d17","on-surface":"#1b1c1a","surface-container-high":"#eae8e5","surface-container":"#efeeea","primary-fixed-dim":"#ffb787","outline":"#867368","tertiary-container":"#7b736d","tertiary-fixed":"#ebe1d9","on-secondary":"#ffffff","on-tertiary-fixed":"#1f1b16","surface-variant":"#e4e2df","surface-container-highest":"#e4e2df","secondary":"#635d59","surface":"#fbf9f6","on-primary-container":"#ffc9a8","on-tertiary-container":"#dcd2ca","inverse-on-surface":"#f2f1ed","on-surface-variant":"#53443a","on-tertiary":"#ffffff","secondary-fixed":"#eae1db","error-container":"#ffdad6","surface-dim":"#dbdad7","surface-container-lowest":"#ffffff","on-primary":"#ffffff","tertiary":"#49433d","outline-variant":"#d9c2b5","surface-bright":"#fbf9f5","error":"#ba1a1a","on-error":"#ffffff","background":"#fbf9f5","on-primary-fixed-variant":"#723600","primary":"#6f3400","tertiary-fixed-dim":"#cfc5bd","on-error-container":"#93000a","secondary-fixed-dim":"#cdc5c0","on-secondary-fixed-variant":"#4b4642","inverse-surface":"#30312e","on-background":"#1b1c1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","margin-sm":"1rem","gutter":"1.5rem","gutter-sm":"1rem","margin":"2rem","space-xl":"2.5rem","space-lg":"1.5rem","space-xs":"0.25rem","space-md":"1rem"},"fontFamily":{"price-md":["Plus Jakarta Sans"],"price-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"display":["Playfair Display"],"display-mobile":["Playfair Display"],"title-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"headline-md":["Playfair Display"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"]},"fontSize":{"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"price-lg":["20px",{"lineHeight":"26px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"16px","fontWeight":"600"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col shadow-[0_1px_8px_rgba(83,68,58,0.04)] overflow-y-auto"><div class="p-space-lg pb-space-sm flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-display font-headline-md">K</div><div class="flex flex-col"><span class="font-headline-md text-title-md text-on-surface tracking-tight font-display">Kitchen406</span><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Owner Portal</span></div></div><div class="inline-flex items-center gap-2 self-start px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-[0_1px_4px_rgba(83,68,58,0.04)] mt-1"><span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Kitchen406 · Open • Online</span></div></div><nav class="flex-1 px-space-md py-space-sm flex flex-col gap-space-lg" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg shadow-sm"><div class="flex flex-col gap-1"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Operations</span><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span>Orders</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[20px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[20px]">loyalty</span><span>Subscriptions</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Scheduling</span></a></div><div class="flex flex-col gap-1"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Catalog &amp; Configuration</span><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">bakery_dining</span><span>Products</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="categories" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Categories</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[20px]">egg</span><span>Ingredients</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[20px]">event</span><span>Seasonal Occasions</span></a></div><div class="flex flex-col gap-1 pb-space-lg"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Management</span><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[20px]">rate_review</span><span>Review Moderation</span></a><a aria-current="page" class="flex items-center gap-3 px-space-sm py-2 transition-colors bg-primary-container text-on-primary font-bold rounded-lg shadow-sm" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports</span></a></div></nav></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(83,68,58,0.04)] z-40 flex items-center justify-between px-gutter"><div class="w-96"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-10 pl-10 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search records, orders, drafts..." type="text"/><kbd class="absolute right-2.5 px-1.5 py-0.5 rounded text-[11px] font-medium bg-surface-container text-on-surface-variant">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-3 pl-space-sm"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm text-outline tracking-wider uppercase font-semibold">Owner</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter py-space-lg"><div class="flex flex-col w-full pb-16">
+<!-- Top Prototype State Switcher & Breadcrumb Bar -->
+<div class="flex flex-col gap-3 pb-6">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Management</span>
+<span class="text-outline text-xs">/</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">Marketing Drafts</span>
+</div>
+<!-- Live Prototype Switcher -->
+</div>
+<!-- Editorial Header Title -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pt-1">
+<div class="flex flex-col gap-1 max-w-3xl">
+<h1 class="font-headline-lg text-headline-lg font-medium text-on-surface tracking-tight">Marketing Drafts</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Review AI-generated promotional content before using it on Kitchen406's Facebook page. Every draft requires human review and manual posting.
+        </p>
+</div>
+<div class="flex items-center gap-2 self-start md:self-end px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span>Human-in-the-Loop Safeguard Active</span>
+</div>
+</div>
+</div>
+<!-- Metric Strip & Filter Toolbar -->
+<div class="flex flex-col gap-4 mb-6">
+<!-- Compact Summary Strip -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Total Drafts</span>
+<span class="font-headline-md text-headline-md font-semibold text-on-surface">14</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">library_books</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Pending Review</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-headline-md text-headline-md font-semibold text-primary">4</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">Awaiting Owner</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Approved Drafts</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-headline-md text-headline-md font-semibold text-on-surface">8</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Ready to Post</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-lowest shadow-sm"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Rejected</span><div class="flex items-center gap-2 mt-0.5"><span class="font-headline-md text-headline-md font-semibold text-on-surface-variant">2</span><span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm">Rejected drafts</span></div></div><div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary"><span class="material-symbols-outlined text-[20px]">cancel</span></div></div>
+</div>
+<!-- Filter & Sort Toolbar -->
+<div class="flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-lowest shadow-sm">
+<!-- Search Field -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-12 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:bg-surface-container-lowest focus:shadow-sm transition-all" placeholder="Search drafts by product, occasion, or trigger... ⌘K" type="text"/>
+<span class="absolute right-3 top-2.5 font-label-sm text-[10px] text-outline px-1.5 py-0.5 rounded bg-surface-container">⌘K</span>
+</div>
+<!-- Filter Controls Group -->
+<div class="flex items-center flex-wrap gap-2">
+<!-- Status Tabs -->
+<div class="flex items-center p-1 rounded-lg bg-surface-container-low"><button class="px-3 py-1.5 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">All (14)</button><button class="px-3 py-1.5 rounded-md font-label-sm text-label-sm bg-surface-container-lowest text-primary font-bold shadow-sm transition-all" type="button">Pending Review (4)</button><button class="px-3 py-1.5 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Approved (8)</button><button class="px-3 py-1.5 rounded-md font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Rejected (2)</button></div>
+<!-- Category Dropdown -->
+<div class="relative">
+<button class="h-10 px-3.5 rounded-lg bg-surface-container-low font-label-sm text-label-sm text-on-surface flex items-center gap-2 hover:bg-surface-container transition-colors" type="button">
+<span class="text-outline uppercase text-[10px]">Category:</span>
+<span>All Categories</span>
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</button>
+</div>
+<!-- Sort Dropdown -->
+<div class="relative">
+<button class="h-10 px-3.5 rounded-lg bg-surface-container-low font-label-sm text-label-sm text-on-surface flex items-center gap-2 hover:bg-surface-container transition-colors" type="button">
+<span class="text-outline uppercase text-[10px]">Sort:</span>
+<span>Newest First</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_drop_down</span>
+</button>
+</div>
+<!-- Clear Filters -->
+<button class="h-10 px-3 rounded-lg text-on-surface-variant hover:text-primary font-label-sm text-label-sm flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MAIN 12-COLUMN EDITORIAL WORKSPACE -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="main-content-grid">
+<!-- LEFT 4 COLS: DRAFT REVIEW QUEUE -->
+<div class="lg:col-span-4 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Review Queue (4 Pending)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-xs">Sorted by trigger date</span>
+</div>
+<!-- Queue Cards Container -->
+<div class="flex flex-col gap-3">
+<!-- CARD 1: ACTIVE / SELECTED (Artisan Milk Loaf) -->
+<div class="group relative flex gap-3.5 p-3.5 rounded-xl bg-secondary-container/40 shadow-sm cursor-pointer transition-all hover:shadow-md" id="queue-card-1">
+<!-- Active Indicator Bar -->
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-primary-container rounded-r-full"></div>
+<!-- 1:1 Thumbnail with subtle roundness -->
+<div class="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Artisanal golden glazed braided Japanese milk bread loaf sitting on natural unbleached baking parchment in a sunlit bakery kitchen with warm honey wood tones and flour dusting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0HLiIJSiHQABQwyOJw7-WYPCR3vVrLI7vjI5H4q2zV_hd6A0UjCPmbJuFmdcBXP9CyDonX7pjqXySDAbPuKw_LZsfO4FV79swyb2sYfF7Fgpq3GM2opT7-rnKJX38CPE-H5lS9meVuVdwBnBOEJuuPPhmgMdgZBHOBDvKkna54wwXG7g67wdbSGH9Xc55AzK83HVm4hId5yblPBmwteksBsSefvI_MBipR9ErldA-"/>
+<div class="absolute bottom-1 right-1 px-1 py-0.5 rounded bg-on-surface/80 text-surface text-[9px] font-bold tracking-wider">1:1</div>
+</div>
+<!-- Card Content -->
+<div class="flex flex-col justify-between flex-1 min-w-0 pr-1">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed/80 text-on-primary-fixed font-label-sm text-[10px] uppercase font-bold tracking-wide">Product Highlight</span>
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</div>
+<h2 class="font-title-md text-title-md font-semibold text-on-surface truncate mt-0.5">Artisan Milk Loaf</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Generated Oct 8, 2026 · 9:00 AM</span>
+</div>
+<!-- Badges Strip -->
+<div class="flex items-center gap-1.5 flex-wrap pt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-primary">edit_note</span>
+<span>Edited</span>
+</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">autorenew</span>
+<span>Regenerated 1×</span>
+</span>
+</div>
+</div>
+</div>
+<!-- CARD 2: Weekly Hearth Box -->
+<div class="group flex gap-3.5 p-3.5 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Two rustic crusty sourdough country boules wrapped in natural coarse linen cloth on an artisan wooden baker table with sourdough starter jar in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDED-7TBP49RDV4VaKeL83OisdTBqcgJxSoMszMxOtCN7gEH-oFZMOkMEaI-RLV8drW8d9K8ljE2ZNnr38a38WjKk0_TUfW_1eFqTofQobDWrWJDl711Rp9BOmvuwz3-KYfXBJrg-G8mMG8eKPUnZdtcXowcqDtK0x46Kh7Tes2nbJ5wkwgOo7g8Y2hnkffT2MYxjzxi8rFZuoxb3mdIXSubcE8qRpg_4KcpT0xa50f"/>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] uppercase font-bold tracking-wide">Subscription Slots</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px]">Pending</span>
+</div>
+<h2 class="font-title-md text-title-md font-semibold text-on-surface truncate mt-0.5">Weekly Hearth Box (Nov Batch)</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Generated Oct 7, 2026 · 2:30 PM</span>
+</div>
+<div class="flex items-center gap-1.5 pt-2">
+<span class="text-outline text-[11px] font-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">tune</span>
+<span>Trigger: Capacity Alert</span>
+</span>
+</div>
+</div>
+</div>
+<!-- CARD 3: Ube Halaya Babka -->
+<div class="group flex gap-3.5 p-3.5 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Close up of a freshly sliced braided brioche babka revealing deep purple ube halaya swirls with crumbly streusel topping on a warm ceramic plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbnVh0ziaoQB0lnKJRB_zwVCpNnqN1j50O6APZDNvL1YKXKsgc-kQWF5syZxxGpvMOgZdpA_BFjj-7ROAK0i912m-ZzWSHZIL_w0oWI7h_zmz2XdEt4b0yi4S7ZDJAA5S3cStOulgIVyNlTMJQMAt3s7gI0mhL-MPSm_46uLNHXpjJebYb8IxwxPezBOxX7eLLKWQOaI6kEYtAo4knWP5QZd-lN16yZx8WpTTv3kEU"/>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] uppercase font-bold tracking-wide">New Launch</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px]">Pending</span>
+</div>
+<h2 class="font-title-md text-title-md font-semibold text-on-surface truncate mt-0.5">Ube Halaya Babka</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Generated Oct 5, 2026 · 11:15 AM</span>
+</div>
+<div class="flex items-center gap-1.5 pt-2">
+<span class="text-outline text-[11px] font-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">arrow_back_ios_new</span>
+<span>First Run Recipe</span>
+</span>
+</div>
+</div>
+</div>
+<!-- CARD 4: Seasonal Occasion -->
+<div class="group flex gap-3.5 p-3.5 rounded-xl bg-surface-container-lowest shadow-sm hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Traditional brioche ensaymada with queso de bola curls placed beside a cup of rich thick hot chocolate tableya in vintage terracotta tableware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXWsXPdWy7dlUEYSrjuIN2FI7g2IA_yz1L9BcMVCS7f1ZfJgTUyla4u9KYr5vc1FNyMbjNFg4VqnTGWNJKZdNQAKrWfsMGb_-wCFNFuB554HCVRZNEU5CuLKgo1_tOZMXDKptYzeMJEHPpPh88V8I2zgDDB8J9ziC_zkbcsh1PefskV7i7cX6i1VImLoq9ctS3bos08Agon51Hp3txDG36dAvz0DIa3fKHaUl0d35Y"/>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] uppercase font-bold tracking-wide">Seasonal Occasion</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px]">Pending</span>
+</div>
+<h2 class="font-title-md text-title-md font-semibold text-on-surface truncate mt-0.5">All Souls' Day &amp; Undas Pre-orders</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Generated Oct 3, 2026 · 8:00 AM</span>
+</div>
+<div class="flex items-center gap-1.5 pt-2">
+<span class="text-outline text-[11px] font-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">event_repeat</span>
+<span>Seasonal Window</span>
+</span>
+</div>
+</div>
+</div>
+<!-- CARD 5: Approved Draft Item -->
+<div class="group flex gap-3.5 p-3.5 rounded-xl bg-surface-container-lowest/80 opacity-90 shadow-sm hover:opacity-100 hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Golden crisp classic country sourdough bread boule sliced open with open airy crumb structure on wooden butcher block with warm morning kitchen lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbQ49eIEBjNYTSe_QcoiosZege9obb9L9X1_zEPEq7hJ7qz5t85-hkT8vrMPr-5UODRsLFz5sqOy58jlctYtK3CZobGOtC1P1aq8JW_iUj4YN1gWHfkuopuzS1ztThWrd3q0iAUfvpveqLfCD6etDCp0LWVgmtNXsxCSmzOAhtxcTIiesDytmcKJWhFGL4N5zaQMV5-MZzwRqkw-3ZNNM1h7bHeflAP23fSeGo2dwn"/>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[10px] uppercase font-bold tracking-wide">Product Highlight</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">check</span> Approved
+                </span>
+</div>
+<h2 class="font-title-md text-title-md font-semibold text-on-surface truncate mt-0.5">Classic Country Sourdough</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Reviewed Oct 2, 2026 by Maria</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="text-outline text-[11px] font-body-sm">Ready to post</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT 8 COLS: DRAFT REVIEW WORKSPACE -->
+<div class="lg:col-span-8 flex flex-col gap-6" id="draft-workspace">
+<!-- Approved Status Notice (Hidden by default, shown in Approved Preview State) -->
+<div class="hidden p-4 rounded-xl bg-secondary-container/80 text-on-surface shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4" id="approved-banner">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[24px]">task_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Approved for manual posting</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reviewed by Maria Elena (Owner) on Oct 8, 2026. Kitchen406 does not publish automatically to Facebook.</span>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3 py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface font-label-md text-label-md flex items-center gap-1.5 shadow-sm transition-all" onclick="copyCaptionToClipboard()" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copy Caption</span>
+</button>
+<button class="px-3 py-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-md text-label-md flex items-center gap-1.5 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Download Image</span>
+</button>
+</div>
+</div>
+<!-- Detail Card Header & Audit Metadata -->
+<div class="p-6 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold uppercase tracking-wider">
+              Product Highlight
+            </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1" id="detail-status-pill">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Status: Pending Review</span>
+</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-outline">history</span>
+<span>Draft ID: #MKT-2610-04</span>
+</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="font-display text-headline-lg font-medium text-on-surface tracking-tight">Artisan Milk Loaf</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Generated automatically on Oct 8, 2026 at 9:00 AM using current Kitchen406 catalog information.</p>
+</div>
+<!-- Audit Badges Strip -->
+<div class="flex items-center gap-2 flex-wrap pt-2">
+<span class="px-3 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">edit</span>
+<span>Caption edited by Owner (Oct 8, 9:24 AM)</span>
+</span>
+<span class="px-3 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">refresh</span>
+<span>Image regenerated 1 time</span>
+</span>
+<span class="px-3 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">visibility</span>
+<span>Manual human approval required</span>
+</span>
+</div>
+</div>
+<!-- Grounding Audit Panels (AI Transparency Context) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Box A: Why generated -->
+<div class="p-5 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-2"><div class="flex items-center gap-2 text-primary-container font-title-sm text-title-sm"><span class="material-symbols-outlined text-[20px]">info</span><span>Why this draft was generated</span></div><p class="font-body-sm text-body-sm text-on-surface leading-relaxed">Kitchen406 automatically selected Artisan Milk Loaf for a product highlight. Current product information was provided to Gemini when this marketing draft was created.</p></div>
+<!-- Box B: Kitchen406 Data Referenced -->
+<div class="p-5 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-2.5"><div class="flex items-center gap-2 text-tertiary font-title-sm text-title-sm"><span class="material-symbols-outlined text-[20px]">dataset</span><span>Kitchen406 data referenced</span></div><div class="grid grid-cols-2 gap-2 text-xs font-body-sm"><div class="flex flex-col"><span class="text-outline uppercase text-[10px] font-label-sm">Product</span><span class="font-semibold text-on-surface">Artisan Milk Loaf</span></div><div class="flex flex-col"><span class="text-outline uppercase text-[10px] font-label-sm">Selling Price</span><span class="font-semibold text-on-surface">₱220</span></div><div class="flex flex-col"><span class="text-outline uppercase text-[10px] font-label-sm">Availability</span><span class="font-semibold text-on-surface">Available</span></div><div class="flex flex-col"><span class="text-outline uppercase text-[10px] font-label-sm">Draft Category</span><span class="font-semibold text-on-surface">Product Highlight</span></div></div></div>
+</div>
+<!-- Social Media Editorial Split Presentation (2 columns) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Left Column (5 of 12): Facebook Post Mockup Preview -->
+<div class="xl:col-span-5 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Social Preview</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">public</span> Facebook Mockup
+            </span>
+</div>
+<!-- Authentic Facebook Post Mockup Container -->
+<div class="p-4 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-3">
+<!-- Facebook Page Identity Header -->
+<div class="flex items-center gap-2.5"><div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-display font-semibold text-title-md shrink-0">K</div><div class="flex flex-col min-w-0"><span class="font-title-sm text-title-sm text-on-surface font-bold leading-tight">Facebook post preview</span><span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate">Preview only · Not published</span></div></div>
+<!-- Snippet Text on Mockup -->
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-3 leading-snug" id="mockup-caption-snippet">
+              Fresh out of the oven! 🍞 Our Hokkaido-style Artisan Milk Loaf is crafted with slow-fermented dough and pure butter for that impossibly pillowy, cloud-like shred...
+            </p>
+<!-- High-Resolution Promotional Image Area -->
+<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-surface-container-high group">
+<img class="w-full h-full object-cover" data-alt="Close up photography of sliced artisan braided milk loaf with golden baked shiny crust showing tender airy cloud-like white crumb texture on a rustic stoneware plate with soft morning light." id="draft-main-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQnm0WmQOw_WmOi2Lch7A1WgE1rt2gYthd_zd0V1saIbRhfhu6ukcWeUT-i63yXzskxvQpQnZHlWZ49dXCAtDfOeBe0L5XIANW8iB_IQ8weHPGIYXw7XEDlkLBaUD7crScspEjeoz2SQdJPaHOR1ctMfTmnm4AfjuBq0mvVfMGUlKO9PGI545OakibtFfgowTCXQ_ltui3PZKTmNP343wY96KD7hUHR58Nzev4w4wS"/>
+<!-- Image Regenerating Overlay State -->
+<div class="hidden absolute inset-0 bg-on-surface/75 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 text-surface" id="image-regenerating-overlay">
+<div class="w-12 h-12 rounded-full border-4 border-surface border-t-transparent animate-spin mb-3"></div>
+<span class="font-title-md text-title-md font-semibold text-surface">Synthesizing Fresh Visual...</span>
+<p class="font-body-sm text-body-sm text-surface-container-highest max-w-xs mt-1">
+                  Applying rustic morning bakery lighting model. Caption text remains untouched.
+                </p>
+</div>
+<!-- High Res Badge -->
+<div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-on-surface/80 text-surface font-label-sm text-[10px] font-semibold backdrop-blur-sm">
+                1080 × 1080 (HD)
+              </div>
+</div>
+<!-- Action under image: Regenerate Visual -->
+<div class="flex flex-col gap-1.5 pt-1"><button class="w-full py-2.5 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-colors" onclick="triggerRegenerateImage()" type="button"><span class="material-symbols-outlined text-[18px] text-primary">restart_alt</span><span>Regenerate Image</span></button><span class="font-body-sm text-body-sm text-outline text-[11px] text-center">Regenerates image only. Does NOT overwrite your caption. (Image regenerated 1 time so far)</span></div>
+</div>
+</div>
+<!-- Right Column (7 of 12): Caption Editor & Review Controls -->
+<div class="xl:col-span-7 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Copy &amp; Content Review</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-xs">Direct human editorial control</span>
+</div>
+<div class="p-5 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-title-md text-title-md font-semibold text-on-surface" for="caption-textarea">Promotional Caption</label>
+<span class="font-label-sm text-label-sm text-emerald-700 hidden items-center gap-1" id="save-indicator">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Saved locally
+                </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Adjust the wording if needed before approving this draft.</p>
+</div>
+<!-- Multi-line Textarea -->
+<div class="flex flex-col gap-2">
+<textarea class="w-full p-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all resize-y leading-relaxed" id="caption-textarea" oninput="handleCaptionInput(this.value)" rows="12">Fresh out of the oven! 🍞 Our Hokkaido-style Artisan Milk Loaf is crafted with slow-fermented dough and pure butter for that impossibly pillowy, cloud-like shred.
+
+Available for Wednesday &amp; Saturday pantry deliveries. Pair a slice with your morning brew or lightly toast with salted butter.
+
+📍 Baked fresh in Banilad, Cebu City
+🏷️ ₱220 per loaf
+🛒 Pre-order via kitchen406.com/storefront
+
+#Kitchen406 #CebuBakery #ArtisanMilkLoaf #HandcraftedBread</textarea>
+<!-- Textarea Status Bar -->
+<div class="flex items-center justify-between text-xs text-on-surface-variant px-1 pt-1">
+<span id="char-counter">348 characters</span>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span id="edit-state-label">Status: Edited (Unsaved changes: None)</span>
+</div>
+</div>
+</div>
+<!-- Caption Helper Toolbar -->
+<div class="flex items-center justify-between pt-2 flex-wrap gap-2"><div class="flex items-center gap-2 text-xs text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span><span>Status: Caption edited</span></div><div class="flex items-center gap-2"><button class="px-3.5 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="saveCaptionChanges()" type="button"><span class="material-symbols-outlined text-[16px]">save</span><span>Save Caption Changes</span></button></div></div>
+</div>
+</div>
+</div>
+<!-- Sticky Review Action Bar at bottom -->
+<div class="sticky bottom-4 z-30 p-4 rounded-2xl bg-surface-container-highest/95 backdrop-blur-md shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">info</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-xs md:text-sm">Approval marks this draft ready for manual posting. Kitchen406 does not publish automatically to Facebook. You will copy the caption and download the image to post manually.</span>
+</div>
+<div class="flex items-center gap-3 shrink-0 w-full md:w-auto justify-end">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface text-secondary hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors shadow-sm" onclick="openRejectModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+<span>Reject Draft</span>
+</button>
+<button class="px-6 py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center gap-2 shadow-sm transition-all hover:shadow-md" id="btn-approve-primary" onclick="openApproveModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Approve Draft</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- EMPTY QUEUE STATE (Initially Hidden, toggleable via prototype bar) -->
+<div class="hidden flex-col items-center justify-center p-16 rounded-2xl bg-surface-container-lowest text-center my-6 shadow-sm" id="empty-state-view">
+<div class="w-20 h-20 rounded-2xl bg-surface-container-low flex items-center justify-center text-outline mb-4">
+<span class="material-symbols-outlined text-[36px]">inbox</span>
+</div>
+<h3 class="font-display text-headline-md font-medium text-on-surface">Review Queue is All Clear</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2 mb-6">
+      There are currently no marketing drafts awaiting approval. The system generates drafts automatically based on upcoming seasonal dates and weekly catalog availability.
+    </p>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md" onclick="setPrototypeState('pending')" type="button">
+        Return to Active Draft
+      </button>
+</div>
+</div>
+<!-- INTERACTIVE MODAL 1: APPROVE CONFIRMATION -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden items-center justify-center p-4" id="modal-approve">
+<div class="w-full max-w-md p-6 rounded-2xl bg-surface-container-lowest shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Approve this marketing draft?</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Artisan Milk Loaf (#MKT-2610-04)</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        The caption and image will be marked as approved. You can then copy the caption and download the visual to post on your Facebook page manually.
+      </p>
+<div class="p-3 rounded-lg bg-surface-container-low text-xs text-on-surface-variant flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">lock_clock</span>
+<span>Once approved, this draft moves to your Approved archive and is locked from further automated edits.</span>
+</div>
+<div class="flex items-center justify-end gap-2.5 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md" onclick="closeModals()" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center gap-1.5 shadow-sm" onclick="confirmApproval()" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Approve Draft</span>
+</button>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE MODAL 2: REJECT CONFIRMATION -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden items-center justify-center p-4" id="modal-reject">
+<div class="w-full max-w-md p-6 rounded-2xl bg-surface-container-lowest shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md font-bold text-on-surface">Reject this marketing draft?</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Artisan Milk Loaf (#MKT-2610-04)</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        This draft will be marked as rejected and retained in your archive history. It will not be suggested for posting.
+      </p>
+<div class="flex items-center justify-end gap-2.5 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md" onclick="closeModals()" type="button">
+          Keep Reviewing
+        </button>
+<button class="px-5 py-2 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-fixed-variant font-label-md text-label-md font-semibold flex items-center gap-1.5 shadow-sm" onclick="confirmRejection()" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+<span>Reject Draft</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript Controller for Prototypes and Editor -->
+<script>
+    function setPrototypeState(state) {
+      // Reset button classes
+      const stateButtons = [
+        'btn-state-pending',
+        'btn-state-approved',
+        'btn-state-modal-approve',
+        'btn-state-modal-reject',
+        'btn-state-regenerating',
+        'btn-state-empty'
+      ];
+      stateButtons.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.className = "px-2.5 py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:bg-surface transition-all";
+        }
+      });
+
+      const activeBtn = document.getElementById('btn-state-' + state);
+      if (activeBtn) {
+        activeBtn.className = "px-2.5 py-1 rounded-lg font-label-sm text-label-sm bg-primary-container text-on-primary transition-all shadow-sm font-semibold";
+      }
+
+      const mainGrid = document.getElementById('main-content-grid');
+      const emptyView = document.getElementById('empty-state-view');
+      const approvedBanner = document.getElementById('approved-banner');
+      const regeneratingOverlay = document.getElementById('image-regenerating-overlay');
+      const modalApprove = document.getElementById('modal-approve');
+      const modalReject = document.getElementById('modal-reject');
+      const detailPill = document.getElementById('detail-status-pill');
+
+      // Hide modals
+      modalApprove.classList.add('hidden');
+      modalApprove.classList.remove('flex');
+      modalReject.classList.add('hidden');
+      modalReject.classList.remove('flex');
+      regeneratingOverlay.classList.add('hidden');
+
+      if (state === 'empty') {
+        mainGrid.classList.add('hidden');
+        emptyView.classList.remove('hidden');
+        emptyView.classList.add('flex');
+        return;
+      } else {
+        mainGrid.classList.remove('hidden');
+        emptyView.classList.add('hidden');
+        emptyView.classList.remove('flex');
+      }
+
+      if (state === 'pending') {
+        approvedBanner.classList.add('hidden');
+        detailPill.innerHTML = '<span class="w-2 h-2 rounded-full bg-primary"></span><span>Status: Pending Review</span>';
+      } else if (state === 'approved') {
+        approvedBanner.classList.remove('hidden');
+        detailPill.innerHTML = '<span class="material-symbols-outlined text-[12px] text-emerald-700">check_circle</span><span class="text-emerald-800 font-semibold">Status: Approved</span>';
+      } else if (state === 'regenerating') {
+        approvedBanner.classList.add('hidden');
+        regeneratingOverlay.classList.remove('hidden');
+      } else if (state === 'modal-approve') {
+        modalApprove.classList.remove('hidden');
+        modalApprove.classList.add('flex');
+      } else if (state === 'modal-reject') {
+        modalReject.classList.remove('hidden');
+        modalReject.classList.add('flex');
+      }
+    }
+
+    function openApproveModal() {
+      setPrototypeState('modal-approve');
+    }
+
+    function openRejectModal() {
+      setPrototypeState('modal-reject');
+    }
+
+    function closeModals() {
+      setPrototypeState('pending');
+    }
+
+    function confirmApproval() {
+      closeModals();
+      setPrototypeState('approved');
+    }
+
+    function confirmRejection() {
+      closeModals();
+      alert('Draft marked as rejected and moved to archives.');
+      setPrototypeState('pending');
+    }
+
+    function triggerRegenerateImage() {
+      const overlay = document.getElementById('image-regenerating-overlay');
+      overlay.classList.remove('hidden');
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 1600);
+    }
+
+    function handleCaptionInput(val) {
+      const charCounter = document.getElementById('char-counter');
+      const editLabel = document.getElementById('edit-state-label');
+      const snippet = document.getElementById('mockup-caption-snippet');
+      
+      charCounter.innerText = val.length + ' characters';
+      editLabel.innerText = 'Status: Unsaved edits present';
+      snippet.innerText = val.slice(0, 160) + (val.length > 160 ? '...' : '');
+    }
+
+    function saveCaptionChanges() {
+      const editLabel = document.getElementById('edit-state-label');
+      const indicator = document.getElementById('save-indicator');
+      editLabel.innerText = 'Status: Saved';
+      indicator.classList.remove('hidden');
+      indicator.classList.add('flex');
+      setTimeout(() => {
+        indicator.classList.add('hidden');
+        indicator.classList.remove('flex');
+      }, 2500);
+    }
+
+    function insertEmoji(char) {
+      const textarea = document.getElementById('caption-textarea');
+      textarea.value += ' ' + char;
+      handleCaptionInput(textarea.value);
+    }
+
+    function copyCaptionToClipboard() {
+      const textarea = document.getElementById('caption-textarea');
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        alert('Caption copied to clipboard! You can now paste it into Facebook.');
+      }).catch(() => {
+        alert('Caption copied!');
+      });
+    }
+  </script>
+</div></main></div></body></html>

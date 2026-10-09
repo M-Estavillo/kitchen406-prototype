@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#53443a", "secondary-container": "#eae1db", "tertiary-fixed-dim": "#cfc5bd", "secondary": "#635d59", "inverse-surface": "#30312e", "error-container": "#ffdad6", "tertiary-container": "#615a54", "inverse-on-surface": "#f2f1ed", "surface-container": "#efeeea", "on-error": "#ffffff", "surface-tint": "#904d17", "on-secondary-container": "#69635f", "inverse-primary": "#ffb787", "surface-container-lowest": "#ffffff", "tertiary-fixed": "#ebe1d9", "error": "#ba1a1a", "on-background": "#1b1c1a", "surface-container-high": "#eae8e5", "outline-variant": "#d9c2b5", "surface": "#fbf9f6", "primary-fixed-dim": "#ffb787", "primary-container": "#8d4a14", "primary-fixed": "#ffdcc7", "primary": "#6f3400", "surface-container-highest": "#e4e2df", "on-tertiary": "#ffffff", "on-secondary": "#ffffff", "on-surface": "#1b1c1a", "surface-variant": "#e4e2df", "on-primary-fixed-variant": "#723600", "on-tertiary-container": "#dcd2ca", "on-secondary-fixed-variant": "#4b4642", "surface-container-low": "#f5f3f0", "on-error-container": "#93000a", "surface-dim": "#dbdad6", "background": "#fbf9f5", "on-primary-fixed": "#311300", "surface-bright": "#fbf9f6", "on-tertiary-fixed-variant": "#4c4640", "tertiary": "#49433d", "on-primary-container": "#ffc9a8", "on-secondary-fixed": "#1f1b18", "on-primary": "#ffffff", "secondary-fixed-dim": "#cdc5c0", "on-tertiary-fixed": "#1f1b16", "outline": "#867368", "secondary-fixed": "#eae1db" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-sm": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem", "gutter-sm": "1rem", "margin": "2rem", "space-xl": "2.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-lg": [ "Playfair Display" ], "title-md": [ "Plus Jakarta Sans" ], "display-mobile": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "headline-md": [ "Playfair Display" ], "title-sm": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "price-md": [ "Plus Jakarta Sans" ], "label-sm": [ "Plus Jakarta Sans" ], "display": [ "Playfair Display" ], "headline-lg-mobile": [ "Playfair Display" ], "price-lg": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "title-md": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "display-mobile": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" } ], "title-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "600" } ], "label-md": [ "13px", { "lineHeight": "18px", "fontWeight": "600" } ], "price-md": [ "15px", { "lineHeight": "20px", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "16px", "fontWeight": "600" } ], "display": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "500" } ], "price-lg": [ "20px", { "lineHeight": "26px", "fontWeight": "600" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low flex flex-col z-50 shadow-[0_1px_8px_rgba(83,68,58,0.06)] hidden lg:flex"><div class="h-20 px-space-lg flex items-center gap-space-sm bg-surface-container-low shrink-0"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[24px]">local_fire_department</span></div><div class="flex flex-col min-w-0"><span class="font-headline-md text-title-md font-bold tracking-tight text-on-surface truncate">Kitchen406</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-on-surface-variant font-semibold">Owner Portal</span></div></div><div class="flex-1 overflow-y-auto px-space-md py-space-sm space-y-space-lg"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-sm rounded-full shadow-sm"><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Operations</span></div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[20px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[20px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Scheduling</span></a></nav><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-sm rounded-full shadow-sm"><div class="px-space-md py-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Management</span></div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">bakery_dining</span><span>Products</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="categories" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Categories</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[20px]">egg</span><span>Ingredients</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[20px]">celebration</span><span>Seasonal Occasions</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full bg-primary-container text-on-primary font-title-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[20px]">rate_review</span><span>Review Moderation</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-title-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Reports</span></a></nav></div><div class="p-space-md bg-surface-container-low shrink-0"><div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="flex items-center gap-space-sm"><div class="w-3 h-3 rounded-full bg-emerald-600 animate-pulse"></div><div><div class="font-title-sm text-title-sm text-on-surface">Kitchen406</div><div class="font-label-sm text-label-sm text-secondary">Open • Online</div></div></div><span class="material-symbols-outlined text-secondary text-[18px]">storefront</span></div></div></aside><div class="lg:pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-space-md md:px-margin shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="flex items-center gap-space-sm font-title-sm text-title-sm"><span class="text-secondary">Management</span><span class="material-symbols-outlined text-secondary text-[16px]">chevron_right</span><span class="text-on-surface font-semibold">Customer Accounts</span></div><div class="flex items-center gap-space-md"><div class="relative w-64 md:w-80 hidden sm:block"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-11 pl-10 pr-12 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/60 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-[0_1px_8px_rgba(83,68,58,0.04)]" placeholder="Search records, orders, customers..." type="text"/><kbd class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-[10px]">⌘K</kbd></div><button class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center font-title-sm text-title-sm text-on-primary font-bold shadow-sm">ME</div><div class="hidden xl:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-bold">OWNER</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-20 w-full px-space-md md:px-margin py-margin bg-background flex-1"><div class="flex flex-col w-full">
+<!-- Interactive Prototype State Bar -->
+<div class="mb-space-lg flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">preview</span>
+<span class="font-label-sm uppercase tracking-wider text-secondary font-bold">Prototype Preview:</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs" id="viewModeContainer">
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-details" onclick="setViewMode('details')">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span>
+        Live (Drawer Open)
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-filtered" onclick="setViewMode('filtered')">
+        Filtered (Pending)
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-list" onclick="setViewMode('list')">
+        Directory Only
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-skeleton" onclick="setViewMode('skeleton')">
+        Loading Skeletons
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-listerror" onclick="setViewMode('listerror')">
+        List Error
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-drawererror" onclick="setViewMode('drawererror')">
+        Drawer Error
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-empty" onclick="setViewMode('empty')">
+        Empty State
+      </button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary" id="btn-view-noresults" onclick="setViewMode('noresults')">
+        No Search Results
+      </button>
+</div>
+</div>
+<!-- Page Header -->
+<div class="mb-space-xl flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="space-y-space-xs max-w-2xl">
+<div class="flex items-center gap-space-xs font-label-sm text-secondary uppercase tracking-widest font-bold">
+<span>MANAGEMENT</span>
+<span>•</span>
+<span class="text-primary">DIRECTORY</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Customer Accounts</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        View registered customers, their account information, saved delivery addresses, and related activity across the bakery storefront.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-space-sm rounded-xl shadow-sm self-start md:self-auto border border-outline-variant/30">
+<span class="material-symbols-outlined text-secondary text-[20px]">lock</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Storefront Self-Registration Only</span>
+</div>
+</div>
+<!-- Summary Overview Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-xl">
+<!-- Card 1: Total Customers -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group border border-outline-variant/30">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-bold">Total Customers</span>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">24</span>
+<span class="font-body-sm text-secondary">registered accounts</span>
+</div>
+<div class="mt-space-sm flex items-center gap-1.5 text-secondary font-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">store</span>
+<span>Registered via Storefront Portal</span>
+</div>
+</div>
+<!-- Card 2: Active Accounts -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-bold">Active Accounts</span>
+<div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">20</span>
+<span class="font-body-sm text-emerald-800 font-semibold">active accounts</span>
+</div>
+<div class="mt-space-sm flex items-center gap-1.5 text-secondary font-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span>Accounts with active status</span>
+</div>
+</div>
+<!-- Card 3: Pending Verification -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-bold">Pending Verification</span>
+<div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">3</span>
+<span class="font-body-sm text-amber-800 font-semibold">awaiting email</span>
+</div>
+<div class="mt-space-sm flex items-center gap-1.5 text-secondary font-label-sm">
+<span class="w-2 h-2 rounded-full bg-amber-600"></span>
+<span>Awaiting email verification</span>
+</div>
+</div>
+<!-- Card 4: Inactive / Suspended -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden border border-outline-variant/30">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm uppercase tracking-wider text-secondary font-bold">Inactive / Suspended</span>
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">1</span>
+<span class="font-body-sm text-secondary">account</span>
+</div>
+<div class="mt-space-sm flex items-center gap-1.5 text-secondary font-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Accounts currently unavailable for normal access</span>
+</div>
+</div>
+</div>
+<!-- Search & Filter Toolbar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm mb-space-md flex flex-col lg:flex-row gap-space-md items-stretch lg:items-center justify-between border border-outline-variant/30">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-10 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/60 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container transition-all" id="customerSearch" oninput="handleSearch(this.value)" placeholder="Search name, email, or mobile number..." type="text"/>
+<button aria-label="Clear search query" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface p-1 rounded focus:outline-none focus:ring-2 focus:ring-primary" id="clearSearchBtn" onclick="clearSearch()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- 4 Distinct Options Account Status Filter -->
+<div class="relative flex items-center">
+<label class="sr-only" for="statusFilter">Account Status</label>
+<span class="material-symbols-outlined absolute left-3 text-[18px] text-secondary pointer-events-none">filter_list</span>
+<select class="h-11 pl-9 pr-8 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer" id="statusFilter" onchange="applyFilters()">
+<option value="all">All statuses</option>
+<option value="active">Active</option>
+<option value="pending">Pending verification</option>
+<option value="inactive">Inactive</option>
+<option value="suspended">Suspended</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 text-[18px] text-secondary pointer-events-none">expand_more</span>
+</div>
+<!-- Email Verification Filter -->
+<div class="relative flex items-center">
+<label class="sr-only" for="verificationFilter">Email Verification</label>
+<span class="material-symbols-outlined absolute left-3 text-[18px] text-secondary pointer-events-none">mark_email_read</span>
+<select class="h-11 pl-9 pr-8 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer" id="verificationFilter" onchange="applyFilters()">
+<option value="all">All</option>
+<option value="verified">Verified</option>
+<option value="not_verified">Not verified</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 text-[18px] text-secondary pointer-events-none">expand_more</span>
+</div>
+<!-- Clear / Reset Filters Button -->
+<button class="h-11 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-secondary hover:text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary" id="resetFiltersBtn" onclick="resetFilters()">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Clear filters</span>
+</button>
+</div>
+</div>
+<!-- Main Dynamic Area: Table / States -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-space-xl border border-outline-variant/30" id="mainContentArea">
+<!-- State 1: Active Directory Table (Responsive: Table on md+, Card List on mobile) -->
+<div class="overflow-x-auto" id="state-table">
+<table class="w-full text-left border-collapse hidden md:table">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider select-none">
+<th class="py-space-md px-space-lg font-bold">Customer</th>
+<th class="py-space-md px-space-md font-bold">Mobile</th>
+<th class="py-space-md px-space-md font-bold">Status</th>
+<th class="py-space-md px-space-md font-bold">Email Verification</th>
+<th class="py-space-md px-space-md font-bold text-center">Orders</th>
+<th class="py-space-md px-space-md font-bold text-center">Subscriptions</th>
+<th class="py-space-md px-space-md font-bold">Joined</th>
+<th class="py-space-md px-space-lg font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md text-on-surface" id="customerTableBody">
+<!-- Row 1: Angela Reyes (Active - Sage) -->
+<tr class="customer-row cursor-pointer transition-colors bg-secondary-container/40 hover:bg-secondary-container/60 focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="angela.reyes@example.com" data-name="angela reyes" data-status="active" data-verified="verified" id="row-angela" onclick="selectCustomer('angela')" onkeydown="handleRowKeyDown(event, 'angela')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  AR
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-1.5">
+                    Angela Reyes
+                    <span class="w-2 h-2 rounded-full bg-primary" title="Currently selected"></span>
+</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">angela.reyes@example.com</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0917 123 4567
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-emerald-800">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container font-bold text-on-surface">
+                8 orders
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed-variant font-bold">
+                1 active
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Sep 18, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Angela Reyes" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-angela')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-angela">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('angela'); toggleActionMenu('menu-angela');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+<a class="flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" href="#" onclick="alert('Navigating to Orders for Angela Reyes'); return false;">
+<span class="material-symbols-outlined text-[18px] text-secondary">receipt_long</span>
+                    View Orders (8)
+                  </a>
+<a class="flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" href="#" onclick="alert('Navigating to Subscriptions for Angela Reyes'); return false;">
+<span class="material-symbols-outlined text-[18px] text-secondary">autorenew</span>
+                    View Subscriptions (1)
+                  </a>
+<a class="flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" href="#" onclick="alert('Navigating to Custom Cake Requests for Angela Reyes'); return false;">
+<span class="material-symbols-outlined text-[18px] text-secondary">cake</span>
+                    View Cake Requests (3)
+                  </a>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2: Marco Lim (Active - Sage) -->
+<tr class="customer-row cursor-pointer transition-colors hover:bg-surface-container-low focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="marco.lim@example.ph" data-name="marco lim" data-status="active" data-verified="verified" id="row-marco" onclick="selectCustomer('marco')" onkeydown="handleRowKeyDown(event, 'marco')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  ML
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Marco Lim</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">marco.lim@example.ph</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0918 849 2031
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-emerald-800">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container font-bold text-on-surface">
+                3 orders
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                0
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Sep 24, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Marco Lim" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-marco')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-marco">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('marco'); toggleActionMenu('menu-marco');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3: Camille Santos (Pending verification - Amber) -->
+<tr class="customer-row cursor-pointer transition-colors hover:bg-surface-container-low focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="camille.s@domain.net" data-name="camille santos" data-status="pending" data-verified="not_verified" id="row-camille" onclick="selectCustomer('camille')" onkeydown="handleRowKeyDown(event, 'camille')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  CS
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Camille Santos</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">camille.s@domain.net</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0920 331 9982
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-amber-50 text-amber-800 font-semibold border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                Pending verification
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-secondary">
+<span class="material-symbols-outlined text-[18px] text-secondary">mail</span>
+                Not verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                0
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                0
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Oct 7, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Camille Santos" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-camille')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-camille">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('camille'); toggleActionMenu('menu-camille');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4: Rafael David (Active - Sage) -->
+<tr class="customer-row cursor-pointer transition-colors hover:bg-surface-container-low focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="rafael.david@cebu.org" data-name="rafael david" data-status="active" data-verified="verified" id="row-rafael" onclick="selectCustomer('rafael')" onkeydown="handleRowKeyDown(event, 'rafael')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  RD
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Rafael David</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">rafael.david@cebu.org</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0917 554 8120
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Active
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-emerald-800">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container font-bold text-on-surface">
+                12 orders
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed-variant font-bold">
+                2 active
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Aug 11, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Rafael David" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-rafael')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-rafael">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('rafael'); toggleActionMenu('menu-rafael');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 5: Teresa Morales (Inactive - Neutral stone) -->
+<tr class="customer-row cursor-pointer transition-colors hover:bg-surface-container-low focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="teresa.m@lifestyle.com" data-name="teresa morales" data-status="inactive" data-verified="verified" id="row-teresa" onclick="selectCustomer('teresa')" onkeydown="handleRowKeyDown(event, 'teresa')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  TM
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Teresa Morales</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">teresa.m@lifestyle.com</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0928 410 7712
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-highest text-secondary font-semibold border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Inactive
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                1 order
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                0
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Jun 14, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Teresa Morales" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-teresa')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-teresa">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('teresa'); toggleActionMenu('menu-teresa');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 6: Julian Alcantara (Suspended - Subdued warm gray) -->
+<tr class="customer-row cursor-pointer transition-colors hover:bg-surface-container-low focus-within:ring-2 focus-within:ring-primary focus:outline-none" data-email="julian.alcantara@craft.ph" data-name="julian alcantara" data-status="suspended" data-verified="verified" id="row-julian" onclick="selectCustomer('julian')" onkeydown="handleRowKeyDown(event, 'julian')" tabindex="0">
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-stone-300 text-stone-700 font-title-sm text-title-sm font-bold flex items-center justify-center shrink-0">
+                  JA
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Julian Alcantara</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">julian.alcantara@craft.ph</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-title-sm text-on-surface">
+              0917 900 1128
+            </td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-stone-100 text-stone-700 font-semibold border border-stone-300">
+<span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span>
+                Suspended
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                Verified
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-bold">
+                2 orders
+              </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold">
+                0
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-sm text-secondary whitespace-nowrap">
+              Jul 29, 2026
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<div class="relative inline-block text-left" onclick="event.stopPropagation()">
+<button aria-label="Actions for Julian Alcantara" class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="toggleActionMenu('menu-julian')">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-52 bg-surface-container-lowest rounded-xl shadow-xl z-30 py-1.5 border border-outline-variant/30" id="menu-julian">
+<button class="w-full text-left flex items-center gap-2 px-space-md py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low" onclick="selectCustomer('julian'); toggleActionMenu('menu-julian');">
+<span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    View Customer Profile
+                  </button>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Mobile Card View (Adaptation for narrow screens) -->
+<div class="block md:hidden divide-y divide-surface-container" id="customerMobileList">
+<div class="p-space-md hover:bg-secondary-container/20 cursor-pointer" onclick="selectCustomer('angela')">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container font-title-sm font-bold flex items-center justify-center">AR</div>
+<div>
+<div class="font-title-sm font-semibold text-on-surface">Angela Reyes</div>
+<div class="font-body-sm text-secondary">angela.reyes@example.com</div>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active
+            </span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-secondary mt-2">
+<span>0917 123 4567</span>
+<span>8 orders • 1 sub</span>
+</div>
+</div>
+<div class="p-space-md hover:bg-surface-container-low cursor-pointer" onclick="selectCustomer('camille')">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-title-sm font-bold flex items-center justify-center">CS</div>
+<div>
+<div class="font-title-sm font-semibold text-on-surface">Camille Santos</div>
+<div class="font-body-sm text-secondary">camille.s@domain.net</div>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-sm bg-amber-50 text-amber-800 font-semibold border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Pending
+            </span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-secondary mt-2">
+<span>0920 331 9982</span>
+<span>0 orders • Oct 7</span>
+</div>
+</div>
+</div>
+<!-- Table Pagination Bar -->
+<div class="py-space-md px-space-lg bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm border-t border-outline-variant/20">
+<span class="font-body-sm text-body-sm text-secondary" id="paginationLabel">
+          Showing <span class="font-semibold text-on-surface">1 - 6</span> of <span class="font-semibold text-on-surface">24</span> customers
+        </span>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Previous Page" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface flex items-center justify-center disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-primary" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary">
+            1
+          </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm flex items-center justify-center hover:bg-surface-container focus:outline-none focus:ring-2 focus:ring-primary">
+            2
+          </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm flex items-center justify-center hover:bg-surface-container focus:outline-none focus:ring-2 focus:ring-primary">
+            3
+          </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm flex items-center justify-center hover:bg-surface-container focus:outline-none focus:ring-2 focus:ring-primary">
+            4
+          </button>
+<button aria-label="Next Page" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- State 2: No Search Results -->
+<div class="hidden py-space-xl px-space-lg text-center flex-col items-center justify-center" id="state-noresults">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[32px]">person_search</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-space-xs">No customers match your search</h2>
+<p class="font-body-md text-body-md text-secondary max-w-md mx-auto mb-space-lg">
+        We couldn't find any customers matching your criteria. Check your spelling or try clearing active filters.
+      </p>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary" onclick="resetFilters()">
+<span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+        Clear all filters
+      </button>
+</div>
+<!-- State 3: Empty State (Storefront fresh setup) -->
+<div class="hidden py-space-xl px-space-lg text-center flex-col items-center justify-center" id="state-empty">
+<div class="w-20 h-20 rounded-full bg-secondary-container flex items-center justify-center text-primary mb-space-md">
+<span class="material-symbols-outlined text-[40px]">group_off</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-space-xs">No customer accounts yet</h2>
+<p class="font-body-md text-body-md text-secondary max-w-lg mx-auto mb-space-md">
+        Customers will appear here once they register on the Kitchen406 online storefront or place their first order.
+      </p>
+<div class="p-space-md bg-surface-container-low rounded-xl max-w-md mx-auto text-left font-body-sm text-secondary flex items-start gap-space-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span>
+<span>Customer accounts cannot be manually created here to preserve customer authentication security and consent.</span>
+</div>
+</div>
+<!-- State 4: Loading Skeleton State -->
+<div class="hidden p-space-lg space-y-space-md animate-pulse" id="state-skeleton">
+<div class="h-10 bg-surface-container rounded-lg w-full"></div>
+<div class="space-y-space-sm pt-space-sm">
+<div class="h-14 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-14 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-14 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-14 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-14 bg-surface-container-low rounded-lg w-full"></div>
+</div>
+</div>
+<!-- State 5: List Error State -->
+<div class="hidden py-space-xl px-space-lg text-center flex-col items-center justify-center" id="state-listerror">
+<div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[32px]">cloud_off</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-space-xs">Unable to load customer accounts</h2>
+<p class="font-body-md text-body-md text-secondary max-w-md mx-auto mb-space-lg">
+        An unexpected network error occurred while connecting to the Kitchen406 customer repository. Please verify your connection.
+      </p>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" onclick="setViewMode('details')">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+        Try again
+      </button>
+</div>
+</div>
+<!-- Customer Details Slide-over Drawer (Width: 480px, Responsive Fullsheet on mobile) -->
+<div class="fixed inset-0 z-50 overflow-hidden transition-all duration-300" id="customerDrawerOverlay">
+<!-- Backdrop scrim -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm transition-opacity opacity-100" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<!-- Drawer Panel (w-full sm:max-w-[480px]) -->
+<div class="fixed inset-y-0 right-0 w-full sm:max-w-[480px] bg-surface-container-lowest shadow-2xl flex flex-col z-50 transform translate-x-0 transition-transform duration-300 ease-in-out border-l border-outline-variant/30" id="drawerPanel">
+<!-- Drawer Inner State: Error State (Hidden by default) -->
+<div class="hidden flex-1 p-space-xl flex-col items-center justify-center text-center my-auto" id="drawerErrorContent">
+<div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[32px]">error_outline</span>
+</div>
+<h3 class="font-headline-md text-title-md font-bold text-on-surface mb-1">Unable to load customer details</h3>
+<p class="font-body-md text-body-sm text-secondary max-w-xs mb-space-lg">
+          We encountered an issue retrieving Angela's profile records and recent activity snapshots.
+        </p>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="showDrawerLiveContent()">
+            Try again
+          </button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="closeDrawer()">
+            Close
+          </button>
+</div>
+</div>
+<!-- Drawer Normal Live Content Container -->
+<div class="flex flex-col h-full overflow-hidden" id="drawerLiveContent">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-surface-container-low shrink-0 flex items-start justify-between border-b border-outline-variant/20">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container font-headline-md text-headline-md font-bold flex items-center justify-center shrink-0 shadow-sm">
+              AR
+            </div>
+<div class="min-w-0">
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold truncate leading-tight">Angela Reyes</h2>
+<div class="font-body-sm text-secondary truncate mb-2">angela.reyes@example.com</div>
+<div class="flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  Active
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Email Verified
+                </span>
+</div>
+</div>
+</div>
+<button aria-label="Close drawer" class="w-9 h-9 rounded-full bg-surface-container-lowest hover:bg-surface-container flex items-center justify-center text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" onclick="closeDrawer()" title="Close Drawer">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Content: Scrollable Body -->
+<div class="flex-1 overflow-y-auto p-space-lg space-y-space-xl">
+<!-- SECTION 1: Account Information (Read-Only) -->
+<div class="space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Account Information</h3>
+</div>
+<span class="font-label-sm text-secondary uppercase tracking-wider font-semibold">Read-Only</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md space-y-space-sm text-body-sm border border-outline-variant/20">
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">First Name</span>
+<span class="col-span-2 text-on-surface font-semibold">Angela</span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Last Name</span>
+<span class="col-span-2 text-on-surface font-semibold">Reyes</span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Email Address</span>
+<span class="col-span-2 text-on-surface font-semibold break-all">angela.reyes@example.com</span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Mobile Number</span>
+<span class="col-span-2 text-on-surface font-semibold">0917 123 4567</span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Account Status</span>
+<span class="col-span-2 text-emerald-800 font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span> Active
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Email Verification</span>
+<span class="col-span-2 text-on-surface font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-emerald-700 text-[16px]">check</span> Verified · Sep 18, 2026
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-2 py-1">
+<span class="text-secondary font-medium">Date Joined</span>
+<span class="col-span-2 text-on-surface font-semibold">September 18, 2026</span>
+</div>
+</div>
+<!-- Storefront Account Notice -->
+<div class="p-space-sm bg-surface-container/60 rounded-lg flex items-start gap-space-sm text-secondary font-body-sm text-[12px] leading-relaxed border border-outline-variant/30">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">shield</span>
+<span>Customer account details are managed by the customer through their storefront account.</span>
+</div>
+</div>
+<!-- SECTION 2: Saved Delivery Addresses -->
+<div class="space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Saved Delivery Addresses</h3>
+</div>
+<span class="font-label-sm text-secondary bg-surface-container px-2.5 py-0.5 rounded-full font-bold">2 Saved</span>
+</div>
+<!-- Stacked Address Cards -->
+<div class="space-y-space-sm">
+<!-- Address 1: Home (Default, Active) -->
+<div class="p-space-md rounded-xl bg-surface-container-low relative border border-outline-variant/30">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Home</span>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-container text-on-primary font-bold">Default</span>
+</div>
+<span class="font-label-sm text-emerald-800 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Active</span>
+</div>
+<div class="font-body-md text-on-surface font-medium">42 Orchid Street, Villa San Pedro, Banilad</div>
+<div class="font-body-sm text-secondary">Cebu City, 6000</div>
+<div class="mt-2 pt-2 bg-surface-container/40 p-2 rounded text-body-sm text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">signpost</span>
+<span>Landmark: Near Banilad Town Centre</span>
+</div>
+</div>
+<!-- Address 2: Previous Residence (Archived) -->
+<div class="p-space-md rounded-xl bg-surface-container-high/60 relative border border-outline-variant/40 opacity-90">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-secondary font-semibold">Previous Residence</span>
+</div>
+<span class="font-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded-full font-semibold border border-outline-variant/40">Archived</span>
+</div>
+<div class="font-body-md text-secondary font-medium">Tower 2, Level 8, Cebu IT Park, Lahug</div>
+<div class="font-body-sm text-secondary/80">Cebu City, 6000</div>
+</div>
+</div>
+<!-- Audit note -->
+<div class="font-body-sm text-[12px] text-secondary leading-relaxed italic">
+              Past orders keep the delivery address used at checkout, even if this saved address is later updated.
+            </div>
+</div>
+<!-- SECTION 3: Related Customer Activity (Cross-Navigation Hub) -->
+<div class="space-y-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">hub</span>
+<h3 class="font-title-md text-title-md text-on-surface font-bold">Related Activity</h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Tile 1: Orders -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between group border border-outline-variant/30">
+<div>
+<div class="flex items-center justify-between text-secondary mb-1">
+<span class="font-label-sm uppercase font-bold tracking-wider">Orders</span>
+<span class="material-symbols-outlined text-[18px] text-primary">receipt_long</span>
+</div>
+<div class="font-headline-md text-title-md font-bold text-on-surface">8 Total Orders</div>
+<div class="font-body-sm text-[12px] text-secondary mt-1">
+                    Latest: <span class="font-semibold text-on-surface">ORD-1048</span> · <span class="text-emerald-800 font-semibold">Completed</span>
+</div>
+</div>
+<a class="mt-space-md font-label-md text-label-md text-primary font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform focus:outline-none focus:ring-2 focus:ring-primary rounded" href="#" onclick="alert('Cross-navigating to Orders filtered for Angela Reyes'); return false;">
+<span>View all orders</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Tile 2: Subscriptions -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between group border border-outline-variant/30">
+<div>
+<div class="flex items-center justify-between text-secondary mb-1">
+<span class="font-label-sm uppercase font-bold tracking-wider">Subscriptions</span>
+<span class="material-symbols-outlined text-[18px] text-primary">autorenew</span>
+</div>
+<div class="font-headline-md text-title-md font-bold text-on-surface">1 Active Subscription</div>
+<div class="font-body-sm text-[12px] text-secondary mt-1">
+                    Sourdough Loaf · Large · Qty 2 weekly · <span class="text-emerald-800 font-semibold">Active</span>
+</div>
+</div>
+<a class="mt-space-md font-label-md text-label-md text-primary font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform focus:outline-none focus:ring-2 focus:ring-primary rounded" href="#" onclick="alert('Cross-navigating to Subscriptions filtered for Angela Reyes'); return false;">
+<span>View subscriptions</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Tile 3: Custom Cake Requests -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between group border border-outline-variant/30">
+<div>
+<div class="flex items-center justify-between text-secondary mb-1">
+<span class="font-label-sm uppercase font-bold tracking-wider">Custom Cakes</span>
+<span class="material-symbols-outlined text-[18px] text-primary">cake</span>
+</div>
+<div class="font-headline-md text-title-md font-bold text-on-surface">3 Requests</div>
+<div class="font-body-sm text-[12px] text-amber-800 font-semibold mt-1">
+                    Latest: Birthday Cake Request · Awaiting Review
+                  </div>
+</div>
+<a class="mt-space-md font-label-md text-label-md text-primary font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform focus:outline-none focus:ring-2 focus:ring-primary rounded" href="#" onclick="alert('Cross-navigating to Custom Cakes filtered for Angela Reyes'); return false;">
+<span>View custom cake requests</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Tile 4: Reviews -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col justify-between group border border-outline-variant/30">
+<div>
+<div class="flex items-center justify-between text-secondary mb-1">
+<span class="font-label-sm uppercase font-bold tracking-wider">Reviews</span>
+<span class="material-symbols-outlined text-[18px] text-primary">rate_review</span>
+</div>
+<div class="font-headline-md text-title-md font-bold text-on-surface">4 Submitted Reviews</div>
+<div class="font-body-sm text-[12px] text-secondary mt-1 flex items-center gap-1">
+<span>Latest:</span>
+<span class="text-amber-700 font-bold">5★ Sourdough Loaf</span>
+</div>
+</div>
+<a class="mt-space-md font-label-md text-label-md text-primary font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform focus:outline-none focus:ring-2 focus:ring-primary rounded" href="#" onclick="alert('Cross-navigating to Review Moderation for Angela Reyes'); return false;">
+<span>View reviews</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Sticky Footer -->
+<div class="p-space-md bg-surface-container-low shrink-0 flex flex-col gap-space-xs border-t border-outline-variant/20">
+<button class="w-full h-11 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors flex items-center justify-center gap-2 shadow-sm border border-outline-variant/30 focus:outline-none focus:ring-2 focus:ring-primary" onclick="closeDrawer()">
+<span>Close Customer Drawer</span>
+</button>
+<p class="text-center font-body-sm text-[11px] text-secondary leading-tight">
+              Read-only administrative directory for Kitchen406. Customer privacy protected under strict RBAC.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Prototype View Switcher
+  function setViewMode(mode) {
+    const btnDetails = document.getElementById('btn-view-details');
+    const btnFiltered = document.getElementById('btn-view-filtered');
+    const btnList = document.getElementById('btn-view-list');
+    const btnSkeleton = document.getElementById('btn-view-skeleton');
+    const btnListError = document.getElementById('btn-view-listerror');
+    const btnDrawerError = document.getElementById('btn-view-drawererror');
+    const btnEmpty = document.getElementById('btn-view-empty');
+    const btnNoResults = document.getElementById('btn-view-noresults');
+
+    const stateTable = document.getElementById('state-table');
+    const stateNoResults = document.getElementById('state-noresults');
+    const stateEmpty = document.getElementById('state-empty');
+    const stateSkeleton = document.getElementById('state-skeleton');
+    const stateListError = document.getElementById('state-listerror');
+
+    const buttons = [btnDetails, btnFiltered, btnList, btnSkeleton, btnListError, btnDrawerError, btnEmpty, btnNoResults];
+    buttons.forEach(btn => {
+      btn.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-surface text-on-surface-variant hover:bg-surface-container-high focus:outline-none focus:ring-2 focus:ring-primary";
+    });
+
+    // Reset visibility of list states
+    stateTable.classList.add('hidden');
+    stateNoResults.classList.add('hidden');
+    stateEmpty.classList.add('hidden');
+    stateSkeleton.classList.add('hidden');
+    stateListError.classList.add('hidden');
+
+    if (mode === 'details') {
+      btnDetails.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-primary";
+      stateTable.classList.remove('hidden');
+      resetFiltersUI();
+      showDrawerLiveContent();
+      openDrawer();
+    } else if (mode === 'filtered') {
+      btnFiltered.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateTable.classList.remove('hidden');
+      document.getElementById('statusFilter').value = 'pending';
+      document.getElementById('verificationFilter').value = 'not_verified';
+      filterRows();
+      closeDrawer();
+    } else if (mode === 'list') {
+      btnList.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateTable.classList.remove('hidden');
+      resetFiltersUI();
+      closeDrawer();
+    } else if (mode === 'skeleton') {
+      btnSkeleton.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateSkeleton.classList.remove('hidden');
+      closeDrawer();
+    } else if (mode === 'listerror') {
+      btnListError.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateListError.classList.remove('hidden');
+      closeDrawer();
+    } else if (mode === 'drawererror') {
+      btnDrawerError.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateTable.classList.remove('hidden');
+      showDrawerErrorContent();
+      openDrawer();
+    } else if (mode === 'empty') {
+      btnEmpty.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateEmpty.classList.remove('hidden');
+      closeDrawer();
+    } else if (mode === 'noresults') {
+      btnNoResults.className = "px-3 py-1.5 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary";
+      stateNoResults.classList.remove('hidden');
+      closeDrawer();
+    }
+  }
+
+  // Drawer Controllers
+  function openDrawer() {
+    const overlay = document.getElementById('customerDrawerOverlay');
+    const panel = document.getElementById('drawerPanel');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    overlay.classList.remove('pointer-events-none');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    panel.classList.remove('translate-x-full');
+    panel.classList.add('translate-x-0');
+  }
+
+  function closeDrawer() {
+    const overlay = document.getElementById('customerDrawerOverlay');
+    const panel = document.getElementById('drawerPanel');
+    const backdrop = document.getElementById('drawerBackdrop');
+
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('translate-x-full');
+    
+    setTimeout(() => {
+      overlay.classList.add('pointer-events-none');
+    }, 280);
+  }
+
+  function showDrawerErrorContent() {
+    document.getElementById('drawerLiveContent').classList.add('hidden');
+    document.getElementById('drawerErrorContent').classList.remove('hidden');
+    document.getElementById('drawerErrorContent').classList.add('flex');
+  }
+
+  function showDrawerLiveContent() {
+    document.getElementById('drawerLiveContent').classList.remove('hidden');
+    document.getElementById('drawerErrorContent').classList.add('hidden');
+    document.getElementById('drawerErrorContent').classList.remove('flex');
+  }
+
+  // Customer Selection & Keyboard Support
+  function selectCustomer(id) {
+    const rows = document.querySelectorAll('#customerTableBody tr');
+    rows.forEach(r => {
+      r.classList.remove('bg-secondary-container/40', 'hover:bg-secondary-container/60');
+      r.classList.add('hover:bg-surface-container-low');
+    });
+
+    const targetRow = document.getElementById(`row-${id}`);
+    if (targetRow) {
+      targetRow.classList.remove('hover:bg-surface-container-low');
+      targetRow.classList.add('bg-secondary-container/40', 'hover:bg-secondary-container/60');
+    }
+    showDrawerLiveContent();
+    openDrawer();
+  }
+
+  function handleRowKeyDown(event, id) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectCustomer(id);
+    }
+  }
+
+  // Action Menu Dropdown Toggle
+  function toggleActionMenu(menuId) {
+    const targetMenu = document.getElementById(menuId);
+    const allMenus = document.querySelectorAll('[id^="menu-"]');
+    allMenus.forEach(m => {
+      if (m !== targetMenu) m.classList.add('hidden');
+    });
+    if (targetMenu) {
+      targetMenu.classList.toggle('hidden');
+    }
+  }
+
+  // Close menus when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('[id^="menu-"]') && !e.target.closest('button')) {
+      const allMenus = document.querySelectorAll('[id^="menu-"]');
+      allMenus.forEach(m => m.classList.add('hidden'));
+    }
+  });
+
+  // Search & Filter Logic
+  function handleSearch(query) {
+    const clearBtn = document.getElementById('clearSearchBtn');
+    if (query.trim().length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+    filterRows();
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('customerSearch');
+    input.value = '';
+    document.getElementById('clearSearchBtn').classList.add('hidden');
+    filterRows();
+  }
+
+  function applyFilters() {
+    filterRows();
+  }
+
+  function resetFiltersUI() {
+    document.getElementById('statusFilter').value = 'all';
+    document.getElementById('verificationFilter').value = 'all';
+    document.getElementById('customerSearch').value = '';
+    document.getElementById('clearSearchBtn').classList.add('hidden');
+    filterRows();
+  }
+
+  function resetFilters() {
+    resetFiltersUI();
+    document.getElementById('state-table').classList.remove('hidden');
+    document.getElementById('state-noresults').classList.add('hidden');
+    document.getElementById('state-empty').classList.add('hidden');
+    document.getElementById('state-skeleton').classList.add('hidden');
+    document.getElementById('state-listerror').classList.add('hidden');
+  }
+
+  function filterRows() {
+    const query = document.getElementById('customerSearch').value.toLowerCase().trim();
+    const statusVal = document.getElementById('statusFilter').value;
+    const verifVal = document.getElementById('verificationFilter').value;
+
+    const rows = document.querySelectorAll('.customer-row');
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const name = row.getAttribute('data-name');
+      const email = row.getAttribute('data-email');
+      const status = row.getAttribute('data-status');
+      const verified = row.getAttribute('data-verified');
+
+      const matchesSearch = !query || name.includes(query) || email.includes(query);
+      const matchesStatus = statusVal === 'all' || status === statusVal;
+      const matchesVerif = verifVal === 'all' || verified === verifVal;
+
+      if (matchesSearch && matchesStatus && matchesVerif) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    const stateTable = document.getElementById('state-table');
+    const stateNoResults = document.getElementById('state-noresults');
+
+    if (visibleCount === 0) {
+      stateTable.classList.add('hidden');
+      stateNoResults.classList.remove('hidden');
+      stateNoResults.classList.add('flex');
+    } else {
+      stateTable.classList.remove('hidden');
+      stateNoResults.classList.add('hidden');
+      stateNoResults.classList.remove('flex');
+      const paginationLabel = document.getElementById('paginationLabel');
+      if (paginationLabel) {
+        paginationLabel.innerHTML = `Showing <span class="font-semibold text-on-surface">1 - ${visibleCount}</span> of <span class="font-semibold text-on-surface">${visibleCount}</span> customers`;
+      }
+    }
+  }
+
+  // Keyboard shortcut listener for global search ⌘K / Ctrl+K
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      const searchInput = document.getElementById('customerSearch');
+      if (searchInput) searchInput.focus();
+    }
+    if (e.key === 'Escape') {
+      closeDrawer();
+    }
+  });
+</script></main></div></body></html>

@@ -10,5 +10,5 @@ A.ui={
  stat:({label,value})=>`<section class="commerce-card staff-stat"><p>${E(label)}</p><strong>${E(value)}</strong></section>`
 };
 A.ui.table=(heads,rows)=>`<div class="staff-table-wrap" tabindex="0" aria-label="Scrollable records"><table class="staff-table"><thead><tr>${heads.map(h=>`<th scope="col">${E(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.join(''):`<tr><td colspan="${heads.length}">No matching records.</td></tr>`}</tbody></table></div>`;
-A.ui.workspace=(links,current,body,label)=>`<div class="staff-layout"><aside class="staff-nav"><strong>${E(label)}</strong><nav aria-label="${E(label)} navigation">${links.map(([path,title])=>`<a href="#/${E(path)}" ${current===path?'aria-current="page"':''}>${E(title)}</a>`).join('')}</nav></aside><div class="staff-main">${body}</div></div>`;
+A.ui.workspace=(links,current,body,label)=>`<div class="staff-layout"><aside class="staff-nav"><strong>${E(label)}</strong><nav aria-label="${E(label)} navigation">${links.map(([path,title,group],index)=>`${group&&group!==links[index-1]?.[2]?`<span class="workspace-nav-group">${E(group)}</span>`:''}<a href="#/${E(path)}" ${current===path?'aria-current="page"':''}>${E(title)}</a>`).join('')}</nav></aside><div class="staff-main">${body}</div></div>`;
 })();

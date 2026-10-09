@@ -25,7 +25,7 @@
       const navSearchInput = document.getElementById('nav-search-input');
       const clearSearchBtn = document.getElementById('clear-search-btn');
       const subToggle = document.getElementById('subscription-toggle');
-      const catButtons = document.querySelectorAll('#category-tabs .cat-pill');
+      let catButtons = document.querySelectorAll('#category-tabs .cat-pill');
       const visibleRangeEl = document.getElementById('visible-range');
       const totalCountEl = document.getElementById('total-count');
       const catalogSummarySection = document.getElementById('catalog-summary-section');
@@ -34,6 +34,15 @@
 
       // Update tab badge counters
       function updateCategoryCounters() {
+        if(K406.catalogState){
+          const visible=PRODUCTS_DATA.filter(K406.catalogState.visible),categories=K406.catalogState.categories.filter(c=>c.status==='active');
+          if(currentCategory!=='all'&&!categories.some(c=>c.id===currentCategory))currentCategory='all';
+          const tabs=[{id:'all',name:'All products'},...categories],sample=document.querySelector('#category-tabs .cat-pill');
+          document.getElementById('category-tabs').innerHTML=tabs.map(c=>`<button type="button" class="${sample?.className||'cat-pill'}" data-category="${K406.escape(c.id)}">${K406.escape(c.name)} <span>${c.id==='all'?visible.length:visible.filter(p=>p.category===c.id).length}</span></button>`).join('');
+          catButtons=document.querySelectorAll('#category-tabs .cat-pill');
+          catButtons.forEach(b=>{const selected=b.dataset.category===currentCategory;b.classList.toggle('active',selected);b.classList.toggle('bg-primary',selected);b.classList.toggle('text-on-primary',selected);b.setAttribute('aria-pressed',String(selected));});
+          return;
+        }
         const countAll = PRODUCTS_DATA.length;
         const countBreads = PRODUCTS_DATA.filter(p => p.category === 'breads').length;
         const countPastries = PRODUCTS_DATA.filter(p => p.category === 'pastries').length;
@@ -50,6 +59,7 @@
         if (protoState === 'empty') return [];
 
         return PRODUCTS_DATA.filter(item => {
+          if (K406.catalogState && !K406.catalogState.visible(item)) return false;
           const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
           const matchSub = !subscriptionOnly || item.subscription;
           const query = searchQuery.trim().toLowerCase();
@@ -64,7 +74,8 @@
 
       // Render product card HTML
       function createProductCard(item) {
-        const isUnavailable = !item.available;
+        item={...item,...Object.fromEntries(['name','description','categoryLabel','variant','image'].map(key=>[key,K406.escape(item[key])])),price:K406.catalogState?K406.catalogState.priceLabel(item):item.price};
+        const isUnavailable = !item.available || (K406.catalogState && !item.variants.some(v=>K406.catalogState.eligible(item.id,v.id)));
         const availabilityBadge = isUnavailable
           ? `<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Temporarily unavailable</span>`
           : `<span class="bg-surface/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container">Available</span>`;
@@ -234,8 +245,8 @@
       }
 
       // Category filter buttons
-      catButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.getElementById('category-tabs').addEventListener('click',e=>{
+          const btn=e.target.closest('[data-category]');if(!btn)return;
           catButtons.forEach(b => {
             b.classList.remove('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
             b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
@@ -246,7 +257,6 @@
           currentCategory = btn.getAttribute('data-category');
           currentPage = 1;
           renderCatalog();
-        });
       });
 
       // Search filters
@@ -317,7 +327,7 @@
       });
 
       K406.catalog = {
-        refresh() { renderCatalog(); },
+        refresh() { updateCategoryCounters(); renderCatalog(); },
         card: createProductCard,
         setState(value) { protoState=value; renderCatalog(); K406.inspector?.(); },
         state() { return protoState; },

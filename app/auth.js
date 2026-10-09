@@ -90,6 +90,7 @@ function validate(){
  if(['register','reset'].includes(S.view)&&(!v.confirm||v.confirm!==v.password))S.errors.confirm='Passwords do not match.';
  if(['register','reset'].includes(S.view)&&A.account&&!A.account.passwordValid(v.password))S.errors.password='Use at least 8 characters with letters and numbers.';
  if(S.view==='register'){
+  if(A.catalogState?.emailUsed(v.email||''))S.errors.email='This email is already registered.';
   if(!v.firstName?.trim())S.errors.firstName='First name is required.';
   if(!v.lastName?.trim())S.errors.lastName='Last name is required.';
   if(!/^(?:\+?63|0)?9\d{9}$/.test((v.mobile||'').replace(/[\s()-]/g,'')))S.errors.mobile='Enter a valid Philippine mobile number.';
@@ -123,11 +124,13 @@ function submit(e){
     if(hash!==expected||owner.status!=='active'||!owner.setup){S.mode='autherror';render();return;}
     S.values={};close();A.session.enter();return;
    }
-   if(A.staff && values.email.toLowerCase()===A.staff.account.email.toLowerCase()){
-    const staff=A.staff,expected=staff.account.hash||await A.account.hash('Kitchen406!');
+   const staffRecord=A.staffAccounts?.find(values.email);
+   if(staffRecord){
+    const staff=A.staff,expected=staffRecord.hash||await A.account.hash('Kitchen406!');
     if(S.generation!==generation||A.modal!=='auth-modal')return;
-    if(hash!==expected||staff.account.status!=='active'||!staff.account.setup){S.mode='autherror';render();return;}
-    S.values={};staff.role='staff';A.auth='signedin';close();location.hash=A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff';A.shell.sync();return;
+    if(hash!==expected||staffRecord.status!=='active'){S.mode='autherror';render();return;}
+    A.session.invalidate();staff.account=staffRecord;
+    S.values={};staff.role='staff';A.auth='signedin';close();location.hash=staffRecord.setup?(A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff'):'#/staff/setup';A.shell.sync();return;
    }
    if(known&&(known.status!=='active'||known.passwordHash&&known.passwordHash!==hash)){S.mode='autherror';render();return;}
    A.setAuth('signedin');A.account.current.passwordHash=hash;

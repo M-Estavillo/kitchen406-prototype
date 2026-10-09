@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-surface-variant":"#53433a","on-secondary-container":"#69635f","surface-container-lowest":"#ffffff","surface-container-low":"#f5f3f0","on-error-container":"#93000a","on-tertiary-fixed-variant":"#4c4640","tertiary-fixed-dim":"#cfc5bd","on-secondary":"#ffffff","surface-container-highest":"#e4e2df","secondary-fixed-dim":"#cdc5c0","on-primary-fixed-variant":"#723600","inverse-primary":"#ffb787","on-tertiary":"#ffffff","on-error":"#ffffff","tertiary":"#49433d","primary-fixed":"#ffdcc6","inverse-surface":"#30312e","surface-container-high":"#eae8e5","surface-container":"#efeeea","on-tertiary-container":"#dcd2ca","surface-tint":"#904d17","surface-dim":"#dbdad7","error-container":"#ffdad6","surface-bright":"#fbf9f6","error":"#ba1a1a","surface-variant":"#e4e2df","tertiary-container":"#615a54","secondary-container":"#eae1db","tertiary-fixed":"#ebe1d9","on-tertiary-fixed":"#1f1b16","primary-fixed-dim":"#ffb787","primary-container":"#ab622b","inverse-on-surface":"#f2f1ed","secondary":"#635d59","on-secondary-fixed-variant":"#4b4642","outline-variant":"#d9c2b5","primary":"#6f3400","surface":"#fbf9f6","on-surface":"#1b1c1a","on-primary-container":"#ffc9a8","on-background":"#1b1c1a","on-primary":"#ffffff","outline":"#867368","on-secondary-fixed":"#1f1b18","secondary-fixed":"#eae1db","background":"#fbf9f5","on-primary-fixed":"#311300"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2.5rem","space-xs":"0.25rem","gutter":"1.5rem","space-sm":"0.5rem","margin-sm":"1rem","space-md":"1rem","margin":"2rem","space-lg":"1.5rem","gutter-sm":"1rem"},"fontFamily":{"label-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-md":["Playfair Display"],"title-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"display-mobile":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"title-md":["Plus Jakarta Sans"],"display":["Playfair Display"],"price-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"price-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"]},"fontSize":{"label-sm":["11px",{"lineHeight":"16px","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"price-lg":["20px",{"lineHeight":"26px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col shadow-[0_1px_8px_rgba(83,68,58,0.04)] overflow-y-auto"><div class="p-space-lg pb-space-sm flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-display font-headline-md">K</div><div class="flex flex-col"><span class="font-headline-md text-title-md text-on-surface tracking-tight font-display">Kitchen406</span><div class="flex items-center gap-1.5"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Owner Portal</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold tracking-wider uppercase bg-surface-container-high text-on-surface-variant">Restricted</span></div></div></div><div class="inline-flex items-center gap-2 self-start px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-[0_1px_4px_rgba(83,68,58,0.04)] mt-1"><span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Kitchen406 · Open • Online</span></div></div><nav class="flex-1 px-space-md py-space-sm flex flex-col gap-space-lg" data-active-classes="bg-[#8d4a14] text-on-primary font-bold rounded-lg shadow-sm"><div class="flex flex-col gap-1"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Operations</span><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="dashboard" href="#">Dashboard</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="orders" href="#">Orders</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="payments" href="#">Payments</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="deliveries" href="#">Deliveries</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="inventory" href="#">Inventory</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="recipes-and-costing" href="#">Recipes &amp; Costing</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="custom-cakes" href="#">Custom Cakes</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="subscriptions" href="#">Subscriptions</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="capacity-calendar" href="#">Capacity Calendar</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="scheduling" href="#">Scheduling</a></div><div class="flex flex-col gap-1"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Catalog &amp; Configuration</span><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="products" href="#">Products</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="categories" href="#">Categories</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="ingredients" href="#">Ingredients</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="cake-options-and-add-ons" href="#">Cake Options &amp; Add-ons</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="seasonal-occasions" href="#">Seasonal Occasions</a></div><div class="flex flex-col gap-1 pb-space-lg"><span class="px-space-sm py-1 font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Management</span><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="staff-accounts" href="#">Staff Accounts</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="customer-accounts" href="#">Customer Accounts</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="review-moderation" href="#">Review Moderation</a><a class="px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md block" data-path="marketing-drafts" href="#">Marketing Drafts</a><a aria-current="page" class="px-space-sm py-2 block relative after:absolute after:right-2.5 after:top-1/2 after:-translate-y-1/2 after:w-1.5 after:h-1.5 after:rounded-full after:bg-on-primary bg-[#8d4a14] text-on-primary font-bold rounded-lg shadow-sm" data-path="reports" href="#">Reports</a></div></nav></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(83,68,58,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-lg"><nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-sm text-label-sm tracking-wider uppercase text-outline font-semibold"><span class="hover:text-on-surface-variant transition-colors">Management</span><span class="text-outline-variant font-normal">/</span><span class="text-primary font-bold tracking-widest">Reports</span></nav><div class="w-80"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-10 pl-10 pr-12 rounded-lg bg-surface-container-lowest border border-outline-variant font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant placeholder:opacity-60 focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search records, orders, reports..." type="text"/><kbd class="absolute right-2.5 px-1.5 py-0.5 rounded text-[11px] font-medium bg-surface-container text-on-surface-variant">⌘K</kbd></div></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-3 pl-space-sm border-l border-outline-variant/40"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm text-outline tracking-wider uppercase font-semibold">OWNER</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter py-space-lg"><div class="flex flex-col w-full pb-16">
+<!-- ========================================== -->
+<!-- 0. PROTOTYPE STATE DEMO SWITCHER BAR       -->
+<!-- ========================================== -->
+<div class="w-full bg-surface-container-high/60 backdrop-blur rounded-xl p-space-sm mb-space-lg flex flex-wrap items-center justify-between gap-space-sm shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Demo Scenario Switcher:</span>
+</div>
+<div class="flex flex-wrap items-center gap-1.5" id="prototype-state-bar">
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-primary text-on-primary transition-colors" onclick="switchState('populated')">1. Full Report</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('drilldown')">2. Sep 12 Orders</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('costdrawer')">3. Cost Basis Flyout</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('incomplete-warning')">4. Cost Alert View</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('empty')">5. Period Empty</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('initial')">6. First Launch</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('loading')">7. Loading Skeleton</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('error')">8. Network Error</button>
+<button class="demo-state-btn px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container transition-colors" onclick="switchState('restricted')">9. Restricted</button>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- 1. HEADER & GLOBAL DATE TOOLBAR            -->
+<!-- ========================================== -->
+<header class="flex flex-col gap-space-md mb-space-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 mb-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px] text-primary">lock</span>
+            Owner access only · Financially sensitive
+          </span>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Phase 7.11</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-display">Reports &amp; Analytics</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Understand sales, order activity, product performance, and estimated margins from your Kitchen406 recorded transactions.
+        </p>
+</div>
+<!-- Quick Export / Print Helper -->
+<div class="flex items-center gap-2 self-start md:self-end">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm" onclick="switchState('drilldown')"><span class="material-symbols-outlined text-[18px]">receipt_long</span><span>View Transactions</span></button>
+</div>
+</div>
+<!-- Date Range & Preset Filtering Toolbar -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-space-md">
+<!-- Preset Filter Pills -->
+<div class="flex flex-wrap items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">Today</button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">Last 7 Days</button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">Last 30 Days</button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm bg-secondary-container text-on-surface font-bold shadow-xs">This Month (Sep 2026)</button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">Previous Month</button>
+<button class="px-3 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-1">
+          Custom Range <span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+<!-- Active Range Badge & Compare Control -->
+<div class="flex flex-wrap items-center gap-space-md pt-2 xl:pt-0">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+<span>September 1 – September 30, 2026</span>
+</div>
+<label class="inline-flex items-center gap-2 cursor-pointer select-none">
+<div class="relative w-5 h-5 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-on-primary">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Compare with previous period</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant opacity-75">(Aug 2026)</span>
+</label>
+</div>
+</div>
+</header>
+<!-- =================================================== -->
+<!-- MAIN REPORT VIEWPORT (Swappable for Prototype Demo) -->
+<!-- =================================================== -->
+<div class="flex flex-col gap-space-xl" id="state-container">
+<!-- SCENARIO A: POPULATED REPORT (DEFAULT) -->
+<div class="flex flex-col gap-space-xl" id="view-populated">
+<!-- SECTION 1: BUSINESS OVERVIEW (4 KPI CARDS) -->
+<section>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Total Sales -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Total Sales</span>
+<div class="group/tip relative flex items-center">
+<span class="material-symbols-outlined text-[17px] text-outline cursor-help hover:text-primary transition-colors">info</span>
+<span class="invisible group-hover/tip:visible absolute -top-8 right-0 bg-inverse-surface text-inverse-on-surface font-body-sm text-body-sm px-2.5 py-1 rounded shadow-md whitespace-nowrap z-20">Recorded sales for qualifying transactions during the selected period.</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="font-headline-lg text-headline-lg font-display text-on-surface tracking-tight">₱84,560</div>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 8.4%
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">vs. previous period (₱78,020)</span>
+</div>
+</div>
+<div class="absolute -right-3 -bottom-3 w-16 h-16 bg-primary/5 rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+</div>
+<!-- Card 2: Orders -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Orders</span>
+<div class="group/tip relative flex items-center">
+<span class="material-symbols-outlined text-[17px] text-outline cursor-help hover:text-primary transition-colors">info</span>
+<span class="invisible group-hover/tip:visible absolute -top-12 right-0 w-64 bg-inverse-surface text-inverse-on-surface font-body-sm text-body-sm px-2.5 py-1.5 rounded shadow-md z-20">Paid and confirmed transactions. Subscription purchases count as 1 transaction at enrollment; weekly fulfillments are operational only.</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="font-headline-lg text-headline-lg font-display text-on-surface tracking-tight">126 <span class="font-body-md text-title-md text-on-surface-variant font-normal">Orders</span></div>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12 orders
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">vs. previous period (114)</span>
+</div>
+</div>
+<div class="absolute -right-3 -bottom-3 w-16 h-16 bg-secondary/5 rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+</div>
+<!-- Card 3: Units Sold -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Units Sold</span>
+<div class="group/tip relative flex items-center">
+<span class="material-symbols-outlined text-[17px] text-outline cursor-help hover:text-primary transition-colors">info</span>
+<span class="invisible group-hover/tip:visible absolute -top-10 right-0 w-64 bg-inverse-surface text-inverse-on-surface font-body-sm text-body-sm px-2.5 py-1.5 rounded shadow-md z-20">Total quantity of sellable product variants recorded during the selected period.</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="font-headline-lg text-headline-lg font-display text-on-surface tracking-tight">412 <span class="font-body-md text-title-md text-on-surface-variant font-normal">Units</span></div>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 38 units
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">vs. previous period (374)</span>
+</div>
+</div>
+<div class="absolute -right-3 -bottom-3 w-16 h-16 bg-primary/5 rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+</div>
+<!-- Card 4: Estimated Margin -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group bg-gradient-to-br from-surface-container-lowest to-surface-container-low/70"><div class="flex items-center justify-between mb-2"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Estimated Margin</span><div class="group/tip relative flex items-center"><span class="material-symbols-outlined text-[17px] text-outline cursor-help hover:text-primary transition-colors">info</span><span class="invisible group-hover/tip:visible absolute -top-14 right-0 w-72 bg-inverse-surface text-inverse-on-surface font-body-sm text-body-sm px-2.5 py-1.5 rounded shadow-md z-20">Calculated using recipe ingredients, packaging, and configured utility overhead for products with complete costing.</span></div></div><div class="flex flex-col"><div class="flex items-baseline gap-2"><span class="font-headline-lg text-headline-lg font-display text-primary tracking-tight">₱38,340*</span><span class="px-1.5 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase bg-surface-container text-on-surface-variant">ESTIMATED</span></div><div class="mt-2.5 flex items-center gap-1.5"><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">48.0% est. margin</span><span class="font-body-sm text-body-sm text-on-surface-variant">(excludes 1 incomplete item)</span></div></div><div class="absolute -right-3 -bottom-3 w-16 h-16 bg-primary/10 rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div></div>
+</div>
+</section>
+<!-- SECTION 2 & 3: SALES TREND & ORDER ACTIVITY -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- CARD 1 (8 COLUMNS): SALES TREND -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-display">Sales Trend</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Sales recorded during the selected period (Daily totals).</p>
+</div>
+<!-- Trend Legend -->
+<div class="flex items-center gap-4 text-label-sm font-label-sm">
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-1 rounded bg-[#8d4a14]"></span>
+<span class="text-on-surface font-medium">Sep 2026 (Actual Sales)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-0.5 border-t border-dashed border-[#867368]"></span>
+<span class="text-on-surface-variant">Aug 2026</span>
+</div>
+</div>
+</div>
+<!-- Trend Chart Container (Handcrafted SVG Line & Area Visualization) -->
+<div class="relative w-full pt-4 pb-1">
+<!-- Interactive Tooltip Overlay on Peak Day (Sep 12) -->
+<div class="absolute left-[39%] top-2 -translate-x-1/2 z-30 pointer-events-auto cursor-pointer" onclick="switchState('drilldown')">
+<div class="bg-inverse-surface text-inverse-on-surface px-3 py-2 rounded-lg shadow-xl text-left flex flex-col gap-0.5 border-b-2 border-primary animate-pulse">
+<div class="flex items-center justify-between gap-3 text-label-sm font-label-sm opacity-80">
+<span>Saturday, Sep 12, 2026</span>
+<span class="material-symbols-outlined text-[14px] text-inverse-primary">touch_app</span>
+</div>
+<div class="font-title-md text-title-md text-inverse-primary font-bold">₱4,680 Sales</div>
+<div class="text-body-sm font-body-sm opacity-90 flex items-center justify-between">
+<span>7 Orders Confirmed</span>
+<span class="text-[11px] underline text-on-tertiary-container">Inspect transactions →</span>
+</div>
+</div>
+<!-- Tooltip Pin Triangle -->
+<div class="w-2.5 h-2.5 bg-inverse-surface rotate-45 mx-auto -mt-1"></div>
+</div>
+<!-- SVG Graph Canvas -->
+<div class="w-full h-64 relative">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 800 240">
+<defs>
+<lineargradient id="warmSalesGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#8d4a14" stop-opacity="0.22"></stop>
+<stop offset="100%" stop-color="#8d4a14" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Reference Gridlines -->
+<line stroke="#efeeea" stroke-width="1" x1="0" x2="800" y1="40" y2="40"></line>
+<line stroke="#efeeea" stroke-width="1" x1="0" x2="800" y1="90" y2="90"></line>
+<line stroke="#efeeea" stroke-width="1" x1="0" x2="800" y1="140" y2="140"></line>
+<line stroke="#efeeea" stroke-width="1" x1="0" x2="800" y1="190" y2="190"></line>
+<!-- Comparison Line (Aug 2026 - Muted dashed stone) -->
+<path d="M 0 170 
+                         C 50 165, 80 180, 110 160 
+                         C 150 140, 180 120, 220 135 
+                         C 260 150, 280 110, 320 100 
+                         C 360 90, 400 130, 440 120 
+                         C 480 110, 500 80, 540 85 
+                         C 580 90, 620 140, 660 130 
+                         C 700 120, 750 95, 800 105" fill="none" opacity="0.65" stroke="#867368" stroke-dasharray="4,4" stroke-width="1.8"></path>
+<!-- Area Fill for September 2026 -->
+<path d="M 0 160 
+                         L 40 155 
+                         L 95 65 
+                         L 150 140 
+                         L 210 110 
+                         L 260 135 
+                         L 315 52 
+                         L 370 120 
+                         L 430 110 
+                         L 480 82 
+                         L 535 130 
+                         L 590 115 
+                         L 650 46 
+                         L 710 105 
+                         L 760 90 
+                         L 800 78 
+                         L 800 210 
+                         L 0 210 Z" fill="url(#warmSalesGradient)"></path>
+<!-- Actual Sales Line (September 2026 - Baked Honey) -->
+<path d="M 0 160 
+                         L 40 155 
+                         L 95 65 
+                         L 150 140 
+                         L 210 110 
+                         L 260 135 
+                         L 315 52 
+                         L 370 120 
+                         L 430 110 
+                         L 480 82 
+                         L 535 130 
+                         L 590 115 
+                         L 650 46 
+                         L 710 105 
+                         L 760 90 
+                         L 800 78" fill="none" stroke="#8d4a14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.75"></path>
+<!-- Data Key Points for Peaks -->
+<!-- Sep 4 Peak (₱4,250) -->
+<circle class="cursor-pointer hover:r-6" cx="95" cy="65" fill="#8d4a14" r="4.5"></circle>
+<!-- Sep 12 Peak (₱4,680) - Highlighted with concentric pulse ring -->
+<circle cx="315" cy="52" fill="#8d4a14" fill-opacity="0.25" r="8"></circle>
+<circle class="cursor-pointer" cx="315" cy="52" fill="#8d4a14" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
+<!-- Sep 18 Peak (₱3,900) -->
+<circle class="cursor-pointer" cx="480" cy="82" fill="#8d4a14" r="4"></circle>
+<!-- Sep 25 Peak (₱4,820) -->
+<circle class="cursor-pointer" cx="650" cy="46" fill="#8d4a14" r="4.5"></circle>
+</svg>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">insights</span><span>Highest recorded sales day: Sep 12 (₱4,680 across 7 orders).</span></div><span class="font-label-sm text-label-sm text-outline">Historical data only · No predictive forecasting</span></div>
+</div>
+<!-- Clarifying Caption -->
+<div class="flex items-center justify-between pt-2 text-body-sm font-body-sm text-on-surface-variant bg-surface-container-low/60 rounded-lg p-2.5"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">insights</span><span>Highest recorded sales day: Sep 12 (₱4,680 across 7 orders).</span></div><span class="font-label-sm text-label-sm text-outline">Historical data only · No predictive forecasting</span></div>
+</div>
+<!-- CARD 2 (4 COLUMNS): ORDER ACTIVITY & WORKFLOWS -->
+<div class="lg:col-span-4 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-display">Order Activity</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Historical volume &amp; channel distribution.</p>
+</div>
+<!-- Weekly Demand Pattern -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Weekly Demand Pattern</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Total: 126 orders</span>
+</div>
+<div class="space-y-1.5 pt-1">
+<!-- Monday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface-variant">Mon</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 40%"></div>
+</div>
+<span class="w-6 text-right font-medium text-on-surface">11</span>
+</div>
+<!-- Tuesday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface-variant">Tue</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 62%"></div>
+</div>
+<span class="w-6 text-right font-medium text-on-surface">17</span>
+</div>
+<!-- Wednesday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface-variant">Wed</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 51%"></div>
+</div>
+<span class="w-6 text-right font-medium text-on-surface">14</span>
+</div>
+<!-- Thursday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface-variant">Thu</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 77%"></div>
+</div>
+<span class="w-6 text-right font-medium text-on-surface">21</span>
+</div>
+<!-- Friday (Peak) -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-primary font-bold">Fri</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 100%"></div>
+</div>
+<span class="w-6 text-right font-bold text-primary">27</span>
+</div>
+<!-- Saturday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface font-semibold">Sat</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary/80 h-full rounded-full" style="width: 88%"></div>
+</div>
+<span class="w-6 text-right font-semibold text-on-surface">24</span>
+</div>
+<!-- Sunday -->
+<div class="flex items-center gap-2 text-body-sm font-body-sm">
+<span class="w-8 text-on-surface-variant">Sun</span>
+<div class="flex-1 bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 44%"></div>
+</div>
+<span class="w-6 text-right font-medium text-on-surface">12</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-1">Highest order activity: <span class="font-semibold text-on-surface">Friday</span> (27 orders recorded).</p>
+</div>
+<div class="h-px bg-surface-container-highest my-1"></div>
+<!-- Sales by Order Workflow -->
+<div class="flex flex-col gap-2.5"><span class="font-label-md text-label-md text-on-surface font-semibold">Sales by Order Workflow</span><div class="space-y-3"><div class="flex flex-col gap-1"><div class="flex items-center justify-between font-title-sm text-title-sm"><span class="text-on-surface">Standard Orders</span><span class="font-bold text-on-surface">₱42,840 <span class="text-on-surface-variant font-normal text-body-sm">(50.7%)</span></span></div><div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant"><span>78 retail checkout transactions</span><span>Avg. ₱549 / order</span></div><div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-0.5"><div class="bg-[#8d4a14] h-full" style="width: 50.7%"></div></div></div><div class="flex flex-col gap-1"><div class="flex items-center justify-between font-title-sm text-title-sm"><span class="text-on-surface">Prepaid Subscriptions</span><span class="font-bold text-on-surface">₱25,200 <span class="text-on-surface-variant font-normal text-body-sm">(29.8%)</span></span></div><div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant"><span>18 member enrollments</span><span class="text-primary font-medium text-[11px] bg-secondary-container/60 px-1.5 py-0.2 rounded">4-week prepaid plan</span></div><div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-0.5"><div class="bg-[#ab622b] h-full" style="width: 29.8%"></div></div><span class="text-[11px] font-body-sm text-outline leading-tight">*Recorded in full at subscription enrollment; weekly deliveries are fulfilled operationally.</span></div><div class="flex flex-col gap-1"><div class="flex items-center justify-between font-title-sm text-title-sm"><span class="text-on-surface">Custom Cake Purchases</span><span class="font-bold text-on-surface">₱16,520 <span class="text-on-surface-variant font-normal text-body-sm">(19.5%)</span></span></div><div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant"><span>30 paid custom cake purchases</span><span>Avg. ₱550 / order</span></div><div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-0.5"><div class="bg-secondary h-full" style="width: 19.5%"></div></div></div></div></div>
+</div>
+</section>
+<!-- SECTION 4: PRODUCT PERFORMANCE -->
+<section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-display">Product Performance</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Compare how individual catalog products performed during this reporting cycle.</p>
+</div>
+<!-- Metric Switcher Pills -->
+<div class="inline-flex p-1 rounded-lg bg-surface-container-low self-start md:self-auto">
+<button class="px-3 py-1 rounded-md bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-bold shadow-xs">
+              Metric: Sales (₱)
+            </button>
+<button class="px-3 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-medium transition-colors">
+              Units Sold
+            </button>
+</div>
+</div>
+<!-- Top Products Visual Comparison (Bespoke Stacked Bars) -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-3 p-space-md bg-surface-container-low/50 rounded-xl">
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-on-surface-variant truncate">1. Classic Ensaymada</span>
+<div class="font-price-md text-price-md font-bold text-primary">₱18,900</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-primary h-full rounded-full" style="width: 100%"></div>
+</div>
+<span class="text-[11px] font-body-sm text-outline">126 boxes sold</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-on-surface-variant truncate">2. Sourdough Loaf</span>
+<div class="font-price-md text-price-md font-bold text-on-surface">₱16,240</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-primary/80 h-full rounded-full" style="width: 86%"></div>
+</div>
+<span class="text-[11px] font-body-sm text-outline">74 loaves sold</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-on-surface-variant truncate">3. Ube Cheese Pandesal</span>
+<div class="font-price-md text-price-md font-bold text-on-surface">₱14,800</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-primary/70 h-full rounded-full" style="width: 78%"></div>
+</div>
+<span class="text-[11px] font-body-sm text-outline">98 dozens sold</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-on-surface-variant truncate">4. Chocolate Babka</span>
+<div class="font-price-md text-price-md font-bold text-on-surface">₱12,600</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-primary/60 h-full rounded-full" style="width: 67%"></div>
+</div>
+<span class="text-[11px] font-body-sm text-outline">45 units sold</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-label-sm font-label-sm text-on-surface-variant truncate">5. Cinnamon Rolls</span>
+<div class="font-price-md text-price-md font-bold text-on-surface">₱9,800</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-1">
+<div class="bg-primary/50 h-full rounded-full" style="width: 52%"></div>
+</div>
+<span class="text-[11px] font-body-sm text-outline">49 boxes sold</span>
+</div>
+</div>
+<!-- Comprehensive Product Performance Data Table -->
+<div class="overflow-x-auto -mx-space-lg px-space-lg">
+<table class="w-full text-left min-w-[840px]">
+<thead>
+<tr class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider bg-surface-container-low/70">
+<th class="py-3 px-4 rounded-l-lg">Product</th>
+<th class="py-3 px-3 text-right">Units Sold</th>
+<th class="py-3 px-3 text-right">Orders</th>
+<th class="py-3 px-4 text-right">Sales (₱)</th>
+<th class="py-3 px-4 text-right">Est. Cost (₱)</th>
+<th class="py-3 px-4 text-right">Est. Margin (₱)</th>
+<th class="py-3 px-3 text-right">Margin %</th>
+<th class="py-3 px-4 text-right rounded-r-lg">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest/60 font-body-md text-body-md"><tr class="hover:bg-surface-container-low/40 transition-colors group"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">CE</div><span>Classic Ensaymada <span class="text-on-surface-variant font-normal font-body-sm">(Box of 6)</span></span></td><td class="py-3.5 px-3 text-right font-medium">110</td><td class="py-3.5 px-3 text-right text-on-surface-variant">48</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱18,900</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱10,080</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱8,820</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">46.7%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis <span class="material-symbols-outlined text-[14px]">arrow_forward</span></button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">SL</div><span>Sourdough Loaf <span class="text-on-surface-variant font-normal font-body-sm">(Large)</span></span></td><td class="py-3.5 px-3 text-right font-medium">64</td><td class="py-3.5 px-3 text-right text-on-surface-variant">42</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱16,240</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱7,400</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱8,840</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">54.4%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis</button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">UP</div><span>Ube Cheese Pandesal <span class="text-on-surface-variant font-normal font-body-sm">(Dozen)</span></span></td><td class="py-3.5 px-3 text-right font-medium">86</td><td class="py-3.5 px-3 text-right text-on-surface-variant">34</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱14,800</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱8,330</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱6,470</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">43.7%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis</button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">CB</div><span>Chocolate Babka</span></td><td class="py-3.5 px-3 text-right font-medium">45</td><td class="py-3.5 px-3 text-right text-on-surface-variant">28</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱12,600</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱6,750</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱5,850</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">46.4%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis</button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">CR</div><span>Cinnamon Rolls <span class="text-on-surface-variant font-normal font-body-sm">(Box of 4)</span></span></td><td class="py-3.5 px-3 text-right font-medium">49</td><td class="py-3.5 px-3 text-right text-on-surface-variant">26</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱9,800</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱4,900</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱4,900</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">50.0%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis</button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors bg-surface-container-low/20"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-error-container/40 flex items-center justify-center text-error font-bold text-[13px]">BF</div><div class="flex flex-col"><span>Brioche French Toast Loaf</span><span class="inline-flex items-center gap-1 text-[11px] font-label-sm text-[#8d4a14]"><span class="material-symbols-outlined text-[13px]">warning</span> Cost recipe missing packaging</span></div></td><td class="py-3.5 px-3 text-right font-medium">20</td><td class="py-3.5 px-3 text-right text-on-surface-variant">12</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱4,800</td><td class="py-3.5 px-4 text-right"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-surface-container text-on-surface-variant">⚠️ Cost data incomplete</span></td><td class="py-3.5 px-4 text-right text-outline">—</td><td class="py-3.5 px-3 text-right text-outline">—</td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:underline font-label-sm text-label-sm font-bold" onclick="switchState('incomplete-warning')">Review costing →</button></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors"><td class="py-3.5 px-4 font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold text-[13px]">CB</div><span>Cheese Bread <span class="text-on-surface-variant font-normal font-body-sm">(Pouch of 8)</span></span></td><td class="py-3.5 px-3 text-right font-medium">38</td><td class="py-3.5 px-3 text-right text-on-surface-variant">22</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-on-surface">₱7,420</td><td class="py-3.5 px-4 text-right font-price-md text-price-md text-on-surface-variant">₱3,960</td><td class="py-3.5 px-4 text-right font-price-md text-price-md font-bold text-primary">₱3,460</td><td class="py-3.5 px-3 text-right"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-[#edf4ea] text-[#2e5d26]">46.6%</span></td><td class="py-3.5 px-4 text-right"><button class="text-primary hover:text-primary-container font-label-sm text-label-sm font-bold underline inline-flex items-center gap-1" onclick="switchState('costdrawer')">View basis</button></td></tr></tbody>
+</table>
+</div>
+</section>
+<!-- SECTION 5: ESTIMATED MARGIN ANALYSIS & COST BASIS BANNER -->
+<section class="flex flex-col gap-space-md"><div class="bg-surface-container-low rounded-xl p-space-md flex items-start gap-space-md"><span class="material-symbols-outlined text-primary text-[24px] mt-0.5">info</span><div class="flex flex-col gap-1"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Estimated Margin Notice</span><p class="font-body-sm text-body-sm text-on-surface-variant">Estimated margins are based on the product costing information configured in Kitchen406 and should not be interpreted as complete accounting profit. Accuracy depends on the recipe, ingredient cost, packaging, utility overhead, and selling-price information maintained by the owners.</p></div></div><div class="grid grid-cols-1 md:grid-cols-3 gap-space-md"><div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Est. Product Revenue</span><div class="mt-2 flex items-baseline justify-between"><span class="font-headline-md text-headline-md font-display text-on-surface font-bold">₱84,560</span><span class="text-body-sm font-body-sm text-on-surface-variant">100% of sales</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-3"><div class="bg-on-surface h-full" style="width: 100%"></div></div></div><div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between"><div class="flex items-center justify-between"><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-semibold">Estimated Production Cost</span><div class="group/tip relative flex items-center"><span class="material-symbols-outlined text-[16px] text-outline cursor-help hover:text-primary transition-colors">help_outline</span><span class="invisible group-hover/tip:visible absolute -top-10 right-0 w-64 bg-inverse-surface text-inverse-on-surface font-body-sm text-body-sm px-2.5 py-1 rounded shadow-md z-20">Calculated using recipe ingredient costs, packaging, and configured utility overhead.</span></div></div><div class="mt-2 flex items-baseline justify-between"><span class="font-headline-md text-headline-md font-display text-on-surface-variant font-bold">₱41,420*</span><span class="text-body-sm font-body-sm text-on-surface-variant">52.0% cost basis</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-3"><div class="bg-outline h-full" style="width: 52.0%"></div></div></div><div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between bg-gradient-to-br from-surface-container-lowest to-secondary-container/30"><span class="font-label-md text-label-md text-primary uppercase tracking-wider font-semibold">Estimated Margin</span><div class="mt-2 flex items-baseline justify-between"><span class="font-headline-md text-headline-md font-display text-primary font-bold">₱38,340*</span><span class="text-label-sm font-label-sm font-bold text-[#2e5d26]">48.0% margin rate</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-3"><div class="bg-primary h-full" style="width: 48.0%"></div></div></div></div><div class="text-[11px] font-body-sm text-outline px-1">*Excludes Brioche French Toast Loaf (₱4,800 sales) which has incomplete costing data.</div></section>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO B: TRANSACTION DRILL-DOWN MODAL / PANEL (SEP 12)  -->
+<!-- ========================================================== -->
+<div class="hidden flex flex-col gap-space-lg bg-surface-container-lowest p-space-xl rounded-xl shadow-sm" id="view-drilldown"><div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded text-label-sm font-label-sm font-bold bg-primary text-on-primary">Transactions — September 12</span><span class="text-label-sm font-label-sm text-outline">7 recorded orders</span></div><h2 class="font-headline-md text-headline-md text-on-surface font-display mt-1">Transactions for This Period</h2><p class="font-body-sm text-body-sm text-on-surface-variant">All orders settled via QR Ph totaling ₱4,680.00.</p></div><button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1 font-label-md text-label-md" onclick="switchState('populated')"><span class="material-symbols-outlined text-[18px]">close</span> Close Drill-down</button></div><div class="divide-y divide-surface-container"><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#48</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">ORD-1048 · Standard Order</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface">Pickup · 09:15 AM</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Clara Santos · 2x Classic Ensaymada (Box of 6), 1x Sourdough Loaf</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱820.00</span><div class="text-[11px] text-outline">Est. Cost: ₱435 · Est. Margin: ₱385</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#49</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">ORD-1049 · Custom Cake</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface">Store Pickup · 10:30 AM</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Miguel David · Custom Cake Purchase (8-inch Vanilla Bean Buttercream)</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱1,180.00</span><div class="text-[11px] text-outline">Est. Cost: ₱510 · Est. Margin: ₱670</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#50</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">SUB-0021 · Subscription Enrollment</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-secondary-container text-on-secondary-fixed">4-Week Prepaid Plan</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Bea Alonzo · Weekend Hearth Sourdough Club</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱1,600.00</span><div class="text-[11px] text-outline">Est. Cost: ₱720 · Est. Margin: ₱880</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#51</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">ORD-1051 · Standard Order</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface">Delivery · 11:45 AM</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Rafael Ramos · 1x Chocolate Babka, 1x Cinnamon Rolls</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱540.00</span><div class="text-[11px] text-outline">Est. Cost: ₱265 · Est. Margin: ₱275</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#52</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">ORD-1052 · Standard Order</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface">Pickup · 02:20 PM</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Angela Cruz · 2x Ube Cheese Pandesal (Dozen)</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱380.00</span><div class="text-[11px] text-outline">Est. Cost: ₱190 · Est. Margin: ₱190</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div><div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-bold text-primary font-display">#53</div><div><div class="flex items-center gap-2"><span class="font-title-sm text-title-sm font-bold text-on-surface">ORD-1053 · Standard Order</span><span class="px-2 py-0.2 rounded-full text-[11px] font-semibold bg-surface-container text-on-surface">Delivery · 03:40 PM</span><span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Paid · QR Ph</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Customer: Jose Mari · 1x Classic Ensaymada, 1x Cinnamon Rolls</p></div></div><div class="flex items-center gap-4 text-right"><div><span class="font-price-md text-price-md font-bold text-on-surface">₱360.00</span><div class="text-[11px] text-outline">Est. Cost: ₱185 · Est. Margin: ₱175</div></div><button class="text-primary hover:underline font-label-sm text-label-sm font-bold">View Order</button></div></div></div><div class="flex justify-end pt-space-md"><button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md" onclick="switchState('populated')">Return to Overview</button></div></div>
+<!-- ========================================================== -->
+<!-- SCENARIO C: COST BASIS FLYOUT / DETAIL DRAWER               -->
+<!-- ========================================================== -->
+<div class="hidden flex flex-col lg:flex-row gap-space-lg" id="view-costdrawer">
+<div class="flex-1 bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start justify-between">
+<div>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed text-label-sm font-label-sm font-bold uppercase tracking-wider">
+              BOM Cost Breakdown
+            </span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-display mt-1">Cost Basis: Classic Ensaymada (Box of 6)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Detailed ingredient, direct material, and operational cost calculation.</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1 font-label-sm text-label-sm" onclick="switchState('populated')">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span> Back
+          </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-2"><div class="bg-surface-container-low p-space-md rounded-lg"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Catalog Selling Price</span><div class="font-headline-md text-headline-md font-display text-on-surface mt-1">₱150.00</div><span class="font-body-sm text-body-sm text-outline">Per finished retail box</span></div><div class="bg-surface-container-low p-space-md rounded-lg"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Estimated Production Cost</span><div class="font-headline-md text-headline-md font-display text-on-surface-variant mt-1">₱100.00</div><span class="font-body-sm text-body-sm text-outline">Ingredients + Packaging + Utility Overhead</span></div><div class="bg-surface-container-low p-space-md rounded-lg"><span class="font-label-sm text-label-sm text-primary uppercase">Estimated Margin</span><div class="font-headline-md text-headline-md font-display text-primary mt-1">₱50.00 <span class="font-body-md text-body-md text-primary font-normal">(33.3%)</span></div><span class="font-body-sm text-body-sm text-primary/80">Estimated margin per box</span></div></div>
+<!-- BOM Line Items -->
+<div class="flex flex-col gap-3 pt-3">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">1. Ingredients Bill of Materials (BOM)</span>
+<div class="bg-surface-container-low/40 rounded-lg p-space-md space-y-2 text-body-sm font-body-sm">
+<div class="flex items-center justify-between">
+<span>Unbleached High-grade Wheat Flour (320g)</span>
+<span class="font-medium text-on-surface">₱18.20</span>
+</div>
+<div class="flex items-center justify-between">
+<span>French Butter 82% Normandy (160g)</span>
+<span class="font-medium text-on-surface">₱28.50</span>
+</div>
+<div class="flex items-center justify-between">
+<span>Farm Fresh Egg Yolks (4 units)</span>
+<span class="font-medium text-on-surface">₱12.00</span>
+</div>
+<div class="flex items-center justify-between">
+<span>Aged Quezo de Bola Topping (75g)</span>
+<span class="font-medium text-on-surface">₱14.20</span>
+</div>
+<div class="flex items-center justify-between">
+<span>Refined Cane Sugar &amp; Instant Yeast</span>
+<span class="font-medium text-on-surface">₱5.10</span>
+</div>
+<div class="pt-2 border-t border-surface-container-high flex items-center justify-between font-title-sm text-title-sm font-bold text-on-surface">
+<span>Subtotal Ingredients:</span>
+<span>₱78.00</span>
+</div>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold pt-2">2. Direct Packaging &amp; Liner Materials</span>
+<div class="bg-surface-container-low/40 rounded-lg p-space-md space-y-2 text-body-sm font-body-sm">
+<div class="flex items-center justify-between">
+<span>Custom Kraft Window Box (Box of 6 size)</span>
+<span class="font-medium text-on-surface">₱11.50</span>
+</div>
+<div class="flex items-center justify-between">
+<span>Fluted Parchment Liners &amp; Kitchen406 Seal Sticker</span>
+<span class="font-medium text-on-surface">₱2.50</span>
+</div>
+<div class="pt-2 border-t border-surface-container-high flex items-center justify-between font-title-sm text-title-sm font-bold text-on-surface">
+<span>Subtotal Packaging:</span>
+<span>₱14.00</span>
+</div>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold pt-2">3. Configured Baking Utility Overhead</span>
+<div class="bg-surface-container-low/40 rounded-lg p-space-md flex items-center justify-between font-title-sm text-title-sm">
+<span>Electric Deck Oven &amp; Prep Power Allocation</span>
+<span class="font-bold text-on-surface">₱8.00</span>
+</div>
+<div class="p-3 bg-secondary-container/50 rounded-lg flex items-center justify-between mt-2">
+<span class="font-body-sm text-body-sm text-on-surface">Need to recalibrate ingredient bulk purchasing prices?</span>
+<a class="text-primary font-label-md text-label-md font-bold hover:underline inline-flex items-center gap-1" href="#">
+              Open Recipe in Recipes &amp; Costing <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO D: INCOMPLETE COST DATA CALLOUT VIEW               -->
+<!-- ========================================================== -->
+<div class="hidden flex flex-col gap-space-lg" id="view-incomplete-warning">
+<div class="bg-[#fef7f2] border-l-4 border-primary p-space-lg rounded-xl shadow-sm flex flex-col sm:flex-row items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<span class="material-symbols-outlined text-primary text-[28px] mt-0.5">warning</span>
+<div class="flex flex-col gap-1">
+<h3 class="font-title-md text-title-md text-on-surface font-bold">1 Product has Incomplete Recipe Cost Data</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl">
+              "Brioche French Toast Loaf" (20 units sold · ₱4,800 revenue) does not have packaging direct materials configured. Overall estimated business margins currently exclude this product's cost basis, making aggregate margin look slightly higher than reality.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-xs">
+            Configure Brioche Costing
+          </button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface" onclick="switchState('populated')">
+            Dismiss
+          </button>
+</div>
+</div>
+<!-- Quick Context snippet -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm text-center py-12">
+<span class="material-symbols-outlined text-outline text-[48px] mb-2">assignment_late</span>
+<h4 class="font-title-md text-title-md text-on-surface font-bold">Costing Action Center</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md mx-auto mt-1 mb-4">
+          Accurate margins require every catalog SKU to have high-fidelity recipe quantities and packaging recorded in Recipes &amp; Costing.
+        </p>
+<button class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" onclick="switchState('populated')">
+          Back to Reports
+        </button>
+</div>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO E: EMPTY STATE (SELECTED PERIOD HAS NO SALES)     -->
+<!-- ========================================================== -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col items-center justify-center text-center py-20" id="view-empty">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-outline text-[32px]">calendar_today</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-display">No report data for this period</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2">
+        Kitchen406 has no recorded sales or confirmed transactions for the selected date range. Try selecting another month or adjusting your custom filters.
+      </p>
+<div class="flex items-center gap-3 mt-space-lg">
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm" onclick="switchState('populated')">
+          Select September 2026
+        </button>
+<button class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md">
+          Choose Custom Range
+        </button>
+</div>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO F: INITIAL BUSINESS LAUNCH STATE                  -->
+<!-- ========================================================== -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col items-center justify-center text-center py-20" id="view-initial"><div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-space-md"><span class="material-symbols-outlined text-primary text-[32px]">storefront</span></div><h3 class="font-headline-md text-headline-md text-on-surface font-display">Welcome to Kitchen406 Analytics</h3><p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2">Reports will appear after your first completed transactions. Sales, product performance, and estimated-margin information will automatically appear here once Kitchen406 begins recording paid orders.</p><div class="flex items-center gap-3 mt-space-lg"><a class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm" data-path="orders" href="#">View Orders</a><a class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" data-path="products" href="#">Manage Products</a><a class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" data-path="recipes-and-costing" href="#">Review Costing</a></div></div>
+<!-- ========================================================== -->
+<!-- SCENARIO G: LOADING SKELETON STATE                         -->
+<!-- ========================================================== -->
+<div class="hidden flex flex-col gap-space-lg animate-pulse" id="view-loading">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<div class="lg:col-span-8 h-80 bg-surface-container rounded-xl"></div>
+<div class="lg:col-span-4 h-80 bg-surface-container rounded-xl"></div>
+</div>
+<div class="h-64 bg-surface-container rounded-xl"></div>
+<div class="text-center text-on-surface-variant font-label-md text-label-md">
+        Calculating Kitchen406 transaction ledger and recipe margins...
+      </div>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO H: NETWORK / RETRIEVAL ERROR PANEL                -->
+<!-- ========================================================== -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col items-center justify-center text-center py-16" id="view-error">
+<div class="w-16 h-16 rounded-full bg-error-container/40 flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-error text-[32px]">sync_problem</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-display">Unable to load report data</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2">
+        We couldn't retrieve sales records for this period due to a temporary network timeout. Your transaction records remain intact.
+      </p>
+<div class="flex items-center gap-3 mt-space-lg">
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm" onclick="switchState('populated')">
+          Retry Sync
+        </button>
+<button class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" onclick="switchState('populated')">
+          Check Cache
+        </button>
+</div>
+</div>
+<!-- ========================================================== -->
+<!-- SCENARIO I: RESTRICTED ACCESS (STAFF VIEW ATTEMPT)         -->
+<!-- ========================================================== -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl shadow-sm flex flex-col items-center justify-center text-center py-20" id="view-restricted">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-on-surface-variant text-[32px]">lock_person</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-display">Owner Access Only</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2">
+        Financial and margin reports are restricted to Kitchen406 business owners. Your current staff profile does not possess billing or managerial audit permissions.
+      </p>
+<div class="flex items-center gap-3 mt-space-lg">
+<a class="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md" href="#">
+          Back to Kitchen Orders
+        </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline JavaScript for Prototype State Switching -->
+<script>
+  function switchState(stateName) {
+    const states = [
+      'populated', 
+      'drilldown', 
+      'costdrawer', 
+      'incomplete-warning', 
+      'empty', 
+      'initial', 
+      'loading', 
+      'error', 
+      'restricted'
+    ];
+    
+    // Hide all scenario view containers
+    states.forEach(s => {
+      const el = document.getElementById('view-' + s);
+      if (el) el.classList.add('hidden');
+    });
+
+    // Show target scenario
+    const target = document.getElementById('view-' + stateName);
+    if (target) {
+      target.classList.remove('hidden');
+    }
+
+    // Update active state pill in demo bar
+    const buttons = document.querySelectorAll('.demo-state-btn');
+    buttons.forEach(btn => {
+      btn.classList.remove('bg-primary', 'text-on-primary');
+      btn.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+    });
+
+    // Highlight clicked button
+    if (window.event && window.event.currentTarget) {
+      const activeBtn = window.event.currentTarget;
+      activeBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+      activeBtn.classList.add('bg-primary', 'text-on-primary');
+    }
+
+    // Smooth scroll back to top of workspace
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script></main></div></body></html>

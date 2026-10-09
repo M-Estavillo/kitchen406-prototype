@@ -11,7 +11,7 @@ const fs=require('node:fs'),path=require('node:path');
  const action=name=>click('[data-p4="'+name+'"]');
  const assert=async(expr,label)=>{if(!await run(expr))throw Error('FAIL '+label);checks++;console.log('PASS '+label);};
  const fill=async(selector,value)=>run(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});e.value=${JSON.stringify(value)};e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));})()`);
- const upload=async(slot,file='assets/celebration-cake.jpg')=>{const doc=await send('DOM.getDocument'),node=await send('DOM.querySelector',{nodeId:doc.result.root.nodeId,selector:'#cake-file-'+slot});await send('DOM.setFileInputFiles',{nodeId:node.result.nodeId,files:[path.resolve(file)]});await wait(450);};
+ const upload=async(slot,file='assets/custom-cake.png')=>{const doc=await send('DOM.getDocument'),node=await send('DOM.querySelector',{nodeId:doc.result.root.nodeId,selector:'#cake-file-'+slot});await send('DOM.setFileInputFiles',{nodeId:node.result.nodeId,files:[path.resolve(file)]});await wait(450);};
  await send('Runtime.enable');await send('Page.enable');await send('Page.navigate',{url:require('node:url').pathToFileURL(path.resolve('index.html')).href});await wait(2200);
  await run('window.A=K406;window.K=A.cakes;window.C=A.commerce;window.P=A.account;C.addressMap.mount=()=>{}');
  await go('custom-cakes');await assert('!!document.querySelector(".cake-hero")','public cake introduction');await action('cake-start');await assert('document.getElementById("phase4-view").textContent.includes("Sign in to continue")','builder account gate');

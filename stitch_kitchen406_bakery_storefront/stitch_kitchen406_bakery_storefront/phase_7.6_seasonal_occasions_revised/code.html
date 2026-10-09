@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"secondary-fixed":"#eae1db","on-surface-variant":"#53433a","on-primary-container":"#ffc9a8","surface-container-high":"#e9e8e4","on-primary":"#ffffff","surface-variant":"#e4e2df","primary-container":"#8d4a14","surface-container":"#efeeeb","inverse-primary":"#ffb787","surface-container-low":"#f5f3f0","surface-dim":"#dbdad6","on-tertiary-fixed":"#1f1b16","tertiary-fixed":"#ebe1d9","outline":"#867368","on-secondary-container":"#69635f","surface-bright":"#fbf9f6","surface-tint":"#904d17","on-primary-fixed":"#311300","error-container":"#ffdad6","on-error":"#ffffff","tertiary":"#49433d","secondary-container":"#eae1db","surface":"#fbf9f6","on-surface":"#1b1c1a","outline-variant":"#d9c2b5","on-secondary-fixed-variant":"#4b4642","primary-fixed":"#ffdcc7","primary-fixed-dim":"#ffb786","secondary":"#635d59","on-primary-fixed-variant":"#723600","tertiary-container":"#7b736d","inverse-on-surface":"#f2f1ed","surface-container-highest":"#e4e2df","secondary-fixed-dim":"#cdc5c0","on-tertiary-fixed-variant":"#4c4640","on-secondary-fixed":"#1f1b18","surface-container-lowest":"#ffffff","on-tertiary-container":"#dcd2ca","error":"#ba1a1a","on-background":"#1b1c1a","background":"#fbf9f5","on-error-container":"#93000a","primary":"#6f3400","inverse-surface":"#30312e","on-tertiary":"#ffffff","on-secondary":"#ffffff","tertiary-fixed-dim":"#cfc5bd"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2.5rem","margin-sm":"1rem","gutter-sm":"1rem","space-xs":"0.25rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.5rem","gutter":"1.5rem","margin":"2rem"},"fontFamily":{"headline-lg":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Playfair Display"],"price-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"display":["Playfair Display"],"label-md":["Plus Jakarta Sans"],"price-md":["Plus Jakarta Sans"],"display-mobile":["Playfair Display"],"title-sm":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"16px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"price-lg":["20px",{"lineHeight":"26px","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm bg-surface-container-low"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">bakery_dining</span></div><div class="flex flex-col"><span class="font-headline-md text-[18px] leading-none text-on-surface font-semibold tracking-tight">Kitchen406</span><span class="font-label-sm text-label-sm tracking-widest uppercase text-on-surface-variant font-medium mt-0.5">Owner Portal</span></div></div><div class="px-space-md py-space-sm"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Operations</span><nav class="mt-space-xs flex flex-col gap-0.5" data-active-classes="bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[19px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="orders" href="#"><span class="material-symbols-outlined text-[19px]">shopping_bag</span><span>Orders</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="payments" href="#"><span class="material-symbols-outlined text-[19px]">payments</span><span>Payments</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[19px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="inventory" href="#"><span class="material-symbols-outlined text-[19px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[19px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[19px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[19px]">card_membership</span><span>Subscriptions</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[19px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[19px]">schedule</span><span>Scheduling</span></a></nav></div><div class="px-space-md py-space-sm"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Management</span><nav class="mt-space-xs flex flex-col gap-0.5" data-active-classes="bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="products" href="#"><span class="material-symbols-outlined text-[19px]">lunch_dining</span><span>Products</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="categories" href="#"><span class="material-symbols-outlined text-[19px]">category</span><span>Categories</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[19px]">grain</span><span>Ingredients</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[19px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a aria-current="page" class="flex items-center gap-3 px-space-sm py-2 transition-colors bg-primary-container text-on-primary font-semibold rounded-lg shadow-sm" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[19px]">celebration</span><span>Seasonal Occasions</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[19px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[19px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[19px]">rate_review</span><span>Review Moderation</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[19px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="reports" href="#"><span class="material-symbols-outlined text-[19px]">bar_chart</span><span>Reports</span></a></nav></div></div><div class="p-space-md m-space-sm bg-surface-container rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[20px]">storefront</span><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Kitchen Hearth</span><span class="font-body-sm text-body-sm text-on-surface-variant">Open • Online</span></div></div><div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm font-label-md text-label-md"><span class="text-on-surface-variant">Management</span><span class="text-outline text-body-sm">&gt;</span><span class="text-on-surface font-semibold">Seasonal Occasions</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 px-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer"><span class="material-symbols-outlined text-[18px]">search</span><span class="font-body-sm text-body-sm hidden md:inline">Search records, ingredients, orders...</span><kbd class="hidden lg:inline-block font-label-sm text-[10px] bg-surface px-1.5 py-0.5 rounded text-on-surface-variant">⌘K</kbd></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-space-sm pl-space-sm py-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden sm:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight font-semibold">Maria Elena</span><span class="font-label-sm text-[10px] text-on-surface-variant leading-tight uppercase font-medium">Owner</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen px-space-lg py-space-lg"><div class="flex flex-col w-full relative">
+<!-- Interactive State Controller (Script-driven view switcher) -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md p-space-sm rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-primary">tune</span>
+<span>Workspace View Mode</span>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<button class="px-space-sm py-1 rounded-lg font-label-md text-label-md bg-surface text-on-surface shadow-sm transition-all hover:bg-surface-container" id="viewBtnTable" onclick="switchView('table')">
+        List View
+      </button>
+<button class="px-space-sm py-1 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary transition-all shadow-sm" id="viewBtnEdit" onclick="switchView('edit')">
+        Edit Drawer (Open)
+      </button>
+<button class="px-space-sm py-1 rounded-lg font-label-md text-label-md bg-surface text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" id="viewBtnAdd" onclick="switchView('add')">
+        + Add Drawer
+      </button>
+<button class="px-space-sm py-1 rounded-lg font-label-md text-label-md bg-surface text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" id="viewBtnEmpty" onclick="switchView('empty')">
+        Empty State
+      </button>
+</div>
+</div>
+<!-- Page Header -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-xl">
+<div class="flex flex-col max-w-2xl">
+<div class="flex items-center gap-2 mb-1.5"><span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold">Management › Marketing Context</span></div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Seasonal Occasions</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Manage seasonal periods that may be used as context for AI-generated marketing drafts.</p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md tracking-wide hover:bg-primary transition-colors shadow-sm flex items-center gap-2" onclick="openDrawer('add')">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Occasion</span>
+</button>
+</div>
+</div>
+<!-- Compact Metrics Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mb-space-lg"><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Total Occasions</span><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-md text-headline-md text-on-surface font-semibold">6</span><span class="font-body-sm text-body-sm text-on-surface-variant">configured</span></div></div><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">calendar_month</span></div></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Active</span><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-md text-headline-md text-on-surface font-semibold">4</span><span class="font-label-sm text-label-sm font-semibold px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant">Enabled</span></div></div><div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined text-[20px]">check_circle</span></div></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Inactive</span><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-md text-headline-md text-on-surface font-semibold">2</span><span class="font-label-sm text-label-sm font-semibold px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">Disabled</span></div></div><div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">pause_circle</span></div></div></div>
+<!-- Operational Guidance Notice -->
+<div class="mb-space-lg p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm max-w-3xl">
+<span class="material-symbols-outlined text-primary-container text-[22px] mt-0.5 shrink-0">info</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">How seasonal occasions are used</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Active occasions may be considered by Kitchen406’s scheduled marketing process when preparing seasonal marketing drafts. Generated content is reviewed separately in Marketing Drafts.
+        </p>
+</div>
+</div>
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary hover:text-primary-container font-semibold transition-colors shrink-0" href="#">
+<span>View Marketing Drafts</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="p-space-md rounded-t-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-sm">
+<div class="flex flex-1 items-center gap-space-sm max-w-lg">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/60 focus:outline-none focus:bg-surface-container" id="tableSearchInput" oninput="handleSearch(this.value)" placeholder="Search occasions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap"><div class="flex items-center bg-surface-container-low rounded-lg px-2.5 py-1"><span class="font-label-sm text-label-sm text-on-surface-variant mr-2">Status:</span><select class="bg-transparent font-title-sm text-title-sm text-on-surface focus:outline-none cursor-pointer py-1" id="statusFilter" onchange="handleFilter(this.value)"><option value="all">All Statuses (6)</option><option value="active">Active (4)</option><option value="inactive">Inactive (2)</option></select></div><button class="hidden px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-sm text-label-sm" id="clearFiltersBtn" onclick="resetFilters()">Clear</button></div>
+</div>
+<!-- Occasions Table Container -->
+<div class="w-full bg-surface-container-lowest rounded-b-xl shadow-sm overflow-hidden mb-space-xl" id="tableSection">
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-lg font-semibold">Occasion</th>
+<th class="py-3 px-space-md font-semibold">Date Range</th>
+<th class="py-3 px-space-md font-semibold">Status</th>
+<th class="py-3 px-space-lg text-right font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high text-on-surface font-body-md text-body-md" id="tableBody">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">ac_unit</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Christmas Season</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">Dec 1, 2026 – Dec 25, 2026</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm" onclick="openDrawer('edit', 'Christmas Season', '2026-12-01', '2026-12-25', true)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-title-sm text-title-sm" onclick="openModal('Christmas Season')">
+                  Deactivate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Selected in Edit Drawer -->
+<tr class="bg-secondary-fixed/30 hover:bg-secondary-fixed/40 transition-colors group" id="rowHalloween">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[18px]">nature</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Halloween &amp; All Saints</span>
+<span class="font-label-sm text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-primary-container text-on-primary">Editing</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">Oct 20, 2026 – Nov 2, 2026</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface text-on-surface shadow-sm font-title-sm text-title-sm font-semibold" onclick="openDrawer('edit', 'Halloween &amp; All Saints', '2026-10-20', '2026-11-02', true)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-title-sm text-title-sm" onclick="openModal('Halloween &amp; All Saints')">
+                  Deactivate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Valentine’s Day</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">Feb 1, 2027 – Feb 15, 2027</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm" onclick="openDrawer('edit', 'Valentine’s Day', '2027-02-01', '2027-02-15', true)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-title-sm text-title-sm" onclick="openModal('Valentine’s Day')">
+                  Deactivate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">local_florist</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Mother’s Day Weekend</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">May 1, 2027 – May 10, 2027</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Active
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm" onclick="openDrawer('edit', 'Mother’s Day Weekend', '2027-05-01', '2027-05-10', true)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-title-sm text-title-sm" onclick="openModal('Mother’s Day Weekend')">
+                  Deactivate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Inactive -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group opacity-85">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">egg</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">Easter Sunday &amp; Holy Week</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">Mar 22, 2027 – Apr 4, 2027</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                Inactive
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm" onclick="openDrawer('edit', 'Easter Sunday &amp; Holy Week', '2027-03-22', '2027-04-04', false)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors font-title-sm text-title-sm font-semibold" onclick="toggleRowState(this, 'Easter Sunday &amp; Holy Week')">
+                  Activate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Inactive -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group opacity-85">
+<td class="py-4 px-space-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">wb_sunny</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-medium">Summer Artisan Specials</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-title-sm text-title-sm text-on-surface">Apr 1, 2026 – May 31, 2026</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                Inactive
+              </span>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm" onclick="openDrawer('edit', 'Summer Artisan Specials', '2026-04-01', '2026-05-31', false)">
+                  Edit
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg text-primary hover:bg-surface-container transition-colors font-title-sm text-title-sm font-semibold" onclick="toggleRowState(this, 'Summer Artisan Specials')">
+                  Activate
+                </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="More options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Meta -->
+<div class="py-3 px-space-lg bg-surface-container-lowest flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm"><span>Showing 6 configured seasonal occasions</span></div>
+</div>
+<!-- Empty State Preview (Initially hidden, revealed via interactive selector) -->
+<div class="hidden w-full bg-surface-container-lowest rounded-xl shadow-sm p-space-xl flex-col items-center justify-center text-center my-space-lg" id="emptyStateSection"><div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center text-on-surface-variant mb-space-md"><span class="material-symbols-outlined text-[32px]">event_note</span></div><h3 class="font-headline-md text-headline-md text-on-surface font-semibold">No seasonal occasions yet</h3><p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-2 mb-space-lg">Seasonal occasions help the scheduled marketing process recognize relevant holidays and seasonal periods when preparing marketing drafts.</p><button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md tracking-wide hover:bg-primary transition-colors shadow-sm flex items-center gap-2" onclick="openDrawer('add')"><span class="material-symbols-outlined text-[18px]">add</span><span>Add Occasion</span></button></div>
+<!-- Warm Scrim Overlay for Drawer -->
+<div class="fixed inset-0 bg-on-surface/20 backdrop-blur-[2px] z-50 transition-opacity duration-300" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<!-- Right-Side Administration Drawer (Edit / Add) -->
+<aside class="fixed right-0 top-0 bottom-0 w-full sm:w-[480px] bg-surface-container-lowest shadow-2xl z-50 flex flex-col justify-between transform transition-transform duration-300 ease-out translate-x-0" id="sideDrawer">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-surface-container-low flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Marketing Context</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold mt-1" id="drawerTitle">Edit Seasonal Occasion</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="drawerMeta">Last updated Oct 5, 2026</span>
+</div>
+<button aria-label="Close drawer" class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closeDrawer()">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-space-lg space-y-space-lg">
+<!-- Section 1: Details -->
+<div class="space-y-space-md">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">1. Occasion Details</span>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5 font-medium" for="drawerInputName">Occasion Name</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/50 focus:outline-none focus:bg-surface-container transition-colors" id="drawerInputName" placeholder="e.g., Thanksgiving Week" type="text" value="Halloween &amp; All Saints"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5">Use a clear name the owners can easily recognize later.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-1">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5 font-medium" for="drawerInputStart">Start Date</label>
+<input class="w-full h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container transition-colors" id="drawerInputStart" type="date" value="2026-10-20"/>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5 font-medium" for="drawerInputEnd">End Date</label>
+<input class="w-full h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container transition-colors" id="drawerInputEnd" type="date" value="2026-11-02"/>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Defines the period during which Kitchen406 may reference this seasonal context.</p>
+</div>
+<!-- Section 2: Marketing Context Status -->
+<div class="pt-space-md space-y-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">2. Marketing Context Status</span>
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-start justify-between gap-space-sm">
+<div class="flex flex-col pr-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Active occasion</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Active occasions may be considered by the scheduled marketing-draft process when applicable. Inactive occasions remain saved as reference.
+            </p>
+</div>
+<!-- Custom Toggle Control -->
+<label class="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
+<input checked="" class="sr-only peer" id="drawerStatusToggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Section 3: Notice & Separation of Concerns -->
+<div class="pt-space-sm space-y-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">3. Marketing Drafts Notice</span>
+<div class="p-space-md rounded-xl bg-surface-container text-on-surface flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary font-semibold font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Draft Generation Policy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Saving an occasion does not immediately generate or publish a post. Kitchen406’s scheduled marketing process handles draft preparation separately.
+          </p>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:text-primary-container font-semibold transition-colors mt-1" href="#">
+<span>Review generated drafts in Marketing Drafts</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Sticky Drawer Footer -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeDrawer()">
+        Cancel
+      </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md tracking-wide hover:bg-primary transition-colors shadow-sm" onclick="saveOccasion()">
+        Save Changes
+      </button>
+</div>
+</aside>
+<!-- Deactivation Confirmation Modal -->
+<div class="fixed inset-0 bg-on-surface/30 backdrop-blur-[2px] z-50 hidden flex items-center justify-center p-4" id="deactivateModal">
+<div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+<div class="p-space-lg flex flex-col">
+<div class="w-12 h-12 rounded-xl bg-error-container text-error flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[24px]">pause_circle</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Deactivate occasion?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">“<span class="font-semibold text-on-surface" id="modalOccasionName">Christmas Season</span>” will remain saved but will no longer be enabled for seasonal marketing context.</p>
+</div>
+<div class="p-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeModal()">
+          Cancel
+        </button>
+<button class="px-space-lg py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-error hover:text-on-error transition-colors font-semibold" onclick="confirmDeactivate()">
+          Deactivate Occasion
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let currentTargetOccasion = '';
+
+  function switchView(mode) {
+    const tableSection = document.getElementById('tableSection');
+    const emptySection = document.getElementById('emptyStateSection');
+    const drawer = document.getElementById('sideDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    // Reset view toggle buttons styles
+    ['viewBtnTable', 'viewBtnEdit', 'viewBtnAdd', 'viewBtnEmpty'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.className = "px-space-sm py-1 rounded-lg font-label-md text-label-md bg-surface text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all";
+      }
+    });
+
+    if (mode === 'table') {
+      document.getElementById('viewBtnTable').className = "px-space-sm py-1 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary transition-all shadow-sm";
+      tableSection.classList.remove('hidden');
+      emptySection.classList.add('hidden');
+      closeDrawer();
+    } else if (mode === 'edit') {
+      document.getElementById('viewBtnEdit').className = "px-space-sm py-1 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary transition-all shadow-sm";
+      tableSection.classList.remove('hidden');
+      emptySection.classList.add('hidden');
+      openDrawer('edit', 'Halloween & All Saints', '2026-10-20', '2026-11-02', true);
+    } else if (mode === 'add') {
+      document.getElementById('viewBtnAdd').className = "px-space-sm py-1 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary transition-all shadow-sm";
+      tableSection.classList.remove('hidden');
+      emptySection.classList.add('hidden');
+      openDrawer('add');
+    } else if (mode === 'empty') {
+      document.getElementById('viewBtnEmpty').className = "px-space-sm py-1 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary transition-all shadow-sm";
+      tableSection.classList.add('hidden');
+      emptySection.classList.remove('hidden');
+      closeDrawer();
+    }
+  }
+
+  function openDrawer(mode, name = '', start = '', end = '', isActive = true) {
+    const drawer = document.getElementById('sideDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const title = document.getElementById('drawerTitle');
+    const meta = document.getElementById('drawerMeta');
+    const nameInput = document.getElementById('drawerInputName');
+    const startInput = document.getElementById('drawerInputStart');
+    const endInput = document.getElementById('drawerInputEnd');
+    const toggle = document.getElementById('drawerStatusToggle');
+
+    if (mode === 'add') {
+      title.innerText = 'Add Seasonal Occasion';
+      meta.innerText = 'New calendar reference period';
+      nameInput.value = '';
+      startInput.value = '';
+      endInput.value = '';
+      toggle.checked = true;
+    } else {
+      title.innerText = 'Edit Seasonal Occasion';
+      meta.innerText = 'Last updated Oct 5, 2026';
+      nameInput.value = name || 'Halloween & All Saints';
+      startInput.value = start || '2026-10-20';
+      endInput.value = end || '2026-11-02';
+      toggle.checked = isActive;
+    }
+
+    drawer.classList.remove('translate-x-full');
+    drawer.classList.remove('hidden');
+    backdrop.classList.remove('hidden');
+  }
+
+  function closeDrawer() {
+    const drawer = document.getElementById('sideDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.add('hidden');
+  }
+
+  function saveOccasion() {
+    closeDrawer();
+  }
+
+  function openModal(name) {
+    currentTargetOccasion = name;
+    document.getElementById('modalOccasionName').innerText = name;
+    document.getElementById('deactivateModal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('deactivateModal').classList.add('hidden');
+  }
+
+  function confirmDeactivate() {
+    closeModal();
+  }
+
+  function toggleRowState(btn, name) {
+    if (btn.innerText.trim() === 'Activate') {
+      btn.innerText = 'Deactivate';
+      btn.className = "px-2.5 py-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-title-sm text-title-sm";
+    }
+  }
+
+  function handleSearch(val) {
+    const rows = document.querySelectorAll('#tableBody tr');
+    const clearBtn = document.getElementById('clearFiltersBtn');
+    if (val.trim()) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      if (text.includes(val.toLowerCase())) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function handleFilter(status) {
+    const rows = document.querySelectorAll('#tableBody tr');
+    rows.forEach(row => {
+      const isAct = row.innerText.includes('Active');
+      if (status === 'all') {
+        row.style.display = '';
+      } else if (status === 'active' && isAct) {
+        row.style.display = '';
+      } else if (status === 'inactive' && !isAct) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function resetFilters() {
+    document.getElementById('tableSearchInput').value = '';
+    document.getElementById('statusFilter').value = 'all';
+    document.getElementById('clearFiltersBtn').classList.add('hidden');
+    handleSearch('');
+  }
+</script></main></div></body></html>

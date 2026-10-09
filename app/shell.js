@@ -18,7 +18,7 @@ A.shell={sync(){
  A.$('header-auth-signin').classList.toggle('hidden',A.auth==='signedin');
  A.$('header-auth-user').classList.toggle('hidden',A.auth!=='signedin');
  const menu=A.$('account-menu');if(menu){
- if(owner&&A.session?.ownerAllowed())menu.innerHTML='<a href="#/owner">Kitchen406 Owner</a><button class="btn" data-owner="signout">Sign Out</button>';
+ if(owner&&A.session?.ownerAllowed())menu.innerHTML='<a href="#/owner">Kitchen406 Owner</a><a href="#/owner/notifications">Notifications</a><a href="#/owner/settings">Settings</a><button class="btn" data-owner="signout">Sign Out</button>';
  else if(staff&&S?.allowed())menu.innerHTML='<a href="#/staff/settings">'+A.escape(S.name())+'</a><a href="#/staff/notifications">Notifications ('+S.events.filter(e=>!e.read).length+')</a><button class="btn" data-staff="signout">Sign Out</button>';
  else if(A.phase4)menu.innerHTML=A.phase4.links.map(([path,,label])=>'<a href="#/'+path+'">'+label+'</a>').join('')+A.phase4.button('sign-out','Sign Out');
  }

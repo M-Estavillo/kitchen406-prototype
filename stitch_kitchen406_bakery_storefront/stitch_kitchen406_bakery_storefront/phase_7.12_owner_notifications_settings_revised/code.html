@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-fixed-dim": "#ffb787", "tertiary": "#49433d", "surface-container-low": "#f5f3f0", "secondary-container": "#eae1dc", "tertiary-fixed-dim": "#cfc5bd", "surface-bright": "#fbf9f6", "primary": "#6f3400", "surface-dim": "#dbdad7", "on-error-container": "#93000a", "on-surface": "#1b1c1a", "on-primary-fixed": "#311300", "tertiary-container": "#615a54", "on-background": "#1b1c1a", "primary-container": "#8d4a14", "outline": "#867368", "on-tertiary-container": "#dcd2ca", "outline-variant": "#d9c2b5", "on-secondary-container": "#69635f", "surface-container-highest": "#e4e2df", "background": "#fbf9f5", "on-error": "#ffffff", "on-primary": "#ffffff", "surface-container-high": "#eae8e5", "on-secondary": "#ffffff", "surface-variant": "#e4e2df", "on-secondary-fixed": "#1f1b18", "error": "#ba1a1a", "surface-tint": "#904d17", "on-tertiary": "#ffffff", "inverse-on-surface": "#f2f1ed", "secondary-fixed-dim": "#cdc5c0", "error-container": "#ffdad6", "on-tertiary-fixed": "#1f1b16", "on-surface-variant": "#53433a", "surface-container": "#efeeeb", "on-primary-container": "#fffbff", "on-primary-fixed-variant": "#723600", "surface-container-lowest": "#ffffff", "secondary": "#635d59", "secondary-fixed": "#eae1db", "on-tertiary-fixed-variant": "#4c4640", "on-secondary-fixed-variant": "#4b4642", "inverse-primary": "#ffb787", "primary-fixed": "#ffdcc7", "surface": "#fbf9f6", "tertiary-fixed": "#ebe1d9", "inverse-surface": "#30312e" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "space-xl": "2.5rem", "space-xs": "0.25rem", "gutter": "1.5rem", "gutter-sm": "1rem", "space-md": "1rem", "space-sm": "0.5rem", "margin-sm": "1rem", "margin": "2rem" }, "fontFamily": { "display": ["Playfair Display"], "title-md": ["Plus Jakarta Sans"], "price-md": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "title-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "display-mobile": ["Playfair Display"], "body-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Playfair Display"], "price-lg": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"] }, "fontSize": { "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "600" }], "display-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "price-lg": ["20px", { "lineHeight": "26px", "fontWeight": "600" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(83,68,58,0.06)] z-50 flex flex-col justify-between overflow-y-auto"><div class="p-space-md flex flex-col gap-space-md"><div class="px-space-xs pt-space-xs"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-display text-title-md font-bold shadow-sm">K</div><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary leading-none tracking-tight">Kitchen406</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Artisanal Pantry</span></div></div><div class="mt-space-md px-2.5 py-1.5 rounded bg-secondary-container/60 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px] text-primary">lock</span><span class="font-label-sm text-label-sm text-on-secondary-container tracking-wide">Owner Portal · Restricted/Admin</span></div></div><nav class="flex flex-col gap-space-md" data-active-classes="bg-primary-container text-on-primary-container font-title-sm font-semibold shadow-sm"><div class="flex flex-col gap-1"><div class="px-space-sm pb-1 font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations</div><div class="flex flex-col gap-0.5"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[20px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[20px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Scheduling</span></a></div></div><div class="flex flex-col gap-1"><div class="px-space-sm pb-1 font-label-sm text-label-sm uppercase tracking-wider text-outline">Catalog &amp; Configuration</div><div class="flex flex-col gap-0.5"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">bakery_dining</span><span>Products</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="categories" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Categories</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[20px]">nutrition</span><span>Ingredients</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[20px]">add_circle</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[20px]">celebration</span><span>Seasonal Occasions</span></a></div></div><div class="flex flex-col gap-1"><div class="px-space-sm pb-1 font-label-sm text-label-sm uppercase tracking-wider text-outline">Management</div><div class="flex flex-col gap-0.5"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[20px]">rate_review</span><span>Review Moderation</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg transition-colors bg-primary-container text-on-primary-container font-title-sm font-semibold shadow-sm" data-path="notifications-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Notifications / Settings</span></a></div></div></nav></div><div class="p-space-md"><div class="p-space-sm rounded-xl bg-surface-container flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Owner</span></div></div><a class="text-on-surface-variant hover:text-primary transition-colors" data-path="login" href="#"><span class="material-symbols-outlined text-[20px]">logout</span></a></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(83,68,58,0.06)] z-40 px-space-lg flex items-center justify-between"><div class="relative w-96"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span><input class="w-full h-10 pl-9 pr-4 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Search orders, inventory, customers..." type="text"/></div><div class="flex items-center gap-space-md"><div class="relative"><button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="h-6 w-[1px] bg-outline-variant"></div><div class="flex items-center gap-space-sm pl-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-title-sm text-title-sm text-on-surface leading-snug">Maria Elena</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-snug">Owner</span></div></div></div></header><main class="w-full pt-16 px-space-lg bg-background min-h-screen"><div class="flex flex-col w-full pb-16">
+<!-- Top Ambient Flourish (Contained Warm Glow) -->
+<div class="relative w-full overflow-hidden pointer-events-none mb-space-md">
+<div class="absolute -top-12 right-16 w-80 h-40 bg-gradient-to-br from-primary-fixed/30 via-secondary-container/40 to-transparent blur-3xl opacity-70"></div>
+</div>
+<!-- Breadcrumb & Architecture Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col">
+<nav aria-label="Breadcrumb" class="flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1.5">
+<span class="hover:text-primary transition-colors cursor-pointer">Management</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">Notifications &amp; Settings</span>
+</nav>
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Notifications &amp; Settings</h1>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Live Sync
+        </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-2xl">Review operational updates, monitor customer messages, and manage your owner account.</p>
+</div>
+<!-- Quick Action / System Health Badge -->
+</div>
+<!-- Prototype State Controller Ribbon -->
+<section aria-label="Interactive Prototype Inspector" class="p-3.5 rounded-xl bg-surface-container-low shadow-sm mb-space-lg">
+<div class="flex flex-wrap items-center justify-between gap-2.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-semibold">Prototype State Switcher:</span>
+</div>
+<div class="flex flex-wrap items-center gap-1.5" id="prototype-pill-bar"><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-primary text-on-primary shadow-sm" data-btn-state="tab-notifications" onclick="switchPrototypeState('tab-notifications')">1. Notifications (Default)</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="drawer-payment-failed" onclick="switchPrototypeState('drawer-payment-failed')">2. Payment Attempt Drawer</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="tab-outbox" onclick="switchPrototypeState('tab-outbox')">3. Outbox Tab</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="drawer-outbox-failed" onclick="switchPrototypeState('drawer-outbox-failed')">4. Outbox Failed SMS Drawer</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="tab-security" onclick="switchPrototypeState('tab-security')">5. Account &amp; Security</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="empty" onclick="switchPrototypeState('empty')">6. Empty Feed State</button><button class="proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high" data-btn-state="loading" onclick="switchPrototypeState('loading')">7. Loading Skeleton</button></div>
+</div>
+</section>
+<!-- Segmented Primary Tab Navigation -->
+<div class="flex items-center gap-2 p-1.5 rounded-xl bg-surface-container-high max-w-fit mb-space-lg shadow-sm">
+<button class="tab-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all bg-surface-container-lowest text-on-surface shadow-sm font-semibold" id="nav-btn-notifications" onclick="switchTab('notifications')">
+<span class="material-symbols-outlined text-[18px] text-primary">notifications_active</span>
+<span>Notifications</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">6</span>
+</button>
+<button class="tab-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface font-normal" id="nav-btn-outbox" onclick="switchTab('outbox')">
+<span class="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+<span>Outbox (Customer Messages)</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">145</span>
+</button>
+<button class="tab-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface font-normal" id="nav-btn-security" onclick="switchTab('security')">
+<span class="material-symbols-outlined text-[18px]">shield_person</span>
+<span>Account &amp; Security</span>
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-600"></span>
+</button>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB A: OWNER NOTIFICATIONS FEED -->
+<!-- ========================================================================= -->
+<div class="flex flex-col gap-space-lg transition-opacity duration-200" id="view-tab-notifications">
+<!-- Operational Metric Strip -->
+<div class="flex flex-wrap items-center gap-space-md"><div class="flex-1 min-w-[220px] p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Unread</span><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-lg text-headline-lg text-primary font-bold">6</span><span class="font-body-sm text-body-sm text-on-surface-variant">requiring attention</span></div><span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Across operational modules</span></div><div class="w-10 h-10 rounded-xl bg-secondary-container/60 text-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[22px]">mark_email_unread</span></div></div><div class="flex-1 min-w-[220px] p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Needs Attention</span><div class="flex items-baseline gap-2 mt-1"><span class="font-headline-lg text-headline-lg text-on-surface font-bold">2</span><span class="font-body-sm text-body-sm text-on-surface-variant">priority alerts</span></div><span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Payment hold + stock threshold</span></div><div class="w-10 h-10 rounded-xl bg-secondary-container text-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[22px]">priority_high</span></div></div></div>
+<!-- Filter & Search Toolbar -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Field with Hotkey visual cue -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-11 pr-24 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/60 focus:outline-none shadow-sm" id="notification-search-input" placeholder="Search notifications by order, product, customer ref..." type="text"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">⌘K</span>
+</div>
+<!-- Filters Row -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Read State Toggle Chips -->
+<div class="flex items-center bg-surface-container-low rounded-lg p-1">
+<button class="feed-read-chip px-3 py-1.5 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium transition-colors" onclick="setFeedReadFilter('all', this)">All</button>
+<button class="feed-read-chip px-3 py-1.5 rounded font-label-sm text-label-sm bg-surface-container-lowest text-on-surface font-semibold shadow-sm transition-all" onclick="setFeedReadFilter('unread', this)">Unread (6)</button>
+<button class="feed-read-chip px-3 py-1.5 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium transition-colors" onclick="setFeedReadFilter('read', this)">Read</button>
+</div>
+<!-- Operational Module Dropdown -->
+<div class="relative">
+<select class="h-11 pl-3.5 pr-9 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none appearance-none cursor-pointer" id="module-filter-select" onchange="filterNotificationFeed()">
+<option value="all">All Modules (11)</option>
+<option value="payments">Payments &amp; Gateway (1)</option>
+<option value="inventory">Inventory &amp; Supplies (1)</option>
+<option value="custom-cakes">Custom Cakes (1)</option>
+<option value="marketing">Marketing Drafts (1)</option>
+<option value="subscriptions">Subscriptions (1)</option>
+<option value="reviews">Customer Reviews (1)</option>
+<option value="orders">Orders &amp; Kitchen Queue</option>
+<option value="deliveries">Deliveries &amp; Dispatch</option>
+<option value="capacity">Capacity &amp; Scheduling</option>
+<option value="staff">Staff Accounts</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span>
+</div>
+<!-- Reset Button -->
+<button class="h-11 px-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="resetNotificationFilters()" title="Clear all applied filters">
+<span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+<span>Clear</span>
+</button>
+<button class="h-11 px-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold flex items-center gap-1.5 transition-colors shadow-sm" onclick="markAllNotificationsAsRead()" title="Mark all active notifications as read"><span class="material-symbols-outlined text-[18px] text-outline">checklist_rtl</span><span>Mark all as read</span></button></div>
+</div>
+<!-- Structured Notification Feed List -->
+<div class="flex flex-col gap-space-sm" id="notifications-feed-container">
+<!-- Card 1: Critical Payment Alert -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="payments" data-card-read="false"><div class="flex items-start gap-space-md min-w-0"><div class="w-12 h-12 rounded-xl bg-secondary-container text-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[24px]">payment</span></div><div class="flex flex-col min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-primary font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Attention Required</span><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Payment</span><span class="text-outline-variant font-label-sm text-label-sm">•</span><span class="font-label-sm text-label-sm text-on-surface-variant">8 min ago</span></div><h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Payment attempt failed</h2><p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">PayMongo reported that the QR Ph payment attempt for Order <strong class="text-on-surface font-semibold">#K406-1048</strong> was unsuccessful. Checkout hold active.</p><div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm"><span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[16px] text-outline">receipt_long</span> Order #K406-1048</span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">payments</span> Amount: ₱1,850.00</span><span class="flex items-center gap-1 text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-outline">qr_code_2</span> Method: QR Ph (PayMongo)</span></div></div></div><div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread notification"></span><span class="font-label-sm text-label-sm text-primary font-semibold">Unread</span></div><button class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" onclick="openNotificationDrawer('payment')"><span>View payment</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></button></div></article>
+<!-- Card 2: Attention Low Stock -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="inventory" data-card-read="false"><div class="flex items-start gap-space-md min-w-0"><div class="w-12 h-12 rounded-xl bg-secondary-container text-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[24px]">inventory_2</span></div><div class="flex flex-col min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-primary font-label-sm text-label-sm font-semibold">Attention Required</span><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Inventory Depot</span><span class="text-outline-variant font-label-sm text-label-sm">•</span><span class="font-label-sm text-label-sm text-on-surface-variant">32 min ago</span></div><h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Ingredient stock is low: Premium Bread Flour</h2><p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">Premium Bread Flour has reached its configured stock threshold (<span class="text-primary font-semibold">14 kg remaining</span>, threshold: 20 kg). Upcoming bake batches require restocking.</p><div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm"><span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[16px] text-outline">scale</span> Stock Level: 14 kg</span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">flag</span> Threshold: 20 kg</span></div></div></div><div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread notification"></span><span class="font-label-sm text-label-sm text-primary font-semibold">Unread</span></div><a class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" data-path="inventory" href="#"><span>View inventory</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></article>
+<!-- Card 3: Custom Cake Request Received -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="custom-cakes" data-card-read="false">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">cake</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">
+                Customer Inquiry
+              </span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Custom Cakes</span>
+<span class="text-outline-variant font-label-sm text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">1 hr ago</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Custom celebration cake request received</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">
+              A new custom 2-tier celebration cake request for Oct 24 delivery is waiting for owner quote and complexity approval.
+            </p>
+<div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[16px] text-outline">tag</span> Req #CC-2026-088</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">person</span> Camille S.</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">calendar_month</span> Target: Oct 24, 2026</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread notification"></span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Unread</span>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" data-path="custom-cakes" href="#">
+<span>View request</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 4: Marketing Draft Ready for Review -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="marketing" data-card-read="false"><div class="flex items-start gap-space-md min-w-0"><div class="w-12 h-12 rounded-xl bg-surface-container text-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[24px]">campaign</span></div><div class="flex flex-col min-w-0"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[14px]">auto_awesome</span>AI Assisted</span><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Marketing</span><span class="text-outline-variant font-label-sm text-label-sm">•</span><span class="font-label-sm text-label-sm text-on-surface-variant">1 hr ago</span></div><h2 class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Marketing draft ready for review</h2><p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">A new seasonal marketing draft for 'All Souls’ Day Hearth Loaf' was automatically generated by Gemini and is waiting for owner review.</p><div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm"><span class="flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[16px] text-outline">label</span> Draft #MKT-2610-04</span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">edit_note</span> Content awaiting approval</span></div></div></div><div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-primary" title="Unread notification"></span><span class="font-label-sm text-label-sm text-primary font-semibold">Unread</span></div><a class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" data-path="marketing-drafts" href="#"><span>Review draft</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></article>
+<!-- Card 5: Subscriptions Auto-Renewed (READ) -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-low shadow-sm opacity-90 hover:opacity-100 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="subscriptions" data-card-read="true">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">autorenew</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">
+                Informational
+              </span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Subscriptions</span>
+<span class="text-outline-variant font-label-sm text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 hrs ago</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface font-medium tracking-tight">Prepaid Subscription batch committed: Week 4</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">
+              Weekly Hearth Box subscription batch committed for Week 4 fulfillment (18 members active, 0 payment exceptions).
+            </p>
+<div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">repeat</span> Batch #SUB-0024</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">group</span> 18 Loaves Scheduled</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant" title="Read notification"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Read</span>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-all shadow-sm flex items-center gap-1" data-path="subscriptions" href="#">
+<span>View subscription</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 6: New 5-Star Review (READ) -->
+<article class="notification-card group relative p-space-md rounded-xl bg-surface-container-low shadow-sm opacity-90 hover:opacity-100 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-card-module="reviews" data-card-read="true">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">grade</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/80 text-on-surface font-label-sm text-label-sm">
+                Feedback
+              </span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Reviews</span>
+<span class="text-outline-variant font-label-sm text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5 hrs ago</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface font-medium tracking-tight">New verified 5-star review submitted</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5 max-w-3xl">
+              Maria Santos submitted a 5-star review for <strong class="text-on-surface font-medium">Classic Sourdough Country Boule</strong> with 2 crumb structure photos.
+            </p>
+<div class="flex items-center gap-space-md mt-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[16px]">verified</span> Verified Buyer</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">photo_camera</span> 2 Photos</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">receipt</span> Order #K406-1048</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-space-md shrink-0 pt-2 md:pt-0">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant" title="Read notification"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Read</span>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-all shadow-sm flex items-center gap-1" data-path="review-moderation" href="#">
+<span>View review</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB B: OUTBOX (CUSTOMER MESSAGES) -->
+<!-- ========================================================================= -->
+<div class="hidden flex-col gap-space-lg transition-opacity duration-200" id="view-tab-outbox">
+<!-- Header Context -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Customer Notification Outbox</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Audit trail of automated transactional emails (Brevo) and SMS dispatches (Semaphore) sent directly to customers.
+        </p>
+</div>
+<!-- Outbox Delivery Counters -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="px-3.5 py-2 rounded-lg bg-surface-container-low flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sent:</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">142 (98.6%)</span>
+</div>
+<div class="px-3.5 py-2 rounded-lg bg-surface-container-low flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pending:</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">2 in queue</span>
+</div>
+<div class="px-3.5 py-2 rounded-lg bg-error-container text-on-error-container flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="font-body-sm text-body-sm">Failed:</span>
+<span class="font-label-md text-label-md font-bold">1 failure</span>
+</div>
+</div>
+</div>
+<!-- Outbox Filter & Search Bar -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-11 pr-4 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/60 focus:outline-none shadow-sm" placeholder="Search by recipient, reference, or order... (e.g. 0917, #K406)" type="text"/>
+</div>
+<!-- Controls -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="relative">
+<select class="h-11 pl-3.5 pr-8 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none appearance-none cursor-pointer">
+<option value="all">All Channels</option>
+<option value="email">Email (Brevo)</option>
+<option value="sms">SMS (Semaphore)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="h-11 pl-3.5 pr-8 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none appearance-none cursor-pointer">
+<option value="all">All Delivery States</option>
+<option value="sent">Sent</option>
+<option value="pending">Pending</option>
+<option value="failed">Failed Only</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="h-11 pl-3.5 pr-8 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none appearance-none cursor-pointer">
+<option value="today">Today (Oct 8)</option>
+<option value="7d">Last 7 days</option>
+<option value="30d">Last 30 days</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Outbox Log Table Container -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-sm text-label-sm uppercase tracking-wider text-outline">
+<th class="py-3 px-space-md font-semibold">Notification &amp; Ref</th>
+<th class="py-3 px-space-md font-semibold">Recipient (Masked)</th>
+<th class="py-3 px-space-md font-semibold">Channel &amp; Provider</th>
+<th class="py-3 px-space-md font-semibold">Delivery Status</th>
+<th class="py-3 px-space-md font-semibold">Timestamp</th>
+<th class="py-3 px-space-md font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y-0">
+<!-- Row 1: Sent Brevo Email -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Order confirmation</span>
+<span class="font-label-sm text-label-sm text-primary font-medium cursor-pointer hover:underline">Order #K406-1048</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface font-mono">
+                mar••••@gmail.com
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">mail</span>
+<span>Email • Brevo</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  Sent
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface-variant">
+                Oct 8, 2026 • 3:42 PM
+              </td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="openOutboxDrawer('sent-1048')">
+                  View details
+                </button>
+</td>
+</tr>
+<!-- Row 2: Sent Semaphore SMS -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-surface-container-low/30">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Delivery out for delivery</span>
+<span class="font-label-sm text-label-sm text-primary font-medium cursor-pointer hover:underline">Order #K406-1046</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface font-mono">
+                0917 ••• 3912
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">sms</span>
+<span>SMS • Semaphore</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  Sent
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface-variant">
+                Oct 8, 2026 • 1:15 PM
+              </td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="openOutboxDrawer('sent-1046')">
+                  View details
+                </button>
+</td>
+</tr>
+<!-- Row 3: Pending Brevo Email -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">calendar_clock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Subscription weekly reminder</span>
+<span class="font-label-sm text-label-sm text-primary font-medium cursor-pointer hover:underline">Sub #SUB-0024</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface font-mono">
+                j•••••@icloud.com
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">mail</span>
+<span>Email • Brevo</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                  Pending in Queue
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface-variant">
+                Oct 8, 2026 • 4:00 PM
+              </td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="openOutboxDrawer('pending-sub')">
+                  View details
+                </button>
+</td>
+</tr>
+<!-- Row 4: FAILED Semaphore SMS (Featured in Drawer) -->
+<tr class="hover:bg-error-container/20 transition-colors bg-error-container/10">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">sms_failed</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Order status update (Baking)</span>
+<span class="font-label-sm text-label-sm text-error font-medium cursor-pointer hover:underline">Order #K406-1049</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface font-mono">
+                0922 ••• 8810
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">sms</span>
+<span>SMS • Semaphore</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  Failed
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-body-sm text-body-sm text-on-surface-variant">
+                Oct 8, 2026 • 11:20 AM
+              </td>
+<td class="py-3.5 px-space-md text-right">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:bg-primary-container transition-all shadow-sm" onclick="openOutboxDrawer('failed-sms')">
+                  View failure →
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Outbox Table Footer Pagination / Summary -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<span>Showing 4 of 145 customer delivery events</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 rounded bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-medium disabled:opacity-50" disabled="">Previous</button>
+<span class="px-2 font-bold text-on-surface">Page 1 of 37</span>
+<button class="px-3 py-1 rounded bg-surface-container-lowest text-on-surface font-medium hover:bg-surface-container">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- TAB C: ACCOUNT & SECURITY -->
+<!-- ========================================================================= -->
+<div class="hidden flex-col gap-space-lg transition-opacity duration-200" id="view-tab-security"><div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg"><div class="lg:col-span-5 flex flex-col gap-space-lg"><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Profile Information</span><span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">Owner / Administrator</span></div><div class="flex items-center gap-space-md"><div class="w-14 h-14 rounded-2xl bg-primary text-on-primary font-display text-headline-md flex items-center justify-center shadow-md">ME</div><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface font-bold">Maria Elena</span><span class="font-body-sm text-body-sm text-on-surface-variant font-mono">owner@kitchen406.com</span><span class="font-label-sm text-label-sm text-outline mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Member since January 2024</span></div></div><div class="p-3.5 rounded-lg bg-surface-container-low flex flex-col gap-3"><div class="grid grid-cols-2 gap-2.5"><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">First name</label><input class="h-10 px-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none" type="text" value="Maria"/></div><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">Last name</label><input class="h-10 px-3 rounded bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none" type="text" value="Elena"/></div></div><button class="self-end px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-colors" onclick="showToastNotification('Profile updated successfully')">Save Changes</button></div></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Account Access</span><span class="inline-flex items-center gap-1 text-emerald-800 font-label-sm text-label-sm font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full"><span class="material-symbols-outlined text-[14px]">verified</span> Active</span></div><div class="flex flex-col gap-2.5 text-body-sm font-body-sm"><div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low"><span class="text-outline font-label-sm text-label-sm">Role</span><span class="text-on-surface font-semibold">Owner / Administrator</span></div><div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low"><span class="text-outline font-label-sm text-label-sm">Email Status</span><span class="text-emerald-800 font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Verified</span></div><div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-0.5"><span class="text-outline font-label-sm text-label-sm">Privileges</span><span class="text-on-surface-variant">Full administrative access to Kitchen406 orders, catalog, inventory, and operations.</span></div></div></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current Session</span><span class="inline-flex items-center gap-1 text-emerald-800 font-label-sm text-label-sm font-semibold bg-emerald-50 px-2 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span> Signed In</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">You are currently signed in as Maria Elena on this browser session.</p><div class="flex items-center justify-between pt-1"><span class="font-body-sm text-body-sm text-on-surface-variant">End current session?</span><button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-colors flex items-center gap-1.5" onclick="showToastNotification('Signing out...')"><span class="material-symbols-outlined text-[16px]">logout</span><span>Sign out</span></button></div></div></div><div class="lg:col-span-7 flex flex-col gap-space-lg"><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Email Address</span><span class="inline-flex items-center gap-1 text-emerald-800 font-label-sm text-label-sm font-semibold bg-emerald-50 px-2 py-0.5 rounded-full"><span class="material-symbols-outlined text-[14px]">verified</span> Verified</span></div><div class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container-low"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-lg bg-surface-container text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">alternate_email</span></div><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface font-semibold font-mono">owner@kitchen406.com</span><span class="font-body-sm text-body-sm text-on-surface-variant">Primary address for system notifications &amp; authentication</span></div></div></div><div class="p-3.5 rounded-lg bg-secondary-container/40 flex items-start gap-3"><span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">shield</span><p class="font-body-sm text-body-sm text-on-secondary-container">Changing your owner email address requires verification via a secure confirmation link sent to the new email address.</p></div><div class="flex flex-col gap-3"><div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">New Email Address</label><input class="h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none shadow-sm" placeholder="new.owner@kitchen406.com" type="email"/></div><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">Current Password Confirmation</label><input class="h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none shadow-sm" placeholder="••••••••••••" type="password"/></div></div><button class="self-end px-4 py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center gap-2" onclick="showToastNotification('Verification link dispatched to new email address')"><span class="material-symbols-outlined text-[18px]">forward_to_inbox</span><span>Send Verification Link</span></button></div></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Password</span><span class="font-body-sm text-body-sm text-outline">Last updated: 42 days ago</span></div><div><h3 class="font-title-md text-title-md text-on-surface font-semibold">Update Password</h3><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Use a strong passphrase with numbers and special symbols to safeguard owner access.</p></div><div class="flex flex-col gap-3.5"><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">Current Password</label><div class="relative"><input class="w-full h-11 px-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none shadow-sm" id="current-pass-input" placeholder="Enter current password" type="password"/><button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" onclick="togglePassVisibility('current-pass-input')" type="button"><span class="material-symbols-outlined text-[18px]">visibility</span></button></div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5"><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">New Password</label><div class="relative"><input class="w-full h-11 px-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none shadow-sm" id="new-pass-input" onkeyup="updatePassStrength(this.value)" placeholder="At least 10 characters" type="password"/><button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" onclick="togglePassVisibility('new-pass-input')" type="button"><span class="material-symbols-outlined text-[18px]">visibility</span></button></div></div><div class="flex flex-col gap-1"><label class="font-label-sm text-label-sm text-on-surface font-medium">Confirm New Password</label><div class="relative"><input class="w-full h-11 px-3.5 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none shadow-sm" id="confirm-pass-input" placeholder="Repeat new password" type="password"/><button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" onclick="togglePassVisibility('confirm-pass-input')" type="button"><span class="material-symbols-outlined text-[18px]">visibility</span></button></div></div></div><div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-2"><div class="flex items-center justify-between text-label-sm font-label-sm"><span class="text-on-surface-variant">Password Strength:</span><span class="font-semibold text-primary" id="strength-label">Strong (Requirements met)</span></div><div class="grid grid-cols-4 gap-1.5 h-1.5 w-full"><div class="rounded-full bg-emerald-600"></div><div class="rounded-full bg-emerald-600"></div><div class="rounded-full bg-emerald-600"></div><div class="rounded-full bg-emerald-600"></div></div></div><button class="self-end px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-2" onclick="showToastNotification('Password updated successfully')"><span class="material-symbols-outlined text-[18px]">lock_reset</span><span>Update Password</span></button></div></div></div></div></div>
+<!-- ========================================================================= -->
+<!-- EDGE STATE: EMPTY STATE VIEW -->
+<!-- ========================================================================= -->
+<div class="hidden flex-col items-center justify-center p-space-xl rounded-2xl bg-surface-container-lowest text-center shadow-sm my-space-lg" id="view-empty-state">
+<div class="w-16 h-16 rounded-2xl bg-secondary-container/60 text-primary flex items-center justify-center mb-space-md shadow-sm">
+<span class="material-symbols-outlined text-[36px]">notifications_paused</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface tracking-tight">You're completely caught up</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-1 mb-space-md">
+      There are no pending operational alerts, stock warnings, or unverified payments requiring your attention right now.
+    </p>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors" onclick="switchPrototypeState('tab-notifications')">
+        Restore active alerts
+      </button>
+<a class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container transition-all" data-path="dashboard" href="#">
+        Go to Dashboard
+      </a>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- EDGE STATE: LOADING SKELETON VIEW -->
+<!-- ========================================================================= -->
+<div class="hidden flex-col gap-space-md animate-pulse" id="view-loading-skeleton">
+<div class="grid grid-cols-1 sm:grid-cols-4 gap-space-md">
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+</div>
+<div class="h-14 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+<div class="h-28 rounded-xl bg-surface-container-high"></div>
+</div>
+<!-- ========================================================================= -->
+<!-- DRAWER OVERLAY & COMPONENT (OUTBOX FAILED SMS INSPECTION) -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 hidden" id="drawer-container-failed">
+<!-- Backdrop scrim -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm transition-opacity" onclick="closeDrawers()"></div>
+<!-- Sliding Drawer Panel -->
+<aside class="absolute right-0 top-0 bottom-0 w-full max-w-xl bg-surface shadow-2xl flex flex-col justify-between overflow-y-auto"><div class="p-space-lg flex flex-col gap-space-md"><div class="flex items-center justify-between pb-space-sm border-b-0"><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-secondary-container text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">forward_to_inbox</span></span><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface font-bold">Message Traceability</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Delivery Audit Record</span></div></div><button class="w-9 h-9 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center" onclick="closeDrawers()"><span class="material-symbols-outlined">close</span></button></div><div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Related Record</span><a class="font-title-md text-title-md text-primary font-bold hover:underline" data-path="orders" href="#">Order #K406-1049</a><span class="font-body-sm text-body-sm text-on-surface-variant">Recipient: Rafael David</span></div><span class="px-2.5 py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">Retry Pending</span></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-3"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Dispatch Audit Details</span><div class="grid grid-cols-2 gap-y-3 gap-x-4 text-body-sm font-body-sm"><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Notification Type</span><span class="text-on-surface font-semibold">Order status update (Baking)</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Recipient</span><span class="text-on-surface font-mono font-semibold">0922 ••• 8810</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Channel</span><span class="text-on-surface font-semibold">SMS</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Provider</span><span class="text-on-surface font-semibold">Semaphore</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Status</span><span class="inline-flex items-center gap-1 font-semibold text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Failed / Retry Pending</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Attempt Count</span><span class="text-on-surface">2 attempts</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Created</span><span class="text-on-surface">Oct 8, 2026 • 11:20 AM</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Last Attempt</span><span class="text-on-surface">Oct 8, 2026 • 11:20 AM</span></div><div class="flex flex-col col-span-2"><span class="text-outline text-label-sm font-label-sm">Next Attempt</span><span class="text-on-surface font-semibold">Oct 8, 2026 • 11:35 AM (Automated)</span></div></div></div><div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-2.5"><span class="material-symbols-outlined text-[18px] text-outline shrink-0 mt-0.5">info</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface font-semibold">Gateway Feedback</span><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Message delivery was temporarily unsuccessful. Carrier queue will automatically retry without manual intervention.</p></div></div></div><div class="p-space-md bg-surface-container flex items-center justify-between"><button class="px-4 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-container-high transition-colors" onclick="closeDrawers()">Close Drawer</button><a class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" data-path="orders" href="#"><span>View related order</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></aside>
+</div>
+<!-- ========================================================================= -->
+<!-- DRAWER OVERLAY & COMPONENT (NOTIFICATION DETAIL: PAYMENT VERIFICATION) -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 hidden" id="drawer-container-notification">
+<!-- Backdrop scrim -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm transition-opacity" onclick="closeDrawers()"></div>
+<!-- Sliding Drawer Panel -->
+<aside class="absolute right-0 top-0 bottom-0 w-full max-w-xl bg-surface shadow-2xl flex flex-col justify-between overflow-y-auto"><div class="p-space-lg flex flex-col gap-space-md"><div class="flex items-center justify-between pb-space-sm border-b-0"><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-secondary-container text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">payment</span></span><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface font-bold">Payment Attempt</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">PayMongo • QR Ph</span></div></div><button class="w-9 h-9 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center" onclick="closeDrawers()"><span class="material-symbols-outlined">close</span></button></div><div class="p-space-md rounded-xl bg-surface-container-low flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Target Order</span><a class="font-headline-md text-headline-md text-primary font-bold hover:underline" data-path="orders" href="#">#K406-1048</a><span class="font-body-sm text-body-sm text-on-surface-variant">Customer: Maria Santos</span></div><div class="text-right"><span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Amount</span><div class="font-headline-md text-headline-md text-on-surface font-bold">₱1,850.00</div></div></div><div class="p-space-md rounded-xl bg-secondary-container/40 flex flex-col gap-2"><div class="flex items-center gap-2 text-primary font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[18px]">info</span><span>Payment Status Message</span></div><p class="font-body-sm text-body-sm text-on-secondary-container">PayMongo was unable to complete this payment attempt. The customer may retry payment while the checkout hold remains valid.</p></div><div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-3"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Payment Details</span><div class="grid grid-cols-2 gap-y-3 gap-x-4 text-body-sm font-body-sm"><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Payment Method</span><span class="text-on-surface font-semibold">QR Ph</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Gateway Provider</span><span class="text-on-surface font-semibold">PayMongo</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Payment Status</span><span class="inline-flex items-center gap-1 font-semibold text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Failed</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Payment Attempt ID</span><span class="text-on-surface font-mono font-medium">PAY-1048-02</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Attempted</span><span class="text-on-surface">Oct 8, 2026 • 3:41 PM</span></div><div class="flex flex-col"><span class="text-outline text-label-sm font-label-sm">Checkout Hold Expires</span><span class="text-on-surface font-semibold">Oct 8, 2026 • 3:56 PM</span></div><div class="flex flex-col col-span-2"><span class="text-outline text-label-sm font-label-sm">Previous Attempts</span><span class="text-on-surface">1 previous attempt</span></div></div></div></div><div class="p-space-md bg-surface-container flex items-center justify-between"><button class="px-4 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-container-high transition-colors" onclick="closeDrawers()">Close Drawer</button><a class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center gap-1" data-path="orders" href="#"><span>View order</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></aside>
+</div>
+<!-- Toast Notification Capsule (Micro-interaction feedback) -->
+<div class="fixed bottom-6 right-8 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toast-capsule">
+<div class="px-4 py-3 rounded-xl bg-on-surface text-inverse-on-surface shadow-xl flex items-center gap-2.5 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px] text-primary-fixed">check_circle</span>
+<span id="toast-message">Action processed</span>
+</div>
+</div>
+</div>
+<!-- Interactive Client-side Orchestration Script -->
+<script>
+  function switchTab(tabId) {
+    const tabs = ['notifications', 'outbox', 'security'];
+    const views = {
+      'notifications': document.getElementById('view-tab-notifications'),
+      'outbox': document.getElementById('view-tab-outbox'),
+      'security': document.getElementById('view-tab-security')
+    };
+
+    // Hide all view containers
+    Object.values(views).forEach(v => {
+      if (v) {
+        v.classList.add('hidden');
+        v.classList.remove('flex');
+      }
+    });
+
+    // Reset tab button stylings
+    tabs.forEach(t => {
+      const btn = document.getElementById('nav-btn-' + t);
+      if (btn) {
+        if (t === tabId) {
+          btn.className = 'tab-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all bg-surface-container-lowest text-on-surface shadow-sm font-semibold';
+        } else {
+          btn.className = 'tab-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface font-normal';
+        }
+      }
+    });
+
+    // Reveal active tab view
+    if (views[tabId]) {
+      views[tabId].classList.remove('hidden');
+      views[tabId].classList.add('flex');
+    }
+
+    // Hide edge state panels if visible
+    const emptyState = document.getElementById('view-empty-state');
+    const loadingSkeleton = document.getElementById('view-loading-skeleton');
+    if (emptyState) emptyState.classList.add('hidden');
+    if (loadingSkeleton) loadingSkeleton.classList.add('hidden');
+  }
+
+  function switchPrototypeState(state) {
+    // Update prototype toolbar button visual highlights
+    document.querySelectorAll('.proto-btn').forEach(btn => {
+      if (btn.getAttribute('data-btn-state') === state) {
+        btn.className = 'proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-primary text-on-primary shadow-sm';
+      } else {
+        btn.className = 'proto-btn px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold transition-all bg-surface-container text-on-surface-variant hover:bg-surface-container-high';
+      }
+    });
+
+    // Close drawers first
+    closeDrawers();
+
+    const emptyView = document.getElementById('view-empty-state');
+    const skeletonView = document.getElementById('view-loading-skeleton');
+
+    if (state === 'tab-notifications') {
+      switchTab('notifications');
+    } else if (state === 'tab-outbox') {
+      switchTab('outbox');
+    } else if (state === 'drawer-outbox-failed') {
+      switchTab('outbox');
+      openOutboxDrawer('failed-sms');
+    } else if (state === 'tab-security') {
+      switchTab('security');
+    } else if (state === 'drawer-notification-detail') {
+      switchTab('notifications');
+      openNotificationDrawer('payment');
+    } else if (state === 'empty') {
+      // Hide standard tabs, reveal empty
+      ['view-tab-notifications', 'view-tab-outbox', 'view-tab-security', 'view-loading-skeleton'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      if (emptyView) {
+        emptyView.classList.remove('hidden');
+        emptyView.classList.add('flex');
+      }
+    } else if (state === 'loading') {
+      ['view-tab-notifications', 'view-tab-outbox', 'view-tab-security', 'view-empty-state'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      if (skeletonView) {
+        skeletonView.classList.remove('hidden');
+        skeletonView.classList.add('flex');
+      }
+      setTimeout(() => {
+        if (!skeletonView.classList.contains('hidden')) {
+          switchPrototypeState('tab-notifications');
+          showToastNotification('State synced successfully');
+        }
+      }, 900);
+    }
+  }
+
+  function openOutboxDrawer(reference) {
+    const drawer = document.getElementById('drawer-container-failed');
+    if (drawer) drawer.classList.remove('hidden');
+  }
+
+  function openNotificationDrawer(type) {
+    const drawer = document.getElementById('drawer-container-notification');
+    if (drawer) drawer.classList.remove('hidden');
+  }
+
+  function closeDrawers() {
+    const d1 = document.getElementById('drawer-container-failed');
+    const d2 = document.getElementById('drawer-container-notification');
+    if (d1) d1.classList.add('hidden');
+    if (d2) d2.classList.add('hidden');
+  }
+
+  function markAllNotificationsAsRead() {
+    const cards = document.querySelectorAll('.notification-card');
+    cards.forEach(card => {
+      card.setAttribute('data-card-read', 'true');
+      card.classList.remove('bg-surface-container-lowest');
+      card.classList.add('bg-surface-container-low', 'opacity-90');
+      const dot = card.querySelector('.rounded-full.bg-primary');
+      if (dot) {
+        dot.classList.remove('bg-primary');
+        dot.classList.add('bg-outline-variant');
+      }
+      const label = card.querySelector('.text-primary.font-semibold');
+      if (label && label.textContent.trim() === 'Unread') {
+        label.className = 'font-label-sm text-label-sm text-on-surface-variant';
+        label.textContent = 'Read';
+      }
+    });
+    showToastNotification('All 6 notifications marked as read');
+  }
+
+  function setFeedReadFilter(filter, el) {
+    document.querySelectorAll('.feed-read-chip').forEach(chip => {
+      chip.className = 'feed-read-chip px-3 py-1.5 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium transition-colors';
+    });
+    el.className = 'feed-read-chip px-3 py-1.5 rounded font-label-sm text-label-sm bg-surface-container-lowest text-on-surface font-semibold shadow-sm transition-all';
+
+    const cards = document.querySelectorAll('.notification-card');
+    cards.forEach(card => {
+      const isRead = card.getAttribute('data-card-read') === 'true';
+      if (filter === 'all') {
+        card.classList.remove('hidden');
+      } else if (filter === 'unread') {
+        if (!isRead) card.classList.remove('hidden');
+        else card.classList.add('hidden');
+      } else if (filter === 'read') {
+        if (isRead) card.classList.remove('hidden');
+        else card.classList.add('hidden');
+      }
+    });
+  }
+
+  function filterNotificationFeed() {
+    const select = document.getElementById('module-filter-select');
+    const module = select ? select.value : 'all';
+    const cards = document.querySelectorAll('.notification-card');
+    cards.forEach(card => {
+      const cardModule = card.getAttribute('data-card-module');
+      if (module === 'all' || cardModule === module) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  function resetNotificationFilters() {
+    const select = document.getElementById('module-filter-select');
+    if (select) select.value = 'all';
+    const search = document.getElementById('notification-search-input');
+    if (search) search.value = '';
+    const allChip = document.querySelector('.feed-read-chip');
+    if (allChip) setFeedReadFilter('all', allChip);
+    filterNotificationFeed();
+    showToastNotification('Filters reset');
+  }
+
+  function triggerImmediateRetry() {
+    const btn = document.getElementById('btn-retry-dispatch');
+    if (btn) {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">sync</span> Re-dispatching...';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Dispatched';
+        showToastNotification('Semaphore SMS re-queued with high priority');
+        setTimeout(() => closeDrawers(), 600);
+      }, 1000);
+    }
+  }
+
+  function verifyPaymentAction() {
+    closeDrawers();
+    showToastNotification('Order #K406-1048 payment verified. Baking order queued.');
+  }
+
+  function togglePassVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+  }
+
+  function updatePassStrength(val) {
+    const label = document.getElementById('strength-label');
+    if (!label) return;
+    if (val.length === 0) {
+      label.textContent = 'Enter passphrase';
+      label.className = 'font-semibold text-outline';
+    } else if (val.length < 8) {
+      label.textContent = 'Too short';
+      label.className = 'font-semibold text-error';
+    } else if (val.length >= 10 && /\d/.test(val)) {
+      label.textContent = 'Strong (All requirements met)';
+      label.className = 'font-semibold text-emerald-700';
+    } else {
+      label.textContent = 'Moderate';
+      label.className = 'font-semibold text-primary';
+    }
+  }
+
+  function showToastNotification(msg) {
+    const toast = document.getElementById('toast-capsule');
+    const msgEl = document.getElementById('toast-message');
+    if (toast && msgEl) {
+      msgEl.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+  }
+</script></main></div></body></html>

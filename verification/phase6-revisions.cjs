@@ -50,7 +50,7 @@
  await check('order.attempts[0].state==="cancelled"&&A.checkoutHolds.get(order.attempts[0]).status==="released"','standard cancellation closes active payment and hold');
  await reset();await run('K.sampleDraft();window.request=K.submit();A.session.enter();A.ownerCakes.issue(request.id,{date:request.snapshot.date,window:request.snapshot.window,method:"pickup",complexity:0,fee:0,expiry:Date.now()+86400000,notes:"Review"},0,"cancel-cake");window.q=K.versions(request)[0];A.session.leave();window.order=K.accept(q);K.cancel(order)');
  await check('order.attempts[0].state==="cancelled"&&A.checkoutHolds.get(order.attempts[0]).status==="released"','cake cancellation closes active payment and hold');
- await reset();await run('A.session.enter();I.items.forEach(i=>i.cost=0.01);A.ownerInventory.openRecipe(1,"standard")');
+ await reset();await run('A.session.enter()');await pause();await run('I.items.forEach(i=>i.cost=0.01);A.ownerInventory.openRecipe(1,"standard")');
  await check('document.querySelector("#owner-overhead-mode").value==="default"&&document.querySelector("#owner-overhead").disabled','recipe form defaults to explicit inheritance');
  await run('document.querySelector("[data-owner-form=recipe]").requestSubmit();A.pricing.overhead=50');
  await check('!A.pricing.overheads.has("1:standard")&&A.pricing.cost(1,"standard").overhead===50','saving recipe form retains default inheritance');

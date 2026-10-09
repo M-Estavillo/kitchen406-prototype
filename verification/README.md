@@ -1,5 +1,49 @@
 # Browser verification
 
+## Phase 7 paper-alignment revisions — October 9, 2026
+
+See the [revision record](../docs/phase-7-paper-alignment-revisions.md). All suites below passed using local Node and Chrome; no real provider transactions were made.
+
+| Suite | Passing checks |
+| --- | --- |
+| `phase7-alignment-browser.cjs` | 37: prices, ratings, all four marketing events, deduplication, stale-context approval, notification identities and quotation attempts, account verification/setup, and responsive reports |
+| `phase7-state.cjs` | 8: reporting reconciliation, successful-payment timestamps across midnight, missing timestamps, weekdays, and access guard |
+| `phase7-browser.cjs` | 129 |
+| `owner-browser.cjs` / `owner-integration.cjs` | 78 / 32 |
+| `phase6-revisions.cjs` | 23 |
+| `phase2-browser.cjs` | 95 |
+| `subscription-browser.cjs` / `subscription-state.cjs` | 71 / 13 |
+| `phase4-browser.cjs` / `phase4-state.cjs` | 144 / 28 |
+
+Browser suites reported no uncaught exceptions. Application JavaScript syntax checks pass. Report screenshots were visually reviewed at [1440 pixels](phase7-reports-1440.png) and [390 pixels](phase7-reports-390.png). Existing Phase 7 routes were also checked at 768 and 320 pixels.
+
+The Phase 6 recipe-dialog test now waits for owner navigation before opening its modal, eliminating a route-change race without weakening the assertions. Marketing image regeneration is explicitly a simulated request, not a generated image; external services and persistence remain outside these tests.
+
+## Phase 7 integration — October 9, 2026
+
+See the [implementation handoff](../docs/phase-7-implementation.md) for routes, architecture, and prototype limits. Executed with Node 22 and isolated headless Chrome; CDP browser suites run sequentially against port 9222.
+
+| Suite | Passing checks |
+| --- | ---: |
+| `phase7-browser.cjs` | 129 |
+| `phase7-state.cjs` | 5 |
+| `owner-browser.cjs` | 78 |
+| `owner-integration.cjs` | 32 |
+| `phase6-revisions.cjs` | 23 |
+| `phase5-browser.cjs` | 63 |
+| `phase5-revisions.cjs` | 32 |
+| `phase2-browser.cjs` | 95 |
+| `subscription-state.cjs` | 13 |
+| `subscription-browser.cjs` | 71 |
+| `phase4-state.cjs` | 28 |
+| `phase4-browser.cjs` | 144 |
+
+The new checks cover all Phase 7 pages at 1440, 768, 390, and 320 px; shared authentication and restricted staff setup; selected-record editors; catalog/category/ingredient/cake mutations; stale prices and cart acceptance; purchased-item feedback; moderation and public rendering; draft review; reporting reconciliation; notification identity/read state; owner OTP; and reset. Completed browser suites reported no uncaught exceptions. Application scripts pass `node --check`, and `git diff --check` reports no whitespace errors.
+
+Fresh screenshots: [owner products desktop](phase7-products-1440.png), [owner products mobile](phase7-products-390.png). Both use the existing application shell and shared workspace components.
+
+The Phase 4 browser test now uses the existing `assets/custom-cake.png` instead of a missing upload fixture. Customer add-on controls are connected to the shared Phase 7 configuration. The full 144-check cake/account suite now passes; earlier selector-drift notes below are historical. The older storefront smoke/edge suites were not rerun or claimed as passing in this integration.
+
 ## Phase 6 paper revisions - October 7, 2026
 
 Fresh verification after the [paper-review fixes](../docs/phase-6-paper-revisions.md): **435 passing checks across nine suites**.

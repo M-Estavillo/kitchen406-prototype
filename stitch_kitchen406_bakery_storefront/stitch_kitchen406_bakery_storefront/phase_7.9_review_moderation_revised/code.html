@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "error-container": "#ffdad6", "on-primary-fixed": "#311300", "surface-dim": "#dbdad7", "surface-container-high": "#eae8e5", "inverse-on-surface": "#f2f1ed", "secondary": "#635d59", "on-surface": "#1b1c1a", "on-tertiary-fixed": "#1f1b16", "on-secondary": "#ffffff", "surface-container-highest": "#e4e2df", "surface": "#fbf9f6", "primary-container": "#8d4a14", "surface-variant": "#e4e2df", "primary": "#6f3400", "on-surface-variant": "#53433a", "surface-container-lowest": "#ffffff", "background": "#fbf9f5", "inverse-primary": "#ffb787", "inverse-surface": "#30312e", "on-secondary-fixed-variant": "#4b4642", "secondary-fixed-dim": "#cdc5c0", "surface-container": "#efeeeb", "tertiary-container": "#615a54", "on-error": "#ffffff", "primary-fixed-dim": "#ffb786", "on-secondary-fixed": "#1f1b18", "on-tertiary-fixed-variant": "#4c4640", "on-secondary-container": "#69635f", "on-primary-container": "#ffc9a8", "on-tertiary-container": "#dcd2ca", "outline": "#867368", "on-background": "#1b1c1a", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "surface-container-low": "#f5f3f0", "on-primary-fixed-variant": "#723600", "surface-bright": "#fbf9f6", "outline-variant": "#d9c2b5", "secondary-container": "#eae1dc", "tertiary": "#49433d", "tertiary-fixed-dim": "#cfc5bd", "on-primary": "#ffffff", "primary-fixed": "#ffdcc7", "error": "#ba1a1a", "surface-tint": "#904d17", "tertiary-fixed": "#ebe1d9", "secondary-fixed": "#eae1db" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter": "1.5rem", "gutter-sm": "1rem", "space-lg": "1.5rem", "margin": "2rem", "space-md": "1rem", "margin-sm": "1rem", "space-sm": "0.5rem", "space-xl": "2.5rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "price-md": ["Plus Jakarta Sans"], "title-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "price-lg": ["Plus Jakarta Sans"], "display-mobile": ["Playfair Display"], "headline-lg": ["Playfair Display"], "headline-lg-mobile": ["Playfair Display"], "display": ["Playfair Display"], "label-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "price-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }], "title-sm": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "price-lg": ["20px", { "lineHeight": "26px", "fontWeight": "600" }], "display-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }], "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low flex flex-col justify-between z-50 shadow-[0_1px_8px_rgba(83,68,58,0.06)]"><div class="flex flex-col flex-1 min-h-0"><div class="px-6 py-5 flex items-center gap-3 bg-surface-container-low"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">bakery_dining</span></div><div><span class="font-headline-md text-title-md tracking-tight text-on-surface font-semibold block leading-none">Kitchen406</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-primary font-bold block mt-1">Owner Portal</span></div></div><div class="flex-1 overflow-y-auto px-4 py-2 space-y-6"><div class="space-y-1"><div class="px-3 mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold opacity-70">Operations</span></div><nav class="space-y-0.5" data-active-classes="bg-secondary-container text-on-surface font-semibold"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="inventory" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="recipes-costing" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[20px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[20px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Scheduling</span></a></nav></div><div class="space-y-1"><div class="px-3 mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold opacity-70">Management</span></div><nav class="space-y-0.5" data-active-classes="bg-secondary-container text-on-surface font-semibold"><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="products" href="#"><span class="material-symbols-outlined text-[20px]">storefront</span><span>Products</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="categories" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span>Categories</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[20px]">grocery</span><span>Ingredients</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="cake-options-addons" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[20px]">celebration</span><span>Seasonal Occasions</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Customer Accounts</span></a><a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors bg-secondary-container text-on-surface font-semibold" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[20px]">rate_review</span><span>Review Moderation</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span>Reports</span></a></nav></div></div></div><div class="p-4 bg-surface-container-low"><div class="bg-surface-container-lowest px-4 py-3 rounded-lg flex items-center justify-between shadow-[0_1px_4px_rgba(83,68,58,0.04)]"><div class="flex items-center gap-2.5"><span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span><div><span class="font-title-sm text-title-sm text-on-surface font-semibold block leading-tight">Kitchen406</span><span class="font-label-sm text-label-sm text-primary font-medium block">Open • Online</span></div></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">store</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-8 shadow-[0_1px_8px_rgba(83,68,58,0.04)]"><div class="flex items-center w-96"><div class="w-full flex items-center bg-surface-container-low px-3.5 py-1.5 rounded-lg gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">search</span><span class="font-body-sm text-body-sm text-on-surface-variant flex-1 select-none">Search records, orders, reviews...</span><kbd class="font-label-sm text-label-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant font-semibold">⌘K</kbd></div></div><div class="flex items-center gap-5"><button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors relative"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-3 pl-2"><div class="text-right hidden sm:block"><span class="font-title-sm text-title-sm text-on-surface block leading-tight">Maria Elena</span><span class="font-label-sm text-label-sm text-primary uppercase font-bold block">OWNER</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 px-8 min-h-screen bg-surface"><div class="flex flex-col w-full pb-16">
+<!-- Prototype Mode Switcher Bar -->
+<aside aria-label="Preview states (Prototype controls)" class="mb-6 bg-surface-container-low p-2.5 rounded-xl flex flex-wrap items-center justify-between gap-3 shadow-sm"><div class="flex items-center gap-2"><span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary-container text-on-primary"><span class="material-symbols-outlined text-[15px]">tune</span></span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Preview states (Prototype controls)</span></div><div class="flex flex-wrap items-center gap-1.5" id="prototype-bar"><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md bg-secondary-container text-on-surface shadow-xs transition-colors" data-state="drawer-visible" onclick="setPrototypeState('drawer-visible')">Main Review List (Visible Selected)</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="hide-modal-initial" onclick="setPrototypeState('hide-modal-initial')">Hide Reason Modal (Initial - Disabled)</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="hide-modal-other" onclick="setPrototypeState('hide-modal-other')">Hide Reason Modal (Other Selected)</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="drawer-hidden" onclick="setPrototypeState('drawer-hidden')">Hidden Review Selected (Moderation Details)</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="restore-modal" onclick="setPrototypeState('restore-modal')">Restore Review Modal</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="empty-first-use" onclick="setPrototypeState('empty-first-use')">No Reviews Yet</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="empty-filters" onclick="setPrototypeState('empty-filters')">No Filter Results</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="empty-hidden" onclick="setPrototypeState('empty-hidden')">No Hidden Reviews</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="loading" onclick="setPrototypeState('loading')">Loading Skeleton</button><button class="proto-btn px-2.5 py-1 rounded text-body-sm font-label-md text-on-surface-variant hover:bg-surface-container transition-colors" data-state="error" onclick="setPrototypeState('error')">Error State</button></div></aside>
+<!-- Breadcrumb & Header Section -->
+<section class="flex flex-col gap-1 mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span>Management</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Review Moderation</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-2">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Review Moderation</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1.5 max-w-3xl">
+          Review verified customer feedback and manage what appears on the storefront. Reviews remain visible unless they contain inappropriate, spam, or irrelevant content.
+        </p>
+</div>
+<div class="flex items-center gap-2 self-start md:self-auto">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-primary">policy</span><span>Owner Moderation</span></span>
+</div>
+</div>
+</section>
+<!-- 1. SUMMARY OVERVIEW: Four Compact Stat Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Total Reviews</span>
+<p class="font-headline-lg text-headline-lg text-on-surface font-semibold mt-1">128</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">reviews</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-3">All submitted feedback from verified purchases</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Visible</span>
+<p class="font-headline-lg text-headline-lg text-on-surface font-semibold mt-1">121</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[22px]">visibility</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 mt-3 text-body-sm font-body-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Active on customer storefront (94.5%)</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Hidden</span>
+<p class="font-headline-lg text-headline-lg text-primary font-semibold mt-1">7</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-[22px]">visibility_off</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-3">Moderated from storefront display</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">With Photos</span>
+<p class="font-headline-lg text-headline-lg text-on-surface font-semibold mt-1">46</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-3">Contains customer-uploaded images (36%)</p>
+</div>
+</section>
+<!-- 2. SEARCH & FILTER TOOLBAR -->
+<section class="bg-surface-container-lowest p-4 rounded-xl shadow-sm mb-6 flex flex-col gap-4">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+<!-- Search Input -->
+<div class="md:col-span-5 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-11 pl-10 pr-12 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary shadow-xs" placeholder="Search product, customer, order, or review..." type="text"/>
+<kbd class="absolute right-3 top-1/2 -translate-y-1/2 font-label-sm text-label-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">⌘K</kbd>
+</div>
+<!-- Quick Filter Chips & Selectors -->
+<div class="md:col-span-7 flex flex-wrap items-center justify-start md:justify-end gap-2">
+<!-- Status Filter -->
+<div class="flex items-center bg-surface-container-low rounded-lg p-1">
+<button class="px-3 py-1.5 rounded font-label-sm text-label-sm bg-surface-container-lowest text-on-surface shadow-xs font-semibold">All</button>
+<button class="px-3 py-1.5 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface">Visible</button>
+<button class="px-3 py-1.5 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface">Hidden (7)</button>
+</div>
+<!-- Rating Filter -->
+<select class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Ratings</option>
+<option>5 Stars ★★★★★</option>
+<option>4 Stars ★★★★☆</option>
+<option>3 Stars ★★★☆☆</option>
+<option>2 Stars ★★☆☆☆</option>
+<option>1 Star ★☆☆☆☆</option>
+</select>
+<!-- Photo Filter -->
+<select class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Media</option>
+<option>With Photos (46)</option>
+<option>Without Photos</option>
+</select>
+<!-- Sort dropdown -->
+<select class="h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Newest First</option>
+<option>Oldest First</option>
+<option>Highest Rated</option>
+<option>Lowest Rated</option>
+</select>
+<!-- Clear filters button -->
+<button class="h-11 px-3 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low font-label-sm text-label-sm transition-colors flex items-center gap-1" title="Reset all filters">
+<span class="material-symbols-outlined text-[16px]">clear_all</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+</section>
+<!-- DYNAMIC VIEW CONTAINER -->
+<div id="content-container">
+<!-- Main Review List Table Area -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col" id="table-view-section">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3.5 px-6 font-bold" scope="col">Reviewer &amp; Content Preview</th>
+<th class="py-3.5 px-4 font-bold" scope="col">Product &amp; Variant</th>
+<th class="py-3.5 px-4 font-bold" scope="col">Order Ref</th>
+<th class="py-3.5 px-4 font-bold" scope="col">Submitted</th>
+<th class="py-3.5 px-4 font-bold" scope="col">Status</th>
+<th class="py-3.5 px-6 text-right font-bold" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container"><!-- Row 1: Maria Santos (Selected Row) --><tr class="bg-secondary-container/30 hover:bg-secondary-container/50 transition-colors cursor-pointer" id="row-1" onclick="openDetailDrawer('maria')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">MS</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Maria Santos</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">5.0</span></div><p class="font-body-md text-body-md text-on-surface mt-1.5 line-clamp-2">“The sourdough was fresh and had a really nice crust. Will definitely order again.”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-surface-variant bg-surface-container px-2 py-0.5 rounded font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">photo_library</span>2 photos</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Classic Sourdough</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Large • Sliced</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1048</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Oct 6, 2026<br/><span class="opacity-70">10:14 AM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Visible</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('maria')">View</button></td></tr><!-- Row 2: Andrea Lim --><tr class="hover:bg-surface-container/40 transition-colors cursor-pointer" onclick="openDetailDrawer('andrea')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">AL</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Andrea Lim</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">4.0</span></div><p class="font-body-md text-body-md text-on-surface mt-1.5 line-clamp-2">“Loved the ensaymada. It was soft and not overly sweet. Paired well with morning coffee.”</p></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Classic Ensaymada</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Box of 6</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1037</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Oct 4, 2026<br/><span class="opacity-70">3:22 PM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Visible</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('andrea')">View</button></td></tr><!-- Row 3: Paolo R. (Critical Review Kept Visible) --><tr class="hover:bg-surface-container/40 transition-colors cursor-pointer" onclick="openDetailDrawer('paolo')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">PR</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Paolo R.</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">1.0</span></div><p class="font-body-md text-body-md text-on-surface mt-1.5 line-clamp-2">“The bread was smaller than I expected based on the photos. Texture was alright but portion disappointed.”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-surface-variant bg-surface-container px-2 py-0.5 rounded font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">photo_camera</span>1 photo</span><span class="font-body-sm text-body-sm text-on-surface-variant italic">Honest critique remains visible</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Milk Bread</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Loaf</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1029</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Oct 2, 2026<br/><span class="opacity-70">11:08 AM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Visible</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('paolo')">View</button></td></tr><!-- Row 4: Camille Santos --><tr class="hover:bg-surface-container/40 transition-colors cursor-pointer" onclick="openDetailDrawer('camille')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">CS</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Camille Santos</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">5.0</span></div><p class="font-body-md text-body-md text-on-surface mt-1.5 line-clamp-2">“Ordering custom birthday cake was smooth. The ube sponge was delightfully moist.”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-surface-variant bg-surface-container px-2 py-0.5 rounded font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">photo_library</span>2 photos</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Ube Velvet Cake</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">8-inch Round</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1021</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Sep 30, 2026<br/><span class="opacity-70">4:40 PM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Visible</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('camille')">View</button></td></tr><!-- Row 5: Carlo Mendoza (Hidden Row - Real Verified Purchase) --><tr class="bg-error-container/10 hover:bg-error-container/20 transition-colors cursor-pointer" onclick="openDetailDrawer('carlo')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">CM</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Carlo Mendoza</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">2.0</span></div><p class="font-body-md text-body-md text-on-surface-variant font-mono text-body-sm mt-1.5 line-clamp-2">“BUY CHEAP REPLICA WATCHES &amp; SHOES AT HTTP://DISCOUNT-DEALS.XYZ...”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-error-container bg-error-container/40 px-2 py-0.5 rounded font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">block</span>Reason: Spam • Moderated by Maria Elena (Owner)</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Cinnamon Rolls</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Box of 4</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1016</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Sep 29, 2026<br/><span class="opacity-70">1:19 AM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>Hidden</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('carlo')">View</button></td></tr><!-- Row 6: Rafael David --><tr class="hover:bg-surface-container/40 transition-colors cursor-pointer" onclick="openDetailDrawer('rafael')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">RD</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Rafael David</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">5.0</span></div><p class="font-body-md text-body-md text-on-surface mt-1.5 line-clamp-2">“Consistent artisan quality every Saturday delivery. The country loaf crust is unbeatable.”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-surface-variant bg-surface-container px-2 py-0.5 rounded font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">photo_camera</span>1 photo</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Country Sourdough Loaf</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Whole Artisan Loaf</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-1008</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Sep 27, 2026<br/><span class="opacity-70">9:45 AM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Visible</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('rafael')">View</button></td></tr><!-- Row 7: Patricia Gomez (Hidden Row - Real Verified Purchase) --><tr class="bg-error-container/10 hover:bg-error-container/20 transition-colors cursor-pointer" onclick="openDetailDrawer('patricia')"><td class="py-4 px-6 align-top"><div class="flex items-start gap-3.5"><div class="w-9 h-9 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-title-sm text-title-sm font-semibold shrink-0">PG</div><div class="min-w-0 max-w-md"><div class="flex items-center gap-2 flex-wrap"><span class="font-title-sm text-title-sm text-on-surface font-semibold">Patricia Gomez</span><span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-medium"><span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>Verified Purchase</span></div><div class="flex items-center gap-0.5 text-primary-container mt-1"><span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="material-symbols-outlined text-[16px] text-surface-container-highest">star</span><span class="font-body-sm text-body-sm font-semibold text-on-surface-variant ml-1.5">1.0</span></div><p class="font-body-md text-body-md text-on-surface-variant mt-1.5 line-clamp-2">“Profane and abusive insults directed at delivery personnel...”</p><div class="mt-2 flex items-center gap-2"><span class="inline-flex items-center gap-1 text-on-error-container bg-error-container/40 px-2 py-0.5 rounded font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">block</span>Reason: Abusive language • Moderated by Maria Elena (Owner)</span></div></div></div></td><td class="py-4 px-4 align-top"><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Brioche Loaf</span><span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Sliced Loaf</span></td><td class="py-4 px-4 align-top"><a class="font-label-md text-label-md text-primary font-semibold hover:underline block leading-tight" href="#">#K406-0994</a><span class="font-body-sm text-body-sm text-on-surface-variant">Storefront Order</span></td><td class="py-4 px-4 align-top font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Sep 25, 2026<br/><span class="opacity-70">6:12 PM</span></td><td class="py-4 px-4 align-top whitespace-nowrap"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>Hidden</span></td><td class="py-4 px-6 align-top text-right whitespace-nowrap"><button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-colors" onclick="event.stopPropagation(); openDetailDrawer('patricia')">View</button></td></tr></tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="p-4 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+          Showing <span class="font-semibold text-on-surface">1–7</span> of <span class="font-semibold text-on-surface">128</span> reviews
+        </span>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant bg-surface-container-lowest hover:bg-surface-container font-label-sm text-label-sm disabled:opacity-50 transition-colors" disabled="">Previous</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold flex items-center justify-center shadow-xs">1</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center transition-colors">3</button>
+<span class="px-1 text-on-surface-variant font-body-sm text-body-sm">…</span>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center transition-colors">7</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface bg-surface-container-lowest hover:bg-surface-container font-label-sm text-label-sm transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Empty State View -->
+<!-- 1. Empty State: No Filter Results --><div class="hidden bg-surface-container-lowest rounded-xl p-12 text-center shadow-sm flex flex-col items-center justify-center max-w-xl mx-auto my-8" id="empty-filters-section"><div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">filter_list_off</span></div><h2 class="font-headline-md text-headline-md text-on-surface">No reviews match these filters</h2><p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-sm">Try changing or clearing your search and filters to view customer feedback.</p><button class="mt-6 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-xs" onclick="setPrototypeState('drawer-visible')">Clear filters</button></div><!-- 2. Empty State: First Use (No Reviews Yet) --><div class="hidden bg-surface-container-lowest rounded-xl p-12 text-center shadow-sm flex flex-col items-center justify-center max-w-xl mx-auto my-8" id="empty-first-use-section"><div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">reviews</span></div><h2 class="font-headline-md text-headline-md text-on-surface">No customer reviews yet</h2><p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-sm">Reviews from completed purchases will appear here once customers submit feedback.</p></div><!-- 3. Empty State: No Hidden Reviews --><div class="hidden bg-surface-container-lowest rounded-xl p-12 text-center shadow-sm flex flex-col items-center justify-center max-w-xl mx-auto my-8" id="empty-hidden-section"><div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-surface mb-4"><span class="material-symbols-outlined text-[32px]">check_circle</span></div><h2 class="font-headline-md text-headline-md text-on-surface">No hidden reviews</h2><p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-sm">Reviews hidden through moderation will appear here.</p><button class="mt-6 px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors shadow-xs" onclick="setPrototypeState('drawer-visible')">View all reviews</button></div>
+<!-- Loading Skeleton View -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4 animate-pulse" id="loading-skeleton-section">
+<div class="h-6 w-48 bg-surface-container rounded"></div>
+<div class="space-y-4">
+<div class="h-16 bg-surface-container-low rounded-lg"></div>
+<div class="h-16 bg-surface-container-low rounded-lg"></div>
+<div class="h-16 bg-surface-container-low rounded-lg"></div>
+<div class="h-16 bg-surface-container-low rounded-lg"></div>
+</div>
+</div>
+<!-- Error State View -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-12 text-center shadow-sm flex flex-col items-center justify-center max-w-xl mx-auto my-8" id="error-state-section">
+<div class="w-16 h-16 rounded-full bg-error-container text-on-error-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[32px]">error</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Failed to Load Reviews</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-sm">
+        A temporary network error prevented records from loading. Original moderation logs are safe.
+      </p>
+<button class="mt-6 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-xs flex items-center gap-2" onclick="setPrototypeState('drawer-visible')">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+        Retry Connection
+      </button>
+</div>
+</div>
+<!-- 4. REVIEW DETAIL DRAWER (Slide-over panel, w-[480px]) -->
+<aside class="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-surface-container-lowest z-50 shadow-2xl flex flex-col overflow-hidden transition-transform duration-300 transform translate-x-0" id="review-drawer">
+<!-- Drawer Header -->
+<div class="p-6 bg-surface-container-low flex items-start justify-between gap-4">
+<div class="flex items-start gap-3.5">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-md text-headline-md font-semibold shrink-0" id="drawer-avatar">
+          MS
+        </div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-title-md text-title-md text-on-surface font-semibold" id="drawer-name">Maria Santos</h2>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] bg-secondary-container text-on-surface font-label-sm font-semibold" id="drawer-verified-chip">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Verified Purchase
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="drawer-submitted">
+            Submitted Oct 6, 2026 at 10:14 AM
+          </p>
+<div class="mt-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold" id="drawer-status-chip">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              Visible on Storefront
+            </span>
+</div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="closeDetailDrawer()" title="Close Drawer">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Body -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6"><!-- Administrative Hidden Banner (Visible only for hidden reviews) --><div class="hidden p-4 rounded-xl bg-error-container text-on-error-container flex items-start gap-3 shadow-xs" id="drawer-hidden-banner"><span class="material-symbols-outlined text-[20px] text-error shrink-0 mt-0.5">visibility_off</span><div><span class="font-title-sm text-title-sm font-semibold block">Hidden from storefront</span><p class="font-body-sm text-body-sm mt-0.5 leading-normal">Customers can no longer see this review. The original feedback remains preserved for administrative reference.</p></div></div><!-- Star Rating Block --><div class="bg-surface-container-low/60 p-4 rounded-xl"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Customer Rating</span><span class="font-label-sm text-label-sm text-on-surface-variant opacity-75">Read Only</span></div><div class="flex items-center gap-2 mt-2"><div class="flex items-center gap-1 text-primary-container" id="drawer-stars"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span></div><span class="font-title-md text-title-md font-bold text-on-surface" id="drawer-score">5 out of 5 stars</span></div></div><!-- Review Text --><div id="drawer-comment-wrapper"><label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold block mb-2">Customer Feedback</label><blockquote class="p-4 rounded-xl bg-surface text-on-surface font-body-lg text-body-lg italic leading-relaxed" id="drawer-comment">“The sourdough was fresh and had a really nice crust. Will definitely order again.”</blockquote></div><!-- Attached Photos Block --><div id="drawer-photos-section"><div class="flex items-center justify-between mb-2.5"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold" id="drawer-photos-count">Attached Photos (2)</span><span class="font-label-sm text-label-sm text-primary font-medium cursor-pointer">Click to inspect</span></div><div class="grid grid-cols-2 gap-3" id="drawer-photos-grid"><div class="group relative rounded-lg overflow-hidden cursor-pointer aspect-square bg-surface-container shadow-xs" onclick="setPrototypeState('lightbox')"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Artisan sourdough loaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA66L7s2lvrwDHL9l4RQtiSn1TMAz5Ig82eheN2o3aVD-oJ6O6galUu6LpPI8_mLadqCOOm3ed6ZmwBDWMGUFGKwqoi5XdqES14TvN3oOQ2Zv-0utfVIQPVVF0dF5zZwKtNad_AV9OkN1sWM4tbSHd5Bm3a-Rtm87tV3eIkoPYuNxDxmvGReUkXEpVOeKEfbnUteDrL5jEMMB88PjFznW1P8xxhlkoc6SgtiDeAIcxP"/><div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center text-on-primary transition-opacity"><span class="material-symbols-outlined text-[26px]">zoom_in</span></div><span class="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[11px] bg-inverse-surface/75 text-inverse-on-surface font-label-sm">Photo 1 of 2</span></div><div class="group relative rounded-lg overflow-hidden cursor-pointer aspect-square bg-surface-container shadow-xs" onclick="setPrototypeState('lightbox')"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Open crumb sourdough" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXiISihA5FjI3w3e5HYSHlhzQpMAqlEKt9mgiJYbRvAwCDFF6IM2pdwKu1yOPIap2k4ZOS7ucfthE4RZ-ZMfZk2wNaK_Kz0mGAnI6MEuWsyTy-j60vA5KLEBZ6mFrZoqT9vq7YZqZSPpAhnIm48E4ELgYzzBczIgCqPUJk69wmUHE49JQsiQyr6igO3XDoqs78Z4RP_0RGN7HEhFzPtP8ietkSKCFLb43aAcJ6kpXa"/><div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 flex items-center justify-center text-on-primary transition-opacity"><span class="material-symbols-outlined text-[26px]">zoom_in</span></div><span class="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[11px] bg-inverse-surface/75 text-inverse-on-surface font-label-sm">Photo 2 of 2</span></div></div></div><!-- Verified Order Item Details --><div class="bg-surface-container-low p-4 rounded-xl space-y-3"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold block">Verified Order Item</span><div class="flex items-start gap-3"><div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden shrink-0"><img class="w-full h-full object-cover" data-alt="Product preview" id="drawer-product-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAcsYSCNEPpFb8sBJPEs_bkmR5dqFt7NvFxJclOBAP3rV1WkPQg6HVDCxfJS_6yecg5HK_FNQY7O6prr4K2fsuY125kGPOrG8CHznkWF90DrEpcFwjTqGzrz1WMQasN1qimXZ8k2R_0iQem3zJu3nqy0Kxo7eZNl_ADiljKPS2SNw1W-JcLFiG-Xs5TdDND4PSe6gt34D0TbJtyjcjxuMb6Qan_Vv30pfBjToASYQx"/></div><div class="flex-1 min-w-0"><h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate" id="drawer-product-title">Classic Sourdough</h3><p class="font-body-sm text-body-sm text-on-surface-variant" id="drawer-product-variant">Variant: Large • Sliced (Qty: 1)</p></div></div><div class="pt-2 text-body-sm font-body-sm space-y-1 text-on-surface-variant"><div class="flex justify-between items-center"><span>Order Reference:</span><a class="font-title-sm text-title-sm text-primary font-bold hover:underline flex items-center gap-1" href="#"><span id="drawer-order-ref">#K406-1048</span><span class="material-symbols-outlined text-[14px]">open_in_new</span></a></div><div class="flex justify-between items-center"><span>Order Completed:</span><span class="text-on-surface" id="drawer-order-date">October 5, 2026</span></div></div><div class="p-2.5 rounded-lg bg-surface-container text-body-sm font-body-sm text-on-surface-variant flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary shrink-0">verified</span><span id="drawer-verified-footer-note">Feedback submitted from completed storefront order #K406-1048.</span></div></div><!-- Moderation Details Block (Hidden reviews only) --><div class="hidden bg-surface-container-low p-4 rounded-xl space-y-2.5" id="drawer-moderation-details"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold block">Moderation details</span><div class="space-y-1.5 text-body-sm font-body-sm"><div class="flex justify-between items-center"><span class="text-on-surface-variant">Reason:</span><span class="font-semibold text-on-surface" id="mod-detail-reason">Spam</span></div><div class="flex justify-between items-start gap-4 hidden" id="mod-detail-explanation-row"><span class="text-on-surface-variant shrink-0">Explanation:</span><span class="font-normal text-on-surface text-right" id="mod-detail-explanation">Contains unrelated promotional links to another business.</span></div><div class="flex justify-between items-center"><span class="text-on-surface-variant">Moderated by:</span><span class="text-on-surface" id="mod-detail-by">Maria Elena (Owner)</span></div><div class="flex justify-between items-center"><span class="text-on-surface-variant">Moderated on:</span><span class="text-on-surface" id="mod-detail-on">October 8, 2026 • 9:42 PM</span></div><div class="flex justify-between items-center pt-1"><span class="text-on-surface-variant">Access level:</span><span class="text-[11px] font-label-sm font-medium px-2 py-0.5 rounded bg-surface-container text-on-surface">Stored for administrative reference</span></div></div></div><!-- Moderation Policy Notice (Clean guidance wording) --><div class="p-4 rounded-xl bg-surface-container flex items-start gap-3"><span class="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">info</span><div><span class="font-title-sm text-title-sm text-on-surface font-semibold block">Moderation guidance</span><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">Negative ratings and criticism should remain visible unless the review contains prohibited or inappropriate content.</p></div></div></div>
+<!-- Drawer Footer Actions -->
+<div class="p-4 bg-surface-container-low flex items-center justify-between gap-3" id="drawer-action-footer">
+<button class="px-4 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeDetailDrawer()">
+        Close Drawer
+      </button>
+<div id="drawer-buttons-container">
+<!-- Dynamic: Hide or Restore button injected based on state -->
+<button class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors flex items-center gap-1.5 shadow-xs" id="drawer-hide-btn" onclick="openHideModal()">
+<span class="material-symbols-outlined text-[18px]">visibility_off</span>
+<span>Hide Review</span>
+</button>
+<button class="hidden px-4 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors flex items-center gap-1.5 shadow-xs" id="drawer-restore-btn" onclick="openRestoreModal()">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span>Restore to Storefront</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- 5. MODAL 1: HIDE REVIEW MODAL -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-xs" id="hide-modal"><div class="bg-surface-container-lowest max-w-lg w-full rounded-2xl shadow-xl overflow-hidden flex flex-col"><div class="p-6 bg-surface-container-low flex items-start gap-4"><div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[22px]">visibility_off</span></div><div><h2 class="font-headline-md text-headline-md text-on-surface">Hide this review?</h2><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">The review will no longer appear to customers on the storefront. The original content and photos remain stored for administrative reference.</p></div></div><div class="p-6 space-y-4"><label class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold block">Select Moderation Reason</label><div class="space-y-2.5"><label class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low cursor-pointer transition-colors"><input class="w-4 h-4 text-primary accent-primary" name="hide-reason" onchange="handleReasonChange(this)" type="radio" value="Spam"/><span class="font-body-md text-body-md text-on-surface font-medium">Spam</span></label><label class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low cursor-pointer transition-colors"><input class="w-4 h-4 text-primary accent-primary" name="hide-reason" onchange="handleReasonChange(this)" type="radio" value="Abusive language"/><span class="font-body-md text-body-md text-on-surface font-medium">Abusive language</span></label><label class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low cursor-pointer transition-colors"><input class="w-4 h-4 text-primary accent-primary" name="hide-reason" onchange="handleReasonChange(this)" type="radio" value="Off-topic content"/><span class="font-body-md text-body-md text-on-surface font-medium">Off-topic content</span></label><label class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low cursor-pointer transition-colors"><input class="w-4 h-4 text-primary accent-primary" name="hide-reason" onchange="handleReasonChange(this)" type="radio" value="Sexual content"/><span class="font-body-md text-body-md text-on-surface font-medium">Sexual content</span></label><label class="flex items-start gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low cursor-pointer transition-colors"><input class="w-4 h-4 text-primary accent-primary mt-1" name="hide-reason" onchange="handleReasonChange(this)" type="radio" value="Other"/><div class="flex-1"><span class="font-body-md text-body-md text-on-surface font-medium block">Other Violation</span><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Requires specific context for the administrative archive.</p></div></label></div><!-- Other violation textarea (hidden initially) --><div class="hidden mt-2" id="other-reason-container"><textarea class="w-full p-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-1 focus:ring-primary shadow-xs" id="other-reason-input" oninput="handleOtherInput(this)" placeholder="Briefly explain why this review should be hidden" rows="3"></textarea><div class="flex justify-between items-center mt-1 text-on-surface-variant font-body-sm text-body-sm"><span class="italic">Stored for administrative reference</span><span class="font-mono text-body-sm" id="other-reason-counter">0 / 300 characters</span></div></div></div><div class="p-4 bg-surface-container-low flex items-center justify-end gap-3"><button class="px-4 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeHideModal()">Cancel</button><button class="px-5 py-2.5 rounded-lg bg-error-container text-on-error-container border border-error/30 font-label-md text-label-md hover:bg-error/20 transition-colors shadow-xs flex items-center gap-1.5 opacity-50 cursor-not-allowed" disabled="" id="confirm-hide-btn" onclick="confirmHideReview()"><span class="material-symbols-outlined text-[18px]">visibility_off</span><span>Hide Review</span></button></div></div></div>
+<!-- 6. MODAL 2: RESTORE REVIEW MODAL -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-xs" id="restore-modal"><div class="bg-surface-container-lowest max-w-md w-full rounded-2xl shadow-xl overflow-hidden flex flex-col"><div class="p-6 bg-surface-container-low flex items-start gap-4"><div class="w-10 h-10 rounded-xl bg-secondary-container text-on-surface flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[22px]">visibility</span></div><div><h2 class="font-headline-md text-headline-md text-on-surface">Restore this review?</h2><p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">The review will become visible to customers again.</p></div></div><div class="p-6 space-y-3"><div class="p-3 rounded-lg bg-surface-container-low text-body-sm font-body-sm text-on-surface-variant"><p class="font-semibold text-on-surface" id="restore-modal-reason">Previously Hidden For: Spam</p><p class="text-[12px] text-on-surface-variant mt-0.5" id="restore-modal-meta">Moderated by Maria Elena (Owner)</p></div></div><div class="p-4 bg-surface-container-low flex items-center justify-end gap-3"><button class="px-4 py-2.5 rounded-lg text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" onclick="closeRestoreModal()">Cancel</button><button class="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-xs flex items-center gap-1.5" onclick="confirmRestoreReview()"><span class="material-symbols-outlined text-[18px]">visibility</span><span>Restore Review</span></button></div></div></div>
+<!-- 7. MODAL 3: PHOTO LIGHTBOX -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-inverse-surface/90 backdrop-blur-md" id="lightbox-modal">
+<div class="relative max-w-4xl w-full flex flex-col items-center">
+<!-- Lightbox Header Controls -->
+<div class="w-full flex items-center justify-between text-inverse-on-surface mb-3 px-2">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm font-semibold">Maria Santos • Classic Sourdough</span>
+<span class="px-2 py-0.5 rounded bg-surface/20 font-label-sm text-label-sm">Photo 1 of 2</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface/20 hover:bg-surface/30 flex items-center justify-center text-inverse-on-surface transition-colors" onclick="closeLightbox()" title="Close Lightbox">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Main Photo View Container -->
+<div class="relative w-full aspect-4/3 sm:aspect-16/10 rounded-xl overflow-hidden bg-inverse-surface shadow-2xl flex items-center justify-center">
+<img class="w-full h-full object-contain" data-alt="High resolution detailed bakery photograph of artisanal sourdough loaf with blistered toasted ear, open crumb structure, and warm ambient sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5OkrNnuJMbGRJm0FuAbc3lBdA6QKHYluCYH1_Lu3zY97APQuvLacDEm8YZdfJTVwoednAa3ATdTQIHK8m5mjk9f0MDYGfTVJUASh5QbKtKVTZ_S4BAuQhSpBxKCOsx-mTqdTANUY-YOoJnEAAb_0zbyq2f7xOqVvyY1PX0HhTMle7IGWwujpWS-26pEizdSf5Vx_JCnWg7c1uaGLKFKmp5zdRj4xlsp55GGxvZcf0"/>
+<!-- Navigation Arrows -->
+<button class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-inverse-surface/60 hover:bg-inverse-surface/90 text-inverse-on-surface flex items-center justify-center transition-colors shadow-md">
+<span class="material-symbols-outlined text-[24px]">chevron_left</span>
+</button>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-inverse-surface/60 hover:bg-inverse-surface/90 text-inverse-on-surface flex items-center justify-center transition-colors shadow-md">
+<span class="material-symbols-outlined text-[24px]">chevron_right</span>
+</button>
+</div>
+<!-- Lightbox Caption Footer -->
+<div class="w-full mt-3 text-center text-inverse-on-surface/80 font-body-sm text-body-sm">
+        “The sourdough was fresh and had a really nice crust. Will definitely order again.”
+      </div>
+</div>
+</div>
+</div>
+<script>
+  // Prototype State Controller
+  function setPrototypeState(state) {
+    // Update prototype toolbar button visual highlights
+    document.querySelectorAll('.proto-btn').forEach(btn => {
+      if (btn.getAttribute('data-state') === state) {
+        btn.classList.add('bg-secondary-container', 'text-on-surface', 'shadow-xs');
+        btn.classList.remove('text-on-surface-variant');
+      } else {
+        btn.classList.remove('bg-secondary-container', 'text-on-surface', 'shadow-xs');
+        btn.classList.add('text-on-surface-variant');
+      }
+    });
+
+    const drawer = document.getElementById('review-drawer');
+    const hideModal = document.getElementById('hide-modal');
+    const restoreModal = document.getElementById('restore-modal');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const tableView = document.getElementById('table-view-section');
+    const emptyView = document.getElementById('empty-state-section');
+    const loadingView = document.getElementById('loading-skeleton-section');
+    const errorView = document.getElementById('error-state-section');
+
+    // Reset modals & views
+    hideModal.classList.add('hidden');
+    restoreModal.classList.add('hidden');
+    lightboxModal.classList.add('hidden');
+    tableView.classList.remove('hidden');
+    emptyView.classList.add('hidden');
+    loadingView.classList.add('hidden');
+    errorView.classList.add('hidden');
+
+    switch (state) {
+      case 'drawer-visible':
+        openDetailDrawer('maria');
+        break;
+      case 'hide-modal':
+        openDetailDrawer('maria');
+        hideModal.classList.remove('hidden');
+        break;
+      case 'drawer-hidden':
+        openDetailDrawer('spammer');
+        break;
+      case 'restore-modal':
+        openDetailDrawer('spammer');
+        restoreModal.classList.remove('hidden');
+        break;
+      case 'lightbox':
+        lightboxModal.classList.remove('hidden');
+        break;
+      case 'empty':
+        closeDetailDrawer();
+        tableView.classList.add('hidden');
+        emptyView.classList.remove('hidden');
+        break;
+      case 'loading':
+        closeDetailDrawer();
+        tableView.classList.add('hidden');
+        loadingView.classList.remove('hidden');
+        break;
+      case 'error':
+        closeDetailDrawer();
+        tableView.classList.add('hidden');
+        errorView.classList.remove('hidden');
+        break;
+      default:
+        openDetailDrawer('maria');
+    }
+  }
+
+  // Drawer Open & Data Population
+  function openDetailDrawer(profile) {
+    const drawer = document.getElementById('review-drawer');
+    const avatar = document.getElementById('drawer-avatar');
+    const name = document.getElementById('drawer-name');
+    const statusChip = document.getElementById('drawer-status-chip');
+    const starsContainer = document.getElementById('drawer-stars');
+    const scoreText = document.getElementById('drawer-score');
+    const comment = document.getElementById('drawer-comment');
+    const photosSection = document.getElementById('drawer-photos-section');
+    const hideBtn = document.getElementById('drawer-hide-btn');
+    const restoreBtn = document.getElementById('drawer-restore-btn');
+    const productTitle = document.getElementById('drawer-product-title');
+    const productVariant = document.getElementById('drawer-product-variant');
+    const orderRef = document.getElementById('drawer-order-ref');
+
+    drawer.classList.remove('translate-x-full');
+
+    if (profile === 'spammer') {
+      avatar.textContent = 'CP';
+      avatar.className = 'w-12 h-12 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-headline-md text-headline-md font-semibold shrink-0';
+      name.textContent = 'CryptoPromoBot / Spammer';
+      statusChip.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold';
+      statusChip.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Hidden from Storefront (Spam)';
+      scoreText.textContent = '2 out of 5 stars';
+      comment.textContent = '“BUY CHEAP REPLICA WATCHES & SHOES AT HTTP://DISCOUNT-DEALS.XYZ...”';
+      photosSection.classList.add('hidden');
+      hideBtn.classList.add('hidden');
+      restoreBtn.classList.remove('hidden');
+      productTitle.textContent = 'Cinnamon Rolls';
+      productVariant.textContent = 'Variant: Box of 4 (Qty: 1)';
+      orderRef.textContent = '#K406-1016';
+    } else {
+      // Default to Maria Santos
+      avatar.textContent = 'MS';
+      avatar.className = 'w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-md text-headline-md font-semibold shrink-0';
+      name.textContent = 'Maria Santos';
+      statusChip.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-surface font-label-sm text-label-sm font-semibold';
+      statusChip.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Visible on Storefront';
+      scoreText.textContent = '5 out of 5 stars';
+      comment.textContent = '“The sourdough was fresh and had a really nice crust. Will definitely order again.”';
+      photosSection.classList.remove('hidden');
+      hideBtn.classList.remove('hidden');
+      restoreBtn.classList.add('hidden');
+      productTitle.textContent = 'Classic Sourdough';
+      productVariant.textContent = 'Variant: Large • Sliced (Qty: 1)';
+      orderRef.textContent = '#K406-1048';
+    }
+  }
+
+  function closeDetailDrawer() {
+    document.getElementById('review-drawer').classList.add('translate-x-full');
+  }
+
+  // Modal actions
+  function openHideModal() {
+    document.getElementById('hide-modal').classList.remove('hidden');
+  }
+
+  function closeHideModal() {
+    document.getElementById('hide-modal').classList.add('hidden');
+  }
+
+  function confirmHideReview() {
+    closeHideModal();
+    openDetailDrawer('spammer');
+  }
+
+  function openRestoreModal() {
+    document.getElementById('restore-modal').classList.remove('hidden');
+  }
+
+  function closeRestoreModal() {
+    document.getElementById('restore-modal').classList.add('hidden');
+  }
+
+  function confirmRestoreReview() {
+    closeRestoreModal();
+    openDetailDrawer('maria');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox-modal').classList.add('hidden');
+  }
+</script></main></div></body></html>

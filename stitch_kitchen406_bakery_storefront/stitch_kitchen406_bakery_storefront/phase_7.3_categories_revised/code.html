@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-fixed":"#311300","outline":"#867368","on-surface":"#1b1c1a","surface-container-lowest":"#ffffff","surface-container-high":"#eae8e5","secondary-container":"#eae1db","surface-variant":"#e4e2df","on-primary-container":"#ffc9a8","surface-container":"#efeeeb","surface-container-highest":"#e4e2df","tertiary":"#49433d","on-primary":"#ffffff","outline-variant":"#d9c2b5","secondary-fixed":"#eae1db","on-error":"#ffffff","surface-tint":"#904d17","on-surface-variant":"#53443a","on-error-container":"#93000a","primary-fixed-dim":"#ffb786","on-secondary-container":"#69635f","error-container":"#ffdad6","inverse-surface":"#30312e","on-primary-fixed-variant":"#723600","on-tertiary":"#ffffff","surface-dim":"#dbdad7","surface-container-low":"#f5f3f0","primary-container":"#8d4a14","on-secondary-fixed-variant":"#4b4642","tertiary-container":"#7b736d","error":"#ba1a1a","on-tertiary-container":"#dcd2ca","secondary":"#635d59","tertiary-fixed":"#ebe1d9","inverse-primary":"#ffb787","surface-bright":"#fbf9f6","background":"#fbf9f5","primary-fixed":"#ffdcc6","on-secondary":"#ffffff","secondary-fixed-dim":"#cdc5c0","on-secondary-fixed":"#1f1b18","on-tertiary-fixed-variant":"#4c4640","on-background":"#1b1c1a","surface":"#fbf9f6","tertiary-fixed-dim":"#cfc5bd","primary":"#6f3400","on-tertiary-fixed":"#1f1b16","inverse-on-surface":"#f2f1ed"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-lg":"1.5rem","gutter":"1.5rem","space-md":"1rem","margin-sm":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-xl":"2.5rem","gutter-sm":"1rem"},"fontFamily":{"title-sm":["Plus Jakarta Sans"],"price-lg":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"headline-lg-mobile":["Playfair Display"],"body-sm":["Plus Jakarta Sans"],"display":["Playfair Display"],"display-mobile":["Playfair Display"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"price-md":["Plus Jakarta Sans"],"headline-md":["Playfair Display"]},"fontSize":{"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"price-lg":["20px",{"lineHeight":"26px","fontWeight":"600"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.015em","fontWeight":"500"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"500"}],"display-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"16px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"600"}],"price-md":["15px",{"lineHeight":"20px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-[#e8e2d9] shadow-none z-50 flex flex-col justify-between overflow-y-auto"><div class="p-space-lg"><div class="flex items-center gap-space-sm mb-space-xl"><div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-md text-headline-md shadow-xs">K</div><div><span class="font-headline-md text-headline-md tracking-tight text-primary-container block leading-none">Kitchen406</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-on-surface-variant block mt-space-xs font-semibold">OWNER PORTAL</span></div></div><nav class="space-y-space-md" data-active-classes="bg-secondary-container text-on-surface font-title-sm"><div class="mb-space-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-title-sm text-title-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a></div><div><p class="px-space-md mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">OPERATIONS</p><div class="space-y-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="orders" href="#"><span class="material-symbols-outlined text-[18px]">receipt_long</span><span>Orders</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="payments" href="#"><span class="material-symbols-outlined text-[18px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="deliveries" href="#"><span class="material-symbols-outlined text-[18px]">local_shipping</span><span>Deliveries</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="inventory" href="#"><span class="material-symbols-outlined text-[18px]">inventory_2</span><span>Inventory</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="recipes-and-costing" href="#"><span class="material-symbols-outlined text-[18px]">menu_book</span><span>Recipes &amp; Costing</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="custom-cakes" href="#"><span class="material-symbols-outlined text-[18px]">cake</span><span>Custom Cakes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="subscriptions" href="#"><span class="material-symbols-outlined text-[18px]">autorenew</span><span>Subscriptions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="capacity-calendar" href="#"><span class="material-symbols-outlined text-[18px]">calendar_month</span><span>Capacity Calendar</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="scheduling" href="#"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Scheduling</span></a></div></div><div><p class="px-space-md mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">CATALOG</p><div class="space-y-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="products" href="#"><span class="material-symbols-outlined text-[18px]">bakery_dining</span><span>Products</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-[#8d4a14] text-white font-title-sm shadow-xs" data-path="categories" href="#"><span class="material-symbols-outlined text-[18px]">category</span><span>Categories</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ingredients" href="#"><span class="material-symbols-outlined text-[18px]">grain</span><span>Ingredients</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="cake-options-and-add-ons" href="#"><span class="material-symbols-outlined text-[18px]">tune</span><span>Cake Options &amp; Add-ons</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="seasonal-occasions" href="#"><span class="material-symbols-outlined text-[18px]">celebration</span><span>Seasonal Occasions</span></a></div></div><div><p class="px-space-md mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">MANAGEMENT</p><div class="space-y-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="staff-accounts" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span>Staff Accounts</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customer-accounts" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Customer Accounts</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="review-moderation" href="#"><span class="material-symbols-outlined text-[18px]">reviews</span><span>Review Moderation</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="marketing-drafts" href="#"><span class="material-symbols-outlined text-[18px]">campaign</span><span>Marketing Drafts</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span>Reports</span></a></div></div></nav></div><div class="p-space-md border-t border-[#e8e2d9]"><div class="px-3 py-2 text-on-surface-variant font-label-sm text-label-sm">Kitchen406 · Owner Portal</div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-[#e8e2d9] z-40 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm text-on-surface-variant font-label-md text-label-md"><span>Management</span><span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span><span class="text-primary-container font-semibold">Categories</span></div><div class="flex items-center gap-space-md"><button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary-container"></span></button><div class="flex items-center gap-space-sm pl-space-xs py-1 pr-space-md rounded-full bg-surface-container-lowest border border-[#e8e2d9]"><div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center text-[13px] font-bold">ME</div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight font-semibold">Maria Elena</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Owner</span></div></div></div></header><main class="w-full pt-16 bg-background px-gutter py-space-lg min-h-screen"><div class="flex flex-col w-full pb-space-xl">
+<!-- Title & Page Action -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-medium">Categories</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">Organize products into storefront collections. Deactivating a category hides all assigned products from public navigation without affecting production recipes or inventory.</p>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+<button class="inline-flex items-center gap-space-xs bg-primary-container text-on-primary hover:bg-[#723600] px-space-lg py-2.5 rounded-lg font-label-md text-label-md shadow-xs transition-colors" id="openAddModalBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Category</span>
+</button>
+</div>
+</div>
+<!-- Summary Metric Strip (4 Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Total Categories</span><span class="material-symbols-outlined text-outline text-[20px]">category</span></div>
+<div class="flex items-baseline gap-space-xs"><span class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metricTotal">4</span></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Across configured catalog</p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Active Categories</span><span class="material-symbols-outlined text-[#3d7a48] text-[20px]">visibility</span></div>
+<div class="flex items-baseline gap-space-xs"><span class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metricActive">3</span></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#3d7a48]"></span>Visible on storefront</p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Inactive Categories</span><span class="material-symbols-outlined text-outline text-[20px]">visibility_off</span></div>
+<div class="flex items-baseline gap-space-xs"><span class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none" id="metricInactive">1</span></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-outline"></span>Hidden from storefront</p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Products Categorized</span><span class="material-symbols-outlined text-primary-container text-[20px]">inventory_2</span></div>
+<div class="flex items-baseline gap-space-xs"><span class="font-headline-lg text-headline-lg text-on-surface font-semibold leading-none">12 Products</span></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Across all categories</p>
+</div>
+</div>
+<!-- Operational Filter & Search Toolbar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] mb-space-md flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md">
+<div class="flex flex-1 items-center gap-space-md flex-wrap sm:flex-nowrap">
+<!-- Search Input -->
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md pl-10 pr-9 py-2 rounded-lg border border-[#e8e2d9] outline-none focus:bg-surface-container-lowest focus:border-primary-container transition-colors" id="categorySearchInput" placeholder="Search categories" type="text"/>
+<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface p-0.5 rounded-full" id="clearSearchBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Status Filter Dropdown -->
+<div class="relative min-w-[170px]">
+<select class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md py-2 px-3 rounded-lg border border-[#e8e2d9] appearance-none cursor-pointer pr-9 focus:bg-surface-container-lowest focus:border-primary-container transition-colors" id="statusFilterSelect">
+<option value="all">All Statuses (4)</option>
+<option value="active">Active (3)</option>
+<option value="inactive">Inactive (1)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">expand_more</span>
+</div>
+<!-- Quick Reset Link -->
+<button class="hidden text-primary-container font-label-sm text-label-sm hover:underline shrink-0" id="resetFiltersBtn" type="button">Reset filters</button>
+</div>
+<!-- Right Controls: Counter & Visual State Previewer -->
+<div class="flex items-center justify-between md:justify-end gap-space-md shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium" id="resultsCounter">4 categories</span>
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg border border-[#e8e2d9]">
+<button class="px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container-lowest text-on-surface shadow-xs transition-all font-semibold" id="viewActiveBtn" type="button">List View</button>
+<button class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all font-medium" id="viewEmptyDemoBtn" type="button">Empty State</button>
+</div>
+</div>
+</div>
+<!-- Primary Management Table (Desktop & Tablet) -->
+<div class="bg-surface-container-lowest rounded-xl border border-[#e8e2d9] overflow-visible mb-space-lg hidden sm:block" id="tableContainer">
+<div class="overflow-x-visible">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider border-b border-[#e8e2d9]">
+<th class="py-3 px-space-lg font-semibold">Category</th>
+<th class="py-3 px-space-md font-semibold">Products</th>
+<th class="py-3 px-space-md font-semibold">Status</th>
+<th class="py-3 px-space-md font-semibold">Last Updated</th>
+<th class="py-3 px-space-lg font-semibold text-right min-w-[260px]">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-[#e8e2d9]" id="categoryTableBody">
+<!-- Row 1 -->
+<tr class="category-row hover:bg-surface-container-low/60 transition-colors" data-count="6" data-name="Bread &amp; Pastries" data-status="active">
+<td class="py-space-md px-space-lg font-title-md text-title-md text-on-surface font-semibold">Bread &amp; Pastries</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-md">6 products</td>
+<td class="py-space-md px-space-md"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span></td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-sm text-body-sm">Oct 7, 2026</td>
+<td class="py-space-md px-space-lg text-right min-w-[260px]">
+<div class="inline-flex items-center gap-2 justify-end">
+<button class="btn-view-products px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary-container hover:bg-surface-container font-label-md text-label-md transition-colors" data-category="Bread &amp; Pastries" type="button">View Products</button>
+<button class="btn-edit-row px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-secondary-container border border-[#e8e2d9] font-label-md text-label-md transition-colors" data-category="Bread &amp; Pastries" data-count="6" data-status="active" type="button">Edit</button>
+<div class="relative inline-block text-left menu-dropdown-container">
+<button aria-label="More actions" class="btn-row-menu w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+<div class="hidden dropdown-menu absolute right-0 mt-1 w-44 bg-surface-container-lowest rounded-xl shadow-lg z-30 py-1.5 flex flex-col border border-[#e8e2d9]">
+<button class="action-deactivate text-left px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-md text-body-md flex items-center gap-2" data-category="Bread &amp; Pastries" data-count="6" type="button"><span class="material-symbols-outlined text-[16px] text-outline">visibility_off</span><span>Deactivate</span></button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="category-row hover:bg-surface-container-low/60 transition-colors" data-count="3" data-name="Cakes" data-status="active">
+<td class="py-space-md px-space-lg font-title-md text-title-md text-on-surface font-semibold">Cakes</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-md">3 products</td>
+<td class="py-space-md px-space-md"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span></td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-sm text-body-sm">Oct 5, 2026</td>
+<td class="py-space-md px-space-lg text-right min-w-[260px]">
+<div class="inline-flex items-center gap-2 justify-end">
+<button class="btn-view-products px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary-container hover:bg-surface-container font-label-md text-label-md transition-colors" data-category="Cakes" type="button">View Products</button>
+<button class="btn-edit-row px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-secondary-container border border-[#e8e2d9] font-label-md text-label-md transition-colors" data-category="Cakes" data-count="3" data-status="active" type="button">Edit</button>
+<div class="relative inline-block text-left menu-dropdown-container">
+<button aria-label="More actions" class="btn-row-menu w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+<div class="hidden dropdown-menu absolute right-0 mt-1 w-44 bg-surface-container-lowest rounded-xl shadow-lg z-30 py-1.5 flex flex-col border border-[#e8e2d9]">
+<button class="action-deactivate text-left px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-md text-body-md flex items-center gap-2" data-category="Cakes" data-count="3" type="button"><span class="material-symbols-outlined text-[16px] text-outline">visibility_off</span><span>Deactivate</span></button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="category-row hover:bg-surface-container-low/60 transition-colors" data-count="2" data-name="Cookies &amp; Treats" data-status="active">
+<td class="py-space-md px-space-lg font-title-md text-title-md text-on-surface font-semibold">Cookies &amp; Treats</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-md">2 products</td>
+<td class="py-space-md px-space-md"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span></td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-sm text-body-sm">Sep 28, 2026</td>
+<td class="py-space-md px-space-lg text-right min-w-[260px]">
+<div class="inline-flex items-center gap-2 justify-end">
+<button class="btn-view-products px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary-container hover:bg-surface-container font-label-md text-label-md transition-colors" data-category="Cookies &amp; Treats" type="button">View Products</button>
+<button class="btn-edit-row px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-secondary-container border border-[#e8e2d9] font-label-md text-label-md transition-colors" data-category="Cookies &amp; Treats" data-count="2" data-status="active" type="button">Edit</button>
+<div class="relative inline-block text-left menu-dropdown-container">
+<button aria-label="More actions" class="btn-row-menu w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+<div class="hidden dropdown-menu absolute right-0 mt-1 w-44 bg-surface-container-lowest rounded-xl shadow-lg z-30 py-1.5 flex flex-col border border-[#e8e2d9]">
+<button class="action-deactivate text-left px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-md text-body-md flex items-center gap-2" data-category="Cookies &amp; Treats" data-count="2" type="button"><span class="material-symbols-outlined text-[16px] text-outline">visibility_off</span><span>Deactivate</span></button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="category-row hover:bg-surface-container-low/60 transition-colors" data-count="1" data-name="Seasonal &amp; Specials" data-status="inactive">
+<td class="py-space-md px-space-lg font-title-md text-title-md text-on-surface font-semibold">Seasonal &amp; Specials</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-md">1 product</td>
+<td class="py-space-md px-space-md"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#eae1db] text-[#635d59] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#635d59]"></span>Inactive</span></td>
+<td class="py-space-md px-space-md text-on-surface-variant font-body-sm text-body-sm">Oct 2, 2026</td>
+<td class="py-space-md px-space-lg text-right min-w-[260px]">
+<div class="inline-flex items-center gap-2 justify-end">
+<button class="btn-view-products px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary-container hover:bg-surface-container font-label-md text-label-md transition-colors" data-category="Seasonal &amp; Specials" type="button">View Products</button>
+<button class="btn-edit-row px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-secondary-container border border-[#e8e2d9] font-label-md text-label-md transition-colors" data-category="Seasonal &amp; Specials" data-count="1" data-status="inactive" type="button">Edit</button>
+<div class="relative inline-block text-left menu-dropdown-container">
+<button aria-label="More actions" class="btn-row-menu w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+<div class="hidden dropdown-menu absolute right-0 mt-1 w-44 bg-surface-container-lowest rounded-xl shadow-lg z-30 py-1.5 flex flex-col border border-[#e8e2d9]">
+<button class="btn-reactivate text-left px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-md text-body-md flex items-center gap-2" data-category="Seasonal &amp; Specials" type="button"><span class="material-symbols-outlined text-[16px] text-[#2e5a36]">visibility</span><span>Activate</span></button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Responsive Mobile Card Stack (Visible on small screens) -->
+<div class="sm:hidden flex flex-col gap-space-sm mb-space-lg" id="mobileCardStack">
+<div class="category-mobile-card bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col gap-space-sm" data-name="Bread &amp; Pastries" data-status="active">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-title-md text-title-md font-semibold text-on-surface">Bread &amp; Pastries</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">6 products · Updated Oct 7, 2026</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e8e2d9]">
+<button class="btn-view-products font-label-md text-label-md text-on-surface-variant py-1 px-2.5 rounded hover:bg-surface-container" data-category="Bread &amp; Pastries" type="button">View Products</button>
+<button class="btn-edit-row font-label-md text-label-md text-primary-container font-semibold py-1 px-2.5 rounded bg-surface-container-low border border-[#e8e2d9]" data-category="Bread &amp; Pastries" data-count="6" data-status="active" type="button">Edit</button>
+<button class="action-deactivate font-label-md text-label-md text-outline py-1 px-2 rounded hover:text-on-surface" data-category="Bread &amp; Pastries" data-count="6" type="button">Deactivate</button>
+</div>
+</div>
+<div class="category-mobile-card bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col gap-space-sm" data-name="Cakes" data-status="active">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-title-md text-title-md font-semibold text-on-surface">Cakes</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">3 products · Updated Oct 5, 2026</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e8e2d9]">
+<button class="btn-view-products font-label-md text-label-md text-on-surface-variant py-1 px-2.5 rounded hover:bg-surface-container" data-category="Cakes" type="button">View Products</button>
+<button class="btn-edit-row font-label-md text-label-md text-primary-container font-semibold py-1 px-2.5 rounded bg-surface-container-low border border-[#e8e2d9]" data-category="Cakes" data-count="3" data-status="active" type="button">Edit</button>
+<button class="action-deactivate font-label-md text-label-md text-outline py-1 px-2 rounded hover:text-on-surface" data-category="Cakes" data-count="3" type="button">Deactivate</button>
+</div>
+</div>
+<div class="category-mobile-card bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col gap-space-sm" data-name="Cookies &amp; Treats" data-status="active">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-title-md text-title-md font-semibold text-on-surface">Cookies &amp; Treats</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">2 products · Updated Sep 28, 2026</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ebf0ec] text-[#2e5a36] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#2e5a36]"></span>Active</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e8e2d9]">
+<button class="btn-view-products font-label-md text-label-md text-on-surface-variant py-1 px-2.5 rounded hover:bg-surface-container" data-category="Cookies &amp; Treats" type="button">View Products</button>
+<button class="btn-edit-row font-label-md text-label-md text-primary-container font-semibold py-1 px-2.5 rounded bg-surface-container-low border border-[#e8e2d9]" data-category="Cookies &amp; Treats" data-count="2" data-status="active" type="button">Edit</button>
+<button class="action-deactivate font-label-md text-label-md text-outline py-1 px-2 rounded hover:text-on-surface" data-category="Cookies &amp; Treats" data-count="2" type="button">Deactivate</button>
+</div>
+</div>
+<div class="category-mobile-card bg-surface-container-lowest p-space-md rounded-xl border border-[#e8e2d9] flex flex-col gap-space-sm" data-name="Seasonal &amp; Specials" data-status="inactive">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-title-md text-title-md font-semibold text-on-surface">Seasonal &amp; Specials</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">1 product · Updated Oct 2, 2026</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#eae1db] text-[#635d59] font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-[#635d59]"></span>Inactive</span>
+</div>
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e8e2d9]">
+<button class="btn-view-products font-label-md text-label-md text-on-surface-variant py-1 px-2.5 rounded hover:bg-surface-container" data-category="Seasonal &amp; Specials" type="button">View Products</button>
+<button class="btn-edit-row font-label-md text-label-md text-primary-container font-semibold py-1 px-2.5 rounded bg-surface-container-low border border-[#e8e2d9]" data-category="Seasonal &amp; Specials" data-count="1" data-status="inactive" type="button">Edit</button>
+<button class="btn-reactivate font-label-md text-label-md text-[#2e5a36] font-semibold py-1 px-2 rounded hover:bg-surface-container" data-category="Seasonal &amp; Specials" type="button">Activate</button>
+</div>
+</div>
+</div>
+<!-- Empty Search Results State (Hidden by default) -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl border border-[#e8e2d9] text-center flex-col items-center justify-center my-space-md" id="searchEmptyState">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-outline mb-space-md">
+<span class="material-symbols-outlined text-[32px]">search_off</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">No matching categories found</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-space-md">We couldn't find any category matching your current search query. Check your spelling or try clearing the filter.</p>
+<button class="px-space-md py-2 bg-surface-container text-on-surface hover:bg-secondary-container font-label-md text-label-md rounded-lg transition-colors border border-[#e8e2d9]" id="clearFiltersActionBtn" type="button">Clear all filters</button>
+</div>
+<!-- Demonstrative "No Categories Yet" Prototype State -->
+<div class="hidden bg-surface-container-lowest p-space-xl rounded-xl border border-[#e8e2d9] text-center flex-col items-center justify-center my-space-md" id="zeroStateContainer">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-primary-container mb-space-md">
+<span class="material-symbols-outlined text-[32px]">category</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Build your bakery catalog groups</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mb-space-lg">Categories organize your sourdough loaves, seasonal confections, and morning treats into digestible shelves for online customers.</p>
+<button class="open-add-modal-direct bg-primary-container text-on-primary hover:bg-[#723600] px-space-lg py-2.5 rounded-lg font-label-md text-label-md shadow-xs transition-colors" type="button">+ Add Category</button>
+</div>
+<!-- Contextual Information Callout -->
+<div class="bg-surface-container-low rounded-xl flex items-start gap-space-md border border-[#e8e2d9] p-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-outline shrink-0 mt-0.5"><span class="material-symbols-outlined text-[18px]">info</span></div>
+<div class="flex-1">
+<h4 class="font-title-sm text-title-sm text-on-surface font-semibold mb-0.5">Category visibility</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Making a category inactive hides its products from the storefront without changing the individual products' own status. Product availability is still determined separately by each product's status and ingredient availability.</p>
+</div>
+</div>
+<!-- SLIDE-OVER DRAWER: Add / Edit Category Modal -->
+<div aria-labelledby="drawerTitle" aria-modal="true" class="fixed inset-0 z-50 overflow-hidden hidden" id="categoryDrawerModal" role="dialog">
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-xs transition-opacity opacity-0" id="drawerBackdrop"></div>
+<div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+<div class="w-screen max-w-md bg-surface-container-lowest shadow-2xl transform translate-x-full transition-transform ease-in-out duration-300 flex flex-col justify-between" id="drawerPanel">
+<div class="p-space-lg bg-surface-container-low border-b border-[#e8e2d9] flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface" id="drawerTitle">Edit Category</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="drawerDescSubtitle">Update the category name or catalog status.</p>
+</div>
+<button aria-label="Close panel" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" id="closeDrawerBtn" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+<div class="p-space-lg flex-1 overflow-y-auto space-y-space-md">
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5" for="drawerCategoryNameInput">Category Name <span class="text-primary-container">*</span></label>
+<input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md px-3.5 py-2.5 rounded-lg border border-[#e8e2d9] focus:outline-none focus:border-primary-container transition-all" id="drawerCategoryNameInput" maxlength="40" placeholder="e.g. Bread &amp; Pastries" type="text" value="Bread &amp; Pastries"/>
+</div>
+<div id="drawerAssignedProductsField">
+<label class="block font-title-sm text-title-sm text-on-surface mb-1">Assigned Products</label>
+<div class="px-3.5 py-2.5 rounded-lg bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm flex items-center gap-2 border border-[#e8e2d9]">
+<span class="material-symbols-outlined text-outline text-[18px]">inventory_2</span>
+<span id="drawerProductCountHelper">6 products currently use this category</span>
+</div>
+</div>
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-2">Status</label>
+<div class="grid grid-cols-2 p-1 bg-surface-container-low rounded-xl gap-1 border border-[#e8e2d9]">
+<button class="py-2 px-3 rounded-lg font-title-sm text-title-sm flex items-center justify-center gap-2 transition-all bg-surface-container-lowest text-on-surface shadow-xs font-semibold" id="drawerStatusActiveBtn" type="button">
+<span class="w-2 h-2 rounded-full bg-[#2e5a36]"></span><span>Active</span>
+</button>
+<button class="py-2 px-3 rounded-lg font-title-sm text-title-sm flex items-center justify-center gap-2 transition-all text-on-surface-variant hover:text-on-surface" id="drawerStatusInactiveBtn" type="button">
+<span class="w-2 h-2 rounded-full bg-outline"></span><span>Inactive</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-2" id="drawerStatusNoticeText">Active categories appear on your storefront navigation.</p>
+</div>
+</div>
+<div class="p-space-lg bg-surface-container-low border-t border-[#e8e2d9] flex items-center justify-end gap-space-sm">
+<button class="px-space-lg py-2.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-[#e8e2d9] font-label-md text-label-md transition-colors" id="drawerCancelBtn" type="button">Cancel</button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-[#723600] font-label-md text-label-md transition-all shadow-xs" id="drawerSaveBtn" type="button">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL: Deactivate Confirmation Dialog -->
+<div aria-labelledby="dialogTitle" aria-modal="true" class="fixed inset-0 z-50 overflow-y-auto hidden" id="deactivateDialogModal" role="dialog">
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs transition-opacity opacity-0" id="dialogBackdrop"></div>
+<div class="flex min-h-full items-center justify-center p-4 text-center">
+<div class="w-full max-w-md transform scale-95 opacity-0 overflow-hidden rounded-2xl bg-surface-container-lowest p-space-lg text-left align-middle shadow-2xl transition-all border border-[#e8e2d9]" id="dialogCard">
+<div class="flex items-center gap-space-sm mb-space-md">
+<div class="w-12 h-12 rounded-xl bg-secondary-container text-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">visibility_off</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface" id="dialogTitle">Deactivate category?</h3>
+<span class="font-label-sm text-label-sm text-primary-container font-bold" id="dialogTargetName">Bread &amp; Pastries</span>
+</div>
+</div>
+<div class="space-y-space-sm mb-space-lg">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Products assigned to this category will no longer appear in the customer storefront while the category is inactive. Product records and existing order history will remain unchanged.</p>
+<div class="p-space-sm rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface flex items-center gap-2 border border-[#e8e2d9]">
+<span class="material-symbols-outlined text-outline text-[18px]">inventory_2</span>
+<span id="dialogCountNotice">6 products are currently assigned to this category.</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high border border-[#e8e2d9] font-label-md text-label-md transition-colors" id="dialogCancelBtn" type="button">Cancel</button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container text-white hover:bg-[#723600] font-label-md text-label-md shadow-xs transition-colors" id="dialogConfirmDeactivateBtn" type="button">Deactivate Category</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TOAST NOTIFICATION -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toastNotification">
+<div class="flex items-center gap-3 bg-inverse-surface text-inverse-on-surface px-space-md py-3 rounded-xl shadow-2xl">
+<div class="w-6 h-6 rounded-full bg-[#3d7a48] text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-semibold" id="toastTitle">Category updated</div>
+<div class="font-body-sm text-body-sm text-surface-variant" id="toastMessage">Changes saved.</div>
+</div>
+<button class="ml-2 text-surface-variant hover:text-white pointer-events-auto" id="closeToastBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    let currentDrawerMode = 'edit';
+    let currentCategoryData = null;
+
+    const searchInput = document.getElementById('categorySearchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const statusSelect = document.getElementById('statusFilterSelect');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+    const resultsCounter = document.getElementById('resultsCounter');
+    const rows = document.querySelectorAll('.category-row');
+    const mobileCards = document.querySelectorAll('.category-mobile-card');
+    const searchEmptyState = document.getElementById('searchEmptyState');
+    const zeroStateContainer = document.getElementById('zeroStateContainer');
+    const tableContainer = document.getElementById('tableContainer');
+    const mobileStack = document.getElementById('mobileCardStack');
+
+    const toast = document.getElementById('toastNotification');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMessage = document.getElementById('toastMessage');
+
+    function showToast(title, msg) {
+      toastTitle.textContent = title;
+      toastMessage.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(hideToast, 4000);
+    }
+
+    function hideToast() {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-20', 'opacity-0');
+    }
+
+    document.getElementById('closeToastBtn').addEventListener('click', hideToast);
+
+    function applyFilters() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      const status = statusSelect.value;
+      let visibleCount = 0;
+
+      clearSearchBtn.classList.toggle('hidden', query.length === 0);
+      const isFiltered = query.length > 0 || status !== 'all';
+      resetFiltersBtn.classList.toggle('hidden', !isFiltered);
+
+      rows.forEach(row => {
+        const name = (row.dataset.name || '').toLowerCase();
+        const rowStatus = row.dataset.status;
+        const matchesQuery = name.includes(query);
+        const matchesStatus = (status === 'all') || (rowStatus === status);
+
+        if (matchesQuery && matchesStatus) {
+          row.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+
+      mobileCards.forEach(card => {
+        const name = (card.dataset.name || '').toLowerCase();
+        const cardStatus = card.dataset.status;
+        const matchesQuery = name.includes(query);
+        const matchesStatus = (status === 'all') || (cardStatus === status);
+
+        if (matchesQuery && matchesStatus) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      resultsCounter.textContent = `${visibleCount} ${visibleCount === 1 ? 'category' : 'categories'}`;
+
+      if (visibleCount === 0) {
+        tableContainer.classList.add('hidden');
+        mobileStack.classList.add('hidden');
+        searchEmptyState.classList.remove('hidden');
+      } else {
+        if (!zeroStateContainer.classList.contains('active-zero-demo')) {
+          tableContainer.classList.remove('hidden');
+          mobileStack.classList.remove('hidden');
+        }
+        searchEmptyState.classList.add('hidden');
+      }
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusSelect.addEventListener('change', applyFilters);
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      applyFilters();
+      searchInput.focus();
+    });
+    resetFiltersBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      statusSelect.value = 'all';
+      applyFilters();
+    });
+    document.getElementById('clearFiltersActionBtn').addEventListener('click', () => {
+      searchInput.value = '';
+      statusSelect.value = 'all';
+      applyFilters();
+    });
+
+    const viewActiveBtn = document.getElementById('viewActiveBtn');
+    const viewEmptyDemoBtn = document.getElementById('viewEmptyDemoBtn');
+
+    viewEmptyDemoBtn.addEventListener('click', () => {
+      zeroStateContainer.classList.remove('hidden');
+      zeroStateContainer.classList.add('active-zero-demo');
+      tableContainer.classList.add('hidden');
+      mobileStack.classList.add('hidden');
+      searchEmptyState.classList.add('hidden');
+
+      viewEmptyDemoBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      viewEmptyDemoBtn.classList.remove('text-on-surface-variant', 'font-medium');
+      viewActiveBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      viewActiveBtn.classList.add('text-on-surface-variant', 'font-medium');
+      resultsCounter.textContent = '0 categories';
+    });
+
+    viewActiveBtn.addEventListener('click', () => {
+      zeroStateContainer.classList.add('hidden');
+      zeroStateContainer.classList.remove('active-zero-demo');
+      tableContainer.classList.remove('hidden');
+      mobileStack.classList.remove('hidden');
+
+      viewActiveBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      viewActiveBtn.classList.remove('text-on-surface-variant', 'font-medium');
+      viewEmptyDemoBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+      viewEmptyDemoBtn.classList.add('text-on-surface-variant', 'font-medium');
+      applyFilters();
+    });
+
+    // Drawer logic
+    const drawer = document.getElementById('categoryDrawerModal');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const drawerPanel = document.getElementById('drawerPanel');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const drawerDescSubtitle = document.getElementById('drawerDescSubtitle');
+    const nameInput = document.getElementById('drawerCategoryNameInput');
+    const assignedProductsField = document.getElementById('drawerAssignedProductsField');
+    const productHelper = document.getElementById('drawerProductCountHelper');
+    const statusNoticeText = document.getElementById('drawerStatusNoticeText');
+    const statusActiveBtn = document.getElementById('drawerStatusActiveBtn');
+    const statusInactiveBtn = document.getElementById('drawerStatusInactiveBtn');
+    const drawerSaveBtn = document.getElementById('drawerSaveBtn');
+
+    let currentDrawerStatus = 'active';
+
+    function setDrawerStatus(status) {
+      currentDrawerStatus = status;
+      if (status === 'active') {
+        statusActiveBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+        statusActiveBtn.classList.remove('text-on-surface-variant');
+        statusInactiveBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+        statusInactiveBtn.classList.add('text-on-surface-variant');
+        statusNoticeText.textContent = "Active categories appear on your storefront navigation.";
+      } else {
+        statusInactiveBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+        statusInactiveBtn.classList.remove('text-on-surface-variant');
+        statusActiveBtn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-xs', 'font-semibold');
+        statusActiveBtn.classList.add('text-on-surface-variant');
+        statusNoticeText.textContent = "Deactivating this category will hide all assigned products from the public storefront, even if individual products are set to Active.";
+      }
+    }
+
+    statusActiveBtn.addEventListener('click', () => setDrawerStatus('active'));
+    statusInactiveBtn.addEventListener('click', () => setDrawerStatus('inactive'));
+
+    function openDrawer(mode, data = {}) {
+      currentDrawerMode = mode;
+      currentCategoryData = data;
+      drawer.classList.remove('hidden');
+
+      if (mode === 'add') {
+        drawerTitle.textContent = "Add Category";
+        drawerDescSubtitle.textContent = "Create a new product grouping for your store.";
+        nameInput.value = "";
+        assignedProductsField.classList.add('hidden');
+        drawerSaveBtn.textContent = "Add Category";
+        setDrawerStatus('active');
+      } else {
+        drawerTitle.textContent = "Edit Category";
+        drawerDescSubtitle.textContent = "Update the category name or catalog status.";
+        nameInput.value = data.name || "Bread & Pastries";
+        assignedProductsField.classList.remove('hidden');
+        const count = data.count || 0;
+        productHelper.textContent = `${count} ${count === 1 ? 'product currently uses' : 'products currently use'} this category`;
+        drawerSaveBtn.textContent = "Save Changes";
+        setDrawerStatus(data.status || 'active');
+      }
+
+      setTimeout(() => {
+        drawerBackdrop.classList.remove('opacity-0');
+        drawerBackdrop.classList.add('opacity-100');
+        drawerPanel.classList.remove('translate-x-full');
+        drawerPanel.classList.add('translate-x-0');
+      }, 10);
+    }
+
+    function closeDrawer() {
+      drawerBackdrop.classList.remove('opacity-100');
+      drawerBackdrop.classList.add('opacity-0');
+      drawerPanel.classList.remove('translate-x-0');
+      drawerPanel.classList.add('translate-x-full');
+      setTimeout(() => {
+        drawer.classList.add('hidden');
+      }, 300);
+    }
+
+    document.getElementById('openAddModalBtn').addEventListener('click', () => openDrawer('add'));
+    document.querySelectorAll('.open-add-modal-direct').forEach(btn => {
+      btn.addEventListener('click', () => openDrawer('add'));
+    });
+    document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
+    document.getElementById('drawerCancelBtn').addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    drawerSaveBtn.addEventListener('click', () => {
+      const val = nameInput.value.trim();
+      if (!val) {
+        nameInput.focus();
+        return;
+      }
+      closeDrawer();
+      if (currentDrawerMode === 'add') {
+        showToast("Category added", `"${val}" was added.`);
+      } else {
+        showToast("Category updated", `Changes to "${val}" were saved.`);
+      }
+    });
+
+    document.querySelectorAll('.btn-edit-row').forEach(btn => {
+      btn.addEventListener('click', () => {
+        closeAllDropdowns();
+        const name = btn.dataset.category;
+        const status = btn.dataset.status;
+        const count = btn.dataset.count;
+        openDrawer('edit', { name, status, count });
+      });
+    });
+
+    document.querySelectorAll('.btn-reactivate').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category || "Seasonal & Specials";
+        showToast("Category activated", `"${cat}" is now active on the storefront.`);
+      });
+    });
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    }
+
+    document.querySelectorAll('.btn-row-menu').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const container = btn.closest('.menu-dropdown-container');
+        const menu = container.querySelector('.dropdown-menu');
+        const isHidden = menu.classList.contains('hidden');
+        closeAllDropdowns();
+        if (isHidden) {
+          menu.classList.remove('hidden');
+        }
+      });
+    });
+
+    document.addEventListener('click', closeAllDropdowns);
+
+    // Deactivate Dialog
+    const deactivateDialog = document.getElementById('deactivateDialogModal');
+    const dialogBackdrop = document.getElementById('dialogBackdrop');
+    const dialogCard = document.getElementById('dialogCard');
+    const dialogTargetName = document.getElementById('dialogTargetName');
+    const dialogCountNotice = document.getElementById('dialogCountNotice');
+
+    let categoryToDeactivate = "";
+
+    function openDeactivateDialog(categoryName, count) {
+      categoryToDeactivate = categoryName;
+      dialogTargetName.textContent = categoryName;
+      dialogCountNotice.textContent = `${count} ${count === 1 ? 'product is' : 'products are'} currently assigned to this category.`;
+      deactivateDialog.classList.remove('hidden');
+
+      setTimeout(() => {
+        dialogBackdrop.classList.remove('opacity-0');
+        dialogBackdrop.classList.add('opacity-100');
+        dialogCard.classList.remove('scale-95', 'opacity-0');
+        dialogCard.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeDeactivateDialog() {
+      dialogBackdrop.classList.remove('opacity-100');
+      dialogBackdrop.classList.add('opacity-0');
+      dialogCard.classList.remove('scale-100', 'opacity-100');
+      dialogCard.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        deactivateDialog.classList.add('hidden');
+      }, 200);
+    }
+
+    document.querySelectorAll('.action-deactivate').forEach(btn => {
+      btn.addEventListener('click', () => {
+        closeAllDropdowns();
+        const name = btn.dataset.category;
+        const count = btn.dataset.count;
+        openDeactivateDialog(name, count);
+      });
+    });
+
+    document.getElementById('dialogCancelBtn').addEventListener('click', closeDeactivateDialog);
+    dialogBackdrop.addEventListener('click', closeDeactivateDialog);
+    document.getElementById('dialogConfirmDeactivateBtn').addEventListener('click', () => {
+      closeDeactivateDialog();
+      showToast("Category deactivated", `"${categoryToDeactivate}" is now inactive.`);
+    });
+
+    document.querySelectorAll('.btn-view-products').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category || "Category";
+        showToast("Viewing Products", `Filtering products for "${cat}".`);
+      });
+    });
+  })();
+</script></main></div></body></html>

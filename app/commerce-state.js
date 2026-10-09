@@ -20,9 +20,10 @@ C.fee=()=>S.draft.method==='pickup'?0:C.address()&&C.deliveryRoute?.eligible()&&
 C.sync=()=>{A.bag=C.count();const b=A.$('header-cart-badge');b.textContent=A.bag;b.classList.toggle('hidden',!A.bag||A.auth!=='signedin');};
 C.locked=()=>S.orders.some(o=>['detected','delayed'].includes(o.payment));
 C.change=()=>{if(C.locked()){A.toast('Payment verification is pending. Check its status before changing checkout.');return false;}S.revision++;return true;};
-C.line=(id,variant='standard',quantity=1)=>{const p=A.products.find(p=>p.id===id);return {key:id+':'+variant,productId:id,name:p.name,image:p.image,variant:A.variant(id,variant)?.label||p.variant,price:A.variant(id,variant)?.price||0,quantity,max:10,available:p.available};};
-C.add=(id,variant,quantity)=>{if(!C.change())return;const line=C.line(id,variant,quantity),old=S.cart.find(i=>i.key===line.key);if(!line.available)return;if(old){if(old.quantity+quantity>old.max){A.toast('Maximum 10 of this item per demo order.');return;}old.quantity+=quantity;}else S.cart.push(line);C.sync();A.toast('Added to your bag.');};
-C.cartValid=()=>S.cart.length>0&&S.cart.every(i=>i.available&&i.quantity>0&&i.quantity<=i.max)&&M.stock==='normal';
+C.line=(id,variant='standard',quantity=1)=>{const p=A.products.find(p=>p.id===id);return {key:id+':'+variant,productId:id,name:p.name,image:p.image,variant:A.variant(id,variant)?.label||p.variant,price:A.variant(id,variant)?.price||0,catalogPrice:A.variant(id,variant)?.price||0,quantity,max:10,available:p.available};};
+C.add=(id,variant,quantity)=>{if(A.catalogState&&!A.catalogState.eligible(id,variant)){A.toast('This product or variant is not available for purchase.');return;}if(!C.change())return;const line=C.line(id,variant,quantity),old=S.cart.find(i=>i.key===line.key);if(!line.available)return;if(old){if(old.quantity+quantity>old.max){A.toast('Maximum 10 of this item per demo order.');return;}old.quantity+=quantity;}else S.cart.push(line);C.sync();A.toast('Added to your bag.');};
+C.priceChanges=()=>S.cart.filter(i=>A.variant(i.productId,i.key.split(':')[1])?.price!==(i.catalogPrice??i.price));
+C.cartValid=()=>S.cart.length>0&&C.priceChanges().length===0&&S.cart.every(i=>i.available&&(!A.catalogState||A.catalogState.eligible(i.productId,i.key.split(':')[1]))&&i.quantity>0&&i.quantity<=i.max)&&M.stock==='normal';
 C.dateValid=()=>A.schedule.valid(S.draft.date)&&C.dateReason(S.draft.date)==='';
 C.dateReason=value=>A.schedule.standard(value,S.cart,M.dates);
 C.fulfillmentReady=()=>C.cartValid()&&['pickup','delivery'].includes(S.draft.method)&&C.dateValid()&&M.calendar==='normal'&&M.validation==='normal';
