@@ -1,0 +1,36 @@
+const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
+(async()=>{
+ const tabs=await(await fetch('http://127.0.0.1:9222/json')).json(),ws=new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);const pending=new Map(),errors=[];let seq=0,checks=0;
+ ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)?.(m);pending.delete(m.id);}else if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
+ const send=(method,params={})=>new Promise(r=>{const id=++seq;pending.set(id,r);ws.send(JSON.stringify({id,method,params}));});
+ const run=async expression=>{const m=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(m.result?.exceptionDetails)throw Error(m.result.exceptionDetails.exception?.description);return m.result.result.value;};
+ const check=async(expr,label)=>{assert(await run(expr),label);console.log('PASS '+label);checks++;},wait=()=>new Promise(r=>setTimeout(r,150)),go=async p=>{await run(`location.hash=${JSON.stringify('#/'+p)}`);await wait();};
+ await send('Runtime.enable');await send('Page.enable');await send('Page.navigate',{url:require('node:url').pathToFileURL(path.resolve('index.html')).href});await new Promise(r=>setTimeout(r,1500));
+
+ await run('window.A=K406;window.O=A.owner;A.session.enter();O.seed()');
+ await go('owner/orders');
+ await check('!document.querySelector("a[href=\\"#/owner/payments\\"]")&&!document.querySelector("a[href=\\"#/owner/deliveries\\"]")','legacy sidebar destinations removed');
+ await run('O.status="active";O.render()');
+ await check('!A.$("owner-view").textContent.includes("OWNER-DEMO-PENDING")&&!A.$("owner-view").textContent.includes("OWNER-DEMO-LATE")','active queue excludes unpaid and late cancelled transactions');
+ await go('owner/orders/payments');
+ await run('O.filters.issue="issues";O.render()');
+ await check('A.$("owner-view").textContent.includes("OWNER-DEMO-LATE")&&A.$("owner-view").textContent.includes("OWNER-DEMO-FAILED")','payment issue filter includes failed and late payments');
+ await go('owner/payments/OWNER-DEMO-LATE');
+ await check('location.hash==="#/owner/orders/OWNER-DEMO-LATE"&&A.operations.find("OWNER-DEMO-LATE").status==="cancelled"&&!document.querySelector("[data-owner=transition]")','legacy payment link reaches cancelled detail without production actions');
+ await check('!!A.fulfillment.transition("OWNER-DEMO-LATE","preparing",0,"late-invalid")','late payment cannot enter production');
+ await go('owner/orders/OWNER-DEMO-FAILED');
+ await check('!document.querySelector("[data-owner=transition]")&&A.$("owner-view").textContent.includes("failed")','failed payment remains inspectable without production controls');
+ await go('owner/deliveries/OWNER-DEMO-COURIER');
+ await check('location.hash==="#/owner/orders/OWNER-DEMO-COURIER"&&!!document.querySelector("[data-owner=book]")','legacy delivery link reaches inline booking');
+ await run('A.deliveries.outcome="failure";document.querySelector("[data-owner=book]").click();document.querySelector("[data-owner=confirm-book]").click()');
+ await check('A.operations.find("OWNER-DEMO-COURIER").delivery.status==="failed"&&A.$("toast").textContent.includes("failed")&&!!document.querySelector("[data-owner=book]")','failed booking reports failure and offers retry');
+ await run('A.deliveries.outcome="success";document.querySelector("[data-owner=book]").click();document.querySelector("[data-owner=confirm-book]").click()');
+ await check('A.operations.find("OWNER-DEMO-COURIER").delivery.status==="booked"&&!document.querySelector("[data-owner=book]")','successful retry removes duplicate booking control');
+ await run('document.querySelector("[data-owner=refresh-delivery]").click();document.querySelector("[data-owner=refresh-delivery]").click()');
+ await check('A.operations.find("OWNER-DEMO-COURIER").delivery.status==="delivered"&&A.operations.status(A.operations.find("OWNER-DEMO-COURIER"))==="completed"','inline tracking completes courier fulfillment');
+ await go('owner/orders/OWNER-DEMO-PICKUP');
+ await check('!document.querySelector("[data-owner=book]")','pickup has no courier booking');
+ await go('owner/orders/missing-reference');
+ await check('A.$("owner-view").textContent.includes("Order not found")','invalid references handled');
+ assert.equal(errors.length,0,errors.join('\n'));console.log(`COMPLETE ${checks} batch 3 checks; no browser exceptions.`);ws.close();
+})().catch(e=>{console.error(e);process.exit(1)});

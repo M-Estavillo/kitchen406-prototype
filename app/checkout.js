@@ -1,6 +1,10 @@
 (() => {
 const A=K406,C=A.commerce,S=C.state,M=C.mock,U=C.ui,E=A.escape;
 const F=C.checkout={month:9,editing:null,form:null,message:''};
+F.cartLoading=()=>U.page('Your bag','Review your items before choosing fulfillment details.',
+ '<p class="muted" role="status">Loading your bag...</p><div class="cart-loading" aria-hidden="true">'+U.columns(
+ U.panel('Items in your bag',Array.from({length:3},()=>'<div class="cart-loading-item"><div class="cart-loading-block cart-loading-image"></div><div class="cart-loading-copy"><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div><div class="cart-loading-block cart-loading-quantity"></div></div></div>').join('')),
+ U.panel('Order summary','<div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-button"></div>'))+'</div>','cart');
 C.addressContext=()=>A.subscriptions?.active()&&A.route==='subscription'?{editor:A.subscriptions.addressUI,draft:A.subscriptions.state.draft,address:A.subscriptions.address,change:A.subscriptions.change,render:A.subscriptions.render}:{editor:F,draft:S.draft,address:C.address,change:C.change,render:C.render};
 F.cart=()=>U.page('Your bag','Review your items before choosing fulfillment details.',S.cart.length&&M.page!=='empty'?U.columns(
  U.panel('Items in your bag',U.items(S.cart,true))+(S.removed?U.alert('Item removed. Your other selections are saved.')+U.button('undo','Undo removal'):''),
@@ -31,11 +35,11 @@ F.review=()=>U.page('Review your order','Check your items and fulfillment detail
  U.panel('Order items',U.items(S.cart),U.link('cart','Edit cart'))+U.panel('Fulfillment details',U.fulfillment(null,false),U.link('checkout/fulfillment','Edit'))+
  (S.draft.method==='delivery'?U.panel('Delivery address',U.address(C.address()),U.link('checkout/address','Edit address')):'')+
  U.panel('Payment method','<p><span class="material-symbols-outlined">qr_code_2</span> QR Ph · Bank / e-wallet transfer</p>'),
- U.summary()+(M.review!=='normal'?U.alert({stock:'Requested quantity is no longer available. Edit your bag.',capacity:'Selected date is full. Choose another fulfillment date.',error:'We could not verify this order. Your selections are saved.',checking:'Checking stock and schedule…'}[M.review],true)+U.button('review-retry','Retry verification'):'')+(M.price==='updated'?U.alert('Demo price update: first item increases by ₱20 per unit. Review and accept the new total before payment.')+U.button('accept-price','Accept updated price'):'')+U.button('pay','Proceed to payment',!C.ready()||M.review!=='normal'||M.price==='updated')+U.link(S.draft.method==='pickup'?'checkout/fulfillment':'checkout/address','Back to '+(S.draft.method==='pickup'?'fulfillment':'delivery details'))),'checkout/review');
+ U.summary()+(M.review!=='normal'?U.alert({stock:'Requested quantity is no longer available. Edit your bag.',capacity:'Selected date is full. Choose another fulfillment date.',error:'We could not verify this order. Your selections are saved.',checking:'Checking stock and schedule…'}[M.review],true)+U.button('review-retry','Retry verification'):'')+(C.priceNotice()?U.alert(C.priceNotice()):'')+U.button('pay','Proceed to payment',!C.ready()||M.review!=='normal')+U.link(S.draft.method==='pickup'?'checkout/fulfillment':'checkout/address','Back to '+(S.draft.method==='pickup'?'fulfillment':'delivery details'))),'checkout/review');
 F.action=(action,el)=>{
  const index=Number(el.dataset.index),item=S.cart[index];
  if(action==='accept-catalog-price'){if(!C.change())return;for(const i of C.priceChanges()){const v=A.variant(i.productId,i.key.split(':')[1]);if(v){i.price=v.price;i.catalogPrice=v.price;}}A.toast('Current catalog prices applied.');}
- if(['increase','decrease','remove','undo','switch-pickup','switch-delivery','accept-price'].includes(action)&&!C.change())return;
+ if(['increase','decrease','remove','undo','switch-pickup','switch-delivery'].includes(action)&&!C.change())return;
  if(action==='increase'&&item)item.quantity=Math.min(item.max,item.quantity+1);
  if(action==='decrease'&&item){item.quantity=Math.max(1,item.quantity-1);if(S.cart.every(i=>i.quantity<=i.max))M.stock='normal';}
  if(action==='remove'&&item){S.removed={item:C.copy(item),index};S.cart.splice(index,1);if(S.cart.every(i=>i.available&&i.quantity<=i.max))M.stock='normal';}
@@ -58,7 +62,6 @@ F.action=(action,el)=>{
  if(action==='quote-retry')S.draft.quote='ok';
  if(action==='address-next'&&C.ready()&&!F.form)location.hash='#/checkout/review';
  if(action==='review-retry')M.review='normal';
- if(action==='accept-price'&&S.cart[0]){S.cart[0].price+=20;M.price='normal';A.toast('Updated demo price accepted.');}
  if(action==='pay'){const order=C.createOrder();if(order)location.hash='#/payment/'+order.id;}
  C.sync();C.render();A.inspector();
 };

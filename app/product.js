@@ -22,7 +22,7 @@ function updatePricing(){
  $('productWeightBadge').textContent=A.variant(S.id,S.variant)?.label||current().variant;
  document.querySelector('[onclick="adjustQty(-1)"]').disabled=S.quantity<=1;
  document.querySelector('[onclick="adjustQty(1)"]').disabled=S.quantity>=10;
- if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required,S.purchase==='subscription'?A.subscriptions.pending()?.id:undefined);$('addToCartBtn').disabled=!S.available||(A.catalogState&&!A.catalogState.eligible(S.id,S.variant))||!!shortage||(S.purchase==='subscription'&&A.subscriptions.offering(S.id)!=='available');$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
+ if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required,S.purchase==='subscription'?A.subscriptions.pending()?.id:undefined);$('addToCartBtn').disabled=!S.available||!A.inventory.productAvailable(S.id,S.variant)||!!shortage||(S.purchase==='subscription'&&A.subscriptions.offering(S.id)!=='available');$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
 }
 function setPurchase(mode){
  S.purchase=mode;
@@ -31,12 +31,7 @@ function setPurchase(mode){
 }
 function selectVariant(type){
  S.variant=type;
- ['Std','Lrg'].forEach((suffix,i)=>{
-  const b=$('variantBtn'+suffix),selected=current().variants[i]?.id===type;
-  b.style.borderColor=selected?'#8d4a14':'transparent';b.setAttribute('aria-pressed',selected);
-  b.querySelector('.material-symbols-outlined').textContent=selected?'check_circle':'radio_button_unchecked';
- });
- document.querySelectorAll('[data-extra-variant]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.extraVariant===type)));
+ document.querySelectorAll('#variantSection [data-variant-id]').forEach(b=>{const selected=b.dataset.variantId===type;b.style.borderColor=selected?'#8d4a14':'transparent';b.setAttribute('aria-pressed',selected);b.querySelector('.material-symbols-outlined').textContent=selected?'check_circle':'radio_button_unchecked';});
  updatePricing();
 }
 function adjustQty(delta){S.quantity=Math.max(1,Math.min(10,S.quantity+delta));updatePricing();}
@@ -47,11 +42,18 @@ function switchProductThumb(src,index){
 function setAvailability(value){
  S.available=value;$('addToCartBtn').disabled=!value;
  $('productBadgeAvailability').textContent=value?'Available':'Temporarily unavailable';
- $('addToCartBtn').innerHTML=value?'<span class="material-symbols-outlined">shopping_bag</span><span>Add to Cart • <span id="btnPriceAmount"></span></span>':'Currently Sold Out';
+ $('addToCartBtn').innerHTML=value?'<span class="material-symbols-outlined">shopping_bag</span><span>Add to Cart</span>':'Currently Sold Out';
  if(S.purchase==='subscription'){$('addToCartBtn').disabled=A.subscriptions?.offering(S.id)!=='available';$('addToCartBtn').innerHTML='<span>Configure 4-Week Subscription →</span>'; }
  updatePricing();
 }
-function setProductType(type){S.type=type;const variants=current().variants.filter(v=>!['inactive','unavailable'].includes(v.status));hide('variantSection',type==='single'||variants.length<2);['Std','Lrg'].forEach((suffix,i)=>{const v=variants[i],b=$('variantBtn'+suffix);b.hidden=!v;if(v){b.onclick=()=>selectVariant(v.id);b.innerHTML='<strong>'+A.escape(v.label)+'</strong><span>₱'+v.price+'</span><span class="material-symbols-outlined">radio_button_unchecked</span>';}});document.querySelectorAll('[data-extra-variant]').forEach(b=>b.remove());variants.slice(2).forEach(v=>{const b=document.createElement('button');b.type='button';b.className='btn';b.dataset.extraVariant=v.id;b.textContent=v.label+' · ₱'+v.price;b.onclick=()=>selectVariant(v.id);$('variantBtnLrg').parentElement.append(b);});selectVariant(variants[0]?.id||'standard');}
+function simulateAvailability(value){
+ const item=current();if(!item)return;
+ // Update the shared catalog flag used by cart validation as well as this view.
+ item.available=value;
+ setAvailability(value);
+ A.catalog.refresh();
+}
+function setProductType(type){S.type=type;const variants=current().variants,active=variants.filter(v=>v.active!==false),first=$('variantBtnStd'),container=first.parentElement,classes=first.className;hide('variantSection',type==='single'||active.length<2);container.innerHTML=variants.map((v,i)=>`<button type="button" class="${classes}" id="${i===0?'variantBtnStd':i===1?'variantBtnLrg':'variantBtn'+i}" data-variant-id="${A.escape(v.id)}" ${v.active===false?'hidden disabled':''}><strong>${A.escape(v.label)}</strong><span>₱${v.price}</span><span class="material-symbols-outlined">radio_button_unchecked</span></button>`).join('');container.querySelectorAll('[data-variant-id]').forEach(b=>b.onclick=()=>selectVariant(b.dataset.variantId));selectVariant(active[0]?.id||variants[0].id);}
 function setPageState(mode){
  S.page=mode;
  ['mainProductContent','pageSkeletonState','pageErrorState','pageNotFoundState'].forEach((id,i)=>hide(id,['normal','loading','error','notfound'][i]!==mode));
@@ -77,8 +79,6 @@ function openReviewModal(){
  if(A.auth!=='signedin'){A.context='review';A.returnRoute=location.hash;location.hash='#/sign-in';return;}
  if(S.elig!=='eligible'||S.submitted.has(S.reviewKey??S.id)){A.toast('Use Mock Controls to preview an eligible completed purchase.');return;}
  S.rating=0;S.photos=[false,false];renderModalStars();renderPhotoSlots();
- if(!$('p7-review-images')){const field=document.createElement('div');field.className='field';field.innerHTML='<label for="p7-review-images">Review photos (up to two, 2 MB each)</label><input id="p7-review-images" type="file" accept="image/png,image/jpeg,image/webp" multiple>';$('photoCountLabel').after(field);field.querySelector('input').addEventListener('change',async e=>{const token=pending;try{const images=await A.feedback.readImages(e.target.files);if(token!==pending||A.modal!=='reviewComposerModal')return;S.photos=[images[0]||false,images[1]||false];renderPhotoSlots();}catch(error){hide('modalSubmitError',false);$('modalSubmitError').textContent=error.message;}});}
- $('p7-review-images').value='';
  $('reviewCommentInput').value='';hide('modalSubmitError',true);hide('modalSubmitSuccess',true);hide('modalFooterActions',false);
  $('reviewComposerModal').querySelector('h3+p').textContent=current().name+' ('+$('productWeightBadge').textContent+')';
  $('modalSubmitBtn').textContent='Submit Review';$('modalSubmitBtn').disabled=true;A.openModal('reviewComposerModal');
@@ -91,49 +91,52 @@ function renderModalStars(){
 function setModalStarRating(n){S.rating=n;renderModalStars();$('modalSubmitBtn').disabled=false;$('modalSubmitBtn').classList.remove('opacity-50','cursor-not-allowed');}
 function renderPhotoSlots(){
  S.photos.forEach((selected,i)=>{
-  const el=$('slotPhoto'+(i+1));el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',(selected?'Remove':'Choose')+' review photo '+(i+1));
-  el.innerHTML=selected?'<img alt="Selected review photo" src="'+A.escape(selected)+'" class="w-full h-full object-cover">':'<span class="material-symbols-outlined">add_a_photo</span><span>Choose photo</span>';
+  const el=$('slotPhoto'+(i+1));el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',(selected?'Remove':'Select')+' demo photo '+(i+1));
+  el.innerHTML=selected?'<img alt="Selected demo photo" src="'+current().image+'" class="w-full h-full object-cover">':'<span class="material-symbols-outlined">add_a_photo</span><span>Demo photo</span>';
  });
  $('photoCountLabel').textContent=S.photos.filter(Boolean).length+' / 2 selected';
 }
-function toggleMockPhoto(n){if(S.photos[n-1]){S.photos[n-1]=false;renderPhotoSlots();}else $('p7-review-images')?.click();}
+function toggleMockPhoto(n){S.photos[n-1]=!S.photos[n-1];renderPhotoSlots();}
 function handleReviewSubmit(){
  if(!S.rating||$('modalSubmitBtn').disabled)return;
+ const comment=$('reviewCommentInput');
+ if(comment.value.length>300){comment.setCustomValidity('Keep your review to 300 characters or fewer.');comment.reportValidity();return;}
+ comment.setCustomValidity('');
  const token=++pending,productId=S.id;$('modalSubmitBtn').disabled=true;$('modalSubmitBtn').textContent='Submitting…';
  setTimeout(()=>{
   if(token!==pending||A.modal!=='reviewComposerModal'||S.id!==productId)return;
   $('modalSubmitBtn').disabled=false;$('modalSubmitBtn').textContent='Submit Review';
   hide('modalSubmitError',!S.error);
-  if(!S.error){const error=A.feedback?.submit(S.reviewKey??S.id,S.rating,$('reviewCommentInput').value,S.photos.filter(Boolean));if(error){hide('modalSubmitError',false);$('modalSubmitError').textContent=error;return;}hide('modalSubmitSuccess',false);hide('modalFooterActions',true);S.submitted.add(S.reviewKey??S.id);eligibility();A.feedback?.renderPublic(S.id);}
+  if(!S.error){A.reviews?.capture();hide('modalSubmitSuccess',false);hide('modalFooterActions',true);S.submitted.add(S.reviewKey??S.id);eligibility();}
  },600);
 }
 function previewCustomerPhoto(el){const img=el.querySelector('img');if(img){$('photo-preview-image').src=img.src;$('photo-preview-image').alt=img.alt;A.openModal('photo-modal');}}
 function show(id){
- const item=A.products.find(p=>p.id===id);if(!item||A.catalogState&&!A.catalogState.visible(item)){setPageState('notfound');return;}
+ const item=A.products.find(p=>p.id===id);if(!item){setPageState('notfound');return;}
  pending++;S.id=id;S.reviewKey=id;S.purchase='once';S.quantity=1;S.variant='standard';S.type=item.variants.length>1?'multi':'single';S.available=item.available;
  $('mainProductContent').querySelector('h1').textContent=item.name;
  $('product-breadcrumb-name').textContent=item.name;$('product-breadcrumb-category').textContent=item.categoryLabel;
  $('product-category').textContent=item.categoryLabel;
- $('mainProductContent').querySelector('p').textContent=id===1&&!item.catalogEdited?original.description:item.description+(item.price.startsWith('From')?' Additional size and price details are not provided in this prototype.':'');
+ $('mainProductContent').querySelector('p').textContent=item.description+(item.price.startsWith('From')?' Additional size and price details are not provided in this prototype.':'');
  $('mainProductImg').src=item.image;$('mainProductImg').alt=item.name;
  $('product-gallery').innerHTML=id===1?original.gallery:'';
- $('product-rating-link').hidden=true;
+ $('product-rating-link').hidden=id!==1;
  $('product-subscription').hidden=!item.subscription;
  $('product-subscription').querySelector('p').textContent='Receive this product once a week for four deliveries. Paid in full upfront, with no automatic renewal. Delivery fees are added during setup.';
  $('product-subscription-badge').hidden=!item.subscription;
  $('reviewsPopulatedState').innerHTML=id===1?original.reviews:'<p class="alert">No review content is provided for this product in the source mockups.</p>';
  $('review-summary').innerHTML=original.summary;
  $('purchase-options').hidden=!item.subscription;setPurchase('once');setProductType(S.type);setAvailability(item.available);setPageState('normal');setReviewState(id===1?'populated':'empty');eligibility();
- $('related-products').innerHTML=A.products.filter(p=>p.id!==id&&p.category===item.category&&(!A.catalogState||A.catalogState.visible(p))).slice(0,3).map(A.catalog.card).join('');
+ $('related-products').innerHTML=A.products.filter(p=>p.id!==id&&p.category===item.category).slice(0,3).map(A.catalog.card).join('');
  document.querySelectorAll('#reviewsPopulatedState [onclick]').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','Preview customer photo');});
- A.feedback?.renderPublic(id);
 }
 Object.assign(window,{updatePricing,selectVariant,adjustQty,switchProductThumb,setAvailability,setProductType,setPageState,setReviewState,setEligibility,handleAddToCart,openReviewModal,closeReviewModal,setModalStarRating,toggleMockPhoto,handleReviewSubmit,previewCustomerPhoto});
-A.product={show,state:S,setPurchase,eligibility,setPageState,setReviewState,setEligibility,setProductType,setAvailability};
+A.product={show,state:S,setPurchase,eligibility,setPageState,setReviewState,setEligibility,setProductType,setAvailability:simulateAvailability};
 document.querySelectorAll('#slotPhoto1,#slotPhoto2').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}}));
 document.addEventListener('keydown',e=>{if(e.target.matches('#reviewsPopulatedState [role=button]')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.target.click();}});
 const options=document.createElement('div');options.id='purchase-options';options.className='purchase-options';options.innerHTML='<button type="button" class="btn" data-purchase="once" aria-pressed="true">Buy Once</button><button type="button" class="btn" data-purchase="subscription" aria-pressed="false">4-Week Subscription</button>';$('variantSection').before(options);
 options.addEventListener('click',e=>{if(e.target.dataset.purchase)setPurchase(e.target.dataset.purchase);});
 const subscriptionLink=$('product-subscription').querySelector('a');subscriptionLink.removeAttribute('data-path');subscriptionLink.href='#';subscriptionLink.textContent='Configure 4-Week Subscription →';subscriptionLink.addEventListener('click',e=>{e.preventDefault();if(A.subscriptions.begin(S.id,S.variant,S.quantity))location.hash='#/subscription/configure';});
+$('reviewCommentInput').addEventListener('input',e=>e.target.setCustomValidity(''));
 renderPhotoSlots();
 })();

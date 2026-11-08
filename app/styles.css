@@ -36,3 +36,7 @@ body.modal-open{overflow:hidden}footer{padding-bottom:70px}
 @media(max-width:1099px){#app-shell>header nav{order:3;width:100%;justify-content:center;display:flex;font-size:12px}#app-shell>header>div:last-child{gap:10px}#nav-search-input{width:120px}#app-shell>header img{display:none}}
 @media(max-width:767px){.dialog-card{padding:28px 22px}.name-row{grid-template-columns:1fr}.overlay{padding:16px 12px 80px}.otp-row{gap:6px}#related-products{grid-template-columns:1fr}#mock-panel{max-height:45dvh}#app-shell>header>div:last-child{min-height:64px}#app-shell>header nav{overflow-x:auto;justify-content:flex-start;padding-bottom:3px}#catalog-start>div>div:last-child{flex-wrap:wrap}#catalog-start>div>div:last-child>div{width:100%}#app-shell>header>div:first-child{font-size:10px}#product-view .thumb-btn{min-width:60px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+
+#category-tabs .cat-pill span[id^="count-"]{color:#4b4541;background:#eee9e4;opacity:1}
+
+#category-tabs .cat-pill span[id^="count-"]{color:#4b4541;background:#eee9e4;opacity:1}

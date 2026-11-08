@@ -33,15 +33,16 @@ D.standard=(date,items,scenario='normal',exclude=A.commerce?.state.activeId)=>{
  if(scenario==='mixed-cart'&&date<D.add(D.today(),6))return 'Lead time';
  return '';
 };
+D.subscriptionLimit=id=>D.config.subscriptionLimits?.[id]??D.config.subscriptionUnits;
 D.used=(productId,date,exclude)=>D.allocations.filter(a=>a.productId===productId&&D.week(a.date)===D.week(date)&&a.owner!==exclude&&(a.confirmed||a.deadline>Date.now())).reduce((n,a)=>n+a.quantity,0);
 D.subscription=(productId,quantity,dates,exclude)=>{
  if(!Number.isInteger(quantity)||quantity<1)return 'Choose a valid quantity.';
  const byWeek=new Map();
  for(const date of dates){const reason=D.base(date,productId,{replacement:true});if(reason)return reason;const week=D.week(date);byWeek.set(week,(byWeek.get(week)||0)+quantity);}
- for(const [week,q] of byWeek)if(D.used(productId,week,exclude)+q>D.config.subscriptionUnits)return 'Subscription capacity reached';
+ for(const [week,q] of byWeek)if(D.used(productId,week,exclude)+q>D.subscriptionLimit(productId))return 'Subscription capacity reached';
  return '';
 };
 D.release=owner=>{if(A.capacity)A.capacity.history.push(...D.allocations.filter(a=>a.owner===owner).map(a=>({...a,status:'released',released_at:Date.now()})));D.allocations=D.allocations.filter(a=>a.owner!==owner);};
 D.reserve=(owner,productId,quantity,dates,confirmed=false,deadline=0)=>{const reason=D.subscription(productId,quantity,dates,owner);if(reason)return reason;const existing=D.allocations.filter(a=>a.owner===owner);if(existing.length===dates.length&&existing.every(a=>a.productId===productId&&a.quantity===quantity&&a.date===dates[a.cycle-1]&&(a.confirmed||a.deadline>Date.now()))){existing.forEach(a=>{a.confirmed=confirmed||a.confirmed;a.deadline=deadline;});return '';}D.release(owner);dates.forEach((date,index)=>D.allocations.push({id:D.nextAllocationId(),owner,productId,quantity,date,cycle:index+1,confirmed,deadline}));return '';};
-D.reset=()=>{D.allocations=[];D.allocationSerial=0;D.config.clock='2026-10-14T12:00:00+08:00';D.config.blocked=[];D.config.stock={};D.config.productRules={};delete D.config.timing;Object.assign(D.config,{standardUnits:10,standardVarieties:4,subscriptionUnits:10,leadDays:2,cutoffHour:16});};
+D.reset=()=>{D.allocations=[];D.allocationSerial=0;D.config.clock='2026-10-14T12:00:00+08:00';D.config.blocked=[];D.config.stock={};D.config.productRules={};D.config.subscriptionLimits={};delete D.config.timing;Object.assign(D.config,{standardUnits:10,standardVarieties:4,subscriptionUnits:10,leadDays:2,cutoffHour:16});};
 })();

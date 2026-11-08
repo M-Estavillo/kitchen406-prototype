@@ -10,11 +10,11 @@ Q.issue=(id,input,version,key)=>{
  const r=K.state.requests.find(r=>r.id===id);if(!r)return 'Request not found.';if((r.version||0)!==version)return 'Request changed. Reopen the quotation.';
  if(Q.locked(r)||['rejected','expired'].includes(r.status))return 'This request has locked or unavailable content.';
  const reason=K.dateReason(input.date);if(reason)return reason;
- if(!K.windows(input.date)[input.window]||!['pickup','delivery'].includes(input.method))return 'Choose a valid fulfillment method and window.';
+ if(!['pickup','delivery'].includes(input.method))return 'Choose a valid fulfillment method.';
  if(![input.complexity,input.fee].every(n=>Number.isFinite(n)&&n>=0&&Number.isSafeInteger(n)))return 'Charges must be nonnegative currency amounts.';
  if(!Number.isFinite(input.expiry)||input.expiry<=Date.now())return 'Choose a future expiry.';
  if(input.method==='delivery'&&!K.serviceable(r.snapshot.address))return 'The submitted delivery address is not serviceable.';
- const snapshot=C.copy(r.snapshot);Object.assign(snapshot,{date:input.date,window:input.window,windowLabel:K.windows(input.date)[input.window],method:input.method,address:input.method==='pickup'?null:snapshot.address});
+ const snapshot=C.copy(r.snapshot);Object.assign(snapshot,{date:input.date,method:input.method,address:input.method==='pickup'?null:snapshot.address});
  const materials=K.materials(snapshot.options,snapshot.addons),materialReason=K.materialReason(materials);if(materialReason)return materialReason;
  const versions=K.versions(r),v=(versions[0]?.version||0)+1;
  const q={id:'QUOTE-'+(++K.state.serial),requestId:id,customer_id:r.customer_id,created_by_admin_id:A.session.actor().id,version:v,status:'issued',issued_at:Date.now(),expires_at:input.expiry,snapshot,options_total:snapshot.options.reduce((n,x)=>n+x.price,0),addons_total:snapshot.addons.reduce((n,x)=>n+x.price*x.quantity,0),complexity_charge:input.complexity,delivery_fee:input.method==='pickup'?0:input.fee,owner_notes:input.notes.trim().slice(0,2000),materials};

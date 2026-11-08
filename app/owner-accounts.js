@@ -1,30 +1,113 @@
-/* Explicit-account commands: owner settings never activate a customer identity. */
+/* One staff registry backs owner management and mock sign-in. Customer records are read-only. */
 (() => {
-const A=K406,V=A.ownerUI,E=A.escape,C=A.catalogState;
-const identify=(r,role)=>{r.account_id??=r.id;r[role==='admin'?'admin_id':'staff_id']??=r.id;r.role=role;if(role==='staff'){r.is_temp_pass_changed=!!r.setup;r.created_by_admin_id??=A.session.owner.id;}r.created_at??=Date.now();r.updated_at??=r.created_at;return r;};
-identify(A.staff.account,'staff');identify(A.session.owner,'admin');
-const staffBaseline={...A.staff.account},ownerBaseline={...A.session.owner};
-const S=A.staffAccounts={records:[A.staff.account],version:0};
-S.find=email=>S.records.find(r=>r.email.toLowerCase()===email.toLowerCase());
-S.save=async(id,data,version)=>{if(!A.session.ownerAllowed())return 'Owner access required.';if(Number(version)!==S.version)return 'Accounts changed. Reopen the editor.';const generation=A.session.generation,r=S.records.find(r=>r.id===id);if(id&&!r)return 'Account not found.';if(!data.first_name.trim()||!data.last_name.trim()||!/^\S+@\S+\.\S+$/.test(data.email)||C.emailUsed(data.email,r))return 'Enter names and a unique valid email.';
- let hash;if(!r||data.password){if(!A.account.passwordValid(data.password)||data.password!==data.confirm)return 'Use matching passwords with at least 8 characters, letters and numbers.';hash=await A.account.hash(data.password);}
- if(generation!==A.session.generation||!A.session.ownerAllowed()||Number(version)!==S.version)return 'This session or account changed. Reopen the editor.';
- const saved=r||{id:crypto.randomUUID(),setup:false,created_at:Date.now(),created_by:A.session.owner.id,created_by_admin_id:A.session.owner.id};Object.assign(saved,{first_name:data.first_name.trim(),last_name:data.last_name.trim(),email:data.email.trim().toLowerCase(),status:data.status==='inactive'?'inactive':'active',updated_at:Date.now()});identify(saved,'staff');if(hash){Object.assign(saved,{hash,setup:false,is_temp_pass_changed:false});const verification=X.recordVerification(saved,'account_setup',hash,saved.email);saved.setup_verification_id=verification.account_verification_id;X.logVerification(verification,'account_setup','Staff account setup');}if(!r)S.records.push(saved);S.version++;return '';};
-S.setup=async(current,next,confirm)=>{const r=A.staff.account,generation=A.session.generation;if(A.auth!=='signedin'||A.staff.role!=='staff'||r.status!=='active'||r.setup)return 'Restricted setup access required.';const verification=X.verifications.find(v=>v.account_verification_id===r.setup_verification_id),expected=r.hash;if(verification&&(verification.expires_at<Date.now()||verification.attempt_count>=5))return 'Setup expired or locked. Ask the owner to reset your temporary password.';if(verification)verification.attempt_count++;if(await A.account.hash(current)!==expected)return 'Incorrect temporary password.';if(!A.account.passwordValid(next)||next!==confirm||next===current)return 'Use a different matching password with letters and numbers (8+ characters).';const hash=await A.account.hash(next);if(generation!==A.session.generation||r!==A.staff.account||r.status!=='active'||r.hash!==expected)return 'Session changed.';const now=Date.now();Object.assign(r,{hash,setup:true,is_temp_pass_changed:true,password_changed_at:now,updated_at:now});if(verification)verification.verified_at=now;S.version++;return '';};
-S.setupPage=()=>V.intro('Complete staff setup','Change your temporary password before accessing bakery operations.')+V.panel('Set your password',`<form data-p7-setup class="staff-form">${V.field('current','Temporary password','','password','required autocomplete="current-password"')}${V.field('next','New password','','password','required autocomplete="new-password"')}${V.field('confirm','Confirm password','','password','required autocomplete="new-password"')}${V.error()}<button class="btn primary">Complete setup</button></form>`);
-const X=A.ownerAccounts={verification:null,verifications:[]};
-X.recordVerification=(account,purpose,hash,email)=>{const now=Date.now(),record={account_verification_id:crypto.randomUUID(),account_id:account.account_id||account.id,purpose,otp_code_hash:hash,target_email:email,expires_at:now+(purpose==='account_setup'?86400000:600000),verified_at:null,attempt_count:0,created_at:now};X.verifications.push(record);return record;};
-X.logVerification=(v,type,message)=>A.ownerNotifications.log('verification-'+v.account_verification_id,{recipient_account_id:v.account_id,type,provider:'brevo',status:'sent',related_entity_type:'account_verification',related_entity_id:v.account_verification_id,created_at:Date.now(),message,channel:'email',detail:'Simulated verification delivery; no external email was sent.'});
-X.staff=()=>V.intro('Staff accounts','Fixed staff permissions. New and reset accounts must complete password setup.',V.button('p7-edit','Add staff account','data-kind="staff"'))+V.filters()+V.panel('Staff registry',V.paged(V.filtered(S.records,r=>r.first_name+' '+r.last_name+' '+r.email,r=>V.businessDate(r.created_at||Date.now())),rows=>V.table(['Name','Email','Status','Setup','Actions'],rows.map(r=>`<tr><td>${E(r.first_name+' '+r.last_name)}</td><td>${E(r.email)}</td><td>${V.badge(r.status)}</td><td>${r.setup?'Complete':'Required'}</td><td>${V.button('p7-edit','Edit / reset',`data-kind="staff" data-id="${E(r.id)}"`)}</td></tr>`))));
-X.customers=()=>{if(!A.session.ownerAllowed())return '';const id=A.owner.parts[2],r=A.account.records.find(r=>r.customer_id===id);if(id&&!r)return V.panel('Customer not found','<p>Choose a customer from the directory.</p>');if(r){const orders=A.operations.list().filter(o=>o.customer_id===id),addresses=id===A.account.id()?A.commerce.state.addresses:A.account.buckets.get(id)?.commerce?.addresses||[];return V.intro(r.first_name+' '+r.last_name,'Read-only customer account.',V.link('customers','All customers'))+V.panel('Contact',`<p>${E(r.email)}</p><p>${E(r.mobile_number)}</p><p>${V.badge(r.status)} · ${r.email_verified_at?'Email verified':'Email unverified'}</p>`)+V.panel('Addresses',addresses.map(a=>`<p>${E(a.label)} · ${E(a.add_line_1)} · ${E(a.city)} · ${E(a.status)} ${a.is_default?'(Default)':''}</p>`).join('')||'<p>No saved addresses.</p>')+V.panel('Activity',V.table(['Reference','Type','Status','Total'],orders.map(o=>`<tr><td>${V.link(o.type==='subscription_purchase'?'subscriptions':'orders/'+encodeURIComponent(o.id),o.id)}</td><td>${E(o.type)}</td><td>${V.badge(A.operations.status(o))}</td><td>${V.money(o.total)}</td></tr>`)));}
- return V.intro('Customer accounts','Read-only contact details and purchase activity.')+V.filters([['verified','Email verified'],['unverified','Email unverified']])+V.panel('Customers',V.paged(V.filtered(A.account.records,r=>r.first_name+' '+r.last_name+' '+r.email+' '+r.mobile_number,r=>V.businessDate(r.created_at),r=>r.email_verified_at?'verified':'unverified'),rows=>V.table(['Customer','Email / mobile','Status','Orders','Details'],rows.map(r=>`<tr><td>${E(r.first_name+' '+r.last_name)}</td><td>${E(r.email)}<p>${E(r.mobile_number)}</p></td><td>${V.badge(r.status)}</td><td>${A.operations.list().filter(o=>o.customer_id===r.customer_id).length}</td><td>${V.link('customers/'+r.customer_id,'View account')}</td></tr>`))));};
-X.open=(kind,id)=>{if(kind!=='staff')return false;const r=S.records.find(r=>r.id===id);if(id&&!r){A.toast('Account not found.');return true;}A.owner.open(r?'Edit staff account':'Add staff account',V.form('p7-staff',V.field('first_name','First name',r?.first_name||'','text','required')+V.field('last_name','Last name',r?.last_name||'','text','required')+V.field('email','Email',r?.email||'','email','required')+V.select('status','Status',[['active','Active'],['inactive','Inactive']],r?.status||'active')+V.field('password',r?'New temporary password (leave blank to retain)':'Temporary password','','password',r?'':'required')+V.field('confirm','Confirm temporary password','','password',r?'':'required')+'<p>A temporary-password reset requires setup at the next sign-in.</p>',`data-id="${E(id||'')}" data-version="${S.version}"`));return true;};
-X.settings=()=>{const r=A.session.owner;return V.intro('Owner settings','Manage your owner profile and sign-in details.',V.button('signout','Sign out'))+V.panel('Profile',V.form('p7-profile',V.field('first_name','First name',r.first_name,'text','required')+V.field('last_name','Last name',r.last_name,'text','required')))+V.panel('Password',V.form('p7-password',V.field('current','Current password','','password','required')+V.field('next','New password','','password','required')+V.field('confirm','Confirm password','','password','required')))+V.panel('Email address',`<p>Current email: ${E(r.email)}</p>`+V.form('p7-email',V.field('email','New email','','email','required')+V.field('email-current','Current password','','password','required'),'','Send verification code')+(X.verification?V.form('p7-otp',V.field('code','Verification code','','text','required inputmode="numeric"'),'','Verify email'):''));};
-X.save=async(kind,form,data)=>{if(!A.session.ownerAllowed())return 'Owner access required.';if(kind==='staff')return S.save(form.dataset.id,data,form.dataset.version);const r=A.session.owner,generation=A.session.generation;if(kind==='profile'){if(!data.first_name.trim()||!data.last_name.trim())return 'Enter first and last names.';Object.assign(r,{first_name:data.first_name.trim(),last_name:data.last_name.trim(),updated_at:Date.now()});return '';}
- if(kind==='otp'){const v=X.verification;if(!v||v.generation!==generation||v.expires<Date.now()||v.attempts>=5)return 'Start email verification again.';v.attempts++;const record=X.verifications.find(r=>r.account_verification_id===v.id);if(record)record.attempt_count=v.attempts;const hash=await A.account.hash(data.code);if(generation!==A.session.generation||X.verification!==v)return 'Session changed.';if(hash!==record?.otp_code_hash)return 'Incorrect verification code.';if(C.emailUsed(v.email,r))return 'Email is already used.';const now=Date.now();Object.assign(r,{email:v.email,email_verified_at:now,updated_at:now});if(record)record.verified_at=now;X.verification=null;return '';}
- if(!['password','email'].includes(kind))return null;const expected=r.hash||await A.account.hash('Kitchen406!');if(await A.account.hash(data.current||data['email-current'])!==expected)return 'Incorrect current password.';if(generation!==A.session.generation||!A.session.ownerAllowed())return 'Session changed.';
- if(kind==='email'){if(!/^\S+@\S+\.\S+$/.test(data.email)||C.emailUsed(data.email,r)||data.email.toLowerCase()===r.email.toLowerCase())return 'Use a different, unique valid email.';const code=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000),hash=await A.account.hash(code);if(generation!==A.session.generation||!A.session.ownerAllowed())return 'Session changed.';const record=X.recordVerification(r,'email_change',hash,data.email.toLowerCase());X.verification={id:record.account_verification_id,email:record.target_email,code,expires:record.expires_at,attempts:0,generation};X.logVerification(record,'email_verification_otp','Verify owner email change');A.inspector?.();return '';}
- if(!A.account.passwordValid(data.next)||data.next!==data.confirm)return 'Use matching passwords with letters and numbers (8+ characters).';const hash=await A.account.hash(data.next);if(generation!==A.session.generation||!A.session.ownerAllowed())return 'Session changed.';Object.assign(r,{hash,password_changed_at:Date.now(),updated_at:Date.now()});return '';};
-X.reset=()=>{S.records=[{...staffBaseline}];A.staff.account=S.records[0];S.version=0;Object.keys(A.session.owner).forEach(k=>delete A.session.owner[k]);Object.assign(A.session.owner,ownerBaseline);X.verification=null;X.verifications=[];};
-document.addEventListener('submit',async e=>{if(!e.target.hasAttribute('data-p7-setup'))return;e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),button=f.querySelector('button');button.disabled=true;const error=await S.setup(d.current,d.next,d.confirm);button.disabled=false;if(error)f.querySelector('.owner-error').textContent=error;else{location.hash='#/staff';A.staff.render();}});
+const A=K406,V=A.ownerUI,E=A.escape,S=A.staff,P=A.account;
+const initial={...S.account,role:'staff',version:0};
+S.accounts=[S.account];Object.assign(S.account,{role:'staff',version:0});
+const M=A.ownerAccounts={query:'',status:'all',sort:'name',page:1,results:new Map(),pending:new Set(),views:new Map(),section:'staff'};
+M.find=id=>S.accounts.find(s=>s.id===id);
+M.duplicate=(email,id)=>[A.session.owner,...S.accounts,...P.records].some(s=>(!id||s.id!==id)&&s.email.toLowerCase()===email.toLowerCase());
+M.save=async(data,id,version,key,generation=A.session.generation,stillOpen=()=>true)=>{
+ if(!A.session.ownerAllowed())return 'Owner access required.';
+ if(M.results.has(key))return '';
+ if(M.pending.has(key))return 'This account is already being saved.';
+ const record=id?M.find(id):null;
+ if(id&&(!record||record.version!==version))return 'Account changed. Reopen the editor.';
+ const first_name=data.first_name.trim(),last_name=data.last_name.trim(),email=data.email.trim().toLowerCase();
+ if(!first_name||!last_name)return 'First and last name are required.';
+ if(!/^\S+@\S+\.\S+$/.test(email))return 'Enter a valid email address.';
+ if(M.duplicate(email,id))return 'This email is already in use.';
+ if(!id&&!P.passwordValid(data.password))return 'Use at least 8 characters with letters and numbers for the initial password.';
+ if(A.owner.saveError)return 'The account could not be saved. Please retry.';
+ M.pending.add(key);
+ try{
+  const hash=id?null:await P.hash(data.password);
+  if(!A.session.ownerAllowed()||generation!==A.session.generation||!stillOpen())return 'The session changed. Reopen the editor.';
+  if(M.results.has(key))return '';
+  if(id&&record.version!==version)return 'Account changed. Reopen the editor.';
+  if(M.duplicate(email,id))return 'This email is already in use.';
+  if(A.owner.saveError)return 'The account could not be saved. Please retry.';
+  const now=new Date().toISOString(),actor=A.session.actor();
+  if(record){Object.assign(record,{first_name,last_name,email,updated_at:now,version:record.version+1});}
+  else S.accounts.push({id:'staff-'+crypto.randomUUID(),first_name,last_name,email,hash,role:'staff',status:'active',setup:true,version:0,created_at:now,created_by_admin_id:actor.id,created_by_name:actor.name});
+  M.results.set(key,true);return '';
+ }catch{return 'The account could not be saved. Please retry.';}finally{M.pending.delete(key);}
+};
+M.statusChange=(id,status,version,key)=>{
+ if(!A.session.ownerAllowed())return 'Owner access required.';
+ if(M.results.has(key))return '';
+ const r=M.find(id);if(!r||r.version!==version)return 'Account changed. Reopen the confirmation.';
+ if(!['active','inactive'].includes(status))return 'Invalid account status.';
+ if(A.owner.saveError)return 'The status could not be saved. Please retry.';
+ r.status=status;r.version++;r.updated_at=new Date().toISOString();
+ (r.history??=[]).push({status,at:r.updated_at,actor:A.session.actor()});M.results.set(key,true);
+ if(S.account===r){S.generation++;S.render?.();}return '';
+};
+const name=r=>r.first_name+' '+r.last_name,link=(path,label)=>V.link('accounts/'+path,label);
+
+const filters=customer=>`<form class="staff-toolbar" data-account-filter>${V.field('account-query','Search name or email',M.query,'search')}${V.select('account-status','Status',[['all','All statuses'],['active','Active'],['inactive','Inactive'],...(customer?[...new Set(P.records.map(r=>r.status).filter(s=>s&&!['active','inactive'].includes(s)))].map(s=>[s,s.replaceAll('_',' ')]):[])],M.status)}${V.select('account-sort','Sort',[['name','Name A–Z'],['newest','Newest first'],['oldest','Oldest first']],M.sort)}${V.button('account-clear','Clear filters')}</form>`;
+function listing(records,render){
+ const query=M.query.trim().toLowerCase(),rows=records.filter(r=>(name(r)+' '+r.email).toLowerCase().includes(query)&&(M.status==='all'||r.status===M.status)).sort((a,b)=>M.sort==='name'?name(a).localeCompare(name(b)):String(a.created_at||'').localeCompare(String(b.created_at||''))*(M.sort==='oldest'?1:-1));
+ const pages=Math.max(1,Math.ceil(rows.length/10));M.page=Math.min(M.page,pages);
+ return render(rows.slice((M.page-1)*10,M.page*10))+`<div class="staff-pager">${V.button('account-prev','Previous',M.page===1?'disabled':'')}<span>Page ${M.page} of ${pages} · ${rows.length} results</span>${V.button('account-next','Next',M.page===pages?'disabled':'')}</div>`;
+}
+const staffActions=r=>V.button('account-edit','Edit',`data-id="${E(r.id)}"`)+V.button('account-status',r.status==='active'?'Deactivate':'Activate',`data-id="${E(r.id)}"`);
+M.customerData=id=>{
+ if(!A.session.ownerAllowed())return null;
+ const customer=P.records.find(r=>r.customer_id===id);if(!customer)return null;
+ const orders=A.operations.list().filter(o=>o.customer_id===id),purchases=A.operations.purchases().filter(p=>p.customer_id===id),ids=new Set(purchases.map(p=>p.id));
+ return {customer,orders,subscriptions:A.subscriptions.allRecords().filter(r=>ids.has(r.purchaseId)),requests:A.cakes.state.requests.filter(r=>r.customer_id===id),addresses:(id===P.id()?A.commerce.state.addresses:P.buckets.get(id)?.commerce.addresses||[]).filter(a=>a.customer_id===id)};
+};
+A.ownerPages.accounts=()=>{
+ if(!A.session.ownerAllowed())return V.panel('Owner access required','');
+ const [, ,section='staff',id]=A.owner.parts,customer=section==='customers';
+ if(section==='customers'){location.replace('#/owner/accounts/staff');return '';}
+ if(section!=='staff')return V.panel('Page not found','');
+ if(M.section!==section){M.views.set(M.section,{query:M.query,status:M.status,sort:M.sort,page:M.page});Object.assign(M,M.views.get(section)||{query:'',status:'all',sort:'name',page:1});M.section=section;}
+ let body='';
+ if(id){
+  const r=M.find(id);if(!r)return V.panel('Staff account not found','',link('staff','Back to staff'));
+  body=V.intro(name(r),'Predefined Staff role',link('staff','Back to staff'))+V.panel('Staff account',`<p>${E(r.email)}</p><p>${V.badge(r.status)} · Created: ${V.date(V.businessDate(r.created_at))}</p><p>Created by: ${E(r.created_by_name||r.created_by_admin_id||'Not recorded')}</p><p>Staff can access permitted operational functions. Financial analytics and account administration are owner-only.</p><div class="staff-actions">${staffActions(r)}</div>`)+V.panel('Status history',(r.history||[]).map(h=>`<p>${V.badge(h.status)} · ${E(V.stamp(h.at))} · ${E(h.actor.name)}</p>`).join('')||'<p>No status changes recorded.</p>');
+ }else{
+  body=V.intro('Accounts','',V.button('account-edit','Create staff account','',true))+filters(false)+listing(S.accounts,staffCards);
+ }
+ return `<div class="${customer?'owner-customer-accounts':'owner-staff-accounts'}"><div class="staff-stack">${body}</div></div>`;
+};
+function staffCards(rows){return rows.length?`<div class="owner-staff-list">${rows.map(r=>`<article class="owner-staff-card"><div class="owner-staff-avatar" aria-hidden="true">${E((r.first_name?.[0]||'')+(r.last_name?.[0]||''))}</div><div class="owner-staff-copy"><div class="owner-commitment-heading"><a href="#/owner/accounts/staff/${encodeURIComponent(r.id)}"><strong>${E(name(r))}</strong></a>${V.badge(r.status)}</div><p>${E(r.email)}</p><span>Created ${V.date(V.businessDate(r.created_at))}</span></div><div class="owner-staff-actions">${staffActions(r)}</div></article>`).join('')}</div>`:'<p class="owner-orders-empty muted">No staff accounts match these filters.</p>';}
+
+document.addEventListener('click',e=>{
+ const button=e.target.closest('[data-owner]');if(!button||button.disabled||!A.session.ownerAllowed())return;
+ const action=button.dataset.owner,id=button.dataset.id,r=M.find(id);
+ if(action==='account-clear'){Object.assign(M,{query:'',status:'all',sort:'name',page:1});A.owner.render();}
+ if(action==='account-prev'||action==='account-next'){M.page+=action==='account-next'?1:-1;A.owner.render();}
+ if(action==='account-edit'){
+  if(id&&!r)return;
+  A.owner.open(r?'Edit staff account':'Create staff account',`<form class="staff-form" data-account-form data-id="${E(id||'')}" data-version="${r?.version||0}">${V.field('first_name','First name',r?.first_name||'','text','required')}${V.field('last_name','Last name',r?.last_name||'','text','required')}${V.field('email','Email',r?.email||'','email','required')}${r?'':V.field('password','Initial password','','password','required minlength="8" autocomplete="new-password"')+'<p>Use at least 8 characters with letters and numbers. Credentials are local to this preview.</p>'}${V.error()}<div class="owner-settings-actions">${V.button('cancel-stock','Cancel')}<button class="btn primary" type="submit">Save account</button></div></form>`);
+ }
+ if(action==='account-status'&&r)A.owner.open(r.status==='active'?'Deactivate staff account':'Activate staff account',`<div class="owner-staff-confirm"><p>${E(name(r))} · ${r.status==='active'?'This prevents staff access. Historical activity is retained.':'This restores access to the predefined Staff role.'}</p>${V.error()}<div class="owner-settings-actions">${V.button('account-confirm-status','Confirm',`data-id="${E(id)}" data-version="${r.version}" data-status="${r.status==='active'?'inactive':'active'}"`,true)}${V.button('cancel-stock','Cancel')}</div></div>`);
+ if(action==='account-confirm-status'){
+  const error=M.statusChange(id,button.dataset.status,Number(button.dataset.version),A.owner.formKey);
+  if(error){A.$('owner-dialog-body').querySelector('.owner-error').textContent=error;return;}
+  A.closeModal(true);A.operations.changed();A.toast('Staff status updated.');
+ }
+});
+function updateAccountFilters(e){
+ const form=e.target.closest('[data-account-filter]');if(!form||!A.session.ownerAllowed())return;
+ const name=e.target.name,start=e.target.selectionStart,end=e.target.selectionEnd;
+ Object.assign(M,{query:form.elements['account-query'].value,status:form.elements['account-status'].value,sort:form.elements['account-sort'].value,page:1});A.owner.render();
+ const control=document.querySelector(`[data-account-filter] [name="${name}"]`);control?.focus();if(name==='account-query'&&start!==null)control?.setSelectionRange(start,end);
+}
+document.addEventListener('input',e=>{if(e.target.name==='account-query')updateAccountFilters(e);});
+document.addEventListener('change',e=>{if(['account-status','account-sort'].includes(e.target.name))updateAccountFilters(e);});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-account-form]');if(f)f.dataset.dirty='true';});
+document.addEventListener('submit',async e=>{
+ const f=e.target;if(!f.matches('[data-account-form],[data-account-filter]'))return;e.preventDefault();if(!A.session.ownerAllowed())return;
+ if(f.matches('[data-account-filter]')){Object.assign(M,{query:f.elements['account-query'].value,status:f.elements['account-status'].value,sort:f.elements['account-sort'].value,page:1});A.owner.render();return;}
+ if(f.dataset.busy==='true')return;f.dataset.busy='true';const button=f.querySelector('[type=submit]');button.disabled=true;
+ const key=f.dataset.operation,generation=Number(f.dataset.generation),data=Object.fromEntries(new FormData(f));
+ const error=await M.save(data,f.dataset.id,Number(f.dataset.version),key,generation,()=>f.isConnected&&A.modal==='owner-modal');
+ if(!f.isConnected)return;f.dataset.busy='false';button.disabled=false;
+ if(error){f.querySelector('.owner-error').textContent=error;return;}
+ A.closeModal(true);A.operations.changed();A.toast('Staff account saved.');
+});
+const reset=A.commerce.reset;A.commerce.reset=()=>{reset();S.account={...initial};S.accounts=[S.account];M.results.clear();M.pending.clear();M.views.clear();M.section='staff';Object.assign(M,{query:'',status:'all',sort:'name',page:1});};
 })();

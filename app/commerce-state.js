@@ -12,12 +12,24 @@ const M={page:'normal',stock:'normal',calendar:'normal',dates:'normal',validatio
 const C=A.commerce={state:S,mock:M,routes:['cart','checkout','payment','confirmation','orders'],step:'',orderId:null};
 C.money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(n);
 C.copy=o=>JSON.parse(JSON.stringify(o));
+C.setPricePreview=value=>{
+ if(!C.change())return;
+ S.cart.forEach(item=>{if(item.previewOriginalPrice!==undefined){item.price=item.previewOriginalPrice;delete item.previewOriginalPrice;}});
+ if(value==='updated'&&S.cart[0]){const item=S.cart[0];item.previewOriginalPrice=item.price;item.price+=20;}
+ M.price=value;
+};
+C.priceNotice=()=>{
+ const changed=S.cart.filter(item=>item.previewOriginalPrice!==undefined);
+ if(!changed.length)return '';
+ const difference=changed.reduce((total,item)=>total+(item.price-item.previewOriginalPrice)*item.quantity,0);
+ return 'Prices updated. '+changed.map(item=>item.name+': '+C.money(item.previewOriginalPrice)+' to '+C.money(item.price)+' per unit.').join(' ')+' Your order subtotal '+(difference<0?'decreased':'increased')+' by '+C.money(Math.abs(difference))+'. The updated amount is included in your total.';
+};
 C.address=()=>S.addresses.find(a=>a.address_id===S.draft.addressId&&a.status==='active');
 C.currentOrder=()=>S.orders.find(o=>o.id===(C.orderId||S.activeId));
 C.count=(items=S.cart)=>items.reduce((n,i)=>n+i.quantity,0);
 C.subtotal=(items=S.cart)=>items.reduce((n,i)=>n+i.price*i.quantity,0);
 C.fee=()=>S.draft.method==='pickup'?0:C.address()&&C.deliveryRoute?.eligible()&&S.draft.quote==='ok'?A.quoteFee():null;
-C.sync=()=>{A.bag=C.count();const b=A.$('header-cart-badge');b.textContent=A.bag;b.classList.toggle('hidden',!A.bag||A.auth!=='signedin');};
+C.sync=()=>{A.bag=new Set(S.cart.map(item=>item.productId)).size;const b=A.$('header-cart-badge');b.textContent=A.bag;b.classList.toggle('hidden',!A.bag||A.auth!=='signedin');};
 C.locked=()=>S.orders.some(o=>['detected','delayed'].includes(o.payment));
 C.change=()=>{if(C.locked()){A.toast('Payment verification is pending. Check its status before changing checkout.');return false;}S.revision++;return true;};
 C.line=(id,variant='standard',quantity=1)=>{const p=A.products.find(p=>p.id===id);return {key:id+':'+variant,productId:id,name:p.name,image:p.image,variant:A.variant(id,variant)?.label||p.variant,price:A.variant(id,variant)?.price||0,catalogPrice:A.variant(id,variant)?.price||0,quantity,max:10,available:p.available};};
@@ -33,7 +45,7 @@ C.ready=()=>C.fulfillmentReady()&&(S.draft.method==='pickup'||C.addressValid(C.a
 C.unpaid=o=>o&&['pending-payment','payment-failed'].includes(o.status)&&!['detected','delayed'].includes(o.payment);
 C.setStatus=(o,status)=>{if(!o)return;o.status=status;o.activity.unshift({text:status.replaceAll('-',' '),at:new Date().toLocaleString()});};
 C.createOrder=()=>{
- if(C.locked()||!C.ready()||M.review!=='normal'||M.price==='updated')return null;
+ if(C.locked()||!C.ready()||M.review!=='normal')return null;
  let o=S.orders.find(o=>o.id===S.activeId);
  if(o&&o.revision===S.revision&&C.unpaid(o)&&o.payment!=='revalidation')return o;
  if(o&&C.unpaid(o))C.setStatus(o,'cancelled');

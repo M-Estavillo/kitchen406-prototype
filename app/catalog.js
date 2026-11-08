@@ -34,19 +34,18 @@
 
       // Update tab badge counters
       function updateCategoryCounters() {
-        if(K406.catalogState){
-          const visible=PRODUCTS_DATA.filter(K406.catalogState.visible),categories=K406.catalogState.categories.filter(c=>c.status==='active');
-          if(currentCategory!=='all'&&!categories.some(c=>c.id===currentCategory))currentCategory='all';
-          const tabs=[{id:'all',name:'All products'},...categories],sample=document.querySelector('#category-tabs .cat-pill');
-          document.getElementById('category-tabs').innerHTML=tabs.map(c=>`<button type="button" class="${sample?.className||'cat-pill'}" data-category="${K406.escape(c.id)}">${K406.escape(c.name)} <span>${c.id==='all'?visible.length:visible.filter(p=>p.category===c.id).length}</span></button>`).join('');
-          catButtons=document.querySelectorAll('#category-tabs .cat-pill');
-          catButtons.forEach(b=>{const selected=b.dataset.category===currentCategory;b.classList.toggle('active',selected);b.classList.toggle('bg-primary',selected);b.classList.toggle('text-on-primary',selected);b.setAttribute('aria-pressed',String(selected));});
-          return;
+        if(K406.productCategories){
+          const tabs=document.getElementById('category-tabs'),template=tabs.querySelector('[data-category="breads"]');
+          tabs.querySelectorAll('[data-added-category]').forEach(b=>{if(!K406.productCategories.some(c=>c.id===b.dataset.category))b.remove();});
+          for(const c of K406.productCategories){let button=[...tabs.querySelectorAll('[data-category]')].find(b=>b.dataset.category===c.id);if(!button){button=template.cloneNode(true);button.classList.remove('active','bg-primary','text-on-primary','shadow-sm');button.dataset.category=c.id;button.dataset.addedCategory='true';button.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));tabs.append(button);}button.firstElementChild.textContent=c.name;button.lastElementChild.textContent=protoState==='empty'?0:PRODUCTS_DATA.filter(p=>p.active!==false&&p.category===c.id).length;}
+          catButtons=tabs.querySelectorAll('.cat-pill');
         }
-        const countAll = PRODUCTS_DATA.length;
-        const countBreads = PRODUCTS_DATA.filter(p => p.category === 'breads').length;
-        const countPastries = PRODUCTS_DATA.filter(p => p.category === 'pastries').length;
-        const countPantry = PRODUCTS_DATA.filter(p => p.category === 'pantry').length;
+
+        const countedProducts = protoState === 'empty' ? [] : PRODUCTS_DATA.filter(p=>p.active!==false);
+        const countAll = countedProducts.length;
+        const countBreads = countedProducts.filter(p => p.category === 'breads').length;
+        const countPastries = countedProducts.filter(p => p.category === 'pastries').length;
+        const countPantry = countedProducts.filter(p => p.category === 'pantry').length;
 
         document.getElementById('count-all').textContent = countAll;
         document.getElementById('count-breads').textContent = countBreads;
@@ -68,7 +67,7 @@
             item.description.toLowerCase().includes(query) || 
             item.categoryLabel.toLowerCase().includes(query);
 
-          return matchCat && matchSub && matchSearch;
+          return item.active!==false && matchCat && matchSub && matchSearch;
         });
       }
 
@@ -176,6 +175,7 @@
 
       // Main Render Routine
       function renderCatalog() {
+        updateCategoryCounters();
         // Reset container views
         loadingEl.classList.add('hidden');
         loadingEl.classList.remove('grid');
@@ -246,17 +246,9 @@
 
       // Category filter buttons
       document.getElementById('category-tabs').addEventListener('click',e=>{
-          const btn=e.target.closest('[data-category]');if(!btn)return;
-          catButtons.forEach(b => {
-            b.classList.remove('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
-            b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
-          });
-          btn.classList.add('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
-          btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
-
-          currentCategory = btn.getAttribute('data-category');
-          currentPage = 1;
-          renderCatalog();
+        const btn=e.target.closest('[data-category]');if(!btn)return;
+        catButtons.forEach(b=>{b.classList.remove('active','bg-primary','text-on-primary','shadow-sm');b.classList.add('text-on-surface-variant','hover:bg-surface-container-low');});
+        btn.classList.add('active','bg-primary','text-on-primary','shadow-sm');btn.classList.remove('text-on-surface-variant','hover:bg-surface-container-low');currentCategory=btn.dataset.category;currentPage=1;renderCatalog();
       });
 
       // Search filters

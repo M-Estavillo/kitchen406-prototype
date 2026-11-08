@@ -13,6 +13,10 @@ C.render=()=>{
  if(A.auth==='signedin'&&A.route==='checkout'&&C.step!=='fulfillment'&&S.draft.method==='delivery'&&!C.checkout.form)void C.deliveryRoute.check();
  let html='';
  if(A.account?!A.account.allowed():A.auth!=='signedin')html=U.page('Sign in to continue','Your bag and checkout selections will remain here.',U.empty('Your Kitchen406 account','Sign in to access your bag, checkout, and order history.',U.link('sign-in','Sign in',true)+U.link('register','Create account')));
+ else if(M.page==='loading'&&A.route==='cart')html=C.checkout.cartLoading();
+ else if(M.page==='loading'&&(A.route==='confirmation'||A.route==='orders'&&C.orderId))html=C.orders.detailsLoading();
+ else if(M.page==='loading'&&A.route==='orders'&&!C.orderId)html=C.orders.listLoading();
+ else if(M.page==='loading'&&A.route==='payment')html=C.orders.paymentLoading();
  else if(M.page==='loading')html=U.page('Loading…','Retrieving your demo details.',`<div class="commerce-skeleton" role="status">Loading…</div>${U.button('page-retry','Return to normal preview')}`);
  else if(M.page==='error'||M.page==='notfound')html=U.empty(M.page==='notfound'?'Order not found':'We could not load this page','Your selections are still saved.',U.button('page-retry','Try again')+U.link('orders','View orders'));
  else if(A.route==='cart')html=C.checkout.cart();
@@ -59,7 +63,7 @@ document.addEventListener('click',e=>{
  if(action==='missing-method'){S.draft.method='';C.checkout.message='Please select a fulfillment method.';}
  if(action==='missing-date'){S.draft.date='';C.checkout.message='Please select an available fulfillment date.';}
  if(action==='session-expired'){A.setAuth('guest');A.toast('Demo session expired. Sign in to resume.');}
- if(action==='reset-states'){Object.keys(M).forEach(k=>M[k]=k==='payment'?'waiting':k==='courier'?'prebooking':k==='dataset'?'all':'normal');S.draft.service='ok';S.draft.quote='ok';C.checkout.message='';}
+ if(action==='reset-states'){C.setPricePreview('normal');Object.keys(M).forEach(k=>M[k]=k==='payment'?'waiting':k==='courier'?'prebooking':k==='dataset'?'all':'normal');S.draft.service='ok';S.draft.quote='ok';C.checkout.message='';}
  C.checkout.action(action,el);C.orders.action(action,el);
 });
 document.addEventListener('change',e=>{
@@ -67,6 +71,7 @@ document.addEventListener('change',e=>{
  const key=e.target.id.replace('mock-commerce-',''),value=e.target.value;
  if(key==='method'){if(!C.change())return;S.draft.method=value==='unselected'?'':value;}
  else if(key==='service'||key==='quote')S.draft[key]=value;
+ else if(key==='price')C.setPricePreview(value);
  else if(key==='payment')C.setPayment(C.currentOrder(),value);
  else if(key==='status'){
   const o=C.currentOrder();if(o){C.setStatus(o,value);o.payment=['pending-payment'].includes(value)?'waiting':value==='payment-failed'?'failed':value==='cancelled'?'cancelled':'confirmed';o.paid=!['pending-payment','payment-failed','cancelled'].includes(value);if(value==='ready-pickup')o.fulfillment.method='pickup';if(['ready-delivery','in-transit'].includes(value))o.fulfillment.method='delivery';if(!o.prepaid&&!o.quotationId){o.fee=o.fulfillment.method==='pickup'?0:A.quoteFee();o.total=C.subtotal(o.items)+o.fee;}}

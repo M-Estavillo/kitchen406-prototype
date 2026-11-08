@@ -341,7 +341,7 @@ const pageTemplates = {
 <div class="flex flex-col gap-2 mb-space-lg">
 <button class="w-full h-11 bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg flex items-center justify-center gap-2 shadow-sm active:scale-[0.99] transition-all" id="addToCartBtn" onclick="handleAddToCart()">
 <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
-<span>Add to Cart • <span id="btnPriceAmount">₱340</span></span>
+<span>Add to Cart</span>
 </button>
 <!-- Inline Alert Feedback Triggers -->
 <div class="hidden p-3 bg-[#EBF0EC] text-[#224426] rounded-lg font-body-sm text-body-sm flex items-center justify-between" id="cartFeedbackSuccess">
@@ -677,7 +677,8 @@ const pageTemplates = {
 <label class="block font-title-sm text-title-sm text-on-surface mb-1" for="reviewCommentInput">
             Your Experience &amp; Notes <span class="text-outline font-normal">(Optional)</span>
 </label>
-<textarea class="w-full p-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline border border-outline-variant/40 focus:outline-none focus:border-primary transition-colors resize-none" id="reviewCommentInput" placeholder="How was the texture, flavor, and delivery condition?" rows="4"></textarea>
+<textarea class="w-full p-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline border border-outline-variant/40 focus:outline-none focus:border-primary transition-colors resize-none" id="reviewCommentInput" maxlength="300" aria-describedby="review-comment-limit" placeholder="How was the texture, flavor, and delivery condition?" rows="4"></textarea>
+<p id="review-comment-limit" class="font-body-sm text-body-sm text-on-surface-variant">Maximum 300 characters.</p>
 </div>
 <!-- Photo Upload Slots (Up to 2 max) -->
 <div>

@@ -11,19 +11,19 @@ B.variant=()=>A.variant(S.draft.productId,S.draft.variant);
 B.availableSchedules=(productId=S.draft.productId)=>{const active=B.schedules.filter(s=>s.status!=='inactive');const specific=active.filter(s=>Number(s.product_id)===Number(productId));return specific.length?specific:active.filter(s=>!s.product_id);};
 B.schedule=()=>B.availableSchedules().find(x=>x.id===S.draft.scheduleId);
 B.dates=(d=S.draft)=>d.start?Array.from({length:4},(_,i)=>D.add(d.start,i*7)):[];
-B.offering=id=>B.mock.catalog==='full'?'full':B.mock.catalog==='unavailable'?'unavailable':B.mock.catalog==='available'?'available':Number(id)===2?'full':Number(id)===5?'unavailable':'available';
+B.offering=id=>B.offeringSettings?.[id]===false?'unavailable':B.offeringSettings?.[id]===true?'available':B.mock.catalog==='full'?'full':B.mock.catalog==='unavailable'?'unavailable':B.mock.catalog==='available'?'available':Number(id)===2?'full':Number(id)===5?'unavailable':'available';
 B.starts=()=>{const schedule=B.schedule();if(!schedule)return [];const dates=[];for(let i=1;i<70;i++){const date=D.add(D.today(),i);if(D.day(date)===schedule.day&&!D.subscription(S.draft.productId,S.draft.quantity,Array.from({length:4},(_,n)=>D.add(date,n*7)),(B.pending()?.paid?null:B.pending()?.id)))dates.push(date);}return dates;};
 B.pending=()=>S.purchases.find(p=>p.id===S.draft.purchaseId);
 B.locked=()=>S.purchases.some(p=>['detected','delayed'].includes(p.payment));
 B.change=()=>{if(B.locked()){A.toast('Payment verification is pending. Check its status before changing your subscription.');return false;}const p=B.pending();if(p&&!p.paid&&p.payment!=='cancelled'){p.payment='revalidation';D.release(p.id);}S.draft.revision++;B.message='';return true;};
-B.begin=(id,variant=null,quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));variant ||= p?.variants.find(v=>!['inactive','unavailable'].includes(v.status))?.id||'standard';if(!p?.subscription||(A.catalogState&&!A.catalogState.eligible(id,variant))||B.offering(p.id)!=='available')return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.config.subscriptionUnits,Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};if(!B.schedule())S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
-B.configReason=()=>{if(A.catalogState&&!A.catalogState.eligible(S.draft.productId,S.draft.variant))return 'This catalog product or variant is not available.';if(!B.product()?.subscription||!B.variant())return 'Choose a subscription product and variant.';if(B.offering(S.draft.productId)!=='available')return 'This product is currently unavailable for subscription enrollment.';if(B.mock.schedule!=='normal')return 'Choose an available schedule.';if(!B.schedule()||!S.draft.start||D.day(S.draft.start)!==B.schedule().day)return 'Select a schedule and first delivery date.';return D.subscription(S.draft.productId,S.draft.quantity,B.dates(),(B.pending()?.paid?null:B.pending()?.id));};
-B.totals=(unit=B.variant()?.price||0,quantity=S.draft.quantity,fee=S.draft.method==='pickup'?0:A.quoteFee())=>({method:S.draft.method,unit,quantity,fee,products:unit*quantity*4,delivery:fee*4,total:unit*quantity*4+fee*4});
+B.begin=(id,variant,quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));variant??=p?.variants.find(v=>v.active!==false)?.id;if(!p?.subscription||B.offering(p.id)!=='available'||A.variant(id,variant)?.active===false)return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.subscriptionLimit(id),Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};if(!B.schedule())S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
+B.configReason=()=>{if(!B.product()?.subscription||!B.variant())return 'Choose a subscription product and variant.';if(B.offering(S.draft.productId)!=='available')return 'This product is currently unavailable for subscription enrollment.';if(B.mock.schedule!=='normal')return 'Choose an available schedule.';if(!B.schedule()||!S.draft.start||D.day(S.draft.start)!==B.schedule().day)return 'Select a schedule and first delivery date.';return D.subscription(S.draft.productId,S.draft.quantity,B.dates(),(B.pending()?.paid?null:B.pending()?.id));};
+B.totals=(unit=(B.variant()?.price||0)+(B.mock.price==='updated'?20:0),quantity=S.draft.quantity,fee=S.draft.method==='pickup'?0:A.quoteFee())=>({method:S.draft.method,unit,quantity,fee,products:unit*quantity*4,delivery:fee*4,total:unit*quantity*4+fee*4});
 B.ready=()=>!B.configReason()&&(S.draft.method==='pickup'||S.draft.method==='delivery'&&C.addressValid(B.address())&&B.deliveryRoute?.eligible()&&S.draft.quote==='ok'&&!B.addressUI.form);
 B.setMethod=method=>{if(!['delivery','pickup'].includes(method)||method===S.draft.method||!B.change())return false;S.draft.method=method;B.addressUI.form=null;B.addressUI.editing=null;B.deliveryRoute?.reset();return true;};
 B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:S.draft.scheduleId,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:S.draft.method==='pickup'?null:C.copy(B.address()),...B.totals()});
 B.createPurchase=()=>{
- if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.mock.price!=='normal'||B.locked())return null;
+ if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.locked())return null;
  const old=B.pending();if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&old.deadline>Date.now())return old;
  if(old&&!old.paid)B.cancel(old);
  const p={id:'SUB-PAY-'+(++S.serial),snapshot:B.snapshot(),revision:S.draft.revision,payment:'waiting',paid:false,created:Date.now(),deadline:Date.now()+600000,attempts:[{state:'waiting',at:new Date().toLocaleString()}]};
@@ -61,7 +61,7 @@ B.replacementReason=(record,delivery,date)=>{
  if(!date)return 'No available weekly date found.';
  const reason=D.base(date,record.snapshot.productId,{replacement:true});if(reason)return reason;
  const old=D.allocations.filter(a=>a.owner===record.purchaseId),other=old.filter(a=>a.cycle!==delivery.cycle&&D.week(a.date)===D.week(date)).reduce((n,a)=>n+a.quantity,0);
- if(D.used(record.snapshot.productId,date,record.purchaseId)+other+record.snapshot.quantity>D.config.subscriptionUnits)return 'Subscription capacity reached';
+ if(D.used(record.snapshot.productId,date,record.purchaseId)+other+record.snapshot.quantity>D.subscriptionLimit(record.snapshot.productId))return 'Subscription capacity reached';
  return '';
 };
 B.deferReason=(record,delivery,option)=>{
@@ -75,8 +75,8 @@ B.deferReason=(record,delivery,option)=>{
  if(B.mock.defer==='both'||B.mock.defer===option)return 'This replacement date is unavailable.';
  return B.replacementReason(record,delivery,B.deferTarget(record,delivery,option));
 };
-B.defer=(record,delivery,option)=>{
- if(A.auth!=='signedin'||A.account&&(!A.account.allowed()||record?.customer_id&&!A.account.owns(record)))return 'Sign in with the subscription customer account.';
+B.applyDefer=(record,delivery,option)=>{
+ if(!A.session?.ownerAllowed())return 'Owner access required.';
  const reason=B.deferReason(record,delivery,option);if(reason)return reason;
  const date=B.deferTarget(record,delivery,option),oldDate=delivery.date;
  const allocation=D.allocations.find(a=>a.owner===record.purchaseId&&a.cycle===delivery.cycle);
@@ -85,5 +85,19 @@ B.defer=(record,delivery,option)=>{
  const replacement={...allocation,id:D.nextAllocationId(),date};if(A.capacity)A.capacity.history.push({...allocation,status:'released',released_at:Date.now()});D.allocations.splice(D.allocations.indexOf(allocation),1,replacement);Object.assign(record.deferments.at(-1),{original_allocation_id:allocation.id,replacement_allocation_id:replacement.id});delivery.date=date;delivery.status='deferred';
  const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);order.fulfillment.date=date;order.activity.unshift({text:'Delivery deferred from '+oldDate+' to '+date,at:new Date().toLocaleString()});return '';
 };
-B.reset=()=>{A.resetProductData?.();B.deferOption='day';B.confirmation=null;S.draft=blank();S.purchases=[];S.records=[];B.addressUI.form=null;B.deliveryRoute?.reset();D.reset();Object.keys(B.mock).forEach(k=>B.mock[k]='normal');B.message='';B.query='';B.filter='all';B.category='all';};
+B.requests=[];B.offeringSettings={};
+B.defer=(record,delivery,option,notes='')=>{
+ if(A.auth!=='signedin'||A.account&&(!A.account.allowed()||record?.customer_id&&!A.account.owns(record)))return 'Sign in with the subscription customer account.';
+ const reason=B.deferReason(record,delivery,option);if(reason)return reason;
+ if(B.requests.some(r=>r.subscriptionId===record.id&&r.status==='pending'))return 'A deferment request is already pending review.';
+ B.requests.push({id:'DEFER-'+crypto.randomUUID(),subscriptionId:record.id,deliveryId:delivery.id,originalDate:delivery.date,target:B.deferTarget(record,delivery,option),option,notes,status:'pending',created:Date.now()});return '';
+};
+B.reviewRequest=(id,approve)=>{
+ if(!A.session?.ownerAllowed())return 'Owner access required.';
+ const request=B.requests.find(r=>r.id===id);if(!request||request.status!=='pending')return 'This request is no longer pending.';
+ const record=B.allRecords().find(r=>r.id===request.subscriptionId),delivery=record?.deliveries.find(d=>d.id===request.deliveryId);
+ if(approve){if(!delivery||delivery.date!==request.originalDate)return 'The original schedule changed.';const reason=B.deferReason(record,delivery,request.option);if(reason)return reason;if(B.deferTarget(record,delivery,request.option)!==request.target)return 'Replacement availability changed. Reject this request so the customer can choose again.';const error=B.applyDefer(record,delivery,request.option);if(error)return error;}
+ Object.assign(request,{status:approve?'approved':'rejected',reviewed:Date.now(),actor:A.session.actor().id});A.operations.changed();return '';
+};
+B.reset=()=>{B.requests=[];B.offeringSettings={};A.resetProductData?.();B.deferOption='day';B.confirmation=null;S.draft=blank();S.purchases=[];S.records=[];B.addressUI.form=null;B.deliveryRoute?.reset();D.reset();Object.keys(B.mock).forEach(k=>B.mock[k]='normal');B.message='';B.query='';B.filter='all';B.category='all';};
 })();

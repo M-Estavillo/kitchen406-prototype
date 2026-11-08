@@ -17,7 +17,7 @@ S.enter=()=>{if(A.session){A.session.generation++;A.owner?.drafts.clear();}A.clo
 S.leave=()=>{if(A.session){A.session.generation++;A.owner?.drafts.clear();}A.closeModal(true);S.generation++;S.role='customer';A.email=A.account.current.email;location.hash='#/shop';window.dispatchEvent(new HashChangeEvent('hashchange'));};
 S.seed=()=>{
  if(!S.allowed())return;const date=A.schedule.today();
- for(let n=0;n<4;n++){const id='STAFF-DEMO-'+(n+1);if(I.allOrders().some(o=>o.id===id))continue;const o={id,customer_id:A.account.id(),fixture:true,type:'standard',paid:true,payment:'confirmed',status:'confirmed',items:[C.line(n%2?4:1,'standard',n%2+1)],fulfillment:{date:A.schedule.add(date,n),method:n%2?'delivery':'pickup'},created:Date.now(),attempts:[],activity:[],fee:0,total:0};o.total=C.subtotal(o.items);C.state.orders.push(o);I.reserve(o,true);S.emit('new:'+id,'orders',id+' is ready for preparation.','staff/production/'+id);}
+ for(let n=0;n<4;n++){const id='STAFF-DEMO-'+(n+1);if(I.allOrders().some(o=>o.id===id))continue;const o={id,customer_id:A.account.id(),fixture:true,type:'standard',paid:true,payment:'confirmed',status:'confirmed',items:[C.line(n%2?4:1,'standard',n%2+1)],fulfillment:{date:A.schedule.add(date,n===1?0:n),method:n%2?'delivery':'pickup'},created:Date.now(),attempts:[],activity:[],fee:0,total:0};o.total=C.subtotal(o.items);C.state.orders.push(o);I.reserve(o,true);S.emit('new:'+id,'orders',id+' is ready for preparation.','staff/production/'+id);}
  S.changed();
 };
 S.password=async(current,next,confirm)=>{if(!S.allowed())return 'Staff access required.';const generation=S.generation;

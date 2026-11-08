@@ -11,7 +11,7 @@ function alertBox(){
  error:'We couldn’t complete this request. Please try again.',servererror:'We couldn’t connect right now. Please try again.',
  autherror:'Sign in failed. Check your email and password and make sure your account is active.',
  accountexists:'An account with this email already exists. '+link('sign-in','Sign in instead')+' or '+link('forgot','reset password')+'.',
- unverified:'Please verify your email before signing in. '+link('verify','Verify email'),
+ unverified:'Please verify your email before signing in. <a href="#/verify" class="font-semibold underline underline-offset-2">Verify email</a>',
  incorrect:'The code you entered is incorrect. '+Math.max(0,5-S.attempts)+' attempts remaining.',
  expired:S.view==='verify'?'This verification code has expired. Request a new code.':'This password reset link has expired. '+link('forgot','Request a new link'),
  invalid:'This password reset link is invalid. '+link('forgot','Request a new link'),
@@ -90,7 +90,7 @@ function validate(){
  if(['register','reset'].includes(S.view)&&(!v.confirm||v.confirm!==v.password))S.errors.confirm='Passwords do not match.';
  if(['register','reset'].includes(S.view)&&A.account&&!A.account.passwordValid(v.password))S.errors.password='Use at least 8 characters with letters and numbers.';
  if(S.view==='register'){
-  if(A.catalogState?.emailUsed(v.email||''))S.errors.email='This email is already registered.';
+  if(A.ownerAccounts?.duplicate((v.email||'').trim()))S.errors.email='This email is already in use.';
   if(!v.firstName?.trim())S.errors.firstName='First name is required.';
   if(!v.lastName?.trim())S.errors.lastName='Last name is required.';
   if(!/^(?:\+?63|0)?9\d{9}$/.test((v.mobile||'').replace(/[\s()-]/g,'')))S.errors.mobile='Enter a valid Philippine mobile number.';
@@ -124,13 +124,12 @@ function submit(e){
     if(hash!==expected||owner.status!=='active'||!owner.setup){S.mode='autherror';render();return;}
     S.values={};close();A.session.enter();return;
    }
-   const staffRecord=A.staffAccounts?.find(values.email);
-   if(staffRecord){
-    const staff=A.staff,expected=staffRecord.hash||await A.account.hash('Kitchen406!');
+   const staffAccount=A.staff?.accounts?.find(r=>r.email.toLowerCase()===values.email.toLowerCase())||(A.staff&&values.email.toLowerCase()===A.staff.account.email.toLowerCase()?A.staff.account:null);
+   if(staffAccount){
+    const staff=A.staff,expected=staffAccount.hash||await A.account.hash('Kitchen406!');
     if(S.generation!==generation||A.modal!=='auth-modal')return;
-    if(hash!==expected||staffRecord.status!=='active'){S.mode='autherror';render();return;}
-    A.session.invalidate();staff.account=staffRecord;
-    S.values={};staff.role='staff';A.auth='signedin';close();location.hash=staffRecord.setup?(A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff'):'#/staff/setup';A.shell.sync();return;
+    if(hash!==expected||staffAccount.status!=='active'||!staffAccount.setup){S.mode='autherror';render();return;}
+    A.session.invalidate();staff.account=staffAccount;S.values={};staff.role='staff';A.auth='signedin';close();location.hash=A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff';A.shell.sync();return;
    }
    if(known&&(known.status!=='active'||known.passwordHash&&known.passwordHash!==hash)){S.mode='autherror';render();return;}
    A.setAuth('signedin');A.account.current.passwordHash=hash;

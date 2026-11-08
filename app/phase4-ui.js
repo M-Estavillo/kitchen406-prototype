@@ -11,7 +11,7 @@ V.nav=()=>`<aside class="account-nav"><div class="account-identity"><span class=
 V.accountLayout=body=>`<div class="account-layout">${V.nav()}<div class="account-main">${body}</div></div>`;
 V.accountPage=(title,subtitle,body)=>V.accountLayout(U.page(title,subtitle,body));
 V.open=(title,body,kind)=>{
- A.closeModal();V.dialog=kind;
+ A.closeModal();V.dialog=kind;A.$('phase4-modal').classList.toggle('cake-quotation-modal',['accept','decline'].includes(kind));A.$('phase4-modal').classList.toggle('cake-discard-modal',kind==='discard');
  A.$('phase4-dialog-title').textContent=title;A.$('phase4-dialog-body').innerHTML=body;A.openModal('phase4-modal');
 };
 V.error=text=>{const el=A.$('phase4-form-error');if(el){el.textContent=text;el.focus();}else A.toast(text);};
@@ -23,6 +23,11 @@ V.render=()=>{
  const focused=document.activeElement,restore=root.contains(focused)?{id:focused.id,name:focused.name,value:focused.value,data:{...focused.dataset}}:null;
  if(publicPage)html=K.builder.landing();
  else if(!P.allowed())html=U.page('Sign in to continue','Your custom cake selections will remain in this tab.',U.empty('Your Kitchen406 account',A.auth==='signedin'?'This account is not active. Sign out to use another account.':'Sign in to manage your requests, profile, addresses, and notifications.',A.auth==='signedin'?V.button('sign-out','Sign Out'):U.link('sign-in','Sign in',true)+U.link('register','Create account')));
+ else if(A.route!=='account'&&K.mock.page==='loading')html=A.route==='cake-requests'?V.accountPage(V.parts[1]?'Cake request':'Custom Cake Requests','Retrieving your request details.',U.columns(U.panel('Cake request',K.builder.skeleton('Loading cake request',5)),U.panel('Details',K.builder.skeleton('Loading request details',3)))):K.builder.loading();
+ else if(A.route==='custom-cakes'&&K.mock.page==='empty')html=U.empty('No cake request to display','Return to your request to continue choosing your cake.',V.button('retry-page','Return to request',false,'',true));
+ else if(A.route==='account'&&V.parts[1]==='addresses'&&P.mock.page==='loading')html=P.addressesLoading();
+ else if(A.route==='account'&&P.mock.page==='loading'&&V.parts[1]==='notifications')html=A.notifications.loading();
+ else if(A.route==='account'&&P.mock.page==='loading'&&(!V.parts[1]||V.parts[1]==='profile'))html=P.profileLoading();
  else if((A.route==='account'?P.mock.page:K.mock.page)==='loading')html=U.page('Loading…','Retrieving your details.',`<div class="commerce-skeleton" role="status">Loading…</div>${V.button('retry-page','Return to normal preview')}`);
  else if((A.route==='account'?P.mock.page:K.mock.page)==='error')html=U.empty('Unable to load this page','Your saved details are still available.',V.button('retry-page','Try again'));
  else if(A.route==='account')html=V.parts[1]==='addresses'?P.addressesView():V.parts[1]==='notifications'?A.notifications.view():!V.parts[1]||V.parts[1]==='profile'?P.profile():U.empty('Page not found','Choose a page from your account.',U.link('account/profile','My profile'));

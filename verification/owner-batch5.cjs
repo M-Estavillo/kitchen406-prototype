@@ -1,0 +1,33 @@
+const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
+(async()=>{
+ const tabs=await(await fetch('http://127.0.0.1:9222/json')).json(),ws=new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);const pending=new Map(),errors=[];let seq=0,checks=0;
+ ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)?.(m);pending.delete(m.id);}else if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
+ const send=(method,params={})=>new Promise(r=>{const id=++seq;pending.set(id,r);ws.send(JSON.stringify({id,method,params}));});
+ const run=async expression=>{const m=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(m.result?.exceptionDetails)throw Error(m.result.exceptionDetails.exception?.description);return m.result.result.value;};
+ const check=async(expr,label)=>{assert(await run(expr),label);console.log('PASS '+label);checks++;},wait=()=>new Promise(r=>setTimeout(r,150)),go=async p=>{await run(`location.hash=${JSON.stringify('#/'+p)}`);await wait();};
+ await send('Runtime.enable');await send('Page.enable');await send('Page.navigate',{url:require('node:url').pathToFileURL(path.resolve('index.html')).href});await new Promise(r=>setTimeout(r,1500));
+
+ await run('window.A=K406;window.B=A.subscriptions;window.D=A.schedule;window.O=A.owner;window.Q=A.capacity;A.session.enter();O.seed();window.r=B.allRecords()[0];window.d=r.deliveries[0];window.original=d.date;window.allocations=D.allocations.length;window.orderCount=A.operations.orders().length');
+ await go('owner/subscriptions');await check('A.$("owner-view").textContent.includes(r.id)&&A.$("owner-view").textContent.includes("0/4")','subscription list progress');
+ await go('owner/subscriptions/'+await run('r.id'));await check('r.deliveries.every(d=>!!document.querySelector(`a[href="#/owner/orders/${d.orderId}"]`))','four operational order links');
+ await go('owner/scheduling/subscriptions');await check('location.hash==="#/owner/subscriptions/schedules"&&!!document.querySelector("[data-owner=schedule]")','legacy schedules relocated');
+ await run('window.dates=JSON.stringify(r.deliveries.map(d=>d.date));window.s=B.schedules.find(s=>s.id===r.snapshot.scheduleId);Q.saveSchedule({...s,status:"inactive"},Q.version)');await check('JSON.stringify(r.deliveries.map(d=>d.date))===dates&&D.allocations.length===allocations','schedule deactivation preserves dates and allocations');
+ await go('owner/subscriptions/offerings');await run('document.querySelector(`[data-owner=subscription-offering][data-id="${r.snapshot.productId}"]`).click();A.$("owner-limit").value="1";A.$("owner-available").value="false";document.querySelector("[data-owner-form=subscription-offering]").requestSubmit()');await check('D.subscriptionLimit(r.snapshot.productId)===1&&B.offering(r.snapshot.productId)==="unavailable"&&r.status==="active"&&D.allocations.length===allocations','offering deactivation and product capacity preserve commitments');
+ await run('D.config.subscriptionLimits[r.snapshot.productId]=10;Q.saveSchedule({...s,status:"active"},Q.version);A.session.leave();A.email=A.account.records.find(c=>c.customer_id===r.customer_id).email;A.setAuth("signedin")');
+ await check('B.defer(r,d,"day")===""&&d.date===original&&r.deferments.length===0&&B.requests.at(-1).status==="pending"','customer submission queues without changing schedule');
+ await check('!!B.defer(r,d,"day")','duplicate pending request prevented');
+ await run('A.session.enter();window.request=B.requests.at(-1)');await go('owner/subscriptions/requests');
+ await run('D.config.blocked.push(request.target)');await check('!!B.reviewRequest(request.id,true)&&request.status==="pending"&&r.deferments.length===0&&d.date===original','approval revalidates blocked replacement without consuming allowance');await run('D.config.blocked=D.config.blocked.filter(date=>date!==request.target);O.render()');
+ await run('document.querySelector("[data-owner=defer-review][data-approve=false]").click();document.querySelector("[data-owner=defer-confirm-review]").click()');
+ await check('request.status==="rejected"&&r.deferments.length===0&&d.date===original','rejection preserves allowance and schedule');
+ await run('A.session.leave();A.email=A.account.records.find(c=>c.customer_id===r.customer_id).email;A.setAuth("signedin");B.defer(r,d,"day");A.session.enter();request=B.requests.at(-1)');await go('owner/subscriptions/requests');
+ await run('document.querySelector("[data-owner=defer-review][data-approve=true]").click();document.querySelector("[data-owner=defer-confirm-review]").click()');
+ await check('request.status==="approved"&&r.deferments.length===1&&d.date===request.target&&A.operations.find(d.orderId).fulfillment.date===d.date','approval updates one shared fulfillment');
+ await check('r.deliveries.length===4&&D.allocations.length===allocations&&A.operations.orders().length===orderCount&&!!B.reviewRequest(request.id,true)','no fifth fulfillment or duplicate approval');
+ await check('!!B.deferReason(r,r.deliveries[1],"day")','second approved deferment blocked');
+ await run('O.date=d.date');await go('owner/capacity');await check('A.$("owner-view").textContent.includes(d.orderId)','calendar reflects approved date');
+ await go('owner/subscriptions/offerings');await run('A.$("owner-subscription-week").value=d.date;A.$("owner-subscription-week").dispatchEvent(new Event("change",{bubbles:true}))');await check('A.$("owner-view").textContent.includes("units remaining")','weekly capacity shown');
+ await run('window.order=A.operations.find(d.orderId);window.version=()=>A.staff.versions.get(order.id)||0;A.fulfillment.transition(order.id,"preparing",version(),"batch5-prepare");A.fulfillment.transition(order.id,"ready",version(),"batch5-ready");A.deliveries.book(order.id,"batch5-book",version());A.deliveries.refresh(order.id);A.deliveries.refresh(order.id);B.sync(r)');await check('r.deliveries.filter(d=>d.status==="fulfilled").length===1&&r.status==="active"','Orders fulfillment updates subscription progress');
+ for(const width of [1440,390,320]){await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});for(const page of ['','schedules','offerings','requests']){await go('owner/subscriptions'+(page?'/'+page:''));await check('document.documentElement.scrollWidth<=innerWidth+1','subscriptions '+page+' fits '+width);}}
+ assert.equal(errors.length,0,errors.join('\n'));console.log(`COMPLETE ${checks} batch 5 checks; no browser exceptions.`);ws.close();
+})().catch(e=>{console.error(e);process.exit(1)});

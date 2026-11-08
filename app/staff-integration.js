@@ -3,7 +3,7 @@
 const A=K406,C=A.commerce,I=A.inventory,S=A.staff,K=A.cakes,B=A.subscriptions;
 // Keep owner catalog flags distinct from ingredient-derived availability.
 I.catalogEnabled=new Map(A.products.map(p=>[p.id,p.available]));
-I.productAvailable=(id,variant,exclude)=>{const p=A.products.find(p=>p.id===Number(id));return !!p&&I.catalogEnabled.get(p.id)!==false&&(variant?[variant]:p.variants.map(v=>v.id)).some(v=>!I.reason(I.recipe(p.id,v),exclude));};
+I.productAvailable=(id,variant,exclude)=>{const p=A.products.find(p=>p.id===Number(id));return !!p&&p.active!==false&&I.catalogEnabled.get(p.id)!==false&&(variant?[variant]:p.variants.map(v=>v.id)).some(v=>A.variant(p.id,v)?.active!==false&&!I.reason(I.recipe(p.id,v),exclude));};
 for(const p of A.products)Object.defineProperty(p,'available',{configurable:true,enumerable:true,get:()=>I.productAvailable(p.id),set:value=>I.catalogEnabled.set(p.id,value)});
 const originalAuth=A.setAuth;A.setAuth=function(value){if(A.session)A.session.generation++;if(value==='guest'){A.closeModal(true);A.owner?.drafts.clear();S.generation++;S.role='customer';}originalAuth.call(A,value);A.shell.sync();A.owner?.render();};
 // An order's customer is always explicit when staff trigger customer notifications.
@@ -70,7 +70,7 @@ const pay=B.pay;B.pay=(p,state)=>{
  return record;
 };
 const sync=B.sync;B.sync=r=>{const result=sync(r);for(const d of r.deliveries){const o=I.allOrders().find(o=>o.id===d.orderId),status=o?S.orderStatus(o):'confirmed';d.status=({confirmed:'scheduled',preparing:'preparing',ready:'ready',completed:'fulfilled',cancelled:'cancelled'})[status]||'scheduled';if(d.status==='fulfilled')d.fulfilled_at=o.completedAt||d.fulfilled_at||Date.now();}return result;};
-const defer=B.defer;B.defer=(r,d,option)=>{const error=defer(r,d,option);if(!error){d.status='scheduled';B.reserveNext(r);S.emit('defer:'+d.orderId+':'+d.date,'orders',d.orderId+' moved from '+d.originalDate+' to '+d.date+'.','staff/production/'+d.orderId);}return error;};
+const defer=B.applyDefer;B.applyDefer=(r,d,option)=>{const error=defer(r,d,option);if(!error){d.status='scheduled';B.reserveNext(r);S.emit('defer:'+d.orderId+':'+d.date,'orders',d.orderId+' moved from '+d.originalDate+' to '+d.date+'.','staff/production/'+d.orderId);}return error;};
 // Stock reconciliation retries outstanding next-delivery reservations, never deducting stock.
 const stockChanged=S.changed;S.changed=()=>{for(const r of B.allRecords())B.reserveNext(r);stockChanged();};
 let availabilitySignature='';setInterval(()=>{const signature=I.items.map(i=>I.available(i.id)).join(',');if(signature===availabilitySignature)return;availabilitySignature=signature;I.notify();if(A.route==='shop')A.catalog.refresh();if(A.route==='product')window.updatePricing();},1000);

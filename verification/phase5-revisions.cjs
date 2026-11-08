@@ -28,9 +28,9 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  await run('C.setStatus(first,"in-transit")');await check('first.status==="ready" && first.delivery.status==="in_transit" && S.project(first).courier==="in transit"','courier progress separate from order status');
  await check('S.project({...first,status:"completed",delivery:undefined}).courier==="Booking pending"','completion does not fabricate delivered status');
  await run('S.account.first_name="Renamed"');await go('staff/movements');await check('A.$("staff-view").textContent.includes("Renamed Lim")','audit resolves current name from stable actor ID');
- await run('S.leave()');await wait();await check('B.defer(record,record.deliveries[1],"week")===""','defer unprepared reserved delivery');
+ await run('S.leave()');await wait();await check('B.defer(record,record.deliveries[1],"week")===""&&(A.session.enter(),B.reviewRequest(B.requests.at(-1).id,true))===""','defer unprepared reserved delivery');
  await check('record.deliveries[1].status==="scheduled" && I.reservations.get(record.deliveries[2].orderId).status==="confirmed" && I.reservations.get(second.id).status==="released"','deferment reserves next chronological delivery');
- await run('C.sampleCart();Object.assign(C.state.draft,{method:"pickup",date:"2026-10-24"});window.order=C.createOrder();window.oldHold=I.reservations.get(order.id).holdId;C.setPayment(order,"failed")');
+ await run('A.session.leave();A.setAuth("signedin");C.sampleCart();Object.assign(C.state.draft,{method:"pickup",date:"2026-10-24"});window.order=C.createOrder();window.oldHold=I.reservations.get(order.id).holdId;C.setPayment(order,"failed")');
  await go('payment/'+await run('order.id'));await run('document.querySelector("[data-commerce=retry-payment]").click()');
  await check('order.payment==="waiting" && I.reservations.get(order.id).status==="held" && I.reservations.get(order.id).holdId!==oldHold','standard payment retry restores hold before payment');
  await run('I.item("flour").stock=I.reserved("flour");window.competing={id:"COMPETE",type:"standard",items:[C.line(1)],fulfillment:{date:"2026-10-24"}}');

@@ -15,6 +15,7 @@ Q.save=(input,version)=>{
  if(!A.session.ownerAllowed())return 'Owner access required.';if(version!==Q.version)return 'Settings changed. Reload before saving.';
  for(const key of ['standardUnits','standardVarieties','subscriptionUnits','maxPerWeek','maxPerDay'])if(!Number.isInteger(input[key])||input[key]<1)return 'Capacity limits must be positive whole numbers.';
  for(const type of ['standard','subscription','cake']){const rule=input[type];if(!rule||!Number.isFinite(rule.value)||rule.value<0||!['hours','days'].includes(rule.unit)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(rule.cutoff))return 'Enter valid lead times and cutoff times for every pool.';}
+ if(input.maxPerDay>input.maxPerWeek)return 'Daily cake capacity cannot exceed weekly cake capacity.';
  // Capture commitments before any mutable schedule/configuration is changed.
  B.allRecords().forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(B.schedules.find(s=>s.id===r.snapshot.scheduleId)||{});});
  Object.assign(D.config,{standardUnits:input.standardUnits,standardVarieties:input.standardVarieties,subscriptionUnits:input.subscriptionUnits,timing:{standard:input.standard,subscription:input.subscription,cake:input.cake}});

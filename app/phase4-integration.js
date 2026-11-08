@@ -10,10 +10,10 @@ const reset=C.reset;C.reset=()=>{K.reset();N.reset();P.reset();reset();};
 const setStatus=C.setStatus;C.setStatus=(o,status)=>{const old=o?.status;setStatus(o,status);if(o&&old!==status){if(o.quotationId&&status==='cancelled')K.release(o.id);N.emit('status-'+o.id+'-'+status,'orders','Order status updated',o.id+' is now '+status.replaceAll('-',' ')+'.','orders/'+o.id,o.customer_id||P.id());}};
 const createOrder=C.createOrder;C.createOrder=()=>{if(!P.allowed())return null;const o=createOrder();if(o){o.customer_id=P.id();o.contact||=P.contact();}return o;};
 const setPayment=C.setPayment;C.setPayment=(o,state)=>{const paid=o?.paid;setPayment(o,state);if(o&&!o.quotationId&&!paid&&o.paid)N.emit('confirmed-'+o.id,'orders','Order confirmed','Your order '+o.id+' is confirmed.','orders/'+o.id,o.customer_id||P.id());};
-const B=A.subscriptions,pay=B.pay,defer=B.defer;
+const B=A.subscriptions,pay=B.pay,defer=B.applyDefer;
 const createPurchase=B.createPurchase;B.createPurchase=()=>P.allowed()?createPurchase():null;
 B.pay=(p,state)=>{const r=pay(p,state);if(r){r.customer_id=P.id();p.customer_id=P.id();N.emit('subscription-'+r.id,'subscriptions','Subscription confirmed','Your four prepaid deliveries are now scheduled.','subscriptions/'+r.id);N.emit('reminder-'+r.id,'subscriptions','Upcoming subscription delivery','Your first delivery is scheduled for '+r.deliveries[0].date+'.','subscriptions/'+r.id);}return r;};
-B.defer=(r,d,option)=>{const error=defer(r,d,option);if(!error)N.emit('defer-'+r.id,'subscriptions','Delivery schedule deferred','Your selected delivery has moved to '+d.date+'.','subscriptions/'+r.id);return error;};
+B.applyDefer=(r,d,option)=>{const error=defer(r,d,option);if(!error)N.emit('defer-'+r.id,'subscriptions','Delivery schedule deferred','Your selected delivery has moved to '+d.date+'.','subscriptions/'+r.id,r.customer_id);return error;};
 const sync=B.sync;B.sync=r=>{const previous=r.status;const result=sync(r);if(r.status!==previous)N.emit('subscription-status-'+r.id+'-'+r.status,'subscriptions','Subscription '+r.status,'All four deliveries in this subscription are complete.','subscriptions/'+r.id,r.customer_id||P.id());return result;};
 
 K.paymentView=o=>{
@@ -24,7 +24,7 @@ K.paymentView=o=>{
  if(locked)actions=U.button('check-payment','Check payment status');
  if(['failed','expired','revalidation'].includes(state)&&!K.quoteReason(q))actions=U.button('retry-payment','Retry payment');
  if(o.paid)actions=U.link(o.status==='payment-resolution'?'orders/'+o.id:'confirmation/'+o.id,o.status==='payment-resolution'?'View payment issue':'Continue to confirmation',true);
- return U.page('Pay for your custom cake','Quotation version '+q.version+' · '+o.requestId,U.columns(U.panel('Amount to pay',`<p class="payment-amount">${C.money(o.total)}</p><div class="demo-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span><strong>QR Ph demo</strong><span>Non-payable preview</span></div><p>Reference: ${E(o.reference)}</p>${state==='waiting'?'<p>Session expires in <strong id="payment-clock"></strong></p>':''}`)+U.alert(messages[state]||'Payment unavailable',['failed','expired','revalidation','resolution'].includes(state))+`<div class="commerce-actions">${actions}${U.link(K.quotePath(q),'Back to quotation')}${U.link('orders/'+o.id,'View order')}</div>`,U.summary(o)+U.panel(o.fulfillment.method==='pickup'?'Bakery pickup':'Owner-managed delivery',U.fulfillment(o))));
+ return U.page('Pay for your custom cake','Quotation version '+q.version+' · '+o.requestId,U.columns(U.panel('Amount to pay',`<p class="payment-amount">${C.money(o.total)}</p><div class="demo-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span><strong>QR Ph demo</strong><span>Non-payable preview</span></div><p>Reference: ${E(o.reference)}</p>${state==='waiting'?'<p>Session expires in <strong id="payment-clock"></strong></p>':''}`)+`<div class="cake-payment-feedback"><p class="cake-payment-status ${['failed','expired','revalidation','resolution','cancelled'].includes(state)?'is-error':''}" role="status">${E(messages[state]||'Payment unavailable')}</p><div class="commerce-actions">${actions}${U.link(K.quotePath(q),'Back to quotation')}</div></div>`,U.summary(o)+U.panel(o.fulfillment.method==='pickup'?'Bakery pickup':'Owner-managed delivery',U.fulfillment(o))));
 };
 K.paymentAction=(action,o)=>{
  if(!P.owns(o))return;
@@ -36,7 +36,7 @@ K.paymentAction=(action,o)=>{
 };
 K.sampleDraft=()=>{
  K.resetDraft();let date=A.schedule.add(A.schedule.today(),10);for(let i=0;i<90&&K.dateReason(date);i++)date=A.schedule.add(date,1);
- Object.assign(K.state.draft,{date,window:'morning',addressId:A.addresses.active().find(a=>K.serviceable(a))?.address_id||'',selections:{shape:'round',flavor:'chocolate',size:'eight',color:'cream',icing:'buttercream'},addons:{decoration:2},notes:'Soft cream and sage colors with botanical details. Please add Happy Birthday.',images:[{url:'assets/custom-cake.png',name:'custom-cake.png',size:240000,type:'image/png',status:'ready'},null,null],reviewedPrice:130000});
+ Object.assign(K.state.draft,{method:'delivery',date,addressId:A.addresses.active().find(a=>K.serviceable(a))?.address_id||'',selections:{shape:'round',flavor:'chocolate',size:'eight',color:'cream',icing:'buttercream'},addons:{decoration:2},notes:'Soft cream and sage colors with botanical details. Please add Happy Birthday.',images:[{url:'assets/custom-cake.png',name:'custom-cake.png',size:240000,type:'image/png',status:'ready'},null,null],reviewedPrice:130000});
 };
 V.inspector=select=>{
  const account=A.route==='account',mock=account?P.mock:K.mock;
@@ -59,7 +59,7 @@ document.addEventListener('click',e=>{
  if(action==='qa-cake-sample'){K.sampleDraft();r=K.submit();if(r){K.issue(r);const q=K.issue(r,true);location.hash='#/'+K.quotePath(q);}else A.toast(K.message);}
  if(action==='qa-quote-issue'||action==='qa-quote-revise'){const q=K.issue(r,action==='qa-quote-revise');if(q)location.hash='#/'+K.quotePath(q);else A.toast('Select an unpaid request without pending payment verification.');}
  if(action==='qa-request-reject'&&r&&!K.orders.some(o=>o.requestId===r.id&&(o.paid||['detected','delayed'].includes(o.payment)))){r.status='rejected';K.versions(r).forEach(q=>{q.status='rejected';const o=K.orders.find(o=>o.quotationId===q.id);if(o)K.cancel(o);});N.emit('rejected-'+r.id,'cakes','Cake request declined','The bakery cannot accommodate this request.','cake-requests/'+r.id);}
- if(action==='qa-quote-expire'&&r){const q=K.versions(r)[0];if(q&&!K.orders.some(o=>o.quotationId===q.id&&o.paid))q.expires_at=Date.now()-1;}
+ if(action==='qa-quote-expire'&&r){const q=K.versions(r)[0];if(q&&!K.orders.some(o=>o.quotationId===q.id&&(o.paid||['detected','delayed'].includes(o.payment)))){if(q.status==='rejected')q.status='issued';q.expires_at=Date.now()-1;K.expire();}}
  if(action==='qa-otp-expire'&&P.verification)P.verification.expires_at=Date.now()-1;
  if(action==='qa-otp-resend'&&P.verification)P.verification.resend_at=0;
  if(action==='qa-notifications'){

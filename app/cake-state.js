@@ -3,7 +3,7 @@
 const A=K406,C=A.commerce,D=A.schedule,P=A.account,T=A.cakeData;
 const K=A.cakes={state:{draft:null,requests:[],quotations:[],serial:4000},orders:[],holds:[],addressUI:{form:null,editing:null,mapBusy:false},mock:{page:'normal',availability:'normal',options:'normal',upload:'normal',submit:'normal'},message:'',month:9,year:2026};
 const S=K.state;
-K.blank=()=>({date:'',window:'',addressId:A.addresses?.active().find(a=>a.is_default)?.address_id||'',selections:{},addons:{},images:[null,null,null],notes:'',reviewedPrice:null,submittedId:null});S.draft=K.blank();
+K.blank=()=>({method:'',date:'',addressId:A.addresses?.active().find(a=>a.is_default)?.address_id||'',selections:{},addons:{},images:[null,null,null],notes:'',reviewedPrice:null,submittedId:null});S.draft=K.blank();
 K.money=cents=>C.money(cents/100);
 K.address=()=>A.addresses.find(S.draft.addressId);
 K.request=id=>P.allowed()?(S.requests.find(r=>r.id===id&&r.customer_id===P.id())||null):null;
@@ -13,7 +13,6 @@ K.versions=r=>S.quotations.filter(q=>q.requestId===r.id).sort((a,b)=>b.version-a
 K.selected=(draft=S.draft)=>T.categories.map(type=>T.options.find(o=>o.id===draft.selections[type]&&o.type===type)).filter(Boolean);
 K.extras=(draft=S.draft)=>T.addons.filter(a=>draft.addons[a.id]>0).map(a=>({...a,quantity:draft.addons[a.id]}));
 K.estimate=(draft=S.draft)=>{const options=K.selected(draft),addons=K.extras(draft),base=options.reduce((s,o)=>s+o.price,0),extra=addons.reduce((s,o)=>s+o.price*o.quantity,0);return {base,extra,total:base+extra,complete:options.length===5};};
-K.windows=date=>T.config.windowOverrides[date]||T.config.windows;
 K.serviceable=a=>C.addressValid(a)&&T.config.cities.includes(a.city);
 K.activeHolds=()=>K.holds.filter(h=>h.status==='confirmed'||h.status==='held'&&h.expires_at>Date.now());
 K.dateReason=(date,exclude)=>{
@@ -25,9 +24,30 @@ K.dateReason=(date,exclude)=>{
  if(held.filter(h=>h.date===date).length>=T.config.maxPerDay)return 'Date fully booked';
  return '';
 };
+K.availabilityTarget=()=>{
+ const mode=K.mock.availability;
+ if(K.availabilityPreview?.mode!==mode){
+  let date=S.draft.date;
+  if(!D.valid(date)){date=D.add(D.today(),1);for(let i=0;i<365&&K.dateReason(date);i++)date=D.add(date,1);}
+  K.availabilityPreview={mode,date};
+ }
+ return K.availabilityPreview.date;
+};
+K.requestDateReason=date=>{
+ const target=K.availabilityTarget(),mode=K.mock.availability;
+ if(mode==='loading')return 'Checking availability...';
+ if(mode==='error')return 'Availability could not be checked. Please retry.';
+ const reason=K.dateReason(date);if(reason)return reason;
+ if(mode==='capacity'&&D.week(date)===D.week(target))return 'Weekly capacity reached';
+ if(mode==='blocked'&&date===target)return 'Date blocked';
+ return '';
+};
+K.availabilityReason=()=>{
+ const target=K.availabilityTarget();
+ return K.mock.availability==='normal'?'':K.requestDateReason(S.draft.date||target);
+};
 K.fulfillmentReason=()=>{
- if(K.mock.availability!=='normal')return {loading:'Checking availability…',error:'Availability could not be checked. Please retry.',capacity:'Weekly capacity reached.',blocked:'The owner has blocked this date.'}[K.mock.availability];
- const d=S.draft;return K.dateReason(d.date)||(!K.windows(d.date)[d.window]?'Choose a preferred delivery window.':'')||(!K.serviceable(K.address())?'Select an address within the owner delivery area.':'');
+ const d=S.draft;return K.availabilityReason()||(!d.date?'Choose a requested date.':K.dateReason(d.date))||(!['pickup','delivery'].includes(d.method)?'Choose pickup or delivery.':'')||(d.method==='delivery'&&!K.serviceable(K.address())?'Select an address within the delivery area.':'');
 };
 K.optionsReason=()=>{
  if(K.mock.options!=='normal')return K.mock.options==='loading'?'Loading cake options…':'Cake options are unavailable. Please retry.';
@@ -36,7 +56,7 @@ K.optionsReason=()=>{
  if(Object.entries(S.draft.addons).some(([id,q])=>!Number.isInteger(q)||q<0||q>20||!T.addons.some(a=>a.id===id&&a.available)))return 'Choose available add-ons with quantities from 0 to 20.';
  return '';
 };
-K.referencesReason=()=>!S.draft.images[0]?'Upload a primary reference image.':S.draft.images.some(i=>i&&i.status!=='ready')?'Wait for image validation or retry failed images.':S.draft.notes.length>600?'Keep design notes within 600 characters.':'';
+K.referencesReason=()=>K.mock.upload==='error'?'This image could not be read. Please choose it again or try another image.':!S.draft.images.some(Boolean)?'Upload a reference image.':S.draft.images.some(i=>i&&i.status!=='ready')?'Wait for image validation or retry failed images.':S.draft.notes.length>600?'Keep design notes within 600 characters.':'';
 K.materials=(options,addons)=>{
  const totals={};for(const item of [...options,...addons]){if(!item.ingredients)return null;for(const [id,quantity] of Object.entries(item.ingredients))totals[id]=(totals[id]||0)+quantity*(item.quantity||1);}return totals;
 };
@@ -53,7 +73,7 @@ K.submit=()=>{
  const reason=K.fulfillmentReason()||K.optionsReason()||K.referencesReason();if(reason){K.message=reason;return null;}
  const estimate=K.estimate();if(S.draft.reviewedPrice!==estimate.total){K.message='Your estimate changed. Review and accept the current estimate before submitting.';return null;}
  if(K.mock.submit==='error'){K.message='Your request could not be submitted. Your draft is saved; please retry.';return null;}
- const id='CAKE-'+(++S.serial),r={id,customer_id:P.id(),status:'pending_review',created_at:Date.now(),estimated_price:estimate.total,accepted_quotation_id:null,snapshot:C.copy({options:K.selected(),addons:K.extras(),images:S.draft.images,notes:S.draft.notes,address:K.address(),contact:P.contact(),date:S.draft.date,window:S.draft.window,windowLabel:K.windows(S.draft.date)[S.draft.window]})};
+ const id='CAKE-'+(++S.serial),r={id,customer_id:P.id(),status:'pending_review',created_at:Date.now(),estimated_price:estimate.total,accepted_quotation_id:null,snapshot:C.copy({options:K.selected(),addons:K.extras(),images:S.draft.images,notes:S.draft.notes,method:S.draft.method,address:S.draft.method==='pickup'?null:K.address(),contact:P.contact(),date:S.draft.date})};
  S.requests.unshift(r);S.draft.submittedId=id;A.notifications.emit('request-'+id,'cakes','Cake request submitted','The bakery will review your design and requested date.','cake-requests/'+id);return r;
 };
 K.issue=(r,revised=false)=>{
@@ -61,7 +81,7 @@ K.issue=(r,revised=false)=>{
  const versions=K.versions(r),version=(versions[0]?.version||0)+1;
  versions.filter(q=>['issued','accepted'].includes(q.status)).forEach(q=>{q.status='superseded';const order=K.orders.find(o=>o.quotationId===q.id);if(order&&!order.paid)K.cancel(order);});
  const snapshot=C.copy(r.snapshot),base=snapshot.options.reduce((s,o)=>s+o.price,0),extras=snapshot.addons.reduce((s,o)=>s+o.price*o.quantity,0);
- const q={id:'QUOTE-'+(++S.serial),requestId:r.id,customer_id:r.customer_id,version,status:'issued',issued_at:Date.now(),expires_at:Date.now()+2*86400000,snapshot,options_total:base+(revised?25000:10000),addons_total:extras+(extras&&revised?5000:0),complexity_charge:40000,delivery_fee:20000,owner_notes:revised?'Revised proposal with botanical decoration and hand lettering.':'Design reviewed. Decoration and lettering are included in the quotation.',materials:K.materials(snapshot.options,snapshot.addons)};
+ const q={id:'QUOTE-'+(++S.serial),requestId:r.id,customer_id:r.customer_id,version,status:'issued',issued_at:Date.now(),expires_at:Date.now()+2*86400000,snapshot,options_total:base+(revised?25000:10000),addons_total:extras+(extras&&revised?5000:0),complexity_charge:40000,delivery_fee:snapshot.method==='pickup'?0:20000,owner_notes:revised?'Revised proposal with botanical decoration and hand lettering.':'Design reviewed. Decoration and lettering are included in the quotation.',materials:K.materials(snapshot.options,snapshot.addons)};
  if(revised){const color=q.snapshot.options.find(o=>o.type==='color');color.name='Sage green & soft cream';q.materials.tint=(q.materials.tint||0)+2;}
  q.total=q.options_total+q.addons_total+q.complexity_charge+q.delivery_fee;S.quotations.unshift(q);r.status='quoted';r.accepted_quotation_id=null;
  A.notifications.emit('quote-'+q.id,'cakes','Quotation ready for review','Version '+version+' is ready. Review its design, price, and fulfillment details.','cake-requests/'+r.id+'/quotations/'+q.id,r.customer_id,{email:'sent'});return q;
@@ -85,7 +105,7 @@ K.accept=q=>{
  const reason=K.quoteReason(q);if(reason){K.message=reason;return null;}
  let o=K.orders.find(o=>o.quotationId===q.id);if(o){if(o.paid||['waiting','detected','delayed'].includes(o.payment))return o;K.message='Resume or retry your existing payment from the order.';return o;}
  const snap=C.copy(q.snapshot),id='K406-CAKE-'+(++S.serial);
- o={id,customer_id:P.id(),type:'cake',domainType:'custom_cake_purchase',quotationId:q.id,requestId:q.requestId,items:[{key:'quotation:'+q.id,quotation_id:q.id,productId:0,name:'Custom celebration cake',variant:snap.options.map(x=>x.name).join(' · '),price:(q.total-q.delivery_fee)/100,quantity:1,image:snap.images[0]?.url||'assets/custom-cake.png'}],fulfillment:{method:snap.method||'delivery',date:snap.date,window:snap.window,windowLabel:snap.windowLabel},address:snap.address,contact:snap.contact,fee:q.delivery_fee/100,total:q.total/100,status:'pending-payment',payment:'waiting',created:Date.now(),reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Quotation accepted · awaiting payment',at:new Date().toLocaleString()}]};
+ o={id,customer_id:P.id(),type:'cake',domainType:'custom_cake_purchase',quotationId:q.id,requestId:q.requestId,items:[{key:'quotation:'+q.id,quotation_id:q.id,productId:0,name:'Custom celebration cake',variant:snap.options.map(x=>x.name).join(' · '),price:(q.total-q.delivery_fee)/100,quantity:1,image:snap.images[0]?.url||'assets/custom-cake.png'}],fulfillment:{method:snap.method||'delivery',date:snap.date},address:snap.address,contact:snap.contact,fee:q.delivery_fee/100,total:q.total/100,status:'pending-payment',payment:'waiting',created:Date.now(),reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Quotation accepted · awaiting payment',at:new Date().toLocaleString()}]};
  const failure=K.reserve(o,q);if(failure){K.message=failure;return null;}
  q.status='accepted';q.accepted_at=Date.now();const r=K.request(q.requestId);r.status='accepted';r.accepted_quotation_id=q.id;K.orders.push(o);C.state.orders.unshift(o);return o;
 };
@@ -116,6 +136,6 @@ K.pay=(o,state)=>{
  o.activity.unshift({text:reason?'Payment recorded · owner assistance required':'Full payment confirmed',at:o.paidAt});
  A.notifications.emit('cake-paid-'+o.id,'orders',reason?'Payment needs assistance':'Cake order confirmed',reason?'Your payment is recorded. Please contact the bakery; do not pay again.':'Your cake order is confirmed for '+o.fulfillment.date+'.','orders/'+o.id,o.customer_id);
 };
-K.resetDraft=()=>{const d=S.draft;if(!d.submittedId)d.images.forEach(i=>{if(i?.url?.startsWith('blob:'))URL.revokeObjectURL(i.url);});S.draft=K.blank();K.message='';};
+K.resetDraft=()=>{K.availabilityPreview=null;const d=S.draft;if(!d.submittedId)d.images.forEach(i=>{if(i?.url?.startsWith('blob:'))URL.revokeObjectURL(i.url);});S.draft=K.blank();K.message='';};
 K.reset=()=>{for(const r of S.requests)r.snapshot.images.forEach(i=>{if(i?.url?.startsWith('blob:'))URL.revokeObjectURL(i.url);});K.resetDraft();S.requests=[];S.quotations=[];K.orders=[];K.holds=[];K.addressUI.form=null;Object.keys(K.mock).forEach(k=>K.mock[k]='normal');};
 })();
