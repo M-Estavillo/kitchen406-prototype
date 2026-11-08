@@ -55,8 +55,8 @@ document.addEventListener('click',e=>{
  if(action==='stock'){A.ownerInventory.openStock(id,el.dataset.type);return;}
  if(action==='cost'){A.ownerInventory.openCost(id);return;}
  if(action==='recipe'){A.ownerInventory.openRecipe(Number(id),el.dataset.variant);return;}
- if(action==='add-bom'){A.$('owner-bom').insertAdjacentHTML('beforeend',A.ownerInventory.row());const form=el.closest('form');if(form)form.dataset.dirty='true';return;}
- if(action==='remove-bom'){const form=el.closest('form');el.closest('.owner-bom-row').remove();if(form)form.dataset.dirty='true';return;}
+ if(action==='add-bom'){A.$('owner-bom').insertAdjacentHTML('beforeend',A.ownerInventory.row());return;}
+ if(action==='remove-bom'){el.closest('.owner-bom-row').remove();return;}
  if(action==='price'){O.open('Update selling price',V.form('price',V.field('price','New selling price (PHP)',A.variant(Number(id),el.dataset.variant).price,'number','required min="0.01" step="0.01"')+'<p>Existing purchases and quotations retain their saved prices.</p>',`data-id="${E(id)}" data-variant="${E(el.dataset.variant)}" data-version="${P.version}"`,'Confirm selling price'));return;}
  if(action==='pricing-settings'){O.open('Costing settings',V.form('pricing-settings',V.field('markup','Markup (%)',P.markup,'number','required min="0" step="0.01"')+V.field('overhead','Default utility overhead (PHP)',P.overhead,'number','required min="0" step="0.01"')+V.button('discard-modal','Cancel'),`data-version="${P.version}"`));return;}
  if(action==='create-quotation'){A.ownerCakeUI.open(id);return;}

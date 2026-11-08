@@ -14,21 +14,23 @@ const assert=require('node:assert/strict');
  try{
   await send('Runtime.enable');await send('Page.enable');
   await send('Page.navigate',{url:require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href});
-  await new Promise(r=>setTimeout(r,1800));
+  await new Promise(r=>setTimeout(r,500));
+  for(let attempt=0;attempt<300;attempt++){if(await run('document.readyState==="complete" && !!window.K406_MAPS_CONFIG && !!window.K406?.shell'))break;await new Promise(r=>setTimeout(r,100));}
   await run(`K406_MAPS_CONFIG.apiKey='';window.C=K406.commerce;window.S=C.state;K406.setAuth('signedin');C.sampleCart();S.draft.method='delivery';S.draft.date='2026-10-16';location.hash='#/checkout/address'`);await wait();
   await run(`document.querySelector('[data-commerce="address-add"]').click()`);await wait();
   await check(`document.getElementById('address-map-status').textContent.includes('unavailable')&&document.querySelector('#delivery-address-form [type=submit]').disabled`,'missing configuration fails safely');
   await check(`!document.querySelector('[name=phone]')&&!document.querySelector('[name=add_line_2]').required&&document.querySelector('[name=postal_code]').required`,'ERD fields and optional details');
   await run(`
    window.lookups=[];
-   class MockMap{constructor(){window.testMap=this;this.events={};}addListener(n,f){this.events[n]=f;}panTo(){}setZoom(){}fitBounds(bounds){this.bounds=bounds;}}
+   class MockMap{constructor(host,options){this.options=options;window.testMap=this;this.events={};}addListener(n,f){this.events[n]=f;}panTo(){}setZoom(){}fitBounds(bounds){this.bounds=bounds;}}
    class Marker{constructor(options){Object.assign(this,options);this.events={};if(options.gmpDraggable)window.testMarker=this;else window.testBakeryMarker=this;}addEventListener(n,f){this.events[n]=f;}append(label){this.label=label;}}
    class Geocoder{geocode(request){if(request.address)return Promise.resolve({results:[{geometry:{location:{lat:10.4,lng:123.98}}}]});return new Promise((resolve,reject)=>lookups.push({resolve,reject}));}}
    class Places extends HTMLElement{constructor(){super();window.testSearch=this;}}
    customElements.define('test-google-places',Places);
    window.google={maps:{importLibrary:async name=>({maps:{Map:MockMap},marker:{AdvancedMarkerElement:Marker},geocoding:{Geocoder},places:{PlaceAutocompleteElement:Places},routes:{Route:{computeRoutes:async()=>({routes:[{distanceMeters:window.testDistance??9000}]})}}}[name])}};
-   K406_MAPS_CONFIG.apiKey='test-stub';K406_MAPS_CONFIG.mapId='test-stub';C.render();
+   K406_MAPS_CONFIG.apiKey='test-stub';K406_MAPS_CONFIG.mapId='test-stub';[...document.querySelectorAll('button')].find(b=>b.textContent==='Retry map').click();
   `);await wait();
+  await check(`testMap.options.renderingType==='RASTER'`,'retry recovers the failed map with raster rendering without WebGL');
   await check(`testBakeryMarker.label.textContent.includes('Kitchen406 bakery')&&!testBakeryMarker.gmpDraggable&&!!testMap.bounds`,'bakery marker is labeled, fixed and visible');
   await run(`testMap.events.click({latLng:{lat:10.3,lng:123.9}});testMap.events.click({latLng:{lat:10.4,lng:123.8}})`);
   await check(`C.checkout.mapBusy&&document.querySelector('#delivery-address-form [type=submit]').disabled`,'pending lookup blocks saving');

@@ -18,10 +18,11 @@ function load(){
  if(window.google?.maps?.importLibrary)return Promise.resolve();
  if(!loading)loading=new Promise((resolve,reject)=>{
   const script=document.createElement('script');
-  const timer=setTimeout(()=>reject(new Error('Map loading timed out.')),20000);
+  const fail=message=>{clearTimeout(timer);script.remove();reject(new Error(message));};
+  const timer=setTimeout(()=>fail('Map loading timed out.'),20000);
   window.k406MapsReady=()=>{clearTimeout(timer);resolve();};
   script.src='https://maps.googleapis.com/maps/api/js?'+new URLSearchParams({key:config.apiKey,v:'weekly',loading:'async',callback:'k406MapsReady'});
-  script.onerror=()=>{clearTimeout(timer);reject(new Error('Map could not load.'));};
+  script.onerror=()=>fail('Map could not load.');
   document.head.append(script);
  });
  return loading;
@@ -49,7 +50,7 @@ C.addressMap={load,fields,async mount(){
   const [{Map},{AdvancedMarkerElement},{Geocoder},{PlaceAutocompleteElement}]=await Promise.all(['maps','marker','geocoding','places'].map(name=>google.maps.importLibrary(name)));
   if(!active())return;
   const selected=C.coordinatesValid(address),center=selected?{lat:address.latitude,lng:address.longitude}:window.K406_MAPS_CONFIG.center;
-  const map=new Map(host,{center,zoom:selected?17:12,mapId:window.K406_MAPS_CONFIG.mapId,mapTypeControl:false,streetViewControl:false});
+  const map=new Map(host,{center,zoom:selected?17:12,mapId:window.K406_MAPS_CONFIG.mapId,renderingType:'RASTER',mapTypeControl:false,streetViewControl:false});
   const marker=new AdvancedMarkerElement({map,position:selected?center:undefined,gmpDraggable:editing,title:editing?'Drag to your delivery location':'Delivery location'});
   const geocoder=new Geocoder();let bakery;
   const frameLocations=()=>{
@@ -116,7 +117,10 @@ C.addressMap={load,fields,async mount(){
   say(selected?'Drag the pin to adjust your delivery location.':'Search for an address, then drag the pin or select a point on the map.');
  }catch{
   if(!active())return;
-  say('The map is unavailable right now. Please try again later.');
+  say('The map is unavailable right now. Please try again.');
+  const retry=document.createElement('button');retry.type='button';retry.className='btn';retry.textContent='Retry map';
+  retry.addEventListener('click',()=>{retry.remove();delete host.dataset.mounted;void C.addressMap.mount();});
+  status.after(retry);
   if(editing){F.mapBusy=false;updateButton();}
  }
 }};

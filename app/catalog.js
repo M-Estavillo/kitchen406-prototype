@@ -58,7 +58,6 @@
         if (protoState === 'empty') return [];
 
         return PRODUCTS_DATA.filter(item => {
-          if (K406.catalogState && !K406.catalogState.visible(item)) return false;
           const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
           const matchSub = !subscriptionOnly || item.subscription;
           const query = searchQuery.trim().toLowerCase();
@@ -73,8 +72,7 @@
 
       // Render product card HTML
       function createProductCard(item) {
-        item={...item,...Object.fromEntries(['name','description','categoryLabel','variant','image'].map(key=>[key,K406.escape(item[key])])),price:K406.catalogState?K406.catalogState.priceLabel(item):item.price};
-        const isUnavailable = !item.available || (K406.catalogState && !item.variants.some(v=>K406.catalogState.eligible(item.id,v.id)));
+        const isUnavailable = !item.available;
         const availabilityBadge = isUnavailable
           ? `<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Temporarily unavailable</span>`
           : `<span class="bg-surface/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container">Available</span>`;
@@ -319,7 +317,7 @@
       });
 
       K406.catalog = {
-        refresh() { updateCategoryCounters(); renderCatalog(); },
+        refresh() { renderCatalog(); },
         card: createProductCard,
         setState(value) { protoState=value; renderCatalog(); K406.inspector?.(); },
         state() { return protoState; },

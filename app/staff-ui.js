@@ -149,7 +149,6 @@ S.loading=()=>{
  return U.pageIntro({title,subtitle:'Retrieving your workspace details.'})+`<div role="status" aria-label="Loading ${E(title.toLowerCase())}"><div aria-hidden="true">${content}</div></div>`;
 };
 S.render=()=>{if(A.route!=='staff')return;const root=A.$('staff-view');if(!root)return;
- if(A.auth==='signedin'&&S.role==='staff'&&S.account.status==='active'&&!S.account.setup&&A.staffAccounts){root.innerHTML=A.staffAccounts.setupPage();return;}
  const focus=document.activeElement,selection=focus?.selectionStart,id=root.contains(focus)?focus.id:null;
  if(!S.allowed()){root.innerHTML=U.pageIntro({title:'Staff access required',subtitle:A.auth==='signedin'?'This account does not have active staff workspace access.':'Sign in with an owner-provisioned staff account.'})+panel('Restricted workspace','<p>Use your assigned staff account. Preview staff accounts are available through Mock Controls.</p>'+link('sign-in','Sign in')+link('shop','Back to shop'));return;}
  const view=S.parts[1]||'',body=S.mode==='loading'?S.loading():S.mode==='error'?panel('Unable to load','<p>Records could not be loaded. Please retry.</p>'+btn('retry','Retry')):S.mode==='empty'?empty():({'':dashboard,production:()=>S.parts[2]?details():queue(),inventory,movements,recipes,calendar,notifications,account:settings}[view]||(()=>empty('Page not found.')))();
