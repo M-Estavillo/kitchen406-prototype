@@ -11,13 +11,13 @@ Q.issue=(id,input,version,key)=>{
  if(Q.locked(r)||['rejected','expired'].includes(r.status))return 'This request has locked or unavailable content.';
  const reason=K.dateReason(input.date);if(reason)return reason;
  if(!['pickup','delivery'].includes(input.method))return 'Choose a valid fulfillment method.';
- if(![input.complexity,input.fee].every(n=>Number.isFinite(n)&&n>=0&&Number.isSafeInteger(n)))return 'Charges must be nonnegative currency amounts.';
+ if(![input.complexity,input.fee,input.addons??0].every(n=>Number.isFinite(n)&&n>=0&&Number.isSafeInteger(n)))return 'Charges must be nonnegative currency amounts.';
  if(!Number.isFinite(input.expiry)||input.expiry<=Date.now())return 'Choose a future expiry.';
  if(input.method==='delivery'&&!K.serviceable(r.snapshot.address))return 'The submitted delivery address is not serviceable.';
  const snapshot=C.copy(r.snapshot);Object.assign(snapshot,{date:input.date,method:input.method,address:input.method==='pickup'?null:snapshot.address});
  const materials=K.materials(snapshot.options,snapshot.addons),materialReason=K.materialReason(materials);if(materialReason)return materialReason;
  const versions=K.versions(r),v=(versions[0]?.version||0)+1;
- const q={id:'QUOTE-'+(++K.state.serial),requestId:id,customer_id:r.customer_id,created_by_admin_id:A.session.actor().id,version:v,status:'issued',issued_at:Date.now(),expires_at:input.expiry,snapshot,options_total:snapshot.options.reduce((n,x)=>n+x.price,0),addons_total:snapshot.addons.reduce((n,x)=>n+x.price*x.quantity,0),complexity_charge:input.complexity,delivery_fee:input.method==='pickup'?0:input.fee,owner_notes:input.notes.trim().slice(0,2000),materials};
+ const q={id:'QUOTE-'+(++K.state.serial),requestId:id,customer_id:r.customer_id,created_by_admin_id:A.session.actor().id,version:v,status:'issued',issued_at:Date.now(),expires_at:input.expiry,snapshot,options_total:snapshot.options.reduce((n,x)=>n+x.price,0),addons_total:input.addons??snapshot.addons.reduce((n,x)=>n+x.price*x.quantity,0),complexity_charge:input.complexity,delivery_fee:input.method==='pickup'?0:input.fee,owner_notes:input.notes.trim().slice(0,2000),materials};
  q.total=q.options_total+q.addons_total+q.complexity_charge+q.delivery_fee;
  versions.filter(q=>q.status==='issued').forEach(q=>q.status='superseded');K.state.quotations.unshift(q);r.status='quoted';r.version=(r.version||0)+1;r.accepted_quotation_id=null;Q.results.set(key,id);
  Q.notify(q);return '';

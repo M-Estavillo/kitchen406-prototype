@@ -866,3 +866,37 @@
 .owner-order-confirm-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 .owner-order-confirm-actions .btn{font-size:13px;min-height:36px;padding:7px 12px}
 @media(max-width:400px){#owner-modal .dialog-card:has(.owner-order-confirm){padding:20px}}
+#owner-modal [data-owner-form=stock]>.owner-stock-dialog-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px}
+#owner-modal .owner-stock-dialog-actions .btn{width:auto;min-height:34px;padding:6px 12px;font-size:12px}
+.owner-staff-actions [role=switch],.owner-staff-accounts [role=switch]{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;font-size:12px}
+.owner-staff-accounts [role=switch]:before{content:'';width:28px;height:16px;border-radius:999px;background:radial-gradient(circle at 8px 50%,white 5px,transparent 5.5px),#82796f}
+.owner-staff-accounts [role=switch][aria-checked=true]:before{background:radial-gradient(circle at 20px 50%,white 5px,transparent 5.5px),var(--accent)}
+#owner-modal .dialog-card:has(.owner-quotation){max-width:490px;padding:18px}
+#owner-modal .dialog-card:has(.owner-quotation) h2{font-size:22px;margin-bottom:12px}
+.owner-quotation>h3{display:none}
+#owner-modal [data-owner-form=quotation]{gap:10px}
+#owner-modal [data-owner-form=quotation] label{font-size:11px;margin-bottom:4px}
+#owner-modal [data-owner-form=quotation] :is(input,textarea){font-size:12px;padding:6px 8px;min-height:34px}
+#owner-modal [data-owner-form=quotation] textarea{min-height:65px}
+.owner-quote-breakdown{padding:10px}
+.owner-quote-breakdown h3{font-size:13px;margin-bottom:8px}
+.owner-quote-breakdown dl{font-size:12px;gap:6px}
+.owner-quote-breakdown dl>div:last-child{font-size:14px;padding-top:7px}
+#owner-modal .owner-quotation .btn{font-size:12px;padding:6px 10px;min-height:34px}
+#owner-modal [data-owner-form=quotation]>.field:has([name=date]){grid-column:1/-1}
+
+/* Product editor: aligned select controls, compact multi-selection and switches. */
+.owner-product-editor .owner-variant-picker{border:0;margin:0;padding:0;background:transparent}
+.owner-product-editor .owner-variant-picker summary{margin:0;width:100%;min-height:38px;height:38px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:7px 10px;font:inherit;font-size:13px;line-height:22px}
+.owner-product-editor .owner-variant-options{box-sizing:border-box;width:100%;min-width:0;padding:5px;max-height:190px;box-shadow:0 6px 18px #00000014}
+.owner-product-editor .owner-variant-options label{font-size:13px;font-weight:400;line-height:20px;padding:6px;gap:8px;cursor:pointer;border-radius:4px}
+.owner-product-editor .owner-variant-options label:hover{background:var(--panel)}
+.owner-product-editor .owner-variant-options input[type=checkbox]{appearance:auto;width:15px;height:15px;min-width:15px;min-height:15px;max-height:15px;padding:0;margin:0;flex:0 0 15px;border-radius:3px;accent-color:var(--accent)}
+.owner-product-editor .owner-product-price-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.owner-product-editor label,.owner-product-editor .owner-product-switch label{font-size:13px;font-weight:500;line-height:18px;margin:0 0 4px}
+.owner-product-editor .owner-product-switches{display:flex;align-items:flex-start;gap:16px;min-width:0}
+.owner-product-editor .owner-product-switch input{margin:11px 0 0}
+@media(max-width:600px){.owner-product-editor .owner-product-switches{flex-wrap:wrap;gap:10px}.owner-product-editor .owner-product-price-row{grid-template-columns:minmax(0,1fr)}.owner-product-editor .owner-product-switch label{white-space:normal}}
+.owner-product-editor .owner-product-switch{display:grid;grid-template-rows:18px 44px;row-gap:4px}
+.owner-product-editor .owner-product-switch label{margin:0}
+.owner-product-editor .owner-product-switch input{align-self:center;margin:0}

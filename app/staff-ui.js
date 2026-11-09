@@ -50,45 +50,9 @@ function recipes(){
  const recipe=p&&v?I.recipe(p.id,v.id):null,ingredients=Object.entries(recipe||{}),pages=Math.max(1,Math.ceil(ingredients.length/10));
  S.page=Math.max(1,Math.min(S.page,pages));
  const pager=ingredients.length?`<div class="staff-pager">${btn('page-prev','Previous',S.page===1?'disabled':'')}<span aria-live="polite">${(S.page-1)*10+1}–${Math.min(S.page*10,ingredients.length)} of ${ingredients.length} ingredients · Page ${S.page} of ${pages}</span>${btn('page-next','Next',S.page===pages?'disabled':'')}</div>`:'';
- return U.pageIntro({title:'Recipes',subtitle:'Ingredient requirements for each product variant.'})+`<div class="staff-toolbar staff-recipe-filters"><div class="field staff-product-combobox"><label for="staff-product-search">Search products</label><input id="staff-product-search" type="text" role="combobox" aria-autocomplete="list" aria-controls="staff-product-options" aria-expanded="false" autocomplete="off" value="${E(p?.name||'')}" placeholder="Search and select a product"><ul id="staff-product-options" role="listbox" aria-label="Products" hidden></ul></div>${select('variant','Variant',(p?.variants||[]).map(v=>[v.id,v.label]),S.variant)}</div><div class="staff-recipe-table">`+(p&&v?panel(p.name,`<p class="staff-recipe-summary">Ingredients for 1 ${E(v.label)}.</p>${recipeEditorTable(ingredients.slice((S.page-1)*10,S.page*10))}${pager}`,`<div class="staff-recipe-header-actions">${btn('recipe-add','Add ingredient',S.recipeDraft?'disabled':'')}${link('staff/inventory','View inventory',true)}</div>`):empty())+'</div>';
+ return U.pageIntro({title:'Recipes',subtitle:'Read-only ingredient requirements for each product variant.'})+`<div class="staff-toolbar staff-recipe-filters"><div class="field staff-product-combobox"><label for="staff-product-search">Search products</label><input id="staff-product-search" type="text" role="combobox" aria-autocomplete="list" aria-controls="staff-product-options" aria-expanded="false" autocomplete="off" value="${E(p?.name||'')}" placeholder="Search and select a product"><ul id="staff-product-options" role="listbox" aria-label="Products" hidden></ul></div>${select('variant','Variant',(p?.variants||[]).map(v=>[v.id,v.label]),S.variant)}</div><div class="staff-recipe-table">`+(p&&v?panel(p.name,`<p class="staff-recipe-summary">Ingredients for 1 ${E(v.label)}.</p>${recipeEditorTable(ingredients.slice((S.page-1)*10,S.page*10))}${pager}`,`<div class="staff-recipe-header-actions">${link('staff/inventory','View inventory',true)}</div>`):empty())+'</div>';
 }
-const recipeIcon=(action,id,label,path)=>`<button type="button" class="btn staff-recipe-icon" data-staff="${action}" data-id="${E(id)}" aria-label="${label} ingredient" title="${label} ingredient"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg></button>`;
-const recipeRowActions=id=>recipeIcon('recipe-edit',id,'Edit','<path d="m16 3 5 5-12 12-6 1 1-6zM14 5l5 5"/>')+recipeIcon('recipe-remove',id,'Remove','<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>');
-function recipeEditorTable(entries){
- const draft=S.recipeDraft,bom=I.recipe(Number(S.recipeId),S.variant)||{};
- const editRow=(id,quantity)=>{
- const options=I.items.filter(i=>!Object.hasOwn(bom,i.id)||i.id===draft.original);
- return `<tr class="staff-recipe-edit-row"><td><select id="staff-recipe-ingredient" aria-label="Ingredient">${options.map(i=>`<option value="${E(i.id)}" ${id===i.id?'selected':''}>${E(i.name)} (${E(i.unit)})</option>`).join('')}</select></td><td><input id="staff-recipe-quantity" aria-label="Required quantity in base units" type="number" min="0.001" step="any" value="${E(quantity)}"></td><td>N/A</td><td>${I.item(id)?I.available(id)+' '+E(I.item(id).unit):'—'}</td><td>0</td><td><div class="staff-recipe-row-actions">${draft.original?recipeRowActions(draft.original):''}${btn('recipe-save',draft.original?'Save changes':'Add','',true)}${btn('recipe-cancel','Cancel')}</div><p class="field-error staff-recipe-error" role="alert">${E(draft.error||'')}</p></td></tr>`;
- };
- const rows=entries.map(([id,q])=>draft?.original===id?editRow(draft.id,draft.quantity):`<tr><td>${E(I.item(id)?.name||id)}</td><td>${q} ${E(I.item(id)?.unit||'')}</td><td>N/A</td><td>${I.available(id)} ${E(I.item(id)?.unit||'')}</td><td>0</td><td><div class="staff-recipe-row-actions">${recipeRowActions(id)}</div></td></tr>`);
- if(draft&&!draft.original)rows.push(editRow(draft.id,draft.quantity));
- return table(['Ingredient','Required','Reserved for this order','Available for new orders','Shortage for this order','Actions'],rows);
-}
-function recipeAction(action,id){
- const key=S.recipeId+':'+S.variant,bom=I.recipe(Number(S.recipeId),S.variant)||{};
- if(action==='recipe-cancel'){S.recipeDraft=null;S.render();return;}
- if(action==='recipe-add'||action==='recipe-edit'){
- if(S.recipeDraft)return;
- const ingredient=action==='recipe-edit'?id:I.items.find(i=>!Object.hasOwn(bom,i.id))?.id;
- if(!ingredient){A.toast('All ingredients are already in this recipe.');return;}
- S.recipeDraft={key,original:action==='recipe-edit'?id:null,id:ingredient,quantity:action==='recipe-edit'?bom[id]:'',version:A.pricing.version};S.render();A.$('staff-recipe-quantity')?.focus();return;
- }
- const draft=S.recipeDraft;
- if(action==='recipe-remove'){
- if(draft&&draft.original!==id){A.toast('Save or cancel the current ingredient first.');return;}
- delete bom[id];
- }else if(action==='recipe-save'&&draft){
- if(!A.$('staff-recipe-quantity').reportValidity())return;
- delete bom[draft.original];
- if(Object.hasOwn(bom,draft.id)){draft.error='This ingredient is already in the recipe.';S.render();return;}
- bom[draft.id]=Number(draft.quantity);
- }else return;
- const error=A.pricing.saveStaffRecipe({id:Number(S.recipeId),variant:S.variant,rows:Object.entries(bom).map(([id,quantity])=>({id,quantity})),version:draft?.version??A.pricing.version});
- if(error){if(draft){draft.error=error;S.render();}else A.toast(error);return;}
- S.recipeDraft=null;S.render();A.toast('Recipe updated.');
-}
-document.addEventListener('input',e=>{if(S.recipeDraft&&e.target.id==='staff-recipe-quantity')S.recipeDraft.quantity=e.target.value;});
-document.addEventListener('change',e=>{if(S.recipeDraft&&e.target.id==='staff-recipe-ingredient'){S.recipeDraft.id=e.target.value;S.render();}});
+function recipeEditorTable(entries){return table(['Ingredient','Required','Available'],entries.map(([id,q])=>`<tr><td>${E(I.item(id)?.name||id)}</td><td>${q} ${E(I.item(id)?.unit||'')}</td><td>${I.available(id)} ${E(I.item(id)?.unit||'')}</td></tr>`));}
 let recipeMatches=[],recipeActive=-1;
 function closeRecipeOptions(){const input=A.$('staff-product-search'),list=A.$('staff-product-options');if(!input||!list)return;list.hidden=true;input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');recipeActive=-1;}
 function showRecipeOptions(query=''){
@@ -156,14 +120,14 @@ S.render=()=>{if(A.route!=='staff')return;const root=A.$('staff-view');if(!root)
  if(id){const node=A.$(id);node?.focus({preventScroll:true});try{node?.setSelectionRange(selection,selection);}catch{}}
 };
 S.open=(title,body,compact=false,inventory=false)=>{A.$('staff-modal').classList.toggle('staff-inventory-modal',inventory);A.$('staff-modal').classList.toggle('staff-confirm-modal',compact);A.$('staff-dialog-title').textContent=title;A.$('staff-dialog-body').innerHTML=body;A.openModal('staff-modal');};
-function stockForm(id,type,original=''){const i=I.item(id);if(!i)return;S.formKey=crypto.randomUUID();S.open(type==='restock'?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${i.id}" data-type="${type}"><p>${E(i.name)} · On hand: ${i.stock} ${i.unit}</p>${field('quantity',type==='restock'?'Quantity added ('+i.unit+')':'Physical count ('+i.unit+')',type==='restock'?'':i.stock,'number',`required min="${type==='restock'?'0.001':'0'}" step="${i.unit==='pcs'?'1':'0.001'}"`)}${type==='adjustment'?'<div class="field"><label for="staff-reason">Reason</label><select id="staff-reason" name="reason">'+['miscount','spoilage','damage','theft','correction','other'].map(v=>`<option ${original&&v==='correction'?'selected':''}>${v}</option>`).join('')+'</select></div>':''}${field('notes','Note',original?'Correction for '+original:'')}<p id="staff-stock-preview" class="staff-stock-hint">Enter the quantity to review the change.</p><p class="field-error staff-error" role="alert"></p><div class="staff-stock-actions"><button class="btn primary">Confirm ${type==='restock'?'restock':'adjustment'}</button></div></form>`,false,true);}
+function stockForm(id,type,original=''){const i=I.item(id);if(!i)return;S.formKey=crypto.randomUUID();S.open(type==='restock'?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${i.id}" data-type="${type}"><p>${E(i.name)} · On hand: ${i.stock} ${i.unit}</p>${field('quantity',type==='restock'?'Quantity added ('+i.unit+')':'Physical count ('+i.unit+')',type==='restock'?'':i.stock,'number',`required min="${type==='restock'?'0.001':'0'}" step="${i.unit==='pcs'?'1':'0.001'}"`)}${type==='adjustment'?'<div class="field"><label for="staff-reason">Reason</label><select id="staff-reason" name="reason">'+['miscount','spoilage','damage','theft','correction','other'].map(v=>`<option ${original&&v==='correction'?'selected':''}>${v}</option>`).join('')+'</select></div>':''}${field('notes','Note',original?'Correction for '+original:'')}<p id="staff-stock-preview" class="staff-stock-hint">Enter the quantity to review the change.</p><p class="field-error staff-error" role="alert"></p><div class="staff-stock-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button class="btn primary">${type==='restock'?'Confirm restock':'Adjust'}</button></div></form>`,false,true);}
 document.addEventListener('input',e=>{if(e.target.id==='staff-quantity'){const form=e.target.form,i=I.item(form.dataset.id),q=Number(e.target.value),delta=form.dataset.type==='restock'?q:q-i.stock;A.$('staff-stock-preview').textContent=`Change: ${delta>0?'+':''}${Math.round(delta*1000)/1000} ${i.unit}. New on hand: ${Math.round((i.stock+delta)*1000)/1000} ${i.unit}.`;}});
 document.addEventListener('click',e=>{if(e.target.id==='staff-range'&&e.target.type==='date'){try{e.target.showPicker?.();}catch{}}});
 document.addEventListener('change',e=>{const key=e.target.dataset.staffFilter;if(!key||!S.allowed())return;S[key]=e.target.type==='checkbox'?e.target.checked:e.target.value;S.page=1;S.render();});
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-staff]');if(!el||el.disabled)return;const actionName=el.dataset.staff,id=el.dataset.id;
  if(actionName==='enter'){S.enter();return;}if(actionName==='customer'){S.leave();return;}if(!S.allowed())return;
- if(actionName.startsWith('recipe-')){recipeAction(actionName,id);return;}
+ if(actionName.startsWith('recipe-'))return;
  if(actionName==='signout'){S.generation++;S.role='customer';A.setAuth('guest');location.hash='#/staff';window.dispatchEvent(new HashChangeEvent('hashchange'));return;}
  if(actionName==='clear-fulfillment-date'){S.range='all';S.page=1;S.render();return;}
  if(actionName==='seed')S.seed();

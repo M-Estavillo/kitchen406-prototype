@@ -264,3 +264,5 @@
 .staff-stock-status.low{background:#fff3c4;color:#795b00}
 .staff-stock-status.out{background:#fce7e5;color:#a12622}
 @media(max-width:600px){.staff-inventory-filters .field{flex:1 1 160px}}
+#staff-modal .staff-stock-actions{display:flex;justify-content:flex-end;gap:8px}
+#staff-modal .staff-stock-actions .btn{flex:0 0 auto;width:auto;min-height:34px;padding:6px 12px;font-size:12px}

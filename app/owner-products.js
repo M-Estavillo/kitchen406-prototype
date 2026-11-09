@@ -123,7 +123,7 @@ function productEditor(p){
  const imageSection=`<div class="owner-product-image-section">
   <div class="owner-product-cover"><img src="${E(cover)}" alt="" width="52" height="52">${V.select('image','Cover image',choices,cover)}</div>
  </div>`;
- const materials=V.panel('Bill of Materials',`<p class="muted owner-materials-empty">Select a variant to add materials.</p>${variants.map(({key,label,variant})=>{
+ const materials=V.panel('Recipe',`<p class="muted owner-materials-empty">Select a variant to add materials.</p>${variants.map(({key,label,variant})=>{
   const recipe=variant?I.recipe(p.id,variant.id):null;
   const rows=Object.entries(recipe||{}).map(([id,quantity])=>({id,quantity}));
   const overhead=variant?(P.overheads.get(p.id+':'+variant.id)??P.overhead):P.overhead;

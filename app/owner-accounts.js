@@ -50,7 +50,7 @@ function listing(records,render){
  const pages=Math.max(1,Math.ceil(rows.length/10));M.page=Math.min(M.page,pages);
  return render(rows.slice((M.page-1)*10,M.page*10))+`<div class="staff-pager">${V.button('account-prev','Previous',M.page===1?'disabled':'')}<span>Page ${M.page} of ${pages} · ${rows.length} results</span>${V.button('account-next','Next',M.page===pages?'disabled':'')}</div>`;
 }
-const staffActions=r=>V.button('account-edit','Edit',`data-id="${E(r.id)}"`)+V.button('account-status',r.status==='active'?'Deactivate':'Activate',`data-id="${E(r.id)}"`);
+const staffActions=r=>V.button('account-status',r.status==='active'?'Active':'Inactive',`data-id="${E(r.id)}" role="switch" aria-checked="${r.status==='active'}" aria-label="Staff account active: ${E(name(r))}"`);
 M.customerData=id=>{
  if(!A.session.ownerAllowed())return null;
  const customer=P.records.find(r=>r.customer_id===id);if(!customer)return null;
@@ -80,7 +80,7 @@ document.addEventListener('click',e=>{
  if(action==='account-clear'){Object.assign(M,{query:'',status:'all',sort:'name',page:1});A.owner.render();}
  if(action==='account-prev'||action==='account-next'){M.page+=action==='account-next'?1:-1;A.owner.render();}
  if(action==='account-edit'){
-  if(id&&!r)return;
+  if(id)return;
   A.owner.open(r?'Edit staff account':'Create staff account',`<form class="staff-form" data-account-form data-id="${E(id||'')}" data-version="${r?.version||0}">${V.field('first_name','First name',r?.first_name||'','text','required')}${V.field('last_name','Last name',r?.last_name||'','text','required')}${V.field('email','Email',r?.email||'','email','required')}${r?'':V.field('password','Initial password','','password','required minlength="8" autocomplete="new-password"')+'<p>Use at least 8 characters with letters and numbers. Credentials are local to this preview.</p>'}${V.error()}<div class="owner-settings-actions">${V.button('cancel-stock','Cancel')}<button class="btn primary" type="submit">Save account</button></div></form>`);
  }
  if(action==='account-status'&&r)A.owner.open(r.status==='active'?'Deactivate staff account':'Activate staff account',`<div class="owner-staff-confirm"><p>${E(name(r))} · ${r.status==='active'?'This prevents staff access. Historical activity is retained.':'This restores access to the predefined Staff role.'}</p>${V.error()}<div class="owner-settings-actions">${V.button('account-confirm-status','Confirm',`data-id="${E(id)}" data-version="${r.version}" data-status="${r.status==='active'?'inactive':'active'}"`,true)}${V.button('cancel-stock','Cancel')}</div></div>`);

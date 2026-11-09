@@ -28,7 +28,7 @@ B.details=r=>{
  return U.page('Subscription Details',r.id,`<div class="subscription-progress-heading commerce-actions">${U.back('my-subscriptions','Back to my subscriptions')}${V.badge(r.status)}</div>`+U.columns(
  U.panel(r.snapshot.name,V.product(r.snapshot)+`<p>${count(r)} of ${r.deliveries.length} deliveries completed</p><progress class="subscription-progress" max="4" value="${count(r)}" aria-label="Subscription progress"></progress>`)+
  (next?U.panel(r.snapshot.method==='pickup'?'Next scheduled pick-up':'Next scheduled delivery',`<h3>${U.date(next.date)}</h3><p>${r.snapshot.method==='pickup'?'Pick-up':'Delivery'} ${next.cycle} of 4 · ${r.snapshot.method==='pickup'?'10:00 AM–2:00 PM':'9:00 AM–1:00 PM'}</p><div class="commerce-actions subscription-defer-actions">${!B.deferReason(r,next,'day')||!B.deferReason(r,next,'week')?U.link('subscriptions/'+r.id+'/defer/'+next.id,"Defer This Week's Order"):''}</div><p class="subscription-defer-note">Move this week's order to an available later date, once per subscription.</p>`):'')+
- U.panel('Deferment requests',B.requests.filter(q=>q.subscriptionId===r.id).map(q=>`<p>${E(q.status)} · ${U.date(q.originalDate)} → ${U.date(q.target)}</p>`).join('')||'<p>No requests submitted.</p>')+U.panel('Delivery schedule',`<ol class="subscription-dates">${r.deliveries.map(d=>`<li><span class="delivery-number">${d.cycle}</span><div><div class="subscription-order-heading"><strong>${U.date(d.date)}</strong><a class="subscription-order-link" href="#/orders/${E(d.orderId)}">View Order</a></div><p class="muted">Delivery ${d.cycle} of 4 · ${d.status==='fulfilled'?'Delivered':d.status==='preparing'?'Preparing':d.status==='ready'?'Ready':d.status==='cancelled'?'Cancelled':d.date!==d.originalDate?'Rescheduled':d===next?'Upcoming':'Scheduled'}</p>${d.date!==d.originalDate?`<p class="muted">Originally ${U.date(d.originalDate)}</p>`:''}</div></li>`).join('')}</ol>`),
+ U.panel('Deferment history',B.requests.filter(q=>q.subscriptionId===r.id).map(q=>`<p>${E(q.status)} · ${U.date(q.originalDate)} → ${U.date(q.target)}</p>`).join('')||'<p>No deferments recorded.</p>')+U.panel('Delivery schedule',`<ol class="subscription-dates">${r.deliveries.map(d=>`<li><span class="delivery-number">${d.cycle}</span><div><div class="subscription-order-heading"><strong>${U.date(d.date)}</strong><a class="subscription-order-link" href="#/orders/${E(d.orderId)}">View Order</a></div><p class="muted">Delivery ${d.cycle} of 4 · ${d.status==='fulfilled'?'Delivered':d.status==='preparing'?'Preparing':d.status==='ready'?'Ready':d.status==='cancelled'?'Cancelled':d.date!==d.originalDate?'Rescheduled':d===next?'Upcoming':'Scheduled'}</p>${d.date!==d.originalDate?`<p class="muted">Originally ${U.date(d.originalDate)}</p>`:''}</div></li>`).join('')}</ol>`),
  U.panel(r.snapshot.method==='pickup'?'Pick-up information':'Delivery information',V.fulfillment(r.snapshot)+(r.snapshot.method==='pickup'?'':'<p class="muted">Courier delivery · 9:00 AM–1:00 PM</p>'))+
  U.panel('Payment & pricing',V.badge('Paid in full')+V.totals(r.snapshot,true)+`<p class="muted">QR Ph · ${E(r.purchaseId)}<br>${E(p?.paidAt||'')}</p>`)+(r.status==='completed'?V.button('again','Subscribe Again',false,`data-id="${r.id}"`,true):'')));
 };
@@ -110,7 +110,7 @@ document.addEventListener('click',e=>{
  if(action==='review-retry')B.mock.review='normal';
  if(action==='simulate-payment'&&purchase()?.payment==='waiting'){const p=purchase();B.pay(p,'detected');setTimeout(()=>{if(S.purchases.includes(p)&&p.payment==='detected'){B.pay(p,'confirmed');B.render();A.inspector();}},900);}
  if(action==='check-payment'&&['detected','delayed'].includes(purchase()?.payment))B.pay(purchase(),'confirmed');
- if(action==='retry-payment')B.retry(purchase());
+ if(action==='retry-payment'&&purchase()?.payment!=='expired')B.retry(purchase());
  if(action==='cancel-setup'){const p=S.purchases.find(p=>p.id===el.dataset.id);if(B.cancel(p))B.message='Unpaid setup cancelled.';}
  if(action==='resume'){
   const p=S.purchases.find(p=>p.id===el.dataset.id);if(p&&!p.paid&&B.change()){
@@ -130,8 +130,8 @@ document.addEventListener('click',e=>{
  if(action==='defer-apply'){
   const confirmation=B.confirmation,r=S.records.find(r=>r.id===confirmation?.recordId),delivery=r?.deliveries.find(d=>d.id===confirmation?.deliveryId);
   const reason=!r||!delivery?'Delivery not found.':B.deferTarget(r,delivery,confirmation.option)!==confirmation.target?'Availability changed. Review the replacement date again.':B.defer(r,delivery,confirmation.option);
-  A.closeModal();B.message=reason||'Deferment request sent for owner review. Your schedule remains unchanged.';
-  if(!reason){location.hash='#/subscriptions/'+r.id;A.toast('Deferment request sent for owner review.');}
+  A.closeModal();B.message=reason||'Your delivery has been rescheduled.';
+  if(!reason){location.hash='#/subscriptions/'+r.id;A.toast('Delivery rescheduled.');}
  }
  if(action==='defer-retry')B.mock.defer='normal';
  if(action==='catalog-retry')B.mock.catalog='normal';

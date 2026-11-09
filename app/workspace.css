@@ -3,3 +3,5 @@
 @media(max-width:1050px){.staff-layout{grid-template-columns:170px minmax(0,1fr);gap:18px}.staff-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.staff-grid{grid-template-columns:1fr}}
 @media(max-width:760px){.staff-layout{display:block}.staff-nav{position:static;margin-bottom:24px;padding:12px}.staff-nav>strong,.staff-nav>p{display:none}.staff-nav nav{display:flex;overflow:auto;margin:0}.staff-nav a{white-space:nowrap}.staff-view .commerce-heading{display:block}.staff-stats{gap:10px}.staff-toolbar .field{min-width:100%;flex:auto}.staff-specs{grid-template-columns:1fr}.staff-calendar-head{align-items:flex-start}.staff-view .commerce-card{padding:18px}.staff-table{min-width:620px}}
 @media print{body:has(#staff-view:not([hidden])) header,body:has(#staff-view:not([hidden])) footer,.staff-nav,.staff-toolbar,.staff-actions,#mock-controls{display:none!important}.staff-layout{display:block}.staff-view{padding:0}.staff-stats{grid-template-columns:repeat(4,1fr)}}
+.staff-nav,.staff-nav nav{scrollbar-width:none;-ms-overflow-style:none}
+.staff-nav::-webkit-scrollbar,.staff-nav nav::-webkit-scrollbar{display:none;width:0;height:0}

@@ -42,14 +42,14 @@ A.ownerCakeUI={open(id){
  const r=K.state.requests.find(r=>r.id===id);
  if(!r||A.ownerCakes.locked(r)||['rejected','expired'].includes(r.status)){A.toast('This request cannot receive a new quotation.');return;}
  const s=r.snapshot;
- const body=`${V.field('date','Fulfillment date',s.date,'date','required')}${V.field('complexity','Complexity charge (PHP)',0,'number','min="0" step="0.01" required')}<div class="field owner-quotation-notes"><label for="owner-notes">Owner design notes</label><textarea name="notes" id="owner-notes" maxlength="2000" rows="3"></textarea></div><section class="owner-quote-breakdown" aria-labelledby="owner-breakdown-title"><h3 id="owner-breakdown-title">Quoted price breakdown</h3><dl aria-live="polite" id="owner-quote-breakdown"></dl></section>${V.error()}<div class="owner-cake-modal-actions">${V.button('cancel-cake-modal','Cancel')}<button class="btn primary" type="submit">Issue quotation</button></div>`;
+ const body=`${V.field('date','Fulfillment date',s.date,'date','required')}${V.field('addons','Add-ons charge (PHP)',s.addons.reduce((n,x)=>n+x.price*x.quantity,0)/100,'number','min="0" step="0.01" required')}${V.field('complexity','Complexity charge (PHP)',0,'number','min="0" step="0.01" required')}<div class="field owner-quotation-notes"><label for="owner-notes">Owner design notes</label><textarea name="notes" id="owner-notes" maxlength="2000" rows="3"></textarea></div><section class="owner-quote-breakdown" aria-labelledby="owner-breakdown-title"><h3 id="owner-breakdown-title">Quoted price breakdown</h3><dl aria-live="polite" id="owner-quote-breakdown"></dl></section>${V.error()}<div class="owner-cake-modal-actions">${V.button('cancel-cake-modal','Cancel')}<button class="btn primary" type="submit">Issue quotation</button></div>`;
  A.owner.open('Create quotation',`<div class="owner-quotation"><h3>Quotation details</h3><form data-owner-form="quotation" class="staff-form" data-id="${E(r.id)}" data-version="${r.version||0}">${body}</form></div>`);
  A.ownerCakeUI.preview(A.$('owner-dialog-body').querySelector('form'));
 },preview(form){
  const r=K.state.requests.find(r=>r.id===form.dataset.id);if(!r)return;
- const selections=r.snapshot.options.reduce((n,x)=>n+x.price,0),addons=r.snapshot.addons.reduce((n,x)=>n+x.price*x.quantity,0);
- const complexity=Math.round(Number(form.elements.complexity.value)*100),valid=Number.isFinite(complexity)&&complexity>=0;
+ const selections=r.snapshot.options.reduce((n,x)=>n+x.price,0),addons=Math.round(Number(form.elements.addons.value)*100);
+ const complexity=Math.round(Number(form.elements.complexity.value)*100),valid=Number.isFinite(complexity)&&complexity>=0&&Number.isFinite(addons)&&addons>=0;
  const rows=[['Selections',selections],['Add-ons',addons],['Complexity charge',valid?complexity:null],['Total',valid?selections+addons+complexity:null]];
- form.querySelector('#owner-quote-breakdown').innerHTML=rows.map(([label,amount])=>`<div><dt>${label}</dt><dd>${amount===null?'—':K.money(amount)}</dd></div>`).join('');
+ form.querySelector('#owner-quote-breakdown').innerHTML=rows.map(([label,amount])=>`<div><dt>${label}</dt><dd>${amount===null?'&mdash;':K.money(amount)}</dd></div>`).join('');
 }};
 })();

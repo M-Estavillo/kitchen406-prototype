@@ -76,7 +76,8 @@ B.deferReason=(record,delivery,option)=>{
  return B.replacementReason(record,delivery,B.deferTarget(record,delivery,option));
 };
 B.applyDefer=(record,delivery,option)=>{
- if(!A.session?.ownerAllowed())return 'Owner access required.';
+ if(!A.session?.ownerAllowed()&&(A.auth!=='signedin'||!A.account.allowed()||!A.account.owns(record)))return 'Subscription account access required.';
+ if(!record?.deliveries.includes(delivery))return 'Delivery not found.';
  const reason=B.deferReason(record,delivery,option);if(reason)return reason;
  const date=B.deferTarget(record,delivery,option),oldDate=delivery.date;
  const allocation=D.allocations.find(a=>a.owner===record.purchaseId&&a.cycle===delivery.cycle);
@@ -89,15 +90,10 @@ B.requests=[];B.offeringSettings={};
 B.defer=(record,delivery,option,notes='')=>{
  if(A.auth!=='signedin'||A.account&&(!A.account.allowed()||record?.customer_id&&!A.account.owns(record)))return 'Sign in with the subscription customer account.';
  const reason=B.deferReason(record,delivery,option);if(reason)return reason;
- if(B.requests.some(r=>r.subscriptionId===record.id&&r.status==='pending'))return 'A deferment request is already pending review.';
- B.requests.push({id:'DEFER-'+crypto.randomUUID(),subscriptionId:record.id,deliveryId:delivery.id,originalDate:delivery.date,target:B.deferTarget(record,delivery,option),option,notes,status:'pending',created:Date.now()});return '';
+ const request={id:'DEFER-'+crypto.randomUUID(),subscriptionId:record.id,deliveryId:delivery.id,originalDate:delivery.date,target:B.deferTarget(record,delivery,option),option,notes,status:'applied',created:Date.now()};
+ const error=B.applyDefer(record,delivery,option);if(error)return error;
+ B.requests.push(request);A.operations.changed();return '';
 };
-B.reviewRequest=(id,approve)=>{
- if(!A.session?.ownerAllowed())return 'Owner access required.';
- const request=B.requests.find(r=>r.id===id);if(!request||request.status!=='pending')return 'This request is no longer pending.';
- const record=B.allRecords().find(r=>r.id===request.subscriptionId),delivery=record?.deliveries.find(d=>d.id===request.deliveryId);
- if(approve){if(!delivery||delivery.date!==request.originalDate)return 'The original schedule changed.';const reason=B.deferReason(record,delivery,request.option);if(reason)return reason;if(B.deferTarget(record,delivery,request.option)!==request.target)return 'Replacement availability changed. Reject this request so the customer can choose again.';const error=B.applyDefer(record,delivery,request.option);if(error)return error;}
- Object.assign(request,{status:approve?'approved':'rejected',reviewed:Date.now(),actor:A.session.actor().id});A.operations.changed();return '';
-};
+B.reviewRequest=()=> 'Deferment history is read-only; eligible changes are applied automatically.';
 B.reset=()=>{B.requests=[];B.offeringSettings={};A.resetProductData?.();B.deferOption='day';B.confirmation=null;S.draft=blank();S.purchases=[];S.records=[];B.addressUI.form=null;B.deliveryRoute?.reset();D.reset();Object.keys(B.mock).forEach(k=>B.mock[k]='normal');B.message='';B.query='';B.filter='all';B.category='all';};
 })();

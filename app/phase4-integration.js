@@ -19,10 +19,10 @@ const sync=B.sync;B.sync=r=>{const previous=r.status;const result=sync(r);if(r.s
 K.paymentView=o=>{
  const q=K.quote(o.quotationId);if(!q||!P.owns(o))return U.empty('Order not found','This purchase is not available for your account.',U.link('cake-requests','My cake requests'));
  const state=o.payment,locked=['detected','delayed'].includes(state);
- const messages={waiting:'Waiting for payment. Use the demo payment control below.',detected:'Payment detected. Verification is pending; do not pay again.',delayed:'Still verifying your payment. Retry is locked.',confirmed:'Full payment confirmed in this preview.',failed:'Payment unsuccessful. Your quotation is saved.',expired:'QR session expired. Retry checks quotation validity and availability.',revalidation:K.message||'Availability or quotation changed. Contact the bakery for a revised offer.',resolution:'Payment recorded. Fulfillment needs owner assistance. Do not pay again.',cancelled:'This unpaid purchase was cancelled.'};
+ const messages={waiting:'Waiting for payment. Use the demo payment control below.',detected:'Payment detected. Verification is pending; do not pay again.',delayed:'Still verifying your payment. Retry is locked.',confirmed:'Full payment confirmed in this preview.',failed:'Payment unsuccessful. Your quotation is saved.',expired:'Your order cannot be completed because this cake is no longer available for the selected date. Your checkout reservation expired and the remaining capacity was taken by another customer.',revalidation:K.message||'Availability or quotation changed. Contact the bakery for a revised offer.',resolution:'Payment recorded. Fulfillment needs owner assistance. Do not pay again.',cancelled:'This unpaid purchase was cancelled.'};
  let actions='';if(state==='waiting')actions=U.button('simulate-payment','Simulate successful payment');
  if(locked)actions=U.button('check-payment','Check payment status');
- if(['failed','expired','revalidation'].includes(state)&&!K.quoteReason(q))actions=U.button('retry-payment','Retry payment');
+ if(['failed','revalidation'].includes(state)&&!K.quoteReason(q))actions=U.button('retry-payment','Retry payment');
  if(o.paid)actions=U.link(o.status==='payment-resolution'?'orders/'+o.id:'confirmation/'+o.id,o.status==='payment-resolution'?'View payment issue':'Continue to confirmation',true);
  return U.page('Pay for your custom cake','Quotation version '+q.version+' · '+o.requestId,U.columns(U.panel('Amount to pay',`<p class="payment-amount">${C.money(o.total)}</p><div class="demo-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span><strong>QR Ph demo</strong><span>Non-payable preview</span></div><p>Reference: ${E(o.reference)}</p>${state==='waiting'?'<p>Session expires in <strong id="payment-clock"></strong></p>':''}`)+`<div class="cake-payment-feedback"><p class="cake-payment-status ${['failed','expired','revalidation','resolution','cancelled'].includes(state)?'is-error':''}" role="status">${E(messages[state]||'Payment unavailable')}</p><div class="commerce-actions">${actions}${U.link(K.quotePath(q),'Back to quotation')}</div></div>`,U.summary(o)+U.panel(o.fulfillment.method==='pickup'?'Bakery pickup':'Owner-managed delivery',U.fulfillment(o))));
 };
@@ -30,7 +30,7 @@ K.paymentAction=(action,o)=>{
  if(!P.owns(o))return;
  if(action==='simulate-payment'&&o.payment==='waiting'){if(o.deadline<=Date.now())K.pay(o,'expired');else{K.pay(o,'detected');setTimeout(()=>{if(K.orders.includes(o)&&o.payment==='detected'){K.pay(o,'confirmed');C.render();A.inspector();}},900);}}
  if(action==='check-payment'&&['detected','delayed'].includes(o.payment))K.pay(o,'confirmed');
- if(action==='retry-payment')K.retry(o);
+ if(action==='retry-payment'&&o.payment!=='expired')K.retry(o);
  if(action==='cancel-order'&&C.unpaid(o)){A.$('cancel-order-reference').textContent=o.id;A.$('confirm-order-cancel').dataset.id=o.id;A.openModal('order-cancel-modal');}
  C.render();A.inspector();
 };

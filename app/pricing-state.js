@@ -23,14 +23,7 @@ P.save=({id,variant,rows,overhead,version})=>{
  const bom={};for(const row of rows){if(!I.item(row.id)||Object.hasOwn(bom,row.id)||!Number.isFinite(row.quantity)||row.quantity<=0)return 'Use each ingredient once with a positive quantity.';bom[row.id]=row.quantity;}
  P.recipes.set(id+':'+variant,bom);if(overhead===null)P.overheads.delete(id+':'+variant);else P.overheads.set(id+':'+variant,overhead);P.version++;return '';
 };
-P.saveStaffRecipe=({id,variant,rows,version})=>{
- if(!A.staff?.allowed())return 'Staff access required.';
- if(A.staff.saveError)return 'Recipe changes could not be saved. Please retry.';
- if(version!==P.version)return 'Recipe changed. Cancel and reopen the editor.';
- if(!A.variant(id,variant)||!rows.length)return 'Keep at least one ingredient in the recipe.';
- const bom={};for(const row of rows){if(!I.item(row.id)||Object.hasOwn(bom,row.id)||!Number.isFinite(row.quantity)||row.quantity<=0)return 'Use each ingredient once with a positive quantity.';bom[row.id]=row.quantity;}
- P.recipes.set(id+':'+variant,bom);P.version++;return '';
-};
+P.saveStaffRecipe=()=> 'Recipes are read-only for staff.';
 P.setPrice=(id,variant,price,version)=>{if(!A.session.ownerAllowed())return 'Owner access required.';if(version!==P.version)return 'Pricing changed. Reopen the editor.';const v=A.variant(id,variant);if(!v||!Number.isFinite(price)||price<=0)return 'Enter a positive selling price.';v.price=Math.round(price*100)/100;P.version++;return '';};
 P.reset=()=>{P.recipes.clear();P.overheads.clear();P.markup=30;P.overhead=25;P.version=0;};
 })();
