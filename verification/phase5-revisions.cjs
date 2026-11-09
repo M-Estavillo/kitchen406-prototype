@@ -37,11 +37,11 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  await check('!!I.reserve(competing)','competing checkout cannot use held ingredients');
  await run('C.setPayment(order,"failed");I.item("flour").stock=0;order.deadline=Date.now()+600000;C.setPayment(order,"waiting")');
  await check('order.payment==="revalidation" && I.reservations.get(order.id).status==="released"','short retry does not present a payable session');
- await run('I.item("flour").stock=50000;S.enter();S.events=[];S.stockWarnings.clear();I.item("flour").stock=0;S.changed();window.alerts=S.events.filter(e=>e.notification_type==="low_stock_alert"&&e.related_entity_id==="flour").length;I.change({id:"salt",quantity:1,type:"restock",key:"salt-only"})');
+ await run('I.item("flour").stock=50000;S.enter();S.events=[];S.stockWarnings.clear();I.item("flour").stock=0;S.changed();window.alerts=S.events.filter(e=>e.notification_type==="low_stock_alert"&&e.related_entity_id==="flour").length;I.change({id:"salt",quantity:1,totalCost:1,type:"restock",key:"salt-only"})');
  await check('S.events.filter(e=>e.notification_type==="low_stock_alert"&&e.related_entity_id==="flour").length===alerts','unrelated movement does not duplicate low-stock alert');
- await run('I.change({id:"flour",quantity:50000,type:"restock",key:"restore-flour"});I.change({id:"flour",quantity:0,type:"adjustment",reason:"miscount",key:"zero-again"})');
+ await run('I.change({id:"flour",quantity:50000,totalCost:5000,type:"restock",key:"restore-flour"});I.change({id:"flour",quantity:0,type:"adjustment",reason:"miscount",key:"zero-again"})');
  await check('S.events.filter(e=>e.related_entity_id==="flour").length===alerts+1','recovery then renewed shortage creates a new alert');
- await run('I.change({id:"flour",quantity:50000,type:"restock",key:"restore-final"});S.leave()');await wait();
+ await run('I.change({id:"flour",quantity:50000,totalCost:5000,type:"restock",key:"restore-final"});S.leave()');await wait();
  await run('A.cakes.sampleDraft();window.request=A.cakes.submit();window.quote=A.cakes.issue(request);window.cake=A.cakes.accept(quote);A.cakes.pay(cake,"confirmed")');
  await run('A.session.enter();A.cakes.openProductionCopy(quote.id);document.querySelector("#production-instructions").value="Cream finish and botanical decoration";document.querySelector("[name=reference]").checked=true;document.querySelector("[name=reviewed]").checked=true;document.querySelector("[data-production-copy]").requestSubmit()');
  await check('A.cakes.productionCopy(quote)?.notes==="Cream finish and botanical decoration"','owner form approves quotation-specific production copy');
@@ -56,7 +56,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  await check('!document.querySelector("#staff-view").textContent.includes(A.account.current.email)','staff screen omits customer email');
  await run('window.third=C.state.orders.find(o=>o.id===record.deliveries[2].orderId);window.fourth=C.state.orders.find(o=>o.id===record.deliveries[3].orderId);I.item("flour").stock=I.reserved("flour")');
  await check('S.transition(third.id,"preparing",0,"third-prep")==="" && !!fourth.materialIssue && !I.active(I.reservations.get(fourth.id)||{})','next-cycle shortage is explicit and unreserved');
- await run('window.beforeRestock=I.item("flour").stock;I.change({id:"flour",quantity:1000,type:"restock",key:"rolling-recovery"})');
+ await run('window.beforeRestock=I.item("flour").stock;I.change({id:"flour",quantity:1000,totalCost:100,type:"restock",key:"rolling-recovery"})');
  await check('I.reservations.get(fourth.id).status==="confirmed" && !fourth.materialIssue && I.item("flour").stock===beforeRestock+1000','restock secures next cycle without consuming it');
  assert.equal(errors.length,0,errors.join('\n'));console.log('COMPLETE '+checks+' paper-revision checks; no browser exceptions.');ws.close();
 })().catch(error=>{console.error(error);process.exit(1)});

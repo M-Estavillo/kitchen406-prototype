@@ -1,11 +1,23 @@
 /* Recorded-payment reporting. Fulfillment children never create a second sale. */
 (() => {
 const A=K406,V=A.ownerUI,E=A.escape,D=A.schedule;
-const R=A.analytics={period:'month',from:'',to:'',sort:'sales'};
-R.range=(period=R.period,from=R.from,to=R.to)=>{
+const defaults={period:'month',from:'',to:'',sort:'sales',offset:0};
+const R=A.analytics={...defaults};
+const navigable=period=>period==='week'||period==='month';
+R.range=(period=R.period,from=R.from,to=R.to,offset=R.offset)=>{
  const today=V.businessDate(Date.now());
- if(period==='week')return {from:D.add(today,-((D.day(today)+6)%7)),to:today};
- if(period==='month')return {from:today.slice(0,7)+'-01',to:today};
+ if(period==='week'){
+  const start=D.add(today,-((D.day(today)+6)%7)+offset*7);
+  return {from:start,to:offset===0?today:D.add(start,6)};
+ }
+ if(period==='month'){
+  const month=new Date(today.slice(0,7)+'-01T00:00:00Z');
+  month.setUTCMonth(month.getUTCMonth()+offset);
+  const start=month.toISOString().slice(0,10);
+  month.setUTCMonth(month.getUTCMonth()+1,0);
+  return {from:start,to:offset===0?today:month.toISOString().slice(0,10)};
+ }
+ if(period==='year')return {from:today.slice(0,4)+'-01-01',to:today};
  return {from,to};
 };
 R.valid=({from,to})=>D.valid(from)&&D.valid(to)&&from<=to;
@@ -45,12 +57,19 @@ function mix(report){
  let angle=0;const segments=types.map(t=>{const start=angle;angle+=report.total?t.total/report.total*100:0;return `${t.color} ${start}% ${angle}%`;});
  return `<div class="owner-analytics-mix"><div class="owner-sales-donut" style="background:conic-gradient(${report.total?segments.join(','):'var(--line) 0% 100%'})" role="img" aria-label="Sales by order type"><div><strong>${report.count}</strong><span>purchases</span></div></div><div class="owner-sales-legend">${types.map(t=>`<div><span><i style="background:${t.color}"></i>${t.label}</span><strong>${V.money(t.total)}</strong><small>${report.total?Math.round(t.total/report.total*100):0}%</small></div>`).join('')}</div></div>`;
 }
+function periodControl(range){
+ if(R.period==='custom')return `<div class="field owner-order-range"><label id="owner-order-range-label">Date Range</label><details id="owner-order-range"><summary aria-labelledby="owner-order-range-label owner-order-range-value"><span id="owner-order-range-value">${E(shortDate(range.from))} – ${E(shortDate(range.to))}</span><span aria-hidden="true">⌄</span></summary><div class="owner-range-popover" role="group" aria-label="Choose date range"></div></details></div>`;
+ if(!navigable(R.period))return '';
+ const week=R.period==='week';
+ const start=new Date(range.from+'T00:00:00Z').toLocaleDateString('en-PH',{month:week?'short':'long',year:'numeric',...(week?{day:'numeric'}:{}),timeZone:'UTC'});
+ return `<div class="field owner-analytics-period-nav" role="group" aria-labelledby="owner-analytics-period-label"><span id="owner-analytics-period-label">${week?'Week of ':''}${E(start)}</span><div>${V.button('analytics-previous','Previous')}${V.button('analytics-next','Next',R.offset===0?'disabled':'')}</div></div>`;
+}
 A.ownerPages.analytics=()=>{
  if(!A.session.ownerAllowed())return V.panel('Owner access required','');
  const range=R.range(),report=R.report(range),products=report.products.sort((a,b)=>R.sort==='quantity'?b.quantity-a.quantity||b.sales-a.sales:R.sort==='name'?a.name.localeCompare(b.name)||a.variant.localeCompare(b.variant):b.sales-a.sales||b.quantity-a.quantity);
  const top=[...report.products].sort((a,b)=>b.sales-a.sales).slice(0,5),max=Math.max(...top.map(p=>p.sales),1),units=report.products.reduce((n,p)=>n+p.quantity,0);
  Object.assign(A.owner.filters,{from:range.from,to:range.to});
- const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','Period',[['week','This week'],['month','This month'],['custom','Custom range']],R.period)}<div class="field owner-order-range"><label id="owner-order-range-label">Date Range</label><details id="owner-order-range"><summary aria-labelledby="owner-order-range-label owner-order-range-value"><span id="owner-order-range-value">${E(shortDate(range.from))} – ${E(shortDate(range.to))}</span><span aria-hidden="true">⌄</span></summary><div class="owner-range-popover" role="group" aria-label="Choose date range"></div></details></div>${V.button('analytics-clear','Clear filters')}</div>`;
+ const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','Period',[['week','This week'],['month','This month'],['year','This Year'],['custom','Custom range']],R.period)}${periodControl(range)}${V.button('analytics-clear','Clear filters')}</div>`;
 
  const leaders=top.length?`<div class="owner-analytics-leaders">${top.map((p,i)=>`<div><span class="owner-analytics-rank">${i+1}</span><div><div class="owner-leader-label"><span>${E(p.name)}<small>${E(p.variant)}</small></span><strong>${V.money(p.sales)}</strong></div><div class="owner-leader-track"><span style="width:${p.sales/max*100}%"></span></div></div></div>`).join('')}</div>`:'<p class="owner-analytics-empty">No product sales this period.</p>';
  return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded sales',value:V.money(report.total)})}${A.ui.stat({label:'Paid purchases',value:report.count})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product sales</span>`)}</div>`;
@@ -58,9 +77,28 @@ A.ownerPages.analytics=()=>{
 
 document.addEventListener('change',e=>{
  if(!A.session.ownerAllowed())return;
- if(e.target.id==='owner-period'){R.period=e.target.value;if(R.period==='custom'){const range=R.range('month');if(!R.valid(R))Object.assign(R,range);}A.owner.render();}
+ if(e.target.id==='owner-period'){
+  R.period=e.target.value;
+  R.offset=0;
+  if(R.period==='custom'&&!R.valid(R))Object.assign(R,R.range('month'));
+  A.owner.render();
+  document.querySelector('#owner-period')?.focus();
+ }
  if(e.target.id==='owner-performance-sort'){R.sort=e.target.value;A.owner.render();}
 });
-document.addEventListener('click',e=>{if(e.target.closest('[data-owner=analytics-clear]')&&A.session.ownerAllowed()){Object.assign(R,{period:'month',from:'',to:'',sort:'sales'});A.owner.render();}});
-const reset=A.commerce.reset;A.commerce.reset=()=>{reset();Object.assign(R,{period:'month',from:'',to:'',sort:'sales'});};
+document.addEventListener('click',e=>{
+ const button=e.target.closest('[data-owner=analytics-clear],[data-owner=analytics-previous],[data-owner=analytics-next]');
+ if(!button||button.disabled||!A.session.ownerAllowed())return;
+ const action=button.dataset.owner;
+ if(action==='analytics-clear'){
+  Object.assign(R,defaults);
+  A.owner.render();
+ }else if(navigable(R.period)){
+  R.offset=Math.min(0,R.offset+(action==='analytics-previous'?-1:1));
+  A.owner.render();
+  const focusAction=action==='analytics-next'&&R.offset===0?'analytics-previous':action;
+  document.querySelector(`[data-owner="${focusAction}"]`)?.focus();
+ }
+});
+const reset=A.commerce.reset;A.commerce.reset=()=>{reset();Object.assign(R,defaults);};
 })();

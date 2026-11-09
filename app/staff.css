@@ -88,7 +88,9 @@
 .staff-stock-form .field{margin:0}
 .staff-stock-form .field label{font-size:12px;margin-bottom:5px}
 .staff-stock-form .field input,.staff-stock-form .field select{min-height:36px;padding:7px 10px;font-size:13px;background:#fff}
-#staff-modal .staff-stock-hint{font-size:11px;color:var(--muted);padding:0;background:none}
+.staff-stock-quantity{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.staff-stock-quantity .field{min-width:0}
+.staff-stock-quantity :is(input,select){width:100%;height:40px}
 .staff-stock-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:16px}
 .staff-stock-form .staff-stock-actions{margin-top:2px}
 .staff-stock-actions .btn{min-height:36px;padding:7px 12px;font-size:12px}

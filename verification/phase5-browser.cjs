@@ -27,8 +27,9 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
  await check('S.transition("STAFF-DEMO-2","preparing",0,"shortage")!=="" && I.item("flour").stock===flour','shortage atomic rollback');
  await run('I.item("butter").stock=butter');
  await check('I.change({id:"butter",quantity:0,type:"adjustment",reason:"miscount",key:"zero"})==="" && I.item("butter").stock===0','physical count accepts zero');
- await check('I.change({id:"butter",quantity:1000,type:"restock",key:"restock"})==="" && I.item("butter").stock===1000','restock');
- await check('I.change({id:"butter",quantity:1000,type:"restock",key:"restock"})==="" && I.item("butter").stock===1000','restock idempotent');
+ await check('I.change({id:"butter",quantity:1,unit:"kg",totalCost:300,type:"restock",key:"restock"})==="" && I.item("butter").stock===1000 && I.item("butter").cost===0.3','staff restock records calculated unit cost');
+ await check('I.change({id:"butter",quantity:1,unit:"kg",totalCost:300,type:"restock",key:"restock"})==="" && I.item("butter").stock===1000','restock idempotent');
+ await check('!!I.change({id:"butter",quantity:1,unit:"kg",totalCost:400,type:"restock",key:"restock"}) && I.item("butter").cost===0.3','restock retry with different cost is rejected');
  await go('staff/production/STAFF-DEMO-3');await run('document.querySelector("#staff-view [data-staff=transition]").click()');await check('A.modal==="staff-modal"','transition dialog');await run('document.querySelector("[data-staff=confirm-transition]").click()');await check('S.list().find(o=>o.id==="STAFF-DEMO-3").status==="preparing" && A.modal===null','dialog updates same order');
  await go('staff/calendar');await run('S.calendarDate=A.schedule.add(A.schedule.today(),2);S.render()');await check('A.$("staff-view").textContent.includes("STAFF-DEMO-3")','calendar selected agenda');
  await go('staff/notifications');await run('document.querySelector("[data-staff=read-all]").click()');await check('S.events.every(e=>e.read)','shared acknowledgement');

@@ -120,8 +120,22 @@ S.render=()=>{if(A.route!=='staff')return;const root=A.$('staff-view');if(!root)
  if(id){const node=A.$(id);node?.focus({preventScroll:true});try{node?.setSelectionRange(selection,selection);}catch{}}
 };
 S.open=(title,body,compact=false,inventory=false)=>{A.$('staff-modal').classList.toggle('staff-inventory-modal',inventory);A.$('staff-modal').classList.toggle('staff-confirm-modal',compact);A.$('staff-dialog-title').textContent=title;A.$('staff-dialog-body').innerHTML=body;A.openModal('staff-modal');};
-function stockForm(id,type,original=''){const i=I.item(id);if(!i)return;S.formKey=crypto.randomUUID();S.open(type==='restock'?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${i.id}" data-type="${type}"><p>${E(i.name)} · On hand: ${i.stock} ${i.unit}</p>${field('quantity',type==='restock'?'Quantity added ('+i.unit+')':'Physical count ('+i.unit+')',type==='restock'?'':i.stock,'number',`required min="${type==='restock'?'0.001':'0'}" step="${i.unit==='pcs'?'1':'0.001'}"`)}${type==='adjustment'?'<div class="field"><label for="staff-reason">Reason</label><select id="staff-reason" name="reason">'+['miscount','spoilage','damage','theft','correction','other'].map(v=>`<option ${original&&v==='correction'?'selected':''}>${v}</option>`).join('')+'</select></div>':''}${field('notes','Note',original?'Correction for '+original:'')}<p id="staff-stock-preview" class="staff-stock-hint">Enter the quantity to review the change.</p><p class="field-error staff-error" role="alert"></p><div class="staff-stock-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button class="btn primary">${type==='restock'?'Confirm restock':'Adjust'}</button></div></form>`,false,true);}
-document.addEventListener('input',e=>{if(e.target.id==='staff-quantity'){const form=e.target.form,i=I.item(form.dataset.id),q=Number(e.target.value),delta=form.dataset.type==='restock'?q:q-i.stock;A.$('staff-stock-preview').textContent=`Change: ${delta>0?'+':''}${Math.round(delta*1000)/1000} ${i.unit}. New on hand: ${Math.round((i.stock+delta)*1000)/1000} ${i.unit}.`;}});
+function stockForm(id,type,original=''){
+ const i=I.item(id);if(!i)return;
+ const restock=type==='restock',step=i.unit==='pcs'?'1':'0.001';
+ const unit=`<div class="field"><label for="staff-unit">Unit</label><select id="staff-unit" name="unit">${I.stockUnits(i.unit).map(u=>`<option>${E(u)}</option>`).join('')}</select></div>`;
+ const details=restock?field('totalCost','Total cost (PHP)','','number','required min="0" step="0.01"'):
+  '<div class="field"><label for="staff-reason">Reason</label><select id="staff-reason" name="reason">'+
+  ['miscount','spoilage','damage','theft','correction','other'].map(v=>`<option ${original&&v==='correction'?'selected':''}>${v}</option>`).join('')+'</select></div>';
+ S.formKey=crypto.randomUUID();
+ S.open(restock?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${E(i.id)}" data-type="${type}">
+  <p>${E(i.name)} · ${i.stock} ${E(i.unit)} on hand</p>
+  <div class="staff-stock-quantity">${field('quantity',restock?'Quantity added':'Physical count',restock?'':i.stock,'number',`required min="${restock?step:'0'}" step="${step}"`)}${unit}</div>
+  ${details}${field('notes','Note',original?'Correction for '+original:'')}
+  <p class="field-error staff-error" role="alert"></p>
+  <div class="staff-stock-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button type="submit" class="btn primary">${restock?'Confirm restock':'Adjust'}</button></div>
+ </form>`,false,true);
+}
 document.addEventListener('click',e=>{if(e.target.id==='staff-range'&&e.target.type==='date'){try{e.target.showPicker?.();}catch{}}});
 document.addEventListener('change',e=>{const key=e.target.dataset.staffFilter;if(!key||!S.allowed())return;S[key]=e.target.type==='checkbox'?e.target.checked:e.target.value;S.page=1;S.render();});
 document.addEventListener('click',e=>{
@@ -153,7 +167,7 @@ document.addEventListener('click',e=>{
  S.render();A.shell.sync();
 });
 document.addEventListener('submit',async e=>{const form=e.target;if(!form.dataset.staffForm)return;e.preventDefault();if(!S.allowed())return;const data=Object.fromEntries(new FormData(form)),kind=form.dataset.staffForm;let error='';const submit=form.querySelector('button[type="submit"],button:not([type])');if(submit)submit.disabled=true;
- if(kind==='stock')error=S.saveError?'The stock update could not be saved.':I.change({id:form.dataset.id,quantity:Number(data.quantity),type:form.dataset.type,reason:data.reason,notes:data.notes,key:S.formKey});
+ if(kind==='stock')error=S.saveError?'The stock update could not be saved.':I.change({id:form.dataset.id,quantity:form.elements.quantity.valueAsNumber,unit:data.unit,type:form.dataset.type,totalCost:form.elements.totalCost?.valueAsNumber,reason:data.reason,notes:data.notes,key:S.formKey});
  if(kind==='profile'){if(!data.first_name.trim()||!data.last_name.trim())error='Enter your first and last name.';else if(S.saveError)error='Your profile could not be saved.';else Object.assign(S.account,{first_name:data.first_name.trim(),last_name:data.last_name.trim()});}
  if(kind==='password')error=await S.password(data.current,data.next,data.confirm);
  if(submit)submit.disabled=false;if(!form.isConnected)return;if(error){form.querySelector('.staff-error').textContent=error;return;}if(kind==='stock')A.closeModal();else S.render();A.shell.sync();A.toast('Changes saved in this preview.');

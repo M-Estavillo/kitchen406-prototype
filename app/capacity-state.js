@@ -17,10 +17,27 @@ Q.save=(input,version)=>{
  for(const type of ['standard','subscription','cake']){const rule=input[type];if(!rule||!Number.isFinite(rule.value)||rule.value<0||!['hours','days'].includes(rule.unit)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(rule.cutoff))return 'Enter valid lead times and cutoff times for every pool.';}
  if(input.maxPerDay>input.maxPerWeek)return 'Daily cake capacity cannot exceed weekly cake capacity.';
  // Capture commitments before any mutable schedule/configuration is changed.
- B.allRecords().forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(B.schedules.find(s=>s.id===r.snapshot.scheduleId)||{});});
+ B.allRecords().forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(B.scheduleById(r.snapshot.scheduleId)||{});});
  Object.assign(D.config,{standardUnits:input.standardUnits,standardVarieties:input.standardVarieties,subscriptionUnits:input.subscriptionUnits,timing:{standard:input.standard,subscription:input.subscription,cake:input.cake}});
  Object.assign(A.cakeData.config,{maxPerWeek:input.maxPerWeek,maxPerDay:input.maxPerDay});Q.version++;return '';
 };
-Q.saveSchedule=(input,version)=>{if(!A.session.ownerAllowed())return 'Owner access required.';if(version!==Q.version)return 'Settings changed. Reload before saving.';if(!input.label.trim()||![input.preparation_day,input.day].every(n=>Number.isInteger(n)&&n>=0&&n<=6)||input.product_id&&!A.products.some(p=>p.id===input.product_id&&p.subscription)||!['active','inactive'].includes(input.status))return 'Enter a label, valid weekdays, product scope and status.';B.allRecords().forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(B.schedules.find(s=>s.id===r.snapshot.scheduleId)||{});});let s=B.schedules.find(s=>s.id===input.id);if(!s){s={id:'schedule-'+crypto.randomUUID()};B.schedules.push(s);}Object.assign(s,input,{id:s.id,fulfillment_day:input.day,created_by_admin_id:A.session.actor().id});Q.version++;return '';};
+Q.saveSchedule=({id,product_id,preparation_day,day,status},version)=>{
+ if(!A.session.ownerAllowed())return 'Owner access required.';
+ if(version!==Q.version)return 'Settings changed. Reload before saving.';
+ if(!A.products.some(p=>p.id===product_id&&p.subscription)||
+  ![preparation_day,day].every(n=>Number.isInteger(n)&&n>=0&&n<=6)||
+  !['active','inactive'].includes(status))return 'Choose a subscription product, valid weekdays, and a status.';
+ let schedule=B.schedules.find(s=>s.id===id);
+ if(id&&!schedule)return 'This offering is unavailable. Reopen the list.';
+ if(schedule){
+  B.allRecords().filter(r=>r.snapshot.scheduleId===id).forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(schedule);});
+ }else{
+  schedule={id:'schedule-'+crypto.randomUUID()};
+  B.schedules.push(schedule);
+ }
+ Object.assign(schedule,{product_id,preparation_day,day,fulfillment_day:day,status,label:'Weekly '+B.weekdays[day],created_by_admin_id:A.session.actor().id});
+ Q.version++;
+ return '';
+};
 Q.reset=()=>{Q.blocks.clear();Q.history=[];Q.version=0;Q.serial=0;};
 })();

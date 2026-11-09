@@ -2,26 +2,32 @@
 (() => {
 const A=K406,C=A.commerce,D=A.schedule;
 const blank=()=>({productId:null,variant:'standard',quantity:1,scheduleId:'friday',start:'',addressId:'home',method:'delivery',quote:'ok',revision:0});
-const B=A.subscriptions={routes:['subscriptions','subscription','my-subscriptions'],state:{draft:blank(),purchases:[],records:[],serial:2000},mock:{page:'normal',catalog:'normal',schedule:'normal',review:'normal',price:'normal',defer:'normal'},addressUI:{form:null,editing:null,mapBusy:false},schedules:[{id:'friday',label:'Weekly Friday',day:5},{id:'saturday',label:'Weekly Saturday',day:6},{id:'tuesday',label:'Weekly Tuesday',day:2}],parts:[],message:'',filter:'all',query:'',sort:'newest'};
+const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+// Keep the shared schedule IDs available for historical enrollment snapshots.
+const legacySchedules=[5,6,2].map(day=>({id:weekdays[day].toLowerCase(),label:'Weekly '+weekdays[day],day,fulfillment_day:day,preparation_day:(day+6)%7,status:'active'}));
+const schedules=A.products.filter(p=>p.subscription).flatMap(p=>legacySchedules.map(s=>({...s,id:s.id+'-'+p.id,legacy_schedule_id:s.id,product_id:p.id})));
+const B=A.subscriptions={routes:['subscriptions','subscription','my-subscriptions'],state:{draft:blank(),purchases:[],records:[],serial:2000},mock:{page:'normal',catalog:'normal',schedule:'normal',review:'normal',price:'normal',defer:'normal'},addressUI:{form:null,editing:null,mapBusy:false},schedules,parts:[],message:'',filter:'all',query:'',sort:'newest'};
 const S=B.state;
+B.weekdays=weekdays;
+B.scheduleById=id=>B.schedules.find(s=>s.id===id)||legacySchedules.find(s=>s.id===id);
 B.active=()=>B.routes.includes(A.route);
 B.address=()=>C.state.addresses.find(a=>a.address_id===S.draft.addressId&&a.status==='active');
 B.product=()=>A.products.find(p=>p.id===S.draft.productId);
 B.variant=()=>A.variant(S.draft.productId,S.draft.variant);
-B.availableSchedules=(productId=S.draft.productId)=>{const active=B.schedules.filter(s=>s.status!=='inactive');const specific=active.filter(s=>Number(s.product_id)===Number(productId));return specific.length?specific:active.filter(s=>!s.product_id);};
-B.schedule=()=>B.availableSchedules().find(x=>x.id===S.draft.scheduleId);
+B.availableSchedules=(productId=S.draft.productId)=>B.schedules.filter(s=>s.product_id===Number(productId)&&s.status!=='inactive');
+B.schedule=()=>B.availableSchedules().find(s=>s.id===S.draft.scheduleId||s.legacy_schedule_id===S.draft.scheduleId);
 B.dates=(d=S.draft)=>d.start?Array.from({length:4},(_,i)=>D.add(d.start,i*7)):[];
 B.offering=id=>B.offeringSettings?.[id]===false?'unavailable':B.offeringSettings?.[id]===true?'available':B.mock.catalog==='full'?'full':B.mock.catalog==='unavailable'?'unavailable':B.mock.catalog==='available'?'available':Number(id)===2?'full':Number(id)===5?'unavailable':'available';
 B.starts=()=>{const schedule=B.schedule();if(!schedule)return [];const dates=[];for(let i=1;i<70;i++){const date=D.add(D.today(),i);if(D.day(date)===schedule.day&&!D.subscription(S.draft.productId,S.draft.quantity,Array.from({length:4},(_,n)=>D.add(date,n*7)),(B.pending()?.paid?null:B.pending()?.id)))dates.push(date);}return dates;};
 B.pending=()=>S.purchases.find(p=>p.id===S.draft.purchaseId);
 B.locked=()=>S.purchases.some(p=>['detected','delayed'].includes(p.payment));
 B.change=()=>{if(B.locked()){A.toast('Payment verification is pending. Check its status before changing your subscription.');return false;}const p=B.pending();if(p&&!p.paid&&p.payment!=='cancelled'){p.payment='revalidation';D.release(p.id);}S.draft.revision++;B.message='';return true;};
-B.begin=(id,variant,quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));variant??=p?.variants.find(v=>v.active!==false)?.id;if(!p?.subscription||B.offering(p.id)!=='available'||A.variant(id,variant)?.active===false)return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.subscriptionLimit(id),Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};if(!B.schedule())S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
+B.begin=(id,variant,quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));variant??=p?.variants.find(v=>v.active!==false)?.id;if(!p?.subscription||B.offering(p.id)!=='available'||A.variant(id,variant)?.active===false)return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.subscriptionLimit(id),Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
 B.configReason=()=>{if(!B.product()?.subscription||!B.variant())return 'Choose a subscription product and variant.';if(B.offering(S.draft.productId)!=='available')return 'This product is currently unavailable for subscription enrollment.';if(B.mock.schedule!=='normal')return 'Choose an available schedule.';if(!B.schedule()||!S.draft.start||D.day(S.draft.start)!==B.schedule().day)return 'Select a schedule and first delivery date.';return D.subscription(S.draft.productId,S.draft.quantity,B.dates(),(B.pending()?.paid?null:B.pending()?.id));};
 B.totals=(unit=(B.variant()?.price||0)+(B.mock.price==='updated'?20:0),quantity=S.draft.quantity,fee=S.draft.method==='pickup'?0:A.quoteFee())=>({method:S.draft.method,unit,quantity,fee,products:unit*quantity*4,delivery:fee*4,total:unit*quantity*4+fee*4});
 B.ready=()=>!B.configReason()&&(S.draft.method==='pickup'||S.draft.method==='delivery'&&C.addressValid(B.address())&&B.deliveryRoute?.eligible()&&S.draft.quote==='ok'&&!B.addressUI.form);
 B.setMethod=method=>{if(!['delivery','pickup'].includes(method)||method===S.draft.method||!B.change())return false;S.draft.method=method;B.addressUI.form=null;B.addressUI.editing=null;B.deliveryRoute?.reset();return true;};
-B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:S.draft.scheduleId,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:S.draft.method==='pickup'?null:C.copy(B.address()),...B.totals()});
+B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:B.schedule().id,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:S.draft.method==='pickup'?null:C.copy(B.address()),...B.totals()});
 B.createPurchase=()=>{
  if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.locked())return null;
  const old=B.pending();if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&old.deadline>Date.now())return old;

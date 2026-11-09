@@ -6,6 +6,7 @@ const seed=[['flour','Bread flour','g',50000,2000],['butter','Unsalted butter','
 seed.push(...[['egg','Egg','g'],['cardamom','Cardamom','g'],['ube','Ube','g'],['oil','Olive oil','ml'],['rosemary','Rosemary','g'],['honey','Honey','g'],['herbs','Herbs','g'],['cinnamon','Cinnamon','g'],['banana','Banana','g'],['walnut','Walnuts','g'],['olive','Olives','g'],['almond','Almonds','g'],['garlic','Garlic','g'],['cream','Cream','ml']].map(([id,name,unit])=>[id,name,unit,5000,250]));
 I.reset=()=>{I.items=seed.map(([id,name,unit,stock,threshold])=>({id,name,unit,stock,threshold,opening:stock}));I.requirements.clear();I.requirementRows.clear();I.reservationHistory=[];I.reservations.clear();I.movements=[];I.operations.clear();I.changeResults.clear();I.serial=0;I.holdSerial=0;};I.reset();
 I.item=id=>I.items.find(i=>i.id===id);
+I.stockUnits=unit=>[unit,...(unit==='g'?['kg']:unit==='ml'?['l']:[])];
 I.allOrders=()=>{const map=new Map();for(const o of [...[...A.account.buckets.values()].flatMap(b=>b.commerce?.orders||[]),...C.state.orders])map.set(o.id,o);return [...map.values()];};
 I.recipe=(productId,variant='standard')=>{
  if(!A.variant(productId,variant))return null;
@@ -62,9 +63,9 @@ I.reserve=(o,confirmed=false)=>{
  I.reservationHistory.push(...rows);I.reservations.set(o.id,{orderId:o.id,holdId,materials:{...materials},status,expires,rows});const checkout=A.checkoutHolds?.get(o.attempts?.at(-1));if(checkout){rows.forEach(row=>row.checkout_hold_id=checkout.id);const recovery=checkout.status!=='active'&&checkout.status!=='confirmed';if(recovery)rows.forEach(row=>row.recovery_for_hold_id=checkout.id);}I.notify();return '';
 };
 I.release=id=>{const r=I.reservations.get(id);if(r&&r.status!=='consumed')I.closeReservation(r,'released');I.notify();};
-I.move=(id,delta,type,actor,orderId,reason,notes,key)=>{
+I.move=(id,delta,type,actor,orderId,reason,notes,key,totalCost=null)=>{
  const i=I.item(id),before=i.stock;i.stock=Math.round((before+delta)*1000)/1000;
- I.movements.unshift({id:'MOV-'+(++I.serial),ingredientId:id,delta,type,actor,performed_by_account_id:A.session?.actor()?.id||null,unit_cost_snapshot:Number.isFinite(i.cost)?i.cost:null,reservation_id:I.reservations.get(orderId)?.rows?.find(r=>r.requirement_id===orderId+':'+id)?.reservation_id||null,orderId:orderId||null,reason:reason||'',notes:notes||'',before,after:i.stock,at:Date.now(),key,operation_key:key});
+ I.movements.unshift({id:'MOV-'+(++I.serial),ingredientId:id,delta,type,actor,performed_by_account_id:A.session?.actor()?.id||null,unit_cost_snapshot:Number.isFinite(i.cost)?i.cost:null,unit_cost_snapshot_unit:i.unit,total_cost:totalCost,reservation_id:I.reservations.get(orderId)?.rows?.find(r=>r.requirement_id===orderId+':'+id)?.reservation_id||null,orderId:orderId||null,reason:reason||'',notes:notes||'',before,after:i.stock,at:Date.now(),key,operation_key:key});
 };
 I.consume=(o,actor)=>{
  const key='consume:'+o.id;if(I.operations.has(key))return '';
@@ -75,13 +76,31 @@ I.consume=(o,actor)=>{
  for(const [id,q] of Object.entries(m))I.move(id,-q,'consumption',actor,o.id,'','Preparation started',key+':'+id);
  I.closeReservation(I.reservations.get(o.id),'consumed');I.operations.add(key);I.notify();return '';
 };
-I.change=({id,quantity,type,reason='',notes='',key})=>{
+I.change=({id,quantity,unit,type,totalCost,reason='',notes='',key})=>{
  if(!A.session?.operational())return 'Operational access required.';
- if(!key)return 'An operation identifier is required.';const signature=JSON.stringify({id,quantity,type,reason,notes});if(I.operations.has(key))return I.changeResults.get(key)===signature?'':'This operation belongs to another movement.';
- const i=I.item(id);if(!i||!Number.isFinite(quantity)||quantity<0||type==='restock'&&quantity<=0||i.unit==='pcs'&&!Number.isInteger(quantity)||Math.abs(quantity*1000-Math.round(quantity*1000))>1e-6)return 'Enter a valid quantity in the ingredient unit (up to 3 decimal places).';
+ if(!key)return 'An operation identifier is required.';
+ const restock=type==='restock';
+ const signature=JSON.stringify({id,quantity,unit,type,totalCost:restock?totalCost:null,reason,notes});
+ if(I.operations.has(key))return I.changeResults.get(key)===signature?'':'This operation belongs to another movement.';
+ const i=I.item(id);
+ if(!i||unit!==undefined&&!I.stockUnits(i.unit).includes(unit))return 'Select a valid ingredient unit.';
+ if(!Number.isFinite(quantity))return 'Enter a valid quantity.';
+ if(unit==='kg'||unit==='l')quantity*=1000;
+ const roundedQuantity=Math.round(quantity*1000);
+ if(!Number.isSafeInteger(roundedQuantity)||quantity<0||restock&&roundedQuantity===0||i.unit==='pcs'&&!Number.isInteger(quantity)||Math.abs(quantity*1000-roundedQuantity)>1e-6)return 'Enter a valid quantity in the ingredient unit (up to 3 decimal places).';
+ quantity=roundedQuantity/1000;
  if(!['restock','adjustment'].includes(type))return 'Unsupported movement.';
  if(type==='adjustment'&&!['spoilage','damage','miscount','theft','correction','other'].includes(reason))return 'Choose an adjustment reason.';
- const delta=type==='restock'?quantity:quantity-i.stock;if(Math.abs(delta)<1e-8)return 'The physical count matches the recorded stock.';
- I.move(id,delta,type,A.session.actor().name,null,reason,notes,key);I.operations.add(key);I.changeResults.set(key,signature);A.staff.changed();return '';
+ const delta=restock?quantity:quantity-i.stock;
+ if(Math.abs(delta)<1e-8)return 'The physical count matches the recorded stock.';
+ if(restock){
+  const cents=Math.round(totalCost*100);
+  if(!Number.isFinite(totalCost)||totalCost<0||!Number.isSafeInteger(cents)||Math.abs(totalCost*100-cents)>1e-6)return 'Enter a nonnegative total cost with up to two decimal places.';
+  totalCost=cents/100;
+  i.cost=totalCost/quantity;
+  if(A.pricing)A.pricing.version++;
+ }
+ I.move(id,delta,type,A.session.actor().name,null,reason,notes,key,restock?totalCost:null);
+ I.operations.add(key);I.changeResults.set(key,signature);A.staff.changed();return '';
 };
 })();

@@ -15,13 +15,14 @@ const assert=require('node:assert/strict');
  await check("document.querySelector('.staff-calendar-agenda').textContent.includes('OWNER-DEMO-PICKUP')",'selected-day agenda shows commitments');
  for(const mode of ['month','week']){await run(`document.querySelector('[data-owner=calendar-mode][data-mode=${mode}]').click()`);await check(`O.calendarMode==='${mode}'`,'switch '+mode);}
  await check("[...document.querySelectorAll('.staff-day-orders')].every(e=>e.querySelectorAll('a').length<=1)&&!!document.querySelector('.staff-calendar-order-count')",'one order preview and more badge');
- await check("!!document.querySelector('.staff-calendar-agenda + .owner-capacity-bottom .owner-capacity-allocations')",'capacity panels follow agenda');
+ await check("!!document.querySelector('.staff-calendar-agenda + .owner-capacity-summary')&&!document.querySelector('.owner-capacity-allocations')",'capacity summary follows agenda without allocations panel');
  await run("window.before=O.date;document.querySelector('[data-owner=calendar-next]').click();document.querySelector('[data-owner=calendar-prev]').click()");await check("O.date===before",'date navigation');
  await run("document.querySelector('[data-owner=calendar-date]').click()");await check("document.querySelector('.staff-day[aria-current] .staff-day-select').dataset.date===O.date",'select day');
  await run("A.$('owner-calendar-type').value='cake';A.$('owner-calendar-type').dispatchEvent(new Event('change',{bubbles:true}))");await check("O.calendarType==='cake'&&document.querySelectorAll('.owner-capacity-pools>section').length===3",'order filter preserves all capacity pools');
  await run("O.calendarType='all';O.render()");
  for(const width of [1440,768,390,320]){await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:false});await wait();await check("document.documentElement.scrollWidth<=innerWidth+1",'page fits '+width);}
  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1100,deviceScaleFactor:1,mobile:false});await wait();
+ await check("(()=>{const agenda=document.querySelector('.staff-calendar-agenda').getBoundingClientRect(),capacity=document.querySelector('.owner-capacity-summary').getBoundingClientRect(),cards=[...document.querySelectorAll('.owner-capacity-pools>section')].map(e=>e.getBoundingClientRect());return agenda.width===capacity.width&&cards.every(card=>card.top===cards[0].top)})()",'capacity matches agenda width and all three cards sit side by side');
  await run("O.date=A.operations.find('OWNER-DEMO-PICKUP').fulfillment.date;O.render();A.$('toast').hidden=true");await wait();
  const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});require('node:fs').writeFileSync('verification/owner-capacity-desktop.png',Buffer.from(shot.result.data,'base64'));
  }finally{ws.close();await fetch('http://127.0.0.1:9222/json/close/'+target.id);}

@@ -42,8 +42,7 @@ const cancel=B.cancel;B.cancel=p=>{const result=cancel(p);if(result)I.release(p.
 const change=B.change;B.change=()=>{const pending=B.pending(),result=change();if(result&&pending&&!pending.paid)I.release(pending.id);return result;};
 B.allRecords=()=>[...new Map([...Array.from(A.account.buckets.values()).flatMap(b=>b.subscription?.records||[]),...B.state.records].map(r=>[r.id,r])).values()];
 // Demonstration schedule defaults; the owner will maintain these in production.
-for(const schedule of B.schedules){schedule.fulfillment_day=schedule.day;schedule.preparation_day=(schedule.day+6)%7;}
-B.preparationDate=o=>{const r=B.allRecords().find(r=>r.id===o.subscriptionId),schedule=r?.snapshot.scheduleSnapshot||B.schedules.find(s=>s.id===r?.snapshot.scheduleId);if(!schedule||!Number.isInteger(schedule.preparation_day))return null;const days=(A.schedule.day(o.fulfillment.date)-schedule.preparation_day+7)%7;return A.schedule.add(o.fulfillment.date,-days);};
+B.preparationDate=o=>{const r=B.allRecords().find(r=>r.id===o.subscriptionId),schedule=r?.snapshot.scheduleSnapshot||B.scheduleById(r?.snapshot.scheduleId);if(!schedule||!Number.isInteger(schedule.preparation_day))return null;const days=(A.schedule.day(o.fulfillment.date)-schedule.preparation_day+7)%7;return A.schedule.add(o.fulfillment.date,-days);};
 B.reserveNext=r=>{
  const pending=r.deliveries.map(d=>({d,o:I.allOrders().find(o=>o.id===d.orderId)})).filter(x=>x.o&&S.orderStatus(x.o)==='confirmed').sort((a,b)=>a.d.date.localeCompare(b.d.date));
  const next=pending[0];

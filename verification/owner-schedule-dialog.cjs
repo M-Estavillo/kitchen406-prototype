@@ -11,10 +11,12 @@ const assert=require('node:assert/strict');
  await send('Page.navigate',{url:'file:///D:/kitchen406-prototype/index.html'});await new Promise(r=>setTimeout(r,1700));
  await run("window.A=K406;window.O=A.owner;A.session.enter();O.seed();window.r=A.subscriptions.allRecords()[0];location.hash='#/owner/subscriptions/'+r.id");await wait();
  await check("!document.querySelector('.owner-subscription-tabs')",'details omit section tabs');
- await run("location.hash='#/owner/subscriptions/schedules'");await wait();
- await check("[...document.querySelectorAll('.owner-weekly-schedules th')].map(e=>e.textContent).join('|')==='Schedule / product|Preparation / fulfillment|Existing subscriptions|Status|Action'",'schedule column order');
+ await run("location.hash='#/owner/subscriptions/offerings'");await wait();
+ await check("location.hash==='#/owner/subscriptions/schedules'&&!document.querySelector('.owner-subscription-tabs a[href$=offerings]')&&document.querySelector('.owner-subscription-tabs [aria-current=page]').textContent==='Offerings'","retired capacity route resolves to Offerings");
+ await check("[...document.querySelectorAll('.owner-weekly-schedules th')].map(e=>e.textContent).join('|')==='Product|Preparation|Fulfillment|Status|Action'",'offering column order');
+ await check("!document.querySelector('.owner-weekly-schedules td:first-child a')&&document.querySelector('.owner-weekly-schedules').closest('section').querySelector('h2').textContent==='Subscription Offerings'",'plain-text products and table title');
  await run("document.querySelector('[data-owner=schedule][data-id]').click();window.f=document.querySelector('[data-owner-form=schedule]');window.scheduleId=f.dataset.id");
- await check("document.querySelector('#owner-dialog-title').textContent==='Edit schedule'&&!!f.querySelector('[role=switch]')&&!f.textContent.includes('active subscriptions retain')",'edit dialog toggle and simplified copy');
+ await check("document.querySelector('#owner-dialog-title').textContent==='Edit offering'&&!!f.querySelector('[role=switch]')&&f.elements.product_id.tagName==='SELECT'&&f.elements.product_id.required&&!f.elements.label",'edit dialog toggle and simplified copy');
  await check("(()=>{const a=f.querySelector('.owner-settings-actions').children;const x=a[0].getBoundingClientRect(),y=a[1].getBoundingClientRect();return Math.abs(x.top-y.top)<1&&Math.abs(y.left-x.right-8)<1})()",'dialog actions adjacent and aligned');
  await run("f.elements.status.checked=false;f.elements.status.dispatchEvent(new Event('input',{bubbles:true}));O.saveError=true;f.requestSubmit()");
  await check("A.modal==='owner-modal'&&!f.elements.status.checked",'failed save retains inactive toggle');
@@ -22,12 +24,12 @@ const assert=require('node:assert/strict');
  await check("!A.modal&&A.subscriptions.schedules.find(s=>s.id===scheduleId).status==='inactive'",'inactive toggle saved');
  await run("document.querySelector('[data-owner=schedule][data-id]').click()");await check("!document.querySelector('[data-owner-form=schedule]').elements.status.checked",'saved toggle restored');await run("A.closeModal(true)");
  await run("document.querySelector('[data-owner=schedule]:not([data-id])').click()");
- await check("document.querySelector('#owner-dialog-title').textContent==='Add schedule'&&document.querySelector('[data-owner-form=schedule]').elements.status.checked",'add dialog defaults active');
+ await check("document.querySelector('#owner-dialog-title').textContent==='Add offering'&&document.querySelector('[data-owner-form=schedule]').elements.status.checked",'add dialog defaults active');
  await run("A.closeModal(true)");
  for(const isNew of [true,false])for(const close of ['cancel','x']){
- await run(`A.ownerScheduleUI.open(${isNew?"''":"scheduleId"});window.form=document.querySelector('[data-owner-form=schedule]');window.savedLabel=form.elements.label.value;form.elements.label.value='Unsaved change';form.elements.label.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector(${JSON.stringify(close==='cancel'?"[data-owner-form=schedule] [data-owner=cancel-cake-modal]":"#owner-modal [data-close-modal]")}).click()`);
+ await run(`A.ownerScheduleUI.open(${isNew?"''":"scheduleId"});window.form=document.querySelector('[data-owner-form=schedule]');window.savedDay=form.elements.day.value;form.elements.day.value=String((Number(savedDay)+1)%7);form.elements.day.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector(${JSON.stringify(close==='cancel'?"[data-owner-form=schedule] [data-owner=cancel-cake-modal]":"#owner-modal [data-close-modal]")}).click()`);
  await check("!A.modal&&!document.querySelector('#owner-dismiss-warning')&&!O.drafts.has(O.draftKey(form))",(isNew?'add':'edit')+' '+close+' discards without prompt');
- await run(`A.ownerScheduleUI.open(${isNew?"''":"scheduleId"})`);await check("document.querySelector('[data-owner-form=schedule]').elements.label.value===savedLabel",'reopen uses saved values');await run("A.closeModal(true)");
+ await run(`A.ownerScheduleUI.open(${isNew?"''":"scheduleId"})`);await check("document.querySelector('[data-owner-form=schedule]').elements.day.value===savedDay",'reopen uses saved values');await run("A.closeModal(true)");
  }
  await run("A.ownerScheduleUI.open('')");
  for(const width of [1440,390,320]){await send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});await wait();await check("document.documentElement.scrollWidth<=innerWidth+1&&document.querySelector('#owner-modal .dialog-card').scrollWidth<=document.querySelector('#owner-modal .dialog-card').clientWidth+1",'schedule layout fits '+width);}
