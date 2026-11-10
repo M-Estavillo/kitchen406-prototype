@@ -5,7 +5,8 @@ const blank=()=>({productId:null,variant:'standard',quantity:1,scheduleId:'frida
 const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 // Keep the shared schedule IDs available for historical enrollment snapshots.
 const legacySchedules=[5,6,2].map(day=>({id:weekdays[day].toLowerCase(),label:'Weekly '+weekdays[day],day,fulfillment_day:day,preparation_day:(day+6)%7,status:'active'}));
-const schedules=A.products.filter(p=>p.subscription).flatMap(p=>legacySchedules.map(s=>({...s,id:s.id+'-'+p.id,legacy_schedule_id:s.id,product_id:p.id})));
+const defaultSchedule=legacySchedules[0];
+const schedules=A.products.filter(p=>p.subscription).map(p=>({...defaultSchedule,id:defaultSchedule.id+'-'+p.id,legacy_schedule_id:defaultSchedule.id,product_id:p.id}));
 const B=A.subscriptions={routes:['subscriptions','subscription','my-subscriptions'],state:{draft:blank(),purchases:[],records:[],serial:2000},mock:{page:'normal',catalog:'normal',schedule:'normal',review:'normal',price:'normal',defer:'normal'},addressUI:{form:null,editing:null,mapBusy:false},schedules,parts:[],message:'',filter:'all',query:'',sort:'newest'};
 const S=B.state;
 B.weekdays=weekdays;
@@ -32,12 +33,12 @@ B.createPurchase=()=>{
  if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.locked())return null;
  const old=B.pending();if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&old.deadline>Date.now())return old;
  if(old&&!old.paid)B.cancel(old);
- const p={id:'SUB-PAY-'+(++S.serial),snapshot:B.snapshot(),revision:S.draft.revision,payment:'waiting',paid:false,created:Date.now(),deadline:Date.now()+600000,attempts:[{state:'waiting',at:new Date().toLocaleString()}]};
+ const p={id:'SUB-PAY-'+(++S.serial),snapshot:B.snapshot(),revision:S.draft.revision,payment:'waiting',paid:false,created:Date.now(),deadline:Date.now()+C.paymentSessionMs,attempts:[{state:'waiting',at:new Date().toLocaleString()}]};
  const reason=D.reserve(p.id,p.snapshot.productId,p.snapshot.quantity,p.snapshot.dates,false,p.deadline);if(reason){B.message=reason;return null;}
  S.purchases.unshift(p);S.draft.purchaseId=p.id;return p;
 };
 B.cancel=p=>{if(!p||p.paid||['detected','delayed'].includes(p.payment))return false;p.payment='cancelled';D.release(p.id);return true;};
-B.retry=p=>{if(!p||p.paid||!['failed','expired'].includes(p.payment))return false;const reason=D.reserve(p.id,p.snapshot.productId,p.snapshot.quantity,p.snapshot.dates,false,Date.now()+600000);if(reason){p.payment='revalidation';B.message=reason;return false;}p.deadline=Date.now()+600000;p.payment='waiting';p.attempts.push({state:'waiting',at:new Date().toLocaleString()});return true;};
+B.retry=p=>{if(!p||p.paid||!['failed','expired'].includes(p.payment))return false;const deadline=Date.now()+C.paymentSessionMs;const reason=D.reserve(p.id,p.snapshot.productId,p.snapshot.quantity,p.snapshot.dates,false,deadline);if(reason){p.payment='revalidation';B.message=reason;return false;}p.deadline=deadline;p.payment='waiting';p.attempts.push({state:'waiting',at:new Date().toLocaleString()});return true;};
 B.pay=(p,state)=>{
  if(!p||p.paid||p.payment==='cancelled')return;
  p.payment=state;if(p.attempts.length)p.attempts.at(-1).state=state;
@@ -58,27 +59,30 @@ B.sync=record=>{record.deliveries.forEach(d=>{const order=(A.inventory?.allOrder
 B.next=record=>record.deliveries.filter(d=>d.status!=='fulfilled').sort((a,b)=>a.date.localeCompare(b.date))[0];
 B.deferTarget=(record,delivery,option)=>{
  if(option==='day')return D.add(delivery.date,1);
- let date=D.add(delivery.date,7);
- if(record.deliveries.some(d=>d.id!==delivery.id&&d.date===date))date=D.add(record.deliveries.map(d=>d.date).sort().at(-1),7);
- for(let i=0;i<26;i++,date=D.add(date,7)){if(!record.deliveries.some(d=>d.id!==delivery.id&&d.date===date)&&!B.replacementReason(record,delivery,date))return date;}
- return '';
+ const date=D.add(delivery.date,7);
+ return record.deliveries.some(d=>d.id!==delivery.id&&d.date===date)?D.add(record.deliveries.map(d=>d.date).sort().at(-1),7):date;
 };
 B.replacementReason=(record,delivery,date)=>{
- if(!date)return 'No available weekly date found.';
  const reason=D.base(date,record.snapshot.productId,{replacement:true});if(reason)return reason;
  const old=D.allocations.filter(a=>a.owner===record.purchaseId),other=old.filter(a=>a.cycle!==delivery.cycle&&D.week(a.date)===D.week(date)).reduce((n,a)=>n+a.quantity,0);
  if(D.used(record.snapshot.productId,date,record.purchaseId)+other+record.snapshot.quantity>D.subscriptionLimit(record.snapshot.productId))return 'Subscription capacity reached';
  return '';
 };
-B.deferReason=(record,delivery,option)=>{
+B.deferEligibility=(record,delivery)=>{
  if(!record||!delivery||!record.deliveries.includes(delivery))return 'Delivery not found.';
- if(!['day','week'].includes(option))return 'Choose next day or next week.';
  const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);
  if(record.deferments.length||B.mock.defer==='used')return 'Your one deferment has already been used.';
  if(record.status!=='active'||delivery.status==='fulfilled'||order?.status!=='confirmed')return 'This delivery can no longer be deferred.';
+ const preparation=B.preparationDate?.(order);
+ if(preparation&&D.today()>=preparation)return 'The preparation date has arrived.';
  if(Date.parse(D.config.clock)>=D.cutoff(delivery.date,record.snapshot.productId,'subscription'))return 'The cutoff for changing this delivery has passed.';
+ return '';
+};
+B.deferReason=(record,delivery,option)=>{
+ const eligibility=B.deferEligibility(record,delivery);if(eligibility)return eligibility;
+ if(!['day','week'].includes(option))return 'Choose next day or next week.';
  if(['loading','error'].includes(B.mock.defer))return B.mock.defer==='loading'?'Checking replacement availability…':'Unable to check availability. Please try again.';
- if(B.mock.defer==='both'||B.mock.defer===option)return 'This replacement date is unavailable.';
+ if(B.mock.defer==='unavailable'||B.mock.defer===option)return 'This replacement date is unavailable.';
  return B.replacementReason(record,delivery,B.deferTarget(record,delivery,option));
 };
 B.applyDefer=(record,delivery,option)=>{

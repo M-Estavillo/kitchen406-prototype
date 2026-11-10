@@ -198,12 +198,10 @@
 .staff-calendar-controls{justify-content:space-between;margin-bottom:14px}
 .staff-calendar-navigation{justify-content:flex-start;align-items:center;gap:16px;margin:0;padding:0;border:0}
 .staff-calendar-panel .staff-calendar-navigation>.btn{min-width:76px;min-height:34px;border-radius:6px}
-.staff-calendar-range{padding:6px 0;border:0;background:transparent;font-size:13px;line-height:1.5;font-weight:600;color:var(--accent);text-align:center}
-.staff-calendar-range:hover{text-decoration:underline}
 .staff-calendar-panel .staff-day{position:relative;padding-bottom:9px;min-height:112px}
 .staff-calendar-panel .staff-calendar-order-count{position:absolute;bottom:5px;right:4px;min-height:18px;padding:2px 4px;border:0;border-radius:3px;background:var(--accent);color:#fff;font-size:9px;line-height:14px;font-weight:600;text-align:center;z-index:1}
 .staff-calendar-panel .staff-calendar-order-count:hover{filter:brightness(.92)}
-@media(max-width:480px){.staff-calendar-navigation{gap:8px}.staff-calendar-panel .staff-calendar-navigation>.btn{min-width:60px;padding:5px 8px}.staff-calendar-range{font-size:11px}}
+@media(max-width:480px){.staff-calendar-navigation{gap:8px}.staff-calendar-panel .staff-calendar-navigation>.btn{min-width:60px;padding:5px 8px}}
 
 .staff-calendar-panel .staff-day-orders{position:relative}
 .staff-calendar-panel .staff-day-orders a{height:108px;box-sizing:border-box}
@@ -268,3 +266,29 @@
 @media(max-width:600px){.staff-inventory-filters .field{flex:1 1 160px}}
 #staff-modal .staff-stock-actions{display:flex;justify-content:flex-end;gap:8px}
 #staff-modal .staff-stock-actions .btn{flex:0 0 auto;width:auto;min-height:34px;padding:6px 12px;font-size:12px}
+
+/* Shared operational delivery tracking. */
+.delivery-tracking{display:grid;gap:18px}
+.delivery-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.delivery-heading h1{margin:0}.delivery-heading p{margin:8px 0 0;font-size:13px}
+.delivery-status{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.delivery-status p{margin:10px 0 0;font-size:14px}.delivery-demo-label{font-size:12px;color:var(--muted);white-space:nowrap}
+.delivery-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,1fr);gap:18px;align-items:start}
+.delivery-grid .commerce-card{margin:0;padding:20px;min-width:0}.delivery-grid h2{font-size:22px}
+.delivery-sidebar{display:grid;gap:18px}.delivery-map{overflow:hidden;border-radius:8px;border:1px solid var(--line)}.delivery-map svg{display:block;width:100%;height:auto}
+.delivery-map-note{font-size:12px;margin:12px 0 0}.delivery-facts{display:grid;gap:16px;margin:0}.delivery-facts dt{font-size:12px;color:var(--muted);margin-bottom:5px}.delivery-facts dd{margin:0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:850px){.delivery-grid{grid-template-columns:1fr}.delivery-heading{align-items:start}.delivery-status{align-items:start}.delivery-heading h1{font-size:30px}}
+
+/* Shared compact courier dialogs. */
+#owner-modal .dialog-card:has(.courier-dialog),#staff-modal .dialog-card:has(.courier-dialog){max-width:430px;padding:22px;max-height:85dvh;overflow:auto;background:#fff}
+#owner-modal .dialog-card:has(.courier-dialog) h2,#staff-modal .dialog-card:has(.courier-dialog) h2{font-size:23px;line-height:1.25;margin:0 24px 14px 0}
+.courier-dialog p{margin:0;font-size:14px;line-height:1.6}
+.courier-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:20px}
+.courier-dialog-actions .btn{flex:0 0 auto;width:auto;min-height:36px;padding:7px 12px;font-size:13px}
+
+#staff-view .staff-calendar-filters{grid-template-columns:minmax(0,170px) minmax(0,160px);justify-content:start}
+#staff-view .staff-calendar-panel>.staff-calendar-navigation{justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:12px}
+#staff-view .staff-calendar-panel>.staff-calendar-navigation>.btn{min-width:0;min-height:30px;padding:4px 9px}
+#staff-view .staff-calendar-panel .staff-day.blocked{background:#fce7e5;color:#a12622}
+#staff-view .staff-calendar-panel .staff-day.blocked .staff-day-count{color:#a12622}
+@media(max-width:380px){#staff-view .staff-calendar-filters{grid-template-columns:minmax(0,170px)}}

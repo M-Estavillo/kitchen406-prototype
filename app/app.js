@@ -8,7 +8,8 @@ A.inspector=()=>{
  const auth=authRoutes.includes(A.route),product=A.returnRoute.startsWith('#/product/')||A.route==='product';
  let html='<strong>Kitchen406 · State Inspector</strong><p class="muted">UI simulation only. No real accounts, emails, payments, orders, or uploads are created.</p>';
  html+='<div class="mock-actions"><button data-owner="enter">Enter owner preview</button><button data-staff="enter">Enter staff preview</button><button data-staff="customer">Return to customer</button></div><p class="muted">Owner/staff preview password: Kitchen406! ? Recipes are sample quantities.</p>';
- if(A.route==='owner')html+=select('mock-owner-mode','Owner page state',['normal','loading','empty','error'],A.owner.mode)+select('mock-owner-save','Owner save result',['normal','error'],A.owner.saveError?'error':'normal')+select('mock-owner-courier','Simulated courier response',['success','failure','unknown'],A.deliveries.outcome)+select('mock-owner-notification','Simulated notification delivery',['success','failure'],A.ownerCakes.notificationOutcome)+'<div class="mock-actions"><button data-owner="seed">Load owner examples</button><button data-owner="marketing-weekly">Evaluate weekly marketing</button><button data-owner="marketing-failure">Toggle image failure</button></div>';
+ if(A.route==='owner')html+=select('mock-owner-mode','Owner page state',['normal','loading','empty','error'],A.owner.mode)+select('mock-owner-save','Owner save result',['normal','error'],A.owner.saveError?'error':'normal')+select('mock-owner-notification','Simulated notification delivery',['success','failure'],A.ownerCakes.notificationOutcome)+'<div class="mock-actions"><button data-owner="seed">Load owner examples</button><button data-owner="marketing-weekly">Evaluate weekly marketing</button><button data-owner="marketing-failure">Toggle image failure</button></div>';
+ if(['owner','staff'].includes(A.route))html+=select('mock-courier-outcome','Courier booking result',['success','cancelled','unavailable','error'],A.deliveries.outcome);
  if(A.route==='staff'){html+=select('mock-staff-mode','Staff page state',['normal','loading','empty','error'],A.staff.mode)+select('mock-staff-save','Staff save result',['normal','error'],A.staff.saveError?'error':'normal')+'<div class="mock-actions"><button data-staff="seed">Load staff orders</button><button data-staff="seed-attention">Load attention examples</button></div>';}
  html+=select('mock-auth','Authentication',['guest','signedin'],A.auth);
  if(auth){
@@ -29,7 +30,24 @@ A.inspector=()=>{
  else if(A.commerce.routes.includes(A.route))html+=A.commerce.inspector(select);
  else html+=select('mock-catalog','Catalog',['normal','loading','empty','error'],A.catalog.state());
  html+='<div class="mock-actions"><button data-mock="reset">Reset preview</button></div><p class="muted" style="margin-top:12px">Jump to a screen</p><div class="mock-actions">'+['shop','product/1','product/1/reviews','cart','checkout/fulfillment','checkout/address','checkout/review','payment','confirmation','orders','subscriptions','my-subscriptions','custom-cakes','cake-requests','account/profile','account/addresses','account/notifications',...authRoutes].map(r=>'<a class="text-link" href="#/'+r+'">'+({'product/1':'Product','product/1/reviews':'Reviews'}[r]||label(r))+'</a>').join('')+'</div>';
- $('mock-panel').innerHTML=html;
+ const panel=$('mock-panel');
+ panel.innerHTML=html;
+ const controls=document.createElement('section');
+ controls.className='mock-group mock-fields';
+ controls.innerHTML='<h3>Screen states</h3>';
+ for(const dropdown of [...panel.querySelectorAll('select')]){
+  const label=panel.querySelector('label[for="'+dropdown.id+'"]');
+  const field=document.createElement('div');field.className='mock-field';
+  if(label)field.append(label);field.append(dropdown);controls.append(field);
+ }
+ const actions=document.createElement('section');actions.className='mock-group mock-actions';actions.innerHTML='<h3>Preview actions</h3>';
+ const navigation=document.createElement('details');navigation.className='mock-group mock-jumps';navigation.innerHTML='<summary>Jump to a screen</summary><div class="mock-actions"></div>';
+ for(const button of [...panel.querySelectorAll('.mock-actions button')])actions.append(button);
+ for(const link of [...panel.querySelectorAll('.mock-actions a')])navigation.lastElementChild.append(link);
+ panel.querySelectorAll('.mock-actions').forEach(group=>group.remove());
+ panel.querySelectorAll('p').forEach((note,index)=>{if(index>0)note.remove();});
+ panel.append(controls,actions,navigation);
+
 };
 function titlesFor(view){return {verify:'Verification state',register:'Registration state','sign-in':'Sign-in state',forgot:'Forgot password state',reset:'Reset password state'}[view];}
 $('mock-toggle').addEventListener('click',()=>{
@@ -53,7 +71,7 @@ $('mock-panel').addEventListener('click',e=>{
  if(action==='reset')A.commerce.reset();
  if(action==='fill')A.authUI.fill();
  if(action==='modal'){if(A.modal==='auth-modal')A.closeModal();else A.openModal('auth-modal');A.inspector();}
- if(action==='reset'){A.authUI.state.generation++;A.closeModal();A.email='';A.pendingEmail='';A.verified=false;A.bag=0;A.context='header';A.returnRoute='#/shop';A.authUI.state.resetValid=false;A.authUI.state.deadline=Date.now()+600000;A.authUI.state.attempts=0;A.product.state.submitted.clear();A.product.state.elig='noteligible';A.product.state.error=false;A.setAuth('guest');$('header-cart-badge').classList.add('hidden');A.catalog.reset();location.hash='#/shop';route();}
+ if(action==='reset'){A.authUI.state.generation++;A.closeModal();A.email='';A.pendingEmail='';A.verified=false;A.bag=0;A.context='header';A.returnRoute='#/shop';A.authUI.state.resetValid=false;A.authUI.state.deadline=Date.now()+600000;A.authUI.state.attempts=0;A.product.state.submitted.clear();A.product.state.elig='noteligible';A.product.state.error=false;initializePreview();$('header-cart-badge').classList.add('hidden');A.catalog.reset();location.hash='#/shop';route();}
 });
 function route(){ if(location.hash && !location.hash.startsWith('#/')){document.getElementById(location.hash.slice(1))?.scrollIntoView();return;}
  const parts=(location.hash||'#/shop').slice(2).split('/'),name=parts[0];
@@ -64,6 +82,7 @@ function route(){ if(location.hash && !location.hash.startsWith('#/')){document.
   A.route=name;A.authUI.show(name);document.title=titlesFor(name)+' · Kitchen406';return;
  }
  A.authUI.state.generation++;A.closeModal(true);A.route=name;A.currentHash=location.hash||'#/shop';
+ const terms=name==='terms-and-policies';$('terms-view').hidden=!terms;if(!terms)$('terms-view').replaceChildren();
  const owner=name==='owner';$('owner-view').hidden=!owner;if(!owner)$('owner-view').replaceChildren();
  const staff=name==='staff';$('staff-view').hidden=!staff;if(!staff)$('staff-view').replaceChildren();
  const commerce=A.commerce.routes.includes(name),subscription=A.subscriptions.routes.includes(name),phase4=A.phase4.routes.includes(name);
@@ -72,11 +91,12 @@ function route(){ if(location.hash && !location.hash.startsWith('#/')){document.
  if(!commerce)$('commerce-view').replaceChildren();
  if(!subscription)$('subscription-view').replaceChildren();
  $('subscription-view').hidden=!subscription;
- $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription||phase4||staff||owner;
+ $('catalog-view').hidden=name!=='shop';$('product-view').hidden=name!=='product';$('commerce-view').hidden=!commerce;$('not-found-view').hidden=['shop','product'].includes(name)||commerce||subscription||phase4||staff||owner||terms;
  if(owner){A.owner.show(parts);A.returnRoute=A.currentHash;document.title='Owner workspace ? Kitchen406';A.shell.sync();A.inspector();window.scrollTo(0,0);requestAnimationFrame(()=>$('owner-view').querySelector('h1')?.focus({preventScroll:true}));return;}
  if(staff){A.staff.show(parts);A.returnRoute=A.currentHash;document.title='Staff workspace — Kitchen406';A.shell.sync();A.inspector();window.scrollTo(0,0);requestAnimationFrame(()=>$('staff-view').querySelector('h1')?.focus({preventScroll:true}));return;}
  A.shell.sync();
- if(name==='product'){
+ if(terms){$('terms-view').innerHTML=A.termsHTML;A.returnRoute=A.currentHash;A.activeProduct=null;document.title='Terms and Policies · Kitchen406';requestAnimationFrame(()=>{const target=parts[1]&&document.getElementById(parts[1]);if(target&&$('terms-view').contains(target)){target.open=true;target.scrollIntoView();target.querySelector('summary')?.focus({preventScroll:true});}else{window.scrollTo(0,0);$('terms-view').querySelector('h1').focus({preventScroll:true});}});}
+ else if(name==='product'){
   const id=Number(parts[1]);if(A.activeProduct!==id){A.product.show(id);A.activeProduct=id;}
   A.returnRoute=location.hash;
   document.title=(A.products.find(p=>p.id===id)?.name||'Product not found')+' · Kitchen406';
@@ -95,6 +115,7 @@ document.addEventListener('click',e=>{
   if(path==='shop')location.hash='#/shop';
   else if(path==='subscriptions'){location.hash='#/subscriptions';}
   else if(path==='custom-cakes')location.hash='#/custom-cakes';
+  else if(path==='terms-and-policies')location.hash='#/terms-and-policies';
   else if(path==='cart'||path==='orders')location.hash='#/'+path;
   else if(path==='sign-in'){A.context=e.target.closest('#reviews')?'review':'header';A.returnRoute=location.hash;location.hash='#/sign-in';}
   else if(path==='sign-up')location.hash='#/register';
@@ -112,5 +133,19 @@ document.addEventListener('click',e=>{
 $('nav-search-input').addEventListener('input',()=>{if(A.route!=='shop')location.hash='#/shop';});
 document.addEventListener('error',e=>{if(e.target.tagName==='IMG'){e.target.style.objectFit='contain';e.target.setAttribute('title','Image unavailable');}},true);
 window.addEventListener('hashchange',route);
-A.setAuth('guest');route();
+function initializePreview(){
+ A.email=A.account.current.email;
+ A.verified=true;
+ A.setAuth('signedin');
+ const role=A.staff.role;
+ try{
+  A.staff.role='staff';A.staff.seed();
+  A.staff.role='admin';A.owner.seed();
+ }finally{A.staff.role=role;}
+ $('toast').hidden=true;
+}
+initializePreview();
+if(location.hash.startsWith('#/owner'))A.staff.role='admin';
+else if(location.hash.startsWith('#/staff'))A.staff.role='staff';
+route();
 })();

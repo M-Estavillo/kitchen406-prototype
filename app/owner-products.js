@@ -80,7 +80,7 @@ function materialRecipe(rows){
 }
 function materialCells(row){
  const item=I.item(row.id),quantity=Number(row.quantity),cost=item?.cost;
- return [item?.unit||'—',V.money(cost),V.money(Number.isFinite(cost)&&quantity>0?cost*quantity:undefined)];
+ return [item?.unit||'—',V.unitMoney(cost),V.money(Number.isFinite(cost)&&quantity>0?cost*quantity:undefined)];
 }
 function renderMaterials(section){
  const rows=materialRows(section.querySelector('input[type=hidden]').value);
@@ -129,7 +129,7 @@ function productEditor(p){
   const overhead=variant?(P.overheads.get(p.id+':'+variant.id)??P.overhead):P.overhead;
   return `<section class="owner-product-materials-variant" data-product-variant="${E(key)}" data-variant-label="${E(label)}" data-overhead="${overhead}"><input type="hidden" name="bom-${E(key)}" value="${E(JSON.stringify(rows))}"><div class="owner-material-heading"><h3>${E(label)}</h3>${V.button('product-add-material','Add material')}</div><div class="owner-material-table"></div></section>`;
  }).join('')}`);
- const form=V.form('product',`<div class="owner-product-editor-columns">${V.panel('Product details',`<div class="owner-product-form-fields">${fields}</div>`)}<div class="owner-product-editor-side">${recommendation}${V.panel('Product images',imageSection)}</div></div>${materials}<input type="hidden" name="pricing-version" value="${P.version}">${V.button('product-cancel','Cancel')}`,`data-id="${p?.id||''}" data-version="${G.version}"`,'Save product');
+ const form=V.form('product',`<div class="owner-product-editor-columns">${V.panel('Product details',`<div class="owner-product-form-fields">${fields}</div>`)}<div class="owner-product-editor-side">${recommendation}${V.panel('Product images',imageSection)}</div></div>${materials}<input type="hidden" name="subscription-schedule"><input type="hidden" name="pricing-version" value="${P.version}">${V.button('product-cancel','Cancel')}`,`data-id="${p?.id||''}" data-version="${G.version}"`,'Save product');
  return `<div class="owner-product-editor">${V.button('product-cancel','Back to products')}${form}</div>`;
 }
 G.initEditor=form=>{
@@ -179,13 +179,27 @@ document.addEventListener('submit',e=>{const form=e.target.closest('[data-owner-
   const selected=variantChoices(p).filter(choice=>keys.includes(choice.key)).map(choice=>({...choice,price:Number(get('price-'+choice.key))}));
   const category=categoryRecords.find(c=>c.id===get('category')&&(c.status==='active'||p?.category===c.id));
   const cover=get('image');
+  const eligible=get('subscription')==='true';
+  const scheduleDraft=get('subscription-schedule');
   for(const choice of selected)choice.recipe=materialRecipe(materialRows(get('bom-'+choice.key)));
   if(Number(get('pricing-version'))!==P.version)error='Pricing or recipes changed. Cancel and reopen the product.';
   else if(!get('name')||!get('description')||!category||(!images.some(([url])=>url===cover)&&p?.image!==cover))error='Enter a product name, description, category and valid image selection.';
   else if(!selected.length||selected.length!==keys.length)error='Select at least one valid variant.';
   else if(selected.some(v=>!v.recipe))error='Use each material once per variant and enter a positive quantity.';
   else if(selected.some(v=>!Number.isFinite(v.price)||v.price<0.01))error='Enter a positive selling price for each selected variant.';
-  else{
+  else if(p&&eligible&&!p.subscription&&!scheduleDraft)error='Set up a subscription schedule before saving.';
+  if(!error&&p&&eligible&&scheduleDraft){
+   const schedule=JSON.parse(scheduleDraft);
+   const wasEligible=p.subscription;
+   p.subscription=true;
+   try{
+    error=A.capacity.saveSchedule({...schedule,product_id:p.id},schedule.version);
+   }finally{
+    p.subscription=wasEligible;
+   }
+  }
+  if(!error){
+   if(p?.subscription&&!eligible)A.capacity.deactivateProductSchedules(p.id);
    const target=p||{id:Math.max(0,...A.products.map(p=>p.id))+1,variants:[]};
    const retained=new Set(selected.map(v=>v.variant));
    for(const variant of target.variants)variant.active=retained.has(variant);
@@ -200,7 +214,7 @@ document.addEventListener('submit',e=>{const form=e.target.closest('[data-owner-
      else{P.recipes.delete(recipeKey);variant.customRecipe=true;}
     }
    }
-   Object.assign(target,{name:get('name'),description:get('description'),category:category.id,categoryLabel:category.name,image:cover,active:get('active')==='true',subscription:get('subscription')==='true'});
+   Object.assign(target,{name:get('name'),description:get('description'),category:category.id,categoryLabel:category.name,image:cover,active:get('active')==='true',subscription:eligible});
    if(!p){I.catalogEnabled.set(target.id,true);A.products.push(target);G.attach(target);}
    G.display(target);
   }

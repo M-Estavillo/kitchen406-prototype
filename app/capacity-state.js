@@ -21,6 +21,21 @@ Q.save=(input,version)=>{
  Object.assign(D.config,{standardUnits:input.standardUnits,standardVarieties:input.standardVarieties,subscriptionUnits:input.subscriptionUnits,timing:{standard:input.standard,subscription:input.subscription,cake:input.cake}});
  Object.assign(A.cakeData.config,{maxPerWeek:input.maxPerWeek,maxPerDay:input.maxPerDay});Q.version++;return '';
 };
+function preserveSchedule(schedule){
+ for(const record of B.allRecords().filter(r=>r.snapshot.scheduleId===schedule.id)){
+  record.snapshot.scheduleSnapshot||=A.commerce.copy(schedule);
+ }
+}
+Q.deactivateProductSchedules=productId=>{
+ if(!A.session.ownerAllowed())return;
+ const schedules=B.availableSchedules(productId);
+ if(!schedules.length)return;
+ for(const schedule of schedules){
+  preserveSchedule(schedule);
+  schedule.status='inactive';
+ }
+ Q.version++;
+};
 Q.saveSchedule=({id,product_id,preparation_day,day,status},version)=>{
  if(!A.session.ownerAllowed())return 'Owner access required.';
  if(version!==Q.version)return 'Settings changed. Reload before saving.';
@@ -30,7 +45,7 @@ Q.saveSchedule=({id,product_id,preparation_day,day,status},version)=>{
  let schedule=B.schedules.find(s=>s.id===id);
  if(id&&!schedule)return 'This offering is unavailable. Reopen the list.';
  if(schedule){
-  B.allRecords().filter(r=>r.snapshot.scheduleId===id).forEach(r=>{r.snapshot.scheduleSnapshot||=A.commerce.copy(schedule);});
+  preserveSchedule(schedule);
  }else{
   schedule={id:'schedule-'+crypto.randomUUID()};
   B.schedules.push(schedule);

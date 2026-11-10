@@ -1,8 +1,7 @@
 (() => {
 const A=K406,I=A.inventory,P=A.pricing,V=A.ownerUI,E=A.escape;
 const number=n=>Number(n).toLocaleString('en-PH',{maximumFractionDigits:3});
-const costFormat=new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP',maximumFractionDigits:6});
-const unitCost=(cost,unit)=>Number.isFinite(cost)?E(costFormat.format(cost)+' / '+unit):'—';
+const unitCost=(cost,unit)=>Number.isFinite(cost)?E(V.unitMoney(cost)+' / '+unit):'—';
 const stockBadge=i=>`<span class="order-badge owner-stock-${I.available(i.id)<=0?'out':I.available(i.id)<=i.threshold?'low':'available'}">${E(I.status(i))}</span>`;
 const activity=i=>Math.max(0,...I.movements.filter(m=>m.ingredientId===i.id).map(m=>m.at));
 const units=[['g','Grams (g)'],['ml','Milliliters (ml)'],['pcs','Pieces (pcs)']];

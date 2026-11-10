@@ -5,39 +5,18 @@ const pageTemplates = {
 <div class="flex flex-col w-full">
 <!-- Editorial Introduction Header -->
 <section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-10 pb-8 sm:pt-14 sm:pb-12">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-<div class="lg:col-span-8 flex flex-col">
-<div class="flex items-center gap-2 mb-3">
-</div>
 <h1 class="hero-title text-on-surface tracking-tight leading-tight max-w-2xl">
               Thoughtful breads, pastries, and provisions.
             </h1>
 <p class="mt-4 font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
               Browse Kitchen406 breads, pastries, and other made-to-order products. Available fulfillment dates are confirmed during ordering — please note same-day fulfillment is not supported.
             </p>
-</div>
-<!-- Micro Highlights / Info Panel -->
-<div class="lg:col-span-4 flex flex-col justify-end bg-surface-container-low p-5 rounded-lg border border-surface-container-high">
-<div class="flex items-start gap-3 mb-3">
-<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">calendar_clock</span>
-<div>
-<p class="font-title-sm text-title-sm text-on-surface">Made to Order</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Available fulfillment dates are confirmed when placing your order.</p>
-</div>
-</div>
-<div class="pt-3 border-t border-surface-container flex items-center justify-between text-on-surface-variant">
-<a class="font-label-sm text-label-sm text-primary font-semibold hover:underline inline-flex items-center gap-0.5" href="#catalog-start">
-                Browse Catalog ↓
-              </a>
-</div>
-</div>
-</div>
 </section>
 <!-- Sticky / Refined Interactive Catalog Toolbar -->
 <section class="w-full border-t border-b border-surface-container bg-surface/95 sticky top-20 z-30 backdrop-blur-md" id="catalog-start">
-<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin py-3.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
 <!-- Category Tabs -->
-<div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto scrollbar-none py-0.5" id="category-tabs">
+<div class="flex items-center gap-1.5 overflow-x-auto min-w-0 max-w-full scrollbar-none py-0.5" id="category-tabs">
 <button class="cat-pill active px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5 whitespace-nowrap" data-category="all" type="button">
 <span>All Products</span>
 <span class="text-[11px] opacity-80 px-1.5 py-0.2 bg-white/20 rounded-full" id="count-all">20</span>
@@ -55,14 +34,11 @@ const pageTemplates = {
 <span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pantry">3</span>
 </button>
 </div>
-</div>
-</section>
-<!-- Catalog Summary Strip -->
-<section class="w-full max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-6 pb-2" id="catalog-summary-section">
-<div class="flex items-center justify-between text-on-surface-variant border-b border-surface-container pb-2">
-<p class="font-body-sm text-body-sm" aria-live="polite" id="catalog-results-label">
+<div id="catalog-summary-section" class="ml-auto">
+<p class="font-body-sm text-body-sm text-on-surface-variant text-right whitespace-nowrap ml-auto" aria-live="polite" id="catalog-results-label">
             Showing <span class="font-semibold text-on-surface" id="visible-range">1–8</span> of <span class="font-semibold text-on-surface" id="total-count">20</span> products
           </p>
+</div>
 </div>
 </section>
 <!-- Product Catalog Container -->
@@ -343,6 +319,7 @@ const pageTemplates = {
 <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
 <span>Add to Cart</span>
 </button>
+<button type="button" id="subscribeToProductBtn" class="btn wide product-subscribe-button" hidden>Subscribe to product</button>
 <!-- Inline Alert Feedback Triggers -->
 <div class="hidden p-3 bg-[#EBF0EC] text-[#224426] rounded-lg font-body-sm text-body-sm flex items-center justify-between" id="cartFeedbackSuccess">
 <div class="flex items-center gap-2">
@@ -363,22 +340,7 @@ const pageTemplates = {
 <span>This loaf is currently fully committed for the upcoming scheduled batch.</span>
 </div>
 </div>
-<!-- Subscription Callout Box -->
-<div id="product-subscription" class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant shadow-sm flex flex-col gap-2">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[20px]">sync</span>
-<span class="font-title-sm text-title-sm text-on-surface">Weekly Bread Subscription</span>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-              Receive a fresh Braided Babka every week with our 4-Week Prepaid Plan. Automatic batch dispatch straight to your table.
-            </p>
-<a class="font-title-sm text-title-sm text-primary hover:underline self-start flex items-center gap-1 mt-1" data-path="subscriptions" href="#">
-              Explore 4-Week Plans
-              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</a>
-</div>
+
 </div>
 </div>
 </section>

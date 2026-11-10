@@ -10,6 +10,6 @@ A.cakeData={categories:['shape','flavor','size','color','icing'],options:[
  ].map(([id,type,name,price,description,ingredients])=>({id,type,name,price,description,ingredients,available:id!=='ganache'})),
  addons:[{id:'decoration',name:'Chocolate decoration',price:10000,description:'Chocolate shards and decorative accents',available:true,ingredients:{cocoa:30}}],
  stock:{flour:10000,vanilla:1000,cocoa:5000,tint:100,butter:5000},
- config:{maxPerWeek:2,maxPerDay:1,leadDays:5,cutoffHour:16,cities:['Cebu City','Mandaue City','Lapu-Lapu City','Talisay City','Consolacion']}
+ config:{maxPerWeek:2,maxPerDay:1,leadDays:7,cutoffHour:12,cities:['Cebu City','Mandaue City','Lapu-Lapu City','Talisay City','Consolacion']}
 };
 })();

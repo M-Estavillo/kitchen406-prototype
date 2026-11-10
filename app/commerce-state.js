@@ -9,7 +9,7 @@ const addresses=()=>[
 const draft=()=>({method:'',date:'',addressId:'home',service:'ok',quote:'ok'});
 const S={cart:[],addresses:addresses(),draft:draft(),orders:[],activeId:null,revision:0,serial:1000,removed:null};
 const M={page:'normal',stock:'normal',calendar:'normal',dates:'normal',validation:'normal',review:'normal',price:'normal',payment:'waiting',courier:'prebooking',dataset:'all'};
-const C=A.commerce={state:S,mock:M,routes:['cart','checkout','payment','confirmation','orders'],step:'',orderId:null};
+const C=A.commerce={paymentSessionMs:30*60*1000,state:S,mock:M,routes:['cart','checkout','payment','confirmation','orders'],step:'',orderId:null};
 C.money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(n);
 C.copy=o=>JSON.parse(JSON.stringify(o));
 C.setPricePreview=value=>{
@@ -49,7 +49,7 @@ C.createOrder=()=>{
  if(o&&o.revision===S.revision&&C.unpaid(o)&&o.payment!=='revalidation')return o;
  if(o&&C.unpaid(o))C.setStatus(o,'cancelled');
  const id='K406-'+(++S.serial);
- o={id,type:'standard',items:C.copy(S.cart),fulfillment:C.copy(S.draft),address:C.copy(C.address()||{}),fee:C.fee(),total:C.subtotal()+C.fee(),status:'pending-payment',payment:'waiting',deadline:Date.now()+600000,created:Date.now(),revision:S.revision,reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Demo order placed',at:new Date().toLocaleString()}]};
+ o={id,type:'standard',items:C.copy(S.cart),fulfillment:C.copy(S.draft),address:C.copy(C.address()||{}),fee:C.fee(),total:C.subtotal()+C.fee(),status:'pending-payment',payment:'waiting',deadline:Date.now()+C.paymentSessionMs,created:Date.now(),revision:S.revision,reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Demo order placed',at:new Date().toLocaleString()}]};
  o.attempts.push({state:'waiting',at:new Date().toLocaleString()});S.orders.unshift(o);S.activeId=id;return o;
 };
 C.setPayment=(o,value)=>{
@@ -72,7 +72,7 @@ C.sampleOrders=()=>{
  ['preparing','pending-payment','completed','payment-resolution','confirmed','completed','ready-pickup'].forEach((status,i)=>{
  const items=[C.line(i===6?2:i%2?2:1,'standard',i%2?1:2)],pickup=i===1||i===6;
  if(i===4)items[0]={key:'cake:demo',productId:0,name:'Minimalist celebration cake',variant:'6-inch Earl Grey · Sample custom order',price:2450,quantity:1,image:'assets/custom-cake.png',available:true};
- S.orders.push({id:'K406-DEMO-'+(28+i),fixture:true,type:i===4?'cake':'standard',items,fulfillment:{method:pickup?'pickup':'delivery',date:'2026-10-16'},address:C.copy(S.addresses[0]||addresses()[0]),fee:pickup?0:A.quoteFee(),total:C.subtotal(items)+(pickup?0:A.quoteFee()),status,payment:status==='pending-payment'?'waiting':'confirmed',paid:status!=='pending-payment',created:new Date(2026,9,10-i).getTime(),deadline:Date.now()+600000,reference:'DEMO-QR-'+i,attempts:[{state:status==='pending-payment'?'waiting':'confirmed',at:'Demo history'}],activity:[{text:'Sample order '+status,at:'October 2026 fixture'}]});
+ S.orders.push({id:'K406-DEMO-'+(28+i),fixture:true,type:i===4?'cake':'standard',items,fulfillment:{method:pickup?'pickup':'delivery',date:'2026-10-16'},address:C.copy(S.addresses[0]||addresses()[0]),fee:pickup?0:A.quoteFee(),total:C.subtotal(items)+(pickup?0:A.quoteFee()),status,payment:status==='pending-payment'?'waiting':'confirmed',paid:status!=='pending-payment',created:new Date(2026,9,10-i).getTime(),deadline:Date.now()+C.paymentSessionMs,reference:'DEMO-QR-'+i,attempts:[{state:status==='pending-payment'?'waiting':'confirmed',at:'Demo history'}],activity:[{text:'Sample order '+status,at:'October 2026 fixture'}]});
  });
 };
 })();

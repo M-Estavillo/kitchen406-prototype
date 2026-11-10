@@ -34,9 +34,58 @@ button:disabled{opacity:.5;cursor:not-allowed}a:focus-visible,button:focus-visib
 body.modal-open{overflow:hidden}footer{padding-bottom:70px}
 @media(min-width:1100px){body.inspector-open .overlay{padding-right:350px}}
 @media(max-width:1099px){#app-shell>header nav{order:3;width:100%;justify-content:center;display:flex;font-size:12px}#app-shell>header>div:last-child{gap:10px}#nav-search-input{width:120px}#app-shell>header img{display:none}}
-@media(max-width:767px){.dialog-card{padding:28px 22px}.name-row{grid-template-columns:1fr}.overlay{padding:16px 12px 80px}.otp-row{gap:6px}#related-products{grid-template-columns:1fr}#mock-panel{max-height:45dvh}#app-shell>header>div:last-child{min-height:64px}#app-shell>header nav{overflow-x:auto;justify-content:flex-start;padding-bottom:3px}#catalog-start>div>div:last-child{flex-wrap:wrap}#catalog-start>div>div:last-child>div{width:100%}#app-shell>header>div:first-child{font-size:10px}#product-view .thumb-btn{min-width:60px}}
+@media(max-width:767px){.dialog-card{padding:28px 22px}.name-row{grid-template-columns:1fr}.overlay{padding:16px 12px 80px}.otp-row{gap:6px}#related-products{grid-template-columns:1fr}#mock-panel{max-height:45dvh}#app-shell>header>div:last-child{min-height:64px}#app-shell>header nav{overflow-x:auto;justify-content:flex-start;padding-bottom:3px}#app-shell>header>div:first-child{font-size:10px}#product-view .thumb-btn{min-width:60px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
 
 #category-tabs .cat-pill span[id^="count-"]{color:#4b4541;background:#eee9e4;opacity:1}
 
 #category-tabs .cat-pill span[id^="count-"]{color:#4b4541;background:#eee9e4;opacity:1}
+
+/* Collapsible policy page. */
+.commerce-view.terms-view{max-width:992px}
+.terms-heading{margin-bottom:24px}
+.terms-heading h1{font:500 28px/1.3 'Playfair Display',serif;margin:0 0 10px}
+.terms-heading p{font-size:14px;line-height:1.7;color:var(--muted);margin:0;max-width:720px}
+.terms-sections{display:grid;gap:12px}
+.terms-view .terms-section{margin-top:0;padding-top:0}
+.terms-section{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow-wrap:anywhere;scroll-margin-top:110px}
+.terms-section summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;list-style:none;border-radius:var(--radius)}
+.terms-section summary::-webkit-details-marker{display:none}
+.terms-section summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);flex-shrink:0;margin:0 3px 4px}
+.terms-section[open] summary::after{transform:rotate(225deg);margin-top:6px}
+.terms-section summary:hover{background:var(--canvas)}
+.terms-section summary h2{font:600 15px/1.5 'Plus Jakarta Sans',sans-serif;margin:0}
+.terms-section-content{border-top:1px solid var(--line);padding:18px 20px;font-size:14px;line-height:1.75}
+.terms-section-content h3{font-size:14px;line-height:1.5;font-weight:600;margin:22px 0 10px}
+.terms-section-content>:first-child{margin-top:0}
+.terms-section-content>:last-child{margin-bottom:0}
+.terms-section-content p{margin:0 0 14px}
+.terms-section-content ul,.terms-section-content ol{padding-left:22px;margin:10px 0 18px}
+.terms-section-content ul{list-style:disc}
+.terms-section-content ol{list-style:decimal}
+.terms-section-content li{padding-left:3px;margin:5px 0}
+@media(max-width:600px){.terms-heading h1{font-size:25px}.terms-section summary{padding:14px 16px}.terms-section-content{padding:16px}}
+
+#variantSection .variant-option{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;padding:9px 12px;min-width:0}
+#variantSection .variant-option strong{font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+#variantSection .variant-option>span:not(.material-symbols-outlined){font-size:13px;white-space:nowrap}
+#variantSection .variant-option>.material-symbols-outlined{font-size:18px}
+#product-view .product-subscribe-button{min-height:40px;padding:8px 14px;font-size:13px;color:var(--accent);border-color:var(--accent)}
+@media(max-width:480px){#variantSection>div{grid-template-columns:1fr;gap:8px}}
+
+/* Compact, consistently grouped preview controls. */
+#mock-controls{width:min(350px,calc(100vw - 32px))}
+#mock-panel{padding:14px;max-height:70dvh}
+#mock-panel>strong{font-size:13px}
+#mock-panel>p{font-size:11px;line-height:1.5;margin:5px 0 12px}
+#mock-panel .mock-group{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+#mock-panel .mock-group h3,#mock-panel .mock-jumps summary{font-size:12px;font-weight:600;margin:0 0 8px;width:100%}
+#mock-panel .mock-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#mock-panel .mock-fields h3{grid-column:1/-1;margin-bottom:0}
+#mock-panel .mock-field{min-width:0}
+#mock-panel label{margin:0 0 4px;font-size:11px;line-height:1.4;text-transform:none;letter-spacing:normal}
+#mock-panel select{height:30px;min-height:30px;font-size:11px;padding:4px 22px 4px 7px}
+#mock-panel .mock-actions{gap:6px;justify-content:flex-start}
+#mock-panel .mock-actions button{flex:0 1 auto;width:auto;min-height:28px;padding:5px 8px;font-size:11px;line-height:1.4;margin:0}
+#mock-panel .mock-jumps .mock-actions{margin-top:8px;gap:8px 12px;font-size:11px}
+@media(max-width:380px){#mock-panel .mock-fields{grid-template-columns:1fr}}

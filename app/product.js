@@ -14,21 +14,17 @@ const current=()=>A.products.find(p=>p.id===S.id);
 const price=()=>A.variant(S.id,S.variant)?.price||0;
 function updatePricing(){
  const base=price(),total=base*S.quantity;
- $('productPriceDisplay').textContent='₱'+base;$('subtotalDisplay').textContent='₱'+(S.purchase==='subscription'?total*4:total);
- $('subtotalDisplay').previousElementSibling.textContent=S.purchase==='subscription'?'Products (4 deliveries)':'Item Subtotal';
- $('qtyCounter').parentElement.firstElementChild.textContent=S.purchase==='subscription'?'Qty / delivery':'Quantity';
+ $('productPriceDisplay').textContent='₱'+base;$('subtotalDisplay').textContent='₱'+total;
+ $('subtotalDisplay').previousElementSibling.textContent='Item Subtotal';
+ $('qtyCounter').parentElement.firstElementChild.textContent='Quantity';
  if($('btnPriceAmount'))$('btnPriceAmount').textContent='₱'+total;
  $('qtyCounter').textContent=S.quantity;
  $('productWeightBadge').textContent=A.variant(S.id,S.variant)?.label||current().variant;
  document.querySelector('[onclick="adjustQty(-1)"]').disabled=S.quantity<=1;
  document.querySelector('[onclick="adjustQty(1)"]').disabled=S.quantity>=10;
- if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required,S.purchase==='subscription'?A.subscriptions.pending()?.id:undefined);$('addToCartBtn').disabled=!S.available||!A.inventory.productAvailable(S.id,S.variant)||!!shortage||(S.purchase==='subscription'&&A.subscriptions.offering(S.id)!=='available');$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
+ if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required);$('addToCartBtn').disabled=!S.available||!A.inventory.productAvailable(S.id,S.variant)||!!shortage;$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
 }
-function setPurchase(mode){
- S.purchase=mode;
- document.querySelectorAll('[data-purchase]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.purchase===mode));
- setAvailability(S.available);
-}
+
 function selectVariant(type){
  S.variant=type;
  document.querySelectorAll('#variantSection [data-variant-id]').forEach(b=>{const selected=b.dataset.variantId===type;b.style.borderColor=selected?'#8d4a14':'transparent';b.setAttribute('aria-pressed',selected);b.querySelector('.material-symbols-outlined').textContent=selected?'check_circle':'radio_button_unchecked';});
@@ -43,7 +39,6 @@ function setAvailability(value){
  S.available=value;$('addToCartBtn').disabled=!value;
  $('productBadgeAvailability').textContent=value?'Available':'Temporarily unavailable';
  $('addToCartBtn').innerHTML=value?'<span class="material-symbols-outlined">shopping_bag</span><span>Add to Cart</span>':'Currently Sold Out';
- if(S.purchase==='subscription'){$('addToCartBtn').disabled=A.subscriptions?.offering(S.id)!=='available';$('addToCartBtn').innerHTML='<span>Configure 4-Week Subscription →</span>'; }
  updatePricing();
 }
 function simulateAvailability(value){
@@ -70,7 +65,6 @@ function eligibility(){
 }
 function setEligibility(mode){S.elig=mode;if(mode!=='reviewed')S.submitted.delete(S.reviewKey??S.id);eligibility();A.inspector?.();}
 function handleAddToCart(){
- if(S.purchase==='subscription'){if(A.subscriptions.begin(S.id,S.variant,S.quantity))location.hash='#/subscription/configure';return;}
  if(!S.available)return;
  if(A.auth!=='signedin'){A.context='protected';A.returnRoute=location.hash;location.hash='#/sign-in';return;}
  A.commerce.add(S.id,S.variant,S.quantity);
@@ -113,7 +107,7 @@ function handleReviewSubmit(){
 function previewCustomerPhoto(el){const img=el.querySelector('img');if(img){$('photo-preview-image').src=img.src;$('photo-preview-image').alt=img.alt;A.openModal('photo-modal');}}
 function show(id){
  const item=A.products.find(p=>p.id===id);if(!item){setPageState('notfound');return;}
- pending++;S.id=id;S.reviewKey=id;S.purchase='once';S.quantity=1;S.variant='standard';S.type=item.variants.length>1?'multi':'single';S.available=item.available;
+ pending++;S.id=id;S.reviewKey=id;S.quantity=1;S.variant='standard';S.type=item.variants.length>1?'multi':'single';S.available=item.available;
  $('mainProductContent').querySelector('h1').textContent=item.name;
  $('product-breadcrumb-name').textContent=item.name;$('product-breadcrumb-category').textContent=item.categoryLabel;
  $('product-category').textContent=item.categoryLabel;
@@ -121,22 +115,20 @@ function show(id){
  $('mainProductImg').src=item.image;$('mainProductImg').alt=item.name;
  $('product-gallery').innerHTML=id===1?original.gallery:'';
  $('product-rating-link').hidden=id!==1;
- $('product-subscription').hidden=!item.subscription;
- $('product-subscription').querySelector('p').textContent='Receive this product once a week for four deliveries. Paid in full upfront, with no automatic renewal. Delivery fees are added during setup.';
  $('product-subscription-badge').hidden=!item.subscription;
+ $('subscribeToProductBtn').hidden=!item.subscription;
+ $('subscribeToProductBtn').disabled=A.subscriptions.offering(S.id)!=='available';
  $('reviewsPopulatedState').innerHTML=id===1?original.reviews:'<p class="alert">No review content is provided for this product in the source mockups.</p>';
  $('review-summary').innerHTML=original.summary;
- $('purchase-options').hidden=!item.subscription;setPurchase('once');setProductType(S.type);setAvailability(item.available);setPageState('normal');setReviewState(id===1?'populated':'empty');eligibility();
+ setProductType(S.type);setAvailability(item.available);setPageState('normal');setReviewState(id===1?'populated':'empty');eligibility();
  $('related-products').innerHTML=A.products.filter(p=>p.id!==id&&p.category===item.category).slice(0,3).map(A.catalog.card).join('');
  document.querySelectorAll('#reviewsPopulatedState [onclick]').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','Preview customer photo');});
 }
 Object.assign(window,{updatePricing,selectVariant,adjustQty,switchProductThumb,setAvailability,setProductType,setPageState,setReviewState,setEligibility,handleAddToCart,openReviewModal,closeReviewModal,setModalStarRating,toggleMockPhoto,handleReviewSubmit,previewCustomerPhoto});
-A.product={show,state:S,setPurchase,eligibility,setPageState,setReviewState,setEligibility,setProductType,setAvailability:simulateAvailability};
+A.product={show,state:S,eligibility,setPageState,setReviewState,setEligibility,setProductType,setAvailability:simulateAvailability};
 document.querySelectorAll('#slotPhoto1,#slotPhoto2').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}}));
 document.addEventListener('keydown',e=>{if(e.target.matches('#reviewsPopulatedState [role=button]')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.target.click();}});
-const options=document.createElement('div');options.id='purchase-options';options.className='purchase-options';options.innerHTML='<button type="button" class="btn" data-purchase="once" aria-pressed="true">Buy Once</button><button type="button" class="btn" data-purchase="subscription" aria-pressed="false">4-Week Subscription</button>';$('variantSection').before(options);
-options.addEventListener('click',e=>{if(e.target.dataset.purchase)setPurchase(e.target.dataset.purchase);});
-const subscriptionLink=$('product-subscription').querySelector('a');subscriptionLink.removeAttribute('data-path');subscriptionLink.href='#';subscriptionLink.textContent='Configure 4-Week Subscription →';subscriptionLink.addEventListener('click',e=>{e.preventDefault();if(A.subscriptions.begin(S.id,S.variant,S.quantity))location.hash='#/subscription/configure';});
+$('subscribeToProductBtn').addEventListener('click',()=>{if(A.subscriptions.begin(S.id,S.variant,S.quantity))location.hash='#/subscription/configure';});
 $('reviewCommentInput').addEventListener('input',e=>e.target.setCustomValidity(''));
 renderPhotoSlots();
 })();

@@ -73,13 +73,11 @@
       // Render product card HTML
       function createProductCard(item) {
         const isUnavailable = !item.available;
-        const availabilityBadge = isUnavailable
+        const badge = isUnavailable
           ? `<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Temporarily unavailable</span>`
-          : `<span class="bg-surface/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded border border-surface-container">Available</span>`;
-
-        const subscriptionBadge = item.subscription
-          ? `<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Available for subscription</span>`
-          : '';
+          : item.subscription
+            ? `<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Available for subscription</span>`
+            : '';
 
         const cardOpacity = isUnavailable ? 'opacity-85' : '';
         const imgFilter = isUnavailable ? 'filter grayscale-[25%] contrast-90' : 'group-hover:scale-105';
@@ -91,19 +89,13 @@
             <div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
               <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-500 ease-out ${imgFilter}" loading="lazy"/>
               
-              <!-- Badges -->
-              <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start">
-                ${isUnavailable ? availabilityBadge : subscriptionBadge}
-              </div>
-
-              ${!isUnavailable ? `<div class="absolute bottom-2.5 right-2.5">${availabilityBadge}</div>` : ''}
+              ${badge ? `<div class="absolute top-2.5 left-2.5">${badge}</div>` : ''}
             </div>
 
             <div class="p-4 flex flex-col flex-1 justify-between">
               <div>
                 <div class="flex items-center justify-between gap-2 mb-1">
                   <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${item.categoryLabel}</span>
-                  <span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">${item.variant}</span>
                 </div>
                 <h3 class="font-title-md text-title-md ${titleClass} transition-colors">
                   <a href="#/product/${item.id}">${item.name}</a>
@@ -115,8 +107,7 @@
 
               <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between">
                 <div class="flex flex-col">
-                  <span class="font-label-sm text-label-sm text-outline">Price</span>
-                  <span class="font-price-md text-price-md ${priceClass}">${item.price}</span>
+                  <span class="font-price-md text-price-md ${priceClass}">${item.price.replace(/^From\s+/i, '')}</span>
                 </div>
                 <a href="#/product/${item.id}" class="inline-flex items-center gap-1 font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors group-hover:translate-x-0.5 transform duration-200">
                   <span>View product</span>

@@ -167,4 +167,6 @@ Scripts save screenshots in this directory. Their file URLs are derived from the
 
 The scripts select a Chrome page target explicitly, avoiding extension background pages. They change only the in-memory demo and screenshot artifacts. Start with a fresh page when manually testing: browser reload resets all prototype data.
 
-Google Maps address checks: `node verification/address-map-browser.cjs` uses the local Chrome debugging session on port 9222 and stubbed Google APIs to verify missing configuration, lookup races, drag/search results, optional fields, default-address changes, editing/cancellation, and review readiness. Real Google API calls require the browser key and map ID from `app/maps-config.js`.
+Google Maps address checks use stubbed Google APIs. Run `node verification/address-map-browser.cjs` with a local Chrome debugging session on port 9222 to verify missing configuration, lookup races, drag/search results, optional fields, default-address changes, editing/cancellation, and review readiness.
+
+For live maps, put the browser key in `GOOGLE_MAPS_API_KEY` in the root `.env` file. Run `node serve.cjs` with Node.js 20.12 or later and open `http://127.0.0.1:4173/`. Restart the server after changing the key. In Google Cloud, authorize `http://127.0.0.1:4173/*` as a website referrer and allow Maps JavaScript API, Geocoding API, and Places API (New). The local server supplies the key only to the browser’s map configuration.

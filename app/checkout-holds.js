@@ -4,7 +4,7 @@ const A=K406,C=A.commerce,B=A.subscriptions,K=A.cakes;
 const H=A.checkoutHolds={records:new Map(),serial:0};
 H.get=attempt=>{const hold=H.records.get(attempt?.hold_id);if(hold?.status==='active'&&hold.expires_at<=Date.now()){hold.status='expired';hold.expired_at=Date.now();}return hold;};
 H.ensure=o=>{const attempt=o.attempts?.at(-1);if(!attempt)return null;let hold=H.get(attempt);if(hold)return hold;
- const id='CHECKOUT-'+(++H.serial),at=Date.now();hold={id,order_id:o.id,status:'active',created_at:at,expires_at:o.deadline||at+600000};H.records.set(id,hold);
+ const id='CHECKOUT-'+(++H.serial),at=Date.now();hold={id,order_id:o.id,status:'active',created_at:at,expires_at:o.deadline||at+C.paymentSessionMs};H.records.set(id,hold);
  Object.assign(attempt,{hold_id:id,created_at:attempt.created_at||at,amount:attempt.amount??o.total??o.snapshot?.total,reference:attempt.reference||o.reference||id});return H.get(attempt);
 };
 H.active=o=>H.get(o.attempts?.at(-1))?.status==='active';

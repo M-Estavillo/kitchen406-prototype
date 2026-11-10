@@ -4,7 +4,14 @@ const A=K406,C=A.commerce;
 const I=A.inventory={items:[],requirements:new Map(),requirementRows:new Map(),reservationHistory:[],reservations:new Map(),movements:[],operations:new Set(),changeResults:new Map(),serial:0,holdSerial:0};
 const seed=[['flour','Bread flour','g',50000,2000],['butter','Unsalted butter','g',5000,1000],['cocoa','Cocoa','g',5000,500],['vanilla','Vanilla','g',1000,100],['tint','Food coloring','g',100,10],['water','Water','ml',20000,2000],['sugar','Sugar','g',10000,1000],['yeast','Yeast','g',1000,100],['salt','Salt','g',1000,100],['milk','Milk','ml',10000,1000],['box','Packaging','pcs',200,20]];
 seed.push(...[['egg','Egg','g'],['cardamom','Cardamom','g'],['ube','Ube','g'],['oil','Olive oil','ml'],['rosemary','Rosemary','g'],['honey','Honey','g'],['herbs','Herbs','g'],['cinnamon','Cinnamon','g'],['banana','Banana','g'],['walnut','Walnuts','g'],['olive','Olives','g'],['almond','Almonds','g'],['garlic','Garlic','g'],['cream','Cream','ml']].map(([id,name,unit])=>[id,name,unit,5000,250]));
-I.reset=()=>{I.items=seed.map(([id,name,unit,stock,threshold])=>({id,name,unit,stock,threshold,opening:stock}));I.requirements.clear();I.requirementRows.clear();I.reservationHistory=[];I.reservations.clear();I.movements=[];I.operations.clear();I.changeResults.clear();I.serial=0;I.holdSerial=0;};I.reset();
+// Illustrative demo costs in PHP per gram, milliliter, or piece.
+const demoCosts={
+ flour:0.082,butter:0.58,cocoa:0.78,vanilla:1.2,tint:1.6,water:0.002,
+ sugar:0.09,yeast:0.64,salt:0.035,milk:0.105,box:14,egg:0.19,
+ cardamom:2.4,ube:0.23,oil:0.49,rosemary:1.5,honey:0.48,herbs:0.95,
+ cinnamon:0.85,banana:0.08,walnut:0.95,olive:0.42,almond:0.69,garlic:0.16,cream:0.28
+};
+I.reset=()=>{I.items=seed.map(([id,name,unit,stock,threshold])=>({id,name,unit,stock,threshold,opening:stock,cost:demoCosts[id]}));I.requirements.clear();I.requirementRows.clear();I.reservationHistory=[];I.reservations.clear();I.movements=[];I.operations.clear();I.changeResults.clear();I.serial=0;I.holdSerial=0;};I.reset();
 I.item=id=>I.items.find(i=>i.id===id);
 I.stockUnits=unit=>[unit,...(unit==='g'?['kg']:unit==='ml'?['l']:[])];
 I.allOrders=()=>{const map=new Map();for(const o of [...[...A.account.buckets.values()].flatMap(b=>b.commerce?.orders||[]),...C.state.orders])map.set(o.id,o);return [...map.values()];};
@@ -58,7 +65,7 @@ I.reserve=(o,confirmed=false)=>{
  A.checkoutHolds?.ensure(o);
  if(existing&&I.active(existing)){existing.status=confirmed?'confirmed':existing.status;existing.rows.forEach(row=>row.status=existing.status);I.notify();return '';}
  if(existing?.status==='held')I.closeReservation(existing,'expired');
- const holdId='IH-'+(++I.holdSerial),status=confirmed?'confirmed':'held',expires=o.deadline||Date.now()+600000;
+ const holdId='IH-'+(++I.holdSerial),status=confirmed?'confirmed':'held',expires=o.deadline||Date.now()+C.paymentSessionMs;
  const rows=Object.entries(materials).map(([id,quantity])=>({reservation_id:holdId+':'+id,requirement_id:o.id+':'+id,hold_id:holdId,quantity,status,expires_at:expires,created_at:Date.now()}));
  I.reservationHistory.push(...rows);I.reservations.set(o.id,{orderId:o.id,holdId,materials:{...materials},status,expires,rows});const checkout=A.checkoutHolds?.get(o.attempts?.at(-1));if(checkout){rows.forEach(row=>row.checkout_hold_id=checkout.id);const recovery=checkout.status!=='active'&&checkout.status!=='confirmed';if(recovery)rows.forEach(row=>row.recovery_for_hold_id=checkout.id);}I.notify();return '';
 };

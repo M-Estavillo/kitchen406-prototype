@@ -96,7 +96,7 @@ K.quoteReason=q=>{
 };
 K.reserve=(o,q)=>{
  const reason=K.quoteReason(q)||K.dateReason(q.snapshot.date,o.id)||K.materialReason(q.materials,o.id);if(reason)return reason;
- K.release(o.id);const expires=Math.min(Date.now()+600000,q.expires_at);
+ K.release(o.id);const expires=Math.min(Date.now()+C.paymentSessionMs,q.expires_at);
  const hold={id:'HOLD-'+(++S.serial),orderId:o.id,date:q.snapshot.date,materials:C.copy(q.materials),status:'held',expires_at:expires};K.holds.push(hold);o.holdId=hold.id;o.deadline=expires;
  o.attempts.push({holdId:hold.id,state:'waiting',at:new Date().toLocaleString()});return '';
 };

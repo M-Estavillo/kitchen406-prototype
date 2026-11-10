@@ -57,7 +57,7 @@ document.addEventListener('click',e=>{
  if(action==='sample-cart')C.sampleCart();
  if(action==='sample-orders'){C.sampleOrders();M.page='normal';A.toast('Sample order history loaded.');}
  if(action==='payment-preview'){
-  const source=C.currentOrder();if(source&&!source.prepaid&&!source.quotationId){const o=C.copy(source);o.id='K406-PREVIEW-'+(++S.serial);o.fixture=true;o.status='pending-payment';o.payment='waiting';o.paid=false;delete o.paidAt;o.deadline=Date.now()+600000;o.reference='DEMO-QR-'+S.serial;o.attempts=[{state:'waiting',at:'Fresh preview'}];o.activity=[{text:'Payment preview created',at:new Date().toLocaleString()}];S.orders.unshift(o);location.hash='#/payment/'+o.id;}
+  const source=C.currentOrder();if(source&&!source.prepaid&&!source.quotationId){const o=C.copy(source);o.id='K406-PREVIEW-'+(++S.serial);o.fixture=true;o.status='pending-payment';o.payment='waiting';o.paid=false;delete o.paidAt;o.deadline=Date.now()+C.paymentSessionMs;o.reference='DEMO-QR-'+S.serial;o.attempts=[{state:'waiting',at:'Fresh preview'}];o.activity=[{text:'Payment preview created',at:new Date().toLocaleString()}];S.orders.unshift(o);location.hash='#/payment/'+o.id;}
  }
  if(action==='empty-addresses'&&C.change()){S.addresses=[];S.draft.addressId='';}
  if(action==='missing-method'){S.draft.method='';C.checkout.message='Please select a fulfillment method.';}

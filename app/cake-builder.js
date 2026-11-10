@@ -1,7 +1,30 @@
 (() => {
 const A=K406,K=A.cakes,S=K.state,T=A.cakeData,C=A.commerce,U=C.ui,V=A.phase4,E=A.escape;
 const B=K.builder={busy:false,uploadError:'',tokens:[0,0,0]};
-B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}${U.link('cake-requests','My cake requests')}</div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add your reference photos.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>`;
+const cakeReviews=[
+ {name:'Mika S.',photo:'Pink buttercream cake with cherries',quote:'The vintage piping was lovely, and the cake tasted as good as it looked. It was the highlight of our birthday table.'},
+ {name:'Paolo R.',photo:'Ivory buttercream cake with lavender flowers',quote:'The little lavender flowers matched our celebration perfectly. The bakery made the whole process easy, from the first sketch to pickup.'},
+ {name:'Jenna L.',photo:'Chocolate cake with curls and gold accents',quote:'The chocolate cake was rich without being too sweet. Everyone asked for another slice, and the gold details looked beautiful in photos.'},
+ {name:'Ana M.',photo:'Lemon yellow cake with piped daisies',quote:'The daisies were even prettier in person. The lemon cake was light and fresh, and our guests loved it.'},
+ {name:'Luis D.',photo:'Pale blue cake with clouds and white stars',quote:'The clouds and stars were perfect for our baby shower. The cake was ready right on time and tasted wonderful.'}
+];
+function reviewCards(){
+ return cakeReviews.map((review,index)=>{
+  return `<article class="cake-review-card">
+   <div class="cake-review-photo cake-review-photo-${index}" role="img" aria-label="${E(review.photo)}"></div>
+   <div class="cake-review-copy"><div class="cake-review-person"><span class="cake-review-avatar" aria-hidden="true"><span class="material-symbols-outlined">person</span></span><h3>${E(review.name)}</h3></div>
+   <blockquote>${E(review.quote)}</blockquote></div>
+  </article>`;
+ }).join('');
+}
+function cakeReviewSection(){
+ return `<section id="cake-reviews" class="cake-reviews" aria-labelledby="cake-reviews-title" tabindex="-1">
+  <h2 id="cake-reviews-title">Custom cake reviews</h2><p>Sample reviews and cake photos for this preview.</p>
+  <div class="cake-review-stage">${reviewCards()}</div>
+  <div class="cake-review-cta">${V.button('cake-start','Create my custom cake',false,'',true)}</div>
+ </section>`;
+}
+B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}<a class="btn" href="#cake-reviews">See cake reviews</a></div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add your reference photos.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>${cakeReviewSection()}`;
 B.summary=()=>{
  const d=S.draft,estimate=K.estimate();
  return U.panel('Your cake request',`<dl class="cake-summary"><div><dt>Requested Date</dt><dd>${d.date?U.date(d.date):'Choose a requested date'}</dd></div>${T.categories.map(type=>`<div><dt>${E(type)}</dt><dd>${E(K.selected().find(o=>o.type===type)?.name||'Not selected')}</dd></div>`).join('')}</dl><dl class="commerce-totals"><div><dt>Cake options</dt><dd>${K.money(estimate.base)}</dd></div><div><dt>Add-ons</dt><dd>${K.money(estimate.extra)}</dd></div><div class="grand-total"><dt>Preliminary estimate</dt><dd>${estimate.complete?K.money(estimate.total):'—'}</dd></div></dl><p class="muted">The owner confirms the final price, design charges, and delivery fee after review.</p>`);
