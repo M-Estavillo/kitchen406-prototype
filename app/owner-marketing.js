@@ -3,20 +3,46 @@
 const A=K406,V=A.ownerUI,E=A.escape,O=A.owner,M=A.marketing;
 const categories=['New Product','Product Highlight','Subscription Availability','Seasonal Occasions'];
 const button=(action,label,id)=>V.button('marketing-'+action,label,`data-id="${E(id||'')}"`);
-const image=d=>`<a href="${E(d.image)}" target="_blank" rel="noopener"><img class="owner-marketing-image" src="${E(d.image)}" alt="${E(d.related)} promotional preview"></a>`;
+const editable=d=>['pending','incomplete'].includes(d.status);
+const regenerateIcon=(d,kind)=>editable(d)?`<button type="button" class="owner-regenerate-icon" data-owner="marketing-regenerate-${kind}" data-id="${E(d.id)}" aria-label="Regenerate ${kind}" title="Regenerate ${kind}" ${d.busy?'disabled':''}><span class="material-symbols-outlined" aria-hidden="true">refresh</span></button>`:'';
+const image=d=>`<div class="owner-marketing-image-container">${d.imageFailed?`<div class="owner-marketing-image-failed"><p>Image generation failed</p>${V.button('marketing-image-retry',d.busy?'Retrying…':'Retry',`data-id="${E(d.id)}" ${d.busy?'disabled':''}`,true)}</div>`:`<a href="${E(d.image)}" target="_blank" rel="noopener"><img class="owner-marketing-card-image ${d.regenerations%2?'owner-marketing-photo-close':d.regenerations?'owner-marketing-photo-wide':''}" src="${E(d.image)}" alt="${E(d.related)} promotional preview"></a>${regenerateIcon(d,'image')}`}</div>`;
+const caption=d=>`<div class="owner-marketing-caption"><span>Caption</span><div class="owner-marketing-caption-container"><p>${E(d.caption)}</p>${regenerateIcon(d,'caption')}</div></div>`;
+async function regenerate(d,kind){
+ if(d.busy||!editable(d))return;
+ d.busy=true;
+ const generation=A.session.generation,version=d.version;
+ O.render();
+ await new Promise(resolve=>setTimeout(resolve,350));
+ if(!A.session.ownerAllowed()||generation!==A.session.generation||!editable(d)||version!==d.version){d.busy=false;return;}
+ if(O.saveError||kind==='image'&&M.imageFailure){
+  if(kind==='image'){d.imageFailed=true;d.status='incomplete';d.version++;}
+  A.toast('Regeneration failed. Please retry.');
+ }else{
+  if(kind==='image'){
+   d.image=A.products.find(p=>p.id===d.productId)?.image||'assets/custom-cake.png';
+   d.regenerations++;d.imageFailed=false;d.status='pending';
+  }else{
+   d.captionRegenerations=(d.captionRegenerations||0)+1;
+   d.caption=(d.captionRegenerations%2?'Make room for something delicious. ':'Bring a little bakery joy to your day. ')+d.related+' from Kitchen406. '+(A.products.find(p=>p.id===d.productId)?.description||d.category);
+   d.edited=false;
+  }
+  d.version++;A.toast(kind==='image'?'Image regenerated.':'Caption regenerated.');
+ }
+ d.busy=false;O.render();
+}
 A.ownerPages.marketing=()=>{
  const id=O.parts[2];if(id==='occasions'){location.replace('#/owner/marketing');return '';}
  if(id){const d=M.drafts.find(d=>d.id===id);if(!d)return V.panel('Draft not found','',V.link('marketing','Back to drafts'));const p=A.products.find(p=>p.id===d.productId),warning=p&&(p.active===false||!p.available||d.category==='Subscription Availability'&&!M.slots(p).length);
- return V.intro(d.id,d.category,V.link('marketing','Back to drafts'))+V.panel(d.related,`${warning?'<p class="staff-note">This offering is currently unavailable. Check the caption before approval.</p>':''}${image(d)}<p class="owner-caption">${E(d.caption)}</p><p>${V.badge(d.status)} &middot; ${E(V.stamp(d.created))}</p><p>Trigger: ${E(d.eventKey)}</p><p>Caption edited: ${d.edited?'Yes':'No'} &middot; Image regenerations: ${d.regenerations}</p><p>Reviewed by: ${E(d.reviewer||'Pending review')}</p><div class="staff-actions">${d.status==='pending'?button('edit','Edit caption',id)+button('image','Regenerate image',id)+button('approve','Approve',id)+button('reject','Reject',id):d.status==='approved'?button('copy','Copy caption',id):''}</div>${d.status==='approved'?'<p>Publication to Facebook is manual. Copy the caption and open the image to save it.</p>':''}`);
+ return V.intro(d.id,d.category,V.link('marketing','Back to drafts'))+V.panel(d.related,`${warning?'<p class="staff-note">This offering is currently unavailable. Check the caption before approval.</p>':''}${image(d)}${caption(d)}<p>${V.badge(d.status)} &middot; ${E(V.stamp(d.created))}</p><p>Trigger: ${E(d.eventKey)}</p><p>Caption edited: ${d.edited?'Yes':'No'} &middot; Image regenerations: ${d.regenerations}</p><p>Reviewed by: ${E(d.reviewer||'Pending review')}</p><div class="staff-actions">${d.status==='pending'?button('edit','Edit caption',id)+button('approve','Approve',id)+button('reject','Reject',id):d.status==='approved'?button('copy','Copy caption',id):''}</div>${d.status==='approved'?'<p>Publication to Facebook is manual. Copy the caption and open the image to save it.</p>':''}`);
  }
  // Search is intentionally absent on this owner screen, including cached queries.
- let rows=V.filtered(M.drafts,null,d=>V.businessDate(d.created),d=>d.status,{dateRange:false});if(O.filters.category&&O.filters.category!=='all')rows=rows.filter(d=>d.category===O.filters.category);
- const filters=V.compactFilters('',V.select('type','Status',[['all','All statuses'],['pending','Pending'],['approved','Approved'],['rejected','Rejected']],O.filters.type)+V.select('category','Category',[['all','All categories'],...categories.map(c=>[c,c])],O.filters.category||'all'),'owner-marketing-filters',{dateRange:false});
+ let rows=V.filtered(M.drafts,null,d=>V.businessDate(d.created),d=>d.status==='incomplete'&&O.filters.type==='pending'?'pending':d.status,{dateRange:false});if(O.filters.category&&O.filters.category!=='all')rows=rows.filter(d=>d.category===O.filters.category);
+ const filters=V.compactFilters('',V.select('type','Status',[['all','All statuses'],['pending','Pending / Incomplete'],['incomplete','Incomplete'],['approved','Approved'],['rejected','Rejected']],O.filters.type)+V.select('category','Category',[['all','All categories'],...categories.map(c=>[c,c])],O.filters.category||'all'),'owner-marketing-filters',{dateRange:false});
  return V.intro('Marketing Drafts','Review promotional content before manual publication.')+filters.replace(/<button([^>]*data-owner="clear-filters"[\s\S]*?)<\/button>/, '<div class="owner-marketing-filter-actions"><button$1</button>'+V.button('marketing-occasions','Seasonal occasions','',true)+'</div>')+V.paged(rows,rs=>rs.length?`<div class="owner-marketing-grid">${rs.map(card).join('')}</div>`:V.panel('No drafts found','<p>Try a different filter or clear filters to see all marketing drafts.</p>'),true,2);
 
 };
 function actions(d){return d.status==='pending'?V.button('marketing-approve','Approve',`data-id="${E(d.id)}"`,true)+button('edit','Edit',d.id)+button('reject','Reject',d.id):d.status==='approved'?button('copy','Copy caption',d.id)+button('download','Download image',d.id):'';}
-function card(d){return `<article class="owner-marketing-card" aria-label="${E(d.related)} draft"><div class="owner-marketing-card-heading"><span class="order-badge owner-marketing-status ${E(d.status)}">${d.status==='pending'?'Pending review':d.status==='approved'?'Approved':'Rejected'}</span><span class="owner-marketing-category">${E(d.category)}</span></div><h2>${E(d.related)}</h2><p class="owner-marketing-meta">${E(d.id)} &middot; Generated ${E(V.date(V.businessDate(d.created)))}</p><div class="owner-marketing-caption"><span>Caption${d.status==='pending'?' &middot; editable via Edit':''}</span><p>${E(d.caption)}</p></div><img class="owner-marketing-card-image" src="${E(d.image)}" alt="${E(d.related)} promotional image"><div class="owner-marketing-card-actions">${actions(d)}</div></article>`;}
+function card(d){return `<article class="owner-marketing-card" aria-label="${E(d.related)} draft"><div class="owner-marketing-card-heading"><span class="order-badge owner-marketing-status ${E(d.status)}">${d.status==='pending'?'Pending review':d.status==='approved'?'Approved':d.status==='incomplete'?'Incomplete':'Rejected'}</span><span class="owner-marketing-category">${E(d.category)}</span></div><h2>${E(d.related)}</h2><p class="owner-marketing-meta">${E(d.id)} &middot; Generated ${E(V.date(V.businessDate(d.created)))}</p>${caption(d)}${image(d)}<div class="owner-marketing-card-actions">${actions(d)}</div></article>`;}
 function occasions(){O.open('Seasonal occasions',`<div class="owner-marketing-occasions"><p class="muted">Manage occasions used for seasonal marketing drafts.</p><div class="owner-marketing-occasion-list">${M.occasions.length?M.occasions.map(r=>`<article><div><div class="owner-marketing-occasion-heading"><strong>${E(r.name)}</strong>${V.badge(r.active?'active':'inactive')}</div><p>${V.date(r.start)} &ndash; ${V.date(r.end)}</p></div>${button('occasion','Edit',r.id)}</article>`).join(''):'<p class="staff-note">No occasions yet. Add an occasion and its date range to get started.</p>'}</div><div class="staff-actions">${V.button('discard-modal','Close')}${V.button('marketing-occasion','Add occasion','',true)}</div></div>`);}
 function form(kind,id,body,version=0){return `<form data-marketing-form="${kind}" data-id="${E(id)}" data-version="${version}" class="staff-form">${body}${V.error()}<div class="staff-actions">${V.button(kind==='occasion'?'marketing-occasion-cancel':'discard-modal','Cancel')}<button class="btn primary">${kind==='caption'?'Save caption':kind==='occasion'?'Save occasion':kind==='approved'?'Approve post':'Reject post'}</button></div></form>`;}
 // Marketing edits are temporary until saved; dismissal always discards them.
@@ -38,20 +64,26 @@ document.addEventListener('click',async e=>{
    const link=document.createElement('a');link.href=url;link.download=d.id+(d.image.startsWith('data:image/svg')?'.svg':(d.image.match(/\.(png|jpe?g|webp|svg)(?:[?#]|$)/i)?.[0].split(/[?#]/)[0]||'.png'));document.body.append(link);link.click();link.remove();if(blobUrl)setTimeout(()=>URL.revokeObjectURL(blobUrl),1000);A.toast('Image download started.');
   }catch{A.toast('Image could not be downloaded. Please retry.');}finally{el.disabled=false;}return;
  }
- if(d.status!=='pending')return;
+ if(!editable(d))return;
+ if(action==='marketing-image-retry'){await regenerate(d,'image');return;}
+ if(action==='marketing-regenerate-image'||action==='marketing-regenerate-caption'){
+  const kind=action.endsWith('image')?'image':'caption',version=d.version;
+  O.open('Regenerate '+(kind==='image'?'photo':'caption')+'?',`<div class="owner-order-confirm"><p>Generate a new ${kind==='image'?'photo':'caption'} for <strong>${E(d.related)}</strong>?</p>${V.error()}<div class="owner-order-confirm-actions">${V.button('discard-modal','Cancel')}${V.button('marketing-confirm-regenerate','Regenerate','',true)}</div></div>`);
+  A.$('owner-dialog-body').querySelector('[data-owner=marketing-confirm-regenerate]').addEventListener('click',()=>{
+   if(!A.session.ownerAllowed()||d.version!==version||!editable(d))return;
+   A.closeModal(true);void regenerate(d,kind);
+  });
+  return;
+ }
  if(action==='marketing-edit')O.open('Edit caption',form('caption',d.id,`<div class="field"><label for="draft-caption">Caption</label><textarea id="draft-caption" name="caption" required rows="6">${E(d.caption)}</textarea></div>`,d.version));
  if(['marketing-approve','marketing-reject'].includes(action))O.open(action==='marketing-approve'?'Approve post':'Reject post',form(action==='marketing-approve'?'approved':'rejected',d.id,`<p>${action==='marketing-approve'?'Approve':'Reject'} the draft for <strong>${E(d.related)}</strong>?</p><p class="muted">${action==='marketing-approve'?'The caption and image will be ready to copy and download. Publication to Facebook is manual.':'This draft will be marked as rejected and cannot be edited or approved.'}</p>`,d.version));
- if(action==='marketing-image'){
- if(d.busy)return;d.busy=true;el.disabled=true;const generation=A.session.generation,version=d.version;
- await new Promise(r=>setTimeout(r,350));
- if(A.session.ownerAllowed()&&generation===A.session.generation&&d.status==='pending'&&d.version===version){if(M.imageFailure||O.saveError)A.toast('Image regeneration failed. Please retry.');else{const p=A.products.find(p=>p.id===d.productId);const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="800" height="600" fill="${d.regenerations%2?'#ead8bf':'#f7ead8'}"/><text x="50" y="250" font-size="32" fill="#653b24">Kitchen406</text><text x="50" y="310" font-size="22" fill="#653b24">${E(p?.name||d.related)}</text><text x="50" y="370" font-size="18">Promotional preview ${d.regenerations+1}</text></svg>`;d.image='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);d.regenerations++;d.version++;A.toast('Image regenerated.');}O.render();}d.busy=false;
- }
+
 });
 document.addEventListener('submit',e=>{
  const f=e.target,kind=f.dataset.marketingForm;if(!kind)return;e.preventDefault();if(!A.session.ownerAllowed())return;const data=Object.fromEntries(new FormData(f)),d=M.drafts.find(d=>d.id===f.dataset.id);let error='';
  if(O.saveError)error='Changes could not be saved. Please retry.';
  else if(kind==='occasion'){const r=M.occasions.find(r=>r.id===f.dataset.id);if(r&&r.version!==Number(f.dataset.version))error='Occasion changed. Reopen the form.';else if(!data.name.trim()||!A.schedule.valid(data.start)||!A.schedule.valid(data.end)||data.start>data.end||M.occasions.some(o=>o!==r&&o.name.toLowerCase()===data.name.trim().toLowerCase()&&o.start===data.start))error='Enter a unique occasion and a valid date range.';else{const target=r||{id:crypto.randomUUID(),version:0};Object.assign(target,{name:data.name.trim(),start:data.start,end:data.end,active:data.active==='true',version:target.version+1});if(!r)M.occasions.push(target);}}
- else if(!d||d.status!=='pending'||d.version!==Number(f.dataset.version)||d.busy)error='Draft changed. Reopen the form.';
+ else if(!d||!editable(d)||d.version!==Number(f.dataset.version)||d.busy)error='Draft changed. Reopen the form.';
  else if(kind==='caption'){if(!data.caption.trim())error='Enter a caption.';else{d.caption=data.caption.trim();d.edited=true;d.version++;}}
  else error=M.finalize(d,kind);
  if(error)f.querySelector('.owner-error').textContent=error;else{A.closeModal(true);O.render();if(kind==='occasion')occasions();A.toast('Changes saved.');}

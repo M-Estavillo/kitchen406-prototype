@@ -10,7 +10,7 @@ P.breakdown=(bom,overhead,price)=>{
  for(const [id,quantity] of Object.entries(bom)){
   const cost=I.item(id)?.cost;
   if(!Number.isFinite(cost)||cost<0||!Number.isFinite(quantity)||quantity<=0)return null;
-  if(id==='box')packaging+=quantity*cost;else ingredients+=quantity*cost;
+  if(I.item(id)?.category==='packaging'||id==='box')packaging+=quantity*cost;else ingredients+=quantity*cost;
  }
  const total=ingredients+packaging+overhead;
  return {materials:ingredients+packaging,ingredients,packaging,overhead,total,suggested:Math.round(total*(1+P.markup/100)*100)/100,margin:price>0?(price-total)/price*100:null};

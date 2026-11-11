@@ -1,29 +1,31 @@
 (() => {
 const A=K406,I=A.inventory,P=A.pricing,V=A.ownerUI,E=A.escape;
 const number=n=>Number(n).toLocaleString('en-PH',{maximumFractionDigits:3});
-const unitCost=(cost,unit)=>Number.isFinite(cost)?E(V.unitMoney(cost)+' / '+unit):'—';
+const unitCost=(cost,unit)=>Number.isFinite(cost)?E(V.money(cost)+' / '+unit):'—';
 const stockBadge=i=>`<span class="order-badge owner-stock-${I.available(i.id)<=0?'out':I.available(i.id)<=i.threshold?'low':'available'}">${E(I.status(i))}</span>`;
 const activity=i=>Math.max(0,...I.movements.filter(m=>m.ingredientId===i.id).map(m=>m.at));
 const units=[['g','Grams (g)'],['ml','Milliliters (ml)'],['pcs','Pieces (pcs)']];
-function ingredientDetails(i){
+function ingredientDetails(i,readOnly=false){
+ const detailLink=(path,label)=>readOnly?`<a class="btn" href="#/staff/${E(path)}">${E(label)}</a>`:V.link(path,label);
  const facts=[['Unit',E(i.unit)],['On hand',number(i.stock)],['Reserved',number(I.reserved(i.id))],
   ['Available',number(I.available(i.id))],['Reorder threshold',number(i.threshold)],['Unit cost',unitCost(i.cost,i.unit)]];
- const details=`<section class="commerce-card"><div class="owner-ingredient-name"><h2>${E(i.name)}</h2>${stockBadge(i)}${V.button('cost','Edit',`data-id="${E(i.id)}"`)}</div>
+ const details=`<section class="commerce-card"><div class="owner-ingredient-name"><h2>${E(i.name)}</h2>${stockBadge(i)}${readOnly?'':V.button('cost','Edit',`data-id="${E(i.id)}"`)}</div>
   <dl class="owner-ingredient-facts">${facts.map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl></section>`;
  const movements=I.movements.filter(m=>m.ingredientId===i.id);
  const history=V.panel('Movement history',movements.length?V.table(['Time','Type','Before','Change','After','Unit cost snapshot','Actor','Source'],movements.map(m=>{
   const owner=A.session.owner;
   const actor=m.performed_by_account_id===owner.id||(!m.performed_by_account_id&&m.actor===owner.first_name+' '+owner.last_name)?'Owner':m.actor||'System';
-  const source=m.orderId?V.link('orders/'+encodeURIComponent(m.orderId),m.orderId):'—';
+  const source=m.orderId?detailLink((readOnly?'production/':'orders/')+encodeURIComponent(m.orderId),m.orderId):'—';
   return `<tr><td>${E(V.stamp(m.at))}</td><td>${E(m.type.replaceAll('_',' '))}</td><td>${number(m.before)}</td><td>${m.delta>0?'+':''}${number(m.delta)}</td><td>${number(m.after)}</td><td>${unitCost(m.unit_cost_snapshot,m.unit_cost_snapshot_unit??i.unit)}</td><td>${E(actor)}</td><td>${source}</td></tr>`;
  })): '<p class="muted">No stock movements recorded.</p>');
- return `<div class="owner-ingredient-detail"><div>${V.link('inventory','Back to inventory')}</div>${details}${history}</div>`;
+ return `<div class="owner-ingredient-detail"><div>${detailLink('inventory','Back to inventory')}</div>${details}${history}</div>`;
 }
+A.inventoryDetails=ingredientDetails;
 A.ownerPages.inventory=()=>{
  const selected=I.item(A.owner.parts[2]);
  if(selected)return ingredientDetails(selected);
  const f=A.owner.filters;
- const items=V.filtered(I.items,i=>i.name,i=>activity(i)?V.businessDate(activity(i)):'',i=>i.id==='box'?'packaging':'ingredients')
+ const items=V.filtered(I.items,i=>i.name,i=>activity(i)?V.businessDate(activity(i)):'',i=>(i.category||(i.id==='box'?'packaging':'ingredient'))==='packaging'?'packaging':'ingredients')
   .filter(i=>(!f.stock||f.stock==='all'||(f.stock==='alerts'?I.status(i)!=='Available':I.status(i)===f.stock))&&(!(f.from||f.to)||activity(i)));
  const pills=[['all','All'],['ingredients','Ingredients'],['packaging','Packaging']].map(([type,label])=>
   V.button('inventory-type',label,`data-type="${type}" aria-pressed="${f.type===type}"`)).join('');
@@ -39,8 +41,17 @@ A.ownerPages.inventory=()=>{
  return V.intro('Inventory','Base ingredients, packaging, reservations, and owner costs.')+
   `<div class="owner-order-tabs" role="group" aria-label="Inventory category">${pills}</div>`+
   V.compactFilters('Search inventory',stock,'owner-inventory-filters')+
-  `<div class="staff-inventory-table owner-inventory-table"><section class="commerce-card">${table}</section></div>`;
+  `<div class="staff-inventory-table owner-inventory-table"><section class="commerce-card">${table}</section></div><div class="owner-inventory-add">${V.button('ingredient-add','Add New Ingredient','',true)}</div>`;
 };
+document.addEventListener('click',e=>{
+ if(!e.target.closest('[data-owner=ingredient-add]')||!A.session.ownerAllowed())return;
+ A.owner.open('Add new ingredient',`<form class="staff-form" data-owner-form="ingredient-add">
+ ${V.field('name','Ingredient name','','text','required maxlength="120"')}
+ <div class="owner-ingredient-form-row">${V.field('stock','Stock','','number','required min="0" step="0.001"')}${V.select('unit','Unit',units,'g')}</div>
+ <div class="owner-ingredient-form-row">${V.field('totalCost','Total cost (PHP)','','number','required min="0" step="0.01"')}${V.field('threshold','Reorder threshold','','number','required min="0" step="0.001"')}</div>
+ <fieldset class="owner-ingredient-category"><legend>Type</legend><label><input type="radio" name="category" value="ingredient" checked> Ingredient</label><label><input type="radio" name="category" value="packaging"> Packaging</label></fieldset>
+ ${V.error()}<div class="owner-settings-actions">${V.button('discard-modal','Cancel')}<button type="submit" class="btn primary">Add ingredient</button></div></form>`);
+});
 A.ownerInventory={units,
  openStock(id,type){
   const i=I.item(id);if(!i)return;

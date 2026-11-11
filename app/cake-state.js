@@ -109,7 +109,7 @@ K.accept=q=>{
  const failure=K.reserve(o,q);if(failure){K.message=failure;return null;}
  q.status='accepted';q.accepted_at=Date.now();const r=K.request(q.requestId);r.status='accepted';r.accepted_quotation_id=q.id;K.orders.push(o);C.state.orders.unshift(o);return o;
 };
-K.decline=(q,note='')=>{const reason=K.quoteReason(q);if(reason)return reason;if(q.status!=='issued')return 'Only an unanswered quotation can be declined.';q.status='rejected';q.customer_response_note=note.slice(0,600);q.responded_at=Date.now();K.request(q.requestId).status='negotiating';A.notifications.emit('decline-'+q.id,'cakes','Quotation declined','Your response has been saved for the bakery.','cake-requests/'+q.requestId);return '';};
+K.decline=(q,note='')=>{const reason=K.quoteReason(q);if(reason)return reason;if(q.status!=='issued')return 'Only an unanswered quotation can be declined.';q.status='rejected';q.customer_response_note=note.slice(0,600);q.responded_at=Date.now();K.request(q.requestId).status='pending_review';A.notifications.emit('decline-'+q.id,'cakes','Quotation declined','Your response has been saved for the bakery.','cake-requests/'+q.requestId);return '';};
 K.retry=o=>{
  if(!o||o.paid||!P.owns(o)||!['failed','expired','revalidation'].includes(o.payment))return false;
  const q=K.quote(o.quotationId),reason=K.reserve(o,q);if(reason){K.message=reason;o.payment='revalidation';return false;}o.payment='waiting';o.status='pending-payment';K.message='';return true;

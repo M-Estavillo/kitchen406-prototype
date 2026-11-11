@@ -62,8 +62,8 @@ function variantChoices(p){
 }
 function recommendedPrice(label,cost,overhead){
  const rows=[['Ingredients',cost?V.money(cost.ingredients):'—'],['Packaging',cost?V.money(cost.packaging):'—'],
-  ['Utility overhead',V.money(overhead)],['Production cost',cost?V.money(cost.total):'—'],
-  ['Markup ('+P.markup+'%)',cost?V.money(cost.suggested-cost.total):'—'],['Recommended price',cost?V.money(cost.suggested):'Unavailable']];
+  ['Utility overhead',V.money(overhead)],
+  ['Markup ('+P.markup+'%)',cost?V.money(cost.suggested-cost.total):'—'],['Profit per unit',cost?V.money(cost.suggested-cost.total):'—'],['Recommended price',cost?V.money(cost.suggested):'Unavailable']];
  return `<h4>${E(label)}</h4><dl>${rows.map(([name,value])=>`<div><dt>${E(name)}</dt><dd>${E(value)}</dd></div>`).join('')}</dl>`;
 }
 function materialRows(value){
@@ -149,6 +149,25 @@ document.addEventListener('input',e=>{
  row.querySelector('[data-material-total]').textContent=total;
  refreshRecommendation(form,section);
 });
+function confirmActivation(product,form=null){
+ const active=form?!form.elements.active.checked:product.active===false;
+ const label=active?'Activate':'Deactivate',version=G.version,generation=A.session.generation;
+ A.owner.open(label+' product',`<div class="owner-order-confirm"><p>${label} <strong>${E(form?.elements.name.value||product?.name||'this product')}</strong>?</p>${V.error()}<div class="owner-order-confirm-actions">${V.button('discard-modal','Cancel')}${V.button('product-confirm-activation',label,'',true)}</div></div>`);
+ A.$('owner-dialog-body').querySelector('[data-owner=product-confirm-activation]').addEventListener('click',()=>{
+  if(!A.session.ownerAllowed()||generation!==A.session.generation)return;
+  const error=A.owner.saveError?'Changes could not be saved. Please retry.':version!==G.version?'Product changed. Reopen this dialog.':'';
+  if(error){A.$('owner-dialog-body').querySelector('.owner-error').textContent=error;return;}
+  if(form){if(!form.isConnected)return;form.elements.active.checked=active;A.owner.capture(form);A.closeModal(true);}
+  else{product.active=active;G.version++;A.closeModal(true);G.changed();A.toast('Product status updated.');}
+ });
+}
+document.addEventListener('input',e=>{
+ const form=e.target.form;
+ if(form?.dataset.ownerForm!=='product'||e.target.name!=='active'||!A.session.ownerAllowed())return;
+ e.target.checked=!e.target.checked;
+ A.owner.capture(form);
+ confirmActivation(A.products.find(p=>p.id===Number(form.dataset.id)),form);
+});
 document.addEventListener('change',e=>{
  const form=e.target.form;if(form?.dataset.ownerForm!=='product')return;
  if(e.target.id==='owner-image')form.querySelector('.owner-product-cover img').src=e.target.value;
@@ -169,8 +188,7 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-owner]');
   if(action==='product-add-material')section.querySelector('tr:last-child select')?.focus();else section.querySelector('[data-owner=product-add-material]').focus();
  }
  if(action==='variant-edit'&&p){const v=p.variants.find(v=>v.id===el.dataset.variant);A.owner.open(v?'Edit variant':'Add variant',V.form('variant',V.field('label','Variant label',v?.label||'','text','required maxlength="100"')+(!v?V.field('price','Final selling price (PHP)','','number','required min="0.01" step="0.01"'):'<p>Use Set final price to change its selling price.</p>')+V.select('active','Status',[['true','Active'],['false','Inactive']],String(v?.active!==false))+'<p>Existing commitments remain intact. New variants need their own recipe.</p>'+V.button('discard-modal','Cancel'),`data-id="${p.id}" data-variant="${E(v?.id||'')}" data-version="${G.version}"`,'Confirm save'));}
- if(action==='product-toggle'&&p)A.owner.open(p.active===false?'Activate product':'Deactivate product',`<p>${E(p.name)}: existing orders and subscriptions remain unchanged. Ingredient and scheduling checks still apply.</p>${V.error()}${V.button('product-confirm-toggle','Confirm',`data-id="${p.id}" data-version="${G.version}"`)}${V.button('discard-modal','Cancel')}`);
- if(action==='product-confirm-toggle'&&p){const error=A.owner.saveError?'Changes could not be saved.':Number(el.dataset.version)!==G.version?'Product changed. Reopen this dialog.':'';if(error){document.querySelector('#owner-modal .owner-error').textContent=error;return;}p.active=p.active===false;G.version++;A.closeModal(true);G.changed();A.toast('Product status updated.');}
+ if(action==='product-toggle'&&p)confirmActivation(p);
 });
 document.addEventListener('submit',e=>{const form=e.target.closest('[data-owner-form]');if(!form||!['product','variant','category'].includes(form.dataset.ownerForm))return;e.preventDefault();e.stopImmediatePropagation();if(!A.session.ownerAllowed())return;const data=new FormData(form),get=k=>String(data.get(k)||'').trim(),id=Number(form.dataset.id),p=A.products.find(p=>p.id===id);let error=A.owner.saveError?'Changes could not be saved.':Number(form.dataset.version)!==G.version?'Product changed. Reopen the form.':'';
  const price=Number(get('price')),label=get('label');if(!error&&form.dataset.ownerForm==='category'){const c=categoryRecords.find(c=>c.id===form.dataset.id);if(!get('name')||categoryRecords.some(x=>x!==c&&x.name.toLowerCase()===get('name').toLowerCase())||!['active','inactive'].includes(get('status')))error='Use a unique category name and valid status.';else{const target=c||{id:'category-'+crypto.randomUUID()};Object.assign(target,{name:get('name'),status:get('status')});if(!c)categoryRecords.push(target);categories.splice(0,categories.length,...categoryRecords.map(c=>[c.id,c.name]));A.products.filter(p=>p.category===target.id).forEach(p=>p.categoryLabel=target.name);}}

@@ -1,7 +1,7 @@
 (() => {
 const A=K406,K=A.cakes,V=A.ownerUI,E=A.escape;
 const specs=s=>`<div class="staff-specs">${(s.options||[]).map(x=>`<p><strong>${E(x.type)}</strong><br>${E(x.name)}</p>`).join('')}</div>${(s.addons||[]).map(x=>`<p>${E(x.name)} × ${x.quantity}</p>`).join('')}<p>${E(s.notes||'')}</p><div class="staff-specs">${(s.images||[]).filter(i=>i?.url).map((i,n)=>`<img src="${E(i.url)}" alt="Customer reference ${n+1}">`).join('')}</div>`;
-const cakeStatuses={pending_review:'Pending review',negotiating:'Discussing changes',quoted:'Quotation ready',accepted:'Quotation accepted',rejected:'Rejected',expired:'Expired'};
+const cakeStatuses={pending_review:'Pending review',quoted:'Quotation ready',accepted:'Quotation accepted',rejected:'Rejected',expired:'Expired'};
 const cakeStatus=r=>`<span class="order-badge owner-cake-status" data-status="${E(r.status)}">${E(cakeStatuses[r.status]||r.status)}</span>`;
 function cakeRequestDetails(r){
  const s=r.snapshot,versions=K.versions(r),path='cake-requests/'+encodeURIComponent(r.id);
@@ -15,8 +15,9 @@ function cakeRequestDetails(r){
  const photos=(s.images||[]).filter(image=>image?.url).map((image,index)=>`<img src="${E(image.url)}" alt="Customer reference ${index+1}">`).join('');
  const actions=closed||locked?'':V.button('create-quotation','Create quotation',`data-id="${E(r.id)}"`,true)+V.button('reject-request','Reject request',`data-id="${E(r.id)}" data-version="${r.version||0}"`);
  const review=closed?'This request is closed.':locked?'The accepted quotation or payment activity locks further offers.':reason||'The requested date and materials are currently available. Review the design before issuing a quotation.';
+ const reviewPanel=r.status==='rejected'?V.panel('Rejection reason',K.rejectionSummary(r),cakeStatus(r)):V.panel('Review',`<p>${E(review)}</p>${actions?`<div class="owner-cake-review-actions">${actions}</div>`:''}`,cakeStatus(r));
  return V.intro('Cake Request '+r.id,'Submitted '+V.stamp(r.created_at))+
-  `<div class="owner-cake-detail"><div class="owner-cake-back">${V.link('cake-requests','Back to requests')}</div><div class="owner-cake-detail-columns"><div class="owner-detail-column">${V.panel('Selected cake options',K.optionsSummary(s))}${V.panel('Reference images & notes',(photos?`<div class="owner-cake-reference-images">${photos}</div>`:'<p class="muted">No reference images.</p>')+`<p>${E(s.notes||'No additional notes.')}</p>`)}${V.panel('Requested fulfillment',facts(fulfillment))}</div><div class="owner-detail-column">${V.panel('Customer details',facts([['Name',contact.name||'Not recorded'],...(contact.email?[['Email',contact.email]]:[]),...(contact.mobile_number?[['Phone',contact.mobile_number]]:[])]))}${V.panel('Review',`<p>${E(review)}</p>${actions?`<div class="owner-cake-review-actions">${actions}</div>`:''}`,cakeStatus(r))}${V.panel('Preliminary estimate',`<p>${K.money(r.estimated_price)}</p><p class="muted">The final quotation includes any design and delivery charges.</p>`)}${V.panel('Quotation history',versions.length?`<div class="owner-cake-quote-list">${versions.map(q=>`<a href="#/owner/${E(path+'/quotation/'+encodeURIComponent(q.id))}"><strong>Version ${q.version}</strong>${V.badge(q.status)}<span>${K.money(q.total)}</span></a>`).join('')}</div>`:'<p class="muted">No quotations issued.</p>')}${order?V.link('orders/'+encodeURIComponent(order.id),order.paid?'View cake order':'View pending purchase'):''}</div></div></div>`;
+  `<div class="owner-cake-detail"><div class="owner-cake-back">${V.link('cake-requests','Back to requests')}</div><div class="owner-cake-detail-columns"><div class="owner-detail-column">${V.panel('Selected cake options',K.optionsSummary(s))}${V.panel('Reference images & notes',(photos?`<div class="owner-cake-reference-images">${photos}</div>`:'<p class="muted">No reference images.</p>')+`<p>${E(s.notes||'No additional notes.')}</p>`)}${V.panel('Requested fulfillment',facts(fulfillment))}</div><div class="owner-detail-column">${V.panel('Customer details',facts([['Name',contact.name||'Not recorded'],...(contact.email?[['Email',contact.email]]:[]),...(contact.mobile_number?[['Phone',contact.mobile_number]]:[])]))}${reviewPanel}${V.panel('Preliminary estimate',`<p>${K.money(r.estimated_price)}</p><p class="muted">The final quotation includes any design and delivery charges.</p>`)}${V.panel('Quotation history',versions.length?`<div class="owner-cake-quote-list">${versions.map(q=>`<a href="#/owner/${E(path+'/quotation/'+encodeURIComponent(q.id))}"><strong>Version ${q.version}</strong>${V.badge(q.status)}<span>${K.money(q.total)}</span></a>`).join('')}</div>`:'<p class="muted">No quotations issued.</p>')}${order?V.link('orders/'+encodeURIComponent(order.id),order.paid?'View cake order':'View pending purchase'):''}</div></div></div>`;
 }
 A.ownerPages.cakes=()=>{
  const id=A.owner.parts[2],r=K.state.requests.find(r=>r.id===id);
@@ -51,5 +52,12 @@ A.ownerCakeUI={open(id){
  const complexity=Math.round(Number(form.elements.complexity.value)*100),valid=Number.isFinite(complexity)&&complexity>=0&&Number.isFinite(addons)&&addons>=0;
  const rows=[['Selections',selections],['Add-ons',addons],['Complexity charge',valid?complexity:null],['Total',valid?selections+addons+complexity:null]];
  form.querySelector('#owner-quote-breakdown').innerHTML=rows.map(([label,amount])=>`<div><dt>${label}</dt><dd>${amount===null?'&mdash;':K.money(amount)}</dd></div>`).join('');
+},openRejection(id,version){
+ const categories=A.ownerCakes.rejectionCategories.map(category=>[category,category]);
+ A.owner.open('Reject cake request',`<form class="staff-form owner-cake-reject" data-owner-form="cake-reject" data-id="${E(id)}" data-version="${version}">
+ <p class="muted">Rejecting ${E(id)} closes its open offers. The customer can see the reason and notes.</p>
+ ${V.select('category','Reason category',[['','Choose a reason'],...categories],'','required')}
+ <div class="field"><label for="owner-rejection-notes">Notes (optional)</label><textarea name="notes" id="owner-rejection-notes" rows="3" maxlength="600"></textarea></div>
+ ${V.error()}<div class="owner-cake-modal-actions">${V.button('cancel-cake-modal','Cancel')}<button class="btn primary" type="submit">Reject request</button></div></form>`);
 }};
 })();

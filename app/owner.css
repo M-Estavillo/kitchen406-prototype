@@ -363,9 +363,15 @@
 .owner-cake-review-actions .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 #owner-modal .dialog-card:has(.owner-quotation,.owner-cake-reject){padding:24px;max-height:85dvh;overflow:auto;background:#fff}
 #owner-modal .dialog-card:has(.owner-quotation){max-width:560px}
-#owner-modal .dialog-card:has(.owner-cake-reject){max-width:420px}
+#owner-modal .dialog-card:has(.owner-cake-reject){max-width:440px}
 #owner-modal .dialog-card:has(.owner-quotation,.owner-cake-reject) h2{font-size:24px;margin-bottom:14px}
-.owner-cake-reject p{margin:0 0 18px;font-size:14px}
+.owner-cake-reject.staff-form{gap:12px}
+.owner-cake-reject>.field,.owner-cake-reject>p{margin:0;font-size:13px}
+.owner-cake-reject label{display:block;margin-bottom:5px}
+.owner-cake-reject :is(select,textarea){box-sizing:border-box;width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:var(--radius);background-color:#fff}
+.owner-cake-reject select{min-height:38px;padding-right:30px}
+.owner-cake-reject textarea{height:auto;resize:vertical}
+.owner-cake-reject .field-error:empty{display:none}
 .owner-cake-modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
 .owner-quotation h3{font-size:16px;margin:0 0 12px}
 #owner-modal [data-owner-form=quotation]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -458,8 +464,9 @@
 .owner-block-selection span:last-child{color:var(--muted)}
 .owner-block-reason{font-size:12px;color:var(--muted);margin:8px 0;overflow-wrap:anywhere}
 .owner-block-actions{display:flex;gap:8px;margin-top:14px}
-#owner-modal .dialog-card:has(.owner-block-dialog){max-width:420px;padding:22px;max-height:85dvh;overflow:auto}
+#owner-modal .dialog-card:has(.owner-block-dialog){box-sizing:border-box;max-width:420px;padding:22px;max-height:85dvh;overflow:auto}
 .owner-block-dialog>p{margin:0 0 16px;font-size:14px}
+.owner-block-dialog>.owner-block-warning{padding:9px 11px;border-radius:6px;background:var(--panel);font-size:13px;line-height:1.5}
 .owner-block-dialog .staff-form{gap:12px}
 .owner-block-dialog label{display:block;font-size:12px;margin-bottom:5px}
 .owner-block-dialog .field{margin:0}
@@ -873,3 +880,70 @@
 
 .owner-capacity-workspace .staff-calendar-panel .staff-day.blocked{background:#fce7e5;color:#a12622}
 .owner-capacity-workspace .staff-day.blocked .staff-day-count{color:#a12622}
+
+.owner-analytics-products details{position:relative}
+.owner-analytics-products summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;list-style:none;font-size:13px;box-sizing:border-box}
+.owner-analytics-products summary::-webkit-details-marker{display:none}
+.owner-product-popover{position:absolute;top:calc(100% + 6px);left:0;width:280px;max-width:calc(100vw - 48px);max-height:280px;overflow:auto;z-index:12;padding:12px;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 24px #0002}
+.owner-product-popover label{display:flex;align-items:flex-start;gap:8px;padding:7px 0;font-size:12px;font-weight:400}
+.owner-product-popover input{width:auto!important;min-height:0!important;flex:none;margin-top:3px}
+.owner-product-popover span{overflow-wrap:anywhere}
+.owner-ingredient-detail .commerce-card{padding:15px;min-width:0}
+
+.owner-inventory-add{display:flex;justify-content:flex-end;margin-top:14px}
+.owner-inventory-add .btn{min-height:36px;padding:8px 13px;font-size:12px}
+#owner-modal .dialog-card:has([data-owner-form=ingredient-add]){max-width:430px;padding:22px;max-height:85dvh;overflow:auto}
+#owner-modal [data-owner-form=ingredient-add]{gap:12px}
+#owner-modal [data-owner-form=ingredient-add] :is(input,select){width:100%;min-height:36px;height:auto;padding:7px 9px;font-size:13px}
+#owner-modal .dialog-card:has([data-owner-form=ingredient-add]) h2{font-size:24px;margin-bottom:16px}
+#owner-modal [data-owner-form=ingredient-add] .owner-settings-actions{margin-top:4px}
+.owner-marketing-image-container,.owner-marketing-caption-container{position:relative;min-width:0}
+.owner-marketing-image-container{margin-top:auto}
+.owner-marketing-caption-container p{padding-bottom:46px}
+.owner-regenerate-icon{position:absolute;bottom:9px;right:9px;display:grid;place-items:center;width:29px;height:29px;padding:0;background:var(--canvas);color:var(--accent);border:1px solid var(--line);border-radius:5px;box-shadow:0 1px 4px #0001}
+.owner-regenerate-icon .material-symbols-outlined{font-size:18px}
+.owner-marketing-image-failed{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;aspect-ratio:4/3;background:#eeece9;border-radius:8px;color:var(--muted)}
+.owner-marketing-image-failed p{margin:0;font-size:13px}
+.owner-marketing-image-failed .btn{min-height:32px;padding:6px 14px;font-size:12px}
+.owner-marketing-status.incomplete{background:#f5e8d5;color:#795014}
+
+.owner-view .owner-analytics-products details{border:0;margin:0;padding:0}
+.owner-marketing-caption-container{height:156px;border:1px solid var(--line);border-radius:8px;margin-top:6px;padding:10px 10px 42px}
+.owner-marketing-card .owner-marketing-caption-container{height:93.6px;box-sizing:border-box}
+.owner-marketing-caption-container p{height:100%;max-height:none;overflow-y:auto;overflow-wrap:anywhere;scrollbar-width:thin;scrollbar-color:#c6beb5 transparent;padding:0 4px 0 0!important;border:0;border-radius:0;margin:0}
+.owner-marketing-caption-container p::-webkit-scrollbar{width:4px}
+.owner-marketing-caption-container p::-webkit-scrollbar-thumb{background:#c6beb5;border-radius:4px}
+.owner-marketing-image-container>a{display:block;overflow:hidden;border-radius:8px}
+.owner-marketing-photo-close{transform:scale(1.12);filter:brightness(1.04)}
+.owner-marketing-photo-wide{transform:scale(.94);filter:brightness(.98)}
+.owner-ingredient-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
+.owner-ingredient-form-row .field{min-width:0}
+.owner-ingredient-category{display:flex;gap:18px;border:0;padding:0;margin:0}
+.owner-ingredient-category legend{font-size:12px;font-weight:600;margin-bottom:6px}
+#owner-modal .owner-ingredient-category label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+#owner-modal [data-owner-form=ingredient-add] input[type=radio]{appearance:auto;flex:none;width:16px;height:16px;min-height:0;padding:0;margin:0;accent-color:var(--accent)}
+
+.owner-subscription-batches{padding:18px;min-width:0;font-size:13px}
+.owner-subscription-batches .commerce-card-heading{align-items:end;flex-wrap:wrap;margin-bottom:8px}
+.owner-subscription-batches .commerce-card-heading h2{font-size:21px}
+.owner-subscription-batches .commerce-card-heading p{color:var(--muted);margin:4px 0 0}
+.owner-subscription-batches .commerce-card-heading .field{flex:0 1 200px;margin:0}
+.owner-subscription-batches .commerce-card-heading select{min-height:36px}
+.owner-batch-toolbar,.owner-batch-order,.owner-batch-order>div,.owner-batch-toolbar label,.owner-batch-order label{display:flex;align-items:center;gap:8px}
+.owner-batch-toolbar{flex-wrap:wrap;margin-top:12px}
+.owner-batch-date-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.owner-batch-toolbar>button,.owner-batch-order>div{margin-left:auto}
+.owner-batch-toolbar label,.owner-batch-order label{cursor:pointer}
+.owner-batch-toolbar input,.owner-batch-order input{flex:none;accent-color:var(--accent)}
+.owner-batch-groups{display:grid;gap:12px;margin-top:12px}
+.owner-batch-groups>section,.owner-batch-results{border:1px solid var(--line);border-radius:6px;padding:12px}
+.owner-batch-group-heading p{margin:2px 0 6px;color:var(--muted);font-size:12px}
+.owner-batch-groups ul,.owner-batch-results ul{list-style:none;padding:0;margin:0}
+.owner-batch-order{flex-wrap:wrap;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line)}
+.owner-batch-order small{display:block;line-height:1.5}
+.owner-subscription-batches .btn{min-height:34px;padding:6px 10px;font-size:12px}
+.owner-batch-results{margin-top:12px;background:var(--canvas)}
+.owner-batch-results li{display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding:6px 0}
+.owner-batch-retry{margin-left:auto;padding:0;border:0;background:none;color:var(--accent);font-size:12px;text-decoration:underline;text-underline-offset:2px}
+.owner-batch-confirm-list{max-height:180px;overflow:auto;padding-left:18px;margin:8px 0}
+.owner-capacity-workspace .staff-day-count.owner-batch-day-count{color:var(--accent);font-weight:600}

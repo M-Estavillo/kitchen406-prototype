@@ -83,6 +83,25 @@ I.consume=(o,actor)=>{
  for(const [id,q] of Object.entries(m))I.move(id,-q,'consumption',actor,o.id,'','Preparation started',key+':'+id);
  I.closeReservation(I.reservations.get(o.id),'consumed');I.operations.add(key);I.notify();return '';
 };
+I.add=({name,unit,stock,totalCost,threshold,key,category='ingredient'})=>{
+ if(!A.session?.ownerAllowed())return 'Owner access required.';
+ name=name.trim();
+ const signature=JSON.stringify({name,unit,stock,totalCost,threshold,category});
+ if(I.operations.has(key))return I.changeResults.get(key)===signature?'':'This operation belongs to another ingredient.';
+ if(!key||!name||name.length>120||I.items.some(i=>i.name.toLowerCase()===name.toLowerCase()))return 'Enter a unique ingredient name.';
+ if(!['ingredient','packaging'].includes(category))return 'Select Ingredient or Packaging.';
+ if(!['g','ml','pcs'].includes(unit))return 'Select a valid unit.';
+ if(![stock,totalCost,threshold].every(n=>Number.isFinite(n)&&n>=0))return 'Enter nonnegative stock, cost, and threshold values.';
+ if(![stock,threshold].every(n=>Number.isSafeInteger(Math.round(n*1000))&&Math.abs(n*1000-Math.round(n*1000))<1e-6&&(unit!=='pcs'||Number.isInteger(n))))return 'Use whole pieces or up to three decimal places.';
+ if(!Number.isSafeInteger(Math.round(totalCost*100))||Math.abs(totalCost*100-Math.round(totalCost*100))>1e-6||stock===0&&totalCost!==0)return 'Use a cost with up to two decimal places. Zero stock must have zero cost.';
+ const item={id:'ingredient-'+crypto.randomUUID(),name,unit,category,stock:0,opening:0,threshold,cost:stock?totalCost/stock:0};
+ I.items.push(item);
+ if(stock)I.move(item.id,stock,'restock',A.session.actor().name,null,'','Opening stock',key,totalCost);
+ I.operations.add(key);I.changeResults.set(key,signature);
+ if(A.pricing)A.pricing.version++;
+ A.staff.changed();
+ return '';
+};
 I.change=({id,quantity,unit,type,totalCost,reason='',notes='',key})=>{
  if(!A.session?.operational())return 'Operational access required.';
  if(!key)return 'An operation identifier is required.';
@@ -104,7 +123,7 @@ I.change=({id,quantity,unit,type,totalCost,reason='',notes='',key})=>{
   const cents=Math.round(totalCost*100);
   if(!Number.isFinite(totalCost)||totalCost<0||!Number.isSafeInteger(cents)||Math.abs(totalCost*100-cents)>1e-6)return 'Enter a nonnegative total cost with up to two decimal places.';
   totalCost=cents/100;
-  i.cost=totalCost/quantity;
+  i.cost=(i.stock*i.cost+totalCost)/(i.stock+quantity);
   if(A.pricing)A.pricing.version++;
  }
  I.move(id,delta,type,A.session.actor().name,null,reason,notes,key,restock?totalCost:null);

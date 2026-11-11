@@ -87,21 +87,28 @@ B.inspector=select=>{
  return html+'<div class="mock-actions">'+V.button('samples','Load sample subscriptions')+V.button('reset-states','Reset screen states')+'</div><p class="muted">Demo clock: '+E(D.config.clock)+'. Payments and courier fees are simulated. Reset preview clears all subscriptions.</p>';
 };
 B.samples=()=>{
- if(S.records.some(r=>r.fixture))return;
- [4,1,1].forEach((id,index)=>{const product=A.products.find(p=>p.id===id),start=index===2?'2026-09-04':index===1?'2026-10-20':'2026-10-16',dates=Array.from({length:4},(_,n)=>D.add(start,n*7));const p={id:'SUB-PAY-'+(++S.serial),snapshot:{productId:id,variantId:'standard',name:product.name,image:product.image,variant:product.variants[0].label,quantity:1,scheduleId:index===1?'tuesday':'friday',schedule:index===1?'Weekly Tuesday':'Weekly Friday',dates,address:C.copy(C.state.addresses[0]),...B.totals(product.variants[0].price,1)},revision:0,payment:'waiting',created:Date.now()-index*86400000,deadline:Date.now()+C.paymentSessionMs,attempts:[{state:'waiting',at:'Sample'}]};
+ [4,1].forEach((id,index)=>{if(B.allRecords().some(r=>r.customer_id===A.account.id()&&r.fixture&&r.snapshot.productId===id))return;const product=A.products.find(p=>p.id===id),start=index===1?'2026-09-04':'2026-10-16',dates=Array.from({length:4},(_,n)=>D.add(start,n*7));const p={id:'SUB-PAY-'+(++S.serial),snapshot:{productId:id,variantId:'standard',name:product.name,image:product.image,variant:product.variants[0].label,quantity:1,scheduleId:'friday',schedule:'Weekly Friday',dates,address:C.copy(C.state.addresses[0]),...B.totals(product.variants[0].price,1)},revision:0,payment:'waiting',created:Date.now()-index*86400000,deadline:Date.now()+C.paymentSessionMs,attempts:[{state:'waiting',at:'Sample'}]};
   if(!p.snapshot.address)return;
   S.purchases.push(p);const clock=D.config.clock;D.config.clock='2026-09-01T12:00:00+08:00';const r=B.pay(p,'confirmed');D.config.clock=clock;
-  if(r){r.fixture=true;r.deliveries.slice(0,index===2?4:index===1?1:2).forEach(d=>C.setStatus(C.state.orders.find(o=>o.id===d.orderId),'completed'));B.sync(r);}
+  if(r){
+   r.fixture=true;
+   if(index===1)r.deliveries.forEach(d=>{
+    const order=C.state.orders.find(o=>o.id===d.orderId);
+    A.inventory.release(order.id);
+    C.setStatus(order,'completed');
+    order.completedAt=Date.parse(d.date+'T12:00:00+08:00');
+   });
+   B.sync(r);
+  }
  });
 };
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-sub]');if(!el||el.disabled)return;
  const action=el.dataset.sub,d=S.draft;
  if(action==='begin'){if(B.begin(el.dataset.id)){location.hash='#/subscription/configure';}return;}
- if(['variant','quantity','schedule'].includes(action)&&B.change()){
+ if(['variant','quantity'].includes(action)&&B.change()){
   if(action==='variant')d.variant=el.dataset.value;
   if(action==='quantity')d.quantity=Math.max(1,Math.min(D.subscriptionLimit(d.productId),d.quantity+Number(el.dataset.delta)));
-  if(action==='schedule')d.scheduleId=el.dataset.value;
   if(!B.starts().includes(d.start))d.start=B.starts()[0]||'';
  }
  if(action==='method')B.setMethod(el.dataset.value);

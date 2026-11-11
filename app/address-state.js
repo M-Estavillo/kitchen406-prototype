@@ -12,7 +12,7 @@ R.changed=id=>{
 };
 R.save=(data,id)=>{
  if(!P.allowed())return {error:'Sign in to manage addresses.'};
- if(!C.addressValid(data)||!/^\d{4}$/.test(data.postal_code))return {error:'Select a map location and enter the address, city, and four-digit postal code.'};
+ if(!C.addressValid(data)||!/^\d{4}$/.test(data.postal_code))return {error:'Enter the address, city, and four-digit postal code.'};
  const old=id?R.find(id):null;if(id&&!old)return {error:'Address not found.'};
  const now=new Date().toISOString(),record={...data,address_id:id||'address-'+Date.now()+'-'+(++R.serial),customer_id:P.id(),created_at:old?.created_at||now,updated_at:now,status:'active',is_default:!!data.is_default,add_line_2:data.add_line_2||null,landmark:data.landmark||null,barangay:data.barangay||null};
  if(record.is_default)R.active().forEach(a=>a.is_default=false);

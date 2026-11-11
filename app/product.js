@@ -19,7 +19,7 @@ function updatePricing(){
  $('qtyCounter').parentElement.firstElementChild.textContent='Quantity';
  if($('btnPriceAmount'))$('btnPriceAmount').textContent='₱'+total;
  $('qtyCounter').textContent=S.quantity;
- $('productWeightBadge').textContent=A.variant(S.id,S.variant)?.label||current().variant;
+ $('productWeightBadge').hidden=true;
  document.querySelector('[onclick="adjustQty(-1)"]').disabled=S.quantity<=1;
  document.querySelector('[onclick="adjustQty(1)"]').disabled=S.quantity>=10;
  if(A.inventory){const ingredients=A.inventory.recipe(S.id,S.variant),required=ingredients&&Object.fromEntries(Object.entries(ingredients).map(([id,q])=>[id,q*S.quantity])),shortage=A.inventory.reason(required);$('addToCartBtn').disabled=!S.available||!A.inventory.productAvailable(S.id,S.variant)||!!shortage;$('productBadgeAvailability').textContent=shortage?'Insufficient ingredients for this quantity':S.available?'Available':'Temporarily unavailable';}
@@ -55,8 +55,9 @@ function setPageState(mode){
  $('reviews').hidden=mode!=='normal';$('related-section').hidden=mode!=='normal';A.inspector?.();
 }
 function setReviewState(mode){
+ if(mode==='populated'&&A.reviews&&!A.reviews.public())mode='empty';
  S.feed=mode;['Populated','Loading','Error','Empty'].forEach((v,i)=>hide('reviews'+v+'State',['populated','loading','error','empty'][i]!==mode));
- $('review-summary').hidden=mode!=='populated'||S.id!==1;A.inspector?.();
+ $('review-summary').hidden=mode!=='populated';A.inspector?.();
 }
 function eligibility(){
  ['Guest','Eligible','NotEligible','AlreadyReviewed'].forEach(v=>hide('reviewCard'+v,true));
@@ -74,10 +75,10 @@ function openReviewModal(){
  if(S.elig!=='eligible'||S.submitted.has(S.reviewKey??S.id)){A.toast('Use Mock Controls to preview an eligible completed purchase.');return;}
  S.rating=0;S.photos=[false,false];renderModalStars();renderPhotoSlots();
  $('reviewCommentInput').value='';hide('modalSubmitError',true);hide('modalSubmitSuccess',true);hide('modalFooterActions',false);
- $('reviewComposerModal').querySelector('h3+p').textContent=current().name+' ('+$('productWeightBadge').textContent+')';
+ $('reviewComposerModal').querySelector('h3+p').textContent=S.reviewItem?S.reviewItem.name+' ('+S.reviewItem.variant+')':current().name+' ('+$('productWeightBadge').textContent+')';
  $('modalSubmitBtn').textContent='Submit Review';$('modalSubmitBtn').disabled=true;A.openModal('reviewComposerModal');
 }
-function closeReviewModal(){pending++;A.closeModal();A.commerce?.render();}
+function closeReviewModal(){pending++;S.reviewItem=null;A.closeModal();A.commerce?.render();}
 function renderModalStars(){
  document.querySelectorAll('#modalStarRatingRow button').forEach((b,i)=>{b.setAttribute('aria-label',(i+1)+' stars');b.setAttribute('aria-pressed',S.rating===i+1);b.querySelector('span').style.fontVariationSettings=i<S.rating?"'FILL' 1":"'FILL' 0";b.style.color=i<S.rating?'#8d4a14':'#867368';});
  $('modalRatingText').textContent=S.rating?S.rating+' / 5 stars':'Click to rate';
@@ -86,7 +87,7 @@ function setModalStarRating(n){S.rating=n;renderModalStars();$('modalSubmitBtn')
 function renderPhotoSlots(){
  S.photos.forEach((selected,i)=>{
   const el=$('slotPhoto'+(i+1));el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',(selected?'Remove':'Select')+' demo photo '+(i+1));
-  el.innerHTML=selected?'<img alt="Selected demo photo" src="'+current().image+'" class="w-full h-full object-cover">':'<span class="material-symbols-outlined">add_a_photo</span><span>Demo photo</span>';
+  el.innerHTML=selected?'<img alt="Selected demo photo" src="'+(S.reviewItem||current()).image+'" class="w-full h-full object-cover">':'<span class="material-symbols-outlined">add_a_photo</span><span>Demo photo</span>';
  });
  $('photoCountLabel').textContent=S.photos.filter(Boolean).length+' / 2 selected';
 }
@@ -101,13 +102,13 @@ function handleReviewSubmit(){
   if(token!==pending||A.modal!=='reviewComposerModal'||S.id!==productId)return;
   $('modalSubmitBtn').disabled=false;$('modalSubmitBtn').textContent='Submit Review';
   hide('modalSubmitError',!S.error);
-  if(!S.error){A.reviews?.capture();hide('modalSubmitSuccess',false);hide('modalFooterActions',true);S.submitted.add(S.reviewKey??S.id);eligibility();}
+  if(!S.error){if(S.reviewItem&&A.reviews?.capture()!==true){hide('modalSubmitError',false);return;}if(!S.reviewItem)A.reviews?.capture();hide('modalSubmitSuccess',false);hide('modalFooterActions',true);S.submitted.add(S.reviewKey??S.id);eligibility();}
  },600);
 }
 function previewCustomerPhoto(el){const img=el.querySelector('img');if(img){$('photo-preview-image').src=img.src;$('photo-preview-image').alt=img.alt;A.openModal('photo-modal');}}
 function show(id){
  const item=A.products.find(p=>p.id===id);if(!item){setPageState('notfound');return;}
- pending++;S.id=id;S.reviewKey=id;S.quantity=1;S.variant='standard';S.type=item.variants.length>1?'multi':'single';S.available=item.available;
+ pending++;S.reviewItem=null;S.id=id;S.reviewKey=id;S.quantity=1;S.variant='standard';S.type=item.variants.length>1?'multi':'single';S.available=item.available;
  $('mainProductContent').querySelector('h1').textContent=item.name;
  $('product-breadcrumb-name').textContent=item.name;$('product-breadcrumb-category').textContent=item.categoryLabel;
  $('product-category').textContent=item.categoryLabel;
@@ -120,7 +121,7 @@ function show(id){
  $('subscribeToProductBtn').disabled=A.subscriptions.offering(S.id)!=='available';
  $('reviewsPopulatedState').innerHTML=id===1?original.reviews:'<p class="alert">No review content is provided for this product in the source mockups.</p>';
  $('review-summary').innerHTML=original.summary;
- setProductType(S.type);setAvailability(item.available);setPageState('normal');setReviewState(id===1?'populated':'empty');eligibility();
+ setProductType(S.type);setAvailability(item.available);setPageState('normal');setReviewState('populated');eligibility();
  $('related-products').innerHTML=A.products.filter(p=>p.id!==id&&p.category===item.category).slice(0,3).map(A.catalog.card).join('');
  document.querySelectorAll('#reviewsPopulatedState [onclick]').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','Preview customer photo');});
 }

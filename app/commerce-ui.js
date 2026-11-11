@@ -3,7 +3,7 @@ const A=K406,C=A.commerce,E=A.escape;
 const U=C.ui={};
 U.back=(path,label)=>`<a class="btn account-back" href="#/${E(path)}" aria-label="${E(label)}" title="${E(label)}"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></a>`;
 U.link=(path,label,primary=false)=>`<a class="btn${primary?' primary':''}" href="#/${path}">${E(label)}</a>`;
-U.button=(action,label,disabled=false,extra='')=>`<button type="button" class="btn${['checkout','fulfillment-next','address-next','pay','simulate-payment','check-payment','retry-payment','accept-price'].includes(action)?' primary':''}" data-commerce="${action}" ${disabled?'disabled':''} ${extra}>${E(label)}</button>`;
+U.button=(action,label,disabled=false,extra='')=>`<button type="button" class="btn${['checkout','fulfillment-next','address-next','pay','simulate-payment','check-payment','retry-payment','accept-price','review-item','order-received'].includes(action)?' primary':''}" data-commerce="${action}" ${disabled?'disabled':''} ${extra}>${E(label)}</button>`;
 U.alert=(text,error=false)=>`<div class="alert${error?' error':''}" role="status">${E(text)}</div>`;
 U.panel=(title,body,action='')=>A.ui.panel({title,bodyHtml:body,actionsHtml:action});
 U.date=value=>value?new Date(value+'T12:00:00').toLocaleDateString('en-PH',{weekday:'short',month:'short',day:'numeric',year:'numeric'}):'Choose a date';

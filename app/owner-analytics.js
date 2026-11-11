@@ -1,7 +1,7 @@
 /* Recorded-payment reporting. Fulfillment children never create a second sale. */
 (() => {
 const A=K406,V=A.ownerUI,E=A.escape,D=A.schedule;
-const defaults={period:'month',from:'',to:'',sort:'sales',selection:'current'};
+const defaults={period:'month',from:'',to:'',sort:'sales',selection:'current',productIds:[]};
 const R=A.analytics={...defaults};
 const periods=[['day','Day'],['week','Week'],['month','Month'],['quarter','Quarter'],['year','Year'],['custom','Custom range']];
 const dateString=date=>date.toISOString().slice(0,10);
@@ -46,7 +46,12 @@ R.transactions=()=>{
  });
 };
 R.report=(range=R.range())=>{
- const all=R.transactions(),transactions=all.filter(t=>t.date&&t.date>=range.from&&t.date<=range.to),products=new Map();
+ const all=R.transactions(),transactions=all.filter(t=>t.date&&t.date>=range.from&&t.date<=range.to).map(t=>{
+  if(!R.productIds.length)return t;
+  const items=t.items.filter(item=>R.productIds.includes(String(item.productId)));
+  const total=items.reduce((sum,item)=>sum+Math.round(item.price*100)*item.quantity,0)/100;
+  return {...t,items,total};
+ }).filter(t=>t.items.length),products=new Map();
  const days=Math.round((Date.parse(range.to)-Date.parse(range.from))/86400000)+1,group=days<=31?'day':days<=120?'week':'month';
  const key=date=>group==='month'?date.slice(0,7)+'-01':group==='week'?D.add(date,-((D.day(date)+6)%7)):date;
  const buckets=new Map();
@@ -77,19 +82,31 @@ function periodControl(range){
  if(R.period==='custom')return `<div class="field owner-order-range"><label id="owner-order-range-label">Date Range</label><details id="owner-order-range"><summary aria-labelledby="owner-order-range-label owner-order-range-value"><span id="owner-order-range-value">${E(shortDate(range.from))} – ${E(shortDate(range.to))}</span><span aria-hidden="true">⌄</span></summary><div class="owner-range-popover" role="group" aria-label="Choose date range"></div></details></div>`;
  return V.select('analytics-selection','Selection',R.options().map(option=>[option.value,option.label]),R.selection);
 }
+function productControl(){
+ const products=new Map(A.products.map(p=>[String(p.id),p.name]));
+ for(const transaction of R.transactions())for(const item of transaction.items)products.set(String(item.productId),item.productId===0?'Custom cakes':item.name);
+ return `<div class="field owner-analytics-products"><label id="analytics-product-label">Product</label><details id="analytics-products"><summary aria-labelledby="analytics-product-label analytics-product-value"><span id="analytics-product-value">${R.productIds.length?R.productIds.length+' selected':'All products'}</span><span aria-hidden="true">⌄</span></summary><div class="owner-product-popover" role="group" aria-label="Products"><button type="button" class="text-link" data-owner="analytics-products-all">All products</button>${[...products].map(([id,name])=>`<label><input type="checkbox" data-analytics-product value="${E(id)}" ${R.productIds.includes(id)?'checked':''}><span>${E(name)}</span></label>`).join('')}</div></details></div>`;
+}
 A.ownerPages.analytics=()=>{
  if(!A.session.ownerAllowed())return V.panel('Owner access required','');
  const range=R.range(),report=R.report(range),products=report.products.sort((a,b)=>R.sort==='quantity'?b.quantity-a.quantity||b.sales-a.sales:R.sort==='name'?a.name.localeCompare(b.name)||a.variant.localeCompare(b.variant):b.sales-a.sales||b.quantity-a.quantity);
  const top=[...report.products].sort((a,b)=>b.sales-a.sales).slice(0,5),max=Math.max(...top.map(p=>p.sales),1),units=report.products.reduce((n,p)=>n+p.quantity,0);
  Object.assign(A.owner.filters,{from:range.from,to:range.to});
- const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','View by',periods,R.period)}${periodControl(range)}${V.button('analytics-clear','Clear filters')}</div>`;
+ const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','View by',periods,R.period)}${periodControl(range)}${productControl()}${V.button('analytics-clear','Clear filters')}</div>`;
 
  const leaders=top.length?`<div class="owner-analytics-leaders">${top.map((p,i)=>`<div><span class="owner-analytics-rank">${i+1}</span><div><div class="owner-leader-label"><span>${E(p.name)}<small>${E(p.variant)}</small></span><strong>${V.money(p.sales)}</strong></div><div class="owner-leader-track"><span style="width:${p.sales/max*100}%"></span></div></div></div>`).join('')}</div>`:'<p class="owner-analytics-empty">No product sales this period.</p>';
- return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded sales',value:V.money(report.total)})}${A.ui.stat({label:'Paid purchases',value:report.count})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product sales</span>`)}</div>`;
+ return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}${R.productIds.length?'<p class="owner-analytics-caption">Selected product sales exclude delivery fees.</p>':''}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded sales',value:V.money(report.total)})}${A.ui.stat({label:'Paid purchases',value:report.count})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product sales</span>`)}</div>`;
 };
 
 document.addEventListener('change',e=>{
  if(!A.session.ownerAllowed())return;
+ if(e.target.matches('[data-analytics-product]')){
+  const id=e.target.value;
+  R.productIds=e.target.checked?[...R.productIds,id]:R.productIds.filter(value=>value!==id);
+  A.owner.render();
+  document.querySelector('#analytics-products').open=true;
+  [...document.querySelectorAll('[data-analytics-product]')].find(input=>input.value===id)?.focus();
+ }
  if(e.target.id==='owner-period'){
   R.period=e.target.value;
   R.selection='current';
@@ -101,10 +118,18 @@ document.addEventListener('change',e=>{
  if(e.target.id==='owner-performance-sort'){R.sort=e.target.value;A.owner.render();}
 });
 document.addEventListener('click',e=>{
+ if(e.target.closest('[data-owner=analytics-products-all]')&&A.session.ownerAllowed()){
+  R.productIds=[];A.owner.render();
+ }
+ const dropdown=document.querySelector('#analytics-products');
+ if(dropdown&&!dropdown.contains(e.target))dropdown.open=false;
  if(e.target.closest('[data-owner=analytics-clear]')&&A.session.ownerAllowed()){
   Object.assign(R,defaults);
   A.owner.render();
  }
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){const dropdown=document.querySelector('#analytics-products');if(dropdown?.open){dropdown.open=false;dropdown.querySelector('summary').focus();}}
 });
 const reset=A.commerce.reset;A.commerce.reset=()=>{reset();Object.assign(R,defaults);};
 })();

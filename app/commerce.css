@@ -36,3 +36,15 @@
 .customer-order-list .commerce-actions{justify-content:flex-end;gap:8px;margin:4px 0 0}
 .customer-order-list .btn,.customer-order-pagination .btn{min-height:32px;padding:5px 10px;font-size:12px;flex-grow:0}
 .customer-order-pagination{justify-content:flex-end;font-size:12px}
+
+.order-review-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}.order-review-row>p{margin:0}.order-review-actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}.order-review-actions .btn{width:auto;min-height:38px;padding:8px 14px;font-size:13px;flex:none}
+
+.address-google-map{position:relative;overflow:hidden;height:auto;min-height:0}
+.address-static-image{display:block;width:100%;height:auto;object-fit:contain}
+.address-static-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px;background:var(--panel);font-size:12px}
+.address-map-link{color:var(--accent)}
+.address-google-map[data-state=outside] .address-static-image,.address-google-map[data-state=error] .address-static-image,.address-google-map[data-state=missing] .address-static-image{filter:grayscale(.8);opacity:.6}
+.address-google-map[data-state=loading] .address-static-image{opacity:.4}
+
+.commerce-card:has(>.order-review-row) .commerce-card-heading{margin-bottom:10px}
+.commerce-card:has(>.order-review-row) .commerce-card-heading h2{margin:0}

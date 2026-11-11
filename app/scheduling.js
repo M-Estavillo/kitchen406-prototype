@@ -15,7 +15,12 @@ D.base=(date,productId,{replacement=false}={})=>{
  if(D.config.blocked.includes(date))return 'Blocked';
  if(D.config.stock[productId]===false)return 'No stock';
  if(Date.parse(D.config.clock)>=D.cutoff(date,productId,replacement?'subscription':'standard'))return 'Cutoff';
- if(!replacement&&!(D.config.productRules[productId]?.batches||D.config.batches).includes(D.day(date)))return 'No batch';
+ if(!replacement){
+  const product=A.products.find(p=>p.id===Number(productId));
+  const schedule=product?.subscription?A.subscriptions?.availableSchedules(productId)[0]:null;
+  const days=product?.subscription?(schedule?[schedule.day]:[]):D.config.productRules[productId]?.batches||D.config.batches;
+  if(!days.includes(D.day(date)))return 'No batch';
+ }
  return '';
 };
 D.standard=(date,items,scenario='normal',exclude=A.commerce?.state.activeId)=>{

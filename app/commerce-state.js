@@ -12,6 +12,10 @@ const M={page:'normal',stock:'normal',calendar:'normal',dates:'normal',validatio
 const C=A.commerce={paymentSessionMs:30*60*1000,state:S,mock:M,routes:['cart','checkout','payment','confirmation','orders'],step:'',orderId:null};
 C.money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(n);
 C.copy=o=>JSON.parse(JSON.stringify(o));
+C.paymentTime=deadline=>{
+ const seconds=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+ return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+};
 C.setPricePreview=value=>{
  if(!C.change())return;
  S.cart.forEach(item=>{if(item.previewOriginalPrice!==undefined){item.price=item.previewOriginalPrice;delete item.previewOriginalPrice;}});
@@ -39,7 +43,7 @@ C.dateValid=()=>A.schedule.valid(S.draft.date)&&C.dateReason(S.draft.date)==='';
 C.dateReason=value=>A.schedule.standard(value,S.cart,M.dates);
 C.fulfillmentReady=()=>C.cartValid()&&['pickup','delivery'].includes(S.draft.method)&&C.dateValid()&&M.calendar==='normal'&&M.validation==='normal';
 C.coordinatesValid=a=>!!a&&Number.isFinite(a.latitude)&&Math.abs(a.latitude)<=90&&Number.isFinite(a.longitude)&&Math.abs(a.longitude)<=180;
-C.addressValid=a=>!!a&&['label','add_line_1','city','postal_code'].every(k=>typeof a[k]==='string'&&!!a[k].trim())&&C.coordinatesValid(a);
+C.addressValid=a=>!!a&&['label','add_line_1','city','postal_code'].every(k=>typeof a[k]==='string'&&!!a[k].trim());
 C.ready=()=>C.fulfillmentReady()&&(S.draft.method==='pickup'||C.addressValid(C.address())&&C.deliveryRoute?.eligible()&&S.draft.quote==='ok');
 C.unpaid=o=>o&&['pending-payment','payment-failed'].includes(o.status)&&!['detected','delayed'].includes(o.payment);
 C.setStatus=(o,status)=>{if(!o)return;o.status=status;o.activity.unshift({text:status.replaceAll('-',' '),at:new Date().toLocaleString()});};
@@ -68,11 +72,8 @@ C.setPayment=(o,value)=>{
 C.reset=()=>{A.subscriptions?.reset();C.deliveryRoute?.reset();S.cart=[];S.addresses=addresses();S.draft=draft();S.orders=[];S.activeId=null;S.removed=null;S.revision++;C.orderId=null;Object.keys(M).forEach(k=>M[k]=k==='payment'?'waiting':k==='courier'?'prebooking':k==='dataset'?'all':'normal');C.sync();};
 C.sampleCart=()=>{if(!C.change())return;S.cart=[C.line(1,'standard',2),C.line(2,'standard',1)];M.page='normal';M.stock='normal';C.sync();};
 C.sampleOrders=()=>{
- if(S.orders.some(o=>o.fixture))return;
- ['preparing','pending-payment','completed','payment-resolution','confirmed','completed','ready-pickup'].forEach((status,i)=>{
- const items=[C.line(i===6?2:i%2?2:1,'standard',i%2?1:2)],pickup=i===1||i===6;
- if(i===4)items[0]={key:'cake:demo',productId:0,name:'Minimalist celebration cake',variant:'6-inch Earl Grey · Sample custom order',price:2450,quantity:1,image:'assets/custom-cake.png',available:true};
- S.orders.push({id:'K406-DEMO-'+(28+i),fixture:true,type:i===4?'cake':'standard',items,fulfillment:{method:pickup?'pickup':'delivery',date:'2026-10-16'},address:C.copy(S.addresses[0]||addresses()[0]),fee:pickup?0:A.quoteFee(),total:C.subtotal(items)+(pickup?0:A.quoteFee()),status,payment:status==='pending-payment'?'waiting':'confirmed',paid:status!=='pending-payment',created:new Date(2026,9,10-i).getTime(),deadline:Date.now()+C.paymentSessionMs,reference:'DEMO-QR-'+i,attempts:[{state:status==='pending-payment'?'waiting':'confirmed',at:'Demo history'}],activity:[{text:'Sample order '+status,at:'October 2026 fixture'}]});
- });
+ const role=A.staff.role;
+ try{A.staff.role='admin';A.owner.seed();}finally{A.staff.role=role;}
+
 };
 })();

@@ -1,7 +1,7 @@
 (() => {
 const A=K406,$=A.$;
 const authRoutes=['sign-in','register','verify','forgot','reset'];
-const labels={normal:'Default',notfound:'Not found',signedin:'Signed in',guest:'Unauthenticated',noteligible:'Not eligible',reviewed:'Already reviewed',multi:'Multiple variants',single:'Single variant',populated:'Populated',autherror:'Invalid credentials',servererror:'Server error',accountexists:'Account exists',max_attempts:'Maximum attempts',resend_sent:'Resent',resend_error:'Resend error',success:'Success',unverified:'Verification pending',verified:'Verified'};
+const labels={'one-failure':'One batch booking fails',normal:'Default',notfound:'Not found',signedin:'Signed in',guest:'Unauthenticated',noteligible:'Not eligible',reviewed:'Already reviewed',multi:'Multiple variants',single:'Single variant',populated:'Populated',autherror:'Invalid credentials',servererror:'Server error',accountexists:'Account exists',max_attempts:'Maximum attempts',resend_sent:'Resent',resend_error:'Resend error',success:'Success',unverified:'Verification pending',verified:'Verified'};
 const label=v=>labels[v]||v[0].toUpperCase()+v.slice(1);
 const select=(id,title,values,value)=>'<label for="'+id+'">'+title+'</label><select id="'+id+'">'+values.map(v=>'<option value="'+v+'" '+(String(v)===String(value)?'selected':'')+'>'+label(v)+'</option>').join('')+'</select>';
 A.inspector=()=>{
@@ -9,7 +9,7 @@ A.inspector=()=>{
  let html='<strong>Kitchen406 · State Inspector</strong><p class="muted">UI simulation only. No real accounts, emails, payments, orders, or uploads are created.</p>';
  html+='<div class="mock-actions"><button data-owner="enter">Enter owner preview</button><button data-staff="enter">Enter staff preview</button><button data-staff="customer">Return to customer</button></div><p class="muted">Owner/staff preview password: Kitchen406! ? Recipes are sample quantities.</p>';
  if(A.route==='owner')html+=select('mock-owner-mode','Owner page state',['normal','loading','empty','error'],A.owner.mode)+select('mock-owner-save','Owner save result',['normal','error'],A.owner.saveError?'error':'normal')+select('mock-owner-notification','Simulated notification delivery',['success','failure'],A.ownerCakes.notificationOutcome)+'<div class="mock-actions"><button data-owner="seed">Load owner examples</button><button data-owner="marketing-weekly">Evaluate weekly marketing</button><button data-owner="marketing-failure">Toggle image failure</button></div>';
- if(['owner','staff'].includes(A.route))html+=select('mock-courier-outcome','Courier booking result',['success','cancelled','unavailable','error'],A.deliveries.outcome);
+ if(['owner','staff'].includes(A.route))html+=select('mock-courier-outcome','Courier booking result',['success','one-failure','cancelled','unavailable','error'],A.deliveries.outcome);
  if(A.route==='staff'){html+=select('mock-staff-mode','Staff page state',['normal','loading','empty','error'],A.staff.mode)+select('mock-staff-save','Staff save result',['normal','error'],A.staff.saveError?'error':'normal')+'<div class="mock-actions"><button data-staff="seed">Load staff orders</button><button data-staff="seed-attention">Load attention examples</button></div>';}
  html+=select('mock-auth','Authentication',['guest','signedin'],A.auth);
  if(auth){
@@ -139,7 +139,6 @@ function initializePreview(){
  A.setAuth('signedin');
  const role=A.staff.role;
  try{
-  A.staff.role='staff';A.staff.seed();
   A.staff.role='admin';A.owner.seed();
  }finally{A.staff.role=role;}
  $('toast').hidden=true;
