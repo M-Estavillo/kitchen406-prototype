@@ -48,6 +48,13 @@
 
 /* Production queue uses the compact dashboard row layout. */
 #staff-view .staff-production-filters input,#staff-view .staff-production-filters select{background:#fff}
+#staff-view .staff-production-filters{gap:12px}
+#staff-view .staff-production-filters>.field{flex:0 1 175px;min-width:0}
+#staff-view .staff-production-filters>.field:has(#staff-status){flex-basis:140px}
+#staff-view .staff-production-filters>.field:has(#staff-range){flex-basis:190px}
+#staff-view .staff-production-filters :is(input,select){min-height:38px;padding:7px 10px;font-size:13px}
+#staff-view .staff-production-filters select{padding-right:30px}
+#staff-view .staff-production-filters>[data-staff=clear-production-filters]{margin-left:auto;min-height:38px;padding:7px 12px;font-size:12px}
 .staff-production-list .staff-dashboard-order{background:#fff;padding:16px}
 .staff-production-list .order-badge{font-size:10px;padding:4px 8px}
 @media(max-width:480px){.staff-production-list .staff-dashboard-order{flex-wrap:wrap}.staff-production-list .staff-dashboard-order-copy{flex-basis:100%}.staff-production-list .staff-dashboard-row-actions{max-width:100%;width:100%}}
@@ -260,6 +267,9 @@
 .staff-date-filter .btn{min-height:34px;padding:5px 8px;font-size:11px}
 .staff-inventory-filters{justify-content:flex-start}
 .staff-inventory-filters .field{flex:0 1 210px;min-width:0;max-width:100%}
+#staff-view .staff-inventory-filters .field:has(#staff-status){flex:0 1 145px}
+#staff-view .staff-inventory-filters .field:has(#staff-sort){flex:0 1 180px}
+#staff-view .staff-inventory-filters select{font-size:13px;padding-right:30px}
 .staff-stock-status.available{background:#e8f2e8;color:#32613c}
 .staff-stock-status.low{background:#fff3c4;color:#795b00}
 .staff-stock-status.out{background:#fce7e5;color:#a12622}

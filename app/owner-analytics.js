@@ -65,6 +65,18 @@ R.report=(range=R.range())=>{
  return {transactions,total:total/100,count:transactions.length,itemTotal:itemTotal/100,other:(total-itemTotal)/100,products:[...products.values()].map(p=>({...p,sales:p.sales/100})),buckets:[...buckets.values()].map(b=>({...b,total:b.total/100})),group,undated:all.filter(t=>!t.date).length};
 };
 const shortDate=date=>new Date(date+'T00:00:00Z').toLocaleDateString('en-PH',{month:'short',day:'numeric',timeZone:'UTC'});
+function profit(report){
+ let total=0;
+ for(const transaction of report.transactions){
+  const items=transaction.items,order=transaction.order;
+  const units=items.reduce((sum,item)=>sum+item.quantity,0);
+  const materials=order.type==='cake'?A.inventory.materials(order):A.inventory.materials({...order,items});
+  const cost=A.pricing.breakdown(materials,A.pricing.overhead*units,0);
+  if(!cost)return null;
+  total+=items.reduce((sum,item)=>sum+item.price*item.quantity,0)-cost.total;
+ }
+ return total;
+}
 function chart(report){
  const buckets=report.buckets,max=Math.max(...buckets.map(b=>b.total),1),width=720,height=220,left=60,right=16,top=18,bottom=32,w=width-left-right,h=height-top-bottom;
  const x=i=>left+(buckets.length===1?w/2:i*w/(buckets.length-1)),y=n=>top+h-n/max*h;
@@ -91,11 +103,12 @@ A.ownerPages.analytics=()=>{
  if(!A.session.ownerAllowed())return V.panel('Owner access required','');
  const range=R.range(),report=R.report(range),products=report.products.sort((a,b)=>R.sort==='quantity'?b.quantity-a.quantity||b.sales-a.sales:R.sort==='name'?a.name.localeCompare(b.name)||a.variant.localeCompare(b.variant):b.sales-a.sales||b.quantity-a.quantity);
  const top=[...report.products].sort((a,b)=>b.sales-a.sales).slice(0,5),max=Math.max(...top.map(p=>p.sales),1),units=report.products.reduce((n,p)=>n+p.quantity,0);
+ const totalProfit=profit(report);
  Object.assign(A.owner.filters,{from:range.from,to:range.to});
  const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','View by',periods,R.period)}${periodControl(range)}${productControl()}${V.button('analytics-clear','Clear filters')}</div>`;
 
  const leaders=top.length?`<div class="owner-analytics-leaders">${top.map((p,i)=>`<div><span class="owner-analytics-rank">${i+1}</span><div><div class="owner-leader-label"><span>${E(p.name)}<small>${E(p.variant)}</small></span><strong>${V.money(p.sales)}</strong></div><div class="owner-leader-track"><span style="width:${p.sales/max*100}%"></span></div></div></div>`).join('')}</div>`:'<p class="owner-analytics-empty">No product sales this period.</p>';
- return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}${R.productIds.length?'<p class="owner-analytics-caption">Selected product sales exclude delivery fees.</p>':''}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded sales',value:V.money(report.total)})}${A.ui.stat({label:'Paid purchases',value:report.count})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product sales</span>`)}</div>`;
+ return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}${R.productIds.length?'<p class="owner-analytics-caption">Selected product revenue excludes delivery fees.</p>':''}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded revenue',value:V.money(report.itemTotal)})}${A.ui.stat({label:'Total profit',value:totalProfit===null?'Unavailable':V.money(totalProfit)})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><p class="owner-analytics-caption">Profit is estimated from current ingredient, packaging, and utility costs.</p><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product revenue</span>`)}</div>`;
 };
 
 document.addEventListener('change',e=>{

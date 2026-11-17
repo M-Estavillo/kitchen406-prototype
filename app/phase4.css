@@ -88,6 +88,24 @@
 .cake-quotation-status.is-error{color:#b3261e}
 
 .cake-order-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:0}
+.cake-option{position:relative;grid-template-rows:auto 1fr;min-width:0}
+.cake-option>strong{padding-right:70px}
+.cake-option>small{position:absolute;top:10px;right:10px;font-size:10px;line-height:20px;white-space:nowrap}
+.cake-option>.cake-option-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;align-self:end}
+.cake-option-footer>span{font-size:12px;line-height:1.4}
+.cake-option-footer>b{flex-shrink:0;font-size:13px;color:var(--ink);white-space:nowrap}
+.customer-profile{display:grid;gap:14px}
+.phase4-view .customer-profile>.commerce-card{padding:18px 20px;margin:0}
+.customer-profile .commerce-card-heading{margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.phase4-view .customer-profile .commerce-card h2{font-size:20px}
+.phase4-view .customer-profile .commerce-card p{margin:5px 0 0;font-size:13px;line-height:1.5}
+.customer-profile .profile-details{gap:12px 24px;margin-bottom:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.customer-profile .profile-details dt{margin-bottom:4px}
+.customer-profile .profile-details dd{font-size:14px}
+.customer-profile .btn{min-height:34px;padding:6px 11px;font-size:12px}
+.customer-profile>.btn{justify-self:start}
+.customer-profile #profile-form{gap:12px}
+.customer-profile #profile-form .commerce-actions{margin-top:4px}
 .cake-order-reference-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:0}
 .cake-order-reference{text-align:right;font-size:14px;min-width:0;overflow-wrap:anywhere}
 .cake-order-reference p{font-size:12px;margin:3px 0 0}

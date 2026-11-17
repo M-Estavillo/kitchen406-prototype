@@ -9,7 +9,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
  const go=async route=>{await run(`location.hash=${JSON.stringify('#/'+route)}`);await new Promise(r=>setTimeout(r,120));};
  await send('Runtime.enable');await send('Page.navigate',{url:require('node:url').pathToFileURL(path.resolve('index.html')).href});await new Promise(r=>setTimeout(r,1800));
  await run('window.A=K406;window.O=A.owner;A.session.enter();O.seed()');await go('owner');
- await check(`document.querySelectorAll('.owner-fulfillment-order').length===2&&document.querySelectorAll('.owner-summary-link').length===4`,'compact fulfillment cards and clickable summary cards');
+ await check(`document.querySelectorAll('.owner-fulfillment-order').length===2&&document.querySelectorAll('#owner-view .staff-stats .staff-stat').length===4&&!document.querySelector('#owner-view .staff-stats :is(a,button,[tabindex])')`,'compact fulfillment cards and non-clickable summary cards');
+ await check(`[...document.querySelectorAll('#owner-view .staff-stats .staff-stat')].some(card=>card.textContent.includes('Pending draft review')&&Number(card.querySelector('strong').textContent)===A.marketing.drafts.filter(d=>['pending','incomplete'].includes(d.status)).length)&&!document.querySelector('#owner-view .staff-stats').textContent.includes('Payment issues')`,'pending draft review replaces payment issues');
  await check(`!['Payments received','Attention needed','Cake inquiries'].some(t=>A.$('owner-view').textContent.includes(t))`,'removed dashboard panels');
  await check(`document.querySelector('.owner-calendar-link').textContent==='View Calendar' && document.querySelector('.owner-calendar-link').getAttribute('href')==='#/owner/capacity'`,'compact calendar destination');
  await check(`!A.$('owner-header-notifications').hidden && A.$('staff-header-notifications').hidden && document.querySelector('header nav').classList.contains('staff-hidden')`,'owner header and notification bell');

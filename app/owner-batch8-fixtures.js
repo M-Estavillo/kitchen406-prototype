@@ -20,6 +20,19 @@ A.owner.seed=()=>{
  if(!item||R.records.some(r=>r.key===o.id+':'+item.key))continue;const customer=A.operations.customer(o.customer_id),index=R.records.length;
  R.records.push({id:'REVIEW-'+(index+1),key:o.id+':'+item.key,orderId:o.id,productId:item.productId,product:item.name,variant:item.variant,customer:customer?customer.first_name+' '+customer.last_name:'Customer',rating:index===1?2:5,comment:index===1?'The texture was not what I expected.':'Enjoyed this purchase.',images:index===0?[A.products.find(p=>p.id===item.productId)?.image].filter(Boolean):[],created:new Date().toISOString(),hidden:false,history:[],version:0});
  }
+ // Completed demo sales give every product distinct quantities and reporting dates.
+ const today=A.ownerUI.businessDate(Date.now());
+ A.products.forEach((product,index)=>{
+  const variant=product.variants[0];
+  if(!variant)return;
+  for(const offset of [0,3,8]){
+   const saleDate=A.schedule.add(today,-offset),saleId='ANALYTICS-DEMO-'+product.id+'-'+offset;
+   if(A.operations.find(saleId))continue;
+   const items=[A.commerce.line(product.id,variant.id,1+(index+offset)%5)];
+   const fee=index%2?100:0;
+   A.commerce.state.orders.push({id:saleId,fixture:true,customer_id:A.account.id(),contact:A.account.contact(),type:'standard',items,fulfillment:{date:saleDate,method:fee?'delivery':'pickup'},fee,total:A.commerce.subtotal(items)+fee,paid:true,payment:'confirmed',status:'completed',created:saleDate+'T02:00:00Z',paidAt:saleDate+'T03:00:00Z',activity:[],attempts:[]});
+  }
+ });
  A.owner.render();
 };
 const reset=A.commerce.reset;A.commerce.reset=()=>{M.drafts.length=0;M.occasions.length=0;M.events.clear();M.examplesLoaded=false;R.records.length=0;reset();M.initialized=false;M.evaluate();M.initialized=true;};

@@ -51,11 +51,6 @@ document.addEventListener('click',e=>{
   O.render();if(event)location.hash='#/owner/'+event.path;return;
  }
  if(action==='cancel-stock'){if(O.confirmDismiss())A.closeModal(true);return;}
- if(action==='summary'){
-  const label=el.dataset.summary,target=label==='Payment issues'?'orders/payments':label==='Stock alerts'?'inventory':'orders';
-  O.filterCache.set(target,{filters:{...blank(),...(target==='orders'?{from:A.schedule.today(),to:A.schedule.today()}:target==='inventory'?{stock:'alerts'}:target==='orders/payments'?{issue:'issues'}:{})},page:1,status:label==='Ready today'?'ready':'all'});
-  return;
- }
  if(action==='retry'){O.mode='normal';O.render();return;}
  if(action==='previous'||action==='next'){O.page+=action==='next'?1:-1;O.render();return;}
  if(action==='clear-filters'){O.filters=blank();if(O.parts[1]==='marketing')O.filters.type='pending';O.status='all';O.page=1;O.render();return;}
