@@ -137,7 +137,7 @@ function confirm(rows,date,retry=false){
  const note=action==='preparing'?'This records ingredients as used. Orders that fail stock checks stay confirmed.':action==='courier'?'Each delivery gets a separate booking. You can retry failed bookings from the results.':'Confirm that these orders are prepared and staged.';
  const label=retry?'Book another courier':stage.label;
  const summary=retry?`<p>Try another courier for <strong>${E(picks[0].id)}</strong> using the same delivery details?</p>`:`<p>${count(rows.length,'order')} · ${count(rows.reduce((n,row)=>n+units(row),0),'unit')}</p><ul class="owner-batch-confirm-list">${rows.map(({order})=>`<li>${E(order.id)} · ${E(order.items[0].name)}</li>`).join('')}</ul><p>${note}</p>`;
- workspace().open(label+'?',`<div class="owner-order-confirm">${summary}<div class="owner-order-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${V.button('batch-confirm',label,'',true)}</div></div>`,true);
+ workspace().open(label+'?',`<div class="owner-order-confirm">${summary}${action==='preparing'||action==='ready'?rows.map(({order})=>A.earnings.editor(order)).join(''):''}<div class="owner-order-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${V.button('batch-confirm',label,'',true)}</div></div>`,true);
  A.$(staffCalendar()?'staff-dialog-body':'owner-dialog-body').querySelector('[data-owner=batch-confirm]').addEventListener('click',()=>execute(picks,date,key,generation,operation,retry),{once:true});
 }
 document.addEventListener('change',event=>{

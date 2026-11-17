@@ -1,0 +1,5 @@
+{
+  "actual": "#/owner/orders/OWNER-DEMO-PICKUP",
+  "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nOWNER-DEMO-PICKUP\nBack to orders\nStart preparation\nMaterial commitments\nIngredient\tRequired\tUnit\nBread flour\t400\tg\nMilk\t180\tml\nUnsalted butter\t80\tg\nCocoa\t60\tg\nSugar\t50\tg\nYeast\t4\tg\nSalt\t6\tg\nPackaging\t1\tpcs\n\nReservation: confirmed\n\nFulfillment Details\nMethod\nBakery pickup\nScheduled date\nWed, Oct 14, 2026\nPickup location\nKitchen406 · Banilad, Metro Cebu\nContact\nCharles Borres\nPhone\n+639175551234\nEmail\ncharles@example.com\nOrder Summary\nConfirmed\nPaid\n\n1 items · 1 products\n\nBraided Chocolate Babka\n\n650g Standard · Qty: 1\n\n₱340.00 each\n\n₱340.00\nItems subtotal\n₱340.00\nTotal\n₱340.00\nPayment information\nMethod\nPayMongo QR Ph\nStatus\nPaid\nCreated\n11/9/2026, 12:31:25 PM\nConfirmed\n11/9/2026, 12:31:25 PM\nAmount paid\n₱340.00\nStatus history\n\nNo transitions recorded.",
+  "dialog": ""
+}

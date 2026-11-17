@@ -1,7 +1,7 @@
 /* Recorded-payment reporting. Fulfillment children never create a second sale. */
 (() => {
 const A=K406,V=A.ownerUI,E=A.escape,D=A.schedule;
-const defaults={period:'month',from:'',to:'',sort:'sales',selection:'current',productIds:[]};
+const defaults={period:'month',from:'',to:'',sort:'sales',selection:'current',productIds:[],owner:'all',basis:'allocated',orderType:'all'};
 const R=A.analytics={...defaults};
 const periods=[['day','Day'],['week','Week'],['month','Month'],['quarter','Quarter'],['year','Year'],['custom','Custom range']];
 const dateString=date=>date.toISOString().slice(0,10);
@@ -46,10 +46,10 @@ R.transactions=()=>{
  });
 };
 R.report=(range=R.range())=>{
- const all=R.transactions(),transactions=all.filter(t=>t.date&&t.date>=range.from&&t.date<=range.to).map(t=>{
+ const all=R.transactions(),transactions=all.filter(t=>(R.orderType==='all'||(R.orderType==='subscription'?['subscription','subscription_purchase'].includes(t.order.type):t.order.type===R.orderType))&&t.date&&t.date>=range.from&&t.date<=range.to).map(t=>{
   if(!R.productIds.length)return t;
   const items=t.items.filter(item=>R.productIds.includes(String(item.productId)));
-  const total=items.reduce((sum,item)=>sum+Math.round(item.price*100)*item.quantity,0)/100;
+  const total=items.reduce((sum,item)=>sum+Math.round(item.price*item.quantity*100),0)/100;
   return {...t,items,total};
  }).filter(t=>t.items.length),products=new Map();
  const days=Math.round((Date.parse(range.to)-Date.parse(range.from))/86400000)+1,group=days<=31?'day':days<=120?'week':'month';
@@ -59,7 +59,7 @@ R.report=(range=R.range())=>{
  for(let date=key(range.from);date<=range.to;){buckets.set(date,{date,total:0,count:0});if(group==='month'){if(date.slice(0,7)===range.to.slice(0,7))break;const next=new Date(date+'T00:00:00Z');next.setUTCMonth(next.getUTCMonth()+1);date=next.toISOString().slice(0,10);}else date=D.add(date,group==='week'?7:1);}
  let itemTotal=0;
  for(const t of transactions){const bucket=buckets.get(key(t.date));bucket.total+=Math.round(t.total*100);bucket.count++;
-  for(const i of t.items){const id=i.key||i.productId+':'+i.variant,row=products.get(id)||{id,productId:i.productId,name:i.name,variant:i.variant,quantity:0,sales:0};row.quantity+=i.quantity;row.sales+=Math.round(i.price*100)*i.quantity;itemTotal+=Math.round(i.price*100)*i.quantity;products.set(id,row);}
+  for(const i of t.items){const id=i.key||i.productId+':'+i.variant,row=products.get(id)||{id,productId:i.productId,name:i.name,variant:i.variant,quantity:0,sales:0};row.quantity+=i.quantity;row.sales+=Math.round(i.price*i.quantity*100);itemTotal+=Math.round(i.price*i.quantity*100);products.set(id,row);}
  }
  const total=transactions.reduce((sum,t)=>sum+Math.round(t.total*100),0);
  return {transactions,total:total/100,count:transactions.length,itemTotal:itemTotal/100,other:(total-itemTotal)/100,products:[...products.values()].map(p=>({...p,sales:p.sales/100})),buckets:[...buckets.values()].map(b=>({...b,total:b.total/100})),group,undated:all.filter(t=>!t.date).length};
@@ -69,6 +69,7 @@ function profit(report){
  let total=0;
  for(const transaction of report.transactions){
   const items=transaction.items,order=transaction.order;
+  if(transaction.estimatedProfit!==undefined){if(transaction.estimatedProfit===null)return null;total+=transaction.estimatedProfit;continue;}
   const units=items.reduce((sum,item)=>sum+item.quantity,0);
   const materials=order.type==='cake'?A.inventory.materials(order):A.inventory.materials({...order,items});
   const cost=A.pricing.breakdown(materials,A.pricing.overhead*units,0);
@@ -86,7 +87,7 @@ function chart(report){
  return `<div class="owner-analytics-trend"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${report.group} sales trend in Philippine pesos"><title>Recorded payments by ${report.group}</title>${ticks}<polygon points="${area}" fill="var(--accent)" opacity=".08"/><polyline points="${points}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>${buckets.map((b,i)=>`<circle cx="${x(i)}" cy="${y(b.total)}" r="3.5" fill="var(--accent)" tabindex="0"><title>${E(V.date(b.date))}: ${V.money(b.total)} · ${b.count} purchases</title></circle>`).join('')}${labels}</svg></div>`;
 }
 function mix(report){
- const types=[['standard','Standard','#8d4a14'],['subscription_purchase','Subscriptions','#c68c4c'],['cake','Custom cakes','#697a64']].map(([type,label,color])=>({label,color,total:report.transactions.filter(t=>t.order.type===type).reduce((n,t)=>n+t.total,0)}));
+ const types=[['standard','Standard','#8d4a14'],['subscription','Subscriptions','#c68c4c'],['cake','Custom cakes','#697a64']].map(([type,label,color])=>({label,color,total:report.transactions.filter(t=>t.order.type===type||(type==='subscription'&&t.order.type==='subscription_purchase')).reduce((n,t)=>n+t.total,0)}));
  let angle=0;const segments=types.map(t=>{const start=angle;angle+=report.total?t.total/report.total*100:0;return `${t.color} ${start}% ${angle}%`;});
  return `<div class="owner-analytics-mix"><div class="owner-sales-donut" style="background:conic-gradient(${report.total?segments.join(','):'var(--line) 0% 100%'})" role="img" aria-label="Sales by order type"><div><strong>${report.count}</strong><span>purchases</span></div></div><div class="owner-sales-legend">${types.map(t=>`<div><span><i style="background:${t.color}"></i>${t.label}</span><strong>${V.money(t.total)}</strong><small>${report.total?Math.round(t.total/report.total*100):0}%</small></div>`).join('')}</div></div>`;
 }
@@ -105,10 +106,10 @@ A.ownerPages.analytics=()=>{
  const top=[...report.products].sort((a,b)=>b.sales-a.sales).slice(0,5),max=Math.max(...top.map(p=>p.sales),1),units=report.products.reduce((n,p)=>n+p.quantity,0);
  const totalProfit=profit(report);
  Object.assign(A.owner.filters,{from:range.from,to:range.to});
- const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','View by',periods,R.period)}${periodControl(range)}${productControl()}${V.button('analytics-clear','Clear filters')}</div>`;
+ const filters=`<div class="owner-order-filters owner-analytics-filters">${V.select('period','View by',periods,R.period)}${periodControl(range)}${productControl()}${V.select('earnings-type','Order type',[['all','All order types'],['standard','Standard orders'],['subscription','Subscriptions'],['cake','Custom cakes']],R.orderType)}${V.select('earnings-basis','Sales basis',[['allocated','Fulfilled sales'],['payments','Recorded payments']],R.basis)}${R.basis==='allocated'?V.select('earnings-owner','Prepared by',[['all','All owners'],['owner-a','Owner A'],['owner-b','Owner B'],['unallocated','Unallocated']],R.owner):''}${V.button('analytics-clear','Clear filters')}</div>`;
 
  const leaders=top.length?`<div class="owner-analytics-leaders">${top.map((p,i)=>`<div><span class="owner-analytics-rank">${i+1}</span><div><div class="owner-leader-label"><span>${E(p.name)}<small>${E(p.variant)}</small></span><strong>${V.money(p.sales)}</strong></div><div class="owner-leader-track"><span style="width:${p.sales/max*100}%"></span></div></div></div>`).join('')}</div>`:'<p class="owner-analytics-empty">No product sales this period.</p>';
- return V.intro('Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}${R.productIds.length?'<p class="owner-analytics-caption">Selected product revenue excludes delivery fees.</p>':''}<div class="owner-analytics-stats">${A.ui.stat({label:'Recorded revenue',value:V.money(report.itemTotal)})}${A.ui.stat({label:'Total profit',value:totalProfit===null?'Unavailable':V.money(totalProfit)})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:'Units sold',value:units})}</div><p class="owner-analytics-caption">Profit is estimated from current ingredient, packaging, and utility costs.</p><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product revenue</span>`)}</div>`;
+ return V.intro('Sales Analytics','Sales and product performance at a glance.')+`<div class="owner-analytics">${filters}${R.productIds.length?'<p class="owner-analytics-caption">Selected product revenue excludes delivery fees.</p>':''}<div class="owner-analytics-stats">${A.ui.stat({label:R.basis==='allocated'?'Allocated sales':'Recorded revenue',value:V.money(report.itemTotal)})}${A.ui.stat({label:'Estimated profit',value:totalProfit===null?'Unavailable':V.money(totalProfit)})}${A.ui.stat({label:'Average purchase',value:V.money(report.count?report.total/report.count:0)})}${A.ui.stat({label:R.basis==='allocated'&&R.owner!=='all'?'Allocated units':'Units sold',value:units})}</div><p class="owner-analytics-caption">Profit is estimated from current ingredient, packaging, and utility costs. Fulfilled sales exclude delivery fees; prepaid payments are allocated per completed delivery. Unassigned work remains unallocated.</p><div class="owner-analytics-chart-grid">${V.panel('Sales trend',report.count?chart(report):'<div class="owner-analytics-empty">No recorded payments this period.<br><span>Choose another period to view sales.</span></div>',`<span class="owner-analytics-caption">${report.group==='day'?'Daily':report.group==='week'?'Weekly':'Monthly'}</span>`)}${V.panel('Sales by order type',mix(report))}</div>${V.panel('Top products',leaders,`<span class="owner-analytics-caption">By product revenue</span>`)}</div>`;
 };
 
 document.addEventListener('change',e=>{

@@ -1,0 +1,3778 @@
+[
+  {
+    "requested": "owner",
+    "actual": "#/owner",
+    "title": "Owner Dashboard",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nOwner Dashboard\n\nYour bakery’s work and commitments for Wed, Oct 14, 2026\n\nDue today\n\n2\n\nReady today\n\n1\n\nPayment issues\n\n1\n\nStock alerts\n\n0\nToday’s fulfillment\nOWNER-DEMO-PICKUP\nConfirmed\n\nBakery pickup · Standard purchase\n\nBraided Chocolate Babka · 650g Standard × 1\n\nStart preparation\nView details\nOWNER-DEMO-COURIER\nReady\n\nDelivery · Standard purchase\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 2 / Braided Chocolate Babka · 650g Standard × 1\n\nBook Courier\nView details\nUpcoming commitments\nView Calendar\nOWNER-DEMO-PREPARING\nPreparing\n\nDelivery · Japanese Shokupan Loaf × 1\n\nSun, Oct 25, 2026\nDetails\nOWNER-DEMO-CONFIRMED\nConfirmed\n\nPickup · Braided Chocolate Babka × 2\n\nMon, Oct 26, 2026\nDetails\nK406-1001\nConfirmed\n\nDelivery · Japanese Shokupan Loaf × 1\n\nSat, Nov 7, 2026\nDetails\nK406-1002\nConfirmed\n\nDelivery · Japanese Shokupan Loaf × 1\n\nFri, Nov 13, 2026\nDetails\nK406-1003\nConfirmed\n\nDelivery · Japanese Shokupan Loaf × 1\n\nFri, Nov 20, 2026\nDetails",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Due today2",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Ready today1",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Payment issues1",
+        "href": "#/owner/orders/payments"
+      },
+      {
+        "text": "Stock alerts0",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "OWNER-DEMO-PICKUP",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "OWNER-DEMO-COURIER",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "View Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "OWNER-DEMO-PREPARING",
+        "href": "#/owner/orders/OWNER-DEMO-PREPARING"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/orders/OWNER-DEMO-PREPARING"
+      },
+      {
+        "text": "OWNER-DEMO-CONFIRMED",
+        "href": "#/owner/orders/OWNER-DEMO-CONFIRMED"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/orders/OWNER-DEMO-CONFIRMED"
+      },
+      {
+        "text": "K406-1001",
+        "href": "#/owner/orders/K406-1001"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/orders/K406-1001"
+      },
+      {
+        "text": "K406-1002",
+        "href": "#/owner/orders/K406-1002"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/orders/K406-1002"
+      },
+      {
+        "text": "K406-1003",
+        "href": "#/owner/orders/K406-1003"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/orders/K406-1003"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Start preparation",
+        "action": "transition",
+        "id": "OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "Book Courier",
+        "action": "book",
+        "id": "OWNER-DEMO-COURIER"
+      }
+    ],
+    "screenshot": "owner.png"
+  },
+  {
+    "requested": "owner/orders",
+    "actual": "#/owner/orders",
+    "title": "Orders",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nOrders\n\nPurchases, checkout attempts, and fulfillment commitments.\n\nAll\nActive\nNeeds attention\nCompleted\nSearch\nDate Range\nAny date\n⌄\nSort\nNewest first\nOldest first\nClear filters\nK406-1004\nConfirmed\n\nSubscription fulfillment · Delivery · ₱380.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 1\n\nFri, Nov 27, 2026\nView details\nK406-1003\nConfirmed\n\nSubscription fulfillment · Delivery · ₱380.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 1\n\nFri, Nov 20, 2026\nView details\nK406-1002\nConfirmed\n\nSubscription fulfillment · Delivery · ₱380.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 1\n\nFri, Nov 13, 2026\nView details\nSUB-PAY-2001\nConfirmed\n\nSubscription purchase · Prepaid parent · ₱1,520.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 4\n\n—\nView details\nK406-1001\nConfirmed\n\nSubscription fulfillment · Delivery · ₱380.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 1\n\nSat, Nov 7, 2026\nView details\nOWNER-DEMO-CONFIRMED\nConfirmed\n\nStandard purchase · Bakery pickup · ₱680.00\n\nBraided Chocolate Babka · 650g Standard × 2\n\nMon, Oct 26, 2026\nView details\nOWNER-DEMO-PREPARING\nPreparing\n\nStandard purchase · Delivery · ₱380.00\n\nJapanese Shokupan Loaf · Thick Sliced (450g) × 1\n\nSun, Oct 25, 2026\nView details\nOWNER-DEMO-PENDING\nPending Payment\n\nStandard purchase · Bakery pickup · ₱340.00\n\nBraided Chocolate Babka · 650g Standard × 1\n\nSat, Oct 24, 2026\nView details\nOWNER-DEMO-RESOLUTION\nPayment Resolution\n\nStandard purchase · Delivery · ₱440.00\n\nBraided Chocolate Babka · 650g Standard × 1\n\nSat, Oct 24, 2026\nView details\nOWNER-DEMO-FAILED\nPayment Failed\n\nStandard purchase · Bakery pickup · ₱340.00\n\nBraided Chocolate Babka · 650g Standard × 1\n\nSat, Oct 24, 2026\nView details\nPrevious\nPage 1 of 2\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/K406-1004"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/K406-1003"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/K406-1002"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/SUB-PAY-2001"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/K406-1001"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-CONFIRMED"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-PREPARING"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-PENDING"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-RESOLUTION"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/orders/OWNER-DEMO-FAILED"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "All",
+        "action": "status"
+      },
+      {
+        "text": "Active",
+        "action": "status"
+      },
+      {
+        "text": "Needs attention",
+        "action": "status"
+      },
+      {
+        "text": "Completed",
+        "action": "status"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-orders.png"
+  },
+  {
+    "requested": "owner/orders/payments",
+    "actual": "#/owner/orders/payments",
+    "title": "Orders · Payments & Issues",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nOrders · Payments & Issues\n\nInspect QR Ph attempts, checkout holds, and operational confirmation. Dates filter attempt creation in Manila time.\n\nBack to orders\nSearch\nType\nAll types\npending\npaid\nfailed\nexpired\ncancelled\nPayment issues\nAll attempts\nNeeds review\nOrder type\nAll order types\nStandard purchase\nSubscription purchase\nCustom cake purchase\nFrom date\nThrough date\nSort\nNewest first\nOldest first\nApply filters\nClear filters\nOrder / attempt\tPayment\tOrder state\tHold\tAmount / reference\nOWNER-DEMO-PICKUP\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: Not recorded\n\n\tConfirmed\n\n\tCHECKOUT-1\n\nActive\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱340.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-PICKUP\n\n\nOWNER-DEMO-COURIER\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: Not recorded\n\n\tReady\n\n\tCHECKOUT-2\n\nActive\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱1,000.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-COURIER\n\n\nOWNER-DEMO-PENDING\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPending\n\nPaid at: Not recorded\n\n\tPending Payment\n\n\tCHECKOUT-3\n\nActive\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱340.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-PENDING\n\n\nOWNER-DEMO-RESOLUTION\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: Not recorded\n\n\tPayment Resolution\n\nPayment arrived after the temporary checkout hold expired. Resource recovery requires owner review.\n\n\tNot recorded\n\nNot Recorded\n\nHold expiry: Not recorded\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱440.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-RESOLUTION\n\n\nOWNER-DEMO-PREPARING\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: Not recorded\n\n\tPreparing\n\n\tCHECKOUT-4\n\nActive\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱380.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-PREPARING\n\n\nOWNER-DEMO-CONFIRMED\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: Not recorded\n\n\tConfirmed\n\n\tCHECKOUT-5\n\nActive\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱680.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-CONFIRMED\n\n\nOWNER-DEMO-FAILED\n\nAttempt 1 · 11/9/2026, 11:31:25 AM\n\n\tFailed\n\nPaid at: Not recorded\n\n\tPayment Failed\n\n\tOWNER-HOLD-OWNER-DEMO-FAILED\n\nReleased\n\nHold expiry: 11/9/2026, 12:03:25 PM\n\nQR session expiry: 11/9/2026, 12:01:25 PM\n\n\t₱340.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-FAILED\n\n\nOWNER-DEMO-EXPIRED\n\nAttempt 1 · 11/9/2026, 11:31:25 AM\n\n\tExpired\n\nPaid at: Not recorded\n\n\tPayment Failed\n\n\tOWNER-HOLD-OWNER-DEMO-EXPIRED\n\nReleased\n\nHold expiry: 11/9/2026, 12:03:25 PM\n\nQR session expiry: 11/9/2026, 12:01:25 PM\n\n\t₱340.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-EXPIRED\n\n\nOWNER-DEMO-LATE\n\nAttempt 1 · 11/9/2026, 11:31:25 AM\n\n\tPaid\n\nPaid at: 11/9/2026, 12:06:25 PM\n\n\tCancelled\n\nPayment verified after reservation release. Order remains cancelled; review externally for refund eligibility. No refund has been processed.\n\n\tOWNER-HOLD-OWNER-DEMO-LATE\n\nReleased\n\nHold expiry: 11/9/2026, 12:03:25 PM\n\nQR session expiry: 11/9/2026, 12:01:25 PM\n\n\t₱340.00\n\nQR Ph via PayMongo\n\nDEMO-QR-OWNER-DEMO-LATE\n\n\nSUB-PAY-2001\n\nAttempt 1 · 11/9/2026, 12:31:25 PM\n\n\tPaid\n\nPaid at: 11/9/2026, 12:31:25 PM\n\n\tConfirmed\n\n\tCHECKOUT-6\n\nConfirmed\n\nHold expiry: 11/9/2026, 12:41:25 PM\n\nQR session expiry: 11/9/2026, 12:41:25 PM\n\n\t₱1,520.00\n\nQR Ph via PayMongo\n\nCHECKOUT-6\n\nPrevious\nPage 1 of 2 · 12 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Back to orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "OWNER-DEMO-PICKUP",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "OWNER-DEMO-COURIER",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "OWNER-DEMO-PENDING",
+        "href": "#/owner/orders/OWNER-DEMO-PENDING"
+      },
+      {
+        "text": "OWNER-DEMO-RESOLUTION",
+        "href": "#/owner/orders/OWNER-DEMO-RESOLUTION"
+      },
+      {
+        "text": "OWNER-DEMO-PREPARING",
+        "href": "#/owner/orders/OWNER-DEMO-PREPARING"
+      },
+      {
+        "text": "OWNER-DEMO-CONFIRMED",
+        "href": "#/owner/orders/OWNER-DEMO-CONFIRMED"
+      },
+      {
+        "text": "OWNER-DEMO-FAILED",
+        "href": "#/owner/orders/OWNER-DEMO-FAILED"
+      },
+      {
+        "text": "OWNER-DEMO-EXPIRED",
+        "href": "#/owner/orders/OWNER-DEMO-EXPIRED"
+      },
+      {
+        "text": "OWNER-DEMO-LATE",
+        "href": "#/owner/orders/OWNER-DEMO-LATE"
+      },
+      {
+        "text": "SUB-PAY-2001",
+        "href": "#/owner/orders/SUB-PAY-2001"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Apply filters"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-orders-payments.png"
+  },
+  {
+    "requested": "owner/orders/deliveries",
+    "actual": "#/owner/orders/deliveries",
+    "title": "Orders · Deliveries",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nOrders · Deliveries\n\nBook Ready orders and follow their courier status.\n\nBack to orders\nSearch\nType\nAll types\nReady to book\npending\nbooked\nin transit\ndelivered\nfailed\ncancelled\nFrom date\nThrough date\nSort\nNewest first\nOldest first\nApply filters\nClear filters\nOrder\tDate / destination\tCourier\tHistory\tAction\nOWNER-DEMO-COURIER\tWed, Oct 14, 2026\n\nMandaue City · ₱100.00\n\n\tReady To Book\n\n\tNo booking\tBook courier\nPrevious\nPage 1 of 1 · 1 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Back to orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "OWNER-DEMO-COURIER",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Apply filters"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Book courier",
+        "action": "book",
+        "id": "OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-orders-deliveries.png"
+  },
+  {
+    "requested": "owner/inventory",
+    "actual": "#/owner/inventory",
+    "title": "Inventory",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nInventory\n\nBase ingredients, packaging, reservations, and owner costs.\n\nAll\nIngredients\nPackaging\nSearch\nDate Range\nAny date\n⌄\nStock status\nAll stock\nStock alerts\nAvailable\nLow stock\nOut of stock\nSort\nNewest first\nOldest first\nClear filters\nIngredient\tUnit\tPhysical\tReserved\tAvailable\tThreshold\tStatus\tActions\nBread flour\tg\t48,700\t1,900\t46,800\t2,000\tAvailable\t\nDetails\nRestock\nAdjust\n\nUnsalted butter\tg\t4,830\t350\t4,480\t1,000\tAvailable\t\nDetails\nRestock\nAdjust\n\nCocoa\tg\t4,940\t240\t4,700\t500\tAvailable\t\nDetails\nRestock\nAdjust\n\nSugar\tg\t9,875\t225\t9,650\t1,000\tAvailable\t\nDetails\nRestock\nAdjust\n\nYeast\tg\t984\t20\t964\t100\tAvailable\t\nDetails\nRestock\nAdjust\n\nSalt\tg\t976\t30\t946\t100\tAvailable\t\nDetails\nRestock\nAdjust\n\nMilk\tml\t9,280\t900\t8,380\t1,000\tAvailable\t\nDetails\nRestock\nAdjust\n\nPackaging\tpcs\t196\t5\t191\t20\tAvailable\t\nDetails\nRestock\nAdjust\n\nVanilla\tg\t1,000\t0\t1,000\t100\tAvailable\t\nDetails\nRestock\nAdjust\n\nFood coloring\tg\t100\t0\t100\t10\tAvailable\t\nDetails\nRestock\nAdjust\nPrevious\nPage 1 of 3\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/flour"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/butter"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/cocoa"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/sugar"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/yeast"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/salt"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/milk"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/box"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/vanilla"
+      },
+      {
+        "text": "Details",
+        "href": "#/owner/inventory/tint"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "All",
+        "action": "inventory-type"
+      },
+      {
+        "text": "Ingredients",
+        "action": "inventory-type"
+      },
+      {
+        "text": "Packaging",
+        "action": "inventory-type"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "flour"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "flour"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "butter"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "butter"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "cocoa"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "cocoa"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "sugar"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "sugar"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "yeast"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "yeast"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "salt"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "salt"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "milk"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "milk"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "box"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "box"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "vanilla"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "vanilla"
+      },
+      {
+        "text": "Restock",
+        "action": "stock",
+        "id": "tint"
+      },
+      {
+        "text": "Adjust",
+        "action": "stock",
+        "id": "tint"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-inventory.png"
+  },
+  {
+    "requested": "owner/inventory/flour",
+    "actual": "#/owner/inventory/flour",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nBack to inventory\nBread flour\nAvailable\nEdit\nUnit\ng\nOn hand\n48,700\nReserved\n1,900\nAvailable\n46,800\nReorder threshold\n2,000\nUnit cost\nNot recorded / g\nMovement history\nTime\tType\tBefore\tChange\tAfter\tActor\tSource\tActions\n11/9/2026, 12:31:25 PM\tconsumption\t49,000\t-300\t48,700\tOwner\tOWNER-DEMO-PREPARING\tView order\n11/9/2026, 12:31:25 PM\tconsumption\t50,000\t-1,000\t49,000\tOwner\tOWNER-DEMO-COURIER\tView order",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Back to inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "View order",
+        "href": "#/owner/orders/OWNER-DEMO-PREPARING"
+      },
+      {
+        "text": "View order",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit",
+        "action": "cost",
+        "id": "flour"
+      }
+    ],
+    "screenshot": "owner-inventory-flour.png"
+  },
+  {
+    "requested": "owner/recipes",
+    "actual": "#/owner/products",
+    "title": "Products",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nProducts\n\nCatalog, variants, recipes and owner-controlled selling prices.\n\nAdd product\nEdit categories\nCosting settings\nSearch\nCategory\nAll categories\nBreads\nPastries\nPantry\nAvailability\nAll statuses\nAvailable\nIngredient shortage / missing recipe\nTemporarily unavailable\nDeactivated\nSort\nNewest first\nOldest first\nName A–Z\nClear filters\nWhipped Sea Salt Butter\nAvailable\nEdit\nActive\nSalted Caramel Tart\nAvailable\nEdit\nActive\nRoasted Garlic Focaccia\nAvailable\nEdit\nActive\nTraditional Baguette\nAvailable\nEdit\nActive\nTwice-Baked Almond Croissant\nAvailable\nEdit\nActive\nKalamata Olive Sourdough\nTemporarily Unavailable\nEdit\nActive\nBanana Walnut Loaf\nAvailable\nEdit\nActive\nBrioche Burger Buns\nAvailable\nEdit\nActive\nCrispy Butter Cookies\nAvailable\nEdit\nActive\nDark Chocolate Brownies\nAvailable\nEdit\nActive\nCinnamon Rolls\nAvailable\nEdit\nActive\nPandesal\nAvailable\nEdit\nActive\nPrevious\nPage 1 of 2\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Add product",
+        "href": "#/owner/products/new"
+      },
+      {
+        "text": "Whipped Sea Salt Butter",
+        "href": "#/owner/products/20"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/20/edit"
+      },
+      {
+        "text": "Salted Caramel Tart",
+        "href": "#/owner/products/19"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/19/edit"
+      },
+      {
+        "text": "Roasted Garlic Focaccia",
+        "href": "#/owner/products/18"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/18/edit"
+      },
+      {
+        "text": "Traditional Baguette",
+        "href": "#/owner/products/17"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/17/edit"
+      },
+      {
+        "text": "Twice-Baked Almond Croissant",
+        "href": "#/owner/products/16"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/16/edit"
+      },
+      {
+        "text": "Kalamata Olive Sourdough",
+        "href": "#/owner/products/15"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/15/edit"
+      },
+      {
+        "text": "Banana Walnut Loaf",
+        "href": "#/owner/products/14"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/14/edit"
+      },
+      {
+        "text": "Brioche Burger Buns",
+        "href": "#/owner/products/13"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/13/edit"
+      },
+      {
+        "text": "Crispy Butter Cookies",
+        "href": "#/owner/products/12"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/12/edit"
+      },
+      {
+        "text": "Dark Chocolate Brownies",
+        "href": "#/owner/products/11"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/11/edit"
+      },
+      {
+        "text": "Cinnamon Rolls",
+        "href": "#/owner/products/10"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/10/edit"
+      },
+      {
+        "text": "Pandesal",
+        "href": "#/owner/products/9"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/9/edit"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit categories",
+        "action": "categories"
+      },
+      {
+        "text": "Costing settings",
+        "action": "pricing-settings"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "20"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "19"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "18"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "17"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "16"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "15"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "14"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "13"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "12"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "11"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "10"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "9"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-recipes.png"
+  },
+  {
+    "requested": "owner/cake-requests",
+    "actual": "#/owner/cake-requests",
+    "title": "Custom Cake Requests",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nCustom Cake Requests\n\nReview original designs, feasibility, and quotation history.\n\nDate Range\nAny date\n⌄\nStatus\nAll statuses\nPending review\nDiscussing changes\nQuotation ready\nQuotation accepted\nRejected\nExpired\nSort\nNewest first\nOldest first\nClear filters\nCAKE-4004\nRejected\n\nRafael Cruz\n\nHeart · Vanilla · 8 inch\n\nMon, Nov 9, 2026\n\nEstimate · ₱1,140.00\n\nView details\nCAKE-4003\nPending Review\n\nLeah Mendoza\n\nRound · Chocolate · 6 inch\n\nFri, Nov 6, 2026\n\nEstimate · ₱1,050.00\n\nView details\nCAKE-4002\nPending Review\n\nMika Santos\n\nHeart · Vanilla · 6 inch\n\nTue, Nov 3, 2026\n\nEstimate · ₱990.00\n\nView details\nCAKE-4001\nPending Review\n\nCharles Borres\n\nRound · Chocolate · 8 inch\n\nSat, Oct 31, 2026\n\nEstimate · ₱1,100.00\n\nView details\nPrevious\nPage 1 of 1\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/cake-requests/CAKE-4004"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/cake-requests/CAKE-4003"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/cake-requests/CAKE-4002"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/cake-requests/CAKE-4001"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-cake-requests.png"
+  },
+  {
+    "requested": "owner/subscriptions",
+    "actual": "#/owner/subscriptions",
+    "title": "Subscriptions",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nSubscriptions\n\nFour prepaid weekly fulfillments. No automatic renewal.\n\nRecords\nSchedules\nCapacity\nDeferment history\nSearch\nDate Range\nAny date\n⌄\nStatus\nAll statuses\nActive\nCompleted\nCancelled\nSort\nNewest first\nOldest first\nClear filters\nSUB-2002\nActive\n\nCharles Borres\n\nJapanese Shokupan Loaf · Thick Sliced (450g) · 1 per week\n\n0/4 fulfilled\n\nNext: Sat, Nov 7, 2026\n\n₱1,520.00\nPrepaid total\nView details\nPrevious\nPage 1 of 1\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Records",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Schedules",
+        "href": "#/owner/subscriptions/schedules"
+      },
+      {
+        "text": "Capacity",
+        "href": "#/owner/subscriptions/offerings"
+      },
+      {
+        "text": "Deferment history",
+        "href": "#/owner/subscriptions/requests"
+      },
+      {
+        "text": "View details",
+        "href": "#/owner/subscriptions/SUB-2002"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-subscriptions.png"
+  },
+  {
+    "requested": "owner/subscriptions/schedules",
+    "actual": "#/owner/subscriptions/schedules",
+    "title": "Subscription schedules",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nSubscription schedules\n\nEdits apply to future enrollments. Existing dates and allocations are preserved.\n\nRecords\nSchedules\nCapacity\nDeferment history\nWeekly schedules\nAdd schedule\nSchedule / product\tPreparation / fulfillment\tExisting subscriptions\tStatus\tAction\nWeekly Friday\n\nFallback schedule\n\n\tThursday / Friday\tSUB-2002\tActive\tEdit\nWeekly Saturday\n\nFallback schedule\n\n\tFriday / Saturday\tNone\tActive\tEdit\nWeekly Tuesday\n\nFallback schedule\n\n\tMonday / Tuesday\tNone\tActive\tEdit",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Records",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Schedules",
+        "href": "#/owner/subscriptions/schedules"
+      },
+      {
+        "text": "Capacity",
+        "href": "#/owner/subscriptions/offerings"
+      },
+      {
+        "text": "Deferment history",
+        "href": "#/owner/subscriptions/requests"
+      },
+      {
+        "text": "SUB-2002",
+        "href": "#/owner/subscriptions/SUB-2002"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Add schedule",
+        "action": "schedule"
+      },
+      {
+        "text": "Edit",
+        "action": "schedule",
+        "id": "friday"
+      },
+      {
+        "text": "Edit",
+        "action": "schedule",
+        "id": "saturday"
+      },
+      {
+        "text": "Edit",
+        "action": "schedule",
+        "id": "tuesday"
+      }
+    ],
+    "screenshot": "owner-subscriptions-schedules.png"
+  },
+  {
+    "requested": "owner/subscriptions/offerings",
+    "actual": "#/owner/subscriptions/offerings",
+    "title": "Capacity & Offerings",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nCapacity & Offerings\n\nWeekly product capacity for Mon, Oct 12, 2026 – Sun, Oct 18, 2026.\n\nRecords\nSchedules\nCapacity\nDeferment history\nEdit Lead Time\nEligible products\nProduct / enrollment\tWeekly capacity\tConfirmed\tRemaining\tAction\nBraided Chocolate Babka\n\navailable · 3 active schedules\n\n\t10 units\t0 units\t10 units\tEdit\nCountry Sourdough Batard\n\nfull · 3 active schedules\n\n\t10 units\t0 units\t10 units\tEdit\nJapanese Shokupan Loaf\n\navailable · 3 active schedules\n\n\t10 units\t0 units\t10 units\tEdit\nUbe Halaya Croissant\n\nunavailable · 3 active schedules\n\n\t10 units\t0 units\t10 units\tEdit",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Records",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Schedules",
+        "href": "#/owner/subscriptions/schedules"
+      },
+      {
+        "text": "Capacity",
+        "href": "#/owner/subscriptions/offerings"
+      },
+      {
+        "text": "Deferment history",
+        "href": "#/owner/subscriptions/requests"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit Lead Time",
+        "action": "subscription-timing"
+      },
+      {
+        "text": "Edit",
+        "action": "subscription-offering",
+        "id": "1"
+      },
+      {
+        "text": "Edit",
+        "action": "subscription-offering",
+        "id": "2"
+      },
+      {
+        "text": "Edit",
+        "action": "subscription-offering",
+        "id": "4"
+      },
+      {
+        "text": "Edit",
+        "action": "subscription-offering",
+        "id": "5"
+      }
+    ],
+    "screenshot": "owner-subscriptions-offerings.png"
+  },
+  {
+    "requested": "owner/subscriptions/requests",
+    "actual": "#/owner/subscriptions/requests",
+    "title": "Deferment history",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nDeferment history\n\nA read-only log of fulfillment date changes.\n\nRecords\nSchedules\nCapacity\nDeferment history\nSearch\nDate Range\nAny date\n⌄\nStatus\nAll statuses\nApplied\nPending (legacy)\nApproved (legacy)\nRejected (legacy)\nSort\nNewest first\nOldest first\nClear filters\nSUB-2002\nApplied\n\nCharles Borres\n\nView order\nView details\nPrevious\nPage 1 of 1\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Records",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Schedules",
+        "href": "#/owner/subscriptions/schedules"
+      },
+      {
+        "text": "Capacity",
+        "href": "#/owner/subscriptions/offerings"
+      },
+      {
+        "text": "Deferment history",
+        "href": "#/owner/subscriptions/requests"
+      },
+      {
+        "text": "View order",
+        "href": "#/owner/orders/K406-1001"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "View details",
+        "action": "defer-details",
+        "id": "OWNER-DEMO-DEFERMENT"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-subscriptions-requests.png"
+  },
+  {
+    "requested": "owner/capacity",
+    "actual": "#/owner/capacity",
+    "title": "Production Calendar",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nProduction Calendar\n\nPlan fulfillment and review availability across each capacity pool.\n\nOrder type\nAll types\nStandard\nSubscription fulfillment\nCustom cake\nProduction status\nAll statuses\nConfirmed\nPreparing\nReady\nCompleted\nCalendar settings\nMon, Oct 12, 2026 – Sun, Oct 18, 2026\n\nFulfillment dates · select a day to review capacity\n\nWeek\nMonth\nPrevious\nNext\nMon\nTue\nWed\nThu\nFri\nSat\nSun\n12\n\n1 order\n\nB8-COMPLETED-0\nBraided Chocolate Babka × 1\nCompleted\n13\n\n0 orders\n\n14\nToday\n\n2 orders\n\nOWNER-DEMO-PICKUP\nBraided Chocolate Babka × 1\nConfirmed\n+1 more\n15\n\n0 orders\n\n16\n\n0 orders\n\n17\n\n0 orders\n\n18\n\n0 orders\n\nCapacity includes confirmed allocations and active holds. Order filters apply to commitments only.\n\nAgenda\n\nWed, Oct 14, 2026\n\n2 orders · 4 units\nOWNER-DEMO-PICKUP\n\nBraided Chocolate Babka × 1\n\nStandard\nConfirmed\nView order\nOWNER-DEMO-COURIER\n\nJapanese Shokupan Loaf × 2, Braided Chocolate Babka × 1\n\nStandard\nReady\nView order\nCapacity\n\nWed, Oct 14, 2026\n\nManage\nStandard orders\nDaily\nVarieties today\n2 / 4\n\n2 available\n\nBraided Chocolate Babka\n2 / 10\n\n8 available\n\nJapanese Shokupan Loaf\n2 / 10\n\n8 available\n\n10 units per product per day\n\nCustom cakes\nBookings today\n0 / 1\n\n1 available\n\nBookings this week\n0 / 2\n\n2 available\n\nSubscriptions\nWeekly\n\nNo allocations this week.\n10 units per product per week.\n\nIncludes active holds. Stock and booking rules still apply.\n\nCapacity allocations\n\nWed, Oct 14, 2026 · All order types\n\n3\nOWNER-DEMO-PICKUP\nConfirmed\n\nBraided Chocolate Babka\n\nStandard\n1 unit\nOWNER-DEMO-COURIER\nConfirmed\n\nJapanese Shokupan Loaf\n\nStandard\n2 units\nOWNER-DEMO-COURIER\nConfirmed\n\nBraided Chocolate Babka\n\nStandard\n1 unit",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Calendar settings",
+        "href": "#/owner/capacity/settings"
+      },
+      {
+        "text": "B8-COMPLETED-0Braided Chocolate Babka × 1completed",
+        "href": "#/owner/orders/B8-COMPLETED-0"
+      },
+      {
+        "text": "OWNER-DEMO-PICKUPBraided Chocolate Babka × 1confirmed",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "View order",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "View order",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "Manage",
+        "href": "#/owner/capacity/settings"
+      },
+      {
+        "text": "OWNER-DEMO-PICKUP",
+        "href": "#/owner/orders/OWNER-DEMO-PICKUP"
+      },
+      {
+        "text": "OWNER-DEMO-COURIER",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      },
+      {
+        "text": "OWNER-DEMO-COURIER",
+        "href": "#/owner/orders/OWNER-DEMO-COURIER"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Week",
+        "action": "calendar-mode"
+      },
+      {
+        "text": "Month",
+        "action": "calendar-mode"
+      },
+      {
+        "text": "Previous",
+        "action": "calendar-prev"
+      },
+      {
+        "text": "Next",
+        "action": "calendar-next"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "+1 more",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      },
+      {
+        "text": "",
+        "action": "calendar-date"
+      }
+    ],
+    "screenshot": "owner-capacity.png"
+  },
+  {
+    "requested": "owner/capacity/settings",
+    "actual": "#/owner/capacity/settings",
+    "title": "Calendar Settings",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nCalendar Settings\n\nManage blocked dates, capacity limits and booking lead times.\n\nBack to calendar\nBlocked dates\nMon, Oct 12, 2026 – Sun, Oct 18, 2026\nWeek\nMonth\nPrevious\nNext\nMon\nTue\nWed\nThu\nFri\nSat\nSun\n12\n13\n14\n15\n16\n17\n18\nWed, Oct 14, 2026\nOpen for bookings\nBlock date\nUnblock date\nGeneral capacity and timing\n\nLower limits preserve existing allocations and prevent additional bookings when full.\n\nStandard units per product / day\nStandard varieties per day\nCakes per week\nCakes per day\nStandard orders\nLead time\nUnit\nDays\nHours\nCutoff (Manila)\nCustom cakes\nLead time\nUnit\nDays\nHours\nCutoff (Manila)\n\nSame-day fulfillment remains unavailable.\n\nDiscard edits\nSave changes\nSubscriptions\nView subscriptions\n\nSubscription commitments and capacity remain visible in the calendar. Manage subscription schedules, offerings and capacity in Subscriptions.",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Back to calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "View subscriptions",
+        "href": "#/owner/subscriptions"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Week",
+        "action": "calendar-mode"
+      },
+      {
+        "text": "Month",
+        "action": "calendar-mode"
+      },
+      {
+        "text": "Previous",
+        "action": "calendar-prev"
+      },
+      {
+        "text": "Next",
+        "action": "calendar-next"
+      },
+      {
+        "text": "12",
+        "action": "calendar-date"
+      },
+      {
+        "text": "13",
+        "action": "calendar-date"
+      },
+      {
+        "text": "14",
+        "action": "calendar-date"
+      },
+      {
+        "text": "15",
+        "action": "calendar-date"
+      },
+      {
+        "text": "16",
+        "action": "calendar-date"
+      },
+      {
+        "text": "17",
+        "action": "calendar-date"
+      },
+      {
+        "text": "18",
+        "action": "calendar-date"
+      },
+      {
+        "text": "Block date",
+        "action": "block-date"
+      },
+      {
+        "text": "Unblock date",
+        "action": "unblock"
+      },
+      {
+        "text": "Discard edits",
+        "action": "discard"
+      },
+      {
+        "text": "Save changes"
+      }
+    ],
+    "screenshot": "owner-capacity-settings.png"
+  },
+  {
+    "requested": "owner/products",
+    "actual": "#/owner/products",
+    "title": "Products",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nProducts\n\nCatalog, variants, recipes and owner-controlled selling prices.\n\nAdd product\nEdit categories\nCosting settings\nSearch\nCategory\nAll categories\nBreads\nPastries\nPantry\nAvailability\nAll statuses\nAvailable\nIngredient shortage / missing recipe\nTemporarily unavailable\nDeactivated\nSort\nNewest first\nOldest first\nName A–Z\nClear filters\nWhipped Sea Salt Butter\nAvailable\nEdit\nActive\nSalted Caramel Tart\nAvailable\nEdit\nActive\nRoasted Garlic Focaccia\nAvailable\nEdit\nActive\nTraditional Baguette\nAvailable\nEdit\nActive\nTwice-Baked Almond Croissant\nAvailable\nEdit\nActive\nKalamata Olive Sourdough\nTemporarily Unavailable\nEdit\nActive\nBanana Walnut Loaf\nAvailable\nEdit\nActive\nBrioche Burger Buns\nAvailable\nEdit\nActive\nCrispy Butter Cookies\nAvailable\nEdit\nActive\nDark Chocolate Brownies\nAvailable\nEdit\nActive\nCinnamon Rolls\nAvailable\nEdit\nActive\nPandesal\nAvailable\nEdit\nActive\nPrevious\nPage 1 of 2\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Add product",
+        "href": "#/owner/products/new"
+      },
+      {
+        "text": "Whipped Sea Salt Butter",
+        "href": "#/owner/products/20"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/20/edit"
+      },
+      {
+        "text": "Salted Caramel Tart",
+        "href": "#/owner/products/19"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/19/edit"
+      },
+      {
+        "text": "Roasted Garlic Focaccia",
+        "href": "#/owner/products/18"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/18/edit"
+      },
+      {
+        "text": "Traditional Baguette",
+        "href": "#/owner/products/17"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/17/edit"
+      },
+      {
+        "text": "Twice-Baked Almond Croissant",
+        "href": "#/owner/products/16"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/16/edit"
+      },
+      {
+        "text": "Kalamata Olive Sourdough",
+        "href": "#/owner/products/15"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/15/edit"
+      },
+      {
+        "text": "Banana Walnut Loaf",
+        "href": "#/owner/products/14"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/14/edit"
+      },
+      {
+        "text": "Brioche Burger Buns",
+        "href": "#/owner/products/13"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/13/edit"
+      },
+      {
+        "text": "Crispy Butter Cookies",
+        "href": "#/owner/products/12"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/12/edit"
+      },
+      {
+        "text": "Dark Chocolate Brownies",
+        "href": "#/owner/products/11"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/11/edit"
+      },
+      {
+        "text": "Cinnamon Rolls",
+        "href": "#/owner/products/10"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/10/edit"
+      },
+      {
+        "text": "Pandesal",
+        "href": "#/owner/products/9"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/9/edit"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit categories",
+        "action": "categories"
+      },
+      {
+        "text": "Costing settings",
+        "action": "pricing-settings"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "20"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "19"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "18"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "17"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "16"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "15"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "14"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "13"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "12"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "11"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "10"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "9"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-products.png"
+  },
+  {
+    "requested": "owner/products/1",
+    "actual": "#/owner/products/1",
+    "title": "Braided Chocolate Babka",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nBraided Chocolate Babka\n\nBreads\n\nAll products\nEdit product\nProduct overview\nDeactivate product\nSubscription offerings\n\nSoft braided loaf with chocolate filling.\n\nAvailable · Subscription eligible\n\nVariants and final selling prices\nAdd variant\nVariant\tStatus\tFinal price\tActions\n650g Standard\tActive\t₱340.00\tEdit Set final price\n950g Large\tActive\t₱480.00\tEdit Set final price\nRecipe · 650g Standard\nEdit recipe\nIngredient\tQuantity / unit\tUnit cost\tMaterial cost\nBread flour\t400 g\tNot recorded\tNot recorded\nMilk\t180 ml\tNot recorded\tNot recorded\nUnsalted butter\t80 g\tNot recorded\tNot recorded\nCocoa\t60 g\tNot recorded\tNot recorded\nSugar\t50 g\tNot recorded\tNot recorded\nYeast\t4 g\tNot recorded\tNot recorded\nSalt\t6 g\tNot recorded\tNot recorded\nPackaging\t1 pcs\tNot recorded\tNot recorded\nEstimated costing · 650g Standard\nCosting settings\nSet final price\n\nCost estimate unavailable. Configure a valid recipe and recorded costs for every material. Missing costs are not zero.",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "All products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Edit product",
+        "href": "#/owner/products/1/edit"
+      },
+      {
+        "text": "Subscription offerings",
+        "href": "#/owner/subscriptions/offerings"
+      },
+      {
+        "text": "650g Standard",
+        "href": "#/owner/products/1/standard"
+      },
+      {
+        "text": "950g Large",
+        "href": "#/owner/products/1/large"
+      },
+      {
+        "text": "Bread flour",
+        "href": "#/owner/inventory/flour"
+      },
+      {
+        "text": "Milk",
+        "href": "#/owner/inventory/milk"
+      },
+      {
+        "text": "Unsalted butter",
+        "href": "#/owner/inventory/butter"
+      },
+      {
+        "text": "Cocoa",
+        "href": "#/owner/inventory/cocoa"
+      },
+      {
+        "text": "Sugar",
+        "href": "#/owner/inventory/sugar"
+      },
+      {
+        "text": "Yeast",
+        "href": "#/owner/inventory/yeast"
+      },
+      {
+        "text": "Salt",
+        "href": "#/owner/inventory/salt"
+      },
+      {
+        "text": "Packaging",
+        "href": "#/owner/inventory/box"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Deactivate product",
+        "action": "product-toggle",
+        "id": "1"
+      },
+      {
+        "text": "Add variant",
+        "action": "variant-edit",
+        "id": "1"
+      },
+      {
+        "text": "Edit",
+        "action": "variant-edit",
+        "id": "1"
+      },
+      {
+        "text": "Set final price",
+        "action": "price",
+        "id": "1"
+      },
+      {
+        "text": "Edit",
+        "action": "variant-edit",
+        "id": "1"
+      },
+      {
+        "text": "Set final price",
+        "action": "price",
+        "id": "1"
+      },
+      {
+        "text": "Edit recipe",
+        "action": "recipe",
+        "id": "1"
+      },
+      {
+        "text": "Costing settings",
+        "action": "pricing-settings"
+      },
+      {
+        "text": "Set final price",
+        "action": "price",
+        "id": "1"
+      }
+    ],
+    "screenshot": "owner-products-1.png"
+  },
+  {
+    "requested": "owner/products/1/edit",
+    "actual": "#/owner/products/1/edit",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nBack to products\nProduct details\nProduct name\nDescription\nMax 1,000 characters\nCategory\nBreads\nPastries\nPantry\nVariants\n2 selected\nSelling Price\n650g Standard\nSelling Price\n950g Large\nActive\nSubscription-eligible\nRecommended Selling Price\n650g Standard\nIngredients\n—\nPackaging\n—\nUtility overhead\n₱25.00\nProduction cost\n—\nMarkup (30%)\n—\nRecommended price\nUnavailable\n950g Large\nIngredients\n—\nPackaging\n—\nUtility overhead\n₱25.00\nProduction cost\n—\nMarkup (30%)\n—\nRecommended price\nUnavailable\nProduct images\nCover image\nNo image\nBraided Chocolate Babka\nCountry Sourdough Batard\nCardamom Kouign-Amann\nJapanese Shokupan Loaf\nUbe Halaya Croissant\nVanilla Bean Sea Salt Canelé\nRosemary Focaccia\nCultured Herb Honey Butter\nPandesal\nCinnamon Rolls\nDark Chocolate Brownies\nCrispy Butter Cookies\nBrioche Burger Buns\nBanana Walnut Loaf\nKalamata Olive Sourdough\nTwice-Baked Almond Croissant\nTraditional Baguette\nRoasted Garlic Focaccia\nSalted Caramel Tart\nWhipped Sea Salt Butter\nRecipe\n650g Standard\nAdd material\nMaterial\tQuantity\tUnit\tUnit cost\tMaterial cost\tActions\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tml\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tpcs\tNot recorded\tNot recorded\tRemove\n950g Large\nAdd material\nMaterial\tQuantity\tUnit\tUnit cost\tMaterial cost\tActions\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tml\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tg\tNot recorded\tNot recorded\tRemove\n\nChoose a material\nBread flour\nUnsalted butter\nCocoa\nVanilla\nFood coloring\nWater\nSugar\nYeast\nSalt\nMilk\nPackaging\nEgg\nCardamom\nUbe\nOlive oil\nRosemary\nHoney\nHerbs\nCinnamon\nBanana\nWalnuts\nOlives\nAlmonds\nGarlic\nCream\n\t\tpcs\tNot recorded\tNot recorded\tRemove\nCancel\nSave product",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Back to products",
+        "action": "product-cancel"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Remove",
+        "action": "product-remove-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Add material",
+        "action": "product-add-material"
+      },
+      {
+        "text": "Cancel",
+        "action": "product-cancel"
+      },
+      {
+        "text": "Save product"
+      }
+    ],
+    "screenshot": "owner-products-1-edit.png"
+  },
+  {
+    "requested": "owner/products/categories",
+    "actual": "#/owner/products",
+    "title": "Products",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nProducts\n\nCatalog, variants, recipes and owner-controlled selling prices.\n\nAdd product\nEdit categories\nCosting settings\nSearch\nCategory\nAll categories\nBreads\nPastries\nPantry\nAvailability\nAll statuses\nAvailable\nIngredient shortage / missing recipe\nTemporarily unavailable\nDeactivated\nSort\nNewest first\nOldest first\nName A–Z\nClear filters\nWhipped Sea Salt Butter\nAvailable\nEdit\nActive\nSalted Caramel Tart\nAvailable\nEdit\nActive\nRoasted Garlic Focaccia\nAvailable\nEdit\nActive\nTraditional Baguette\nAvailable\nEdit\nActive\nTwice-Baked Almond Croissant\nAvailable\nEdit\nActive\nKalamata Olive Sourdough\nTemporarily Unavailable\nEdit\nActive\nBanana Walnut Loaf\nAvailable\nEdit\nActive\nBrioche Burger Buns\nAvailable\nEdit\nActive\nCrispy Butter Cookies\nAvailable\nEdit\nActive\nDark Chocolate Brownies\nAvailable\nEdit\nActive\nCinnamon Rolls\nAvailable\nEdit\nActive\nPandesal\nAvailable\nEdit\nActive\nPrevious\nPage 1 of 2\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Add product",
+        "href": "#/owner/products/new"
+      },
+      {
+        "text": "Whipped Sea Salt Butter",
+        "href": "#/owner/products/20"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/20/edit"
+      },
+      {
+        "text": "Salted Caramel Tart",
+        "href": "#/owner/products/19"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/19/edit"
+      },
+      {
+        "text": "Roasted Garlic Focaccia",
+        "href": "#/owner/products/18"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/18/edit"
+      },
+      {
+        "text": "Traditional Baguette",
+        "href": "#/owner/products/17"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/17/edit"
+      },
+      {
+        "text": "Twice-Baked Almond Croissant",
+        "href": "#/owner/products/16"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/16/edit"
+      },
+      {
+        "text": "Kalamata Olive Sourdough",
+        "href": "#/owner/products/15"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/15/edit"
+      },
+      {
+        "text": "Banana Walnut Loaf",
+        "href": "#/owner/products/14"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/14/edit"
+      },
+      {
+        "text": "Brioche Burger Buns",
+        "href": "#/owner/products/13"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/13/edit"
+      },
+      {
+        "text": "Crispy Butter Cookies",
+        "href": "#/owner/products/12"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/12/edit"
+      },
+      {
+        "text": "Dark Chocolate Brownies",
+        "href": "#/owner/products/11"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/11/edit"
+      },
+      {
+        "text": "Cinnamon Rolls",
+        "href": "#/owner/products/10"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/10/edit"
+      },
+      {
+        "text": "Pandesal",
+        "href": "#/owner/products/9"
+      },
+      {
+        "text": "Edit",
+        "href": "#/owner/products/9/edit"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit categories",
+        "action": "categories"
+      },
+      {
+        "text": "Costing settings",
+        "action": "pricing-settings"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "20"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "19"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "18"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "17"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "16"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "15"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "14"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "13"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "12"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "11"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "10"
+      },
+      {
+        "text": "Active",
+        "action": "product-toggle",
+        "id": "9"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-products-categories.png"
+  },
+  {
+    "requested": "owner/ingredients",
+    "actual": "#/owner/ingredients",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nPage not found\nDashboard\n\nThis owner page does not exist.",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      }
+    ],
+    "buttons": [],
+    "screenshot": "owner-ingredients.png"
+  },
+  {
+    "requested": "owner/cake-options",
+    "actual": "#/owner/cake-options",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nPage not found\nDashboard\n\nThis owner page does not exist.",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      }
+    ],
+    "buttons": [],
+    "screenshot": "owner-cake-options.png"
+  },
+  {
+    "requested": "owner/marketing/occasions",
+    "actual": "#/owner/marketing",
+    "title": "Marketing Drafts",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nMarketing Drafts\n\nReview promotional content before manual publication.\n\nDate Range\nAny date\n⌄\nStatus\nAll statuses\nPending\nApproved\nRejected\nCategory\nAll categories\nNew Product\nProduct Highlight\nSubscription Availability\nSeasonal Occasions\nSort\nNewest first\nOldest first\nClear filters\nSeasonal occasions\nPending Review\nNew Product\nBraided Chocolate Babka\n\nDRAFT-1 · Generated Mon, Nov 9, 2026\n\nCaption · editable via Edit\n\nBraided Chocolate Babka is available. Soft braided loaf with chocolate filling.\n\nApprove\nEdit\nReject\nPending Review\nSubscription Availability\nBraided Chocolate Babka\n\nDRAFT-2 · Generated Mon, Nov 9, 2026\n\nCaption · editable via Edit\n\nEnjoy Braided Chocolate Babka over four prepaid weekly fulfillments starting 2026-10-16.\n\nApprove\nEdit\nReject\nPrevious\nPage 1 of 2 · 3 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Seasonal occasions",
+        "action": "marketing-occasions"
+      },
+      {
+        "text": "Approve",
+        "action": "marketing-approve",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Edit",
+        "action": "marketing-edit",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Reject",
+        "action": "marketing-reject",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Approve",
+        "action": "marketing-approve",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Edit",
+        "action": "marketing-edit",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Reject",
+        "action": "marketing-reject",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-marketing-occasions.png"
+  },
+  {
+    "requested": "owner/accounts/staff",
+    "actual": "#/owner/accounts/staff",
+    "title": "Accounts",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nAccounts\n\nCreate staff account\nSearch name or email\nStatus\nAll statuses\nActive\nInactive\nSort\nName A–Z\nNewest first\nOldest first\nClear filters\nEL\nElena Lim\nActive\n\nelena@kitchen406.example\n\nCreated —\nActive\nRS\nRina Santos\nInactive\n\nrina@kitchen406.example\n\nCreated Mon, Nov 9, 2026\nInactive\nPrevious\nPage 1 of 1 · 2 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Elena Lim",
+        "href": "#/owner/accounts/staff/staff-elena"
+      },
+      {
+        "text": "Rina Santos",
+        "href": "#/owner/accounts/staff/staff-demo-inactive"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Create staff account",
+        "action": "account-edit"
+      },
+      {
+        "text": "Clear filters",
+        "action": "account-clear"
+      },
+      {
+        "text": "Active",
+        "action": "account-status",
+        "id": "staff-elena"
+      },
+      {
+        "text": "Inactive",
+        "action": "account-status",
+        "id": "staff-demo-inactive"
+      },
+      {
+        "text": "Previous",
+        "action": "account-prev"
+      },
+      {
+        "text": "Next",
+        "action": "account-next"
+      }
+    ],
+    "screenshot": "owner-accounts-staff.png"
+  },
+  {
+    "requested": "owner/accounts/customers",
+    "actual": "#/owner/accounts/staff",
+    "title": "Accounts",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nAccounts\n\nCreate staff account\nSearch name or email\nStatus\nAll statuses\nActive\nInactive\nSort\nName A–Z\nNewest first\nOldest first\nClear filters\nEL\nElena Lim\nActive\n\nelena@kitchen406.example\n\nCreated —\nActive\nRS\nRina Santos\nInactive\n\nrina@kitchen406.example\n\nCreated Mon, Nov 9, 2026\nInactive\nPrevious\nPage 1 of 1 · 2 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      },
+      {
+        "text": "Elena Lim",
+        "href": "#/owner/accounts/staff/staff-elena"
+      },
+      {
+        "text": "Rina Santos",
+        "href": "#/owner/accounts/staff/staff-demo-inactive"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Create staff account",
+        "action": "account-edit"
+      },
+      {
+        "text": "Clear filters",
+        "action": "account-clear"
+      },
+      {
+        "text": "Active",
+        "action": "account-status",
+        "id": "staff-elena"
+      },
+      {
+        "text": "Inactive",
+        "action": "account-status",
+        "id": "staff-demo-inactive"
+      },
+      {
+        "text": "Previous",
+        "action": "account-prev"
+      },
+      {
+        "text": "Next",
+        "action": "account-next"
+      }
+    ],
+    "screenshot": "owner-accounts-customers.png"
+  },
+  {
+    "requested": "owner/reviews",
+    "actual": "#/owner/reviews",
+    "title": "Customer Reviews",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nCustomer Reviews\n\nFeedback from completed purchases.\n\nAll\nVisible\nHidden\nSearch\nRatings\nAll ratings\n⌄\nSort\nNewest first\nOldest first\nClear filters\nCustomer\tProduct\tRating\tVisibility\tAction\nCharles Borres\tBraided Chocolate Babka\t5 / 5\tVisible\tView details\nCharles Borres\tBraided Chocolate Babka\t2 / 5\tVisible\tView details\nPrevious\nPage 1 of 1 · 2 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "All",
+        "action": "review-filter"
+      },
+      {
+        "text": "Visible",
+        "action": "review-filter"
+      },
+      {
+        "text": "Hidden",
+        "action": "review-filter"
+      },
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "View details",
+        "action": "review-details",
+        "id": "REVIEW-1"
+      },
+      {
+        "text": "View details",
+        "action": "review-details",
+        "id": "REVIEW-2"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-reviews.png"
+  },
+  {
+    "requested": "owner/marketing",
+    "actual": "#/owner/marketing",
+    "title": "Marketing Drafts",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nMarketing Drafts\n\nReview promotional content before manual publication.\n\nDate Range\nAny date\n⌄\nStatus\nAll statuses\nPending\nApproved\nRejected\nCategory\nAll categories\nNew Product\nProduct Highlight\nSubscription Availability\nSeasonal Occasions\nSort\nNewest first\nOldest first\nClear filters\nSeasonal occasions\nPending Review\nNew Product\nBraided Chocolate Babka\n\nDRAFT-1 · Generated Mon, Nov 9, 2026\n\nCaption · editable via Edit\n\nBraided Chocolate Babka is available. Soft braided loaf with chocolate filling.\n\nApprove\nEdit\nReject\nPending Review\nSubscription Availability\nBraided Chocolate Babka\n\nDRAFT-2 · Generated Mon, Nov 9, 2026\n\nCaption · editable via Edit\n\nEnjoy Braided Chocolate Babka over four prepaid weekly fulfillments starting 2026-10-16.\n\nApprove\nEdit\nReject\nPrevious\nPage 1 of 2 · 3 results\nNext",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "clear-filters"
+      },
+      {
+        "text": "Seasonal occasions",
+        "action": "marketing-occasions"
+      },
+      {
+        "text": "Approve",
+        "action": "marketing-approve",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Edit",
+        "action": "marketing-edit",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Reject",
+        "action": "marketing-reject",
+        "id": "DRAFT-1"
+      },
+      {
+        "text": "Approve",
+        "action": "marketing-approve",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Edit",
+        "action": "marketing-edit",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Reject",
+        "action": "marketing-reject",
+        "id": "DRAFT-2"
+      },
+      {
+        "text": "Previous",
+        "action": "previous"
+      },
+      {
+        "text": "Next",
+        "action": "next"
+      }
+    ],
+    "screenshot": "owner-marketing.png"
+  },
+  {
+    "requested": "owner/analytics",
+    "actual": "#/owner/analytics",
+    "title": "Analytics",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nAnalytics\n\nSales and product performance at a glance.\n\nPeriod\nThis week\nThis month\nCustom range\nDate Range\nNov 1 – Nov 9\n⌄\nClear filters\n\nRecorded sales\n\n₱4,700.00\n\nPaid purchases\n\n7\n\nAverage purchase\n\n₱671.43\n\nUnits sold\n\n13\nSales trend\nDaily\n₱0\n₱1.6k\n₱3.1k\n₱4.7k\nNov 1\nNov 5\nNov 9\nSales by order type\n7\npurchases\nStandard\n₱3,180.00\n68%\nSubscriptions\n₱1,520.00\n32%\nCustom cakes\n₱0.00\n0%\nTop products\nBy product sales\n1\nBraided Chocolate Babka\n650g Standard\n₱2,040.00\n2\nJapanese Shokupan Loaf\nThick Sliced (450g)\n₱1,960.00",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "analytics-clear"
+      }
+    ],
+    "screenshot": "owner-analytics.png"
+  },
+  {
+    "requested": "owner/analytics/1",
+    "actual": "#/owner/analytics/1",
+    "title": "Analytics",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nAnalytics\n\nSales and product performance at a glance.\n\nPeriod\nThis week\nThis month\nCustom range\nDate Range\nNov 1 – Nov 9\n⌄\nClear filters\n\nRecorded sales\n\n₱4,700.00\n\nPaid purchases\n\n7\n\nAverage purchase\n\n₱671.43\n\nUnits sold\n\n13\nSales trend\nDaily\n₱0\n₱1.6k\n₱3.1k\n₱4.7k\nNov 1\nNov 5\nNov 9\nSales by order type\n7\npurchases\nStandard\n₱3,180.00\n68%\nSubscriptions\n₱1,520.00\n32%\nCustom cakes\n₱0.00\n0%\nTop products\nBy product sales\n1\nBraided Chocolate Babka\n650g Standard\n₱2,040.00\n2\nJapanese Shokupan Loaf\nThick Sliced (450g)\n₱1,960.00",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Clear filters",
+        "action": "analytics-clear"
+      }
+    ],
+    "screenshot": "owner-analytics-1.png"
+  },
+  {
+    "requested": "owner/notifications",
+    "actual": "#/owner/notifications",
+    "title": "Notifications",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nNotifications\n\nOrders, payments, inventory, and cake updates for your bakery.\n\nFilter\nAll\nUnread\nOrders\nPayments\nInventory\nCustom cakes\nMark all as read\nOperational updates\n13 unread\nCAKE-4001 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nCAKE-4002 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nCAKE-4003 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nK406-1004 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1003 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1002 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1001 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nSUB-PAY-2001 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-PREPARING · preparing\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-CONFIRMED · confirmed\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-COURIER · ready\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-RESOLUTION · Payment requires review.\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-PICKUP · confirmed\n11/9/2026, 12:31:25 PM\nView details",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Mark all as read",
+        "action": "read-all"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4001:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4002:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4003:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1004:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1003:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1002:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1001:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:SUB-PAY-2001:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-PREPARING:preparing"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-CONFIRMED:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-COURIER:ready"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "payment:OWNER-DEMO-RESOLUTION"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-PICKUP:confirmed"
+      }
+    ],
+    "screenshot": "owner-notifications.png"
+  },
+  {
+    "requested": "owner/notifications/outbox",
+    "actual": "#/owner/notifications/outbox",
+    "title": "Notifications",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nNotifications\n\nOrders, payments, inventory, and cake updates for your bakery.\n\nFilter\nAll\nUnread\nOrders\nPayments\nInventory\nCustom cakes\nMark all as read\nOperational updates\n13 unread\nCAKE-4001 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nCAKE-4002 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nCAKE-4003 · Cake request awaiting review.\n11/9/2026, 12:31:25 PM\nView details\nK406-1004 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1003 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1002 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nK406-1001 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nSUB-PAY-2001 · confirmed\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-PREPARING · preparing\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-CONFIRMED · confirmed\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-COURIER · ready\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-RESOLUTION · Payment requires review.\n11/9/2026, 12:31:25 PM\nView details\nOWNER-DEMO-PICKUP · confirmed\n11/9/2026, 12:31:25 PM\nView details",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Mark all as read",
+        "action": "read-all"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4001:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4002:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "cake:CAKE-4003:pending_review"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1004:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1003:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1002:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:K406-1001:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:SUB-PAY-2001:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-PREPARING:preparing"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-CONFIRMED:confirmed"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-COURIER:ready"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "payment:OWNER-DEMO-RESOLUTION"
+      },
+      {
+        "text": "View details",
+        "action": "notification-view",
+        "id": "order:OWNER-DEMO-PICKUP:confirmed"
+      }
+    ],
+    "screenshot": "owner-notifications-outbox.png"
+  },
+  {
+    "requested": "owner/settings",
+    "actual": "#/owner/settings",
+    "title": "Settings",
+    "text": "Kitchen406 Owner\n\nBakery Owner\n\nDashboard\nOrders\nInventory\nProducts\nCustom Cake Requests\nSubscriptions\nProduction Calendar\nNotifications\nAnalytics\nAccounts\nMarketing Drafts\nCustomer Reviews\nSettings\nSettings\n\nManage your profile and account security.\n\nProfile Information\nEdit profile\nName\nKitchen406 Owner\nEmail\nowner@kitchen406.example\nContact number\nNot provided\nRole\nOwner/Admin\nAccount Security\nChange password\nChange email\n\nUpdate your sign-in credentials.",
+    "links": [
+      {
+        "text": "Dashboard",
+        "href": "#/owner"
+      },
+      {
+        "text": "Orders",
+        "href": "#/owner/orders"
+      },
+      {
+        "text": "Inventory",
+        "href": "#/owner/inventory"
+      },
+      {
+        "text": "Products",
+        "href": "#/owner/products"
+      },
+      {
+        "text": "Custom Cake Requests",
+        "href": "#/owner/cake-requests"
+      },
+      {
+        "text": "Subscriptions",
+        "href": "#/owner/subscriptions"
+      },
+      {
+        "text": "Production Calendar",
+        "href": "#/owner/capacity"
+      },
+      {
+        "text": "Notifications",
+        "href": "#/owner/notifications"
+      },
+      {
+        "text": "Analytics",
+        "href": "#/owner/analytics"
+      },
+      {
+        "text": "Accounts",
+        "href": "#/owner/accounts"
+      },
+      {
+        "text": "Marketing Drafts",
+        "href": "#/owner/marketing"
+      },
+      {
+        "text": "Customer Reviews",
+        "href": "#/owner/reviews"
+      },
+      {
+        "text": "Settings",
+        "href": "#/owner/settings"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Edit profile",
+        "action": "settings-profile"
+      },
+      {
+        "text": "Change password",
+        "action": "settings-password"
+      },
+      {
+        "text": "Change email",
+        "action": "settings-email"
+      }
+    ],
+    "screenshot": "owner-settings.png"
+  }
+]

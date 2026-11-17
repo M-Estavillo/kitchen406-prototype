@@ -659,60 +659,10 @@
 .owner-staff-accounts .staff-toolbar :is(input,select){height:38px;min-height:38px;box-sizing:border-box;font-size:12px;padding:7px 10px}
 .owner-staff-accounts .staff-toolbar>[data-owner=account-clear]{margin-left:auto}
 @media(max-width:480px){.owner-staff-accounts .staff-toolbar .field:first-child{flex:1 1 100%}}
-.owner-marketing-thumb{display:block;width:64px;height:48px;object-fit:cover;border-radius:5px;margin-top:6px}
-.owner-marketing-image{display:block;width:100%;max-width:420px;max-height:320px;object-fit:contain;border-radius:8px;margin:12px 0}
-.owner-caption{white-space:pre-wrap;overflow-wrap:anywhere}
-#owner-modal :is([data-marketing-form],[data-settings-form],[data-review-form]){display:grid;gap:12px}
-#owner-modal :is([data-marketing-form],[data-settings-form],[data-review-form]) :is(input,select,textarea){width:100%;font-size:13px;padding:8px;border:1px solid var(--line);border-radius:5px;box-sizing:border-box}
-#owner-modal :is([data-marketing-form],[data-settings-form],[data-review-form]) label{font-size:12px;display:block;margin-bottom:5px}
-/* Owner marketing draft cards and dialogs. */
-.owner-view .owner-marketing-filters{gap:10px}
-.owner-view .owner-marketing-filters>.field{flex:0 1 145px}
-.owner-view .owner-marketing-filters>.field:has([name=category]){flex-basis:185px}
-
-.owner-marketing-filter-actions{display:flex;gap:8px;margin-left:auto;align-items:center}
-.owner-view .owner-marketing-filter-actions .btn{font-size:12px;min-height:38px;padding:8px 10px;white-space:nowrap}
-.owner-marketing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.owner-marketing-card{min-width:0;border:1px solid var(--line);border-radius:12px;background:#fff;padding:20px;display:flex;flex-direction:column;gap:14px}
-.owner-marketing-card-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.owner-marketing-category{border:1px solid var(--line);border-radius:20px;padding:5px 10px;font-size:12px}
-.owner-marketing-card h2{font-size:21px;margin:0}
-.owner-marketing-card .owner-marketing-meta,.owner-marketing-meta{font-size:12px;color:var(--muted);margin:0}
-.owner-marketing-caption>span{font-size:12px;color:var(--muted)}
-.owner-marketing-caption p{white-space:pre-wrap;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;line-height:1.6;margin:6px 0 0;max-height:155px;overflow:auto}
-.owner-marketing-card-image{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#f6f4f0;border-radius:8px;margin-top:auto}
-.owner-marketing-card-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.owner-marketing-card-actions .btn{padding:7px 12px;font-size:12px;min-height:36px}
-@media(max-width:1000px){.owner-marketing-filter-actions{flex-basis:100%;justify-content:flex-end}}
-@media(max-width:700px){.owner-marketing-grid{grid-template-columns:minmax(0,1fr)}.owner-marketing-card{padding:16px}.owner-view .owner-marketing-filters>.field,.owner-view .owner-marketing-filters>.field:last-of-type{flex:1 1 140px}.owner-marketing-filter-actions{flex-wrap:wrap}}
-
-#owner-modal .dialog-card:has([data-marketing-form],.owner-marketing-occasions){max-width:480px;padding:24px;max-height:85dvh;overflow:auto}
-#owner-modal .dialog-card:has([data-marketing-form=caption]){max-width:560px}
-#owner-modal .dialog-card:has([data-marketing-form]) h2,#owner-modal .dialog-card:has(.owner-marketing-occasions) h2{font-size:24px;margin:0 0 16px}
-#owner-modal [data-marketing-form] .field{margin:0;min-width:0}
-#owner-modal [data-marketing-form] p{margin:0;font-size:14px;line-height:1.6}
-#owner-modal [data-marketing-form] textarea{min-height:150px;resize:vertical;line-height:1.6}
-#owner-modal :is([data-marketing-form],.owner-marketing-occasions) .staff-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px;flex-wrap:wrap}
-#owner-modal :is([data-marketing-form],.owner-marketing-occasions) .btn{font-size:13px;min-height:36px;padding:7px 12px}
-#owner-modal [data-marketing-form=occasion]{grid-template-columns:repeat(2,minmax(0,1fr))}
-#owner-modal [data-marketing-form=occasion]>:not(.field),#owner-modal [data-marketing-form=occasion]>.field:has([name=name],[name=active]){grid-column:1/-1}
-.owner-marketing-occasions{display:grid;gap:16px}
-.owner-marketing-occasions>p{margin:0;font-size:14px}
-.owner-marketing-occasion-list{display:grid;gap:10px}
-.owner-marketing-occasion-list article{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px;overflow-wrap:anywhere}
-.owner-marketing-occasion-list article>div{min-width:0}
-.owner-marketing-occasion-list p{font-size:12px;margin:5px 0}
-@media(max-width:480px){#owner-modal .dialog-card:has([data-marketing-form],.owner-marketing-occasions){padding:20px}#owner-modal [data-marketing-form=occasion]{grid-template-columns:minmax(0,1fr)}}
-
-/* Marketing-only statuses and compact occasion controls. */
-.owner-marketing-card .owner-marketing-status.approved{background:#dcfce7;color:#166534}
-.owner-marketing-card .owner-marketing-status.pending{background:#dbeafe;color:#1e40af}
-.owner-marketing-card .owner-marketing-status.rejected{background:#fee2e2;color:#991b1b}
-.owner-marketing-occasion-heading{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.owner-marketing-occasion-heading .order-badge{font-size:10px;line-height:1.3;padding:2px 6px;white-space:nowrap}
-#owner-modal [data-marketing-form=occasion] .owner-marketing-status-field{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
-#owner-modal [data-marketing-form=occasion] .owner-schedule-toggle{display:flex;align-items:center;gap:8px;position:relative;margin:0;cursor:pointer}
-#owner-modal [data-marketing-form=occasion] .owner-schedule-toggle input{position:absolute;opacity:0;width:38px;min-height:22px;height:22px;left:0;margin:0;padding:0}
+.owner-review-thumb{display:block;width:64px;height:48px;object-fit:cover;border-radius:5px;margin-top:6px}
+#owner-modal :is([data-settings-form],[data-review-form]){display:grid;gap:12px}
+#owner-modal :is([data-settings-form],[data-review-form]) :is(input,select,textarea){width:100%;font-size:13px;padding:8px;border:1px solid var(--line);border-radius:5px;box-sizing:border-box}
+#owner-modal :is([data-settings-form],[data-review-form]) label{font-size:12px;display:block;margin-bottom:5px}
 /* Owner review list and moderation dialog. */
 .owner-view .owner-review-filters>.field{flex:0 1 220px}
 .owner-view .owner-review-filters>.owner-review-ratings{flex-basis:150px}
@@ -896,25 +846,8 @@
 #owner-modal [data-owner-form=ingredient-add] :is(input,select){width:100%;min-height:36px;height:auto;padding:7px 9px;font-size:13px}
 #owner-modal .dialog-card:has([data-owner-form=ingredient-add]) h2{font-size:24px;margin-bottom:16px}
 #owner-modal [data-owner-form=ingredient-add] .owner-settings-actions{margin-top:4px}
-.owner-marketing-image-container,.owner-marketing-caption-container{position:relative;min-width:0}
-.owner-marketing-image-container{margin-top:auto}
-.owner-marketing-caption-container p{padding-bottom:46px}
-.owner-regenerate-icon{position:absolute;bottom:9px;right:9px;display:grid;place-items:center;width:29px;height:29px;padding:0;background:var(--canvas);color:var(--accent);border:1px solid var(--line);border-radius:5px;box-shadow:0 1px 4px #0001}
-.owner-regenerate-icon .material-symbols-outlined{font-size:18px}
-.owner-marketing-image-failed{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;aspect-ratio:4/3;background:#eeece9;border-radius:8px;color:var(--muted)}
-.owner-marketing-image-failed p{margin:0;font-size:13px}
-.owner-marketing-image-failed .btn{min-height:32px;padding:6px 14px;font-size:12px}
-.owner-marketing-status.incomplete{background:#f5e8d5;color:#795014}
 
 .owner-view .owner-analytics-products details{border:0;margin:0;padding:0}
-.owner-marketing-caption-container{height:156px;border:1px solid var(--line);border-radius:8px;margin-top:6px;padding:10px 10px 42px}
-.owner-marketing-card .owner-marketing-caption-container{height:93.6px;box-sizing:border-box}
-.owner-marketing-caption-container p{height:100%;max-height:none;overflow-y:auto;overflow-wrap:anywhere;scrollbar-width:thin;scrollbar-color:#c6beb5 transparent;padding:0 4px 0 0!important;border:0;border-radius:0;margin:0}
-.owner-marketing-caption-container p::-webkit-scrollbar{width:4px}
-.owner-marketing-caption-container p::-webkit-scrollbar-thumb{background:#c6beb5;border-radius:4px}
-.owner-marketing-image-container>a{display:block;overflow:hidden;border-radius:8px}
-.owner-marketing-photo-close{transform:scale(1.12);filter:brightness(1.04)}
-.owner-marketing-photo-wide{transform:scale(.94);filter:brightness(.98)}
 .owner-ingredient-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
 .owner-ingredient-form-row .field{min-width:0}
 .owner-ingredient-category{display:flex;gap:18px;border:0;padding:0;margin:0}
@@ -946,3 +879,9 @@
 .owner-batch-retry{margin-left:auto;padding:0;border:0;background:none;color:var(--accent);font-size:12px;text-decoration:underline;text-underline-offset:2px}
 .owner-batch-confirm-list{max-height:180px;overflow:auto;padding-left:18px;margin:8px 0}
 .owner-capacity-workspace .staff-day-count.owner-batch-day-count{color:var(--accent);font-weight:600}
+[data-allocation-order]{min-width:0;border:1px solid var(--line);border-radius:8px;padding:16px;margin:14px 0;display:grid;gap:12px}
+[data-allocation-order] legend{font-weight:600;padding:0 5px}
+[data-allocation-order] label{display:block;font-size:13px;margin-bottom:6px}
+[data-allocation-order] :is(select,input){display:block;width:100%;min-width:0;min-height:40px;margin-top:6px;border:1px solid var(--line);border-radius:6px;padding:8px;background:white}
+[data-allocation-order] input:disabled{opacity:.45}
+[data-allocation-order] small{display:block;color:var(--muted);margin-top:5px}

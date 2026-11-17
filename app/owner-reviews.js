@@ -17,7 +17,7 @@ R.public=()=>{
   4:['Soft and fluffy, perfect for sandwiches.','Beautiful thick slices and a gentle milky flavour.']
  };
  if(!R.records.some(r=>r.productId===id)&&samples[id])rows.push(...samples[id].map((comment,index)=>({customer:index?'Paolo R.':'Mika S.',rating:index?4:5,product:product.name,variant:product.variants[0].label,comment,images:index?[]:[product.image]})));
- node.innerHTML=rows.map(r=>`<article class="commerce-card"><strong>${E(r.customer)}</strong><p>${r.rating} / 5 · ${E(r.product)} · ${E(r.variant||'')}</p><p>${E(r.comment)}</p>${r.images.map(src=>`<a href="${E(src)}" target="_blank" rel="noopener"><img class="owner-marketing-thumb" src="${E(src)}" alt="Customer review photo"></a>`).join('')}</article>`).join('')||'<p>No reviews yet.</p>';
+ node.innerHTML=rows.map(r=>`<article class="commerce-card"><strong>${E(r.customer)}</strong><p>${r.rating} / 5 · ${E(r.product)} · ${E(r.variant||'')}</p><p>${E(r.comment)}</p>${r.images.map(src=>`<a href="${E(src)}" target="_blank" rel="noopener"><img class="owner-review-thumb" src="${E(src)}" alt="Customer review photo"></a>`).join('')}</article>`).join('')||'<p>No reviews yet.</p>';
  A.$('review-summary').textContent=rows.length?`${(rows.reduce((n,r)=>n+r.rating,0)/rows.length).toFixed(1)} / 5 · ${rows.length} reviews`:'No reviews yet.';
  return rows.length;
 };

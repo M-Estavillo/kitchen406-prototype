@@ -7,7 +7,6 @@ await send('Runtime.enable');await send('Page.navigate',{url:'file:///D:/kitchen
 
 
 
-await go('marketing');await check('A.owner.filters.type==="pending"&&[...document.querySelectorAll(".owner-marketing-status")].every(e=>e.classList.contains("pending"))','marketing defaults pending');
 await go('products');await run('document.querySelector("[data-owner=pricing-settings]").click()');await check('document.querySelector("select[name=markup]").options.length===8','markup dropdown 30 to 100');await run('A.closeModal(true)');
 await go('inventory');await run('A.ownerInventory.openStock(A.inventory.items[0].id,"adjustment")');await check('document.querySelector(".owner-stock-dialog-actions button[type=submit]").textContent==="Adjust"&&getComputedStyle(document.querySelector(".owner-stock-dialog-actions")).justifySelf==="end"','owner adjust compact footer');await run('A.closeModal(true)');
 await go('accounts');await check('!document.querySelector("[data-owner=account-edit][data-id]")&&!!document.querySelector("[data-owner=account-status][role=switch]")','staff account toggle without edit');

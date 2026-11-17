@@ -1,0 +1,33 @@
+const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+let orders=[],fields=[];const listeners={};
+const A={escape:String,ownerUI:{businessDate:n=>n?new Date(n).toISOString().slice(0,10):null,panel:(a,b)=>a+b},session:{ownerAllowed:()=>true,operational:()=>true},operations:{status:o=>o.status,orders:()=>orders,find:id=>orders.find(o=>o.id===id),purchases:()=>[{id:'p',snapshot:{products:360,total:400,delivery:40}}]},subscriptions:{allRecords:()=>[{id:'s',purchaseId:'p'}]},analytics:{owner:'all',basis:'allocated',productIds:[],transactions:()=>['recorded']},fulfillment:{transition:()=>''},deliveries:{reason:()=>''},staff:{results:new Map(),versions:new Map()},inventory:{materials:o=>({cost:o.items.reduce((s,i)=>s+i.quantity*20,0)})},pricing:{overhead:0,breakdown:m=>({total:m.cost})}};
+const context={K406:A,document:{addEventListener:(name,fn)=>listeners[name]=fn,querySelectorAll:()=>fields},queueMicrotask};vm.runInNewContext(fs.readFileSync('app/earnings-allocation.js','utf8'),context);
+const item=(id,price,quantity=1)=>({productId:id,name:'Product '+id,variant:'standard',price,quantity});
+orders=[{id:'one',paid:true,type:'standard',status:'completed',completedAt:Date.UTC(2026,10,17),items:[item(1,100),item(2,200)],ownerAllocation:[{choice:'a',a:100},{choice:'both',a:25}]},{id:'unassigned',paid:true,type:'cake',status:'completed',completedAt:Date.UTC(2026,10,17),items:[item(0,99)]},{id:'future',paid:true,status:'confirmed',items:[item(1,1000)]}];
+const sum=()=>A.analytics.transactions().reduce((s,t)=>s+t.total,0),profit=()=>A.analytics.transactions().reduce((s,t)=>s+t.estimatedProfit,0);
+assert.equal(sum(),399);assert.equal(profit(),339);
+A.analytics.owner='owner-a';assert.equal(sum(),150);assert.equal(profit(),125);
+A.analytics.owner='owner-b';assert.equal(sum(),150);assert.equal(profit(),135);
+A.analytics.owner='unallocated';assert.equal(sum(),99);
+A.analytics.owner='all';A.analytics.productIds=['2'];assert.equal(sum(),200);assert.equal(profit(),180);A.analytics.productIds=[];
+orders=Array.from({length:4},(_,i)=>({id:'s'+i,paid:true,type:'subscription',subscriptionId:'s',status:i===0?'completed':'confirmed',completedAt:i===0?Date.UTC(2026,10,17):null,items:[item(1,100)],ownerAllocation:[{choice:'both',a:50}]}));
+assert.equal(sum(),90);A.analytics.owner='owner-a';assert.equal(sum(),45);assert.equal(profit(),35);
+orders[1].ownerAllocation=undefined;assert.match(A.fulfillment.transition('s1','preparing',0,'key'),/Assign preparing owners|Record the preparing/);
+A.analytics.basis='payments';assert.equal(A.analytics.transactions()[0],'recorded');
+A.analytics.basis='allocated';orders[0].ownerAllocation=undefined;assert.match(A.deliveries.reason(orders[0]),/Assign preparing owners/);
+console.log('PASS: owner totals, product-filtered costs, unallocated work, completed-only prepaid allocation, payment separation, missing-assignment guard');
+
+const row=(choice,percent)=>({querySelector:selector=>selector==='select'?{value:choice}:{value:percent}});
+fields=[{dataset:{allocationOrder:'s1'},querySelectorAll:()=>[row('both',0)]}];assert.match(A.earnings.read(orders[1]).error,/Choose preparing/);
+fields[0].querySelectorAll=()=>[row('both',40)];assert.equal(A.earnings.read(orders[1]).values[0].a,40);
+assert.equal(A.fulfillment.transition('s1','preparing',0,'new-key'),'');assert.equal(orders[1].ownerAllocation[0].a,40);
+A.session.operational=()=>false;orders[1].ownerAllocation=undefined;A.fulfillment.transition('s1','preparing',0,'another-key');assert.equal(orders[1].ownerAllocation,undefined);
+console.log('PASS: split validation, assignment commit, unauthorized assignment isolation');
+
+A.session.operational=()=>true;A.ownerPages={};A.commerce={reset:()=>{}};A.schedule={add:(date,n)=>{const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)},valid:()=>true};
+vm.runInNewContext(fs.readFileSync('app/owner-analytics.js','utf8'),context);vm.runInNewContext(fs.readFileSync('app/earnings-allocation.js','utf8'),context);
+A.operations.purchases=()=>[{id:'p',snapshot:{products:360.01,total:400.01,delivery:40}}];orders.forEach(o=>{o.status='completed';o.completedAt=Date.UTC(2026,10,17);o.ownerAllocation=[{choice:'both',a:50}];});
+let report=A.analytics.report({from:'2026-11-17',to:'2026-11-17'});assert.equal(report.total,360.01);assert.equal(report.itemTotal,360.01);assert.equal(report.buckets[0].total,360.01);assert.equal(report.products[0].sales,360.01);
+A.analytics.owner='owner-a';const ownerA=A.analytics.report({from:'2026-11-17',to:'2026-11-17'});A.analytics.owner='owner-b';const ownerB=A.analytics.report({from:'2026-11-17',to:'2026-11-17'});assert.equal(Math.round((ownerA.total+ownerB.total)*100),36001);
+A.analytics.orderType='cake';assert.equal(A.analytics.report({from:'2026-11-17',to:'2026-11-17'}).total,0);
+console.log('PASS: actual report/chart/product totals reconcile, prepaid cent rounding, owner shares sum to total, order-type filter');
