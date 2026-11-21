@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_OrderCheckout" targetNamespace="https://kitchen406.example/bpmn">
+<bpmn:collaboration id="Collaboration_Checkout"><bpmn:participant id="Participant_Checkout" name="Order Checkout" processRef="Process_OrderCheckout"/></bpmn:collaboration>
+<bpmn:process id="Process_OrderCheckout" name="Order Checkout" isExecutable="false"><bpmn:documentation>Standard-order checkout, read top to bottom. Vertical lanes separate customer actions from Kitchen406 automation. Source: Chapters/Kitchen406 - Capstone Paper.md, SRS 4.1, 4.4, 4.6, 4.7, 4.10, 4.11, 4.12 and 4.16. Provider calls are summarized in system tasks; detailed API messages and authentication belong to their own diagrams. Payment, reservations, production and courier booking are outside this boundary. This descriptive process is not executable.</bpmn:documentation>
+<bpmn:laneSet id="Lanes_Checkout"><bpmn:lane id="Lane_Customer" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Login</bpmn:flowNodeRef><bpmn:flowNodeRef>EditCart</bpmn:flowNodeRef><bpmn:flowNodeRef>Choose</bpmn:flowNodeRef><bpmn:flowNodeRef>Address</bpmn:flowNodeRef><bpmn:flowNodeRef>FixDelivery</bpmn:flowNodeRef><bpmn:flowNodeRef>Retry</bpmn:flowNodeRef><bpmn:flowNodeRef>FixBooking</bpmn:flowNodeRef><bpmn:flowNodeRef>Review</bpmn:flowNodeRef><bpmn:flowNodeRef>Proceed</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="Lane_System" name="Kitchen406 System"><bpmn:flowNodeRef>Access</bpmn:flowNodeRef><bpmn:flowNodeRef>SignedIn</bpmn:flowNodeRef><bpmn:flowNodeRef>Cart</bpmn:flowNodeRef><bpmn:flowNodeRef>CartOK</bpmn:flowNodeRef><bpmn:flowNodeRef>Dates</bpmn:flowNodeRef><bpmn:flowNodeRef>Delivery</bpmn:flowNodeRef><bpmn:flowNodeRef>Location</bpmn:flowNodeRef><bpmn:flowNodeRef>LocationOK</bpmn:flowNodeRef><bpmn:flowNodeRef>Fee</bpmn:flowNodeRef><bpmn:flowNodeRef>FeeOK</bpmn:flowNodeRef><bpmn:flowNodeRef>Pickup</bpmn:flowNodeRef><bpmn:flowNodeRef>Merge</bpmn:flowNodeRef><bpmn:flowNodeRef>Validate</bpmn:flowNodeRef><bpmn:flowNodeRef>Available</bpmn:flowNodeRef><bpmn:flowNodeRef>Total</bpmn:flowNodeRef></bpmn:lane></bpmn:laneSet>
+<bpmn:startEvent id="Start" name="Checkout started"><bpmn:documentation>Customer requests checkout for a standard-order cart.</bpmn:documentation><bpmn:outgoing>F01</bpmn:outgoing></bpmn:startEvent>
+<bpmn:serviceTask id="Access" name="Check account access"><bpmn:documentation>FR-PAY-01; SRS 4.1. Require a registered and authenticated customer with required verification.</bpmn:documentation><bpmn:incoming>F01</bpmn:incoming><bpmn:incoming>F04</bpmn:incoming><bpmn:outgoing>F02</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="SignedIn" name="Access valid?"><bpmn:documentation>Authentication must succeed before the protected transaction proceeds.</bpmn:documentation><bpmn:incoming>F02</bpmn:incoming><bpmn:outgoing>F03</bpmn:outgoing><bpmn:outgoing>F05</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="Login" name="Sign in or register"><bpmn:documentation>Use the separate account-access workflow, including verification where required. Return only after successful authentication.</bpmn:documentation><bpmn:incoming>F03</bpmn:incoming><bpmn:outgoing>F04</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="Cart" name="Validate cart"><bpmn:documentation>FR-CART-05; FR-PAY-02. Check non-empty cart, active products and variants, valid quantities and current prices.</bpmn:documentation><bpmn:incoming>F05</bpmn:incoming><bpmn:incoming>F08</bpmn:incoming><bpmn:outgoing>F06</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="CartOK" name="Cart valid?"><bpmn:documentation>Reject unavailable items or invalid quantities.</bpmn:documentation><bpmn:incoming>F06</bpmn:incoming><bpmn:outgoing>F07</bpmn:outgoing><bpmn:outgoing>F09</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="EditCart" name="Correct cart"><bpmn:documentation>Customer changes quantities or removes unavailable items; system recalculates the subtotal before retrying.</bpmn:documentation><bpmn:incoming>F07</bpmn:incoming><bpmn:incoming>F28</bpmn:incoming><bpmn:outgoing>F08</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="Dates" name="Find eligible dates"><bpmn:documentation>FR-CAP-11-12; Scope 1.4.1(3). Offer dates common to every cart item, considering production batches, lead times, cut-offs, blocked dates and current availability. If none qualify, customer revises the cart or returns later.</bpmn:documentation><bpmn:incoming>F09</bpmn:incoming><bpmn:outgoing>F10</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="Choose" name="Choose method and date"><bpmn:documentation>Select pickup or delivery and one eligible fulfillment date for the entire standard order. No same-day fulfillment.</bpmn:documentation><bpmn:incoming>F10</bpmn:incoming><bpmn:incoming>F16</bpmn:incoming><bpmn:incoming>F22</bpmn:incoming><bpmn:incoming>F33</bpmn:incoming><bpmn:outgoing>F11</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="Delivery" name="Delivery?"><bpmn:documentation>Pickup requires no destination or courier charge.</bpmn:documentation><bpmn:incoming>F11</bpmn:incoming><bpmn:outgoing>F12</bpmn:outgoing><bpmn:outgoing>F13</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="Address" name="Confirm delivery address"><bpmn:documentation>FR-ADDR-01-05. Select a saved address or add one; confirm the destination and delivery instructions for this purchase.</bpmn:documentation><bpmn:incoming>F12</bpmn:incoming><bpmn:outgoing>F14</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="Location" name="Check delivery location"><bpmn:documentation>FR-DEL-02-05. Use Google Maps to validate and locate the address and check the configured service area; default maximum distance is 10 km. Invalid, unserviceable or unverified locations cannot proceed.</bpmn:documentation><bpmn:incoming>F14</bpmn:incoming><bpmn:outgoing>F15</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="LocationOK" name="Location valid?"><bpmn:documentation>If validation fails, show the reason. Customer corrects the destination or chooses pickup.</bpmn:documentation><bpmn:incoming>F15</bpmn:incoming><bpmn:outgoing>F16</bpmn:outgoing><bpmn:outgoing>F17</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="Fee" name="Get courier quote"><bpmn:documentation>FR-DEL-06-09. Request the delivery quotation from Lalamove. No courier is booked during checkout.</bpmn:documentation><bpmn:incoming>F17</bpmn:incoming><bpmn:incoming>F21</bpmn:incoming><bpmn:outgoing>F18</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="FeeOK" name="Quote received?"><bpmn:documentation>Proceed only with a usable delivery quotation. A failed request must not silently become a zero delivery fee.</bpmn:documentation><bpmn:incoming>F18</bpmn:incoming><bpmn:outgoing>F19</bpmn:outgoing><bpmn:outgoing>F23</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="FixDelivery" name="Retry or change delivery"><bpmn:documentation>Review the failure; retry with the current address, correct the address, or return to method selection and choose pickup.</bpmn:documentation><bpmn:incoming>F19</bpmn:incoming><bpmn:outgoing>F20</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="Retry" name="Retry quote?"><bpmn:documentation>Yes retries quotation; No returns to fulfillment selection, where the customer can change the address or method.</bpmn:documentation><bpmn:incoming>F20</bpmn:incoming><bpmn:outgoing>F21</bpmn:outgoing><bpmn:outgoing>F22</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="Pickup" name="Set pickup fee to zero"><bpmn:documentation>Scope 1.4.1(3). Pickup is collected from the bakery without a delivery fee. Clear delivery-only details from this checkout arrangement.</bpmn:documentation><bpmn:incoming>F13</bpmn:incoming><bpmn:outgoing>F24</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="Merge"><bpmn:documentation>Merge pickup and delivery paths before final booking validation.</bpmn:documentation><bpmn:incoming>F23</bpmn:incoming><bpmn:incoming>F24</bpmn:incoming><bpmn:outgoing>F25</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:businessRuleTask id="Validate" name="Recheck booking availability"><bpmn:documentation>FR-PAY-02; FR-CAP-01-14; FR-INV-20. Invoke shared booking-validation rules for current product/variant quantities, ingredients, standard-order capacity, common batch date, blocked dates, lead time and cut-off. This is an availability check, not a resource hold.</bpmn:documentation><bpmn:incoming>F25</bpmn:incoming><bpmn:outgoing>F26</bpmn:outgoing></bpmn:businessRuleTask>
+<bpmn:exclusiveGateway id="Available" name="Available?"><bpmn:documentation>If availability changed, identify the issue and require correction before payment.</bpmn:documentation><bpmn:incoming>F26</bpmn:incoming><bpmn:outgoing>F27</bpmn:outgoing><bpmn:outgoing>F29</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="FixBooking" name="Revise items or schedule"><bpmn:documentation>System identifies the conflict. Customer may update cart items/quantities, method or date; the checkout repeats all affected checks.</bpmn:documentation><bpmn:incoming>F27</bpmn:incoming><bpmn:outgoing>F28</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="Total" name="Show order and total"><bpmn:documentation>FR-PAY-03; FR-ORD-02. Display current products, quantities, prices, method, date, confirmed address when applicable, delivery fee and full payable total. One delivered order incurs one delivery fee.</bpmn:documentation><bpmn:incoming>F29</bpmn:incoming><bpmn:outgoing>F30</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="Review" name="Review order"><bpmn:documentation>Customer reviews the complete summary, including current prices and fees, and chooses whether to proceed or edit.</bpmn:documentation><bpmn:incoming>F30</bpmn:incoming><bpmn:outgoing>F31</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="Proceed" name="Proceed to payment?"><bpmn:documentation>Yes hands the reviewed checkout to Payment. Editing returns to fulfillment selection and revalidation; cart editing remains available there.</bpmn:documentation><bpmn:incoming>F31</bpmn:incoming><bpmn:outgoing>F32</bpmn:outgoing><bpmn:outgoing>F33</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:endEvent id="End" name="Ready for payment"><bpmn:documentation>Hand off to the separate Payment process. At payment entry, revalidate and reserve resources, create a pending purchase, and start the 30-minute QR session and 32-minute hold. Only verified full payment confirms the order. FR-ORD-01; FR-PAY-04-08; FR-CAP-14.</bpmn:documentation><bpmn:incoming>F32</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="F01" sourceRef="Start" targetRef="Access"/>
+<bpmn:sequenceFlow id="F02" sourceRef="Access" targetRef="SignedIn"/>
+<bpmn:sequenceFlow id="F03" sourceRef="SignedIn" targetRef="Login" name="No"/>
+<bpmn:sequenceFlow id="F04" sourceRef="Login" targetRef="Access"/>
+<bpmn:sequenceFlow id="F05" sourceRef="SignedIn" targetRef="Cart" name="Yes"/>
+<bpmn:sequenceFlow id="F06" sourceRef="Cart" targetRef="CartOK"/>
+<bpmn:sequenceFlow id="F07" sourceRef="CartOK" targetRef="EditCart" name="No"/>
+<bpmn:sequenceFlow id="F08" sourceRef="EditCart" targetRef="Cart"/>
+<bpmn:sequenceFlow id="F09" sourceRef="CartOK" targetRef="Dates" name="Yes"/>
+<bpmn:sequenceFlow id="F10" sourceRef="Dates" targetRef="Choose"/>
+<bpmn:sequenceFlow id="F11" sourceRef="Choose" targetRef="Delivery"/>
+<bpmn:sequenceFlow id="F12" sourceRef="Delivery" targetRef="Address" name="Yes"/>
+<bpmn:sequenceFlow id="F13" sourceRef="Delivery" targetRef="Pickup" name="No: pickup"/>
+<bpmn:sequenceFlow id="F14" sourceRef="Address" targetRef="Location"/>
+<bpmn:sequenceFlow id="F15" sourceRef="Location" targetRef="LocationOK"/>
+<bpmn:sequenceFlow id="F16" sourceRef="LocationOK" targetRef="Choose" name="No"/>
+<bpmn:sequenceFlow id="F17" sourceRef="LocationOK" targetRef="Fee" name="Yes"/>
+<bpmn:sequenceFlow id="F18" sourceRef="Fee" targetRef="FeeOK"/>
+<bpmn:sequenceFlow id="F19" sourceRef="FeeOK" targetRef="FixDelivery" name="No"/>
+<bpmn:sequenceFlow id="F20" sourceRef="FixDelivery" targetRef="Retry"/>
+<bpmn:sequenceFlow id="F21" sourceRef="Retry" targetRef="Fee" name="Yes"/>
+<bpmn:sequenceFlow id="F22" sourceRef="Retry" targetRef="Choose" name="No: change"/>
+<bpmn:sequenceFlow id="F23" sourceRef="FeeOK" targetRef="Merge" name="Yes"/>
+<bpmn:sequenceFlow id="F24" sourceRef="Pickup" targetRef="Merge"/>
+<bpmn:sequenceFlow id="F25" sourceRef="Merge" targetRef="Validate"/>
+<bpmn:sequenceFlow id="F26" sourceRef="Validate" targetRef="Available"/>
+<bpmn:sequenceFlow id="F27" sourceRef="Available" targetRef="FixBooking" name="No"/>
+<bpmn:sequenceFlow id="F28" sourceRef="FixBooking" targetRef="EditCart"/>
+<bpmn:sequenceFlow id="F29" sourceRef="Available" targetRef="Total" name="Yes"/>
+<bpmn:sequenceFlow id="F30" sourceRef="Total" targetRef="Review"/>
+<bpmn:sequenceFlow id="F31" sourceRef="Review" targetRef="Proceed"/>
+<bpmn:sequenceFlow id="F32" sourceRef="Proceed" targetRef="End" name="Yes"/>
+<bpmn:sequenceFlow id="F33" sourceRef="Proceed" targetRef="Choose" name="Edit"/>
+</bpmn:process>
+<bpmndi:BPMNDiagram id="Diagram_OrderCheckout" name="Order Checkout"><bpmndi:BPMNPlane id="Plane_Checkout" bpmnElement="Collaboration_Checkout">
+<bpmndi:BPMNShape id="Shape_Pool" bpmnElement="Participant_Checkout" isHorizontal="false"><dc:Bounds x="20" y="10" width="1240" height="2420"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CustomerLane" bpmnElement="Lane_Customer" isHorizontal="false"><dc:Bounds x="20" y="40" width="420" height="2390"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_SystemLane" bpmnElement="Lane_System" isHorizontal="false"><dc:Bounds x="440" y="40" width="820" height="2390"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="242" y="70" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="180" y="112" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Access" bpmnElement="Access"><dc:Bounds x="640" y="130" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_SignedIn" bpmnElement="SignedIn" isMarkerVisible="true"><dc:Bounds x="705" y="250" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="222" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Login" bpmnElement="Login"><dc:Bounds x="170" y="240" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Cart" bpmnElement="Cart"><dc:Bounds x="640" y="370" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CartOK" bpmnElement="CartOK" isMarkerVisible="true"><dc:Bounds x="705" y="490" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="462" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_EditCart" bpmnElement="EditCart"><dc:Bounds x="170" y="480" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Dates" bpmnElement="Dates"><dc:Bounds x="640" y="610" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Choose" bpmnElement="Choose"><dc:Bounds x="170" y="730" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Delivery" bpmnElement="Delivery" isMarkerVisible="true"><dc:Bounds x="705" y="850" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="822" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Address" bpmnElement="Address"><dc:Bounds x="170" y="970" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Location" bpmnElement="Location"><dc:Bounds x="640" y="1090" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_LocationOK" bpmnElement="LocationOK" isMarkerVisible="true"><dc:Bounds x="705" y="1210" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="1182" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Fee" bpmnElement="Fee"><dc:Bounds x="640" y="1330" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_FeeOK" bpmnElement="FeeOK" isMarkerVisible="true"><dc:Bounds x="705" y="1450" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="1422" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_FixDelivery" bpmnElement="FixDelivery"><dc:Bounds x="170" y="1320" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Retry" bpmnElement="Retry" isMarkerVisible="true"><dc:Bounds x="235" y="1450" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="180" y="1422" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Pickup" bpmnElement="Pickup"><dc:Bounds x="1020" y="970" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Merge" bpmnElement="Merge" isMarkerVisible="true"><dc:Bounds x="705" y="1580" width="50" height="50"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate"><dc:Bounds x="640" y="1690" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Available" bpmnElement="Available" isMarkerVisible="true"><dc:Bounds x="705" y="1810" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="650" y="1782" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_FixBooking" bpmnElement="FixBooking"><dc:Bounds x="170" y="1800" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Total" bpmnElement="Total"><dc:Bounds x="640" y="1930" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Review" bpmnElement="Review"><dc:Bounds x="170" y="2050" width="180" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Proceed" bpmnElement="Proceed" isMarkerVisible="true"><dc:Bounds x="235" y="2170" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="180" y="2142" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_End" bpmnElement="End"><dc:Bounds x="242" y="2310" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="180" y="2352" width="160" height="24"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Edge_F01" bpmnElement="F01"><di:waypoint x="260" y="106"/><di:waypoint x="260" y="165"/><di:waypoint x="640" y="165"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F02" bpmnElement="F02"><di:waypoint x="730" y="200"/><di:waypoint x="730" y="250"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F03" bpmnElement="F03"><di:waypoint x="705" y="275"/><di:waypoint x="350" y="275"/><bpmndi:BPMNLabel><dc:Bounds x="510" y="250" width="30" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F04" bpmnElement="F04"><di:waypoint x="260" y="240"/><di:waypoint x="260" y="220"/><di:waypoint x="580" y="220"/><di:waypoint x="580" y="180"/><di:waypoint x="640" y="180"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F05" bpmnElement="F05"><di:waypoint x="730" y="300"/><di:waypoint x="730" y="370"/><bpmndi:BPMNLabel><dc:Bounds x="740" y="325" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F06" bpmnElement="F06"><di:waypoint x="730" y="440"/><di:waypoint x="730" y="490"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F07" bpmnElement="F07"><di:waypoint x="705" y="515"/><di:waypoint x="350" y="515"/><bpmndi:BPMNLabel><dc:Bounds x="510" y="490" width="30" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F08" bpmnElement="F08"><di:waypoint x="260" y="480"/><di:waypoint x="260" y="405"/><di:waypoint x="640" y="405"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F09" bpmnElement="F09"><di:waypoint x="730" y="540"/><di:waypoint x="730" y="610"/><bpmndi:BPMNLabel><dc:Bounds x="740" y="565" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F10" bpmnElement="F10"><di:waypoint x="640" y="645"/><di:waypoint x="260" y="645"/><di:waypoint x="260" y="730"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F11" bpmnElement="F11"><di:waypoint x="260" y="800"/><di:waypoint x="260" y="875"/><di:waypoint x="705" y="875"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F12" bpmnElement="F12"><di:waypoint x="730" y="900"/><di:waypoint x="730" y="930"/><di:waypoint x="570" y="930"/><di:waypoint x="260" y="930"/><di:waypoint x="260" y="970"/><bpmndi:BPMNLabel><dc:Bounds x="505" y="906" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F13" bpmnElement="F13"><di:waypoint x="755" y="875"/><di:waypoint x="1110" y="875"/><di:waypoint x="1110" y="970"/><bpmndi:BPMNLabel><dc:Bounds x="900" y="850" width="80" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F14" bpmnElement="F14"><di:waypoint x="260" y="1040"/><di:waypoint x="260" y="1125"/><di:waypoint x="640" y="1125"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F15" bpmnElement="F15"><di:waypoint x="730" y="1160"/><di:waypoint x="730" y="1210"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F16" bpmnElement="F16"><di:waypoint x="755" y="1235"/><di:waypoint x="930" y="1235"/><di:waypoint x="930" y="765"/><di:waypoint x="350" y="765"/><bpmndi:BPMNLabel><dc:Bounds x="940" y="1050" width="30" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F17" bpmnElement="F17"><di:waypoint x="730" y="1260"/><di:waypoint x="730" y="1330"/><bpmndi:BPMNLabel><dc:Bounds x="740" y="1285" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F18" bpmnElement="F18"><di:waypoint x="730" y="1400"/><di:waypoint x="730" y="1450"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F19" bpmnElement="F19"><di:waypoint x="705" y="1475"/><di:waypoint x="550" y="1475"/><di:waypoint x="550" y="1355"/><di:waypoint x="350" y="1355"/><bpmndi:BPMNLabel><dc:Bounds x="560" y="1430" width="30" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F20" bpmnElement="F20"><di:waypoint x="260" y="1390"/><di:waypoint x="260" y="1450"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F21" bpmnElement="F21"><di:waypoint x="285" y="1475"/><di:waypoint x="470" y="1475"/><di:waypoint x="470" y="1300"/><di:waypoint x="600" y="1300"/><di:waypoint x="600" y="1365"/><di:waypoint x="640" y="1365"/><bpmndi:BPMNLabel><dc:Bounds x="410" y="1450" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F22" bpmnElement="F22"><di:waypoint x="235" y="1475"/><di:waypoint x="95" y="1475"/><di:waypoint x="95" y="765"/><di:waypoint x="170" y="765"/><bpmndi:BPMNLabel><dc:Bounds x="100" y="1190" width="80" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F23" bpmnElement="F23"><di:waypoint x="730" y="1500"/><di:waypoint x="730" y="1580"/><bpmndi:BPMNLabel><dc:Bounds x="740" y="1530" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F24" bpmnElement="F24"><di:waypoint x="1110" y="1040"/><di:waypoint x="1110" y="1605"/><di:waypoint x="755" y="1605"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F25" bpmnElement="F25"><di:waypoint x="730" y="1630"/><di:waypoint x="730" y="1690"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F26" bpmnElement="F26"><di:waypoint x="730" y="1760"/><di:waypoint x="730" y="1810"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F27" bpmnElement="F27"><di:waypoint x="705" y="1835"/><di:waypoint x="350" y="1835"/><bpmndi:BPMNLabel><dc:Bounds x="510" y="1810" width="30" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F28" bpmnElement="F28"><di:waypoint x="170" y="1835"/><di:waypoint x="65" y="1835"/><di:waypoint x="65" y="515"/><di:waypoint x="170" y="515"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F29" bpmnElement="F29"><di:waypoint x="730" y="1860"/><di:waypoint x="730" y="1930"/><bpmndi:BPMNLabel><dc:Bounds x="740" y="1885" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F30" bpmnElement="F30"><di:waypoint x="640" y="1965"/><di:waypoint x="260" y="1965"/><di:waypoint x="260" y="2050"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F31" bpmnElement="F31"><di:waypoint x="260" y="2120"/><di:waypoint x="260" y="2170"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F32" bpmnElement="F32"><di:waypoint x="260" y="2220"/><di:waypoint x="260" y="2310"/><bpmndi:BPMNLabel><dc:Bounds x="270" y="2250" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F33" bpmnElement="F33"><di:waypoint x="235" y="2195"/><di:waypoint x="125" y="2195"/><di:waypoint x="125" y="790"/><di:waypoint x="170" y="790"/><bpmndi:BPMNLabel><dc:Bounds x="130" y="2010" width="35" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

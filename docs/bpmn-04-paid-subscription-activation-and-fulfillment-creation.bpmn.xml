@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_04" targetNamespace="https://kitchen406.local/bpmn">
+<bpmn:collaboration id="Collaboration_04"><bpmn:participant id="Participant_04" name="BPMN-04 | Paid Subscription Activation and Fulfillment Creation" processRef="Process_04" /></bpmn:collaboration>
+<bpmn:process id="Process_04" name="Paid Subscription Activation and Fulfillment Creation" isExecutable="false">
+<bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-04; Chapters/Kitchen406 - Capstone Paper.md SRS 4.8.2-4.8.3, FR-SUB-03,05,15-18; FR-CAP-08; FR-INV-07; supporting FR-SUB-04, FR-INV-21-23, NFR-REL-03-06 and BR-26-27. Website reference: index.html and linked app/subscription-state.js and app/subscription-checkout.js: four prepaid weekly orders linked to one purchase. The SRS governs differences from prototype behavior. Read top to bottom; lanes represent internal responsibilities within one Kitchen406 system pool. Activation is automatic after BPMN-13. No customer or owner approval is required. Resource commitment and payment are completed upstream. Failure handling and duplicate protection express reliability constraints; they do not add business approvals. Notification delivery, production, deferment and cycle completion are separate processes. Simplified process: shared reservation, payment verification and purchase confirmation are referenced as completed upstream prerequisites, not called again. Later fulfillment processes are referenced as future handoffs, not executed during activation. References appear in visible annotations. A call activity would mean actually invoking a reusable process; none is required within this activation boundary. Internal duplicate and failure safeguards remain task documentation.</bpmn:documentation>
+<bpmn:laneSet id="LaneSet_04"><bpmn:lane id="Lane_0" name="Subscription Management"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Snapshot</bpmn:flowNodeRef><bpmn:flowNodeRef>Progress</bpmn:flowNodeRef><bpmn:flowNodeRef>Save</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="Lane_1" name="Fulfillment Records"><bpmn:flowNodeRef>Amounts</bpmn:flowNodeRef><bpmn:flowNodeRef>Create</bpmn:flowNodeRef></bpmn:lane></bpmn:laneSet>
+<bpmn:startEvent id="Start" name="Paid subscription confirmed (from BPMN-13)"><bpmn:documentation>Precondition: BPMN-09 reserved capacity for four weeks and first-fulfillment ingredients; BPMN-10/11 collected and verified full payment; BPMN-13 confirmed the purchase, committed capacity and retained ingredients. These processes have already completed and are not invoked again.</bpmn:documentation><bpmn:outgoing>Flow_1</bpmn:outgoing></bpmn:startEvent>
+<bpmn:serviceTask id="Snapshot" name="Read confirmed subscription details"><bpmn:documentation>FR-SUB-05: use the agreed four preparation/fulfillment date pairs and original product, variant, quantity and selling-price snapshots. Fulfillment arrangement comes from BPMN-02; confirmed purchase, payment and existing resource references come from BPMN-13. Do not repeat their validation or reservation workflows. Keep confirmed courier address/fees or pickup terms for all four fulfillments.</bpmn:documentation><bpmn:incoming>Flow_1</bpmn:incoming><bpmn:outgoing>Flow_2</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Amounts" name="Divide prepaid product amount among four fulfillments"><bpmn:documentation>FR-SUB-15,18: use original quantity and selling-price snapshots to allocate actual prepaid product consideration to each fulfillment item. Exclude delivery fees. Apply consistent currency rounding so all four fulfillment amounts sum exactly to the original prepaid product amount. Current prices do not change these amounts.</bpmn:documentation><bpmn:incoming>Flow_2</bpmn:incoming><bpmn:outgoing>Flow_3</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Create" name="Create four scheduled fulfillment records"><bpmn:documentation>FR-SUB-03,05,16: create one operational fulfillment per week with preserved dates, item snapshots and product amounts. Link the subscription, original paid purchase, existing four capacity commitments and first ingredient reservation from BPMN-13. Resource reservation and commitment remain BPMN-09/13. Owner assignment remains BPMN-16.</bpmn:documentation><bpmn:incoming>Flow_3</bpmn:incoming><bpmn:outgoing>Flow_4</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Progress" name="Set progress: 0 completed, 4 remaining"><bpmn:documentation>FR-SUB-04,17: initialize cycle progress and reference the original prepaid payment. Do not create weekly payment transactions. BPMN-05 owns later progress updates and cycle completion; BPMN-43 owns reporting, counting the original payment once and fulfillment product amounts only after actual completion.</bpmn:documentation><bpmn:incoming>Flow_4</bpmn:incoming><bpmn:outgoing>Flow_5</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Save" name="Save active subscription and four fulfillments"><bpmn:documentation>FR-SUB-03,05,15-18; NFR-REL-03,05; NFR-SAF-05: save related activation records consistently. A repeated request reuses the existing complete activation rather than duplicating records. A failed save retains the previous saved state and records the issue; no successful activation outcome is emitted until saving succeeds. These general reliability constraints are documented here, not expanded as separate branches. No catalog BPMN defines a general activation-recovery process, so no unsupported process reference is invented.</bpmn:documentation><bpmn:incoming>Flow_5</bpmn:incoming><bpmn:outgoing>Flow_6</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:endEvent id="End" name="Active subscription with four scheduled fulfillments"><bpmn:documentation>Output: active subscription with preserved dates and product amounts, four scheduled fulfillments, existing payment/resource references and initial progress. Later work is outside this activation: BPMN-15 reserves later ingredients when due; BPMN-16/17 allocate owners and prepare; BPMN-18 or BPMN-19/20 completes pickup/delivery; BPMN-05 updates progress. BPMN-06 handles eligible deferment separately.</bpmn:documentation><bpmn:incoming>Flow_6</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Snapshot" />
+<bpmn:sequenceFlow id="Flow_2" sourceRef="Snapshot" targetRef="Amounts" />
+<bpmn:sequenceFlow id="Flow_3" sourceRef="Amounts" targetRef="Create" />
+<bpmn:sequenceFlow id="Flow_4" sourceRef="Create" targetRef="Progress" />
+<bpmn:sequenceFlow id="Flow_5" sourceRef="Progress" targetRef="Save" />
+<bpmn:sequenceFlow id="Flow_6" sourceRef="Save" targetRef="End" />
+<bpmn:textAnnotation id="Upstream"><bpmn:text>Already handled upstream:
+BPMN-02: fulfillment arrangement
+BPMN-09: resource reservations
+BPMN-10/11: payment and verification
+BPMN-13: confirmation and commitment</bpmn:text></bpmn:textAnnotation><bpmn:association id="Assoc_Upstream" sourceRef="Start" targetRef="Upstream" associationDirection="None" />
+<bpmn:textAnnotation id="Downstream"><bpmn:text>Separate processes after activation:
+BPMN-15: later ingredient reservations
+BPMN-16/17: allocation and preparation
+BPMN-18 or 19/20: pickup or delivery
+BPMN-05: progress and completion
+BPMN-06: eligible deferment</bpmn:text></bpmn:textAnnotation><bpmn:association id="Assoc_Downstream" sourceRef="End" targetRef="Downstream" associationDirection="None" />
+</bpmn:process>
+<bpmndi:BPMNDiagram id="Diagram_04"><bpmndi:BPMNPlane id="Plane_04" bpmnElement="Collaboration_04">
+<bpmndi:BPMNShape id="Shape_Participant_04" bpmnElement="Participant_04" isHorizontal="false"><dc:Bounds x="40" y="40" width="940" height="1200" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="false"><dc:Bounds x="70" y="70" width="440" height="1170" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="false"><dc:Bounds x="510" y="70" width="470" height="1170" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="242" y="130" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="160" y="174" width="200" height="45" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Snapshot" bpmnElement="Snapshot"><dc:Bounds x="130" y="250" width="260" height="90" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Amounts" bpmnElement="Amounts"><dc:Bounds x="600" y="420" width="280" height="90" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Create" bpmnElement="Create"><dc:Bounds x="600" y="580" width="280" height="90" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Progress" bpmnElement="Progress"><dc:Bounds x="130" y="750" width="260" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Save" bpmnElement="Save"><dc:Bounds x="130" y="910" width="260" height="90" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_End" bpmnElement="End"><dc:Bounds x="242" y="1090" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="160" y="1134" width="200" height="45" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Upstream" bpmnElement="Upstream"><dc:Bounds x="545" y="130" width="400" height="155" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Downstream" bpmnElement="Downstream"><dc:Bounds x="545" y="1000" width="400" height="180" /></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Edge_1" bpmnElement="Flow_1"><di:waypoint x="260" y="166" /><di:waypoint x="260" y="250" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_2" bpmnElement="Flow_2"><di:waypoint x="260" y="340" /><di:waypoint x="260" y="380" /><di:waypoint x="740" y="380" /><di:waypoint x="740" y="420" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_3" bpmnElement="Flow_3"><di:waypoint x="740" y="510" /><di:waypoint x="740" y="580" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_4" bpmnElement="Flow_4"><di:waypoint x="740" y="670" /><di:waypoint x="740" y="710" /><di:waypoint x="260" y="710" /><di:waypoint x="260" y="750" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_5" bpmnElement="Flow_5"><di:waypoint x="260" y="830" /><di:waypoint x="260" y="910" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_6" bpmnElement="Flow_6"><di:waypoint x="260" y="1000" /><di:waypoint x="260" y="1090" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Upstream" bpmnElement="Assoc_Upstream"><di:waypoint x="278" y="148" /><di:waypoint x="545" y="148" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Downstream" bpmnElement="Assoc_Downstream"><di:waypoint x="278" y="1108" /><di:waypoint x="545" y="1108" /></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

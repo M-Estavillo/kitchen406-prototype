@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_01" targetNamespace="https://kitchen406.local/bpmn">
+<bpmn:collaboration id="Collaboration_01"><bpmn:participant id="Participant_01" name="BPMN-01 | Standard Order Cart Preparation" processRef="Process_01" /></bpmn:collaboration>
+<bpmn:process id="Process_01" name="Standard Order Cart Preparation" isExecutable="false"><bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-01; Chapters/Kitchen406 - Capstone Paper.md, SRS 4.5?4.6, FR-CAT-01?02 and FR-CART-01?05. Customer and System are responsibility lanes in one descriptive process. Read top to bottom. Output is a valid cart for BPMN-02; no scheduling, order confirmation, reservation or payment is performed here. Leaving ends this interaction without defining deletion, persistence, or an abandonment timeout. A rejected change retains the previous cart. Task documentation records requirement traceability.</bpmn:documentation><bpmn:laneSet id="LaneSet_01"><bpmn:lane id="Lane_C" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Edit</bpmn:flowNodeRef><bpmn:flowNodeRef>Review</bpmn:flowNodeRef><bpmn:flowNodeRef>Action</bpmn:flowNodeRef><bpmn:flowNodeRef>Leave</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="Lane_S" name="Kitchen406 System"><bpmn:flowNodeRef>Catalog</bpmn:flowNodeRef><bpmn:flowNodeRef>CheckEdit</bpmn:flowNodeRef><bpmn:flowNodeRef>EditOK</bpmn:flowNodeRef><bpmn:flowNodeRef>EditError</bpmn:flowNodeRef><bpmn:flowNodeRef>Apply</bpmn:flowNodeRef><bpmn:flowNodeRef>Subtotal</bpmn:flowNodeRef><bpmn:flowNodeRef>CheckCart</bpmn:flowNodeRef><bpmn:flowNodeRef>CartOK</bpmn:flowNodeRef><bpmn:flowNodeRef>CartError</bpmn:flowNodeRef><bpmn:flowNodeRef>Handoff</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef></bpmn:lane></bpmn:laneSet>
+<bpmn:startEvent id="Start" name="Start selecting products"><bpmn:outgoing>Flow_1</bpmn:outgoing></bpmn:startEvent>
+<bpmn:serviceTask id="Catalog" name="Display products, details, variants and availability"><bpmn:documentation>FR-CAT-01?02: Display image, name, description, price, availability and supported variants.</bpmn:documentation><bpmn:incoming>Flow_1</bpmn:incoming><bpmn:outgoing>Flow_2</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="Edit" name="Select product / variant and quantity; or change quantity / remove item"><bpmn:documentation>FR-CART-01?03: Choose an add, quantity-change or removal action.</bpmn:documentation><bpmn:incoming>Flow_2</bpmn:incoming><bpmn:incoming>Flow_7</bpmn:incoming><bpmn:incoming>Flow_11</bpmn:incoming><bpmn:outgoing>Flow_3</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="CheckEdit" name="Validate requested cart change"><bpmn:documentation>FR-CART-01?03, 05: Validate variant, availability and quantity for additions or quantity changes. Allow removal of unavailable items. No numeric quantity limit is specified by the SRS.</bpmn:documentation><bpmn:incoming>Flow_3</bpmn:incoming><bpmn:outgoing>Flow_4</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="EditOK" name="Change valid?"><bpmn:incoming>Flow_4</bpmn:incoming><bpmn:outgoing>Flow_5</bpmn:outgoing><bpmn:outgoing>Flow_6</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="EditError" name="Explain rejected change; retain previous cart"><bpmn:incoming>Flow_6</bpmn:incoming><bpmn:outgoing>Flow_7</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Apply" name="Apply add, quantity change or removal"><bpmn:documentation>FR-CART-01?03: Store selected variant and quantity, update quantity, or remove selected item.</bpmn:documentation><bpmn:incoming>Flow_5</bpmn:incoming><bpmn:outgoing>Flow_8</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Subtotal" name="Recalculate and display items, prices and cart subtotal"><bpmn:documentation>FR-CART-04; SRS 4.6.2: Recalculate after every accepted change. Display selected products, quantities, prices and subtotal. Fees belong to BPMN-02.</bpmn:documentation><bpmn:incoming>Flow_8</bpmn:incoming><bpmn:outgoing>Flow_9</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="Review" name="Review cart and choose next action"><bpmn:incoming>Flow_9</bpmn:incoming><bpmn:incoming>Flow_17</bpmn:incoming><bpmn:outgoing>Flow_10</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="Action" name="Next action?"><bpmn:incoming>Flow_10</bpmn:incoming><bpmn:outgoing>Flow_11</bpmn:outgoing><bpmn:outgoing>Flow_12</bpmn:outgoing><bpmn:outgoing>Flow_13</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:endEvent id="Leave" name="Left without submission"><bpmn:incoming>Flow_12</bpmn:incoming></bpmn:endEvent>
+<bpmn:serviceTask id="CheckCart" name="Revalidate cart before checkout"><bpmn:documentation>FR-CART-05: Recheck current availability and valid quantities for all selected variants. Require a nonempty selection as a process guard. Resource reservation and capacity checks belong to BPMN-09.</bpmn:documentation><bpmn:incoming>Flow_13</bpmn:incoming><bpmn:outgoing>Flow_14</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="CartOK" name="Cart valid?"><bpmn:incoming>Flow_14</bpmn:incoming><bpmn:outgoing>Flow_15</bpmn:outgoing><bpmn:outgoing>Flow_16</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="CartError" name="Block checkout; show items / quantities to correct"><bpmn:documentation>FR-CART-05: Prevent checkout until the cart is corrected.</bpmn:documentation><bpmn:incoming>Flow_16</bpmn:incoming><bpmn:outgoing>Flow_17</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:serviceTask id="Handoff" name="Forward valid cart to BPMN-02: Fulfillment Arrangement"><bpmn:documentation>SRS 4.6.2: Forward selected products/variants, quantities, displayed prices and subtotal. This is a handoff only; fulfillment arrangement is a separate process.</bpmn:documentation><bpmn:incoming>Flow_15</bpmn:incoming><bpmn:outgoing>Flow_18</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:endEvent id="End" name="Valid cart submitted to BPMN-02"><bpmn:incoming>Flow_18</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Catalog" />
+<bpmn:sequenceFlow id="Flow_2" sourceRef="Catalog" targetRef="Edit" />
+<bpmn:sequenceFlow id="Flow_3" sourceRef="Edit" targetRef="CheckEdit" />
+<bpmn:sequenceFlow id="Flow_4" sourceRef="CheckEdit" targetRef="EditOK" />
+<bpmn:sequenceFlow id="Flow_5" sourceRef="EditOK" targetRef="Apply" name="Yes" />
+<bpmn:sequenceFlow id="Flow_6" sourceRef="EditOK" targetRef="EditError" name="No" />
+<bpmn:sequenceFlow id="Flow_7" sourceRef="EditError" targetRef="Edit" name="Correct request" />
+<bpmn:sequenceFlow id="Flow_8" sourceRef="Apply" targetRef="Subtotal" />
+<bpmn:sequenceFlow id="Flow_9" sourceRef="Subtotal" targetRef="Review" />
+<bpmn:sequenceFlow id="Flow_10" sourceRef="Review" targetRef="Action" />
+<bpmn:sequenceFlow id="Flow_11" sourceRef="Action" targetRef="Edit" name="Add / change / remove" />
+<bpmn:sequenceFlow id="Flow_12" sourceRef="Action" targetRef="Leave" name="Leave" />
+<bpmn:sequenceFlow id="Flow_13" sourceRef="Action" targetRef="CheckCart" name="Proceed to checkout" />
+<bpmn:sequenceFlow id="Flow_14" sourceRef="CheckCart" targetRef="CartOK" />
+<bpmn:sequenceFlow id="Flow_15" sourceRef="CartOK" targetRef="Handoff" name="Yes" />
+<bpmn:sequenceFlow id="Flow_16" sourceRef="CartOK" targetRef="CartError" name="No" />
+<bpmn:sequenceFlow id="Flow_17" sourceRef="CartError" targetRef="Review" name="Review / correct" />
+<bpmn:sequenceFlow id="Flow_18" sourceRef="Handoff" targetRef="End" />
+</bpmn:process><bpmndi:BPMNDiagram id="Diagram_01"><bpmndi:BPMNPlane id="Plane_01" bpmnElement="Collaboration_01">
+<bpmndi:BPMNShape id="Shape_Participant_01" bpmnElement="Participant_01" isHorizontal="false"><dc:Bounds x="40" y="40" width="1140" height="1670"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_C" bpmnElement="Lane_C" isHorizontal="false"><dc:Bounds x="70" y="40" width="450" height="1670"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_S" bpmnElement="Lane_S" isHorizontal="false"><dc:Bounds x="520" y="40" width="660" height="1670"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="272" y="92" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="195" y="136" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Catalog" bpmnElement="Catalog"><dc:Bounds x="645" y="180" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Edit" bpmnElement="Edit"><dc:Bounds x="170" y="305" width="240" height="90"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CheckEdit" bpmnElement="CheckEdit"><dc:Bounds x="645" y="440" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_EditOK" bpmnElement="EditOK"><dc:Bounds x="735" y="565" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="665" y="535" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_EditError" bpmnElement="EditError"><dc:Bounds x="935" y="550" width="210" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Apply" bpmnElement="Apply"><dc:Bounds x="645" y="680" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Subtotal" bpmnElement="Subtotal"><dc:Bounds x="645" y="810" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Review" bpmnElement="Review"><dc:Bounds x="170" y="940" width="240" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Action" bpmnElement="Action"><dc:Bounds x="265" y="1075" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="195" y="1045" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Leave" bpmnElement="Leave"><dc:Bounds x="92" y="1082" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="15" y="1126" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CheckCart" bpmnElement="CheckCart"><dc:Bounds x="645" y="1190" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CartOK" bpmnElement="CartOK"><dc:Bounds x="735" y="1335" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="665" y="1305" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_CartError" bpmnElement="CartError"><dc:Bounds x="935" y="1320" width="210" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Handoff" bpmnElement="Handoff"><dc:Bounds x="645" y="1460" width="230" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_End" bpmnElement="End"><dc:Bounds x="742" y="1612" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="665" y="1656" width="190" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Edge_Flow_1" bpmnElement="Flow_1"><di:waypoint x="290" y="128"/><di:waypoint x="290" y="220"/><di:waypoint x="645" y="220"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_2" bpmnElement="Flow_2"><di:waypoint x="645" y="240"/><di:waypoint x="540" y="240"/><di:waypoint x="540" y="350"/><di:waypoint x="410" y="350"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_3" bpmnElement="Flow_3"><di:waypoint x="290" y="395"/><di:waypoint x="290" y="480"/><di:waypoint x="645" y="480"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_4" bpmnElement="Flow_4"><di:waypoint x="760" y="520"/><di:waypoint x="760" y="565"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_5" bpmnElement="Flow_5"><di:waypoint x="760" y="615"/><di:waypoint x="760" y="680"/><bpmndi:BPMNLabel><dc:Bounds x="780" y="640" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_6" bpmnElement="Flow_6"><di:waypoint x="785" y="590"/><di:waypoint x="935" y="590"/><bpmndi:BPMNLabel><dc:Bounds x="835" y="565" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_7" bpmnElement="Flow_7"><di:waypoint x="1040" y="550"/><di:waypoint x="1040" y="285"/><di:waypoint x="450" y="285"/><di:waypoint x="450" y="325"/><di:waypoint x="410" y="325"/><bpmndi:BPMNLabel><dc:Bounds x="760" y="260" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_8" bpmnElement="Flow_8"><di:waypoint x="760" y="760"/><di:waypoint x="760" y="810"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_9" bpmnElement="Flow_9"><di:waypoint x="645" y="850"/><di:waypoint x="540" y="850"/><di:waypoint x="540" y="980"/><di:waypoint x="410" y="980"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_10" bpmnElement="Flow_10"><di:waypoint x="290" y="1020"/><di:waypoint x="290" y="1075"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_11" bpmnElement="Flow_11"><di:waypoint x="290" y="1075"/><di:waypoint x="290" y="1050"/><di:waypoint x="145" y="1050"/><di:waypoint x="145" y="350"/><di:waypoint x="170" y="350"/><bpmndi:BPMNLabel><dc:Bounds x="75" y="700" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_12" bpmnElement="Flow_12"><di:waypoint x="265" y="1100"/><di:waypoint x="128" y="1100"/><bpmndi:BPMNLabel><dc:Bounds x="160" y="1110" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_13" bpmnElement="Flow_13"><di:waypoint x="290" y="1125"/><di:waypoint x="290" y="1230"/><di:waypoint x="645" y="1230"/><bpmndi:BPMNLabel><dc:Bounds x="360" y="1200" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_14" bpmnElement="Flow_14"><di:waypoint x="760" y="1270"/><di:waypoint x="760" y="1335"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_15" bpmnElement="Flow_15"><di:waypoint x="760" y="1385"/><di:waypoint x="760" y="1460"/><bpmndi:BPMNLabel><dc:Bounds x="780" y="1410" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_16" bpmnElement="Flow_16"><di:waypoint x="785" y="1360"/><di:waypoint x="935" y="1360"/><bpmndi:BPMNLabel><dc:Bounds x="835" y="1335" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_17" bpmnElement="Flow_17"><di:waypoint x="1040" y="1320"/><di:waypoint x="1040" y="950"/><di:waypoint x="410" y="950"/><bpmndi:BPMNLabel><dc:Bounds x="800" y="925" width="150" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_18" bpmnElement="Flow_18"><di:waypoint x="760" y="1540"/><di:waypoint x="760" y="1612"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>

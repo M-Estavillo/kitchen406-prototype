@@ -1,9 +1,9 @@
-## 
+# Kitchen406 Entity Relationship Design
 
 | Entity | Final Attributes / Constraints |
 | ----- | ----- |
 | **Account** | `account_id` PK; `email` UNIQUE; `password_hash`; `first_name`; `last_name`; `role` {customer, staff, admin}; `status` {pending\_verification, active, inactive, suspended}; `email_verified_at` nullable; `password_changed_at` nullable; `created_at`; `updated_at` |
-| **AdminProfile** | `admin_id` PK; `account_id` FK, UNIQUE → Account |
+| **AdminProfile** | `admin_id` PK; `account_id` FK, UNIQUE → Account; `is_baking_owner` default false. Only designated baking owners may receive earnings allocations; account role remains admin.  |
 | **StaffProfile** | `staff_id` PK; `account_id` FK, UNIQUE → Account; `is_temp_pass_changed` default false; `created_by_admin_id` FK → AdminProfile; `created_at`; `updated_at` |
 | **CustomerProfile** | `customer_id` PK; `account_id` FK, UNIQUE → Account; `mobile_number`; `created_at`; `updated_at` |
 | **AccountVerification** | `account_verification_id` PK; `account_id` FK → Account; `purpose` {email\_verification, password\_reset, email\_change, account\_setup}; `otp_code_hash`; `target_email` nullable; `expires_at`; `verified_at` nullable; `attempt_count` default 0; `created_at` |
@@ -16,9 +16,11 @@
 | **ProductBOM** | `product_bom_id` PK; `variant_id` FK → ProductVariant; `inventory_id` FK → Inventory; `quantity_required`; UNIQUE (`variant_id`, `inventory_id`) |
 | **Cart** | `cart_id` PK; `customer_id` FK, UNIQUE → CustomerProfile; `subtotal`; `created_at`; `updated_at`. `subtotal` is system-maintained from CartItems. |
 | **CartItem** | `cart_item_id` PK; `cart_id` FK → Cart; `variant_id` FK → ProductVariant; `quantity`; `added_at`; `updated_at`; UNIQUE (`cart_id`, `variant_id`) |
-| **Order** | `order_id` PK; `customer_id` FK → CustomerProfile; `cart_id` FK nullable → Cart; `address_id` FK nullable → Address; `address_snapshot` nullable; `ref_number` UNIQUE; `type` {standard\_purchase, subscription\_purchase, subscription\_fulfillment, custom\_cake\_purchase}; `total`; `amount_payable`; `placed_at`; `fulfillment_date` nullable; `fulfillment_method` {pickup, delivery} nullable; `status` {pending\_payment, confirmed, preparing, ready, completed, cancelled, payment\_resolution\_required}; `created_at`; `updated_at` |
+| **Order** | `order_id` PK; `customer_id` FK → CustomerProfile; `cart_id` FK nullable → Cart; `address_id` FK nullable → Address; `address_snapshot` nullable; `ref_number` UNIQUE; `type` {standard\_purchase, subscription\_purchase, subscription\_fulfillment, custom\_cake\_purchase}; `total`; `amount_payable`; `placed_at`; `fulfillment_date` nullable; `fulfillment_method` {pickup, delivery} nullable; `status` {pending\_payment, confirmed, preparing, ready, completed, cancelled, payment\_resolution\_required}; `created_at`; `updated_at`; `completed_at` nullable; `owner_allocation_locked_at` nullable. Completion timestamps support fulfilled-sales reporting; attribution locks on active courier booking or completion.  |
 | **OrderStatusHistory** | `history_id` PK; `order_id` FK → Order; `status`; `changed_by_account_id` FK nullable → Account; `changed_at` |
-| **OrderItem** | `order_item_id` PK; `order_id` FK → Order; `variant_id` FK nullable → ProductVariant; `quotation_id` FK nullable, UNIQUE → CustomCakeQuotation; `quantity`; `unit_price_snapshot`; CHECK exactly one of `variant_id` or `quotation_id` is populated |
+| **OrderItem** | `order_item_id` PK; `order_id` FK → Order; `variant_id` FK nullable → ProductVariant; `quotation_id` FK nullable, UNIQUE → CustomCakeQuotation; `quantity`; `unit_price_snapshot`; CHECK exactly one of `variant_id` or `quotation_id` is populated; `net_product_amount_snapshot` (decimal currency, delivery fees excluded, after product discounts). For subscription fulfillment items this is their apportioned share of the actual prepaid product consideration, rather than a second payment.  |
+| **OrderItemOwnerAllocation** | `owner_allocation_id` PK; `order_item_id` FK -> OrderItem; `admin_id` FK -> AdminProfile; `share_percentage` integer CHECK 1-100; `created_at`; `updated_at`; UNIQUE (`order_item_id`, `admin_id`). Only designated baking owners are eligible. A fully assigned item has one or two rows whose percentages total exactly 100. |
+| **OwnerAllocationHistory** | `allocation_history_id` PK; `order_item_id` FK -> OrderItem; `changed_by_account_id` FK -> Account; `allocation_before` structured snapshot; `allocation_after` structured snapshot; `changed_at`. Each snapshot contains owner IDs and percentages; an empty snapshot represents unallocated work. Append-only audit of attribution edits, separate from status transitions. |
 | **CheckoutHold** | `hold_id` PK; `order_id` FK → Order; `status` {active, confirmed, released, expired}; `created_at`; `expires_at`; `confirmed_at` nullable; `released_at` nullable. Only one active hold per Order. |
 | **Payment** | `payment_id` PK; `order_id` FK → Order; `hold_id` FK, UNIQUE → CheckoutHold; `paymongo_id` UNIQUE; `amount`; `qr_img_url`; `status` {pending, paid, failed, expired, cancelled}; `failure_code` nullable; `failure_message` nullable; `created_at`; `expires_at`; `paid_at` nullable. **No refund handling exists in the system.** |
 | **Delivery** | `delivery_id` PK; `order_id` FK → Order; `lalamove_id` UNIQUE nullable; `longitude`; `latitude`; `fee`; `status` {pending, booked, in\_transit, delivered, failed, cancelled}; `delivered_at` nullable; `created_at`; `updated_at`. Only one active delivery booking per Order. |
@@ -46,3 +48,47 @@
 | **CustomerFeedback** | `feedback_id` PK; `order_item_id` FK, UNIQUE → OrderItem; `customer_id` FK → CustomerProfile; `hidden_by_admin_id` FK nullable → AdminProfile; `rating` {1–5}; `comment` nullable; `status` {visible, hidden}; `hidden_reason` {spam, abusive\_language, off\_topic, sexual\_content, other} nullable; `hidden_at` nullable; `created_at`; `updated_at` |
 | **FeedbackImage** | `feedback_image_id` PK; `feedback_id` FK → CustomerFeedback; `img_url`; `created_at`. Maximum two images per feedback. |
 
+
+## Preparing owners and Sales Analytics
+
+This section defines the relational target for the prototype changes. The browser prototype currently stores owner allocations on operational orders and uses Owner A / Owner B labels; the tables below describe how those values should be persisted with real owner identities. These documentation changes do not create database tables or migrations.
+
+### Relationships affected by owner allocation
+
+```mermaid
+erDiagram
+    Account ||--o| AdminProfile : has
+    Account ||--o| StaffProfile : has
+    Account o|--o{ OrderStatusHistory : changes_status
+    Account ||--o{ OwnerAllocationHistory : records_attribution_change
+    Order ||--o{ OrderStatusHistory : retains
+    Order ||--|{ OrderItem : contains
+    OrderItem ||--o{ OrderItemOwnerAllocation : allocates_to
+    AdminProfile ||--o{ OrderItemOwnerAllocation : receives_share
+    OrderItem ||--o{ OwnerAllocationHistory : audits
+    Order ||--o{ Payment : receives
+    Order ||--o{ Delivery : books
+    Order ||--o| Subscription : prepays
+    Subscription ||--|{ SubscriptionDelivery : schedules_four
+    SubscriptionDelivery o|--|| Order : fulfilled_by
+```
+
+The two Order relationships used by subscriptions have different roles: Subscription.purchase_order_id references the prepaid parent Order, while SubscriptionDelivery.fulfillment_order_id references an individual fulfillment Order. Allocations belong to the fulfillment OrderItems, never the prepaid purchase items. The diagram shows only the relationships relevant to this change; the entity table remains the full schema.
+
+### Allocation rules
+
+- Use AdminProfile.admin_id to identify an actual owner, rather than storing Owner A or Owner B as database identities. The business currently has two designated baking owners. An admin is eligible for allocation only when is_baking_owner is true. StaffProfile is not an earnings recipient.
+- Record allocation per OrderItem. A cake line can belong to one owner or both; bread and pastry lines within the same delivery can have different owners. Each subsequent subscription delivery has its own item allocations.
+- One owner receives 100%. When both owners contribute, default to 50/50 and allow whole-number percentages that total 100%. Zero-share owners have no allocation row. Updating both rows and the audit history must be one transaction; the aggregate 100% rule requires transactional application logic or a database trigger, in addition to row checks.
+- No allocation rows means unallocated, not an automatic equal split. Existing historical completed orders may remain unallocated and must be visible in the Unallocated report. New operational transitions must require valid allocation for every fulfillment item.
+- Staff and owners can record attribution within their operational permissions. changed_by_account_id identifies who entered the allocation, while admin_id identifies who baked and receives the share. Record attribution changes separately from OrderStatusHistory; advancing a status never creates an earnings entitlement.
+- Allow edits before active courier booking or completion. Set owner_allocation_locked_at when booking is pending, booked, or in transit, or when fulfillment completes. Failed/cancelled bookings may unlock attribution if the order is not completed. Unknown provider outcomes remain locked until resolved. Any permitted status reversal must recompute the lock from the remaining fulfillment and booking state.
+
+### Reporting rules
+
+- **Recorded payments:** aggregate successful Payment amounts by paid_at. Include upfront subscription payments once on the purchase Order. Subscription fulfillment Orders create no additional payment.
+- **Fulfilled sales:** aggregate net_product_amount_snapshot from completed operational OrderItems by Order.completed_at. Exclude prepaid purchase items and delivery fees. Filter the resulting shares by owner, product, order type, and fulfillment completion date.
+- **Prepaid subscriptions:** divide Subscription.product_total among its fulfillment items in proportion to their original quantity * unit_price_snapshot. Persist the apportioned net product amounts when those items are created. Scheduled-date changes do not change those amounts. Distribute rounding remainders deterministically so the fulfillment items sum exactly to product_total. The current subscription model still represents one variant per subscription; several subscriptions do not become a mixed-product subscription through this change.
+- **Owner share:** multiply each fulfilled item's net product amount by its allocation percentage. Round to currency cents and assign the remainder consistently so the two owner amounts sum exactly to the item amount. Unallocated items contribute to overall fulfilled sales and the Unallocated filter, but neither owner's total.
+- **Estimated profit:** subtract the current ingredient, packaging, and utility cost estimate for each item, then allocate those costs using the same percentages. This matches the prototype's current-cost estimate; it is not a historical cost ledger. Missing recipe/cost data must produce an unavailable estimate rather than zero cost.
+- Sales Analytics and its filters are derived reports, so they do not require a separate Analytics entity. Earnings allocation records describe attribution, not salary, commission, or payout transactions. Staff payroll and owner payouts remain outside this change.

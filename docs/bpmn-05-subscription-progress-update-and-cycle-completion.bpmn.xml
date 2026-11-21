@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_05" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_05">
+    <bpmn:participant id="Participant_05" name="BPMN-05 | Subscription Progress Update and Cycle Completion" processRef="Process_05" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_05" name="Subscription Progress Update and Cycle Completion" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-05; Chapters/Kitchen406 - Capstone Paper.md SRS 4.8.3 FR-SUB-04,16-17; supporting FR-SUB-03,15,18 and NFR-REL-03,05-06. Prototype: index.html and linked app/subscription-state.js B.sync and app/owner-subscriptions.js. SRS governs differences. Vertical flow; internal responsibility swimlanes in one Kitchen406 pool. References describe ownership and handoffs, not invocation. BPMN-04 establishes the four fulfillment records, original apportioned product amounts and single prepaid purchase link; BPMN-16 owns independent preparing-owner allocations; BPMN-18/20 own actual completion; BPMN-43 owns report generation and applies FR-SUB-16-17 (Fulfilled sales only for completed fulfillments, excluding delivery fees, and prepaid payment counted once). BPMN-34 owns customer status inquiry; BPMN-23 owns authorized reversal. None is rerun by this process. No call activity is needed because BPMN-05 invokes no other catalog process. Local reliability constraints remain here: serialize updates or check record versions; on concurrent change reread and recalculate; save counts and cycle status atomically; on failure preserve prior state and retain event for retry. Repeated events must not duplicate counts, sales or payments. Retain original amounts, allocations and payment links; do not reactivate cancelled or inconsistent subscriptions automatically. This descriptive diagram ends with progress saved, not production, delivery, reporting, notification or renewal.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_05">
+      <bpmn:lane id="Lane05_0" name="Fulfillment Records">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane05_1" name="Subscription Management">
+        <bpmn:flowNodeRef>Count</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>All</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Active</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ActiveEnd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompleteEnd</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Completion received from BPMN-18 or BPMN-20">
+      <bpmn:documentation>BPMN-18 owns pickup completion; BPMN-20 owns courier completion. Input: saved subscription ID, fulfillment ID and actual completion timestamp. These processes have already completed the fulfillment; do not invoke them again.</bpmn:documentation>
+      <bpmn:outgoing>F1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load" name="Read completed fulfillment and subscription">
+      <bpmn:documentation>Read the authoritative completed fulfillment and its paid subscription with four linked fulfillments established by BPMN-04. Validate linkage and saved completion status. Invalid or inconsistent input preserves prior state and is logged for recovery; it does not advance. Completion eligibility and timestamp recording belong to BPMN-18/20.</bpmn:documentation>
+      <bpmn:incoming>F1</bpmn:incoming>
+      <bpmn:outgoing>F2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Count" name="Recalculate completed and remaining counts">
+      <bpmn:documentation>FR-SUB-04; NFR-REL-05: completed = count of distinct linked fulfillments currently completed; remaining = 4 - completed. Validate counts within 0..4. Recalculate using current source records so duplicate or out-of-order events cannot decrement twice. Deferred fulfillments retain their identity and count once.</bpmn:documentation>
+      <bpmn:incoming>F2</bpmn:incoming>
+      <bpmn:outgoing>F3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="All" name="All four complete?">
+      <bpmn:documentation>Use the current completed count, never elapsed weeks or the original final scheduled date.</bpmn:documentation>
+      <bpmn:incoming>F3</bpmn:incoming>
+      <bpmn:outgoing>F4</bpmn:outgoing>
+      <bpmn:outgoing>F5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Active" name="Save progress; retain Active cycle">
+      <bpmn:documentation>Completed count is below four. Persist counts and Active status together; retain remaining commitments. Apply the shared reliability controls documented at process level.</bpmn:documentation>
+      <bpmn:incoming>F4</bpmn:incoming>
+      <bpmn:outgoing>F6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Complete" name="Save progress; close cycle as Completed">
+      <bpmn:documentation>Completed count is four; remaining is zero. Persist counts and Completed status together. Apply the shared reliability controls documented at process level. No automatic renewal or additional payment.</bpmn:documentation>
+      <bpmn:incoming>F5</bpmn:incoming>
+      <bpmn:outgoing>F7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ActiveEnd" name="Cycle remains active">
+      <bpmn:documentation>Output: updated completed/remaining counts and Active status. Later fulfillment execution follows its own journey processes.</bpmn:documentation>
+      <bpmn:incoming>F6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="CompleteEnd" name="Four-fulfillment cycle complete">
+      <bpmn:documentation>Output: completed = 4, remaining = 0, status = Completed. This ends the prepaid cycle.</bpmn:documentation>
+      <bpmn:incoming>F7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F1" sourceRef="Start" targetRef="Load"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F2" sourceRef="Load" targetRef="Count"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F3" sourceRef="Count" targetRef="All"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F4" sourceRef="All" targetRef="Active" name="No: fewer than 4"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">completedCount &lt; 4</bpmn:conditionExpression></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F5" sourceRef="All" targetRef="Complete" name="Yes: 4"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">completedCount = 4</bpmn:conditionExpression></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F6" sourceRef="Active" targetRef="ActiveEnd"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F7" sourceRef="Complete" targetRef="CompleteEnd"></bpmn:sequenceFlow>
+    <bpmn:textAnnotation id="References"><bpmn:text>Related BPMNs (references only):
+04 - Four fulfillments, original amounts and prepaid link
+16 - Preparing-owner allocations
+18 / 20 - Pickup / courier completion (upstream)
+34 - Customer status inquiry
+43 - Sales and payment reporting
+23 - Authorized accidental reversal
+
+05 updates progress only; no repeat payment or renewal.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="ReferenceAssociation" sourceRef="Load" targetRef="References" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_05">
+    <bpmndi:BPMNPlane id="Plane_05" bpmnElement="Collaboration_05">
+      <bpmndi:BPMNShape id="Shape_Participant_05" bpmnElement="Participant_05" isHorizontal="false"><dc:Bounds x="40" y="40" width="800" height="950" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane05_0" bpmnElement="Lane05_0" isHorizontal="false"><dc:Bounds x="40" y="70" width="350" height="920" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane05_1" bpmnElement="Lane05_1" isHorizontal="false"><dc:Bounds x="390" y="70" width="450" height="920" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="192" y="150" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load" bpmnElement="Load"><dc:Bounds x="100" y="250" width="220" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Count" bpmnElement="Count"><dc:Bounds x="440" y="390" width="220" height="90" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_All" bpmnElement="All"><dc:Bounds x="525" y="540" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Active" bpmnElement="Active"><dc:Bounds x="415" y="680" width="170" height="85" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete"><dc:Bounds x="635" y="680" width="170" height="85" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ActiveEnd" bpmnElement="ActiveEnd"><dc:Bounds x="482" y="850" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompleteEnd" bpmnElement="CompleteEnd"><dc:Bounds x="702" y="850" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_References" bpmnElement="References"><dc:Bounds x="80" y="420" width="270" height="230" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_F1" bpmnElement="F1"><di:waypoint x="210" y="186" /><di:waypoint x="210" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F2" bpmnElement="F2"><di:waypoint x="320" y="290" /><di:waypoint x="550" y="290" /><di:waypoint x="550" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F3" bpmnElement="F3"><di:waypoint x="550" y="480" /><di:waypoint x="550" y="540" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F4" bpmnElement="F4"><di:waypoint x="525" y="565" /><di:waypoint x="500" y="565" /><di:waypoint x="500" y="680" /><bpmndi:BPMNLabel><dc:Bounds x="405" y="610" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F5" bpmnElement="F5"><di:waypoint x="575" y="565" /><di:waypoint x="720" y="565" /><di:waypoint x="720" y="680" /><bpmndi:BPMNLabel><dc:Bounds x="725" y="610" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F6" bpmnElement="F6"><di:waypoint x="500" y="765" /><di:waypoint x="500" y="850" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F7" bpmnElement="F7"><di:waypoint x="720" y="765" /><di:waypoint x="720" y="850" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_ReferenceAssociation" bpmnElement="ReferenceAssociation"><di:waypoint x="210" y="330" /><di:waypoint x="210" y="420" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
