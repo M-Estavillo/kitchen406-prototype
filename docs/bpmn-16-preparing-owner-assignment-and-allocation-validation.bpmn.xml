@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_16" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_16">
+    <bpmn:participant id="Participant_16" name="BPMN-16 | Preparing-Owner Assignment and Allocation Validation" processRef="Process_16" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_16" name="Preparing-Owner Assignment and Allocation Validation" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-16 and all catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.15.2-4.15.3 FR-FUL-16-20,22-26; FR-STAFF-06; NFR-SEC-14, NFR-REL-03,05-06; BR-24,28-30,34. Website: index.html loads app/earnings-allocation.js (N.editor, N.read, allocation save, transition wrapper), app/fulfillment-state.js, app/subscription-batches.js and app/delivery-state.js. SRS governs differences: server-side validation and full previous/new allocation audit history are required even though the in-memory preview only partially implements these. Read top to bottom in internal responsibility lanes within one Kitchen406 pool; cross-lane links are sequence flows, not message flows. Authentication is an upstream precondition, Refer to BPMN-30 — User Authentication and Role-Based Access. Recheck authorization at protected actions here. Input: fulfillment ID, edit or validation-only mode, acting account, expected version, requested action and optional allocation draft. Output: saved or validated allocations with version, or rejected/cancelled outcome. Future call activities can invoke Process_16 in validation-only mode from BPMN-17/18/19/21; valid saved allocations require no human re-entry. No checkout, inventory reservation, production, courier booking, completion, cost calculation or reporting is executed here. A validation result does not authorize a later stale action: callers must couple validation/version checks with their protected commit. Preserve original amounts and timestamps. Supporting batch control invokes this per fulfillment and reports independent results (FR-FUL-25), rather than applying one all-or-nothing batch. No other diagram is modified. All allocation validation steps and rejection outcomes are now visible on the main diagram. There are no embedded subprocesses or drill-down planes. Permission denial, stale version, invalid owner splits and incompatible locks each return a distinct reason while preserving current saved state. Rechecking controls at commit remains mandatory.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_16">
+      <bpmn:lane id="Lane_16_user" name="Admin/Owner or authorized Staff">
+        <bpmn:flowNodeRef>Edit_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_16</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_16_system" name="Kitchen406 System — Fulfillment Management">
+        <bpmn:flowNodeRef>Start_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Mode_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Permission_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PermissionValid_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PermissionError_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PermissionRejected_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Version_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>VersionValid_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>VersionError_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>VersionRejected_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allocation_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationValid_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationError_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationRejected_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Lock_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LockValid_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LockError_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LockRejected_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveMode_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validated_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Commit_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Success_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reject_16</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Rejected_16</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_16" name="Owner assignment or allocation check needed">
+      <bpmn:documentation>One instance per fulfillment. Validation-only invocation from a caller reuses saved allocations. Edit mode may receive a proposed allocation/status draft from an operational screen. Historical completed records without allocations remain Unallocated (BR-30); do not invent ownership.</bpmn:documentation>
+      <bpmn:outgoing>Flow_16_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load_16" name="Load fulfillment details and saved owner assignments">
+      <bpmn:documentation>Read product-line identities and full quantities, eligible baking owners, saved percentages, operational role, expected/current version, status and courier lock state. Scope is one operational fulfillment, including one subscription week; the prepaid subscription purchase is not an allocation unit. Staff sees operational selections/percentages only, never allocated sales, costs, estimated profit or restricted analytics (FR-STAFF-06).</bpmn:documentation>
+      <bpmn:incoming>Flow_16_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Mode_16" name="Edit allocations?">
+      <bpmn:documentation>Edit mode opens the reviewable draft. Validation-only mode reads and validates saved selections directly; it never prompts for owner choices or silently creates them. Unknown mode or missing context returns invalid through the shared validator.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Edit_16" name="Select owners and percentages for each line; review and confirm">
+      <bpmn:documentation>FR-FUL-16-17,24. Display saved choices and whole line quantities. Select eligible Owner A at 100%, Owner B at 100%, or both. Newly selecting both proposes 50/50; allow Owner A an integer 1-99 and set B to 100 minus A. Apply-to-all affects only this fulfillment: retain and display existing per-line splits when applying both, using 50/50 only where no prior both-owner split exists. Review every affected line before confirmation. Selecting a single owner gives that owner 100%. The acting account is never assigned a share automatically. Locked records must not accept normal editing; a stale or forged draft is rejected by server validation. Cancel leaves all saved values unchanged.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_16" name="Confirmed?">
+      <bpmn:incoming>Flow_16_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_16" name="Cancelled; saved state unchanged">
+      <bpmn:incoming>Flow_16_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Permission_16" name="Check permission for the requested action">
+      <bpmn:documentation>FR-STAFF-06; NFR-SEC-14. Check authenticated account operational permission for this fulfillment and action; validate request mode/context. Staff may record owners without viewing financial data or receiving an owner share. Authentication itself belongs to BPMN-30.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_7</bpmn:incoming>
+      <bpmn:incoming>Flow_16_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_8</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="PermissionValid_16" name="Permission granted?">
+      <bpmn:incoming>Flow_16_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="PermissionError_16" name="Explain permission denial; keep saved state">
+      <bpmn:documentation>Return the specific validation failure to the screen or caller. This attempt makes no saved allocation, history, operational status, material, booking or timestamp changes. Review and a fresh attempt are required; other successful batch fulfillments remain unaffected.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_10</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="PermissionRejected_16" name="Rejected: permission denied">
+      <bpmn:incoming>Flow_16_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Version_16" name="Compare submitted and current order versions">
+      <bpmn:documentation>FR-FUL-23; NFR-SEC-14. Reject stale expected version, preserve latest independently committed allocations/status/booking data and return refreshed-state guidance. Do not overwrite newer data or restore a stale snapshot.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_12</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="VersionValid_16" name="Order version current?">
+      <bpmn:incoming>Flow_16_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="VersionError_16" name="Return conflict; require refresh, review and retry">
+      <bpmn:documentation>Return the specific validation failure to the screen or caller. This attempt makes no saved allocation, history, operational status, material, booking or timestamp changes. Review and a fresh attempt are required; other successful batch fulfillments remain unaffected.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="VersionRejected_16" name="Rejected: order changed">
+      <bpmn:incoming>Flow_16_14</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Allocation_16" name="Check eligible owners and percentages on every line">
+      <bpmn:documentation>FR-FUL-16-18,24,26. Every product line requires exactly one valid allocation for the whole line quantity. Only the two eligible baking owners: A alone=100/0, B alone=0/100, both=integer A 1..99 and B=100-A. New both-owner selection defaults to 50/50; apply-to-all preserves and displays existing both-owner splits for review. Use draft for edits and saved values for validation-only. Staff action never implies a share. Historical completed items remain Unallocated, not retroactively inferred.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_16</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="AllocationValid_16" name="All line allocations valid?">
+      <bpmn:incoming>Flow_16_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AllocationError_16" name="Explain missing/invalid assignments or percentages">
+      <bpmn:documentation>Return the specific validation failure to the screen or caller. This attempt makes no saved allocation, history, operational status, material, booking or timestamp changes. Review and a fresh attempt are required; other successful batch fulfillments remain unaffected.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_18</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="AllocationRejected_16" name="Rejected: correct allocations before retry">
+      <bpmn:incoming>Flow_16_18</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Lock_16" name="Check completion and courier locks for this action">
+      <bpmn:documentation>FR-FUL-19-20; NFR-SEC-14. Normal edits require incomplete fulfillment and no pending, booked, in-transit or unresolved courier booking. Failed/cancelled bookings may permit editing while incomplete. Validation-only checks lock compatibility with the requested action; do not reject valid saved allocations solely because normal editing is locked. Do not unlock records or grant a forbidden transition. Caller owns other payment/material/status controls.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_20</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="LockValid_16" name="Requested action allowed by locks?">
+      <bpmn:incoming>Flow_16_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_23</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="LockError_16" name="Explain completed/booking lock; keep saved state">
+      <bpmn:documentation>Return the specific validation failure to the screen or caller. This attempt makes no saved allocation, history, operational status, material, booking or timestamp changes. Review and a fresh attempt are required; other successful batch fulfillments remain unaffected.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="LockRejected_16" name="Rejected: requested action locked">
+      <bpmn:incoming>Flow_16_22</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="SaveMode_16" name="Save confirmed edits?">
+      <bpmn:documentation>Only a confirmed edit requests a save. Validation-only returns the existing valid saved allocation and checked version without changing history or fulfillment state.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_25</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Validated_16" name="Saved assignments validated; return to caller">
+      <bpmn:documentation>Return allocation validation result and checked order version to BPMN-17,18,19 or21. Caller retains ownership of preparation/ready, pickup completion, booking or cake handoff and all applicable non-allocation checks. Validation must remain coupled with the protected commit; no status transition is performed by this outcome.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_24</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Commit_16" name="Recheck permission, version and locks; save allocations and history atomically">
+      <bpmn:documentation>FR-FUL-22-23,26; NFR-SEC-14 and NFR-REL-03,05. At commit recheck current authorization, eligible owners, order version and lock state; validation alone does not defeat a concurrent booking or completion. Save per-item previous/new owner selections and percentages, acting account and change timestamp with allocations and updated version. Avoid duplicate audit entries on repeated submission; unchanged values need no invented allocation change. Preserve stored product amounts, completion and allocation-lock timestamps. For a combined allocation/status request, participate in the caller’s single atomic transaction: commit neither unless every applicable transition/material check succeeds. Actual status/consumption/booking logic remains in BPMN-17/18/19/21; do not commit allocations separately ahead of a failed caller transition. No owner financial amount or payout is calculated here.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_26</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Saved_16" name="Commit successful?">
+      <bpmn:incoming>Flow_16_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Success_16" name="Allocations and change history saved">
+      <bpmn:documentation>Return saved per-line allocations and new version. Subsequent changes follow the same permissions and lock rules. BPMN-43 uses preserved allocations for financial reporting separately. Allocation assignment does not establish fulfillment completion or a fulfilled sale.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_27</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reject_16" name="Return save/conflict reason; keep prior saved state; review and retry">
+      <bpmn:documentation>FR-FUL-20,23,25. Reject invalid/missing allocations, forbidden edit/action, stale version or failed save. Return actionable reason to the screen or calling process; refresh/review before a fresh attempt. This attempt makes no partial allocation, history, status, material, booking or timestamp changes. Preserve newer independently committed data, not a stale snapshot. For a combined update the caller must roll back its associated changes too. Per-fulfillment failure does not undo other successful batch items.</bpmn:documentation>
+      <bpmn:incoming>Flow_16_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_16_29</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Rejected_16" name="Save rejected; no partial update">
+      <bpmn:incoming>Flow_16_29</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_16_1" sourceRef="Start_16" targetRef="Load_16" />
+    <bpmn:sequenceFlow id="Flow_16_2" sourceRef="Load_16" targetRef="Mode_16" />
+    <bpmn:sequenceFlow id="Flow_16_3" sourceRef="Mode_16" targetRef="Edit_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_4" sourceRef="Mode_16" targetRef="Permission_16" name="No — validate existing allocations" />
+    <bpmn:sequenceFlow id="Flow_16_5" sourceRef="Edit_16" targetRef="Confirm_16" />
+    <bpmn:sequenceFlow id="Flow_16_6" sourceRef="Confirm_16" targetRef="Cancel_16" name="No" />
+    <bpmn:sequenceFlow id="Flow_16_7" sourceRef="Confirm_16" targetRef="Permission_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_8" sourceRef="Permission_16" targetRef="PermissionValid_16" />
+    <bpmn:sequenceFlow id="Flow_16_9" sourceRef="PermissionValid_16" targetRef="PermissionError_16" name="No" />
+    <bpmn:sequenceFlow id="Flow_16_10" sourceRef="PermissionError_16" targetRef="PermissionRejected_16" />
+    <bpmn:sequenceFlow id="Flow_16_11" sourceRef="PermissionValid_16" targetRef="Version_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_12" sourceRef="Version_16" targetRef="VersionValid_16" />
+    <bpmn:sequenceFlow id="Flow_16_13" sourceRef="VersionValid_16" targetRef="VersionError_16" name="No" />
+    <bpmn:sequenceFlow id="Flow_16_14" sourceRef="VersionError_16" targetRef="VersionRejected_16" />
+    <bpmn:sequenceFlow id="Flow_16_15" sourceRef="VersionValid_16" targetRef="Allocation_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_16" sourceRef="Allocation_16" targetRef="AllocationValid_16" />
+    <bpmn:sequenceFlow id="Flow_16_17" sourceRef="AllocationValid_16" targetRef="AllocationError_16" name="No" />
+    <bpmn:sequenceFlow id="Flow_16_18" sourceRef="AllocationError_16" targetRef="AllocationRejected_16" />
+    <bpmn:sequenceFlow id="Flow_16_19" sourceRef="AllocationValid_16" targetRef="Lock_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_20" sourceRef="Lock_16" targetRef="LockValid_16" />
+    <bpmn:sequenceFlow id="Flow_16_21" sourceRef="LockValid_16" targetRef="LockError_16" name="No" />
+    <bpmn:sequenceFlow id="Flow_16_22" sourceRef="LockError_16" targetRef="LockRejected_16" />
+    <bpmn:sequenceFlow id="Flow_16_23" sourceRef="LockValid_16" targetRef="SaveMode_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_24" sourceRef="SaveMode_16" targetRef="Validated_16" name="No — validation only" />
+    <bpmn:sequenceFlow id="Flow_16_25" sourceRef="SaveMode_16" targetRef="Commit_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_26" sourceRef="Commit_16" targetRef="Saved_16" />
+    <bpmn:sequenceFlow id="Flow_16_27" sourceRef="Saved_16" targetRef="Success_16" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_16_28" sourceRef="Saved_16" targetRef="Reject_16" name="No: permission, version, lock or write failure" />
+    <bpmn:sequenceFlow id="Flow_16_29" sourceRef="Reject_16" targetRef="Rejected_16" />
+    <bpmn:textAnnotation id="References_16">
+      <bpmn:text>Owner allocation rules
+One owner: 100%. Both owners: initially 50/50; Owner A integer 1–99%, Owner B the remainder.
+Apply-to-all keeps existing both-owner line splits for review.
+Staff is the action performer, never an automatic recipient.
+
+Reuse boundaries
+BPMN-30: authentication precondition.
+BPMN-17/18/19/21: operational actions and atomic combined commits.
+Validation-only follows the visible checks without prompting for edits.
+Batch: validate and report each fulfillment separately.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_16" sourceRef="Edit_16" targetRef="References_16" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_16">
+    <bpmndi:BPMNPlane id="Plane_16" bpmnElement="Collaboration_16">
+      <bpmndi:BPMNShape id="Shape_Participant_16" bpmnElement="Participant_16" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1350" height="3430" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_16_user" bpmnElement="Lane_16_user" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="3400" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_16_system" bpmnElement="Lane_16_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="900" height="3400" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_16" bpmnElement="Start_16">
+        <dc:Bounds x="782" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="845" y="125" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_16" bpmnElement="Load_16">
+        <dc:Bounds x="670" y="280" width="260" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Mode_16" bpmnElement="Mode_16">
+        <dc:Bounds x="775" y="460" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="600" y="525" width="170" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Edit_16" bpmnElement="Edit_16">
+        <dc:Bounds x="140" y="650" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_16" bpmnElement="Confirm_16">
+        <dc:Bounds x="255" y="820" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="100" y="820" width="140" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_16" bpmnElement="Cancel_16">
+        <dc:Bounds x="262" y="1010" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="1055" width="210" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Permission_16" bpmnElement="Permission_16">
+        <dc:Bounds x="670" y="1000" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PermissionValid_16" bpmnElement="PermissionValid_16">
+        <dc:Bounds x="775" y="1150" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1150" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PermissionError_16" bpmnElement="PermissionError_16">
+        <dc:Bounds x="1080" y="1135" width="260" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PermissionRejected_16" bpmnElement="PermissionRejected_16">
+        <dc:Bounds x="1192" y="1300" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="1345" width="240" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Version_16" bpmnElement="Version_16">
+        <dc:Bounds x="670" y="1400" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_VersionValid_16" bpmnElement="VersionValid_16">
+        <dc:Bounds x="775" y="1550" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1550" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_VersionError_16" bpmnElement="VersionError_16">
+        <dc:Bounds x="1080" y="1535" width="260" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_VersionRejected_16" bpmnElement="VersionRejected_16">
+        <dc:Bounds x="1192" y="1700" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="1745" width="240" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allocation_16" bpmnElement="Allocation_16">
+        <dc:Bounds x="670" y="1800" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationValid_16" bpmnElement="AllocationValid_16">
+        <dc:Bounds x="775" y="1950" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1950" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationError_16" bpmnElement="AllocationError_16">
+        <dc:Bounds x="1080" y="1935" width="260" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationRejected_16" bpmnElement="AllocationRejected_16">
+        <dc:Bounds x="1192" y="2100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="2145" width="240" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lock_16" bpmnElement="Lock_16">
+        <dc:Bounds x="670" y="2200" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LockValid_16" bpmnElement="LockValid_16">
+        <dc:Bounds x="775" y="2350" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2350" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LockError_16" bpmnElement="LockError_16">
+        <dc:Bounds x="1080" y="2335" width="260" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LockRejected_16" bpmnElement="LockRejected_16">
+        <dc:Bounds x="1192" y="2500" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="2545" width="240" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveMode_16" bpmnElement="SaveMode_16">
+        <dc:Bounds x="775" y="2600" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="2600" width="210" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validated_16" bpmnElement="Validated_16">
+        <dc:Bounds x="982" y="2800" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="910" y="2850" width="180" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Commit_16" bpmnElement="Commit_16">
+        <dc:Bounds x="670" y="2800" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Saved_16" bpmnElement="Saved_16">
+        <dc:Bounds x="775" y="3000" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="3000" width="210" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Success_16" bpmnElement="Success_16">
+        <dc:Bounds x="782" y="3220" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="695" y="3265" width="210" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reject_16" bpmnElement="Reject_16">
+        <dc:Bounds x="1080" y="3070" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rejected_16" bpmnElement="Rejected_16">
+        <dc:Bounds x="1192" y="3290" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="3335" width="240" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_References_16" bpmnElement="References_16">
+        <dc:Bounds x="120" y="1250" width="310" height="510" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_1" bpmnElement="Flow_16_1">
+        <di:waypoint x="800" y="166" />
+        <di:waypoint x="800" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_2" bpmnElement="Flow_16_2">
+        <di:waypoint x="800" y="365" />
+        <di:waypoint x="800" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_3" bpmnElement="Flow_16_3">
+        <di:waypoint x="775" y="485" />
+        <di:waypoint x="280" y="485" />
+        <di:waypoint x="280" y="650" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="455" width="45" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_4" bpmnElement="Flow_16_4">
+        <di:waypoint x="825" y="485" />
+        <di:waypoint x="1030" y="485" />
+        <di:waypoint x="1030" y="1045" />
+        <di:waypoint x="930" y="1045" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="835" y="435" width="190" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_5" bpmnElement="Flow_16_5">
+        <di:waypoint x="280" y="750" />
+        <di:waypoint x="280" y="820" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_6" bpmnElement="Flow_16_6">
+        <di:waypoint x="280" y="870" />
+        <di:waypoint x="280" y="1010" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="920" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_7" bpmnElement="Flow_16_7">
+        <di:waypoint x="305" y="845" />
+        <di:waypoint x="800" y="845" />
+        <di:waypoint x="800" y="1000" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="815" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_8" bpmnElement="Flow_16_8">
+        <di:waypoint x="800" y="1090" />
+        <di:waypoint x="800" y="1150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_9" bpmnElement="Flow_16_9">
+        <di:waypoint x="825" y="1175" />
+        <di:waypoint x="1080" y="1175" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="1145" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_10" bpmnElement="Flow_16_10">
+        <di:waypoint x="1210" y="1220" />
+        <di:waypoint x="1210" y="1300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_11" bpmnElement="Flow_16_11">
+        <di:waypoint x="800" y="1200" />
+        <di:waypoint x="800" y="1400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1270" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_12" bpmnElement="Flow_16_12">
+        <di:waypoint x="800" y="1490" />
+        <di:waypoint x="800" y="1550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_13" bpmnElement="Flow_16_13">
+        <di:waypoint x="825" y="1575" />
+        <di:waypoint x="1080" y="1575" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="1545" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_14" bpmnElement="Flow_16_14">
+        <di:waypoint x="1210" y="1620" />
+        <di:waypoint x="1210" y="1700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_15" bpmnElement="Flow_16_15">
+        <di:waypoint x="800" y="1600" />
+        <di:waypoint x="800" y="1800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1670" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_16" bpmnElement="Flow_16_16">
+        <di:waypoint x="800" y="1890" />
+        <di:waypoint x="800" y="1950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_17" bpmnElement="Flow_16_17">
+        <di:waypoint x="825" y="1975" />
+        <di:waypoint x="1080" y="1975" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="1945" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_18" bpmnElement="Flow_16_18">
+        <di:waypoint x="1210" y="2020" />
+        <di:waypoint x="1210" y="2100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_19" bpmnElement="Flow_16_19">
+        <di:waypoint x="800" y="2000" />
+        <di:waypoint x="800" y="2200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2070" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_20" bpmnElement="Flow_16_20">
+        <di:waypoint x="800" y="2290" />
+        <di:waypoint x="800" y="2350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_21" bpmnElement="Flow_16_21">
+        <di:waypoint x="825" y="2375" />
+        <di:waypoint x="1080" y="2375" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="2345" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_22" bpmnElement="Flow_16_22">
+        <di:waypoint x="1210" y="2420" />
+        <di:waypoint x="1210" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_23" bpmnElement="Flow_16_23">
+        <di:waypoint x="800" y="2400" />
+        <di:waypoint x="800" y="2600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2470" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_24" bpmnElement="Flow_16_24">
+        <di:waypoint x="825" y="2625" />
+        <di:waypoint x="1000" y="2625" />
+        <di:waypoint x="1000" y="2800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="840" y="2650" width="150" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_25" bpmnElement="Flow_16_25">
+        <di:waypoint x="800" y="2650" />
+        <di:waypoint x="800" y="2800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2720" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_26" bpmnElement="Flow_16_26">
+        <di:waypoint x="800" y="2910" />
+        <di:waypoint x="800" y="3000" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_27" bpmnElement="Flow_16_27">
+        <di:waypoint x="800" y="3050" />
+        <di:waypoint x="800" y="3220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="3120" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_28" bpmnElement="Flow_16_28">
+        <di:waypoint x="825" y="3025" />
+        <di:waypoint x="1210" y="3025" />
+        <di:waypoint x="1210" y="3070" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="875" y="2970" width="300" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_16_29" bpmnElement="Flow_16_29">
+        <di:waypoint x="1210" y="3170" />
+        <di:waypoint x="1210" y="3290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Association_16" bpmnElement="Association_16">
+        <di:waypoint x="140" y="700" />
+        <di:waypoint x="100" y="700" />
+        <di:waypoint x="100" y="1300" />
+        <di:waypoint x="120" y="1300" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

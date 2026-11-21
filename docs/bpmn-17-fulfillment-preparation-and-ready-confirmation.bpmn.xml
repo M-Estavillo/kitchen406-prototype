@@ -1,0 +1,785 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_17" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+  <bpmn:collaboration id="Collaboration_17">
+    <bpmn:participant id="Participant_17" name="BPMN-17 | Fulfillment Preparation and Ready Confirmation" processRef="Process_17" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_17" name="Fulfillment Preparation and Ready Confirmation" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md (catalog boundaries/reuse reviewed); Chapters/Kitchen406 - Capstone Paper.md SRS 4.15 FR-FUL-01-11,14-18,23-26; FR-INV-09,17,19; FR-BOM-10; supporting NFR-SEC-14, NFR-REL-03,05-06. Website: index.html and linked app/fulfillment-state.js F.transition, app/inventory-state.js I.consume, app/earnings-allocation.js, app/staff-ui.js, app/owner-orders.js and app/subscription-batches.js. Paper governs prototype gaps: server validation and combined allocation/status/material updates must be consistent. Scope: all paid operational fulfillment types, including each subscription week and accepted paid cake. Human review/preparation and system transitions use vertical internal responsibility lanes in one pool; no message flows are needed between lanes. Authentication is a precondition from BPMN-30. Every main activity, decision and failure outcome is on this diagram. BPMN-16 is an external reusable process referenced by call activities and an explicit relative BPMN import, not copied or disguised as a local subprocess. Its calledElement is k406:Process_16. bpmn.io renders these calls; opening another file or executing cross-file calls depends on the modeling/execution host. Validation-only mode returns saved allocations with no manual re-entry. If draft allocations accompany confirmation, the caller validates them using BPMN-16 rules in its transaction; do not run an independently committed allocation edit ahead of a failed status change. Each commit rechecks permissions/version/locks to avoid stale validation. One instance per fulfillment; batch screens invoke independently and report each result. Actual work can continue after an interrupted screen: a separate ready-confirmation entry handles already preparing fulfillments. Reservation timing and subscription recovery belong to BPMN-15, including the unresolved timing issue, and are not changed here. No payment, checkout/capacity booking, stock restocking, courier booking, pickup or delivery completion, sales posting or status reversal is executed here.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_17">
+      <bpmn:lane id="Lane_17_user" name="Admin/Owner or authorized Staff">
+        <bpmn:flowNodeRef>Review_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RequestStart_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ConfirmedStart_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CancelStart_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Prepare_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyRequest_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ConfirmedReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CancelReady_17</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_17_system" name="Kitchen406 System — Fulfillment Management">
+        <bpmn:flowNodeRef>Start_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CheckStart_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEligible_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocation_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocationValid_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Materials_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>MaterialReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CommitStart_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartSaved_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ResumeReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyAllocation_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyAllocationValid_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CheckReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyEligible_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CommitReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadySaved_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ready_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EligibilityError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EligibilityEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocationError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocationEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>MaterialError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>MaterialEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartSaveError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartSaveEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyAllocationError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyAllocationEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyEligibilityError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadyEligibilityEnd_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadySaveError_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadySaveEnd_17</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_17" name="Due fulfillment selected for preparation">
+      <bpmn:outgoing>Flow_17_15</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load_17" name="Load paid fulfillment, schedule, products and production details">
+      <bpmn:documentation>FR-FUL-01-07,10-11,14; FR-BOM-10. Load confirmed operational fulfillment, products/variants/quantities, preparation and fulfillment dates, method, recipe and accepted cake specifications as applicable. Restrict staff to operational information; no sales/cost/profit/customer-management access. Review can include upcoming work, but starting preparation must satisfy the applicable due date.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Review_17" name="Review quantities, recipe or accepted cake details">
+      <bpmn:documentation>Review instructions needed for this fulfillment, including the accepted quotation specifications for cakes. Preparing-owner assignment/edit belongs to BPMN-16 and may be recorded separately before starting. No mandatory extra owner approval of cake specifications is invented.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_17</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="RequestStart_17" name="Confirm start preparation or cancel">
+      <bpmn:documentation>Confirm that preparation is starting and ingredients will be recorded as used. If the supported screen includes an allocation draft, it is subject to BPMN-16 validation and the same atomic commit. Batch confirmation is per selected fulfillment, not proof that every record is eligible.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_18</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ConfirmedStart_17" name="Start confirmed?">
+      <bpmn:incoming>Flow_17_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="CancelStart_17" name="Cancelled; confirmed state unchanged">
+      <bpmn:incoming>Flow_17_19</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="CheckStart_17" name="Check payment, due preparation date and current status">
+      <bpmn:documentation>FR-FUL-01,03,08. Require verified paid/confirmed operational order, the applicable preparation date reached and current confirmed status. Standard/subscription/cake type does not change the core controls. Do not start on an unpaid purchase or completed/ready fulfillment. Missing required schedule/configuration is a rejection reason. No new payment verification workflow is performed here.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_21</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="StartEligible_17" name="Paid, due and confirmed?">
+      <bpmn:incoming>Flow_17_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="StartAllocation_17" name="Refer to BPMN-16 — Validate preparing-owner allocations" calledElement="k406:Process_16">
+      <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with fulfillment ID, acting account, expected version and action=start preparation. Return validated saved per-line owner allocations or specific permission/version/allocation/lock failure. A draft supplied by a combined action must be validated without independent commit. No forced re-entry of valid saved allocations. Caller owns material and status checks.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_22</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="StartAllocationValid_17" name="Allocation/action validation passed?">
+      <bpmn:incoming>Flow_17_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="Materials_17" name="Check full ingredient reservation and physical material readiness">
+      <bpmn:documentation>FR-INV-09,19; FR-FUL-08. Require complete active reservation linked to this fulfillment and every valid recipe/configuration ingredient quantity physically available for consumption, respecting other reservations. A projected requirement alone is not a reservation. First checkout reservations come from BPMN-09/13; later subscription reservations from BPMN-15. Do not silently create a missing reservation or use this as a new checkout.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_23</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="MaterialReady_17" name="All required materials ready?">
+      <bpmn:incoming>Flow_17_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_30</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CommitStart_17" name="Consume ingredients once; save Preparing and audit history atomically">
+      <bpmn:documentation>FR-INV-09,17,19; FR-FUL-23,26; NFR-REL-03,05. Under current version/permission/lock/material checks, deduct actual physical quantities once, convert linked reservation to consumed, record ingredient movements, actor/time and preparing transition/history/version together. Preserve product amounts and existing reporting timestamps. An optional combined allocation draft/history joins this same transaction after BPMN-16 validation. Use fulfillment/action operation identity so repeated requests do not consume twice. If the same completed operation is replayed, return existing success without another mutation; conflicting/stale operations reject. Do not reserve a later subscription fulfillment here. Failed combined save retains the prior saved state with no partial consumption or status update.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_24</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="StartSaved_17" name="Preparation start saved?">
+      <bpmn:incoming>Flow_17_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_34</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:manualTask id="Prepare_17" name="Prepare products to recipe/specifications; pack and stage">
+      <bpmn:documentation>Actual bakery preparation and packing by the designated baking owners. Staff may operate the system without receiving an owner share. Production instructions differ by product/accepted cake; no automated physical preparation, QA signoff or unsupported approval is introduced.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_35</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:userTask id="ReadyRequest_17" name="Review prepared and packed products; confirm Ready or cancel">
+      <bpmn:documentation>Confirm this fulfillment is prepared, packed and staged. Existing saved owner allocations are retained; corrections are a separate BPMN-16 edit while unlocked. Cancelling this confirmation does not reverse previously recorded preparation or ingredient consumption.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_36</bpmn:incoming>
+      <bpmn:incoming>Flow_17_35</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_37</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="ResumeReady_17" name="Ready confirmation requested for an already Preparing fulfillment">
+      <bpmn:documentation>Alternative re-entry after preparation was saved previously, or retry of a failed/cancelled ready confirmation. Enter the same Ready user confirmation and checks; do not replay ingredient consumption or skip actual preparation.</bpmn:documentation>
+      <bpmn:outgoing>Flow_17_36</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ConfirmedReady_17" name="Ready confirmed?">
+      <bpmn:incoming>Flow_17_37</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_38</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_39</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="CancelReady_17" name="Ready cancelled; remains Preparing">
+      <bpmn:incoming>Flow_17_38</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="ReadyAllocation_17" name="Refer to BPMN-16 — Revalidate saved owner allocations" calledElement="k406:Process_16">
+      <bpmn:documentation>Invoke k406:Process_16 with validation-only mode, requested action=mark ready, current acting account and expected order version. Do not prompt for valid existing owner selections. Return exact permission/stale-version/allocation/lock reason on rejection. If a draft is submitted with the status request, validate and commit it consistently with Ready; never change the acting staff account into an allocation recipient.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_39</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_25</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="ReadyAllocationValid_17" name="Allocation/action validation passed?">
+      <bpmn:incoming>Flow_17_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_31</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="CheckReady_17" name="Recheck paid Preparing state and recorded material consumption">
+      <bpmn:documentation>FR-FUL-08-09,18,23. Require paid operational fulfillment still in Preparing state and successful ingredient-consumption record from its preparation start. Check current action/version context. Do not require a new unconsumed reservation or consume the ingredients again. Conflicting completion/booking/status changes cannot be overwritten.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_26</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="ReadyEligible_17" name="Ready transition still valid?">
+      <bpmn:incoming>Flow_17_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_32</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CommitReady_17" name="Save Ready status and history; retain allocations and consumption">
+      <bpmn:documentation>FR-FUL-08-09,15,23,26. Recheck permissions/version/locks and prerequisite state at commit. Save ready-for-pickup or ready-for-delivery as applicable, status history, actor and new version consistently. Retain saved owner allocations unless an explicitly validated combined draft is committed in the same transaction; preserve item product amounts and reporting timestamps. No second consumption, completion timestamp, completion lock, fulfilled sale or courier booking. Same-operation retry reuses saved result; conflicting save fails without partial changes.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_32</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_27</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ReadySaved_17" name="Ready status saved?">
+      <bpmn:incoming>Flow_17_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Ready_17" name="Ready for the separate pickup/delivery process">
+      <bpmn:documentation>Output: paid ready fulfillment with preserved allocations, one recorded consumption and updated operational history. Standard/subscription pickup uses BPMN-18; standard/subscription delivery uses BPMN-19/20; cakes use BPMN-21 owner handoff. Ready is not completed and does not create Fulfilled sales. Applicable notifications run independently in BPMN-28/29; customer status inquiry belongs to BPMN-34.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_33</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="EligibilityError_17" name="Explain unpaid, not-due or invalid-status reason; retain state">
+      <bpmn:documentation>Show exact business rejection. This attempt changes no allocations, materials or operational status. A fresh request may proceed when prerequisites hold.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EligibilityEnd_17" name="Preparation blocked; review eligibility">
+      <bpmn:incoming>Flow_17_2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="StartAllocationError_17" name="Return BPMN-16 permission, version, allocation or lock reason">
+      <bpmn:documentation>Retain latest saved state. Permission denied requires permitted account/action; stale version requires refresh/review; invalid allocations can be corrected via BPMN-16 while unlocked. Do not bypass validation or rerun payment.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="StartAllocationEnd_17" name="Preparation blocked; review or correct assignments">
+      <bpmn:incoming>Flow_17_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="MaterialError_17" name="Explain missing reservation or ingredient shortage; retain Confirmed">
+      <bpmn:documentation>Refer to BPMN-15 for later subscription reservation/retry; BPMN-24 for restocking. These are separate recovery processes, not automatic preparation approval. No consumption or cancellation. Missing/invalid recipe is a data issue, not zero ingredients.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="MaterialEnd_17" name="Preparation blocked; material recovery needed">
+      <bpmn:incoming>Flow_17_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="StartSaveError_17" name="Return conflict/save failure; no partial consumption or status update">
+      <bpmn:documentation>Preserve prior saved allocations, physical stock, reservation state and operational state for a failed combined update. A concurrently committed successful operation remains authoritative; replay it safely rather than deducting again. Log technical failure.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="StartSaveEnd_17" name="Start failed; refresh, review and retry">
+      <bpmn:incoming>Flow_17_8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ReadyAllocationError_17" name="Return BPMN-16 reason; retain saved Preparing state">
+      <bpmn:documentation>No second consumption or rollback of actual preparation. Refresh stale data, correct editable allocations or use authorized account as appropriate; retry ready confirmation separately.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_10</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ReadyAllocationEnd_17" name="Ready blocked; review allocation/action issue">
+      <bpmn:incoming>Flow_17_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ReadyEligibilityError_17" name="Explain status/material-record conflict; retain latest saved state">
+      <bpmn:documentation>Missing prior consumption or conflicting order state cannot authorize Ready. Investigate/reconcile current records without inventing physical stock restoration. No automatic reversal or completion.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_12</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ReadyEligibilityEnd_17" name="Ready blocked; review current fulfillment">
+      <bpmn:incoming>Flow_17_12</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ReadySaveError_17" name="Return save/conflict reason; no partial Ready update">
+      <bpmn:documentation>Preserve the prior saved Preparing state for this failed attempt, allocations and existing consumption. Do not undo newer independently committed state. Repeated successful operation returns its recorded result.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ReadySaveEnd_17" name="Ready save failed; review and retry">
+      <bpmn:incoming>Flow_17_14</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_17_1" sourceRef="StartEligible_17" targetRef="EligibilityError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_2" sourceRef="EligibilityError_17" targetRef="EligibilityEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_3" sourceRef="StartAllocationValid_17" targetRef="StartAllocationError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_4" sourceRef="StartAllocationError_17" targetRef="StartAllocationEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_5" sourceRef="MaterialReady_17" targetRef="MaterialError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_6" sourceRef="MaterialError_17" targetRef="MaterialEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_7" sourceRef="StartSaved_17" targetRef="StartSaveError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_8" sourceRef="StartSaveError_17" targetRef="StartSaveEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_9" sourceRef="ReadyAllocationValid_17" targetRef="ReadyAllocationError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_10" sourceRef="ReadyAllocationError_17" targetRef="ReadyAllocationEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_11" sourceRef="ReadyEligible_17" targetRef="ReadyEligibilityError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_12" sourceRef="ReadyEligibilityError_17" targetRef="ReadyEligibilityEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_13" sourceRef="ReadySaved_17" targetRef="ReadySaveError_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_14" sourceRef="ReadySaveError_17" targetRef="ReadySaveEnd_17" />
+    <bpmn:sequenceFlow id="Flow_17_15" sourceRef="Start_17" targetRef="Load_17" />
+    <bpmn:sequenceFlow id="Flow_17_16" sourceRef="Load_17" targetRef="Review_17" />
+    <bpmn:sequenceFlow id="Flow_17_17" sourceRef="Review_17" targetRef="RequestStart_17" />
+    <bpmn:sequenceFlow id="Flow_17_18" sourceRef="RequestStart_17" targetRef="ConfirmedStart_17" />
+    <bpmn:sequenceFlow id="Flow_17_19" sourceRef="ConfirmedStart_17" targetRef="CancelStart_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_20" sourceRef="ConfirmedStart_17" targetRef="CheckStart_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_21" sourceRef="CheckStart_17" targetRef="StartEligible_17" />
+    <bpmn:sequenceFlow id="Flow_17_22" sourceRef="StartAllocation_17" targetRef="StartAllocationValid_17" />
+    <bpmn:sequenceFlow id="Flow_17_23" sourceRef="Materials_17" targetRef="MaterialReady_17" />
+    <bpmn:sequenceFlow id="Flow_17_24" sourceRef="CommitStart_17" targetRef="StartSaved_17" />
+    <bpmn:sequenceFlow id="Flow_17_25" sourceRef="ReadyAllocation_17" targetRef="ReadyAllocationValid_17" />
+    <bpmn:sequenceFlow id="Flow_17_26" sourceRef="CheckReady_17" targetRef="ReadyEligible_17" />
+    <bpmn:sequenceFlow id="Flow_17_27" sourceRef="CommitReady_17" targetRef="ReadySaved_17" />
+    <bpmn:sequenceFlow id="Flow_17_28" sourceRef="StartEligible_17" targetRef="StartAllocation_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_29" sourceRef="StartAllocationValid_17" targetRef="Materials_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_30" sourceRef="MaterialReady_17" targetRef="CommitStart_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_31" sourceRef="ReadyAllocationValid_17" targetRef="CheckReady_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_32" sourceRef="ReadyEligible_17" targetRef="CommitReady_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_33" sourceRef="ReadySaved_17" targetRef="Ready_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_34" sourceRef="StartSaved_17" targetRef="Prepare_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_35" sourceRef="Prepare_17" targetRef="ReadyRequest_17" />
+    <bpmn:sequenceFlow id="Flow_17_36" sourceRef="ResumeReady_17" targetRef="ReadyRequest_17" />
+    <bpmn:sequenceFlow id="Flow_17_37" sourceRef="ReadyRequest_17" targetRef="ConfirmedReady_17" />
+    <bpmn:sequenceFlow id="Flow_17_38" sourceRef="ConfirmedReady_17" targetRef="CancelReady_17" name="No" />
+    <bpmn:sequenceFlow id="Flow_17_39" sourceRef="ConfirmedReady_17" targetRef="ReadyAllocation_17" name="Yes" />
+    <bpmn:textAnnotation id="EligibilityRules_17">
+      <bpmn:text>Start requirements
+Paid, confirmed operational fulfillment.
+Applicable preparation date reached.
+Current state = Confirmed.
+All three fulfillment types use these controls.
+BPMN-30 owns sign-in; BPMN-16 checks action permissions/version/locks.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_EligibilityRules_17" sourceRef="CheckStart_17" targetRef="EligibilityRules_17" associationDirection="None" />
+    <bpmn:textAnnotation id="MaterialRules_17">
+      <bpmn:text>Material readiness
+Full reservation belongs to this fulfillment.
+Every required recipe ingredient is available for consumption.
+Projected requirements alone are insufficient.
+No new checkout or capacity booking.
+BPMN-15/24 own applicable reservation recovery and restocking.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_MaterialRules_17" sourceRef="Materials_17" targetRef="MaterialRules_17" associationDirection="None" />
+    <bpmn:textAnnotation id="StartCommitRules_17">
+      <bpmn:text>Atomic start (FR-INV-09,17,19)
+Physical consumption + reservation consumed + Preparing history/version save together.
+Recheck current controls at commit.
+Repeated operation: no double deduction.
+Combined owner-allocation changes join this transaction.
+Failed update: no partial changes.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_StartCommitRules_17" sourceRef="CommitStart_17" targetRef="StartCommitRules_17" associationDirection="None" />
+    <bpmn:textAnnotation id="ReadyRules_17">
+      <bpmn:text>Ready requirements
+Paid order remains Preparing.
+Preparation consumption already recorded.
+BPMN-16 revalidates owner allocations and action controls.
+Do not consume or reserve ingredients again.
+Ready is not completed and creates no Fulfilled sale.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_ReadyRules_17" sourceRef="CheckReady_17" targetRef="ReadyRules_17" associationDirection="None" />
+    <bpmn:textAnnotation id="CallReference_17">
+      <bpmn:text>BPMN-16 — Preparing-Owner Assignment and Allocation Validation
+External call, validation-only mode.
+Returns saved allocation result and version without user re-entry.
+Source: bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_CallReference_17" sourceRef="StartAllocation_17" targetRef="CallReference_17" associationDirection="None" />
+    <bpmn:textAnnotation id="Handoffs_17">
+      <bpmn:text>After Ready (separate processes)
+BPMN-18: standard/subscription pickup.
+BPMN-19/20: standard/subscription courier booking and delivery.
+BPMN-21: owner-managed cake delivery/handoff.
+Batch actions: independent validation/result per fulfillment; failed rows retain prior saved state.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Handoffs_17" sourceRef="Ready_17" targetRef="Handoffs_17" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_17">
+    <bpmndi:BPMNPlane id="Plane_17" bpmnElement="Collaboration_17">
+      <bpmndi:BPMNShape id="Shape_Participant_17" bpmnElement="Participant_17" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1350" height="4600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_17_user" bpmnElement="Lane_17_user" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="4570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_17_system" bpmnElement="Lane_17_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="900" height="4570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_17" bpmnElement="Start_17">
+        <dc:Bounds x="782" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="840" y="125" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_17" bpmnElement="Load_17">
+        <dc:Bounds x="670" y="270" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Review_17" bpmnElement="Review_17">
+        <dc:Bounds x="140" y="450" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RequestStart_17" bpmnElement="RequestStart_17">
+        <dc:Bounds x="140" y="650" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ConfirmedStart_17" bpmnElement="ConfirmedStart_17">
+        <dc:Bounds x="255" y="820" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="85" y="820" width="155" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CancelStart_17" bpmnElement="CancelStart_17">
+        <dc:Bounds x="262" y="1000" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="1045" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CheckStart_17" bpmnElement="CheckStart_17">
+        <dc:Bounds x="670" y="1030" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartEligible_17" bpmnElement="StartEligible_17">
+        <dc:Bounds x="775" y="1200" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1200" width="230" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocation_17" bpmnElement="StartAllocation_17">
+        <dc:Bounds x="670" y="1430" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocationValid_17" bpmnElement="StartAllocationValid_17">
+        <dc:Bounds x="775" y="1600" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1600" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Materials_17" bpmnElement="Materials_17">
+        <dc:Bounds x="670" y="1830" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialReady_17" bpmnElement="MaterialReady_17">
+        <dc:Bounds x="775" y="2000" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2000" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CommitStart_17" bpmnElement="CommitStart_17">
+        <dc:Bounds x="670" y="2230" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartSaved_17" bpmnElement="StartSaved_17">
+        <dc:Bounds x="775" y="2410" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2410" width="230" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Prepare_17" bpmnElement="Prepare_17">
+        <dc:Bounds x="140" y="2630" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyRequest_17" bpmnElement="ReadyRequest_17">
+        <dc:Bounds x="140" y="2860" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ResumeReady_17" bpmnElement="ResumeReady_17">
+        <dc:Bounds x="1082" y="2885" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1130" y="2860" width="220" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ConfirmedReady_17" bpmnElement="ConfirmedReady_17">
+        <dc:Bounds x="255" y="3050" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="85" y="3050" width="155" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CancelReady_17" bpmnElement="CancelReady_17">
+        <dc:Bounds x="262" y="3230" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="3275" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyAllocation_17" bpmnElement="ReadyAllocation_17">
+        <dc:Bounds x="670" y="3260" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyAllocationValid_17" bpmnElement="ReadyAllocationValid_17">
+        <dc:Bounds x="775" y="3430" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="3430" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CheckReady_17" bpmnElement="CheckReady_17">
+        <dc:Bounds x="670" y="3660" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyEligible_17" bpmnElement="ReadyEligible_17">
+        <dc:Bounds x="775" y="3830" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="3830" width="230" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CommitReady_17" bpmnElement="CommitReady_17">
+        <dc:Bounds x="670" y="4060" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadySaved_17" bpmnElement="ReadySaved_17">
+        <dc:Bounds x="775" y="4240" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="4240" width="230" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ready_17" bpmnElement="Ready_17">
+        <dc:Bounds x="782" y="4460" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="4505" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EligibilityError_17" bpmnElement="EligibilityError_17">
+        <dc:Bounds x="1080" y="1185" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EligibilityEnd_17" bpmnElement="EligibilityEnd_17">
+        <dc:Bounds x="1197" y="1345" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="1390" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocationError_17" bpmnElement="StartAllocationError_17">
+        <dc:Bounds x="1080" y="1585" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocationEnd_17" bpmnElement="StartAllocationEnd_17">
+        <dc:Bounds x="1197" y="1745" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="1790" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialError_17" bpmnElement="MaterialError_17">
+        <dc:Bounds x="1080" y="1985" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialEnd_17" bpmnElement="MaterialEnd_17">
+        <dc:Bounds x="1197" y="2145" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="2190" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartSaveError_17" bpmnElement="StartSaveError_17">
+        <dc:Bounds x="1080" y="2395" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartSaveEnd_17" bpmnElement="StartSaveEnd_17">
+        <dc:Bounds x="1197" y="2555" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="2600" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyAllocationError_17" bpmnElement="ReadyAllocationError_17">
+        <dc:Bounds x="1080" y="3415" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyAllocationEnd_17" bpmnElement="ReadyAllocationEnd_17">
+        <dc:Bounds x="1197" y="3575" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="3620" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyEligibilityError_17" bpmnElement="ReadyEligibilityError_17">
+        <dc:Bounds x="1080" y="3815" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyEligibilityEnd_17" bpmnElement="ReadyEligibilityEnd_17">
+        <dc:Bounds x="1197" y="3975" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="4020" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadySaveError_17" bpmnElement="ReadySaveError_17">
+        <dc:Bounds x="1080" y="4225" width="270" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadySaveEnd_17" bpmnElement="ReadySaveEnd_17">
+        <dc:Bounds x="1197" y="4385" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="4430" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EligibilityRules_17" bpmnElement="EligibilityRules_17">
+        <dc:Bounds x="120" y="1130" width="330" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialRules_17" bpmnElement="MaterialRules_17">
+        <dc:Bounds x="120" y="1760" width="330" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartCommitRules_17" bpmnElement="StartCommitRules_17">
+        <dc:Bounds x="120" y="2200" width="330" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadyRules_17" bpmnElement="ReadyRules_17">
+        <dc:Bounds x="120" y="3590" width="330" height="230" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CallReference_17" bpmnElement="CallReference_17">
+        <dc:Bounds x="120" y="1450" width="330" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Handoffs_17" bpmnElement="Handoffs_17">
+        <dc:Bounds x="120" y="4160" width="330" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_1" bpmnElement="Flow_17_1">
+        <di:waypoint x="825" y="1225" />
+        <di:waypoint x="1080" y="1225" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1195" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_2" bpmnElement="Flow_17_2">
+        <di:waypoint x="1215" y="1280" />
+        <di:waypoint x="1215" y="1345" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_3" bpmnElement="Flow_17_3">
+        <di:waypoint x="825" y="1625" />
+        <di:waypoint x="1080" y="1625" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1595" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_4" bpmnElement="Flow_17_4">
+        <di:waypoint x="1215" y="1680" />
+        <di:waypoint x="1215" y="1745" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_5" bpmnElement="Flow_17_5">
+        <di:waypoint x="825" y="2025" />
+        <di:waypoint x="1080" y="2025" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1995" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_6" bpmnElement="Flow_17_6">
+        <di:waypoint x="1215" y="2080" />
+        <di:waypoint x="1215" y="2145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_7" bpmnElement="Flow_17_7">
+        <di:waypoint x="825" y="2435" />
+        <di:waypoint x="1080" y="2435" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="2405" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_8" bpmnElement="Flow_17_8">
+        <di:waypoint x="1215" y="2490" />
+        <di:waypoint x="1215" y="2555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_9" bpmnElement="Flow_17_9">
+        <di:waypoint x="825" y="3455" />
+        <di:waypoint x="1080" y="3455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="3425" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_10" bpmnElement="Flow_17_10">
+        <di:waypoint x="1215" y="3510" />
+        <di:waypoint x="1215" y="3575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_11" bpmnElement="Flow_17_11">
+        <di:waypoint x="825" y="3855" />
+        <di:waypoint x="1080" y="3855" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="3825" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_12" bpmnElement="Flow_17_12">
+        <di:waypoint x="1215" y="3910" />
+        <di:waypoint x="1215" y="3975" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_13" bpmnElement="Flow_17_13">
+        <di:waypoint x="825" y="4265" />
+        <di:waypoint x="1080" y="4265" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="4235" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_14" bpmnElement="Flow_17_14">
+        <di:waypoint x="1215" y="4320" />
+        <di:waypoint x="1215" y="4385" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_15" bpmnElement="Flow_17_15">
+        <di:waypoint x="800" y="166" />
+        <di:waypoint x="800" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_16" bpmnElement="Flow_17_16">
+        <di:waypoint x="800" y="360" />
+        <di:waypoint x="800" y="405" />
+        <di:waypoint x="280" y="405" />
+        <di:waypoint x="280" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_17" bpmnElement="Flow_17_17">
+        <di:waypoint x="280" y="550" />
+        <di:waypoint x="280" y="650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_18" bpmnElement="Flow_17_18">
+        <di:waypoint x="280" y="740" />
+        <di:waypoint x="280" y="820" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_19" bpmnElement="Flow_17_19">
+        <di:waypoint x="280" y="870" />
+        <di:waypoint x="280" y="1000" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="930" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_20" bpmnElement="Flow_17_20">
+        <di:waypoint x="305" y="845" />
+        <di:waypoint x="800" y="845" />
+        <di:waypoint x="800" y="1030" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="815" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_21" bpmnElement="Flow_17_21">
+        <di:waypoint x="800" y="1120" />
+        <di:waypoint x="800" y="1200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_22" bpmnElement="Flow_17_22">
+        <di:waypoint x="800" y="1530" />
+        <di:waypoint x="800" y="1600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_23" bpmnElement="Flow_17_23">
+        <di:waypoint x="800" y="1930" />
+        <di:waypoint x="800" y="2000" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_24" bpmnElement="Flow_17_24">
+        <di:waypoint x="800" y="2340" />
+        <di:waypoint x="800" y="2410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_25" bpmnElement="Flow_17_25">
+        <di:waypoint x="800" y="3360" />
+        <di:waypoint x="800" y="3430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_26" bpmnElement="Flow_17_26">
+        <di:waypoint x="800" y="3760" />
+        <di:waypoint x="800" y="3830" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_27" bpmnElement="Flow_17_27">
+        <di:waypoint x="800" y="4170" />
+        <di:waypoint x="800" y="4240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_28" bpmnElement="Flow_17_28">
+        <di:waypoint x="800" y="1250" />
+        <di:waypoint x="800" y="1430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1315" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_29" bpmnElement="Flow_17_29">
+        <di:waypoint x="800" y="1650" />
+        <di:waypoint x="800" y="1830" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1715" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_30" bpmnElement="Flow_17_30">
+        <di:waypoint x="800" y="2050" />
+        <di:waypoint x="800" y="2230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2115" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_31" bpmnElement="Flow_17_31">
+        <di:waypoint x="800" y="3480" />
+        <di:waypoint x="800" y="3660" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="3545" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_32" bpmnElement="Flow_17_32">
+        <di:waypoint x="800" y="3880" />
+        <di:waypoint x="800" y="4060" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="3945" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_33" bpmnElement="Flow_17_33">
+        <di:waypoint x="800" y="4290" />
+        <di:waypoint x="800" y="4460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="4355" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_34" bpmnElement="Flow_17_34">
+        <di:waypoint x="800" y="2460" />
+        <di:waypoint x="800" y="2570" />
+        <di:waypoint x="280" y="2570" />
+        <di:waypoint x="280" y="2630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2500" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_35" bpmnElement="Flow_17_35">
+        <di:waypoint x="280" y="2740" />
+        <di:waypoint x="280" y="2860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_36" bpmnElement="Flow_17_36">
+        <di:waypoint x="1082" y="2903" />
+        <di:waypoint x="1040" y="2903" />
+        <di:waypoint x="1040" y="2910" />
+        <di:waypoint x="420" y="2910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_37" bpmnElement="Flow_17_37">
+        <di:waypoint x="280" y="2960" />
+        <di:waypoint x="280" y="3050" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_38" bpmnElement="Flow_17_38">
+        <di:waypoint x="280" y="3100" />
+        <di:waypoint x="280" y="3230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="3150" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_39" bpmnElement="Flow_17_39">
+        <di:waypoint x="305" y="3075" />
+        <di:waypoint x="800" y="3075" />
+        <di:waypoint x="800" y="3260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="3045" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_EligibilityRules_17" bpmnElement="Assoc_EligibilityRules_17">
+        <di:waypoint x="670" y="1075" />
+        <di:waypoint x="500" y="1075" />
+        <di:waypoint x="500" y="1170" />
+        <di:waypoint x="450" y="1170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_MaterialRules_17" bpmnElement="Assoc_MaterialRules_17">
+        <di:waypoint x="670" y="1880" />
+        <di:waypoint x="450" y="1880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_StartCommitRules_17" bpmnElement="Assoc_StartCommitRules_17">
+        <di:waypoint x="670" y="2285" />
+        <di:waypoint x="450" y="2285" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_ReadyRules_17" bpmnElement="Assoc_ReadyRules_17">
+        <di:waypoint x="670" y="3710" />
+        <di:waypoint x="450" y="3710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_CallReference_17" bpmnElement="Assoc_CallReference_17">
+        <di:waypoint x="670" y="1480" />
+        <di:waypoint x="450" y="1480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Handoffs_17" bpmnElement="Assoc_Handoffs_17">
+        <di:waypoint x="782" y="4478" />
+        <di:waypoint x="500" y="4478" />
+        <di:waypoint x="500" y="4350" />
+        <di:waypoint x="450" y="4350" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

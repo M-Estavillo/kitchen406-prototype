@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_36" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_36">
+    <bpmn:participant id="Participant_36" name="BPMN-36 | Staff Account Provisioning and Maintenance" processRef="Process_36" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_36" name="Staff Account Provisioning and Maintenance" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-36 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.3 FR-STAFF-01-06; supporting NFR-SEC-02-03,05,08,13, NFR-REL-03,05 and BR-24. Website: index.html loads app/owner-accounts.js M.save/statusChange/find/duplicate, app/session-state.js and app/staff-state.js. Existing docs XMLs reviewed for style/reuse, particularly BPMN-16 and BPMN-35; detailed local validations/failures remain on the main diagram. Scope: authenticated Admin/Owner creates, updates or deactivates a Staff account. Authentication and staff login/session enforcement belong to BPMN-30 and are referenced as precondition/dependent policy, not rerun here. BPMN-31 is customer registration and must not be called to provision Staff. No staff invitation, email verification, password reset, account deletion, configurable role promotion or reactivation is inferred; prototype reactivation is outside this bounded catalog process. Two internal role lanes share sequence flows; no external notification/provider interaction is required, so no message flow or broadcast signal is invented. Input: requested action, allowed staff data, selected account/version for update/deactivate, authenticated administrator and operation identity. Output: new active Staff account linked to creating administrator, updated Staff details, or inactive account denied Staff access; cancellation/rejection/failure preserves prior state. Prototype requires first/last names, valid unique email and an initial password for creation; these are prototype-aligned input examples rather than new SRS-specific password policy. Proposed secure password storage follows NFR-SEC-02, never a claim that browser-only preview hashing is production security. Preserve original creating-administrator association on maintenance. Staff remains restricted to authorized operational functions, including preparing-owner selection/percentages, without financial/customer-management access or automatic owner allocation. Save/account status and effective access state remain consistent; existing inactive-account sessions cannot retain operational authority. Actual sign-in and session lifecycle remain in BPMN-30. No unrelated business records or financial allocations are changed.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_36">
+      <bpmn:lane id="Lane_36_admin" name="Admin/Owner">
+        <bpmn:flowNodeRef>Start_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Draft_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_36</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_36_system" name="Kitchen406 System — Staff Account Management">
+        <bpmn:flowNodeRef>Access_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Denied_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DeniedEnd_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Check_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InputError_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InvalidEnd_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Create_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Update_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Deactivate_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveResult_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveError_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveFailed_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Show_36</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_36</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_36" name="Administrator opens Staff account maintenance">
+      <bpmn:outgoing>Flow_36_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Access_36" name="Check Admin/Owner permission; load Staff registry">
+      <bpmn:documentation>FR-STAFF-01-02; NFR-SEC-03. Enforce server-side administrator authorization before exposing Staff management data. Current authenticated session is from BPMN-30. Customer directory maintenance is outside this process.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed_36" name="Administrator access allowed?">
+      <bpmn:incoming>Flow_36_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Denied_36" name="Explain permission/load failure; keep account records unchanged">
+      <bpmn:incoming>Flow_36_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="DeniedEnd_36" name="Maintenance denied; no changes">
+      <bpmn:incoming>Flow_36_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Draft_36" name="Choose Create, Update or Deactivate; enter/review Staff details">
+      <bpmn:documentation>For create enter permitted Staff profile and initial credentials. For update select Staff account and edit permitted profile fields. For deactivate select account and review access-removal consequence. No role elevation, self-service Staff provisioning, password-reset or deletion is authorized by this screen. Review the selected operation before submitting; leaving cancels.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_36" name="Administrator confirms change?">
+      <bpmn:incoming>Flow_36_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_36" name="Cancelled; account/access state retained">
+      <bpmn:incoming>Flow_36_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Check_36" name="Validate action, profile/credentials and current Staff record">
+      <bpmn:documentation>FR-STAFF-01-03; NFR-SEC-08. Recognize create/update/deactivate. Creation/update require valid permitted names/email; case-insensitive email uniqueness across login identities follows prototype M.duplicate. Initial password required only on creation; validate configured supported policy without inventing an SRS-specific minimum. Update/deactivate require existing Staff target and expected current version; stale/missing/non-Staff target is rejected, not recreated or promoted. Deactivation needs no re-entry of profile/password. Original creator must remain attached. Requested role/access cannot grant admin/financial/customer-management rights. Same successful operation reuses result rather than creating duplicates.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_9</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Valid_36" name="Input and current record valid?">
+      <bpmn:incoming>Flow_36_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="InputError_36" name="Explain invalid fields, duplicate email or stale/missing Staff target">
+      <bpmn:documentation>Return exact safe reason. Correct invalid fields; choose unused email; refresh/review a changed account. Preserve current profile/status/creator/access state. Do not expose credentials or overwrite newer independently committed changes.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_11</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="InvalidEnd_36" name="Change rejected; review/correct before retry">
+      <bpmn:incoming>Flow_36_11</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Action_36" name="Requested Staff account action?">
+      <bpmn:incoming>Flow_36_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Create_36" name="Create active Staff account; securely store password and creating admin">
+      <bpmn:documentation>FR-STAFF-01,03; NFR-SEC-02. Recheck administrator permission/session, unique email and operation identity at protected commit. Hash initial password using production-appropriate adaptive one-way storage, never plaintext logs/storage. Create one Staff identity with active status and immutable original creating administrator association (current authenticated creator). Apply only Staff operational access; no automatic Owner share or invitation/verification workflow. Account, creator and access policy save consistently.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Update_36" name="Save permitted Staff profile changes; preserve creator and role">
+      <bpmn:documentation>FR-STAFF-02-05. Recheck current administrator permission, Staff target/version and uniqueness at commit. Save permitted profile fields and updated version consistently. Preserve original created-by administrator, Staff role, status except a separately requested deactivation, and unchanged credential. Do not turn profile editing into password reset, promotion, reactivation or access to owner-only information.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Deactivate_36" name="Save inactive Staff status and deny Staff access consistently">
+      <bpmn:documentation>FR-STAFF-02,04-05; NFR-SEC-03,05. Recheck administrator permission, target/version and operation identity. Persist inactive status, actor/time/history and access-denial state consistently. Deny future login and subsequent protected requests from any existing session through BPMN-30 authorization/session controls. Do not merely hide a menu or grant access until next voluntary login. Do not delete account/audit/creator associations or alter fulfillment owner shares.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_18</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="SaveResult_36" name="Requested account/access change saved?">
+      <bpmn:incoming>Flow_36_18</bpmn:incoming>
+      <bpmn:incoming>Flow_36_17</bpmn:incoming>
+      <bpmn:incoming>Flow_36_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_36_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SaveError_36" name="Return conflict/save failure; preserve latest account and access state">
+      <bpmn:documentation>Failed combined update leaves no orphan account, overwritten creator, partial role/status or inconsistent access permission. Keep independently committed newer data. Repeated operation uses recorded result; conflict requires refresh/review/retry. Failed create does not create duplicate account. No plaintext password/error details disclosed.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_20</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="SaveFailed_36" name="No change saved by this attempt; review/retry">
+      <bpmn:incoming>Flow_36_20</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Show_36" name="Show saved Staff account/result with operational-only access">
+      <bpmn:documentation>FR-STAFF-04-06. Display created/updated/inactive result to administrator, with creator association retained. Active Staff may perform permitted operations and preparing-owner entry only; financial analytics, allocated sales/cost/profit, pricing and customer management remain owner-only. Staff performer never receives an owner allocation automatically. BPMN-30 enforces active status and role on actual Staff access; no staff login is initiated here.</bpmn:documentation>
+      <bpmn:incoming>Flow_36_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_36_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="End_36" name="Staff account change saved; access reflects Staff role/status">
+      <bpmn:incoming>Flow_36_22</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_36_1" sourceRef="Start_36" targetRef="Access_36" />
+    <bpmn:sequenceFlow id="Flow_36_2" sourceRef="Access_36" targetRef="Allowed_36" />
+    <bpmn:sequenceFlow id="Flow_36_3" sourceRef="Allowed_36" targetRef="Denied_36" name="No" />
+    <bpmn:sequenceFlow id="Flow_36_4" sourceRef="Denied_36" targetRef="DeniedEnd_36" />
+    <bpmn:sequenceFlow id="Flow_36_5" sourceRef="Allowed_36" targetRef="Draft_36" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_36_6" sourceRef="Draft_36" targetRef="Confirm_36" />
+    <bpmn:sequenceFlow id="Flow_36_7" sourceRef="Confirm_36" targetRef="Cancel_36" name="No / cancel" />
+    <bpmn:sequenceFlow id="Flow_36_8" sourceRef="Confirm_36" targetRef="Check_36" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_36_9" sourceRef="Check_36" targetRef="Valid_36" />
+    <bpmn:sequenceFlow id="Flow_36_10" sourceRef="Valid_36" targetRef="InputError_36" name="No" />
+    <bpmn:sequenceFlow id="Flow_36_11" sourceRef="InputError_36" targetRef="InvalidEnd_36" />
+    <bpmn:sequenceFlow id="Flow_36_12" sourceRef="Valid_36" targetRef="Action_36" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_36_13" sourceRef="Action_36" targetRef="Create_36" name="Create" />
+    <bpmn:sequenceFlow id="Flow_36_14" sourceRef="Action_36" targetRef="Update_36" name="Update" />
+    <bpmn:sequenceFlow id="Flow_36_15" sourceRef="Action_36" targetRef="Deactivate_36" name="Deactivate" />
+    <bpmn:sequenceFlow id="Flow_36_16" sourceRef="Create_36" targetRef="SaveResult_36" />
+    <bpmn:sequenceFlow id="Flow_36_17" sourceRef="Update_36" targetRef="SaveResult_36" />
+    <bpmn:sequenceFlow id="Flow_36_18" sourceRef="Deactivate_36" targetRef="SaveResult_36" />
+    <bpmn:sequenceFlow id="Flow_36_19" sourceRef="SaveResult_36" targetRef="SaveError_36" name="No" />
+    <bpmn:sequenceFlow id="Flow_36_20" sourceRef="SaveError_36" targetRef="SaveFailed_36" />
+    <bpmn:sequenceFlow id="Flow_36_21" sourceRef="SaveResult_36" targetRef="Show_36" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_36_22" sourceRef="Show_36" targetRef="End_36" />
+    <bpmn:textAnnotation id="Rules_36">
+      <bpmn:text>Validation rules
+Create/update: required profile, valid email and unique login email.
+Create only: initial password meeting supported policy.
+Update/deactivate: existing Staff target and current record version.
+Only allowed Staff data; no Owner promotion.
+No account changes on invalid/stale input.
+Original creating administrator is preserved.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Rules_36" sourceRef="Check_36" targetRef="Rules_36" associationDirection="None" />
+    <bpmn:textAnnotation id="RoleRules_36">
+      <bpmn:text>Staff access (FR-STAFF-04–06)
+Active: authorized operations only, including recording preparing-owner choices/percentages.
+No allocated sales, costs, profit, financial analytics, pricing or customer management.
+Inactive: deny Staff interface/protected actions, including existing sessions.
+Acting Staff never gains an Owner share.
+BPMN-30 enforces actual sign-in/access; not invoked again here.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_RoleRules_36" sourceRef="Show_36" targetRef="RoleRules_36" associationDirection="None" />
+    <bpmn:textAnnotation id="Creator_36">
+      <bpmn:text>Account creation safeguard
+Associate new Staff account with the authenticated creating administrator.
+Secure password storage; no plaintext logs.
+Recheck permission/uniqueness at save.
+Profile edits retain creator and role.
+No customer registration (BPMN-31), invitation or external notification flow.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Creator_36" sourceRef="Create_36" targetRef="Creator_36" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_36">
+    <bpmndi:BPMNPlane id="Plane_36" bpmnElement="Collaboration_36">
+      <bpmndi:BPMNShape id="Shape_Participant_36" bpmnElement="Participant_36" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1810" height="3450" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_36_admin" bpmnElement="Lane_36_admin" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="3420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_36_system" bpmnElement="Lane_36_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1360" height="3420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_36" bpmnElement="Start_36">
+        <dc:Bounds x="262" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="185" width="310" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Access_36" bpmnElement="Access_36">
+        <dc:Bounds x="670" y="280" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allowed_36" bpmnElement="Allowed_36">
+        <dc:Bounds x="775" y="470" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="470" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Denied_36" bpmnElement="Denied_36">
+        <dc:Bounds x="1080" y="455" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_DeniedEnd_36" bpmnElement="DeniedEnd_36">
+        <dc:Bounds x="1197" y="640" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="685" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Draft_36" bpmnElement="Draft_36">
+        <dc:Bounds x="140" y="740" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_36" bpmnElement="Confirm_36">
+        <dc:Bounds x="255" y="950" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="950" width="160" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_36" bpmnElement="Cancel_36">
+        <dc:Bounds x="262" y="1140" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="1185" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Check_36" bpmnElement="Check_36">
+        <dc:Bounds x="670" y="1160" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid_36" bpmnElement="Valid_36">
+        <dc:Bounds x="775" y="1360" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1360" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InputError_36" bpmnElement="InputError_36">
+        <dc:Bounds x="1080" y="1345" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InvalidEnd_36" bpmnElement="InvalidEnd_36">
+        <dc:Bounds x="1197" y="1540" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="1585" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Action_36" bpmnElement="Action_36">
+        <dc:Bounds x="775" y="1790" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1790" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Create_36" bpmnElement="Create_36">
+        <dc:Bounds x="670" y="2050" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Update_36" bpmnElement="Update_36">
+        <dc:Bounds x="1080" y="2050" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Deactivate_36" bpmnElement="Deactivate_36">
+        <dc:Bounds x="1490" y="2050" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveResult_36" bpmnElement="SaveResult_36">
+        <dc:Bounds x="775" y="2500" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="925" y="2500" width="230" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveError_36" bpmnElement="SaveError_36">
+        <dc:Bounds x="1080" y="2700" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveFailed_36" bpmnElement="SaveFailed_36">
+        <dc:Bounds x="1197" y="2920" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="2965" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Show_36" bpmnElement="Show_36">
+        <dc:Bounds x="660" y="3060" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_36" bpmnElement="End_36">
+        <dc:Bounds x="782" y="3300" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="680" y="3345" width="270" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rules_36" bpmnElement="Rules_36">
+        <dc:Bounds x="120" y="1360" width="330" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RoleRules_36" bpmnElement="RoleRules_36">
+        <dc:Bounds x="120" y="2650" width="330" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Creator_36" bpmnElement="Creator_36">
+        <dc:Bounds x="120" y="2020" width="330" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_1" bpmnElement="Flow_36_1">
+        <di:waypoint x="280" y="166" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="805" y="220" />
+        <di:waypoint x="805" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_2" bpmnElement="Flow_36_2">
+        <di:waypoint x="805" y="380" />
+        <di:waypoint x="805" y="420" />
+        <di:waypoint x="800" y="420" />
+        <di:waypoint x="800" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_3" bpmnElement="Flow_36_3">
+        <di:waypoint x="825" y="495" />
+        <di:waypoint x="1080" y="495" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="465" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_4" bpmnElement="Flow_36_4">
+        <di:waypoint x="1215" y="555" />
+        <di:waypoint x="1215" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_5" bpmnElement="Flow_36_5">
+        <di:waypoint x="800" y="520" />
+        <di:waypoint x="800" y="660" />
+        <di:waypoint x="280" y="660" />
+        <di:waypoint x="280" y="740" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="580" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_6" bpmnElement="Flow_36_6">
+        <di:waypoint x="280" y="860" />
+        <di:waypoint x="280" y="950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_7" bpmnElement="Flow_36_7">
+        <di:waypoint x="280" y="1000" />
+        <di:waypoint x="280" y="1140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1060" width="110" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_8" bpmnElement="Flow_36_8">
+        <di:waypoint x="305" y="975" />
+        <di:waypoint x="805" y="975" />
+        <di:waypoint x="805" y="1160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="945" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_9" bpmnElement="Flow_36_9">
+        <di:waypoint x="805" y="1270" />
+        <di:waypoint x="805" y="1310" />
+        <di:waypoint x="800" y="1310" />
+        <di:waypoint x="800" y="1360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_10" bpmnElement="Flow_36_10">
+        <di:waypoint x="825" y="1385" />
+        <di:waypoint x="1080" y="1385" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1355" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_11" bpmnElement="Flow_36_11">
+        <di:waypoint x="1215" y="1455" />
+        <di:waypoint x="1215" y="1540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_12" bpmnElement="Flow_36_12">
+        <di:waypoint x="800" y="1410" />
+        <di:waypoint x="800" y="1790" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1580" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_13" bpmnElement="Flow_36_13">
+        <di:waypoint x="800" y="1840" />
+        <di:waypoint x="800" y="2050" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1920" width="100" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_14" bpmnElement="Flow_36_14">
+        <di:waypoint x="825" y="1815" />
+        <di:waypoint x="1215" y="1815" />
+        <di:waypoint x="1215" y="2050" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="990" y="1780" width="100" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_15" bpmnElement="Flow_36_15">
+        <di:waypoint x="800" y="1790" />
+        <di:waypoint x="800" y="1700" />
+        <di:waypoint x="1630" y="1700" />
+        <di:waypoint x="1630" y="2050" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1370" y="1665" width="150" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_16" bpmnElement="Flow_36_16">
+        <di:waypoint x="805" y="2170" />
+        <di:waypoint x="805" y="2240" />
+        <di:waypoint x="800" y="2240" />
+        <di:waypoint x="800" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_17" bpmnElement="Flow_36_17">
+        <di:waypoint x="1215" y="2170" />
+        <di:waypoint x="1215" y="2310" />
+        <di:waypoint x="825" y="2310" />
+        <di:waypoint x="825" y="2525" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_18" bpmnElement="Flow_36_18">
+        <di:waypoint x="1630" y="2170" />
+        <di:waypoint x="1630" y="2340" />
+        <di:waypoint x="860" y="2340" />
+        <di:waypoint x="860" y="2525" />
+        <di:waypoint x="825" y="2525" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_19" bpmnElement="Flow_36_19">
+        <di:waypoint x="800" y="2550" />
+        <di:waypoint x="800" y="2650" />
+        <di:waypoint x="1215" y="2650" />
+        <di:waypoint x="1215" y="2700" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1000" y="2620" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_20" bpmnElement="Flow_36_20">
+        <di:waypoint x="1215" y="2820" />
+        <di:waypoint x="1215" y="2920" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_21" bpmnElement="Flow_36_21">
+        <di:waypoint x="775" y="2525" />
+        <di:waypoint x="660" y="2525" />
+        <di:waypoint x="660" y="3115" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="670" y="2810" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_36_22" bpmnElement="Flow_36_22">
+        <di:waypoint x="800" y="3170" />
+        <di:waypoint x="800" y="3300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Rules_36" bpmnElement="Assoc_Rules_36">
+        <di:waypoint x="670" y="1215" />
+        <di:waypoint x="470" y="1215" />
+        <di:waypoint x="470" y="1420" />
+        <di:waypoint x="450" y="1420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_RoleRules_36" bpmnElement="Assoc_RoleRules_36">
+        <di:waypoint x="660" y="3115" />
+        <di:waypoint x="470" y="3115" />
+        <di:waypoint x="470" y="2870" />
+        <di:waypoint x="450" y="2870" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Creator_36" bpmnElement="Assoc_Creator_36">
+        <di:waypoint x="670" y="2110" />
+        <di:waypoint x="450" y="2110" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

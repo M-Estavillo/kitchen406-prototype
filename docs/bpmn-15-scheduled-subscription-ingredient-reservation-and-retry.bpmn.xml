@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_15" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:signal id="Signal_15_Shortage" name="Scheduled subscription ingredient shortage" />
+  <bpmn:collaboration id="Collaboration_15">
+    <bpmn:participant id="Participant_15" name="BPMN-15 | Scheduled Subscription Ingredient Reservation and Retry" processRef="Process_15" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_15" name="Scheduled Subscription Ingredient Reservation and Retry" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md (all process boundaries reviewed); Chapters/Kitchen406 - Capstone Paper.md SRS 4.12 FR-INV-03-05,21-23, supporting FR-INV-19 and SRS 4.13 FR-BOM-07-08, NFR-REL-03,05. Implementation: index.html loads app/inventory-state.js (I.plan, I.available, I.reserve), app/staff-integration.js (B.reserveNext, stock-change retry), app/staff-state.js and app/owner-inventory.js. SRS governs timing: the preview reserves the next pending delivery and retimes later requirements relative to previous preparation; this model instead reserves each later fulfillment one calendar day before its own current preparation date (FR-INV-21). One instance per fulfillment and attempt. Two alternative system start events represent scheduled execution and automatic retry after separately recorded replenishment. FR-INV-23 allows retry but does not mandate manual initiation; automatic stock-change retry follows app/staff-integration.js S.changed. Authorized owner/staff restocking remains in BPMN-24, outside this process. One System swimlane represents the sole acting role. Both starts connect directly to Load as alternative entries (no synchronization or redundant merge gateway). Local validation and BoM calculation are shown directly on the main diagram. Visible rule annotations explain eligibility, calculation, availability and atomic commit decisions. Local validation and BoM calculation are shown directly on the main diagram. Visible rule annotations explain eligibility, calculation, availability and atomic commit decisions. No message flows are needed within the pool. This is descriptive BPMN, not an executable scheduler. Recheck the current date/version at dispatch and commit, including deferments from BPMN-06. No duplicate reservations, capacity booking, checkout hold, payment, consumption, automatic purchase, cancellation or deferment. Reservation timing remains FR-INV-21 pending separate resolution of the user-raised completion-trigger proposal. No other BPMN is changed.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_15">
+      <bpmn:lane id="Lane_15_system" name="Kitchen406 System — Inventory Management">
+        <bpmn:flowNodeRef>Due</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryStart</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CheckEligibility</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Eligible</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SkipReason</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Skip</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Existing</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reused</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Calculate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecipeValid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecipeIssue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecipeFailed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Availability</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Enough</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Shortage</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Notify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Waiting</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Result</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Success</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Issue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failed</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Due" name="One day before scheduled preparation">
+      <bpmn:documentation>FR-INV-21. Scheduler dispatches for a later paid subscription fulfillment using its current preparation date minus one calendar day in the business schedule timezone. Rescheduled records invalidate stale triggers.</bpmn:documentation>
+      <bpmn:outgoing>Flow_15_1</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Timer_15">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">${reservationDueAt}</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="RetryStart" name="Stock replenished for a failed reservation">
+      <bpmn:documentation>FR-INV-23. Automatic system retry after BPMN-24 — Ingredient Stock Restocking has separately saved an authorized restock. Start one attempt for each affected previously failed subscription reservation. Replenishment does not guarantee sufficient stock. The paper permits retries without specifying a manual initiator; automatic retry is supported by app/staff-integration.js S.changed. Owner/Staff authentication applies to the separate restocking action, not to an approval in this process.</bpmn:documentation>
+      <bpmn:outgoing>Flow_15_2</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="Replenished_15">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${stockReplenishedForFailedReservation}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load" name="Load current subscription fulfillment and reservation state">
+      <bpmn:documentation>Read confirmed paid subscription, later fulfillment identity, current preparation/reservation dates, material issue and existing ingredient reservation. First fulfillment retains checkout ingredients from BPMN-09/13, linked by BPMN-04. No rebooking of committed capacity.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_2</bpmn:incoming>
+      <bpmn:incoming>Flow_15_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="CheckEligibility" name="Check later fulfillment, due date and retry eligibility">
+      <bpmn:documentation>Later, paid, confirmed, unprepared fulfillment; current scheduled due date reached. For the replenishment entry, require a recorded failed ingredient reservation and subsequent saved replenishment. Validate against the current agreed preparation date, including any permitted BPMN-06 deferment; do not reserve future weeks early. Stale schedule, first fulfillment or ineligible state cannot allocate stock. An existing complete reservation is safely reused by the next decision.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_4</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Eligible" name="Eligible and due?">
+      <bpmn:documentation>Later, paid, confirmed, unprepared fulfillment; current scheduled due date reached. For the replenishment entry, require a recorded failed ingredient reservation and subsequent saved replenishment. Validate against the current agreed preparation date, including any permitted BPMN-06 deferment; do not reserve future weeks early. Stale schedule, first fulfillment or ineligible state cannot allocate stock. An existing complete reservation is safely reused by the next decision.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SkipReason" name="Return ineligible / not-due reason; retain saved state">
+      <bpmn:documentation>First fulfillment, unpaid/unconfirmed, already preparing/completed, stale schedule, future due date or retry without recorded failure/replenishment: no allocation. Preserve paid purchase and current schedule; a valid trigger may start a later attempt.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Skip" name="No reservation change">
+      <bpmn:documentation>Retain current state. A valid scheduled trigger or system retry after replenishment may start a new attempt. No payment, schedule or capacity change.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Existing" name="Complete active reservation exists?">
+      <bpmn:documentation>Existing complete active reservation for this fulfillment: reuse it without creating another. Recheck under the same per-fulfillment lock during save; concurrent attempts cannot both allocate.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Reused" name="Reuse existing reservation; no duplicate">
+      <bpmn:incoming>Flow_15_8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Calculate" name="Calculate fulfillment ingredients using BPMN-26 BoM rules">
+      <bpmn:documentation>FR-INV-03-05; FR-BOM-07-08. Refer to BPMN-26 — Fulfillment Material Requirements Projection: applicable recipe/variant quantities multiplied by each saved product-line quantity, summed per ingredient in compatible inventory units. Return ingredient requirements and any missing/invalid recipe/configuration issue. This is rule reuse, not invocation of an absent external process. No physical consumption or purchasing.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_10</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="RecipeValid" name="Requirements complete and valid?">
+      <bpmn:incoming>Flow_15_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="RecipeIssue" name="Record recipe/data issue; preserve prior state">
+      <bpmn:documentation>Missing or invalid recipe/ingredient data cannot be treated as zero requirements or a stock shortage. Record diagnosis and retain failed attempt for safe recovery; no new reservation or physical movement.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_12</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="RecipeFailed" name="Unreserved; recipe/data issue needs correction">
+      <bpmn:incoming>Flow_15_12</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Availability" name="Calculate available stock for every required ingredient">
+      <bpmn:documentation>Available quantity = recorded physical stock minus other active ingredient reservations. Use consistent inventory units and validated requirement quantities. This fulfillment is excluded from other-reservation totals; a complete existing reservation is reused, never allocated again.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Enough" name="Enough stock for all ingredients?">
+      <bpmn:incoming>Flow_15_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Shortage" name="Record missing ingredients and failed reservation">
+      <bpmn:documentation>FR-INV-22-23. Save fulfillment-linked missing quantities/shortfall and recovery status. Preserve paid fulfillment, date and capacity. No physical movement or automatic cancellation. Do not overwrite a concurrent successful reservation with a stale shortage.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_21</bpmn:incoming>
+      <bpmn:incoming>Flow_15_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateThrowEvent id="Notify" name="Publish owner shortage notification — BPMN-29">
+      <bpmn:documentation>FR-INV-22. Asynchronous handoff: Refer to BPMN-29 — Internal Notification Creation and Read Acknowledgment. Publish fulfillment/ingredient shortage and owner-recipient context after recording failure; that process owns notification creation/read state. No waiting for acknowledgement; notification failure does not change reservation result. External channel dispatch, when applicable, belongs to BPMN-28 and is not assumed here.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_17</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="ShortageSignalDefinition" signalRef="Signal_15_Shortage" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Waiting" name="Shortage awaiting restocking and retry">
+      <bpmn:documentation>BPMN-24 records restocking separately. A fresh retry enters above and rechecks current stock; repeated shortage remains possible. No indefinite in-process polling or implicit success.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_17</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reserve" name="Recheck current state; reserve all ingredients atomically">
+      <bpmn:documentation>FR-INV-21,23; NFR-REL-03,05. Under serialized/version-checked update, recheck eligibility and existing reservation, compare all material requirements with physical stock minus other active reservations, and reserve every required ingredient together. Reservation is keyed by fulfillment identity. Repeated attempts reuse success; insufficient stock creates no partial reservation. Save reservation and clear its shortage status consistently. Physical stock is unchanged; BPMN-17 records actual consumption. Missing/invalid recipe or write failure is a technical issue, never a successful reservation or a stock-shortage assertion; retain prior state and log for safe retry.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Result" name="Reservation commit outcome?">
+      <bpmn:documentation>Reserved includes a concurrent attempt whose complete reservation was safely reused. Distinguish actual shortage from configuration or save errors.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Success" name="Ingredients reserved; shortage cleared">
+      <bpmn:documentation>Output: full active ingredient reservation linked to fulfillment, shortage cleared. Refer to BPMN-16 — Preparing-Owner Assignment and Allocation Validation and BPMN-17 — Fulfillment Preparation and Ready Confirmation as later processes; preparation still requires their controls.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_20</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Issue" name="Log conflict/save failure; retain prior state for recovery">
+      <bpmn:documentation>Invalid/missing recipe, stale write or persistence failure: no new partial allocation. Preserve prior saved state, record diagnosis and retain attempt for safe recovery. Retry cannot duplicate reservations.</bpmn:documentation>
+      <bpmn:incoming>Flow_15_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_15_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Failed" name="No partial update; issue awaiting recovery">
+      <bpmn:incoming>Flow_15_23</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_15_1" sourceRef="Due" targetRef="Load" />
+    <bpmn:sequenceFlow id="Flow_15_2" sourceRef="RetryStart" targetRef="Load" />
+    <bpmn:sequenceFlow id="Flow_15_3" sourceRef="Load" targetRef="CheckEligibility" />
+    <bpmn:sequenceFlow id="Flow_15_4" sourceRef="CheckEligibility" targetRef="Eligible" />
+    <bpmn:sequenceFlow id="Flow_15_5" sourceRef="Eligible" targetRef="SkipReason" name="No" />
+    <bpmn:sequenceFlow id="Flow_15_6" sourceRef="SkipReason" targetRef="Skip" />
+    <bpmn:sequenceFlow id="Flow_15_7" sourceRef="Eligible" targetRef="Existing" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_15_8" sourceRef="Existing" targetRef="Reused" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_15_9" sourceRef="Existing" targetRef="Calculate" name="No" />
+    <bpmn:sequenceFlow id="Flow_15_10" sourceRef="Calculate" targetRef="RecipeValid" />
+    <bpmn:sequenceFlow id="Flow_15_11" sourceRef="RecipeValid" targetRef="RecipeIssue" name="No" />
+    <bpmn:sequenceFlow id="Flow_15_12" sourceRef="RecipeIssue" targetRef="RecipeFailed" />
+    <bpmn:sequenceFlow id="Flow_15_13" sourceRef="RecipeValid" targetRef="Availability" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_15_14" sourceRef="Availability" targetRef="Enough" />
+    <bpmn:sequenceFlow id="Flow_15_15" sourceRef="Enough" targetRef="Shortage" name="No" />
+    <bpmn:sequenceFlow id="Flow_15_16" sourceRef="Shortage" targetRef="Notify" />
+    <bpmn:sequenceFlow id="Flow_15_17" sourceRef="Notify" targetRef="Waiting" />
+    <bpmn:sequenceFlow id="Flow_15_18" sourceRef="Enough" targetRef="Reserve" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_15_19" sourceRef="Reserve" targetRef="Result" />
+    <bpmn:sequenceFlow id="Flow_15_20" sourceRef="Result" targetRef="Success" name="Reserved / safely reused" />
+    <bpmn:sequenceFlow id="Flow_15_21" sourceRef="Result" targetRef="Shortage" name="Stock changed: insufficient" />
+    <bpmn:sequenceFlow id="Flow_15_22" sourceRef="Result" targetRef="Issue" name="Stale state / save failure" />
+    <bpmn:sequenceFlow id="Flow_15_23" sourceRef="Issue" targetRef="Failed" />
+    <bpmn:textAnnotation id="EligibilityRules">
+      <bpmn:text>Eligibility rules
+• Later paid, confirmed, unprepared fulfillment.
+• Current preparation date minus one day has arrived.
+• Respect a permitted BPMN-06 deferment.
+• Replenishment retry: prior failed reservation and saved restock.
+First ingredients already come from BPMN-09/13; capacity is already committed.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_EligibilityRules" sourceRef="CheckEligibility" targetRef="EligibilityRules" associationDirection="None" />
+    <bpmn:textAnnotation id="MaterialRules">
+      <bpmn:text>Refer to BPMN-26 — Material Requirements Projection
+Use each product variant’s applicable recipe × line quantity; sum by ingredient in matching units.
+Missing/invalid requirements cannot count as zero or as a successful reservation.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_MaterialRules" sourceRef="Calculate" targetRef="MaterialRules" associationDirection="None" />
+    <bpmn:textAnnotation id="StockRules">
+      <bpmn:text>Available stock = physical stock − other active reservations.
+Every required ingredient must have enough available stock.
+Reservation is a commitment, not physical consumption.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_StockRules" sourceRef="Availability" targetRef="StockRules" associationDirection="None" />
+    <bpmn:textAnnotation id="CommitRules">
+      <bpmn:text>Atomic commit rules
+Recheck current date/version and stock.
+Reuse an existing successful reservation.
+Reserve all ingredients together; clear shortage.
+On failure: no partial update.
+Physical stock is unchanged.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_CommitRules" sourceRef="Reserve" targetRef="CommitRules" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_15">
+    <bpmndi:BPMNPlane id="Plane_15" bpmnElement="Collaboration_15">
+      <bpmndi:BPMNShape id="Shape_Participant_15" bpmnElement="Participant_15" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1420" height="2800" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_15_system" bpmnElement="Lane_15_system" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="1390" height="2770" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Due" bpmnElement="Due">
+        <dc:Bounds x="382" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="435" y="125" width="200" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RetryStart" bpmnElement="RetryStart">
+        <dc:Bounds x="782" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="835" y="125" width="200" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load" bpmnElement="Load">
+        <dc:Bounds x="260" y="300" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CheckEligibility" bpmnElement="CheckEligibility">
+        <dc:Bounds x="260" y="450" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Eligible" bpmnElement="Eligible">
+        <dc:Bounds x="375" y="600" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="150" y="600" width="210" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SkipReason" bpmnElement="SkipReason">
+        <dc:Bounds x="670" y="585" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Skip" bpmnElement="Skip">
+        <dc:Bounds x="782" y="740" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="785" width="220" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Existing" bpmnElement="Existing">
+        <dc:Bounds x="375" y="850" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="850" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reused" bpmnElement="Reused">
+        <dc:Bounds x="782" y="857" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="910" width="220" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Calculate" bpmnElement="Calculate">
+        <dc:Bounds x="260" y="1000" width="280" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecipeValid" bpmnElement="RecipeValid">
+        <dc:Bounds x="375" y="1180" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="1180" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecipeIssue" bpmnElement="RecipeIssue">
+        <dc:Bounds x="670" y="1165" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecipeFailed" bpmnElement="RecipeFailed">
+        <dc:Bounds x="782" y="1320" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="1365" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Availability" bpmnElement="Availability">
+        <dc:Bounds x="260" y="1400" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Enough" bpmnElement="Enough">
+        <dc:Bounds x="375" y="1575" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="1575" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Shortage" bpmnElement="Shortage">
+        <dc:Bounds x="670" y="1560" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Notify" bpmnElement="Notify">
+        <dc:Bounds x="782" y="1740" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="840" y="1730" width="185" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Waiting" bpmnElement="Waiting">
+        <dc:Bounds x="782" y="1890" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="1935" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reserve" bpmnElement="Reserve">
+        <dc:Bounds x="260" y="1775" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Result" bpmnElement="Result">
+        <dc:Bounds x="375" y="2050" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="2050" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Success" bpmnElement="Success">
+        <dc:Bounds x="382" y="2260" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="285" y="2305" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Issue" bpmnElement="Issue">
+        <dc:Bounds x="260" y="2440" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failed" bpmnElement="Failed">
+        <dc:Bounds x="382" y="2650" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="285" y="2695" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EligibilityRules" bpmnElement="EligibilityRules">
+        <dc:Bounds x="1080" y="390" width="340" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialRules" bpmnElement="MaterialRules">
+        <dc:Bounds x="1080" y="950" width="340" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StockRules" bpmnElement="StockRules">
+        <dc:Bounds x="1080" y="1380" width="340" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CommitRules" bpmnElement="CommitRules">
+        <dc:Bounds x="75" y="1740" width="170" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_1" bpmnElement="Flow_15_1">
+        <di:waypoint x="400" y="166" />
+        <di:waypoint x="400" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_2" bpmnElement="Flow_15_2">
+        <di:waypoint x="800" y="166" />
+        <di:waypoint x="800" y="345" />
+        <di:waypoint x="540" y="345" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_3" bpmnElement="Flow_15_3">
+        <di:waypoint x="400" y="390" />
+        <di:waypoint x="400" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_4" bpmnElement="Flow_15_4">
+        <di:waypoint x="400" y="540" />
+        <di:waypoint x="400" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_5" bpmnElement="Flow_15_5">
+        <di:waypoint x="425" y="625" />
+        <di:waypoint x="670" y="625" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="595" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_6" bpmnElement="Flow_15_6">
+        <di:waypoint x="800" y="675" />
+        <di:waypoint x="800" y="740" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_7" bpmnElement="Flow_15_7">
+        <di:waypoint x="400" y="650" />
+        <di:waypoint x="400" y="850" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="745" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_8" bpmnElement="Flow_15_8">
+        <di:waypoint x="425" y="875" />
+        <di:waypoint x="782" y="875" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="560" y="845" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_9" bpmnElement="Flow_15_9">
+        <di:waypoint x="400" y="900" />
+        <di:waypoint x="400" y="1000" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="945" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_10" bpmnElement="Flow_15_10">
+        <di:waypoint x="400" y="1095" />
+        <di:waypoint x="400" y="1180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_11" bpmnElement="Flow_15_11">
+        <di:waypoint x="425" y="1205" />
+        <di:waypoint x="670" y="1205" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1175" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_12" bpmnElement="Flow_15_12">
+        <di:waypoint x="800" y="1255" />
+        <di:waypoint x="800" y="1320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_13" bpmnElement="Flow_15_13">
+        <di:waypoint x="400" y="1230" />
+        <di:waypoint x="400" y="1400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="1310" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_14" bpmnElement="Flow_15_14">
+        <di:waypoint x="400" y="1490" />
+        <di:waypoint x="400" y="1575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_15" bpmnElement="Flow_15_15">
+        <di:waypoint x="425" y="1600" />
+        <di:waypoint x="670" y="1600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1570" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_16" bpmnElement="Flow_15_16">
+        <di:waypoint x="800" y="1650" />
+        <di:waypoint x="800" y="1740" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_17" bpmnElement="Flow_15_17">
+        <di:waypoint x="800" y="1776" />
+        <di:waypoint x="800" y="1890" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_18" bpmnElement="Flow_15_18">
+        <di:waypoint x="400" y="1625" />
+        <di:waypoint x="400" y="1775" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="1690" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_19" bpmnElement="Flow_15_19">
+        <di:waypoint x="400" y="1875" />
+        <di:waypoint x="400" y="2050" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_20" bpmnElement="Flow_15_20">
+        <di:waypoint x="400" y="2100" />
+        <di:waypoint x="400" y="2260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="2150" width="180" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_21" bpmnElement="Flow_15_21">
+        <di:waypoint x="425" y="2075" />
+        <di:waypoint x="1030" y="2075" />
+        <di:waypoint x="1030" y="1600" />
+        <di:waypoint x="950" y="1600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="680" y="2040" width="220" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_22" bpmnElement="Flow_15_22">
+        <di:waypoint x="375" y="2075" />
+        <di:waypoint x="110" y="2075" />
+        <di:waypoint x="110" y="2485" />
+        <di:waypoint x="260" y="2485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="120" y="2110" width="190" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_15_23" bpmnElement="Flow_15_23">
+        <di:waypoint x="400" y="2530" />
+        <di:waypoint x="400" y="2650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_EligibilityRules" bpmnElement="Assoc_EligibilityRules">
+        <di:waypoint x="540" y="495" />
+        <di:waypoint x="1050" y="495" />
+        <di:waypoint x="1050" y="430" />
+        <di:waypoint x="1080" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_MaterialRules" bpmnElement="Assoc_MaterialRules">
+        <di:waypoint x="540" y="1047.5" />
+        <di:waypoint x="1080" y="1047.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_StockRules" bpmnElement="Assoc_StockRules">
+        <di:waypoint x="540" y="1445" />
+        <di:waypoint x="1080" y="1445" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_CommitRules" bpmnElement="Assoc_CommitRules">
+        <di:waypoint x="260" y="1825" />
+        <di:waypoint x="245" y="1825" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

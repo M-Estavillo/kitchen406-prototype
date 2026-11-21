@@ -1,0 +1,703 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_20" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:message id="StatusMessage_20" name="Lalamove delivery-status update" />
+  <bpmn:collaboration id="Collaboration_20">
+    <bpmn:participant id="Participant_20" name="BPMN-20 | Courier Delivery Status Tracking and Completion" processRef="Process_20" />
+    <bpmn:participant id="Lalamove_20" name="Lalamove — delivery-status provider" />
+    <bpmn:messageFlow id="ProviderStatusFlow_20" sourceRef="Lalamove_20" targetRef="Start_20" name="Delivery-status update" messageRef="StatusMessage_20" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_20" name="Courier Delivery Status Tracking and Completion" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-20 and full catalog/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-12-15,17-18; FR-FUL-20-21,26; supporting FR-SUB-04,16-17, NFR-PERF-04, NFR-REL-01-03,05-06. Website: index.html loads app/delivery-state.js V.refresh, app/delivery-tracking.js, app/orders.js, app/subscription-state.js and app/earnings-allocation.js. Current docs BPMN-05/15/16/17/18/19 XMLs reviewed for boundaries, style and reuse. SRS governs prototype differences: preview status changes are manually simulated, whereas proposed system receives provider updates; no user confirmation is required on a valid Delivered message. BPMN-19 remains unreviewed by the user. This descriptive process handles one incoming provider update for an existing booking, not booking creation, checkout, manual pickup, cake handoff or live rider location. Separate Lalamove pool sends a message to a message start event; internal System lanes show Delivery Management and Fulfillment Records responsibilities, not additional human roles. All local checks, failure paths and rules are visible on the main diagram. No unsupported signal/broadcast architecture or provider-specific authentication algorithm/status enumeration is prescribed. External notification and subscription progress are independent downstream work: BPMN-05 owns subscription counts/cycle closure, BPMN-28/29 applicable notices, BPMN-34 customer inquiry and BPMN-43 reports. References to BPMN-19 on definitive failed/cancelled outcomes mean recovery is made available for owner review, not automatic rebooking or invocation of owner confirmation inside this webhook process. BPMN-16 previously established/validated allocations before booking; receiving provider updates must not reopen owner split entry or reject Delivered merely because normal allocation editing is locked. Validate source/link/status consistency and saved allocation integrity as applicable without changing shares; no allocation editing occurs here. Delivery progress stays locked, completed fulfillment stays locked, and definitive failed/cancelled bookings may permit review only while incomplete and with no other active/unresolved booking. Atomic/version-checked processing prevents stale messages, partial saves and duplicate completions/sales. A failed combined save preserves prior records and retains the update for safe recovery; preserve independently committed newer state. Completion does not consume ingredients again, take payment, calculate financial reports or decide the unresolved subscription reservation-timing rule.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_20">
+      <bpmn:lane id="Lane_20_delivery" name="Kitchen406 System — Delivery Management">
+        <bpmn:flowNodeRef>Start_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Matched_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Invalid_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InvalidEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Duplicate_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DuplicateEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ordering_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Current_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stale_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StaleEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Kind_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Progress_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProgressSaved_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProgressDisplay_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProgressEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProgressError_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProgressFailed_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failure_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FailureSaved_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FailureError_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FailurePending_20</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_20_fulfillment" name="Kitchen406 System — Fulfillment Records">
+        <bpmn:flowNodeRef>CompletionChecks_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionValid_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionInvalid_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionBlocked_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionSaved_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionError_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionPending_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Followup_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletionDisplay_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CompletedEnd_20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReuseCompletion_20</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_20" name="Existing booking receives courier status update">
+      <bpmn:outgoing>Flow_20_1</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="StatusMessageDefinition_20" messageRef="StatusMessage_20" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Validate_20" name="Validate provider update and match saved booking/fulfillment">
+      <bpmn:documentation>FR-DEL-12,14. Validate provider-origin update through the supported integration; check required booking/status data and map provider booking identity to one saved attempt and standard/subscription delivery fulfillment. Each subscription week has its own operational order. Do not create a booking from an unmatched status, expose customer data or invent provider signature fields. Incomplete/untrusted/unmatched input cannot mutate records.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Matched_20" name="Valid update and known booking?">
+      <bpmn:incoming>Flow_20_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Invalid_20" name="Log invalid/unmatched update; retain saved state">
+      <bpmn:documentation>No delivery, fulfillment, lock or completion change. Record diagnosis safely; an unresolvable booking association needs reconciliation, not creation from an untrusted message.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="InvalidEnd_20" name="Update rejected; no saved changes">
+      <bpmn:incoming>Flow_20_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Duplicate_20" name="Already applied or completion already recorded?">
+      <bpmn:documentation>Compare update/operation identity and saved state consistently. A repeated Delivered notification, including a different provider event ID for the same saved completion, must not restamp completion, trigger another logical completion or duplicate fulfilled sales. Do not use status equality alone to hide an incomplete failed transaction.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="DuplicateEnd_20" name="Retain existing result; no duplicate completion">
+      <bpmn:documentation>The same completed operation reuses its saved result. Preserve completion time and allocation lock. Pending downstream recovery reuses the original logical completion identity; no new sale/count is created.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Ordering_20" name="Check current booking attempt and compatible status progression">
+      <bpmn:documentation>Use available provider ordering/context and current saved attempt/version; do not invent a required sequence-number field. An older failed/cancelled/superseded attempt cannot replace the current active booking or undo completion. A stale nonterminal status cannot regress an established later status. Unknown/ambiguous update is retained for reconciliation with current booking evidence; do not assume every intermediate status was received.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_8</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Current_20" name="Current and consistent update?">
+      <bpmn:incoming>Flow_20_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Stale_20" name="Record stale/conflicting update; preserve latest state">
+      <bpmn:documentation>Do not regress delivery, unlock an active booking, undo completion or automatically treat ambiguous evidence as failure. Retain diagnosis/evidence for supported BPMN-19 reconciliation if needed; existing saved state remains authoritative.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_10</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="StaleEnd_20" name="Update held/ignored; reconciliation if needed">
+      <bpmn:incoming>Flow_20_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Kind_20" name="Reported status outcome?">
+      <bpmn:incoming>Flow_20_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Progress_20" name="Save latest nonterminal delivery status; retain allocation lock">
+      <bpmn:documentation>FR-DEL-12-15,17; FR-FUL-20. Save recognized current nonterminal provider status/history/update identity and version consistently with lock retained for pending/booked/in-transit/unresolved state. Do not complete fulfillment, record completion time or expose coordinates. Recheck booking/version at commit; failure preserves prior state and retains update for recovery.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_15</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ProgressSaved_20" name="Status update saved?">
+      <bpmn:incoming>Flow_20_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ProgressDisplay_20" name="Make latest saved delivery status available to its customer">
+      <bpmn:documentation>FR-DEL-13,15. Refresh the customer-visible saved status/read model for the customer associated with this order. BPMN-34 owns authenticated inquiry/access checks; receiving a webhook does not force a customer screen open or send an email/SMS. Display only provider status, not live rider location.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ProgressEnd_20" name="Status updated; delivery remains incomplete">
+      <bpmn:incoming>Flow_20_19</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ProgressError_20" name="Log failed status save; keep prior records and update for recovery">
+      <bpmn:documentation>NFR-REL-01-03,05. No partial delivery/lock/history mutation or falsely displayed new status; safe recovery rechecks current state and avoids duplicate operations.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ProgressFailed_20" name="Status update awaiting safe recovery">
+      <bpmn:incoming>Flow_20_17</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Failure_20" name="Save definitive Failed/Cancelled; expose BPMN-19 recovery review">
+      <bpmn:documentation>FR-DEL-17; FR-FUL-20. Confirm this is a definitive failed/cancelled outcome for the current relevant booking, not missing provider response. Consistently save status/history/update identity and allow allocation review only if the fulfillment remains incomplete with no other pending/active/unresolved booking. Do not cancel/refund paid order, release completed allocations, create a new booking or restore consumed stock. Owner recovery/rebooking belongs to BPMN-19.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_20</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="FailureSaved_20" name="Failure/cancellation saved?">
+      <bpmn:incoming>Flow_20_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="RecoveryEnd_20" name="Saved failure; owner review/rebooking available in BPMN-19">
+      <bpmn:incoming>Flow_20_21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="FailureError_20" name="Keep prior state/locks; retain failed update for recovery">
+      <bpmn:documentation>Do not authorize rebooking/allocation edits until definitive failure is safely saved and normal conditions hold. A failed update must not unlock records or overwrite a concurrent booking/completion.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="FailurePending_20" name="Failure update unresolved; review before new booking">
+      <bpmn:incoming>Flow_20_23</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="CompletionChecks_20" name="Check Delivered linkage, paid fulfillment and completion consistency">
+      <bpmn:documentation>FR-DEL-18; FR-FUL-20-21,26. Require valid current booking-linked Delivered outcome for paid standard/subscription delivery, valid saved Ready/in-delivery context and consistent existing production/owner-allocation records. Booking allocations remain locked; do not reopen edit modal or require user receipt/Owner confirmation. Missing intermediate provider updates alone do not justify rejection. Recheck current completion/operation identity so an already saved delivery is reused, not completed twice. Inconsistent records require recovery; no automatic owner share or new ingredient reservation.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_24</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="CompletionValid_20" name="Delivered completion consistent?">
+      <bpmn:incoming>Flow_20_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_27</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CompletionInvalid_20" name="Log completion inconsistency; retain state and delivery evidence">
+      <bpmn:documentation>Do not invent completion timestamps or owner allocations from inconsistent/unmatched data. Preserve saved records/locks and provider evidence for reconciliation; no manual receipt acknowledgment can bypass controls.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_26</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="CompletionBlocked_20" name="Delivery evidence awaiting reconciliation">
+      <bpmn:incoming>Flow_20_26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Complete_20" name="Recheck completion identity; save Delivered and Completed together">
+      <bpmn:documentation>FR-DEL-18; FR-FUL-20-21,26; NFR-REL-03,05-06. Recheck current booking/order version and processed/completion identity under consistent update. Persist delivery status/history, associated fulfillment Completed, actual completion timestamp from valid delivery evidence/recording context, locked allocations and lock timestamp, completion/update identity and operational history together. Retain existing locked owner shares, original item amounts and subscription apportionment, payment links and recorded consumption. No user approval, new consumption, owner edit, payment or financial calculation. Same-completion replay reuses original timestamp/result; stale conflicts retain newer saved state. If any part fails, commit none of this attempt and retain update/evidence for safe retry. Preserve enough completion state for downstream recovery without duplicate counts or sales.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_28</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="CompletionSaved_20" name="Completion commit result?">
+      <bpmn:documentation>Three mutually exclusive outcomes of the atomic save: newly saved; matching completion already committed concurrently (reuse original result); or failure/conflicting operation. A concurrent duplicate does not loop back to the initial duplicate gateway. Reuse the saved completion identity/timestamp and leave all current values intact.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_29</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_31</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20_34</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CompletionError_20" name="Retain prior records and update; explain/log commit conflict">
+      <bpmn:documentation>No partial Delivered/Completed/time/lock save. Preserve independently committed newer records. Safe recovery repeats validation against current state, never another delivery or a new logical completion.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_30</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="CompletionPending_20" name="Completion update awaiting safe recovery">
+      <bpmn:incoming>Flow_20_30</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Followup_20" name="Use the recorded completion identity for BPMN-05 and applicable notices">
+      <bpmn:documentation>Business handoff after successful completion, not a generic BPMN broadcast signal. For a weekly subscription, BPMN-05 independently recalculates progress/cycle status using this completion. BPMN-28/29 independently handle supported notifications; delivery failure must not reverse saved completion. Repeated downstream requests reuse the same completion identity and cannot duplicate fulfillment counts, payments or sales. Standard deliveries do not invoke subscription progress. No next-week ingredient reservation timing decision is added here. Both new and reused-completion paths use the same logical identity; do not resend already completed effects or count the same completion twice.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_35</bpmn:incoming>
+      <bpmn:incoming>Flow_20_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_32</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="CompletionDisplay_20" name="Make saved Delivered/completion status available to its customer">
+      <bpmn:documentation>FR-DEL-13,15. Make latest committed delivery status available for authorized customer inquiry via BPMN-34, with no live rider-location tracking or customer receipt confirmation. Display failure cannot undo saved completion and can be recovered independently. BPMN-43 later reports Fulfilled sales from actual completion date using preserved amounts; no direct financial posting or payment occurs here.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_32</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_33</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="CompletedEnd_20" name="Delivered and completed once; time retained and allocations locked">
+      <bpmn:incoming>Flow_20_33</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_20_1" sourceRef="Start_20" targetRef="Validate_20" />
+    <bpmn:sequenceFlow id="Flow_20_2" sourceRef="Validate_20" targetRef="Matched_20" />
+    <bpmn:sequenceFlow id="Flow_20_3" sourceRef="Matched_20" targetRef="Invalid_20" name="No" />
+    <bpmn:sequenceFlow id="Flow_20_4" sourceRef="Invalid_20" targetRef="InvalidEnd_20" />
+    <bpmn:sequenceFlow id="Flow_20_5" sourceRef="Matched_20" targetRef="Duplicate_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_6" sourceRef="Duplicate_20" targetRef="DuplicateEnd_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_7" sourceRef="Duplicate_20" targetRef="Ordering_20" name="No" />
+    <bpmn:sequenceFlow id="Flow_20_8" sourceRef="Ordering_20" targetRef="Current_20" />
+    <bpmn:sequenceFlow id="Flow_20_9" sourceRef="Current_20" targetRef="Stale_20" name="No / uncertain" />
+    <bpmn:sequenceFlow id="Flow_20_10" sourceRef="Stale_20" targetRef="StaleEnd_20" />
+    <bpmn:sequenceFlow id="Flow_20_11" sourceRef="Current_20" targetRef="Kind_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_12" sourceRef="Kind_20" targetRef="Progress_20" name="Progress / nonterminal" />
+    <bpmn:sequenceFlow id="Flow_20_13" sourceRef="Kind_20" targetRef="CompletionChecks_20" name="Delivered" />
+    <bpmn:sequenceFlow id="Flow_20_14" sourceRef="Kind_20" targetRef="Failure_20" name="Failed / cancelled" />
+    <bpmn:sequenceFlow id="Flow_20_15" sourceRef="Progress_20" targetRef="ProgressSaved_20" />
+    <bpmn:sequenceFlow id="Flow_20_16" sourceRef="ProgressSaved_20" targetRef="ProgressError_20" name="No" />
+    <bpmn:sequenceFlow id="Flow_20_17" sourceRef="ProgressError_20" targetRef="ProgressFailed_20" />
+    <bpmn:sequenceFlow id="Flow_20_18" sourceRef="ProgressSaved_20" targetRef="ProgressDisplay_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_19" sourceRef="ProgressDisplay_20" targetRef="ProgressEnd_20" />
+    <bpmn:sequenceFlow id="Flow_20_20" sourceRef="Failure_20" targetRef="FailureSaved_20" />
+    <bpmn:sequenceFlow id="Flow_20_21" sourceRef="FailureSaved_20" targetRef="RecoveryEnd_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_22" sourceRef="FailureSaved_20" targetRef="FailureError_20" name="No" />
+    <bpmn:sequenceFlow id="Flow_20_23" sourceRef="FailureError_20" targetRef="FailurePending_20" />
+    <bpmn:sequenceFlow id="Flow_20_24" sourceRef="CompletionChecks_20" targetRef="CompletionValid_20" />
+    <bpmn:sequenceFlow id="Flow_20_25" sourceRef="CompletionValid_20" targetRef="CompletionInvalid_20" name="No" />
+    <bpmn:sequenceFlow id="Flow_20_26" sourceRef="CompletionInvalid_20" targetRef="CompletionBlocked_20" />
+    <bpmn:sequenceFlow id="Flow_20_27" sourceRef="CompletionValid_20" targetRef="Complete_20" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_20_28" sourceRef="Complete_20" targetRef="CompletionSaved_20" />
+    <bpmn:sequenceFlow id="Flow_20_29" sourceRef="CompletionSaved_20" targetRef="CompletionError_20" name="Failed / conflicting update" />
+    <bpmn:sequenceFlow id="Flow_20_30" sourceRef="CompletionError_20" targetRef="CompletionPending_20" />
+    <bpmn:sequenceFlow id="Flow_20_31" sourceRef="CompletionSaved_20" targetRef="Followup_20" name="New completion saved" />
+    <bpmn:sequenceFlow id="Flow_20_32" sourceRef="Followup_20" targetRef="CompletionDisplay_20" />
+    <bpmn:sequenceFlow id="Flow_20_33" sourceRef="CompletionDisplay_20" targetRef="CompletedEnd_20" />
+    <bpmn:textAnnotation id="SourceRules_20">
+      <bpmn:text>Update acceptance
+Supported provider-origin update with required booking/status data.
+Match the saved booking and one delivery fulfillment.
+Only standard/subscription courier deliveries.
+Never create a booking from an unmatched update.
+Target: apply received delivery update within 5 seconds (NFR-PERF-04); provider latency is excluded.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_SourceRules_20" sourceRef="Validate_20" targetRef="SourceRules_20" associationDirection="None" />
+    <bpmn:textAnnotation id="OrderRules_20">
+      <bpmn:text>Duplicate/stale safeguards
+Do not regress current delivery state or replace a newer booking with an old attempt.
+Duplicate Delivered must not restamp or count completion again.
+Unknown ordering/outcome needs reconciliation; do not invent a failed booking.
+Completed allocations stay locked.
+Only a definitive current failure/cancellation can permit incomplete-order review.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_OrderRules_20" sourceRef="Ordering_20" targetRef="OrderRules_20" associationDirection="None" />
+    <bpmn:textAnnotation id="TrackingRules_20">
+      <bpmn:text>Customer status display
+Show latest saved provider status to the associated customer.
+BPMN-34 owns authenticated inquiry.
+No live rider-location tracking.
+No email/SMS is implied by display.
+BPMN-19 owns booking recovery/rebooking.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_TrackingRules_20" sourceRef="ProgressDisplay_20" targetRef="TrackingRules_20" associationDirection="None" />
+    <bpmn:textAnnotation id="CompletionRules_20">
+      <bpmn:text>Completion rules (FR-DEL-18)
+Valid Delivered completes fulfillment automatically.
+No owner-split modal or customer acknowledgment.
+Save status, completion time and locks consistently.
+Preserve owner shares and original amounts.
+Do not consume ingredients, collect payment or count completion again.
+Recheck duplicate identity at commit: a concurrent matching completion reuses its original time/result. Follow-up uses that same identity.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_CompletionRules_20" sourceRef="CompletionChecks_20" targetRef="CompletionRules_20" associationDirection="None" />
+    <bpmn:serviceTask id="ReuseCompletion_20" name="Reuse saved completion identity and original time; no new completion">
+      <bpmn:documentation>Another valid update committed this same delivery completion after the initial duplicate check. Return that matching saved result without overwriting its completion/lock timestamp, allocations or product amounts. Do not create another completion/sale/count. This is distinct from a stale conflicting update, which takes the failure path. Continue downstream only with the existing logical completion identity, so any pending follow-up can recover safely without duplicate effects.</bpmn:documentation>
+      <bpmn:incoming>Flow_20_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_20_35</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_20_34" sourceRef="CompletionSaved_20" targetRef="ReuseCompletion_20" name="Matching completion already saved" />
+    <bpmn:sequenceFlow id="Flow_20_35" sourceRef="ReuseCompletion_20" targetRef="Followup_20" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_20">
+    <bpmndi:BPMNPlane id="Plane_20" bpmnElement="Collaboration_20">
+      <bpmndi:BPMNShape id="Shape_Participant_20" bpmnElement="Participant_20" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1860" height="3700" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_20_delivery" bpmnElement="Lane_20_delivery" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="830" height="3670" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_20_fulfillment" bpmnElement="Lane_20_fulfillment" isHorizontal="false">
+        <dc:Bounds x="900" y="70" width="1000" height="3670" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lalamove_20" bpmnElement="Lalamove_20" isHorizontal="false">
+        <dc:Bounds x="2050" y="40" width="160" height="3700" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_20" bpmnElement="Start_20">
+        <dc:Bounds x="382" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="440" y="190" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate_20" bpmnElement="Validate_20">
+        <dc:Bounds x="260" y="280" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Matched_20" bpmnElement="Matched_20">
+        <dc:Bounds x="375" y="460" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="460" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Invalid_20" bpmnElement="Invalid_20">
+        <dc:Bounds x="600" y="445" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InvalidEnd_20" bpmnElement="InvalidEnd_20">
+        <dc:Bounds x="712" y="620" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="630" y="665" width="220" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Duplicate_20" bpmnElement="Duplicate_20">
+        <dc:Bounds x="375" y="760" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="125" y="760" width="235" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_DuplicateEnd_20" bpmnElement="DuplicateEnd_20">
+        <dc:Bounds x="712" y="767" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="815" width="235" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ordering_20" bpmnElement="Ordering_20">
+        <dc:Bounds x="260" y="990" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Current_20" bpmnElement="Current_20">
+        <dc:Bounds x="375" y="1170" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="1170" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Stale_20" bpmnElement="Stale_20">
+        <dc:Bounds x="600" y="1155" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StaleEnd_20" bpmnElement="StaleEnd_20">
+        <dc:Bounds x="712" y="1330" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="1375" width="235" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Kind_20" bpmnElement="Kind_20">
+        <dc:Bounds x="375" y="1510" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="1510" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Progress_20" bpmnElement="Progress_20">
+        <dc:Bounds x="260" y="1730" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProgressSaved_20" bpmnElement="ProgressSaved_20">
+        <dc:Bounds x="375" y="1920" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="1920" width="230" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProgressDisplay_20" bpmnElement="ProgressDisplay_20">
+        <dc:Bounds x="260" y="2160" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProgressEnd_20" bpmnElement="ProgressEnd_20">
+        <dc:Bounds x="382" y="2390" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="285" y="2435" width="235" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProgressError_20" bpmnElement="ProgressError_20">
+        <dc:Bounds x="600" y="1905" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProgressFailed_20" bpmnElement="ProgressFailed_20">
+        <dc:Bounds x="712" y="2090" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="2135" width="235" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failure_20" bpmnElement="Failure_20">
+        <dc:Bounds x="600" y="2660" width="260" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_FailureSaved_20" bpmnElement="FailureSaved_20">
+        <dc:Bounds x="705" y="2860" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="475" y="2860" width="215" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryEnd_20" bpmnElement="RecoveryEnd_20">
+        <dc:Bounds x="712" y="3100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="620" y="3145" width="235" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_FailureError_20" bpmnElement="FailureError_20">
+        <dc:Bounds x="260" y="2860" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_FailurePending_20" bpmnElement="FailurePending_20">
+        <dc:Bounds x="382" y="3100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="280" y="3145" width="240" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionChecks_20" bpmnElement="CompletionChecks_20">
+        <dc:Bounds x="1060" y="1720" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionValid_20" bpmnElement="CompletionValid_20">
+        <dc:Bounds x="1175" y="1920" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="930" y="1920" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionInvalid_20" bpmnElement="CompletionInvalid_20">
+        <dc:Bounds x="1490" y="1905" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionBlocked_20" bpmnElement="CompletionBlocked_20">
+        <dc:Bounds x="1612" y="2090" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1520" y="2135" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Complete_20" bpmnElement="Complete_20">
+        <dc:Bounds x="1060" y="2180" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionSaved_20" bpmnElement="CompletionSaved_20">
+        <dc:Bounds x="1175" y="2390" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1280" y="2460" width="170" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionError_20" bpmnElement="CompletionError_20">
+        <dc:Bounds x="1490" y="2375" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionPending_20" bpmnElement="CompletionPending_20">
+        <dc:Bounds x="1612" y="2560" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1520" y="2605" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Followup_20" bpmnElement="Followup_20">
+        <dc:Bounds x="1060" y="3040" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionDisplay_20" bpmnElement="CompletionDisplay_20">
+        <dc:Bounds x="1060" y="3260" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletedEnd_20" bpmnElement="CompletedEnd_20">
+        <dc:Bounds x="1182" y="3500" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1080" y="3545" width="250" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SourceRules_20" bpmnElement="SourceRules_20">
+        <dc:Bounds x="1060" y="260" width="330" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_OrderRules_20" bpmnElement="OrderRules_20">
+        <dc:Bounds x="1060" y="660" width="330" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_TrackingRules_20" bpmnElement="TrackingRules_20">
+        <dc:Bounds x="560" y="2260" width="290" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CompletionRules_20" bpmnElement="CompletionRules_20">
+        <dc:Bounds x="1490" y="1090" width="310" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_1" bpmnElement="Flow_20_1">
+        <di:waypoint x="400" y="166" />
+        <di:waypoint x="400" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_2" bpmnElement="Flow_20_2">
+        <di:waypoint x="400" y="380" />
+        <di:waypoint x="400" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_3" bpmnElement="Flow_20_3">
+        <di:waypoint x="425" y="485" />
+        <di:waypoint x="600" y="485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="455" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_4" bpmnElement="Flow_20_4">
+        <di:waypoint x="730" y="545" />
+        <di:waypoint x="730" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_5" bpmnElement="Flow_20_5">
+        <di:waypoint x="400" y="510" />
+        <di:waypoint x="400" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="625" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_6" bpmnElement="Flow_20_6">
+        <di:waypoint x="425" y="785" />
+        <di:waypoint x="712" y="785" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="755" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_7" bpmnElement="Flow_20_7">
+        <di:waypoint x="400" y="810" />
+        <di:waypoint x="400" y="990" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="890" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_8" bpmnElement="Flow_20_8">
+        <di:waypoint x="400" y="1090" />
+        <di:waypoint x="400" y="1170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_9" bpmnElement="Flow_20_9">
+        <di:waypoint x="425" y="1195" />
+        <di:waypoint x="600" y="1195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="455" y="1225" width="130" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_10" bpmnElement="Flow_20_10">
+        <di:waypoint x="730" y="1255" />
+        <di:waypoint x="730" y="1330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_11" bpmnElement="Flow_20_11">
+        <di:waypoint x="400" y="1220" />
+        <di:waypoint x="400" y="1510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="1350" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_12" bpmnElement="Flow_20_12">
+        <di:waypoint x="400" y="1560" />
+        <di:waypoint x="400" y="1730" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="1620" width="170" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_13" bpmnElement="Flow_20_13">
+        <di:waypoint x="425" y="1535" />
+        <di:waypoint x="1200" y="1535" />
+        <di:waypoint x="1200" y="1720" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="1500" width="120" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_14" bpmnElement="Flow_20_14">
+        <di:waypoint x="375" y="1535" />
+        <di:waypoint x="100" y="1535" />
+        <di:waypoint x="100" y="2720" />
+        <di:waypoint x="600" y="2720" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="110" y="1570" width="180" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_15" bpmnElement="Flow_20_15">
+        <di:waypoint x="400" y="1830" />
+        <di:waypoint x="400" y="1920" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_16" bpmnElement="Flow_20_16">
+        <di:waypoint x="425" y="1945" />
+        <di:waypoint x="600" y="1945" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="1915" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_17" bpmnElement="Flow_20_17">
+        <di:waypoint x="730" y="2015" />
+        <di:waypoint x="730" y="2090" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_18" bpmnElement="Flow_20_18">
+        <di:waypoint x="400" y="1970" />
+        <di:waypoint x="400" y="2160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410" y="2050" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_19" bpmnElement="Flow_20_19">
+        <di:waypoint x="400" y="2260" />
+        <di:waypoint x="400" y="2390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_20" bpmnElement="Flow_20_20">
+        <di:waypoint x="730" y="2780" />
+        <di:waypoint x="730" y="2860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_21" bpmnElement="Flow_20_21">
+        <di:waypoint x="730" y="2910" />
+        <di:waypoint x="730" y="3100" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="740" y="2990" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_22" bpmnElement="Flow_20_22">
+        <di:waypoint x="705" y="2885" />
+        <di:waypoint x="540" y="2885" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="600" y="2850" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_23" bpmnElement="Flow_20_23">
+        <di:waypoint x="400" y="2970" />
+        <di:waypoint x="400" y="3100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_24" bpmnElement="Flow_20_24">
+        <di:waypoint x="1200" y="1830" />
+        <di:waypoint x="1200" y="1920" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_25" bpmnElement="Flow_20_25">
+        <di:waypoint x="1225" y="1945" />
+        <di:waypoint x="1490" y="1945" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1350" y="1915" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_26" bpmnElement="Flow_20_26">
+        <di:waypoint x="1630" y="2015" />
+        <di:waypoint x="1630" y="2090" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_27" bpmnElement="Flow_20_27">
+        <di:waypoint x="1200" y="1970" />
+        <di:waypoint x="1200" y="2180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1210" y="2060" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_28" bpmnElement="Flow_20_28">
+        <di:waypoint x="1200" y="2300" />
+        <di:waypoint x="1200" y="2390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_29" bpmnElement="Flow_20_29">
+        <di:waypoint x="1225" y="2415" />
+        <di:waypoint x="1490" y="2415" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1300" y="2370" width="185" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_30" bpmnElement="Flow_20_30">
+        <di:waypoint x="1630" y="2485" />
+        <di:waypoint x="1630" y="2560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_31" bpmnElement="Flow_20_31">
+        <di:waypoint x="1200" y="2440" />
+        <di:waypoint x="1200" y="3040" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1210" y="2790" width="160" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_32" bpmnElement="Flow_20_32">
+        <di:waypoint x="1200" y="3150" />
+        <di:waypoint x="1200" y="3260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_33" bpmnElement="Flow_20_33">
+        <di:waypoint x="1200" y="3360" />
+        <di:waypoint x="1200" y="3500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_SourceRules_20" bpmnElement="Assoc_SourceRules_20">
+        <di:waypoint x="540" y="330" />
+        <di:waypoint x="1060" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_OrderRules_20" bpmnElement="Assoc_OrderRules_20">
+        <di:waypoint x="540" y="1040" />
+        <di:waypoint x="1000" y="1040" />
+        <di:waypoint x="1000" y="850" />
+        <di:waypoint x="1060" y="850" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_TrackingRules_20" bpmnElement="Assoc_TrackingRules_20">
+        <di:waypoint x="540" y="2210" />
+        <di:waypoint x="550" y="2210" />
+        <di:waypoint x="550" y="2300" />
+        <di:waypoint x="560" y="2300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_CompletionRules_20" bpmnElement="Assoc_CompletionRules_20">
+        <di:waypoint x="1340" y="1775" />
+        <di:waypoint x="1430" y="1775" />
+        <di:waypoint x="1430" y="1150" />
+        <di:waypoint x="1490" y="1150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_ProviderStatusFlow_20" bpmnElement="ProviderStatusFlow_20">
+        <di:waypoint x="2050" y="148" />
+        <di:waypoint x="418" y="148" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1440" y="115" width="220" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_ReuseCompletion_20" bpmnElement="ReuseCompletion_20">
+        <dc:Bounds x="920" y="2640" width="250" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_34" bpmnElement="Flow_20_34">
+        <di:waypoint x="1175" y="2415" />
+        <di:waypoint x="1045" y="2415" />
+        <di:waypoint x="1045" y="2640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="920" y="2480" width="115" height="100" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20_35" bpmnElement="Flow_20_35">
+        <di:waypoint x="1045" y="2750" />
+        <di:waypoint x="1045" y="3095" />
+        <di:waypoint x="1060" y="3095" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,793 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_19" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+  <bpmn:collaboration id="Collaboration_19">
+    <bpmn:participant id="Participant_19" name="BPMN-19 | Third-Party Courier Booking and Booking Recovery" processRef="Process_19" />
+    <bpmn:participant id="Lalamove_19" name="Lalamove — courier service" />
+    <bpmn:messageFlow id="BookingRequest_19" sourceRef="Submit_19" targetRef="Lalamove_19" name="Create booking from stored information" />
+    <bpmn:messageFlow id="BookingResponse_19" sourceRef="Lalamove_19" targetRef="Submit_19" name="Booking response when received" />
+    <bpmn:messageFlow id="LookupRequest_19" sourceRef="Reconcile_19" targetRef="Lalamove_19" name="Resolve existing booking attempt" />
+    <bpmn:messageFlow id="LookupResponse_19" sourceRef="Lalamove_19" targetRef="Reconcile_19" name="Existing-attempt status when available" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_19" name="Third-Party Courier Booking and Booking Recovery" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-19 and full catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-01,08-11,14,17; FR-FUL-18-20; supporting FR-FUL-23,26, NFR-SEC-14, NFR-REL-01-05 and BR-26-27,34. Implementation: index.html loads app/delivery-state.js V.reason/book/refresh, app/delivery-tracking.js T.book, app/owner-orders.js, app/earnings-allocation.js and app/subscription-batches.js. Existing BPMN-15/16/17/18 reviewed for detail and reuse; SRS governs differences: FR-DEL-10 restricts booking initiation to Admin/Owner though the in-memory prototype permits Staff; provider outcomes are simulated in the prototype, and its booked state must not be taken as proof a rider is already assigned. Scope is one paid ready standard order or weekly subscription fulfillment using courier delivery. Cake handoff belongs to BPMN-21 and pickup to BPMN-18. Authentication is a BPMN-30 precondition; enforce owner-only operational authorization before accessing/acting on a booking. Internal Owner/System lanes share sequence flows; the separate black-box Lalamove participant uses message flows for supported booking and reconciliation exchanges. No generic broadcast/signal event is introduced. All local checks and failure/recovery outcomes are visible. External BPMN-16 call uses validation-only mode and relative import; no valid saved owner split is re-entered. Cross-file execution/navigation is host-dependent, not a promise of bpmn.io drill-down. No checkout address/quotation repetition, weekly payment, automated refund, automatic retry loop, booking cancellation request, rider tracking or delivery completion is invented. Initial checkout eligibility/fees are BPMN-02/22; subsequent tracking/completion and failed/cancelled status updates are BPMN-20. One booking attempt/fulfillment is saved consistently before provider submission, with allocation lock; status/identity survive ambiguous provider or persistence failures. Never release a possibly active booking merely because the response is lost. Supported batch booking operates independently per fulfillment. Existing BPMNs are unchanged.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_19">
+      <bpmn:lane id="Lane_19_owner" name="Admin/Owner">
+        <bpmn:flowNodeRef>Review_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_19</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_19_system" name="Kitchen406 System — Delivery Management">
+        <bpmn:flowNodeRef>Start_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Eligibility_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Eligible_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Invalid_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Rejected_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Existing_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Active_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allocation_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationValid_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationError_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllocationRejected_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Pending_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PendingSaved_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PendingError_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PendingFailed_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Submit_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Outcome_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Accepted_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AcceptedSaved_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Booked_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failure_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failed_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unknown_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unresolved_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reconcile_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Recovered_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryAccepted_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoverySaved_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryBooked_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryFailed_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryFailureSaved_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryRetry_19</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryUnknown_19</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_19" name="Owner requests booking or recovery review">
+      <bpmn:outgoing>Flow_19_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load_19" name="Check owner access; load fulfillment and booking history">
+      <bpmn:documentation>Enforce authenticated Admin/Owner access before exposing records or initiating/reconciling actions. Read paid/status/type/method, stored checkout delivery information, saved allocations, version, operation identity and current/prior provider references. Invalid permission/missing record is returned as ineligible, not disclosed as operational details.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Eligibility_19" name="Check owner, courier scope and new/recovery prerequisites">
+      <bpmn:documentation>FR-DEL-01,08-11,14. Require Admin/Owner and a standard order or individual subscription fulfillment using delivery. A new attempt requires verified paid/current Ready state and complete stored order/destination data. For pending/unresolved recovery, preserve access to the existing attempt even if current operational state changed; this authorizes lookup only, never a new booking. Existing active bookings continue to BPMN-20, not another creation. Recovery of an existing attempt uses its stored identity even if current eligibility has changed; no new request is authorized by lookup alone. Missing/invalid saved delivery information requires review, never silent replacement of a confirmed address. Original checkout Maps/service-area/fee decisions are not rerun here.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_3</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Eligible_19" name="Eligible booking/recovery request?">
+      <bpmn:incoming>Flow_19_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Invalid_19" name="Explain permission, type, status or delivery-data issue">
+      <bpmn:documentation>Reject unsupported action and preserve all records, booking state and locks. No new payment or automatic change of method/address. Staff cannot initiate booking under FR-DEL-10.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Rejected_19" name="No new booking; review eligibility">
+      <bpmn:incoming>Flow_19_5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Existing_19" name="Existing booking state?">
+      <bpmn:incoming>Flow_19_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Active_19" name="Existing active booking retained — BPMN-20">
+      <bpmn:documentation>Booked/in-transit or other established active booking is not submitted again. Retain allocation lock. Existing tracking and completion belong to BPMN-20. Delivered/completed records cannot become new bookings through this process.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Review_19" name="Review saved delivery details and request a new booking">
+      <bpmn:documentation>Only no prior attempt or definitively failed/cancelled prior booking may proceed, while fulfillment remains incomplete and otherwise eligible. Review saved checkout destination and delivery data. Subscription address remains agreed for all four fulfillments; actual fee differences are borne by bakery under BR-27. No new customer charge/refund. Owner may edit unlocked allocations separately through BPMN-16; no forced split modal.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_10</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_19" name="Owner confirms booking?">
+      <bpmn:incoming>Flow_19_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_19" name="Request cancelled; saved state retained">
+      <bpmn:documentation>Cancelling the local confirmation creates no courier booking and changes no allocation/lock. This is not a provider cancellation API operation.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_11</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="Allocation_19" name="Refer to BPMN-16 — Validate saved owner allocations" calledElement="k406:Process_16">
+      <bpmn:documentation>Call k406:Process_16 in validation-only mode with owner account, fulfillment identity, expected version and action=courier booking. Validate saved line allocations, eligible owners/percentages, permissions, version and lock compatibility. Return exact rejection reason. Valid saved splits are reused without manual re-entry; optional supported combined drafts must remain atomic with protected changes.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_13</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="AllocationValid_19" name="Allocation/action validation passed?">
+      <bpmn:incoming>Flow_19_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AllocationError_19" name="Return permission, stale-version, split or lock reason">
+      <bpmn:documentation>Reject this attempt, preserve latest saved state and require refresh/review or a separately allowed BPMN-16 correction. No provider request is sent.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_15</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="AllocationRejected_19" name="Booking blocked; review before retry">
+      <bpmn:incoming>Flow_19_15</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Pending_19" name="Recheck controls; save pending attempt and allocation lock">
+      <bpmn:documentation>FR-DEL-17; FR-FUL-18-20; NFR-SEC-14, NFR-REL-03,05. Atomically recheck owner permission, version, paid Ready state, complete valid allocations, stored destination and absence of another pending/active/unresolved attempt. Persist one attempt identity, saved request context, prior-attempt link/history and pending lock/timestamp before calling provider. Failed local commit sends nothing and preserves prior state. Concurrent matching attempts reuse existing record; conflicting/stale attempts reject. Do not independently commit owner edits that conflict with the booking transaction.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="PendingSaved_19" name="Pending attempt and lock saved?">
+      <bpmn:incoming>Flow_19_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="PendingError_19" name="Explain conflict/save failure; do not contact provider">
+      <bpmn:documentation>No request is sent without a saved consistent attempt/lock. Preserve independently committed newer booking state. Review and refresh before another authorized request; no blind provider retry.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="PendingFailed_19" name="Local booking initiation failed">
+      <bpmn:incoming>Flow_19_19</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Submit_19" name="Submit stored booking information to Lalamove; resolve response">
+      <bpmn:documentation>FR-DEL-11. Use the saved order/destination information and saved attempt identity. Preserve response/provider reference and diagnosis. Successful creation means a booking exists, not necessarily an assigned rider or completed delivery. Classify definitive failed/cancelled outcomes separately from timeout, lost response or ambiguous result. If provider may have accepted but persistence fails, keep unresolved attempt/lock for reconciliation, not a new creation. Do not assume a provider-specific idempotency capability absent from requirements.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Outcome_19" name="Provider booking outcome?">
+      <bpmn:incoming>Flow_19_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_23</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_24</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Accepted_19" name="Save established provider booking and retain allocation lock">
+      <bpmn:documentation>Save provider booking reference/status with attempt/history and current version consistently. Preserve agreed delivery data, original product amounts and confirmed subscription commitment. A failed local save after provider creation must retain unresolved pending state/lock; no new request is safe until reconciliation. Completion and completion timestamp are not recorded by booking.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_25</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="AcceptedSaved_19" name="Established booking saved?">
+      <bpmn:incoming>Flow_19_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_26</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_27</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Booked_19" name="Booking established; continue tracking in BPMN-20">
+      <bpmn:incoming>Flow_19_26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Failure_19" name="Save confirmed Failed/Cancelled; permit eligible review">
+      <bpmn:documentation>Only a definitive provider failure/cancellation permits this result. Preserve attempt/provider history. Release the booking-related allocation lock only if fulfillment is incomplete and no other pending/active/unresolved booking exists. Retain Ready state, paid purchase and delivery information. Allocation edit/rebooking are allowed only after normal eligibility checks. Do not cancel the paid fulfillment or refund automatically.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_28</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Failed_19" name="Definitive failure; owner may review and rebook">
+      <bpmn:incoming>Flow_19_28</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Unknown_19" name="Retain unresolved attempt and allocation lock; show recovery status">
+      <bpmn:documentation>Timeout/lost response, ambiguous provider outcome or persistence failure after possible provider acceptance: retain attempt identity, any reference/request evidence, saved pending state and allocation lock. Explain that another booking cannot be submitted. Safe recovery uses existing-attempt reconciliation, never blind creation or unlocking. Log diagnosis without exposing secrets.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_27</bpmn:incoming>
+      <bpmn:incoming>Flow_19_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_29</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Unresolved_19" name="Outcome unresolved; reconcile before any new booking">
+      <bpmn:incoming>Flow_19_29</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reconcile_19" name="Resolve existing attempt with Lalamove; do not create another">
+      <bpmn:documentation>NFR-REL-01-03; FR-DEL-17. For pending/unresolved saved attempt, use preserved identity/provider reference and supported provider status lookup to determine its outcome. Never submit a new booking as a status query. If lookup is unavailable or cannot establish an outcome, retain unresolved state/lock and require further reconciliation. No fabricated cancellation or provider behavior is assumed. If recovery establishes delivery progress, BPMN-20 processes tracking/completion.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_30</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Recovered_19" name="Existing attempt resolved?">
+      <bpmn:incoming>Flow_19_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_31</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_32</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="RecoveryAccepted_19" name="Save recovered booking reference/status; retain lock">
+      <bpmn:documentation>Associate discovered booking with the original attempt, preserve saved identity/history and current version, and retain active/unresolved lock as applicable. Never create another booking. On save conflict/failure keep unresolved saved state and lock for further reconciliation; do not assert successful recovery.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_34</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="RecoverySaved_19" name="Recovery save successful?">
+      <bpmn:incoming>Flow_19_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_35</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_36</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="RecoveryBooked_19" name="Existing booking recovered; continue BPMN-20">
+      <bpmn:incoming>Flow_19_35</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="RecoveryFailed_19" name="Save definitive Failed/Cancelled; retain history">
+      <bpmn:documentation>Recovered provider evidence establishes the prior attempt failed/cancelled. Save consistently and allow review/edit/rebooking only while incomplete and without another pending/active/unresolved booking. If this save fails, keep prior unresolved state/lock; do not authorize new booking. Fresh booking requires owner confirmation and all new-attempt checks.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_33</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_37</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="RecoveryFailureSaved_19" name="Failure/cancellation saved?">
+      <bpmn:incoming>Flow_19_37</bpmn:incoming>
+      <bpmn:outgoing>Flow_19_38</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19_39</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="RecoveryRetry_19" name="Prior failure resolved; owner may start fresh review">
+      <bpmn:incoming>Flow_19_38</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="RecoveryUnknown_19" name="Still unresolved; keep lock and block new booking">
+      <bpmn:documentation>Lookup or local save could not safely resolve the attempt. Preserve prior state, attempt evidence and lock. Safe reconciliation can be requested later. No automatic retry interval or maximum count is invented.</bpmn:documentation>
+      <bpmn:incoming>Flow_19_39</bpmn:incoming>
+      <bpmn:incoming>Flow_19_36</bpmn:incoming>
+      <bpmn:incoming>Flow_19_32</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_19_1" sourceRef="Start_19" targetRef="Load_19" />
+    <bpmn:sequenceFlow id="Flow_19_2" sourceRef="Load_19" targetRef="Eligibility_19" />
+    <bpmn:sequenceFlow id="Flow_19_3" sourceRef="Eligibility_19" targetRef="Eligible_19" />
+    <bpmn:sequenceFlow id="Flow_19_4" sourceRef="Eligible_19" targetRef="Invalid_19" name="No" />
+    <bpmn:sequenceFlow id="Flow_19_5" sourceRef="Invalid_19" targetRef="Rejected_19" />
+    <bpmn:sequenceFlow id="Flow_19_6" sourceRef="Eligible_19" targetRef="Existing_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_7" sourceRef="Existing_19" targetRef="Active_19" name="Established active" />
+    <bpmn:sequenceFlow id="Flow_19_8" sourceRef="Existing_19" targetRef="Review_19" name="None / definitive failure or cancellation" />
+    <bpmn:sequenceFlow id="Flow_19_9" sourceRef="Existing_19" targetRef="Reconcile_19" name="Pending / unresolved" />
+    <bpmn:sequenceFlow id="Flow_19_10" sourceRef="Review_19" targetRef="Confirm_19" />
+    <bpmn:sequenceFlow id="Flow_19_11" sourceRef="Confirm_19" targetRef="Cancel_19" name="No" />
+    <bpmn:sequenceFlow id="Flow_19_12" sourceRef="Confirm_19" targetRef="Allocation_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_13" sourceRef="Allocation_19" targetRef="AllocationValid_19" />
+    <bpmn:sequenceFlow id="Flow_19_14" sourceRef="AllocationValid_19" targetRef="AllocationError_19" name="No" />
+    <bpmn:sequenceFlow id="Flow_19_15" sourceRef="AllocationError_19" targetRef="AllocationRejected_19" />
+    <bpmn:sequenceFlow id="Flow_19_16" sourceRef="AllocationValid_19" targetRef="Pending_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_17" sourceRef="Pending_19" targetRef="PendingSaved_19" />
+    <bpmn:sequenceFlow id="Flow_19_18" sourceRef="PendingSaved_19" targetRef="PendingError_19" name="No" />
+    <bpmn:sequenceFlow id="Flow_19_19" sourceRef="PendingError_19" targetRef="PendingFailed_19" />
+    <bpmn:sequenceFlow id="Flow_19_20" sourceRef="PendingSaved_19" targetRef="Submit_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_21" sourceRef="Submit_19" targetRef="Outcome_19" />
+    <bpmn:sequenceFlow id="Flow_19_22" sourceRef="Outcome_19" targetRef="Accepted_19" name="Established" />
+    <bpmn:sequenceFlow id="Flow_19_23" sourceRef="Outcome_19" targetRef="Failure_19" name="Failed / cancelled" />
+    <bpmn:sequenceFlow id="Flow_19_24" sourceRef="Outcome_19" targetRef="Unknown_19" name="Unknown / timeout" />
+    <bpmn:sequenceFlow id="Flow_19_25" sourceRef="Accepted_19" targetRef="AcceptedSaved_19" />
+    <bpmn:sequenceFlow id="Flow_19_26" sourceRef="AcceptedSaved_19" targetRef="Booked_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_27" sourceRef="AcceptedSaved_19" targetRef="Unknown_19" name="No — reconcile" />
+    <bpmn:sequenceFlow id="Flow_19_28" sourceRef="Failure_19" targetRef="Failed_19" />
+    <bpmn:sequenceFlow id="Flow_19_29" sourceRef="Unknown_19" targetRef="Unresolved_19" />
+    <bpmn:sequenceFlow id="Flow_19_30" sourceRef="Reconcile_19" targetRef="Recovered_19" />
+    <bpmn:sequenceFlow id="Flow_19_31" sourceRef="Recovered_19" targetRef="RecoveryAccepted_19" name="Established" />
+    <bpmn:sequenceFlow id="Flow_19_32" sourceRef="Recovered_19" targetRef="RecoveryUnknown_19" name="Unknown" />
+    <bpmn:sequenceFlow id="Flow_19_33" sourceRef="Recovered_19" targetRef="RecoveryFailed_19" name="Failed / cancelled" />
+    <bpmn:sequenceFlow id="Flow_19_34" sourceRef="RecoveryAccepted_19" targetRef="RecoverySaved_19" />
+    <bpmn:sequenceFlow id="Flow_19_35" sourceRef="RecoverySaved_19" targetRef="RecoveryBooked_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_36" sourceRef="RecoverySaved_19" targetRef="RecoveryUnknown_19" name="No" />
+    <bpmn:sequenceFlow id="Flow_19_37" sourceRef="RecoveryFailed_19" targetRef="RecoveryFailureSaved_19" />
+    <bpmn:sequenceFlow id="Flow_19_38" sourceRef="RecoveryFailureSaved_19" targetRef="RecoveryRetry_19" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_19_39" sourceRef="RecoveryFailureSaved_19" targetRef="RecoveryUnknown_19" name="No" />
+    <bpmn:textAnnotation id="Rules_19">
+      <bpmn:text>Booking eligibility
+Admin/Owner only (FR-DEL-10).
+Paid Ready standard/subscription delivery.
+Use saved order and destination data.
+Each subscription week has its own booking.
+BPMN-02/22 already handled checkout address eligibility and fee quotation.
+No cakes, pickup or automatic checkout booking.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Rules_19" sourceRef="Eligibility_19" targetRef="Rules_19" associationDirection="None" />
+    <bpmn:textAnnotation id="Allocations_19">
+      <bpmn:text>Refer to BPMN-16
+Validate saved owner selections, permission, version and locks; no forced owner-split modal.
+Pending/active/unresolved booking locks allocations.
+Definitive failure/cancellation may permit review only while incomplete.
+Staff acting does not earn an owner allocation.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Allocations_19" sourceRef="Allocation_19" targetRef="Allocations_19" associationDirection="None" />
+    <bpmn:textAnnotation id="Safeguards_19">
+      <bpmn:text>Safe provider submission
+Save attempt identity + pending lock before provider call.
+Recheck current controls at commit.
+Unknown result ≠ confirmed failure.
+Retain evidence and lock; reconcile the existing attempt before another booking.
+No blind creation retry after response loss.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Safeguards_19" sourceRef="Pending_19" targetRef="Safeguards_19" associationDirection="None" />
+    <bpmn:textAnnotation id="Terms_19">
+      <bpmn:text>Business boundaries
+An established booking does not mean Delivered or that a rider is already assigned.
+BPMN-20 owns tracking and completion.
+No live rider-location tracking.
+Subscription address remains agreed; bakery absorbs later actual-fee differences (BR-26/27).
+No new customer charge/refund.
+Failed/cancelled attempts require fresh owner review before rebooking.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Terms_19" sourceRef="Booked_19" targetRef="Terms_19" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_19">
+    <bpmndi:BPMNPlane id="Plane_19" bpmnElement="Collaboration_19">
+      <bpmndi:BPMNShape id="Shape_Participant_19" bpmnElement="Participant_19" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="2030" height="3630" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_19_owner" bpmnElement="Lane_19_owner" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="3600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_19_system" bpmnElement="Lane_19_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1580" height="3600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lalamove_19" bpmnElement="Lalamove_19" isHorizontal="false">
+        <dc:Bounds x="2200" y="40" width="180" height="3630" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_19" bpmnElement="Start_19">
+        <dc:Bounds x="782" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="840" y="125" width="240" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_19" bpmnElement="Load_19">
+        <dc:Bounds x="670" y="280" width="260" height="95" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Eligibility_19" bpmnElement="Eligibility_19">
+        <dc:Bounds x="670" y="460" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Eligible_19" bpmnElement="Eligible_19">
+        <dc:Bounds x="775" y="640" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="640" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Invalid_19" bpmnElement="Invalid_19">
+        <dc:Bounds x="1080" y="625" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rejected_19" bpmnElement="Rejected_19">
+        <dc:Bounds x="1197" y="790" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="835" width="240" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Existing_19" bpmnElement="Existing_19">
+        <dc:Bounds x="775" y="920" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="920" width="230" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Active_19" bpmnElement="Active_19">
+        <dc:Bounds x="1197" y="927" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="975" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Review_19" bpmnElement="Review_19">
+        <dc:Bounds x="140" y="1150" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_19" bpmnElement="Confirm_19">
+        <dc:Bounds x="255" y="1340" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="85" y="1340" width="155" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_19" bpmnElement="Cancel_19">
+        <dc:Bounds x="262" y="1530" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="1575" width="220" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allocation_19" bpmnElement="Allocation_19">
+        <dc:Bounds x="670" y="1550" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationValid_19" bpmnElement="AllocationValid_19">
+        <dc:Bounds x="775" y="1730" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1730" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationError_19" bpmnElement="AllocationError_19">
+        <dc:Bounds x="1080" y="1715" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AllocationRejected_19" bpmnElement="AllocationRejected_19">
+        <dc:Bounds x="1197" y="1880" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="1925" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Pending_19" bpmnElement="Pending_19">
+        <dc:Bounds x="670" y="1980" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PendingSaved_19" bpmnElement="PendingSaved_19">
+        <dc:Bounds x="775" y="2170" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2170" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PendingError_19" bpmnElement="PendingError_19">
+        <dc:Bounds x="1080" y="2155" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PendingFailed_19" bpmnElement="PendingFailed_19">
+        <dc:Bounds x="1197" y="2320" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="2365" width="240" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Submit_19" bpmnElement="Submit_19">
+        <dc:Bounds x="670" y="2410" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Outcome_19" bpmnElement="Outcome_19">
+        <dc:Bounds x="775" y="2610" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2610" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Accepted_19" bpmnElement="Accepted_19">
+        <dc:Bounds x="670" y="2850" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AcceptedSaved_19" bpmnElement="AcceptedSaved_19">
+        <dc:Bounds x="775" y="3030" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="3030" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Booked_19" bpmnElement="Booked_19">
+        <dc:Bounds x="782" y="3290" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="3335" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failure_19" bpmnElement="Failure_19">
+        <dc:Bounds x="520" y="2850" width="140" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failed_19" bpmnElement="Failed_19">
+        <dc:Bounds x="572" y="3130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="3175" width="185" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Unknown_19" bpmnElement="Unknown_19">
+        <dc:Bounds x="1080" y="2850" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Unresolved_19" bpmnElement="Unresolved_19">
+        <dc:Bounds x="1197" y="3210" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="3255" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reconcile_19" bpmnElement="Reconcile_19">
+        <dc:Bounds x="1570" y="1250" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Recovered_19" bpmnElement="Recovered_19">
+        <dc:Bounds x="1675" y="1440" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="1440" width="210" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryAccepted_19" bpmnElement="RecoveryAccepted_19">
+        <dc:Bounds x="1570" y="1670" width="260" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoverySaved_19" bpmnElement="RecoverySaved_19">
+        <dc:Bounds x="1675" y="1860" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="1860" width="210" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryBooked_19" bpmnElement="RecoveryBooked_19">
+        <dc:Bounds x="1682" y="2090" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1580" y="2135" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryFailed_19" bpmnElement="RecoveryFailed_19">
+        <dc:Bounds x="1570" y="2370" width="260" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryFailureSaved_19" bpmnElement="RecoveryFailureSaved_19">
+        <dc:Bounds x="1675" y="2570" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="2570" width="210" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryRetry_19" bpmnElement="RecoveryRetry_19">
+        <dc:Bounds x="1682" y="2820" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1580" y="2865" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryUnknown_19" bpmnElement="RecoveryUnknown_19">
+        <dc:Bounds x="1912" y="1450" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1840" y="1500" width="200" height="80" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rules_19" bpmnElement="Rules_19">
+        <dc:Bounds x="120" y="390" width="330" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allocations_19" bpmnElement="Allocations_19">
+        <dc:Bounds x="120" y="1750" width="330" height="230" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Safeguards_19" bpmnElement="Safeguards_19">
+        <dc:Bounds x="120" y="2110" width="330" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Terms_19" bpmnElement="Terms_19">
+        <dc:Bounds x="120" y="3020" width="330" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_1" bpmnElement="Flow_19_1">
+        <di:waypoint x="800" y="166" />
+        <di:waypoint x="800" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_2" bpmnElement="Flow_19_2">
+        <di:waypoint x="800" y="375" />
+        <di:waypoint x="800" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_3" bpmnElement="Flow_19_3">
+        <di:waypoint x="800" y="560" />
+        <di:waypoint x="800" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_4" bpmnElement="Flow_19_4">
+        <di:waypoint x="825" y="665" />
+        <di:waypoint x="1080" y="665" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="635" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_5" bpmnElement="Flow_19_5">
+        <di:waypoint x="1215" y="725" />
+        <di:waypoint x="1215" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_6" bpmnElement="Flow_19_6">
+        <di:waypoint x="800" y="690" />
+        <di:waypoint x="800" y="920" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="790" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_7" bpmnElement="Flow_19_7">
+        <di:waypoint x="825" y="945" />
+        <di:waypoint x="1197" y="945" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="915" width="170" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_8" bpmnElement="Flow_19_8">
+        <di:waypoint x="775" y="945" />
+        <di:waypoint x="280" y="945" />
+        <di:waypoint x="280" y="1150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="340" y="905" width="320" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_9" bpmnElement="Flow_19_9">
+        <di:waypoint x="800" y="970" />
+        <di:waypoint x="800" y="1080" />
+        <di:waypoint x="1700" y="1080" />
+        <di:waypoint x="1700" y="1250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1320" y="1045" width="240" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_10" bpmnElement="Flow_19_10">
+        <di:waypoint x="280" y="1250" />
+        <di:waypoint x="280" y="1340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_11" bpmnElement="Flow_19_11">
+        <di:waypoint x="280" y="1390" />
+        <di:waypoint x="280" y="1530" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1450" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_12" bpmnElement="Flow_19_12">
+        <di:waypoint x="305" y="1365" />
+        <di:waypoint x="800" y="1365" />
+        <di:waypoint x="800" y="1550" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1335" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_13" bpmnElement="Flow_19_13">
+        <di:waypoint x="800" y="1650" />
+        <di:waypoint x="800" y="1730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_14" bpmnElement="Flow_19_14">
+        <di:waypoint x="825" y="1755" />
+        <di:waypoint x="1080" y="1755" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1725" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_15" bpmnElement="Flow_19_15">
+        <di:waypoint x="1215" y="1815" />
+        <di:waypoint x="1215" y="1880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_16" bpmnElement="Flow_19_16">
+        <di:waypoint x="800" y="1780" />
+        <di:waypoint x="800" y="1980" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1860" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_17" bpmnElement="Flow_19_17">
+        <di:waypoint x="800" y="2090" />
+        <di:waypoint x="800" y="2170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_18" bpmnElement="Flow_19_18">
+        <di:waypoint x="825" y="2195" />
+        <di:waypoint x="1080" y="2195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="2165" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_19" bpmnElement="Flow_19_19">
+        <di:waypoint x="1215" y="2255" />
+        <di:waypoint x="1215" y="2320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_20" bpmnElement="Flow_19_20">
+        <di:waypoint x="800" y="2220" />
+        <di:waypoint x="800" y="2410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2300" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_21" bpmnElement="Flow_19_21">
+        <di:waypoint x="800" y="2520" />
+        <di:waypoint x="800" y="2610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_22" bpmnElement="Flow_19_22">
+        <di:waypoint x="800" y="2660" />
+        <di:waypoint x="800" y="2850" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2730" width="120" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_23" bpmnElement="Flow_19_23">
+        <di:waypoint x="775" y="2635" />
+        <di:waypoint x="590" y="2635" />
+        <di:waypoint x="590" y="2850" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="510" y="2670" width="150" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_24" bpmnElement="Flow_19_24">
+        <di:waypoint x="825" y="2635" />
+        <di:waypoint x="1215" y="2635" />
+        <di:waypoint x="1215" y="2850" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="990" y="2600" width="180" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_25" bpmnElement="Flow_19_25">
+        <di:waypoint x="800" y="2950" />
+        <di:waypoint x="800" y="3030" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_26" bpmnElement="Flow_19_26">
+        <di:waypoint x="800" y="3080" />
+        <di:waypoint x="800" y="3290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="3170" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_27" bpmnElement="Flow_19_27">
+        <di:waypoint x="825" y="3055" />
+        <di:waypoint x="1390" y="3055" />
+        <di:waypoint x="1390" y="2905" />
+        <di:waypoint x="1350" y="2905" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1080" y="3020" width="170" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_28" bpmnElement="Flow_19_28">
+        <di:waypoint x="590" y="2980" />
+        <di:waypoint x="590" y="3130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_29" bpmnElement="Flow_19_29">
+        <di:waypoint x="1215" y="2960" />
+        <di:waypoint x="1215" y="3210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_30" bpmnElement="Flow_19_30">
+        <di:waypoint x="1700" y="1360" />
+        <di:waypoint x="1700" y="1440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_31" bpmnElement="Flow_19_31">
+        <di:waypoint x="1700" y="1490" />
+        <di:waypoint x="1700" y="1670" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1710" y="1560" width="120" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_32" bpmnElement="Flow_19_32">
+        <di:waypoint x="1725" y="1465" />
+        <di:waypoint x="1912" y="1465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1770" y="1430" width="100" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_33" bpmnElement="Flow_19_33">
+        <di:waypoint x="1675" y="1465" />
+        <di:waypoint x="1420" y="1465" />
+        <di:waypoint x="1420" y="2425" />
+        <di:waypoint x="1570" y="2425" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1430" y="1530" width="130" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_34" bpmnElement="Flow_19_34">
+        <di:waypoint x="1700" y="1770" />
+        <di:waypoint x="1700" y="1860" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_35" bpmnElement="Flow_19_35">
+        <di:waypoint x="1700" y="1910" />
+        <di:waypoint x="1700" y="2090" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1710" y="1980" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_36" bpmnElement="Flow_19_36">
+        <di:waypoint x="1725" y="1885" />
+        <di:waypoint x="1990" y="1885" />
+        <di:waypoint x="1990" y="1468" />
+        <di:waypoint x="1948" y="1468" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1830" y="1855" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_37" bpmnElement="Flow_19_37">
+        <di:waypoint x="1700" y="2480" />
+        <di:waypoint x="1700" y="2570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_38" bpmnElement="Flow_19_38">
+        <di:waypoint x="1700" y="2620" />
+        <di:waypoint x="1700" y="2820" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1710" y="2690" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_19_39" bpmnElement="Flow_19_39">
+        <di:waypoint x="1725" y="2595" />
+        <di:waypoint x="2030" y="2595" />
+        <di:waypoint x="2030" y="1420" />
+        <di:waypoint x="1930" y="1420" />
+        <di:waypoint x="1930" y="1450" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1850" y="2565" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Rules_19" bpmnElement="Assoc_Rules_19">
+        <di:waypoint x="670" y="510" />
+        <di:waypoint x="450" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Allocations_19" bpmnElement="Assoc_Allocations_19">
+        <di:waypoint x="670" y="1600" />
+        <di:waypoint x="500" y="1600" />
+        <di:waypoint x="500" y="1800" />
+        <di:waypoint x="450" y="1800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Safeguards_19" bpmnElement="Assoc_Safeguards_19">
+        <di:waypoint x="670" y="2035" />
+        <di:waypoint x="500" y="2035" />
+        <di:waypoint x="500" y="2160" />
+        <di:waypoint x="450" y="2160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Terms_19" bpmnElement="Assoc_Terms_19">
+        <di:waypoint x="782" y="3308" />
+        <di:waypoint x="470" y="3308" />
+        <di:waypoint x="470" y="3240" />
+        <di:waypoint x="450" y="3240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_BookingRequest_19" bpmnElement="BookingRequest_19">
+        <di:waypoint x="930" y="2490" />
+        <di:waypoint x="2200" y="2490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_BookingResponse_19" bpmnElement="BookingResponse_19">
+        <di:waypoint x="2200" y="2530" />
+        <di:waypoint x="980" y="2530" />
+        <di:waypoint x="980" y="2460" />
+        <di:waypoint x="930" y="2460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_LookupRequest_19" bpmnElement="LookupRequest_19">
+        <di:waypoint x="1830" y="1280" />
+        <di:waypoint x="2150" y="1280" />
+        <di:waypoint x="2150" y="700" />
+        <di:waypoint x="2200" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_LookupResponse_19" bpmnElement="LookupResponse_19">
+        <di:waypoint x="2200" y="750" />
+        <di:waypoint x="2130" y="750" />
+        <di:waypoint x="2130" y="1330" />
+        <di:waypoint x="1830" y="1330" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
