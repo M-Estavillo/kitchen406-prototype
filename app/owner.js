@@ -34,7 +34,7 @@ O.render=()=>{
  if(O.pendingQuotation&&O.mode==='normal'){const id=O.pendingQuotation;O.pendingQuotation=null;A.ownerCakeUI.open(id);}
 };
 document.addEventListener('change',e=>{if(['owner-calendar-type','owner-calendar-status'].includes(e.target.id)&&A.session.ownerAllowed()){O[e.target.id==='owner-calendar-type'?'calendarType':'calendarStatus']=e.target.value;O.render();}if(e.target.id==='owner-notificationFilter'&&A.session.ownerAllowed()){O.notificationFilter=e.target.value;O.render();}});
-function confirmAction(title,body,action,attrs){O.open(title,`<div class="owner-order-confirm"><p>${E(body)}</p>${V.error()}<div class="owner-order-confirm-actions">${V.button('discard-modal','Cancel')}${V.button(action,title,attrs,true)}</div></div>`);}
+function confirmAction(title,body,action,attrs,fields=''){O.open(title,`<div class="owner-order-confirm"><p>${E(body)}</p>${fields}${V.error()}<div class="owner-order-confirm-actions">${V.button('discard-modal','Cancel')}${V.button(action,title,attrs,true)}</div></div>`);}
 function result(error,close=true){if(error){const node=document.querySelector('#owner-modal:not([hidden]) .owner-error');if(node)node.textContent=error;else A.toast(error);return false;}if(close)A.closeModal(true);A.operations.changed();A.toast('Changes saved.');return true;}
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-owner]');if(!el||el.disabled)return;const action=el.dataset.owner,id=el.dataset.id;
@@ -55,7 +55,7 @@ document.addEventListener('click',e=>{
  if(action==='clear-filters'){O.filters=blank();O.status='all';O.page=1;O.render();return;}
  if(action==='inventory-type'){O.filters.type=el.dataset.type;O.page=1;O.render();document.querySelector('[data-owner=inventory-type][aria-pressed=true]')?.focus();return;}
  if(action==='status'){O.status=el.dataset.status;O.page=1;O.render();return;}
- if(action==='transition'){confirmAction(el.textContent,el.dataset.target==='preparing'?'Starting preparation records the reserved materials as used.':el.dataset.target==='completed'?'Confirm the order has been handed over.':'Confirm that this order is prepared and ready for handoff.','confirm-transition',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`);return;}
+ if(action==='transition'){confirmAction(el.textContent,el.dataset.target==='preparing'?'Starting preparation records the reserved materials as used.':el.dataset.target==='completed'?'Confirm the order has been handed over.':'Confirm that this order is prepared and ready for handoff.','confirm-transition',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`,el.dataset.target==='ready'?A.earnings.readyEditor(A.operations.record(id)):'');return;}
  if(action==='revert-status'){const o=A.operations.record(id),target=A.fulfillment.previous(o);if(!target)return;confirmAction('Revert status','Return this order to '+target+'?'+(target==='confirmed'?' Consumed ingredients will be restored to reserved stock.':''),'confirm-revert',`data-id="${E(id)}" data-version="${el.dataset.version}"`);return;}
  if(action==='confirm-revert'){result(A.fulfillment.revert(id,Number(el.dataset.version),O.formKey));return;}
  if(action==='confirm-transition'){if(O.saveError){result('The update could not be saved. Retry.');return;}result(A.fulfillment.transition(id,el.dataset.target,Number(el.dataset.version),O.formKey));return;}

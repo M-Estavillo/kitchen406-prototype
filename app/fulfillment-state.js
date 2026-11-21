@@ -7,6 +7,12 @@ F.transition=(id,target,version,key)=>{
  const o=S.orders().find(o=>o.id===id);if(!o)return 'Order not found.';
  if((S.versions.get(id)||0)!==version)return 'This order changed. Review its current status.';
  const status=S.orderStatus(o);if(!(status==='confirmed'&&target==='preparing'||status==='preparing'&&target==='ready'||status==='ready'&&target==='completed'&&(o.fulfillment.method==='pickup'||A.session.ownerAllowed()&&o.type==='cake')))return 'This transition is not allowed.';
+ if(target==='ready'&&!A.earnings.assigned(o)){
+  if(o.delivery&&!['failed','cancelled'].includes(o.delivery.status))return 'Preparing owners are locked while a courier booking is active.';
+  const draft=A.earnings.read(o);
+  if(draft.error)return draft.error;
+  o.ownerAllocation=draft.values;
+ }
  if(target==='preparing'){const error=I.consume(o,A.session.actor().name);if(error)return error;}
  const actual=target==='ready'?(o.fulfillment.method==='pickup'?'ready-pickup':'ready-delivery'):target;
  C.setStatus(o,actual);S.versions.set(id,version+1);S.results.set(key,{id,target});
