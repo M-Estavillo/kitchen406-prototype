@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_33" targetNamespace="https://kitchen406.example/bpmn">
-  <bpmn:collaboration id="Collaboration_33">
-    <bpmn:participant id="Pool_33" name="BPMN-33 | Customer Profile Update" processRef="Process_33" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_29" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_29">
+    <bpmn:participant id="Pool_33" name="BPMN-29 | Customer Profile Update" processRef="Process_29" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_33" name="Customer Profile Update" isExecutable="false">
-    <bpmn:documentation>Sources: proposed-bpmn-catalog.md BPMN-33; Kitchen406 - Capstone Paper.md SRS 4.2.2, FR-PROF-01 through FR-PROF-03, customer profile interface, Figure 16 and NFR-SEC-02 through NFR-SEC-05 and NFR-SEC-08; index.html and linked app/account.js and app/account-state.js. BPMN-30 supplies session and role controls, BPMN-32 handles forgotten passwords, BPMN-34 handles transaction inquiry, and BPMN-35 handles saved addresses. Updates retain the same customer identity and relationships.</bpmn:documentation>
+  <bpmn:process id="Process_29" name="Customer Profile Update" isExecutable="false">
+    <bpmn:documentation>Sources: proposed-bpmn-catalog.md BPMN-29; Kitchen406 - Capstone Paper.md SRS 4.2.2, FR-PROF-01 through FR-PROF-03, customer profile interface, Figure 16 and NFR-SEC-02 through NFR-SEC-05 and NFR-SEC-08; index.html and linked app/account.js and app/account-state.js. BPMN-26 supplies session and role controls, BPMN-28 handles forgotten passwords, BPMN-30 handles transaction inquiry, and BPMN-31 handles saved addresses. Updates retain the same customer identity and relationships.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_33">
       <bpmn:lane id="Lane_C" name="Customer">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
@@ -28,7 +28,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start" name="Profile opened">
-      <bpmn:documentation>Precondition: an authenticated Customer may access their own profile under BPMN-30 and the profile was loaded successfully. Unauthorized or unavailable requests do not enter this update flow.</bpmn:documentation>
+      <bpmn:documentation>Precondition: an authenticated Customer may access their own profile under BPMN-26 and the profile was loaded successfully. Unauthorized or unavailable requests do not enter this update flow.</bpmn:documentation>
       <bpmn:outgoing>F01</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:task id="Choose" name="View profile or submit a change">
@@ -63,7 +63,7 @@
       <bpmn:documentation>Show the relevant error and allow correction or retry.</bpmn:documentation>
       <bpmn:incoming>F12</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="Dispatch" name="BPMN-28: Send email code" calledElement="Process_28_Reference">
+    <bpmn:callActivity id="Dispatch" name="BPMN-24: Send email code" calledElement="Process_24_Reference">
       <bpmn:documentation>Send the verification code to the proposed address using shared dispatch. On dispatch failure show feedback and allow retry or cancellation.</bpmn:documentation>
       <bpmn:incoming>F11</bpmn:incoming>
       <bpmn:outgoing>F13</bpmn:outgoing>
@@ -139,11 +139,11 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F21" sourceRef="CodeAction" targetRef="EmailCancelled" name="Cancel" />
   </bpmn:process>
-  <bpmn:process id="Process_28_Reference" name="BPMN-28 | External Notification Dispatch and Retry (reference only)" isExecutable="false">
+  <bpmn:process id="Process_24_Reference" name="BPMN-24 | External Notification Dispatch and Retry (reference only)" isExecutable="false">
     <bpmn:documentation>Catalog reference. Input: verification email for the proposed address and account activity context. Output: dispatch outcome under the shared notification policy.</bpmn:documentation>
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_33">
-    <bpmndi:BPMNPlane id="Plane_33" bpmnElement="Collaboration_33">
+  <bpmndi:BPMNDiagram id="Diagram_29">
+    <bpmndi:BPMNPlane id="Plane_29" bpmnElement="Collaboration_29">
       <bpmndi:BPMNShape id="Shape_Pool_33" bpmnElement="Pool_33" isHorizontal="false">
         <dc:Bounds x="45" y="50" width="674" height="898" />
       </bpmndi:BPMNShape>

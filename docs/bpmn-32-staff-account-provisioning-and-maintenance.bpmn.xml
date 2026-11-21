@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_36" targetNamespace="https://kitchen406.local/bpmn">
-  <bpmn:collaboration id="Collaboration_36">
-    <bpmn:participant id="Participant_36" name="BPMN-36 | Staff Account Provisioning and Maintenance" processRef="Process_36" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_32" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_32">
+    <bpmn:participant id="Participant_32" name="BPMN-32 | Staff Account Provisioning and Maintenance" processRef="Process_32" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_36" name="Staff Account Provisioning and Maintenance" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-36 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.3 FR-STAFF-01-06; supporting NFR-SEC-02-03,05,08,13, NFR-REL-03,05 and BR-24. Website: index.html loads app/owner-accounts.js M.save/statusChange/find/duplicate, app/session-state.js and app/staff-state.js. Existing docs XMLs reviewed for style/reuse, particularly BPMN-16 and BPMN-35; detailed local validations/failures remain on the main diagram. Scope: authenticated Admin/Owner creates, updates or deactivates a Staff account. Authentication and staff login/session enforcement belong to BPMN-30 and are referenced as precondition/dependent policy, not rerun here. BPMN-31 is customer registration and must not be called to provision Staff. No staff invitation, email verification, password reset, account deletion, configurable role promotion or reactivation is inferred; prototype reactivation is outside this bounded catalog process. Two internal role lanes share sequence flows; no external notification/provider interaction is required, so no message flow or broadcast signal is invented. Input: requested action, allowed staff data, selected account/version for update/deactivate, authenticated administrator and operation identity. Output: new active Staff account linked to creating administrator, updated Staff details, or inactive account denied Staff access; cancellation/rejection/failure preserves prior state. Prototype requires first/last names, valid unique email and an initial password for creation; these are prototype-aligned input examples rather than new SRS-specific password policy. Proposed secure password storage follows NFR-SEC-02, never a claim that browser-only preview hashing is production security. Preserve original creating-administrator association on maintenance. Staff remains restricted to authorized operational functions, including preparing-owner selection/percentages, without financial/customer-management access or automatic owner allocation. Save/account status and effective access state remain consistent; existing inactive-account sessions cannot retain operational authority. Actual sign-in and session lifecycle remain in BPMN-30. No unrelated business records or financial allocations are changed.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_36">
+  <bpmn:process id="Process_32" name="Staff Account Provisioning and Maintenance" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-32 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.3 FR-STAFF-01-06; supporting NFR-SEC-02-03,05,08,13, NFR-REL-03,05 and BR-24. Website: index.html loads app/owner-accounts.js M.save/statusChange/find/duplicate, app/session-state.js and app/staff-state.js. Existing docs XMLs reviewed for style/reuse, particularly BPMN-12 and BPMN-31; detailed local validations/failures remain on the main diagram. Scope: authenticated Admin/Owner creates, updates or deactivates a Staff account. Authentication and staff login/session enforcement belong to BPMN-26 and are referenced as precondition/dependent policy, not rerun here. BPMN-27 is customer registration and must not be called to provision Staff. No staff invitation, email verification, password reset, account deletion, configurable role promotion or reactivation is inferred; prototype reactivation is outside this bounded catalog process. Two internal role lanes share sequence flows; no external notification/provider interaction is required, so no message flow or broadcast signal is invented. Input: requested action, allowed staff data, selected account/version for update/deactivate, authenticated administrator and operation identity. Output: new active Staff account linked to creating administrator, updated Staff details, or inactive account denied Staff access; cancellation/rejection/failure preserves prior state. Prototype requires first/last names, valid unique email and an initial password for creation; these are prototype-aligned input examples rather than new SRS-specific password policy. Proposed secure password storage follows NFR-SEC-02, never a claim that browser-only preview hashing is production security. Preserve original creating-administrator association on maintenance. Staff remains restricted to authorized operational functions, including preparing-owner selection/percentages, without financial/customer-management access or automatic owner allocation. Save/account status and effective access state remain consistent; existing inactive-account sessions cannot retain operational authority. Actual sign-in and session lifecycle remain in BPMN-26. No unrelated business records or financial allocations are changed.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_32">
       <bpmn:lane id="Lane_36_admin" name="Admin/Owner">
         <bpmn:flowNodeRef>Start_36</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Draft_36</bpmn:flowNodeRef>
@@ -36,7 +36,7 @@
       <bpmn:outgoing>Flow_36_1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Access_36" name="Check Admin/Owner permission; load Staff registry">
-      <bpmn:documentation>FR-STAFF-01-02; NFR-SEC-03. Enforce server-side administrator authorization before exposing Staff management data. Current authenticated session is from BPMN-30. Customer directory maintenance is outside this process.</bpmn:documentation>
+      <bpmn:documentation>FR-STAFF-01-02; NFR-SEC-03. Enforce server-side administrator authorization before exposing Staff management data. Current authenticated session is from BPMN-26. Customer directory maintenance is outside this process.</bpmn:documentation>
       <bpmn:incoming>Flow_36_1</bpmn:incoming>
       <bpmn:outgoing>Flow_36_2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -100,7 +100,7 @@
       <bpmn:outgoing>Flow_36_17</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Deactivate_36" name="Save inactive Staff status and deny Staff access consistently">
-      <bpmn:documentation>FR-STAFF-02,04-05; NFR-SEC-03,05. Recheck administrator permission, target/version and operation identity. Persist inactive status, actor/time/history and access-denial state consistently. Deny future login and subsequent protected requests from any existing session through BPMN-30 authorization/session controls. Do not merely hide a menu or grant access until next voluntary login. Do not delete account/audit/creator associations or alter fulfillment owner shares.</bpmn:documentation>
+      <bpmn:documentation>FR-STAFF-02,04-05; NFR-SEC-03,05. Recheck administrator permission, target/version and operation identity. Persist inactive status, actor/time/history and access-denial state consistently. Deny future login and subsequent protected requests from any existing session through BPMN-26 authorization/session controls. Do not merely hide a menu or grant access until next voluntary login. Do not delete account/audit/creator associations or alter fulfillment owner shares.</bpmn:documentation>
       <bpmn:incoming>Flow_36_15</bpmn:incoming>
       <bpmn:outgoing>Flow_36_18</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -120,7 +120,7 @@
       <bpmn:incoming>Flow_36_20</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Show_36" name="Show saved Staff account/result with operational-only access">
-      <bpmn:documentation>FR-STAFF-04-06. Display created/updated/inactive result to administrator, with creator association retained. Active Staff may perform permitted operations and preparing-owner entry only; financial analytics, allocated sales/cost/profit, pricing and customer management remain owner-only. Staff performer never receives an owner allocation automatically. BPMN-30 enforces active status and role on actual Staff access; no staff login is initiated here.</bpmn:documentation>
+      <bpmn:documentation>FR-STAFF-04-06. Display created/updated/inactive result to administrator, with creator association retained. Active Staff may perform permitted operations and preparing-owner entry only; financial analytics, allocated sales/cost/profit, pricing and customer management remain owner-only. Staff performer never receives an owner allocation automatically. BPMN-26 enforces active status and role on actual Staff access; no staff login is initiated here.</bpmn:documentation>
       <bpmn:incoming>Flow_36_21</bpmn:incoming>
       <bpmn:outgoing>Flow_36_22</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -165,7 +165,7 @@ Active: authorized operations only, including recording preparing-owner choices/
 No allocated sales, costs, profit, financial analytics, pricing or customer management.
 Inactive: deny Staff interface/protected actions, including existing sessions.
 Acting Staff never gains an Owner share.
-BPMN-30 enforces actual sign-in/access; not invoked again here.</bpmn:text>
+BPMN-26 enforces actual sign-in/access; not invoked again here.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_RoleRules_36" sourceRef="Show_36" targetRef="RoleRules_36" associationDirection="None" />
     <bpmn:textAnnotation id="Creator_36">
@@ -174,13 +174,13 @@ Associate new Staff account with the authenticated creating administrator.
 Secure password storage; no plaintext logs.
 Recheck permission/uniqueness at save.
 Profile edits retain creator and role.
-No customer registration (BPMN-31), invitation or external notification flow.</bpmn:text>
+No customer registration (BPMN-27), invitation or external notification flow.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Creator_36" sourceRef="Create_36" targetRef="Creator_36" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_36">
-    <bpmndi:BPMNPlane id="Plane_36" bpmnElement="Collaboration_36">
-      <bpmndi:BPMNShape id="Shape_Participant_36" bpmnElement="Participant_36" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_32">
+    <bpmndi:BPMNPlane id="Plane_32" bpmnElement="Collaboration_32">
+      <bpmndi:BPMNShape id="Shape_Participant_36" bpmnElement="Participant_32" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1810" height="3450" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_36_admin" bpmnElement="Lane_36_admin" isHorizontal="false">

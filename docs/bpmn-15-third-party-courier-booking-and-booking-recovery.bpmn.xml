@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_19" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
-  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
-  <bpmn:collaboration id="Collaboration_19">
-    <bpmn:participant id="Participant_19" name="BPMN-19 | Third-Party Courier Booking and Booking Recovery" processRef="Process_19" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_15" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+  <bpmn:collaboration id="Collaboration_15">
+    <bpmn:participant id="Participant_15" name="BPMN-15 | Third-Party Courier Booking and Booking Recovery" processRef="Process_15" />
     <bpmn:participant id="Lalamove_19" name="Lalamove — courier service" />
     <bpmn:messageFlow id="BookingRequest_19" sourceRef="Submit_19" targetRef="Lalamove_19" name="Create booking from stored information" />
     <bpmn:messageFlow id="BookingResponse_19" sourceRef="Lalamove_19" targetRef="Submit_19" name="Booking response when received" />
     <bpmn:messageFlow id="LookupRequest_19" sourceRef="Reconcile_19" targetRef="Lalamove_19" name="Resolve existing booking attempt" />
     <bpmn:messageFlow id="LookupResponse_19" sourceRef="Lalamove_19" targetRef="Reconcile_19" name="Existing-attempt status when available" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_19" name="Third-Party Courier Booking and Booking Recovery" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-19 and full catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-01,08-11,14,17; FR-FUL-18-20; supporting FR-FUL-23,26, NFR-SEC-14, NFR-REL-01-05 and BR-26-27,34. Implementation: index.html loads app/delivery-state.js V.reason/book/refresh, app/delivery-tracking.js T.book, app/owner-orders.js, app/earnings-allocation.js and app/subscription-batches.js. Existing BPMN-15/16/17/18 reviewed for detail and reuse; SRS governs differences: FR-DEL-10 restricts booking initiation to Admin/Owner though the in-memory prototype permits Staff; provider outcomes are simulated in the prototype, and its booked state must not be taken as proof a rider is already assigned. Scope is one paid ready standard order or weekly subscription fulfillment using courier delivery. Cake handoff belongs to BPMN-21 and pickup to BPMN-18. Authentication is a BPMN-30 precondition; enforce owner-only operational authorization before accessing/acting on a booking. Internal Owner/System lanes share sequence flows; the separate black-box Lalamove participant uses message flows for supported booking and reconciliation exchanges. No generic broadcast/signal event is introduced. All local checks and failure/recovery outcomes are visible. External BPMN-16 call uses validation-only mode and relative import; no valid saved owner split is re-entered. Cross-file execution/navigation is host-dependent, not a promise of bpmn.io drill-down. No checkout address/quotation repetition, weekly payment, automated refund, automatic retry loop, booking cancellation request, rider tracking or delivery completion is invented. Initial checkout eligibility/fees are BPMN-02/22; subsequent tracking/completion and failed/cancelled status updates are BPMN-20. One booking attempt/fulfillment is saved consistently before provider submission, with allocation lock; status/identity survive ambiguous provider or persistence failures. Never release a possibly active booking merely because the response is lost. Supported batch booking operates independently per fulfillment. Existing BPMNs are unchanged.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_19">
+  <bpmn:process id="Process_15" name="Third-Party Courier Booking and Booking Recovery" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-15 and full catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-01,08-11,14,17; FR-FUL-18-20; supporting FR-FUL-23,26, NFR-SEC-14, NFR-REL-01-05 and BR-26-27,34. Implementation: index.html loads app/delivery-state.js V.reason/book/refresh, app/delivery-tracking.js T.book, app/owner-orders.js, app/earnings-allocation.js and app/subscription-batches.js. Existing BPMN-11/12/13/14 reviewed for detail and reuse; SRS governs differences: FR-DEL-10 restricts booking initiation to Admin/Owner though the in-memory prototype permits Staff; provider outcomes are simulated in the prototype, and its booked state must not be taken as proof a rider is already assigned. Scope is one paid ready standard order or weekly subscription fulfillment using courier delivery. Cake handoff belongs to BPMN-17 and pickup to BPMN-14. Authentication is a BPMN-26 precondition; enforce owner-only operational authorization before accessing/acting on a booking. Internal Owner/System lanes share sequence flows; the separate black-box Lalamove participant uses message flows for supported booking and reconciliation exchanges. No generic broadcast/signal event is introduced. All local checks and failure/recovery outcomes are visible. External BPMN-12 call uses validation-only mode and relative import; no valid saved owner split is re-entered. Cross-file execution/navigation is host-dependent, not a promise of bpmn.io drill-down. No checkout address/quotation repetition, weekly payment, automated refund, automatic retry loop, booking cancellation request, rider tracking or delivery completion is invented. Initial checkout eligibility/fees are BPMN-02/18; subsequent tracking/completion and failed/cancelled status updates are BPMN-16. One booking attempt/fulfillment is saved consistently before provider submission, with allocation lock; status/identity survive ambiguous provider or persistence failures. Never release a possibly active booking merely because the response is lost. Supported batch booking operates independently per fulfillment. Existing BPMNs are unchanged.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_15">
       <bpmn:lane id="Lane_19_owner" name="Admin/Owner">
         <bpmn:flowNodeRef>Review_19</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm_19</bpmn:flowNodeRef>
@@ -63,7 +63,7 @@
       <bpmn:outgoing>Flow_19_2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Eligibility_19" name="Check owner, courier scope and new/recovery prerequisites">
-      <bpmn:documentation>FR-DEL-01,08-11,14. Require Admin/Owner and a standard order or individual subscription fulfillment using delivery. A new attempt requires verified paid/current Ready state and complete stored order/destination data. For pending/unresolved recovery, preserve access to the existing attempt even if current operational state changed; this authorizes lookup only, never a new booking. Existing active bookings continue to BPMN-20, not another creation. Recovery of an existing attempt uses its stored identity even if current eligibility has changed; no new request is authorized by lookup alone. Missing/invalid saved delivery information requires review, never silent replacement of a confirmed address. Original checkout Maps/service-area/fee decisions are not rerun here.</bpmn:documentation>
+      <bpmn:documentation>FR-DEL-01,08-11,14. Require Admin/Owner and a standard order or individual subscription fulfillment using delivery. A new attempt requires verified paid/current Ready state and complete stored order/destination data. For pending/unresolved recovery, preserve access to the existing attempt even if current operational state changed; this authorizes lookup only, never a new booking. Existing active bookings continue to BPMN-16, not another creation. Recovery of an existing attempt uses its stored identity even if current eligibility has changed; no new request is authorized by lookup alone. Missing/invalid saved delivery information requires review, never silent replacement of a confirmed address. Original checkout Maps/service-area/fee decisions are not rerun here.</bpmn:documentation>
       <bpmn:incoming>Flow_19_2</bpmn:incoming>
       <bpmn:outgoing>Flow_19_3</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -86,12 +86,12 @@
       <bpmn:outgoing>Flow_19_8</bpmn:outgoing>
       <bpmn:outgoing>Flow_19_9</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Active_19" name="Existing active booking retained — BPMN-20">
-      <bpmn:documentation>Booked/in-transit or other established active booking is not submitted again. Retain allocation lock. Existing tracking and completion belong to BPMN-20. Delivered/completed records cannot become new bookings through this process.</bpmn:documentation>
+    <bpmn:endEvent id="Active_19" name="Existing active booking retained — BPMN-16">
+      <bpmn:documentation>Booked/in-transit or other established active booking is not submitted again. Retain allocation lock. Existing tracking and completion belong to BPMN-16. Delivered/completed records cannot become new bookings through this process.</bpmn:documentation>
       <bpmn:incoming>Flow_19_7</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:userTask id="Review_19" name="Review saved delivery details and request a new booking">
-      <bpmn:documentation>Only no prior attempt or definitively failed/cancelled prior booking may proceed, while fulfillment remains incomplete and otherwise eligible. Review saved checkout destination and delivery data. Subscription address remains agreed for all four fulfillments; actual fee differences are borne by bakery under BR-27. No new customer charge/refund. Owner may edit unlocked allocations separately through BPMN-16; no forced split modal.</bpmn:documentation>
+      <bpmn:documentation>Only no prior attempt or definitively failed/cancelled prior booking may proceed, while fulfillment remains incomplete and otherwise eligible. Review saved checkout destination and delivery data. Subscription address remains agreed for all four fulfillments; actual fee differences are borne by bakery under BR-27. No new customer charge/refund. Owner may edit unlocked allocations separately through BPMN-12; no forced split modal.</bpmn:documentation>
       <bpmn:incoming>Flow_19_8</bpmn:incoming>
       <bpmn:outgoing>Flow_19_10</bpmn:outgoing>
     </bpmn:userTask>
@@ -104,7 +104,7 @@
       <bpmn:documentation>Cancelling the local confirmation creates no courier booking and changes no allocation/lock. This is not a provider cancellation API operation.</bpmn:documentation>
       <bpmn:incoming>Flow_19_11</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="Allocation_19" name="Refer to BPMN-16 — Validate saved owner allocations" calledElement="k406:Process_16">
+    <bpmn:callActivity id="Allocation_19" name="Refer to BPMN-12 — Validate saved owner allocations" calledElement="k406:Process_12">
       <bpmn:documentation>Call k406:Process_16 in validation-only mode with owner account, fulfillment identity, expected version and action=courier booking. Validate saved line allocations, eligible owners/percentages, permissions, version and lock compatibility. Return exact rejection reason. Valid saved splits are reused without manual re-entry; optional supported combined drafts must remain atomic with protected changes.</bpmn:documentation>
       <bpmn:incoming>Flow_19_12</bpmn:incoming>
       <bpmn:outgoing>Flow_19_13</bpmn:outgoing>
@@ -115,7 +115,7 @@
       <bpmn:outgoing>Flow_19_16</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="AllocationError_19" name="Return permission, stale-version, split or lock reason">
-      <bpmn:documentation>Reject this attempt, preserve latest saved state and require refresh/review or a separately allowed BPMN-16 correction. No provider request is sent.</bpmn:documentation>
+      <bpmn:documentation>Reject this attempt, preserve latest saved state and require refresh/review or a separately allowed BPMN-12 correction. No provider request is sent.</bpmn:documentation>
       <bpmn:incoming>Flow_19_14</bpmn:incoming>
       <bpmn:outgoing>Flow_19_15</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -161,7 +161,7 @@
       <bpmn:outgoing>Flow_19_26</bpmn:outgoing>
       <bpmn:outgoing>Flow_19_27</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Booked_19" name="Booking established; continue tracking in BPMN-20">
+    <bpmn:endEvent id="Booked_19" name="Booking established; continue tracking in BPMN-16">
       <bpmn:incoming>Flow_19_26</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Failure_19" name="Save confirmed Failed/Cancelled; permit eligible review">
@@ -182,7 +182,7 @@
       <bpmn:incoming>Flow_19_29</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Reconcile_19" name="Resolve existing attempt with Lalamove; do not create another">
-      <bpmn:documentation>NFR-REL-01-03; FR-DEL-17. For pending/unresolved saved attempt, use preserved identity/provider reference and supported provider status lookup to determine its outcome. Never submit a new booking as a status query. If lookup is unavailable or cannot establish an outcome, retain unresolved state/lock and require further reconciliation. No fabricated cancellation or provider behavior is assumed. If recovery establishes delivery progress, BPMN-20 processes tracking/completion.</bpmn:documentation>
+      <bpmn:documentation>NFR-REL-01-03; FR-DEL-17. For pending/unresolved saved attempt, use preserved identity/provider reference and supported provider status lookup to determine its outcome. Never submit a new booking as a status query. If lookup is unavailable or cannot establish an outcome, retain unresolved state/lock and require further reconciliation. No fabricated cancellation or provider behavior is assumed. If recovery establishes delivery progress, BPMN-16 processes tracking/completion.</bpmn:documentation>
       <bpmn:incoming>Flow_19_9</bpmn:incoming>
       <bpmn:outgoing>Flow_19_30</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -202,7 +202,7 @@
       <bpmn:outgoing>Flow_19_35</bpmn:outgoing>
       <bpmn:outgoing>Flow_19_36</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="RecoveryBooked_19" name="Existing booking recovered; continue BPMN-20">
+    <bpmn:endEvent id="RecoveryBooked_19" name="Existing booking recovered; continue BPMN-16">
       <bpmn:incoming>Flow_19_35</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="RecoveryFailed_19" name="Save definitive Failed/Cancelled; retain history">
@@ -269,12 +269,12 @@ Admin/Owner only (FR-DEL-10).
 Paid Ready standard/subscription delivery.
 Use saved order and destination data.
 Each subscription week has its own booking.
-BPMN-02/22 already handled checkout address eligibility and fee quotation.
+BPMN-02/18 already handled checkout address eligibility and fee quotation.
 No cakes, pickup or automatic checkout booking.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Rules_19" sourceRef="Eligibility_19" targetRef="Rules_19" associationDirection="None" />
     <bpmn:textAnnotation id="Allocations_19">
-      <bpmn:text>Refer to BPMN-16
+      <bpmn:text>Refer to BPMN-12
 Validate saved owner selections, permission, version and locks; no forced owner-split modal.
 Pending/active/unresolved booking locks allocations.
 Definitive failure/cancellation may permit review only while incomplete.
@@ -293,7 +293,7 @@ No blind creation retry after response loss.</bpmn:text>
     <bpmn:textAnnotation id="Terms_19">
       <bpmn:text>Business boundaries
 An established booking does not mean Delivered or that a rider is already assigned.
-BPMN-20 owns tracking and completion.
+BPMN-16 owns tracking and completion.
 No live rider-location tracking.
 Subscription address remains agreed; bakery absorbs later actual-fee differences (BR-26/27).
 No new customer charge/refund.
@@ -301,9 +301,9 @@ Failed/cancelled attempts require fresh owner review before rebooking.</bpmn:tex
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Terms_19" sourceRef="Booked_19" targetRef="Terms_19" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_19">
-    <bpmndi:BPMNPlane id="Plane_19" bpmnElement="Collaboration_19">
-      <bpmndi:BPMNShape id="Shape_Participant_19" bpmnElement="Participant_19" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_15">
+    <bpmndi:BPMNPlane id="Plane_15" bpmnElement="Collaboration_15">
+      <bpmndi:BPMNShape id="Shape_Participant_19" bpmnElement="Participant_15" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="2030" height="3630" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_19_owner" bpmnElement="Lane_19_owner" isHorizontal="false">

@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_20" targetNamespace="https://kitchen406.local/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_16" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:message id="StatusMessage_20" name="Lalamove delivery-status update" />
-  <bpmn:collaboration id="Collaboration_20">
-    <bpmn:participant id="Participant_20" name="BPMN-20 | Courier Delivery Status Tracking and Completion" processRef="Process_20" />
+  <bpmn:collaboration id="Collaboration_16">
+    <bpmn:participant id="Participant_16" name="BPMN-16 | Courier Delivery Status Tracking and Completion" processRef="Process_16" />
     <bpmn:participant id="Lalamove_20" name="Lalamove — delivery-status provider" />
     <bpmn:messageFlow id="ProviderStatusFlow_20" sourceRef="Lalamove_20" targetRef="Start_20" name="Delivery-status update" messageRef="StatusMessage_20" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_20" name="Courier Delivery Status Tracking and Completion" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-20 and full catalog/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-12-15,17-18; FR-FUL-20-21,26; supporting FR-SUB-04,16-17, NFR-PERF-04, NFR-REL-01-03,05-06. Website: index.html loads app/delivery-state.js V.refresh, app/delivery-tracking.js, app/orders.js, app/subscription-state.js and app/earnings-allocation.js. Current docs BPMN-05/15/16/17/18/19 XMLs reviewed for boundaries, style and reuse. SRS governs prototype differences: preview status changes are manually simulated, whereas proposed system receives provider updates; no user confirmation is required on a valid Delivered message. BPMN-19 remains unreviewed by the user. This descriptive process handles one incoming provider update for an existing booking, not booking creation, checkout, manual pickup, cake handoff or live rider location. Separate Lalamove pool sends a message to a message start event; internal System lanes show Delivery Management and Fulfillment Records responsibilities, not additional human roles. All local checks, failure paths and rules are visible on the main diagram. No unsupported signal/broadcast architecture or provider-specific authentication algorithm/status enumeration is prescribed. External notification and subscription progress are independent downstream work: BPMN-05 owns subscription counts/cycle closure, BPMN-28/29 applicable notices, BPMN-34 customer inquiry and BPMN-43 reports. References to BPMN-19 on definitive failed/cancelled outcomes mean recovery is made available for owner review, not automatic rebooking or invocation of owner confirmation inside this webhook process. BPMN-16 previously established/validated allocations before booking; receiving provider updates must not reopen owner split entry or reject Delivered merely because normal allocation editing is locked. Validate source/link/status consistency and saved allocation integrity as applicable without changing shares; no allocation editing occurs here. Delivery progress stays locked, completed fulfillment stays locked, and definitive failed/cancelled bookings may permit review only while incomplete and with no other active/unresolved booking. Atomic/version-checked processing prevents stale messages, partial saves and duplicate completions/sales. A failed combined save preserves prior records and retains the update for safe recovery; preserve independently committed newer state. Completion does not consume ingredients again, take payment, calculate financial reports or decide the unresolved subscription reservation-timing rule.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_20">
+  <bpmn:process id="Process_16" name="Courier Delivery Status Tracking and Completion" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-16 and full catalog/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-12-15,17-18; FR-FUL-20-21,26; supporting FR-SUB-04,16-17, NFR-PERF-04, NFR-REL-01-03,05-06. Website: index.html loads app/delivery-state.js V.refresh, app/delivery-tracking.js, app/orders.js, app/subscription-state.js and app/earnings-allocation.js. Current docs BPMN-05/11/12/13/14/15 XMLs reviewed for boundaries, style and reuse. SRS governs prototype differences: preview status changes are manually simulated, whereas proposed system receives provider updates; no user confirmation is required on a valid Delivered message. BPMN-15 remains unreviewed by the user. This descriptive process handles one incoming provider update for an existing booking, not booking creation, checkout, manual pickup, cake handoff or live rider location. Separate Lalamove pool sends a message to a message start event; internal System lanes show Delivery Management and Fulfillment Records responsibilities, not additional human roles. All local checks, failure paths and rules are visible on the main diagram. No unsupported signal/broadcast architecture or provider-specific authentication algorithm/status enumeration is prescribed. External notification and subscription progress are independent downstream work: BPMN-05 owns subscription counts/cycle closure, BPMN-24/25 applicable notices, BPMN-30 customer inquiry and BPMN-39 reports. References to BPMN-15 on definitive failed/cancelled outcomes mean recovery is made available for owner review, not automatic rebooking or invocation of owner confirmation inside this webhook process. BPMN-12 previously established/validated allocations before booking; receiving provider updates must not reopen owner split entry or reject Delivered merely because normal allocation editing is locked. Validate source/link/status consistency and saved allocation integrity as applicable without changing shares; no allocation editing occurs here. Delivery progress stays locked, completed fulfillment stays locked, and definitive failed/cancelled bookings may permit review only while incomplete and with no other active/unresolved booking. Atomic/version-checked processing prevents stale messages, partial saves and duplicate completions/sales. A failed combined save preserves prior records and retains the update for safe recovery; preserve independently committed newer state. Completion does not consume ingredients again, take payment, calculate financial reports or decide the unresolved subscription reservation-timing rule.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_16">
       <bpmn:lane id="Lane_20_delivery" name="Kitchen406 System — Delivery Management">
         <bpmn:flowNodeRef>Start_20</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Validate_20</bpmn:flowNodeRef>
@@ -92,7 +92,7 @@
       <bpmn:outgoing>Flow_20_11</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Stale_20" name="Record stale/conflicting update; preserve latest state">
-      <bpmn:documentation>Do not regress delivery, unlock an active booking, undo completion or automatically treat ambiguous evidence as failure. Retain diagnosis/evidence for supported BPMN-19 reconciliation if needed; existing saved state remains authoritative.</bpmn:documentation>
+      <bpmn:documentation>Do not regress delivery, unlock an active booking, undo completion or automatically treat ambiguous evidence as failure. Retain diagnosis/evidence for supported BPMN-15 reconciliation if needed; existing saved state remains authoritative.</bpmn:documentation>
       <bpmn:incoming>Flow_20_9</bpmn:incoming>
       <bpmn:outgoing>Flow_20_10</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -116,7 +116,7 @@
       <bpmn:outgoing>Flow_20_18</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="ProgressDisplay_20" name="Make latest saved delivery status available to its customer">
-      <bpmn:documentation>FR-DEL-13,15. Refresh the customer-visible saved status/read model for the customer associated with this order. BPMN-34 owns authenticated inquiry/access checks; receiving a webhook does not force a customer screen open or send an email/SMS. Display only provider status, not live rider location.</bpmn:documentation>
+      <bpmn:documentation>FR-DEL-13,15. Refresh the customer-visible saved status/read model for the customer associated with this order. BPMN-30 owns authenticated inquiry/access checks; receiving a webhook does not force a customer screen open or send an email/SMS. Display only provider status, not live rider location.</bpmn:documentation>
       <bpmn:incoming>Flow_20_18</bpmn:incoming>
       <bpmn:outgoing>Flow_20_19</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -131,8 +131,8 @@
     <bpmn:endEvent id="ProgressFailed_20" name="Status update awaiting safe recovery">
       <bpmn:incoming>Flow_20_17</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Failure_20" name="Save definitive Failed/Cancelled; expose BPMN-19 recovery review">
-      <bpmn:documentation>FR-DEL-17; FR-FUL-20. Confirm this is a definitive failed/cancelled outcome for the current relevant booking, not missing provider response. Consistently save status/history/update identity and allow allocation review only if the fulfillment remains incomplete with no other pending/active/unresolved booking. Do not cancel/refund paid order, release completed allocations, create a new booking or restore consumed stock. Owner recovery/rebooking belongs to BPMN-19.</bpmn:documentation>
+    <bpmn:serviceTask id="Failure_20" name="Save definitive Failed/Cancelled; expose BPMN-15 recovery review">
+      <bpmn:documentation>FR-DEL-17; FR-FUL-20. Confirm this is a definitive failed/cancelled outcome for the current relevant booking, not missing provider response. Consistently save status/history/update identity and allow allocation review only if the fulfillment remains incomplete with no other pending/active/unresolved booking. Do not cancel/refund paid order, release completed allocations, create a new booking or restore consumed stock. Owner recovery/rebooking belongs to BPMN-15.</bpmn:documentation>
       <bpmn:incoming>Flow_20_14</bpmn:incoming>
       <bpmn:outgoing>Flow_20_20</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -141,7 +141,7 @@
       <bpmn:outgoing>Flow_20_21</bpmn:outgoing>
       <bpmn:outgoing>Flow_20_22</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="RecoveryEnd_20" name="Saved failure; owner review/rebooking available in BPMN-19">
+    <bpmn:endEvent id="RecoveryEnd_20" name="Saved failure; owner review/rebooking available in BPMN-15">
       <bpmn:incoming>Flow_20_21</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="FailureError_20" name="Keep prior state/locks; retain failed update for recovery">
@@ -191,13 +191,13 @@
       <bpmn:incoming>Flow_20_30</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Followup_20" name="Use the recorded completion identity for BPMN-05 and applicable notices">
-      <bpmn:documentation>Business handoff after successful completion, not a generic BPMN broadcast signal. For a weekly subscription, BPMN-05 independently recalculates progress/cycle status using this completion. BPMN-28/29 independently handle supported notifications; delivery failure must not reverse saved completion. Repeated downstream requests reuse the same completion identity and cannot duplicate fulfillment counts, payments or sales. Standard deliveries do not invoke subscription progress. No next-week ingredient reservation timing decision is added here. Both new and reused-completion paths use the same logical identity; do not resend already completed effects or count the same completion twice.</bpmn:documentation>
+      <bpmn:documentation>Business handoff after successful completion, not a generic BPMN broadcast signal. For a weekly subscription, BPMN-05 independently recalculates progress/cycle status using this completion. BPMN-24/25 independently handle supported notifications; delivery failure must not reverse saved completion. Repeated downstream requests reuse the same completion identity and cannot duplicate fulfillment counts, payments or sales. Standard deliveries do not invoke subscription progress. No next-week ingredient reservation timing decision is added here. Both new and reused-completion paths use the same logical identity; do not resend already completed effects or count the same completion twice.</bpmn:documentation>
       <bpmn:incoming>Flow_20_35</bpmn:incoming>
       <bpmn:incoming>Flow_20_31</bpmn:incoming>
       <bpmn:outgoing>Flow_20_32</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="CompletionDisplay_20" name="Make saved Delivered/completion status available to its customer">
-      <bpmn:documentation>FR-DEL-13,15. Make latest committed delivery status available for authorized customer inquiry via BPMN-34, with no live rider-location tracking or customer receipt confirmation. Display failure cannot undo saved completion and can be recovered independently. BPMN-43 later reports Fulfilled sales from actual completion date using preserved amounts; no direct financial posting or payment occurs here.</bpmn:documentation>
+      <bpmn:documentation>FR-DEL-13,15. Make latest committed delivery status available for authorized customer inquiry via BPMN-30, with no live rider-location tracking or customer receipt confirmation. Display failure cannot undo saved completion and can be recovered independently. BPMN-39 later reports Fulfilled sales from actual completion date using preserved amounts; no direct financial posting or payment occurs here.</bpmn:documentation>
       <bpmn:incoming>Flow_20_32</bpmn:incoming>
       <bpmn:outgoing>Flow_20_33</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -258,10 +258,10 @@ Only a definitive current failure/cancellation can permit incomplete-order revie
     <bpmn:textAnnotation id="TrackingRules_20">
       <bpmn:text>Customer status display
 Show latest saved provider status to the associated customer.
-BPMN-34 owns authenticated inquiry.
+BPMN-30 owns authenticated inquiry.
 No live rider-location tracking.
 No email/SMS is implied by display.
-BPMN-19 owns booking recovery/rebooking.</bpmn:text>
+BPMN-15 owns booking recovery/rebooking.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_TrackingRules_20" sourceRef="ProgressDisplay_20" targetRef="TrackingRules_20" associationDirection="None" />
     <bpmn:textAnnotation id="CompletionRules_20">
@@ -282,9 +282,9 @@ Recheck duplicate identity at commit: a concurrent matching completion reuses it
     <bpmn:sequenceFlow id="Flow_20_34" sourceRef="CompletionSaved_20" targetRef="ReuseCompletion_20" name="Matching completion already saved" />
     <bpmn:sequenceFlow id="Flow_20_35" sourceRef="ReuseCompletion_20" targetRef="Followup_20" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_20">
-    <bpmndi:BPMNPlane id="Plane_20" bpmnElement="Collaboration_20">
-      <bpmndi:BPMNShape id="Shape_Participant_20" bpmnElement="Participant_20" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_16">
+    <bpmndi:BPMNPlane id="Plane_16" bpmnElement="Collaboration_16">
+      <bpmndi:BPMNShape id="Shape_Participant_20" bpmnElement="Participant_16" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1860" height="3700" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_20_delivery" bpmnElement="Lane_20_delivery" isHorizontal="false">

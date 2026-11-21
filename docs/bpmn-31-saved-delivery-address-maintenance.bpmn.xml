@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_35" targetNamespace="https://kitchen406.local/bpmn">
-  <bpmn:collaboration id="Collaboration_35">
-    <bpmn:participant id="Participant_35" name="BPMN-35 | Saved Delivery Address Maintenance" processRef="Process_35" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_31" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_31">
+    <bpmn:participant id="Participant_31" name="BPMN-31 | Saved Delivery Address Maintenance" processRef="Process_31" />
     <bpmn:participant id="Maps_35" name="Google Maps Platform — address search and validation" />
     <bpmn:messageFlow id="MapsRequest_35" sourceRef="MapsLookup_35" targetRef="Maps_35" name="Address search/validation request" />
     <bpmn:messageFlow id="MapsResponse_35" sourceRef="Maps_35" targetRef="MapsLookup_35" name="Address/location result when available" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_35" name="Saved Delivery Address Maintenance" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-35 and all catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.4 FR-ADDR-01-05 and stimulus/response support for editing/removing addresses; supporting NFR-SEC-03-04,08, NFR-REL-01-04. Website: index.html loads app/address-state.js R.active/find/save/archive/setDefault/defaults/changed, app/account.js saved-address forms/remove confirmation, app/address-map.js static preview, and app/commerce-ui.js address editor. SRS governs: proposed system integrates Maps search/location validation, unlike preview static image/city checks. No provider-specific endpoint, response field, coordinate precision or delivery radius is invented. Scope: authenticated customer maintains own multiple labeled saved addresses and one default. BPMN-30 owns sign-in; authorization/record ownership rechecked here. Customer/System are internal descriptive responsibility lanes; Google Maps is a black-box external participant connected only by message flows. Local validation and unsuccessful outcomes are visible; no embedded collapsed subprocess or generic broadcast event. Inputs: authenticated customer, requested create/edit/remove/default action, optional selected address and input draft. Multiple addresses retain distinct identities; modifying one must not replace the entire address book. FR-ADDR-05 is downstream reuse: BPMN-02 loads/selects saved addresses during purchase; BPMN-22 rechecks courier eligibility/fees, not called by address maintenance. Saving an address is not courier service-area approval. Existing paid/confirmed purchase delivery snapshots and subscription commitments remain unchanged, including BR-26; draft address selections may be invalidated/refreshed by implementation. Maps validation is required for new or changed location data, not setting default/removing an already saved address or editing only its label. Default policy follows prototype: at most one active default; the first saved address becomes default, and if default is removed another remaining active address is chosen using the supported fallback (prototype earliest created). Removing last address leaves empty book/no default. This fallback is an implementation choice, not an extra user approval requirement. Customer may explicitly designate another saved default. Failed combined saves preserve current saved records/default; no unrelated account or purchase modification. No checkout, courier booking/payment, external notice, inventory or owner allocation is performed. BPMN-21 remains partially reviewed by the user.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_35">
+  <bpmn:process id="Process_31" name="Saved Delivery Address Maintenance" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-31 and all catalog boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.4 FR-ADDR-01-05 and stimulus/response support for editing/removing addresses; supporting NFR-SEC-03-04,08, NFR-REL-01-04. Website: index.html loads app/address-state.js R.active/find/save/archive/setDefault/defaults/changed, app/account.js saved-address forms/remove confirmation, app/address-map.js static preview, and app/commerce-ui.js address editor. SRS governs: proposed system integrates Maps search/location validation, unlike preview static image/city checks. No provider-specific endpoint, response field, coordinate precision or delivery radius is invented. Scope: authenticated customer maintains own multiple labeled saved addresses and one default. BPMN-26 owns sign-in; authorization/record ownership rechecked here. Customer/System are internal descriptive responsibility lanes; Google Maps is a black-box external participant connected only by message flows. Local validation and unsuccessful outcomes are visible; no embedded collapsed subprocess or generic broadcast event. Inputs: authenticated customer, requested create/edit/remove/default action, optional selected address and input draft. Multiple addresses retain distinct identities; modifying one must not replace the entire address book. FR-ADDR-05 is downstream reuse: BPMN-02 loads/selects saved addresses during purchase; BPMN-18 rechecks courier eligibility/fees, not called by address maintenance. Saving an address is not courier service-area approval. Existing paid/confirmed purchase delivery snapshots and subscription commitments remain unchanged, including BR-26; draft address selections may be invalidated/refreshed by implementation. Maps validation is required for new or changed location data, not setting default/removing an already saved address or editing only its label. Default policy follows prototype: at most one active default; the first saved address becomes default, and if default is removed another remaining active address is chosen using the supported fallback (prototype earliest created). Removing last address leaves empty book/no default. This fallback is an implementation choice, not an extra user approval requirement. Customer may explicitly designate another saved default. Failed combined saves preserve current saved records/default; no unrelated account or purchase modification. No checkout, courier booking/payment, external notice, inventory or owner allocation is performed. BPMN-17 remains partially reviewed by the user.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_31">
       <bpmn:lane id="Lane_35_customer" name="Customer">
         <bpmn:flowNodeRef>Start_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Edit_35</bpmn:flowNodeRef>
@@ -53,7 +53,7 @@
       <bpmn:outgoing>Flow_35_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="AccessError_35" name="Explain access/load issue; leave address book unchanged">
-      <bpmn:documentation>Denied session/role/ownership or failed load returns safe user-facing reason; no record/default mutation. Sign-in recovery belongs to BPMN-30, not duplicate credential processing here.</bpmn:documentation>
+      <bpmn:documentation>Denied session/role/ownership or failed load returns safe user-facing reason; no record/default mutation. Sign-in recovery belongs to BPMN-26, not duplicate credential processing here.</bpmn:documentation>
       <bpmn:incoming>Flow_35_3</bpmn:incoming>
       <bpmn:outgoing>Flow_35_4</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -144,7 +144,7 @@
       <bpmn:incoming>Flow_35_23</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Show_35" name="Display updated own address book, labels and default">
-      <bpmn:documentation>Show active multiple address records/default or empty book after last removal. Refresh affected unconfirmed draft selections as needed; show saved result without rewriting existing paid purchase snapshots. FR-ADDR-05 reuse occurs when a separate purchase selects an address via BPMN-02, with courier eligibility rechecked in BPMN-22.</bpmn:documentation>
+      <bpmn:documentation>Show active multiple address records/default or empty book after last removal. Refresh affected unconfirmed draft selections as needed; show saved result without rewriting existing paid purchase snapshots. FR-ADDR-05 reuse occurs when a separate purchase selects an address via BPMN-02, with courier eligibility rechecked in BPMN-18.</bpmn:documentation>
       <bpmn:incoming>Flow_35_24</bpmn:incoming>
       <bpmn:outgoing>Flow_35_25</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -190,7 +190,7 @@ Do not invent unique labels, maximum address counts or approval steps.</bpmn:tex
 Search and validate new/changed location through Maps.
 Invalid location and provider unavailability are different outcomes.
 Default/remove/label-only change needs no new location lookup.
-BPMN-22 separately checks courier service area/fees during purchase.
+BPMN-18 separately checks courier service area/fees during purchase.
 Saving ≠ courier eligibility.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_MapsRules_35" sourceRef="MapsLookup_35" targetRef="MapsRules_35" associationDirection="None" />
@@ -207,17 +207,17 @@ Confirmed purchases retain their saved delivery details.</bpmn:text>
     <bpmn:association id="Assoc_ActionRules_35" sourceRef="Save_35" targetRef="ActionRules_35" associationDirection="None" />
     <bpmn:textAnnotation id="Reuse_35">
       <bpmn:text>Reuse boundaries
-BPMN-30: sign-in precondition.
+BPMN-26: sign-in precondition.
 BPMN-02: select saved address during applicable purchase.
-BPMN-22: courier eligibility/fee check.
+BPMN-18: courier eligibility/fee check.
 These processes are referenced, not called during address maintenance.
 FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Reuse_35" sourceRef="Show_35" targetRef="Reuse_35" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_35">
-    <bpmndi:BPMNPlane id="Plane_35" bpmnElement="Collaboration_35">
-      <bpmndi:BPMNShape id="Shape_Participant_35" bpmnElement="Participant_35" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_31">
+    <bpmndi:BPMNPlane id="Plane_31" bpmnElement="Collaboration_31">
+      <bpmndi:BPMNShape id="Shape_Participant_35" bpmnElement="Participant_31" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1350" height="3540" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_35_customer" bpmnElement="Lane_35_customer" isHorizontal="false">

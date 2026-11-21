@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_18" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
-  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_14" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
   <bpmn:signal id="PickupCompletedSignal_18" name="Pickup fulfillment completion recorded" />
-  <bpmn:collaboration id="Collaboration_18">
-    <bpmn:participant id="Participant_18" name="BPMN-18 | Standard Order and Subscription Pickup and Completion" processRef="Process_18" />
+  <bpmn:collaboration id="Collaboration_14">
+    <bpmn:participant id="Participant_14" name="BPMN-14 | Standard Order and Subscription Pickup and Completion" processRef="Process_14" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_18" name="Standard Order and Subscription Pickup and Completion" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-18 and cross-process boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.15 FR-FUL-04,08-09,18,20-21,26; supporting FR-FUL-23, FR-SUB-04, NFR-SEC-14 and NFR-REL-03,05-06. Website: index.html loads app/fulfillment-state.js F.transition (ready pickup to completed, completedAt, version/history), app/staff-ui.js pickup confirmation, app/owner-orders.js Confirm Pickup, app/earnings-allocation.js allocation validation/locks and app/subscription-state.js. Current XML diagrams reviewed for reuse/style, particularly BPMN-05,16,17 and the revised BPMN-15. SRS governs missing prototype server controls, explicit allocation-lock timestamp and consistent atomic persistence. Scope: one standard pickup order or one weekly subscription pickup fulfillment after Ready from BPMN-17. Cake handoff belongs to BPMN-21 and courier completion to BPMN-20. One pool contains internal human/system lanes; the customer is the recipient of physical handover, not an application approval task. No message flows between internal lanes and no customer acknowledgment requirement. BPMN-30 authentication is a precondition; role/action authorization is revalidated via BPMN-16 and at commit. All local tasks/decisions/failures are visible. External callActivity invokes k406:Process_16 with validation-only mode, with an explicit relative import; rendering the reference does not imply bpmn.io automatically navigates or executes another file. Allocation rules remain in BPMN-16, not duplicated here. Actual collection confirmation, current eligible status and transaction controls are required before successful completion. A failed system update cannot undo physical handover; retain saved state and require safe review/retry, never another physical collection. Completion and original product amounts support downstream analytics but no report calculation, payment or payout occurs here. No extra ingredient consumption/reservation, checkout, capacity booking or automatic change to the subscription reservation-timing rule. BPMN-17 remains awaiting user review; this file does not change it.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_18">
+  <bpmn:process id="Process_14" name="Standard Order and Subscription Pickup and Completion" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-14 and cross-process boundaries; Chapters/Kitchen406 - Capstone Paper.md SRS 4.15 FR-FUL-04,08-09,18,20-21,26; supporting FR-FUL-23, FR-SUB-04, NFR-SEC-14 and NFR-REL-03,05-06. Website: index.html loads app/fulfillment-state.js F.transition (ready pickup to completed, completedAt, version/history), app/staff-ui.js pickup confirmation, app/owner-orders.js Confirm Pickup, app/earnings-allocation.js allocation validation/locks and app/subscription-state.js. Current XML diagrams reviewed for reuse/style, particularly BPMN-05,16,17 and the revised BPMN-11. SRS governs missing prototype server controls, explicit allocation-lock timestamp and consistent atomic persistence. Scope: one standard pickup order or one weekly subscription pickup fulfillment after Ready from BPMN-13. Cake handoff belongs to BPMN-17 and courier completion to BPMN-16. One pool contains internal human/system lanes; the customer is the recipient of physical handover, not an application approval task. No message flows between internal lanes and no customer acknowledgment requirement. BPMN-26 authentication is a precondition; role/action authorization is revalidated via BPMN-12 and at commit. All local tasks/decisions/failures are visible. External callActivity invokes k406:Process_16 with validation-only mode, with an explicit relative import; rendering the reference does not imply bpmn.io automatically navigates or executes another file. Allocation rules remain in BPMN-12, not duplicated here. Actual collection confirmation, current eligible status and transaction controls are required before successful completion. A failed system update cannot undo physical handover; retain saved state and require safe review/retry, never another physical collection. Completion and original product amounts support downstream analytics but no report calculation, payment or payout occurs here. No extra ingredient consumption/reservation, checkout, capacity booking or automatic change to the subscription reservation-timing rule. BPMN-13 remains awaiting user review; this file does not change it.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_14">
       <bpmn:lane id="Lane_18_user" name="Admin/Owner or authorized Staff">
         <bpmn:flowNodeRef>Handover_18</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm_18</bpmn:flowNodeRef>
@@ -42,7 +42,7 @@
       <bpmn:outgoing>Flow_18_8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Eligibility_18" name="Check paid Ready pickup eligibility and preparation record">
-      <bpmn:documentation>FR-FUL-08-09,21. Require standard order or one subscription fulfillment, method=pickup, verified paid/confirmed purchase and current Ready state. Preparation/material consumption must already be recorded; completion does not need a new ingredient reservation or current replenishment. Reject cake/courier route, unpaid, cancelled, preparing or completed state. Active/unresolved courier conflict cannot be silently converted into pickup; action locks are covered by BPMN-16.</bpmn:documentation>
+      <bpmn:documentation>FR-FUL-08-09,21. Require standard order or one subscription fulfillment, method=pickup, verified paid/confirmed purchase and current Ready state. Preparation/material consumption must already be recorded; completion does not need a new ingredient reservation or current replenishment. Reject cake/courier route, unpaid, cancelled, preparing or completed state. Active/unresolved courier conflict cannot be silently converted into pickup; action locks are covered by BPMN-12.</bpmn:documentation>
       <bpmn:incoming>Flow_18_8</bpmn:incoming>
       <bpmn:outgoing>Flow_18_9</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -51,8 +51,8 @@
       <bpmn:outgoing>Flow_18_1</bpmn:outgoing>
       <bpmn:outgoing>Flow_18_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="Allocation_18" name="Refer to BPMN-16 — Validate saved owner allocations" calledElement="k406:Process_16">
-      <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with fulfillment ID, acting account, expected order version and action=pickup completion. Return saved allocation result/version or exact permission/stale-version/invalid-allocation/lock reason. Valid existing allocations do not require re-entry. Do not independently save allocation edits; a supported combined draft must be validated and committed atomically with completion per FR-FUL-23. Allocation rules and editing are owned by BPMN-16.</bpmn:documentation>
+    <bpmn:callActivity id="Allocation_18" name="Refer to BPMN-12 — Validate saved owner allocations" calledElement="k406:Process_12">
+      <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with fulfillment ID, acting account, expected order version and action=pickup completion. Return saved allocation result/version or exact permission/stale-version/invalid-allocation/lock reason. Valid existing allocations do not require re-entry. Do not independently save allocation edits; a supported combined draft must be validated and committed atomically with completion per FR-FUL-23. Allocation rules and editing are owned by BPMN-12.</bpmn:documentation>
       <bpmn:incoming>Flow_18_10</bpmn:incoming>
       <bpmn:outgoing>Flow_18_11</bpmn:outgoing>
     </bpmn:callActivity>
@@ -91,17 +91,17 @@
       <bpmn:outgoing>Flow_18_18</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:intermediateThrowEvent id="Publish_18" name="Publish pickup completion event once per completion">
-      <bpmn:documentation>Emit/reuse the logical completion event linked to the saved completion identity/timestamp after commit. Duplicate transport delivery must be harmless. For a subscription fulfillment BPMN-05 handles progress/counts and cycle closure independently; standard pickup does not invoke subscription logic. BPMN-28/29 handle applicable notifications independently. Do not wait for external notification delivery, customer acknowledgment or report generation; publication recovery preserves the saved completion and reuses the same event identity.</bpmn:documentation>
+      <bpmn:documentation>Emit/reuse the logical completion event linked to the saved completion identity/timestamp after commit. Duplicate transport delivery must be harmless. For a subscription fulfillment BPMN-05 handles progress/counts and cycle closure independently; standard pickup does not invoke subscription logic. BPMN-24/25 handle applicable notifications independently. Do not wait for external notification delivery, customer acknowledgment or report generation; publication recovery preserves the saved completion and reuses the same event identity.</bpmn:documentation>
       <bpmn:incoming>Flow_18_18</bpmn:incoming>
       <bpmn:outgoing>Flow_18_19</bpmn:outgoing>
       <bpmn:signalEventDefinition id="PickupSignalDefinition_18" signalRef="PickupCompletedSignal_18" />
     </bpmn:intermediateThrowEvent>
     <bpmn:endEvent id="Completed_18" name="Pickup completed; time recorded and allocations locked">
-      <bpmn:documentation>Output: completed pickup with preserved original product amounts, saved completion time, locked allocations and completion-event identity. Ready alone never reaches this outcome. BPMN-43 uses the actual completion date for Fulfilled sales. Authorized accidental reversal is BPMN-23; no unrestricted edit/unlock or stock restoration is added here.</bpmn:documentation>
+      <bpmn:documentation>Output: completed pickup with preserved original product amounts, saved completion time, locked allocations and completion-event identity. Ready alone never reaches this outcome. BPMN-39 uses the actual completion date for Fulfilled sales. Authorized accidental reversal is BPMN-19; no unrestricted edit/unlock or stock restoration is added here.</bpmn:documentation>
       <bpmn:incoming>Flow_18_19</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="EligibilityError_18" name="Explain type, payment, Ready or material-record issue; retain state">
-      <bpmn:documentation>Return the exact reason; no completion, lock timestamp or event is created. Wrong type/method follows its own catalog process, not automatic reassignment. Preparation issues belong to BPMN-17. A completed record is not completed again through a fresh conflicting request.</bpmn:documentation>
+      <bpmn:documentation>Return the exact reason; no completion, lock timestamp or event is created. Wrong type/method follows its own catalog process, not automatic reassignment. Preparation issues belong to BPMN-13. A completed record is not completed again through a fresh conflicting request.</bpmn:documentation>
       <bpmn:incoming>Flow_18_1</bpmn:incoming>
       <bpmn:outgoing>Flow_18_2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -109,7 +109,7 @@
       <bpmn:incoming>Flow_18_2</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="AllocationError_18" name="Return permission, stale-version, allocation or lock reason">
-      <bpmn:documentation>Use BPMN-16 returned reason: permitted account/action required; stale version requires refresh/review; missing/invalid allocations may be corrected through BPMN-16 only while editable. Keep prior saved values. No customer acknowledgment can override failed controls.</bpmn:documentation>
+      <bpmn:documentation>Use BPMN-12 returned reason: permitted account/action required; stale version requires refresh/review; missing/invalid allocations may be corrected through BPMN-12 only while editable. Keep prior saved values. No customer acknowledgment can override failed controls.</bpmn:documentation>
       <bpmn:incoming>Flow_18_3</bpmn:incoming>
       <bpmn:outgoing>Flow_18_4</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -150,11 +150,11 @@ Saved method = bakery pickup.
 Verified paid and current status = Ready.
 Preparation consumption already recorded.
 No second material reservation or consumption.
-Cake handoff: BPMN-21; courier delivery: BPMN-20.</bpmn:text>
+Cake handoff: BPMN-17; courier delivery: BPMN-16.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_EligibilityRules_18" sourceRef="Eligibility_18" targetRef="EligibilityRules_18" associationDirection="None" />
     <bpmn:textAnnotation id="AllocationRules_18">
-      <bpmn:text>Refer to BPMN-16
+      <bpmn:text>Refer to BPMN-12
 Validation-only: retain existing valid line allocations without re-entry.
 Checks action permission, expected version, eligible owners/percentages and locks.
 On failure return its specific reason.
@@ -173,16 +173,16 @@ Retry cannot duplicate or restamp completion.</bpmn:text>
     <bpmn:textAnnotation id="Handoffs_18">
       <bpmn:text>Independent completion handoffs
 Subscription pickup → BPMN-05 progress/cycle update.
-Applicable notices → BPMN-28/29.
-BPMN-43 reports using actual completion date; this process does not calculate sales.
+Applicable notices → BPMN-24/25.
+BPMN-39 reports using actual completion date; this process does not calculate sales.
 Notification failure cannot undo completion.
 No next-week reservation timing change is introduced.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Handoffs_18" sourceRef="Publish_18" targetRef="Handoffs_18" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_18">
-    <bpmndi:BPMNPlane id="Plane_18" bpmnElement="Collaboration_18">
-      <bpmndi:BPMNShape id="Shape_Participant_18" bpmnElement="Participant_18" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_14">
+    <bpmndi:BPMNPlane id="Plane_14" bpmnElement="Collaboration_14">
+      <bpmndi:BPMNShape id="Shape_Participant_18" bpmnElement="Participant_14" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1350" height="2800" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_18_user" bpmnElement="Lane_18_user" isHorizontal="false">

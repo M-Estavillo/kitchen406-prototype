@@ -9,7 +9,7 @@
     <bpmn:participant id="Pool_08" name="BPMN-08 | Custom Cake Quotation Review, Revision, and Acceptance" processRef="Process_08"/>
   </bpmn:collaboration>
   <bpmn:process id="Process_08" name="Custom Cake Quotation Review, Revision, and Acceptance" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-08 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, custom-cake workflow and SRS 4.9, FR-CAKE-05–08, FR-CAKE-10, FR-DEL-16 and FR-CAP-21; index.html and its linked owner-cake-state.js, owner-cakes.js, cake-requests.js and cake-state.js. Owner and customer access are authenticated (BPMN-30). The three lanes record roles within a single process; sequence flows connect their work. BPMN-07 supplies the submitted request. Applicable external notification dispatch is asynchronous in BPMN-28. BPMN-09 is a separate checkout handoff. Quotation acceptance alone creates no paid order. The proposed owner-managed delivery rules take precedence over prototype pickup and geographic restrictions.</bpmn:documentation>
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-08 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, custom-cake workflow and SRS 4.9, FR-CAKE-05–08, FR-CAKE-10, FR-DEL-16 and FR-CAP-21; index.html and its linked owner-cake-state.js, owner-cakes.js, cake-requests.js and cake-state.js. Owner and customer access are authenticated (BPMN-26). The three lanes record roles within a single process; sequence flows connect their work. BPMN-07 supplies the submitted request. Applicable external notification dispatch is asynchronous in BPMN-24. BPMN-09 is a separate checkout handoff. Quotation acceptance alone creates no paid order. The proposed owner-managed delivery rules take precedence over prototype pickup and geographic restrictions.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_08">
       <bpmn:lane id="Lane_Owner" name="Admin / Owner">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
@@ -62,7 +62,7 @@
       <bpmn:outgoing>Flow_6</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="Publish" name="Save and publish a new quotation version">
-      <bpmn:documentation>FR-CAKE-06–07. Validate the issue action and save a new version with its specifications, fulfillment details and price. Keep earlier snapshots accessible in history and prevent superseded versions from being accepted. Invalid data or an unsuccessful save leaves the prior state intact and allows correction or retry before publication. If an applicable external notification is triggered, dispatch is asynchronous in BPMN-28.</bpmn:documentation>
+      <bpmn:documentation>FR-CAKE-06–07. Validate the issue action and save a new version with its specifications, fulfillment details and price. Keep earlier snapshots accessible in history and prevent superseded versions from being accepted. Invalid data or an unsuccessful save leaves the prior state intact and allows correction or retry before publication. If an applicable external notification is triggered, dispatch is asynchronous in BPMN-24.</bpmn:documentation>
       <bpmn:incoming>Flow_6</bpmn:incoming>
       <bpmn:outgoing>Flow_7</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -102,7 +102,7 @@
       <bpmn:outgoing>Flow_14</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Accepted" name="Quotation accepted">
-      <bpmn:documentation>Handoff: purchase type, request and accepted quotation IDs, cake specifications, agreed date and owner-managed delivery terms, and saved payable total. BPMN-09 owns the definitive checks and temporary reservation. Shared payment follows. BPMN 10-14 links the paid quotation to the confirmed order under FR-CAKE-09.</bpmn:documentation>
+      <bpmn:documentation>Handoff: purchase type, request and accepted quotation IDs, cake specifications, agreed date and owner-managed delivery terms, and saved payable total. BPMN-09 owns the definitive checks and temporary reservation. Shared payment follows. BPMN-10 links the paid quotation to the confirmed order under FR-CAKE-09.</bpmn:documentation>
       <bpmn:incoming>Flow_14</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Review"/>
@@ -120,7 +120,7 @@
     <bpmn:sequenceFlow id="Flow_13" sourceRef="Expiry" targetRef="Expired" name="48-hour expiry timestamp reached"/>
     <bpmn:sequenceFlow id="Flow_14" sourceRef="Accept" targetRef="Accepted"/>
     <bpmn:textAnnotation id="Next"><bpmn:text>Refer to BPMN-09 — Ingredient and Capacity Validation and Purchase Reservation.
-Continue with shared payment only after reservation. BPMN 10-14 links the paid quotation to the confirmed order.</bpmn:text></bpmn:textAnnotation>
+Continue with shared payment only after reservation. BPMN-10 links the paid quotation to the confirmed order.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="NextReference" sourceRef="Accepted" targetRef="Next"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_08">
