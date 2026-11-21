@@ -2289,6 +2289,7 @@ This feature manages custom requests for personalized cakes, including cake conf
 | FR-CAKE-07 | The system shall preserve previous quotation versions, including their agreed cake specifications and fulfillment details. | Medium |
 | FR-CAKE-08 | The system shall record the quotation accepted by the customer. | High |
 | FR-CAKE-09 | An accepted and paid custom cake quotation shall be linked to the corresponding order transaction. | High |
+| FR-CAKE-10 | The system shall expire an unanswered custom cake quotation 48 hours after that version is issued. | High |
 
 ## **4.10 Checkout and Payment Management** {#4.10-checkout-and-payment-management}
 

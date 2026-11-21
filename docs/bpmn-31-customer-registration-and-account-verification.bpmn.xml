@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_31" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_31">
+    <bpmn:participant id="Pool_31" name="BPMN-31 | Customer Registration and Account Verification" processRef="Process_31" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_31" name="Customer Registration and Account Verification" isExecutable="false">
+    <bpmn:documentation>Sources: proposed-bpmn-catalog.md, BPMN-31 and BPMN-28; Kitchen406 - Capstone Paper.md, SRS 4.1.2, FR-AUTH-01 and FR-AUTH-06, registration and email verification interfaces, Figure 16 AccountVerification rules, NFR-SEC-02, NFR-SEC-08, and NFR-USE-02; index.html and linked app/auth.js. Code expiration and retry eligibility follow the applicable policy. Prototype timing and test values are illustrative. Provider exchanges are encapsulated in BPMN-28. BPMN-30 owns subsequent sign-in and BPMN-32 owns password recovery.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_31">
+      <bpmn:lane id="Lane_C" name="Customer">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Submit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ChooseMerge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Choose</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Pending</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_S" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Register</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Registered</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RegistrationFailed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IssueMerge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Issue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dispatch</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Verify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Verified</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>VerifyError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Registration requested">
+      <bpmn:documentation>Customer opens registration.</bpmn:documentation>
+      <bpmn:outgoing>F01</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Submit" name="Submit registration details">
+      <bpmn:documentation>Enter first and last names, email, Philippine mobile number, password and confirmation. Prevent repeated submissions during processing.</bpmn:documentation>
+      <bpmn:incoming>F01</bpmn:incoming>
+      <bpmn:outgoing>F02</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Register" name="Validate and save pending account">
+      <bpmn:documentation>FR-AUTH-01: Validate submitted fields and email availability server-side. Save a pending account and its associated profile with an adaptively hashed password. On rejection or failed save, show appropriate feedback and preserve valid form entries.</bpmn:documentation>
+      <bpmn:incoming>F02</bpmn:incoming>
+      <bpmn:outgoing>F03</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Registered" name="Account saved?" gatewayDirection="Diverging" default="F04">
+      <bpmn:documentation>A saved pending account can proceed to verification.</bpmn:documentation>
+      <bpmn:incoming>F03</bpmn:incoming>
+      <bpmn:outgoing>F04</bpmn:outgoing>
+      <bpmn:outgoing>F05</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="RegistrationFailed" name="Registration incomplete">
+      <bpmn:documentation>Invalid, incomplete, duplicate or failed registration allows correction or a later retry.</bpmn:documentation>
+      <bpmn:incoming>F04</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="IssueMerge" gatewayDirection="Converging">
+      <bpmn:documentation>Initial issue and customer-requested replacement use the same issuance path.</bpmn:documentation>
+      <bpmn:incoming>F05</bpmn:incoming>
+      <bpmn:incoming>F12</bpmn:incoming>
+      <bpmn:outgoing>F06</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Issue" name="Issue email verification code">
+      <bpmn:documentation>FR-AUTH-06: Issue an expiring six-digit code for this account and email verification purpose. A replacement invalidates any earlier code for the same account and purpose. Prevent repeated resend submissions during processing.</bpmn:documentation>
+      <bpmn:incoming>F06</bpmn:incoming>
+      <bpmn:outgoing>F07</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:callActivity id="Dispatch" name="BPMN-28: Send verification email" calledElement="Process_28_Reference">
+      <bpmn:documentation>Provide registered email, verification message and associated account/activity to the shared email dispatch process. Surface a failed send as applicable and keep the account pending. The email contains the code.</bpmn:documentation>
+      <bpmn:incoming>F07</bpmn:incoming>
+      <bpmn:outgoing>F08</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="ChooseMerge" gatewayDirection="Converging">
+      <bpmn:documentation>Join the path after dispatch with the retry path after a verification error.</bpmn:documentation>
+      <bpmn:incoming>F08</bpmn:incoming>
+      <bpmn:incoming>F17</bpmn:incoming>
+      <bpmn:outgoing>F09</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Choose" name="Enter code, resend, or leave">
+      <bpmn:documentation>The customer may enter the code from their email, request a replacement or close the screen. Show expiry and applicable error or dispatch status. Prevent repeated submissions while processing.</bpmn:documentation>
+      <bpmn:incoming>F09</bpmn:incoming>
+      <bpmn:outgoing>F10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Action" name="Customer action?" gatewayDirection="Diverging" default="F11">
+      <bpmn:documentation>Route the selected action. An expired or otherwise unusable code requires replacement before activation.</bpmn:documentation>
+      <bpmn:incoming>F10</bpmn:incoming>
+      <bpmn:outgoing>F11</bpmn:outgoing>
+      <bpmn:outgoing>F12</bpmn:outgoing>
+      <bpmn:outgoing>F13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Pending" name="Verification incomplete">
+      <bpmn:documentation>The account remains pending. The customer may return to verification later, including from BPMN-30 if sign-in detects the pending account.</bpmn:documentation>
+      <bpmn:incoming>F11</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Verify" name="Verify code and activate account">
+      <bpmn:documentation>FR-AUTH-06 and Figure 16: Verify match, expiry, unused status and applicability to the pending account and email verification purpose. On success, consume the code and save activation together. Failed attempts leave the account pending.</bpmn:documentation>
+      <bpmn:incoming>F13</bpmn:incoming>
+      <bpmn:outgoing>F14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Verified" name="Activation saved?" gatewayDirection="Diverging" default="F15">
+      <bpmn:documentation>Confirm only successful persisted activation.</bpmn:documentation>
+      <bpmn:incoming>F14</bpmn:incoming>
+      <bpmn:outgoing>F15</bpmn:outgoing>
+      <bpmn:outgoing>F16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="VerifyError" name="Show verification error">
+      <bpmn:documentation>Report an invalid, expired or failed verification and allow retry or replacement as appropriate.</bpmn:documentation>
+      <bpmn:incoming>F15</bpmn:incoming>
+      <bpmn:outgoing>F17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Complete" name="Account verified">
+      <bpmn:documentation>Show verification confirmation. The customer can sign in through BPMN-30.</bpmn:documentation>
+      <bpmn:incoming>F16</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F01" sourceRef="Start" targetRef="Submit" />
+    <bpmn:sequenceFlow id="F02" sourceRef="Submit" targetRef="Register" />
+    <bpmn:sequenceFlow id="F03" sourceRef="Register" targetRef="Registered" />
+    <bpmn:sequenceFlow id="F04" sourceRef="Registered" targetRef="RegistrationFailed" name="No" />
+    <bpmn:sequenceFlow id="F05" sourceRef="Registered" targetRef="IssueMerge" name="Yes">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">The pending account and profile were saved.</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F06" sourceRef="IssueMerge" targetRef="Issue" />
+    <bpmn:sequenceFlow id="F07" sourceRef="Issue" targetRef="Dispatch" />
+    <bpmn:sequenceFlow id="F08" sourceRef="Dispatch" targetRef="ChooseMerge" />
+    <bpmn:sequenceFlow id="F09" sourceRef="ChooseMerge" targetRef="Choose" />
+    <bpmn:sequenceFlow id="F10" sourceRef="Choose" targetRef="Action" />
+    <bpmn:sequenceFlow id="F11" sourceRef="Action" targetRef="Pending" name="Leave" />
+    <bpmn:sequenceFlow id="F12" sourceRef="Action" targetRef="IssueMerge" name="Resend code">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">The customer chooses to request a new code.</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F13" sourceRef="Action" targetRef="Verify" name="Submit code">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">The customer submits a code.</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F14" sourceRef="Verify" targetRef="Verified" />
+    <bpmn:sequenceFlow id="F15" sourceRef="Verified" targetRef="VerifyError" name="No" />
+    <bpmn:sequenceFlow id="F16" sourceRef="Verified" targetRef="Complete" name="Yes">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Account verification and activation were saved.</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F17" sourceRef="VerifyError" targetRef="ChooseMerge" />
+  </bpmn:process>
+  <bpmn:process id="Process_28_Reference" name="BPMN-28 | External Notification Dispatch and Retry (reference only)" isExecutable="false">
+    <bpmn:documentation>Catalog reference for BPMN-28. Input: verification email, registered recipient and account/activity context. Output: email dispatch outcome. Provider interactions, retry timing and logging belong to BPMN-28.</bpmn:documentation>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_31">
+    <bpmndi:BPMNPlane id="Plane_31" bpmnElement="Collaboration_31">
+      <bpmndi:BPMNShape id="Shape_Pool_31" bpmnElement="Pool_31" isHorizontal="false">
+        <dc:Bounds x="48" y="55" width="698" height="978" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_C" bpmnElement="Lane_C" isHorizontal="false">
+        <dc:Bounds x="48" y="77" width="226" height="956" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_S" bpmnElement="Lane_S" isHorizontal="false">
+        <dc:Bounds x="274" y="77" width="472" height="956" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="169" y="129" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="70" y="135" width="92" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Submit" bpmnElement="Submit">
+        <dc:Bounds x="110" y="192" width="150" height="52" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Register" bpmnElement="Register">
+        <dc:Bounds x="383" y="213" width="158" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Registered" bpmnElement="Registered">
+        <dc:Bounds x="444" y="296" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="329" y="301" width="102" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RegistrationFailed" bpmnElement="RegistrationFailed">
+        <dc:Bounds x="589" y="339" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="627" y="342" width="83" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IssueMerge" bpmnElement="IssueMerge">
+        <dc:Bounds x="444" y="364" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Issue" bpmnElement="Issue">
+        <dc:Bounds x="383" y="433" width="158" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Dispatch" bpmnElement="Dispatch" isExpanded="false">
+        <dc:Bounds x="376" y="519" width="172" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ChooseMerge" bpmnElement="ChooseMerge">
+        <dc:Bounds x="166" y="581" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Choose" bpmnElement="Choose">
+        <dc:Bounds x="106" y="638" width="157" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Action" bpmnElement="Action">
+        <dc:Bounds x="166" y="722" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="70" y="699" width="100" height="15" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Pending" bpmnElement="Pending">
+        <dc:Bounds x="79" y="798" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="70" y="830" width="88" height="21" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Verify" bpmnElement="Verify">
+        <dc:Bounds x="376" y="800" width="172" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Verified" bpmnElement="Verified">
+        <dc:Bounds x="444" y="882" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492" y="885" width="98" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_VerifyError" bpmnElement="VerifyError">
+        <dc:Bounds x="279" y="951" width="129" height="52" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete">
+        <dc:Bounds x="447" y="962" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="417" y="995" width="90" height="23" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_F01" bpmnElement="F01">
+        <di:waypoint x="184" y="159" />
+        <di:waypoint x="184" y="192" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F02" bpmnElement="F02">
+        <di:waypoint x="260" y="218" />
+        <di:waypoint x="310" y="218" />
+        <di:waypoint x="310" y="241" />
+        <di:waypoint x="383" y="241" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F03" bpmnElement="F03">
+        <di:waypoint x="462" y="268" />
+        <di:waypoint x="462" y="296" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F04" bpmnElement="F04">
+        <di:waypoint x="480" y="314" />
+        <di:waypoint x="604" y="314" />
+        <di:waypoint x="604" y="339" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="525" y="298" width="18" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F05" bpmnElement="F05">
+        <di:waypoint x="462" y="332" />
+        <di:waypoint x="462" y="364" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="471" y="341" width="21" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F06" bpmnElement="F06">
+        <di:waypoint x="462" y="400" />
+        <di:waypoint x="462" y="433" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F07" bpmnElement="F07">
+        <di:waypoint x="462" y="488" />
+        <di:waypoint x="462" y="519" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F08" bpmnElement="F08">
+        <di:waypoint x="376" y="547" />
+        <di:waypoint x="184" y="547" />
+        <di:waypoint x="184" y="581" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F09" bpmnElement="F09">
+        <di:waypoint x="184" y="617" />
+        <di:waypoint x="184" y="638" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F10" bpmnElement="F10">
+        <di:waypoint x="184" y="693" />
+        <di:waypoint x="184" y="722" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F11" bpmnElement="F11">
+        <di:waypoint x="166" y="740" />
+        <di:waypoint x="94" y="740" />
+        <di:waypoint x="94" y="798" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="104" y="721" width="33" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F12" bpmnElement="F12">
+        <di:waypoint x="202" y="740" />
+        <di:waypoint x="698" y="740" />
+        <di:waypoint x="698" y="382" />
+        <di:waypoint x="480" y="382" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="538" y="722" width="79" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F13" bpmnElement="F13">
+        <di:waypoint x="184" y="758" />
+        <di:waypoint x="184" y="828" />
+        <di:waypoint x="376" y="828" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="224" y="810" width="71" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F14" bpmnElement="F14">
+        <di:waypoint x="462" y="855" />
+        <di:waypoint x="462" y="882" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F15" bpmnElement="F15">
+        <di:waypoint x="444" y="900" />
+        <di:waypoint x="344" y="900" />
+        <di:waypoint x="344" y="951" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="365" y="883" width="20" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F16" bpmnElement="F16">
+        <di:waypoint x="462" y="918" />
+        <di:waypoint x="462" y="962" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="472" y="933" width="22" height="11" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F17" bpmnElement="F17">
+        <di:waypoint x="279" y="977" />
+        <di:waypoint x="64" y="977" />
+        <di:waypoint x="64" y="599" />
+        <di:waypoint x="166" y="599" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
