@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_23" targetNamespace="https://kitchen406.local/bpmn">
-  <bpmn:collaboration id="Collaboration_23">
-    <bpmn:participant id="Participant_23" name="BPMN-23 | Accidental Fulfillment Status Reversal" processRef="Process_23" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_19" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_19">
+    <bpmn:participant id="Participant_19" name="BPMN-19 | Accidental Fulfillment Status Reversal" processRef="Process_19" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_23" name="Accidental Fulfillment Status Reversal" isExecutable="false">
-    <bpmn:documentation>Basis: user-approved SRS additions supplied in this conversation: FR-FUL-28-33 (including simplified FR-FUL-31), FR-INV-24-25; existing FR-FUL-27, FR-ANL-05,25, FR-INV-09,17. These additions are treated as the revised specification per user instruction even if not yet present in the local paper. Other sources: docs/proposed-bpmn-catalog.md and Chapters/Kitchen406 - Capstone Paper.md; index.html loads app/fulfillment-state.js F.previous/F.revert, app/owner.js confirmation modal, app/subscription-state.js B.sync and app/earnings-allocation.js. Scope now covers all three authorized one-step reversals. Stock reversal corrects an accidentally recorded preparation start; it is not spoilage recovery or physical restoration of genuinely used materials. FR-FUL-31 requires all changes together, so branch tasks stage their effects and only the shared atomic Commit persists them. No BPMN transaction subprocess is used: there is no long-running transaction/compensation protocol. Two internal responsibility lanes in one pool; no external messages. BPMN-17 owns later preparation; BPMN-18/20/21 own later actual completion; BPMN-05 owns subsequent completion-driven subscription progress; BPMN-43 owns report generation. Those processes are referenced, not called during correction. No authentication, allocation editing, checkout, payment, inventory-adjustment or reporting process is invoked. Existing saved allocations are preserved; automatic unlocking is not specified. Descriptive non-executable BPMN 2.0.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_23">
+  <bpmn:process id="Process_19" name="Accidental Fulfillment Status Reversal" isExecutable="false">
+    <bpmn:documentation>Basis: user-approved SRS additions supplied in this conversation: FR-FUL-28-33 (including simplified FR-FUL-31), FR-INV-24-25; existing FR-FUL-27, FR-ANL-05,25, FR-INV-09,17. These additions are treated as the revised specification per user instruction even if not yet present in the local paper. Other sources: docs/proposed-bpmn-catalog.md and Chapters/Kitchen406 - Capstone Paper.md; index.html loads app/fulfillment-state.js F.previous/F.revert, app/owner.js confirmation modal, app/subscription-state.js B.sync and app/earnings-allocation.js. Scope now covers all three authorized one-step reversals. Stock reversal corrects an accidentally recorded preparation start; it is not spoilage recovery or physical restoration of genuinely used materials. FR-FUL-31 requires all changes together, so branch tasks stage their effects and only the shared atomic Commit persists them. No BPMN transaction subprocess is used: there is no long-running transaction/compensation protocol. Two internal responsibility lanes in one pool; no external messages. BPMN-13 owns later preparation; BPMN-14/16/17 own later actual completion; BPMN-05 owns subsequent completion-driven subscription progress; BPMN-39 owns report generation. Those processes are referenced, not called during correction. No authentication, allocation editing, checkout, payment, inventory-adjustment or reporting process is invoked. Existing saved allocations are preserved; automatic unlocking is not specified. Descriptive non-executable BPMN 2.0.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_19">
       <bpmn:lane id="Lane_23_0" name="Owner / authorized Staff">
         <bpmn:flowNodeRef>N23_Start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_Request</bpmn:flowNodeRef>
@@ -31,7 +31,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="N23_Start" name="Accidental status correction requested">
-      <bpmn:documentation>Input: paid operational fulfillment, acting account, current version and unique correction identifier. Authentication is an upstream precondition (BPMN-30).</bpmn:documentation>
+      <bpmn:documentation>Input: paid operational fulfillment, acting account, current version and unique correction identifier. Authentication is an upstream precondition (BPMN-26).</bpmn:documentation>
       <bpmn:outgoing>F23_01</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="N23_Request" name="Request reversal of accidental status change">
@@ -161,13 +161,13 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F23_21" sourceRef="N23_Result" targetRef="N23_Done"></bpmn:sequenceFlow>
     <bpmn:textAnnotation id="Note23_Resume">
-      <bpmn:text>Later actions use their existing processes: Refer to BPMN-17 - Fulfillment Preparation and Ready Confirmation (consume a restored reservation once). Actual completion: BPMN-18 - Standard Order and Subscription Pickup and Completion; BPMN-20 - Courier Delivery Status Tracking and Completion; BPMN-21 - Owner-Managed Cake Delivery and Handoff. After a reversed completion, record a NEW timestamp and include the fulfillment ONCE. BPMN-05 handles subsequent subscription completion progress; BPMN-43 owns report generation. These are later handoffs, not automatic calls from reversal.</bpmn:text>
+      <bpmn:text>Later actions use their existing processes: Refer to BPMN-13 - Fulfillment Preparation and Ready Confirmation (consume a restored reservation once). Actual completion: BPMN-14 - Standard Order and Subscription Pickup and Completion; BPMN-16 - Courier Delivery Status Tracking and Completion; BPMN-17 - Owner-Managed Cake Delivery and Handoff. After a reversed completion, record a NEW timestamp and include the fulfillment ONCE. BPMN-05 handles subsequent subscription completion progress; BPMN-39 owns report generation. These are later handoffs, not automatic calls from reversal.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc23_Resume" sourceRef="N23_Done" targetRef="Note23_Resume" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_23">
-    <bpmndi:BPMNPlane id="Plane_23" bpmnElement="Collaboration_23">
-      <bpmndi:BPMNShape id="Shape23_Pool" bpmnElement="Participant_23" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_19">
+    <bpmndi:BPMNPlane id="Plane_19" bpmnElement="Collaboration_19">
+      <bpmndi:BPMNShape id="Shape23_Pool" bpmnElement="Participant_19" isHorizontal="false">
         <dc:Bounds x="30" y="30" width="1500" height="2370" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape23_Lane0" bpmnElement="Lane_23_0" isHorizontal="false">

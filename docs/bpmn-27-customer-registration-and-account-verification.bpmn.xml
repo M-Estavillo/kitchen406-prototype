@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_31" targetNamespace="https://kitchen406.example/bpmn">
-  <bpmn:collaboration id="Collaboration_31">
-    <bpmn:participant id="Pool_31" name="BPMN-31 | Customer Registration and Account Verification" processRef="Process_31" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_27" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_27">
+    <bpmn:participant id="Pool_31" name="BPMN-27 | Customer Registration and Account Verification" processRef="Process_27" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_31" name="Customer Registration and Account Verification" isExecutable="false">
-    <bpmn:documentation>Sources: proposed-bpmn-catalog.md, BPMN-31 and BPMN-28; Kitchen406 - Capstone Paper.md, SRS 4.1.2, FR-AUTH-01 and FR-AUTH-06, registration and email verification interfaces, Figure 16 AccountVerification rules, NFR-SEC-02, NFR-SEC-08, and NFR-USE-02; index.html and linked app/auth.js. Code expiration and retry eligibility follow the applicable policy. Prototype timing and test values are illustrative. Provider exchanges are encapsulated in BPMN-28. BPMN-30 owns subsequent sign-in and BPMN-32 owns password recovery.</bpmn:documentation>
+  <bpmn:process id="Process_27" name="Customer Registration and Account Verification" isExecutable="false">
+    <bpmn:documentation>Sources: proposed-bpmn-catalog.md, BPMN-27 and BPMN-24; Kitchen406 - Capstone Paper.md, SRS 4.1.2, FR-AUTH-01 and FR-AUTH-06, registration and email verification interfaces, Figure 16 AccountVerification rules, NFR-SEC-02, NFR-SEC-08, and NFR-USE-02; index.html and linked app/auth.js. Code expiration and retry eligibility follow the applicable policy. Prototype timing and test values are illustrative. Provider exchanges are encapsulated in BPMN-24. BPMN-26 owns subsequent sign-in and BPMN-28 owns password recovery.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_31">
       <bpmn:lane id="Lane_C" name="Customer">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
@@ -62,7 +62,7 @@
       <bpmn:incoming>F06</bpmn:incoming>
       <bpmn:outgoing>F07</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:callActivity id="Dispatch" name="BPMN-28: Send verification email" calledElement="Process_28_Reference">
+    <bpmn:callActivity id="Dispatch" name="BPMN-24: Send verification email" calledElement="Process_24_Reference">
       <bpmn:documentation>Provide registered email, verification message and associated account/activity to the shared email dispatch process. Surface a failed send as applicable and keep the account pending. The email contains the code.</bpmn:documentation>
       <bpmn:incoming>F07</bpmn:incoming>
       <bpmn:outgoing>F08</bpmn:outgoing>
@@ -86,7 +86,7 @@
       <bpmn:outgoing>F13</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Pending" name="Verification incomplete">
-      <bpmn:documentation>The account remains pending. The customer may return to verification later, including from BPMN-30 if sign-in detects the pending account.</bpmn:documentation>
+      <bpmn:documentation>The account remains pending. The customer may return to verification later, including from BPMN-26 if sign-in detects the pending account.</bpmn:documentation>
       <bpmn:incoming>F11</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:task id="Verify" name="Verify code and activate account">
@@ -106,7 +106,7 @@
       <bpmn:outgoing>F17</bpmn:outgoing>
     </bpmn:task>
     <bpmn:endEvent id="Complete" name="Account verified">
-      <bpmn:documentation>Show verification confirmation. The customer can sign in through BPMN-30.</bpmn:documentation>
+      <bpmn:documentation>Show verification confirmation. The customer can sign in through BPMN-26.</bpmn:documentation>
       <bpmn:incoming>F16</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="F01" sourceRef="Start" targetRef="Submit" />
@@ -135,11 +135,11 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F17" sourceRef="VerifyError" targetRef="ChooseMerge" />
   </bpmn:process>
-  <bpmn:process id="Process_28_Reference" name="BPMN-28 | External Notification Dispatch and Retry (reference only)" isExecutable="false">
-    <bpmn:documentation>Catalog reference for BPMN-28. Input: verification email, registered recipient and account/activity context. Output: email dispatch outcome. Provider interactions, retry timing and logging belong to BPMN-28.</bpmn:documentation>
+  <bpmn:process id="Process_24_Reference" name="BPMN-24 | External Notification Dispatch and Retry (reference only)" isExecutable="false">
+    <bpmn:documentation>Catalog reference for BPMN-24. Input: verification email, registered recipient and account/activity context. Output: email dispatch outcome. Provider interactions, retry timing and logging belong to BPMN-24.</bpmn:documentation>
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_31">
-    <bpmndi:BPMNPlane id="Plane_31" bpmnElement="Collaboration_31">
+  <bpmndi:BPMNDiagram id="Diagram_27">
+    <bpmndi:BPMNPlane id="Plane_27" bpmnElement="Collaboration_27">
       <bpmndi:BPMNShape id="Shape_Pool_31" bpmnElement="Pool_31" isHorizontal="false">
         <dc:Bounds x="48" y="55" width="698" height="978" />
       </bpmndi:BPMNShape>

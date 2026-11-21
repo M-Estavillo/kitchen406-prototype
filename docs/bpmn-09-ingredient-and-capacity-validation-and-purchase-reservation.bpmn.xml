@@ -8,10 +8,13 @@
     <bpmn:participant id="Pool_09" name="BPMN-09 | Ingredient and Capacity Validation and Purchase Reservation" processRef="Process_09"/>
   </bpmn:collaboration>
   <bpmn:process id="Process_09" name="Ingredient and Capacity Validation and Purchase Reservation" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-09 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.7, 4.10–4.12 and BoM requirements; index.html and linked checkout, scheduling, subscription, cake, inventory, capacity, and checkout-hold modules. The SRS governs the 32-minute hold. Customer and system responsibilities are lanes in a single process. BPMN-06 and the late-payment path in BPMN 10-14 reuse the applicable validation rules for deferment and reconciliation without invoking the normal checkout hold workflow.</bpmn:documentation>
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-09 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.7, 4.10–4.12 and BoM requirements; index.html and linked checkout, scheduling, subscription, cake, inventory, capacity, and checkout-hold modules. The SRS governs the 32-minute hold. Customer and system responsibilities are lanes in a single process. BPMN-06 and the late-payment path in BPMN-10 reuse the applicable validation rules for deferment and reconciliation without invoking the normal checkout hold workflow.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_09">
       <bpmn:lane id="Lane_Customer" name="Customer">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ContinueCheckout</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviseOrRetry</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Blocked</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
         <bpmn:flowNodeRef>Load</bpmn:flowNodeRef>
@@ -33,7 +36,6 @@
         <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Held</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Explain</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Blocked</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Ready</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
@@ -42,8 +44,9 @@
       <bpmn:outgoing>Flow_1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Load" name="Load reviewed purchase and applicable rules">
-      <bpmn:documentation>FR-PAY-01; FR-ORD-02–03. Verify registered-customer access and purchase ownership. Use the reviewed items, prices, agreed fulfillment details and schedule or the accepted cake quotation snapshot. Authentication belongs to BPMN-30. Scheduling and recipe configuration come from BPMN-38 and BPMN-39.</bpmn:documentation>
+      <bpmn:documentation>FR-PAY-01; FR-ORD-02–03. Verify registered-customer access and purchase ownership. Use the reviewed items, prices, agreed fulfillment details and schedule or the accepted cake quotation snapshot. Authentication belongs to BPMN-26. Scheduling and recipe configuration come from BPMN-34 and BPMN-35.</bpmn:documentation>
       <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_29</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Product" name="Check product eligibility and quantities">
@@ -56,10 +59,10 @@
       <bpmn:outgoing>Flow_4</bpmn:outgoing>
       <bpmn:outgoing>Flow_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="ProductBlocked" name="Product or quantity unavailable">
-      <bpmn:documentation>The system shows the reason and blocks payment before any new hold is saved. Preserve reviewed details where appropriate. If fulfillment or cake terms must change, return to BPMN-02 or BPMN-08 as applicable. A new attempt revalidates the submitted details.</bpmn:documentation>
+    <bpmn:serviceTask id="ProductBlocked" name="Identify unavailable items or invalid quantities">
       <bpmn:incoming>Flow_4</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Lead" name="Check lead time and checkout cutoff">
       <bpmn:documentation>FR-CAP-12–13, 19–21. For standard orders, apply the noon cutoff at least one day before fulfillment or an earlier product-specific deadline. For subscriptions, apply the noon enrollment cutoff at least one day before the first preparation date, subject to configured lead time. For cakes, use the original timely submission established by BPMN-07 and assess feasibility of the agreed date. Later review does not restart the seven-calendar-day clock.</bpmn:documentation>
       <bpmn:incoming>Flow_5</bpmn:incoming>
@@ -70,10 +73,10 @@
       <bpmn:outgoing>Flow_7</bpmn:outgoing>
       <bpmn:outgoing>Flow_8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="LeadBlocked" name="Lead time or cutoff unmet">
-      <bpmn:documentation>The system shows the reason and blocks payment before any new hold is saved. Preserve reviewed details where appropriate. If fulfillment or cake terms must change, return to BPMN-02 or BPMN-08 as applicable. A new attempt revalidates the submitted details.</bpmn:documentation>
+    <bpmn:serviceTask id="LeadBlocked" name="Identify missed lead time or cutoff">
       <bpmn:incoming>Flow_7</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Dates" name="Check requested dates against blocked dates">
       <bpmn:documentation>FR-CAP-10–11. Check each agreed fulfillment date against current blocked dates. For subscriptions, check all four commitments.</bpmn:documentation>
       <bpmn:incoming>Flow_8</bpmn:incoming>
@@ -84,10 +87,10 @@
       <bpmn:outgoing>Flow_10</bpmn:outgoing>
       <bpmn:outgoing>Flow_11</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="DatesBlocked" name="Required date blocked">
-      <bpmn:documentation>The system shows the reason and blocks payment before any new hold is saved. Preserve reviewed details where appropriate. If fulfillment or cake terms must change, return to BPMN-02 or BPMN-08 as applicable. A new attempt revalidates the submitted details.</bpmn:documentation>
+    <bpmn:serviceTask id="DatesBlocked" name="Identify blocked fulfillment dates">
       <bpmn:incoming>Flow_10</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Capacity" name="Check available slots in the applicable capacity pool">
       <bpmn:documentation>FR-CAP-01, 03–09, 17–18. Check the agreed fulfillment dates and quantities against existing allocations in the applicable pool. Standard default: four varieties per fulfillment day, up to ten units each. Subscription default: ten units per product per week; all four commitments must fit. Cake default: two per week on distinct fulfillment dates.</bpmn:documentation>
       <bpmn:incoming>Flow_11</bpmn:incoming>
@@ -98,12 +101,12 @@
       <bpmn:outgoing>Flow_13</bpmn:outgoing>
       <bpmn:outgoing>Flow_14</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="CapacityBlocked" name="Capacity full for a required fulfillment">
-      <bpmn:documentation>The system shows the reason and blocks payment before any new hold is saved. Preserve reviewed details where appropriate. If fulfillment or cake terms must change, return to BPMN-02 or BPMN-08 as applicable. A new attempt revalidates the submitted details.</bpmn:documentation>
+    <bpmn:serviceTask id="CapacityBlocked" name="Identify fulfillments without capacity">
       <bpmn:incoming>Flow_13</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Materials" name="Calculate ingredient needs and check available stock">
-      <bpmn:documentation>FR-INV-03–06, 12, 19–20; FR-BOM-07–08. Apply BPMN-26 calculation rules using saved item quantities or accepted cake configuration and applicable recipes or BoMs. Compare requirements with stock available after existing reservations. Checkout ingredient checks apply only to the first subscription fulfillment; BPMN-15 handles subsequent reservations.</bpmn:documentation>
+      <bpmn:documentation>FR-INV-03–06, 12, 19–20; FR-BOM-07–08. Apply BPMN-22 calculation rules using saved item quantities or accepted cake configuration and applicable recipes or BoMs. Compare requirements with stock available after existing reservations. Checkout ingredient checks apply only to the first subscription fulfillment; BPMN-11 handles subsequent reservations.</bpmn:documentation>
       <bpmn:incoming>Flow_14</bpmn:incoming>
       <bpmn:outgoing>Flow_15</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -112,10 +115,10 @@
       <bpmn:outgoing>Flow_16</bpmn:outgoing>
       <bpmn:outgoing>Flow_17</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="MaterialsBlocked" name="Required ingredients unavailable">
-      <bpmn:documentation>The system shows the reason and blocks payment before any new hold is saved. Preserve reviewed details where appropriate. If fulfillment or cake terms must change, return to BPMN-02 or BPMN-08 as applicable. A new attempt revalidates the submitted details.</bpmn:documentation>
+    <bpmn:serviceTask id="MaterialsBlocked" name="Identify ingredient shortage">
       <bpmn:incoming>Flow_16</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:serviceTask id="Reserve" name="Save pending purchase and reserve resources for 32 minutes">
       <bpmn:documentation>FR-ORD-01–03; FR-CAP-08, 14, 16; FR-INV-06, 19; NFR-PERF-06, NFR-SAF-02 and NFR-REL-03. If all checks pass, atomically create or associate the pending purchase with the saved payable amount and agreed details, record the checkout hold and expiry, and reserve capacity and ingredients. Standard and cake purchases hold capacity and required ingredients; subscriptions hold all four capacity commitments and first-fulfillment ingredients only. Reservations leave physical stock unchanged. Guard the save against concurrent allocation and duplicate submissions. Eligibility failure, lost availability or failed save leaves prior state intact with no new or partial allocation.</bpmn:documentation>
       <bpmn:incoming>Flow_17</bpmn:incoming>
@@ -127,17 +130,31 @@
       <bpmn:outgoing>Flow_19</bpmn:outgoing>
       <bpmn:outgoing>Flow_21</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Explain" name="Show save conflict or retry guidance">
-      <bpmn:documentation>If availability changed during the save or the save failed, preserve prior state, show the reason, and offer correction or retry as applicable.</bpmn:documentation>
+    <bpmn:serviceTask id="Explain" name="Show why checkout is blocked and how to proceed">
+      <bpmn:documentation>Show the specific validation failure or save conflict, block payment, and preserve prior state without creating a new or partial hold. Offer changes or retry as applicable and preserve reviewed details where possible.</bpmn:documentation>
       <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:incoming>Flow_26</bpmn:incoming>
       <bpmn:outgoing>Flow_20</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="Blocked" name="Checkout blocked before payment">
-      <bpmn:documentation>Return the reason and correction or retry guidance.</bpmn:documentation>
+    <bpmn:exclusiveGateway id="ContinueCheckout" name="Continue checkout?">
       <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ReviseOrRetry" name="Submit revised purchase details or retry checkout">
+      <bpmn:documentation>Make corrections in the owning workflow and resume once the revised purchase is reviewed or the revised quotation is accepted. Retry the unchanged purchase when appropriate. Each attempt reloads current details and revalidates all rules.</bpmn:documentation>
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Blocked" name="Checkout ends before payment">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:endEvent id="Ready" name="Pending purchase ready for payment (BPMN 10-14)">
-      <bpmn:documentation>Pass the purchase ID, saved payable amount, reservations and hold expiry to BPMN 10-14 for payment and purchase confirmation.</bpmn:documentation>
+    <bpmn:endEvent id="Ready" name="Pending purchase ready for payment (BPMN-10)">
+      <bpmn:documentation>Pass the purchase ID, saved payable amount, reservations and hold expiry to BPMN-10 for payment and purchase confirmation.</bpmn:documentation>
       <bpmn:incoming>Flow_21</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Load"/>
@@ -159,8 +176,21 @@
     <bpmn:sequenceFlow id="Flow_17" sourceRef="MaterialsOK" targetRef="Reserve" name="Yes"/>
     <bpmn:sequenceFlow id="Flow_18" sourceRef="Reserve" targetRef="Held"/>
     <bpmn:sequenceFlow id="Flow_19" sourceRef="Held" targetRef="Explain" name="No"/>
-    <bpmn:sequenceFlow id="Flow_20" sourceRef="Explain" targetRef="Blocked"/>
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Explain" targetRef="ContinueCheckout"/>
     <bpmn:sequenceFlow id="Flow_21" sourceRef="Held" targetRef="Ready" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="ProductBlocked" targetRef="Explain"/>
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="LeadBlocked" targetRef="Explain"/>
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="DatesBlocked" targetRef="Explain"/>
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="CapacityBlocked" targetRef="Explain"/>
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="MaterialsBlocked" targetRef="Explain"/>
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="ContinueCheckout" targetRef="ReviseOrRetry" name="Revise or retry"/>
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="ContinueCheckout" targetRef="Blocked" name="Stop"/>
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="ReviseOrRetry" targetRef="Load"/>
+    <bpmn:textAnnotation id="RecoveryRoutes"><bpmn:text>Standard cart changes: BPMN-01
+Subscription selection changes: BPMN-03
+Fulfillment arrangement and review: BPMN-02
+Cake quotation changes and acceptance: BPMN-08</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Reference_RecoveryRoutes" sourceRef="ReviseOrRetry" targetRef="RecoveryRoutes"/>
     <bpmn:textAnnotation id="Upstream"><bpmn:text>Reviewed standard or subscription purchase: BPMN-02
 Accepted custom cake quotation: BPMN-08</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_Upstream" sourceRef="Start" targetRef="Upstream"/>
@@ -168,14 +198,14 @@ Accepted custom cake quotation: BPMN-08</bpmn:text></bpmn:textAnnotation>
 Subscription: noon at least one day before first preparation, subject to product lead time.
 Cake: original submission must be at least 7 calendar days ahead (BPMN-07).</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_LeadRules" sourceRef="Lead" targetRef="LeadRules"/>
-    <bpmn:textAnnotation id="CapacityRules"><bpmn:text>Configured in BPMN-38. Defaults:
+    <bpmn:textAnnotation id="CapacityRules"><bpmn:text>Configured in BPMN-34. Defaults:
 Standard: 4 varieties per fulfillment day, 10 units each.
 Subscription: 10 units per product per week. Check all 4 fulfillments.
 Cake: 2 per week on distinct dates.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_CapacityRules" sourceRef="Capacity" targetRef="CapacityRules"/>
-    <bpmn:textAnnotation id="MaterialRules"><bpmn:text>Refer to BPMN-26 for BoM quantities. Available stock is stock on hand minus existing reservations. Checkout checks ingredients for the first subscription fulfillment only.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:textAnnotation id="MaterialRules"><bpmn:text>Refer to BPMN-22 for BoM quantities. Available stock is stock on hand minus existing reservations. Checkout checks ingredients for the first subscription fulfillment only.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_MaterialRules" sourceRef="Materials" targetRef="MaterialRules"/>
-    <bpmn:textAnnotation id="PaymentHandoff"><bpmn:text>Continue to BPMN 10-14 for QR Ph payment, hold-expiry checks, and purchase confirmation or release.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:textAnnotation id="PaymentHandoff"><bpmn:text>Continue to BPMN-10 for QR Ph payment, hold-expiry checks, and purchase confirmation or release.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_PaymentHandoff" sourceRef="Ready" targetRef="PaymentHandoff"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_09">
@@ -187,23 +217,26 @@ Cake: 2 per week on distinct dates.</bpmn:text></bpmn:textAnnotation>
       <bpmndi:BPMNShape id="Shape_Load" bpmnElement="Load"><dc:Bounds x="705" y="195" width="230" height="70"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Product" bpmnElement="Product"><dc:Bounds x="701" y="304" width="238" height="72"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_ProductOK" bpmnElement="ProductOK"><dc:Bounds x="795" y="418" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="859" y="430" width="212" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_ProductBlocked" bpmnElement="ProductBlocked"><dc:Bounds x="492" y="473" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="402" y="515" width="216" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProductBlocked" bpmnElement="ProductBlocked"><dc:Bounds x="460" y="473" width="170" height="60"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lead" bpmnElement="Lead"><dc:Bounds x="701" y="559" width="238" height="72"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_LeadOK" bpmnElement="LeadOK"><dc:Bounds x="795" y="673" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="859" y="685" width="212" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_LeadBlocked" bpmnElement="LeadBlocked"><dc:Bounds x="492" y="728" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="402" y="770" width="216" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LeadBlocked" bpmnElement="LeadBlocked"><dc:Bounds x="460" y="728" width="170" height="60"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Dates" bpmnElement="Dates"><dc:Bounds x="701" y="814" width="238" height="72"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_DatesOK" bpmnElement="DatesOK"><dc:Bounds x="795" y="928" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="859" y="940" width="212" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_DatesBlocked" bpmnElement="DatesBlocked"><dc:Bounds x="492" y="983" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="402" y="1025" width="216" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_DatesBlocked" bpmnElement="DatesBlocked"><dc:Bounds x="460" y="983" width="170" height="60"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Capacity" bpmnElement="Capacity"><dc:Bounds x="701" y="1069" width="238" height="72"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_CapacityOK" bpmnElement="CapacityOK"><dc:Bounds x="795" y="1183" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="859" y="1195" width="212" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_CapacityBlocked" bpmnElement="CapacityBlocked"><dc:Bounds x="492" y="1238" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="402" y="1280" width="216" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CapacityBlocked" bpmnElement="CapacityBlocked"><dc:Bounds x="460" y="1238" width="170" height="60"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Materials" bpmnElement="Materials"><dc:Bounds x="701" y="1324" width="238" height="72"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_MaterialsOK" bpmnElement="MaterialsOK"><dc:Bounds x="795" y="1438" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="859" y="1450" width="212" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_MaterialsBlocked" bpmnElement="MaterialsBlocked"><dc:Bounds x="492" y="1493" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="402" y="1535" width="216" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_MaterialsBlocked" bpmnElement="MaterialsBlocked"><dc:Bounds x="460" y="1493" width="170" height="60"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Reserve" bpmnElement="Reserve"><dc:Bounds x="700" y="1574" width="240" height="82"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Held" bpmnElement="Held"><dc:Bounds x="795" y="1700" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="858" y="1714" width="188" height="27"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Explain" bpmnElement="Explain"><dc:Bounds x="405" y="1775" width="210" height="70"/></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Blocked" bpmnElement="Blocked"><dc:Bounds x="492" y="1892" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="394" y="1934" width="232" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Blocked" bpmnElement="Blocked"><dc:Bounds x="222" y="1892" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="120" y="1934" width="240" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ContinueCheckout" bpmnElement="ContinueCheckout"><dc:Bounds x="215" y="1785" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="102" y="1793" width="105" height="35"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviseOrRetry" bpmnElement="ReviseOrRetry"><dc:Bounds x="140" y="1630" width="200" height="72"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryRoutes" bpmnElement="RecoveryRoutes"><dc:Bounds x="112" y="1435" width="248" height="144"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Ready" bpmnElement="Ready"><dc:Bounds x="802" y="1832" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="695" y="1874" width="250" height="32"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Upstream" bpmnElement="Upstream"><dc:Bounds x="103" y="220" width="260" height="90"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_LeadRules" bpmnElement="LeadRules"><dc:Bounds x="996" y="506" width="245" height="177"/></bpmndi:BPMNShape>
@@ -229,13 +262,22 @@ Cake: 2 per week on distinct dates.</bpmn:text></bpmn:textAnnotation>
       <bpmndi:BPMNEdge id="Edge_Flow_17" bpmnElement="Flow_17"><di:waypoint x="820" y="1488"/><di:waypoint x="820" y="1574"/><bpmndi:BPMNLabel><dc:Bounds x="832" y="1492" width="35" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_18" bpmnElement="Flow_18"><di:waypoint x="820" y="1656"/><di:waypoint x="820" y="1700"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_19" bpmnElement="Flow_19"><di:waypoint x="795" y="1725"/><di:waypoint x="510" y="1725"/><di:waypoint x="510" y="1775"/><bpmndi:BPMNLabel><dc:Bounds x="630" y="1702" width="40" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_20" bpmnElement="Flow_20"><di:waypoint x="510" y="1845"/><di:waypoint x="510" y="1892"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_20" bpmnElement="Flow_20"><di:waypoint x="405" y="1810"/><di:waypoint x="265" y="1810"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21" bpmnElement="Flow_21"><di:waypoint x="820" y="1750"/><di:waypoint x="820" y="1832"/><bpmndi:BPMNLabel><dc:Bounds x="832" y="1768" width="35" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Reference_Upstream" bpmnElement="Reference_Upstream"><di:waypoint x="222" y="139"/><di:waypoint x="118" y="139"/><di:waypoint x="118" y="220"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Reference_LeadRules" bpmnElement="Reference_LeadRules"><di:waypoint x="939" y="595"/><di:waypoint x="996" y="595"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Reference_CapacityRules" bpmnElement="Reference_CapacityRules"><di:waypoint x="939" y="1105"/><di:waypoint x="996" y="1105"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Reference_MaterialRules" bpmnElement="Reference_MaterialRules"><di:waypoint x="939" y="1360"/><di:waypoint x="996" y="1360"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Reference_PaymentHandoff" bpmnElement="Reference_PaymentHandoff"><di:waypoint x="838" y="1850"/><di:waypoint x="984" y="1850"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_22" bpmnElement="Flow_22"><di:waypoint x="460" y="503"/><di:waypoint x="390" y="503"/><di:waypoint x="390" y="1765"/><di:waypoint x="420" y="1765"/><di:waypoint x="420" y="1775"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_23" bpmnElement="Flow_23"><di:waypoint x="460" y="758"/><di:waypoint x="402" y="758"/><di:waypoint x="402" y="1757"/><di:waypoint x="438" y="1757"/><di:waypoint x="438" y="1775"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_24" bpmnElement="Flow_24"><di:waypoint x="460" y="1013"/><di:waypoint x="414" y="1013"/><di:waypoint x="414" y="1749"/><di:waypoint x="456" y="1749"/><di:waypoint x="456" y="1775"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_25" bpmnElement="Flow_25"><di:waypoint x="460" y="1268"/><di:waypoint x="426" y="1268"/><di:waypoint x="426" y="1741"/><di:waypoint x="474" y="1741"/><di:waypoint x="474" y="1775"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_26" bpmnElement="Flow_26"><di:waypoint x="460" y="1523"/><di:waypoint x="438" y="1523"/><di:waypoint x="438" y="1733"/><di:waypoint x="492" y="1733"/><di:waypoint x="492" y="1775"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_27" bpmnElement="Flow_27"><di:waypoint x="240" y="1785"/><di:waypoint x="240" y="1702"/><bpmndi:BPMNLabel><dc:Bounds x="248" y="1738" width="110" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_28" bpmnElement="Flow_28"><di:waypoint x="240" y="1835"/><di:waypoint x="240" y="1892"/><bpmndi:BPMNLabel><dc:Bounds x="248" y="1850" width="60" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_29" bpmnElement="Flow_29"><di:waypoint x="140" y="1666"/><di:waypoint x="96" y="1666"/><di:waypoint x="96" y="320"/><di:waypoint x="650" y="320"/><di:waypoint x="650" y="230"/><di:waypoint x="705" y="230"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Reference_RecoveryRoutes" bpmnElement="Reference_RecoveryRoutes"><di:waypoint x="240" y="1630"/><di:waypoint x="240" y="1579"/></bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

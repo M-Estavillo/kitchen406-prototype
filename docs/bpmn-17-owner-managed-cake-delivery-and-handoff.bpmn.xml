@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_21" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
-  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
-  <bpmn:collaboration id="Collaboration_21">
-    <bpmn:participant id="Participant_21" name="BPMN-21 | Owner-Managed Cake Delivery and Handoff" processRef="Process_21" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_17" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+  <bpmn:collaboration id="Collaboration_17">
+    <bpmn:participant id="Participant_17" name="BPMN-17 | Owner-Managed Cake Delivery and Handoff" processRef="Process_17" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_21" name="Owner-Managed Cake Delivery and Handoff" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-21 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-16; 4.15 FR-FUL-08,18,20-21,26; supporting FR-FUL-23, FR-CAKE-08-09, NFR-SEC-14, NFR-REL-03,05-06 and BR-20. Website: index.html loads app/owner-orders.js (Confirm handoff for paid ready cakes), app/fulfillment-state.js F.transition (owner-only cake completion), app/earnings-allocation.js and app/owner-cake-state.js. Current XMLs reviewed, particularly BPMN-16/17/18/19/20; SRS governs missing server-side and consistent lock/timestamp persistence in the in-memory prototype. Scope is a ready paid custom-cake operational order linked to the customer-accepted quotation and agreed owner-managed delivery arrangement from BPMN-08. Agreement/quotation revision is not repeated here. Delivery and physical handoff are manual owner activities; system recording is an Owner confirmation, not a Lalamove webhook or customer acknowledgment. Two internal responsibility lanes use sequence flows. No external API pool/message flow or generic broadcast signal is appropriate. Owner access applies to this cake handoff even though other production actions may permit Staff. Authentication is upstream BPMN-30; recheck Owner permission and current state at completion. BPMN-16 is an external reusable call in validation-only mode, with relative import and qualified Process_16 reference, not an embedded subprocess or forced allocation entry. All local checks and essential unsuccessful outcomes are visible. No courier distance limit, Maps eligibility/fee quotation, Lalamove booking/status, live tracking, new payment, refund, production consumption or subscription progress is executed. A failed/cancelled confirmation leaves system state incomplete; actual transport/handoff cannot be undone by system rollback. If physical handoff already occurred, retry only its recording. Completion and lock timestamps, original amounts and shares save consistently; matching concurrent completions reuse the original result. BPMN-28/29 own applicable notices; BPMN-34 owns inquiry; BPMN-43 reporting; BPMN-23 authorized reversal. Existing BPMNs are unchanged. BPMN-20 is partially reviewed by the user, not treated as fully approved.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_21">
+  <bpmn:process id="Process_17" name="Owner-Managed Cake Delivery and Handoff" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-17 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-16; 4.15 FR-FUL-08,18,20-21,26; supporting FR-FUL-23, FR-CAKE-08-09, NFR-SEC-14, NFR-REL-03,05-06 and BR-20. Website: index.html loads app/owner-orders.js (Confirm handoff for paid ready cakes), app/fulfillment-state.js F.transition (owner-only cake completion), app/earnings-allocation.js and app/owner-cake-state.js. Current XMLs reviewed, particularly BPMN-12/13/14/15/16; SRS governs missing server-side and consistent lock/timestamp persistence in the in-memory prototype. Scope is a ready paid custom-cake operational order linked to the customer-accepted quotation and agreed owner-managed delivery arrangement from BPMN-08. Agreement/quotation revision is not repeated here. Delivery and physical handoff are manual owner activities; system recording is an Owner confirmation, not a Lalamove webhook or customer acknowledgment. Two internal responsibility lanes use sequence flows. No external API pool/message flow or generic broadcast signal is appropriate. Owner access applies to this cake handoff even though other production actions may permit Staff. Authentication is upstream BPMN-26; recheck Owner permission and current state at completion. BPMN-12 is an external reusable call in validation-only mode, with relative import and qualified Process_16 reference, not an embedded subprocess or forced allocation entry. All local checks and essential unsuccessful outcomes are visible. No courier distance limit, Maps eligibility/fee quotation, Lalamove booking/status, live tracking, new payment, refund, production consumption or subscription progress is executed. A failed/cancelled confirmation leaves system state incomplete; actual transport/handoff cannot be undone by system rollback. If physical handoff already occurred, retry only its recording. Completion and lock timestamps, original amounts and shares save consistently; matching concurrent completions reuse the original result. BPMN-24/25 own applicable notices; BPMN-30 owns inquiry; BPMN-39 reporting; BPMN-19 authorized reversal. Existing BPMNs are unchanged. BPMN-16 is partially reviewed by the user, not treated as fully approved.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_17">
       <bpmn:lane id="Lane_21_user" name="Admin/Owner — cake delivery and handoff">
         <bpmn:flowNodeRef>Handover_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm_21</bpmn:flowNodeRef>
@@ -35,7 +35,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start_21" name="Ready paid cake enters agreed owner delivery">
-      <bpmn:documentation>Input: custom cake paid and Ready from BPMN-17, with accepted quotation/owner delivery arrangement from BPMN-08 linked through BPMN-13. A fresh recording retry may enter after physical handoff; do not transport or deliver another cake merely because the system save is retried.</bpmn:documentation>
+      <bpmn:documentation>Input: custom cake paid and Ready from BPMN-13, with accepted quotation/owner delivery arrangement from BPMN-08 linked through BPMN-10. A fresh recording retry may enter after physical handoff; do not transport or deliver another cake merely because the system save is retried.</bpmn:documentation>
       <bpmn:outgoing>Flow_21_7</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Load_21" name="Load cake order, accepted quotation and agreed delivery terms">
@@ -54,7 +54,7 @@
       <bpmn:outgoing>Flow_21_1</bpmn:outgoing>
       <bpmn:outgoing>Flow_21_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="Allocation_21" name="Refer to BPMN-16 — Validate saved preparing-owner allocations" calledElement="k406:Process_16">
+    <bpmn:callActivity id="Allocation_21" name="Refer to BPMN-12 — Validate saved preparing-owner allocations" calledElement="k406:Process_12">
       <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with cake fulfillment identity, Owner actor, expected version and action=owner cake handoff. Return saved allocation validation or exact permission/version/owner-split/lock reason. Do not reopen valid saved owner splits or independently save allocation edits. Any supported combined draft must validate and join the same final transaction; preparation shares remain separate from the person driving/confirming.</bpmn:documentation>
       <bpmn:incoming>Flow_21_10</bpmn:incoming>
       <bpmn:outgoing>Flow_21_11</bpmn:outgoing>
@@ -96,13 +96,13 @@
       <bpmn:outgoing>Flow_21_21</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Publish_21" name="Use recorded cake completion for applicable notification follow-up">
-      <bpmn:documentation>Use this same recorded completion identity for supported BPMN-28 external or BPMN-29 internal notification work, independently of successful completion. No generic broadcast-signal architecture is prescribed, and no customer receipt action or notification-delivery success is required. Matching completion reuse resumes only pending follow-up and never duplicates already handled effects. Cake orders do not call BPMN-05 subscription progress. Status inquiry is BPMN-34; report generation is BPMN-43.</bpmn:documentation>
+      <bpmn:documentation>Use this same recorded completion identity for supported BPMN-24 external or BPMN-25 internal notification work, independently of successful completion. No generic broadcast-signal architecture is prescribed, and no customer receipt action or notification-delivery success is required. Matching completion reuse resumes only pending follow-up and never duplicates already handled effects. Cake orders do not call BPMN-05 subscription progress. Status inquiry is BPMN-30; report generation is BPMN-39.</bpmn:documentation>
       <bpmn:incoming>Flow_21_22</bpmn:incoming>
       <bpmn:incoming>Flow_21_18</bpmn:incoming>
       <bpmn:outgoing>Flow_21_19</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Completed_21" name="Cake handoff completed; time recorded and allocations locked">
-      <bpmn:documentation>Output: paid cake fulfillment Completed with recorded handoff completion time, preserved original product amounts and locked allocations. Repeated requests cannot duplicate completion/sales or change its original timestamp. BPMN-43 uses actual completion date separately; BPMN-23 owns authorized accidental reversal. No general edit/unlock or automatic inventory reversal is introduced.</bpmn:documentation>
+      <bpmn:documentation>Output: paid cake fulfillment Completed with recorded handoff completion time, preserved original product amounts and locked allocations. Repeated requests cannot duplicate completion/sales or change its original timestamp. BPMN-39 uses actual completion date separately; BPMN-19 owns authorized accidental reversal. No general edit/unlock or automatic inventory reversal is introduced.</bpmn:documentation>
       <bpmn:incoming>Flow_21_19</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="EligibilityError_21" name="Explain Owner, payment, status or accepted-arrangement issue">
@@ -114,7 +114,7 @@
       <bpmn:incoming>Flow_21_2</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="AllocationError_21" name="Return permission, stale-version, allocation or lock reason">
-      <bpmn:documentation>Return BPMN-16 reason. Permission failure requires allowed Owner action; stale version requires refresh/review; missing/invalid shares may be corrected separately via BPMN-16 while editable. Keep latest saved state; no external delivery API request or customer acknowledgment bypass.</bpmn:documentation>
+      <bpmn:documentation>Return BPMN-12 reason. Permission failure requires allowed Owner action; stale version requires refresh/review; missing/invalid shares may be corrected separately via BPMN-12 while editable. Keep latest saved state; no external delivery API request or customer acknowledgment bypass.</bpmn:documentation>
       <bpmn:incoming>Flow_21_3</bpmn:incoming>
       <bpmn:outgoing>Flow_21_4</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -158,7 +158,7 @@ No fixed courier-distance limit; no Lalamove, Maps quotation or pickup workflow.
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_EligibilityRules_21" sourceRef="Eligibility_21" targetRef="EligibilityRules_21" associationDirection="None" />
     <bpmn:textAnnotation id="AllocationRules_21">
-      <bpmn:text>Refer to BPMN-16
+      <bpmn:text>Refer to BPMN-12
 Validate existing allocations, Owner action permission, version and locks.
 No forced owner-split entry.
 Driving/confirming does not earn an automatic owner share.
@@ -177,9 +177,9 @@ No second ingredient consumption.</bpmn:text>
     <bpmn:association id="Assoc_CommitRules_21" sourceRef="Commit_21" targetRef="CommitRules_21" associationDirection="None" />
     <bpmn:textAnnotation id="Handoffs_21">
       <bpmn:text>After cake completion
-Applicable notices: BPMN-28/29, independently of successful completion.
-Status inquiry: BPMN-34.
-Reporting: BPMN-43 uses actual completion date and original amounts.
+Applicable notices: BPMN-24/25, independently of successful completion.
+Status inquiry: BPMN-30.
+Reporting: BPMN-39 uses actual completion date and original amounts.
 No subscription progress or new payment.
 Any recording retry must not repeat physical delivery or handoff.</bpmn:text>
     </bpmn:textAnnotation>
@@ -198,9 +198,9 @@ Any recording retry must not repeat physical delivery or handoff.</bpmn:text>
     <bpmn:sequenceFlow id="Flow_21_21" sourceRef="Saved_21" targetRef="Reuse_21" name="Matching handoff already recorded" />
     <bpmn:sequenceFlow id="Flow_21_22" sourceRef="Reuse_21" targetRef="Publish_21" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_21">
-    <bpmndi:BPMNPlane id="Plane_21" bpmnElement="Collaboration_21">
-      <bpmndi:BPMNShape id="Shape_Participant_21" bpmnElement="Participant_21" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_17">
+    <bpmndi:BPMNPlane id="Plane_17" bpmnElement="Collaboration_17">
+      <bpmndi:BPMNShape id="Shape_Participant_21" bpmnElement="Participant_17" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1350" height="3700" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_21_user" bpmnElement="Lane_21_user" isHorizontal="false">

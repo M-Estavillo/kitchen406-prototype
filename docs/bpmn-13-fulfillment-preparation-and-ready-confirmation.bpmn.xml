@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_17" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
-  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
-  <bpmn:collaboration id="Collaboration_17">
-    <bpmn:participant id="Participant_17" name="BPMN-17 | Fulfillment Preparation and Ready Confirmation" processRef="Process_17" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_13" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
+  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+  <bpmn:collaboration id="Collaboration_13">
+    <bpmn:participant id="Participant_13" name="BPMN-13 | Fulfillment Preparation and Ready Confirmation" processRef="Process_13" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_17" name="Fulfillment Preparation and Ready Confirmation" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md (catalog boundaries/reuse reviewed); Chapters/Kitchen406 - Capstone Paper.md SRS 4.15 FR-FUL-01-11,14-18,23-26; FR-INV-09,17,19; FR-BOM-10; supporting NFR-SEC-14, NFR-REL-03,05-06. Website: index.html and linked app/fulfillment-state.js F.transition, app/inventory-state.js I.consume, app/earnings-allocation.js, app/staff-ui.js, app/owner-orders.js and app/subscription-batches.js. Paper governs prototype gaps: server validation and combined allocation/status/material updates must be consistent. Scope: all paid operational fulfillment types, including each subscription week and accepted paid cake. Human review/preparation and system transitions use vertical internal responsibility lanes in one pool; no message flows are needed between lanes. Authentication is a precondition from BPMN-30. Every main activity, decision and failure outcome is on this diagram. BPMN-16 is an external reusable process referenced by call activities and an explicit relative BPMN import, not copied or disguised as a local subprocess. Its calledElement is k406:Process_16. bpmn.io renders these calls; opening another file or executing cross-file calls depends on the modeling/execution host. Validation-only mode returns saved allocations with no manual re-entry. If draft allocations accompany confirmation, the caller validates them using BPMN-16 rules in its transaction; do not run an independently committed allocation edit ahead of a failed status change. Each commit rechecks permissions/version/locks to avoid stale validation. One instance per fulfillment; batch screens invoke independently and report each result. Actual work can continue after an interrupted screen: a separate ready-confirmation entry handles already preparing fulfillments. Reservation timing and subscription recovery belong to BPMN-15, including the unresolved timing issue, and are not changed here. No payment, checkout/capacity booking, stock restocking, courier booking, pickup or delivery completion, sales posting or status reversal is executed here.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_17">
+  <bpmn:process id="Process_13" name="Fulfillment Preparation and Ready Confirmation" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md (catalog boundaries/reuse reviewed); Chapters/Kitchen406 - Capstone Paper.md SRS 4.15 FR-FUL-01-11,14-18,23-26; FR-INV-09,17,19; FR-BOM-10; supporting NFR-SEC-14, NFR-REL-03,05-06. Website: index.html and linked app/fulfillment-state.js F.transition, app/inventory-state.js I.consume, app/earnings-allocation.js, app/staff-ui.js, app/owner-orders.js and app/subscription-batches.js. Paper governs prototype gaps: server validation and combined allocation/status/material updates must be consistent. Scope: all paid operational fulfillment types, including each subscription week and accepted paid cake. Human review/preparation and system transitions use vertical internal responsibility lanes in one pool; no message flows are needed between lanes. Authentication is a precondition from BPMN-26. Every main activity, decision and failure outcome is on this diagram. BPMN-12 is an external reusable process referenced by call activities and an explicit relative BPMN import, not copied or disguised as a local subprocess. Its calledElement is k406:Process_16. bpmn.io renders these calls; opening another file or executing cross-file calls depends on the modeling/execution host. Validation-only mode returns saved allocations with no manual re-entry. If draft allocations accompany confirmation, the caller validates them using BPMN-12 rules in its transaction; do not run an independently committed allocation edit ahead of a failed status change. Each commit rechecks permissions/version/locks to avoid stale validation. One instance per fulfillment; batch screens invoke independently and report each result. Actual work can continue after an interrupted screen: a separate ready-confirmation entry handles already preparing fulfillments. Reservation timing and subscription recovery belong to BPMN-11, including the unresolved timing issue, and are not changed here. No payment, checkout/capacity booking, stock restocking, courier booking, pickup or delivery completion, sales posting or status reversal is executed here.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_13">
       <bpmn:lane id="Lane_17_user" name="Admin/Owner or authorized Staff">
         <bpmn:flowNodeRef>Review_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>RequestStart_17</bpmn:flowNodeRef>
@@ -61,12 +61,12 @@
       <bpmn:outgoing>Flow_17_16</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="Review_17" name="Review quantities, recipe or accepted cake details">
-      <bpmn:documentation>Review instructions needed for this fulfillment, including the accepted quotation specifications for cakes. Preparing-owner assignment/edit belongs to BPMN-16 and may be recorded separately before starting. No mandatory extra owner approval of cake specifications is invented.</bpmn:documentation>
+      <bpmn:documentation>Review instructions needed for this fulfillment, including the accepted quotation specifications for cakes. Preparing-owner assignment/edit belongs to BPMN-12 and may be recorded separately before starting. No mandatory extra owner approval of cake specifications is invented.</bpmn:documentation>
       <bpmn:incoming>Flow_17_16</bpmn:incoming>
       <bpmn:outgoing>Flow_17_17</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="RequestStart_17" name="Confirm start preparation or cancel">
-      <bpmn:documentation>Confirm that preparation is starting and ingredients will be recorded as used. If the supported screen includes an allocation draft, it is subject to BPMN-16 validation and the same atomic commit. Batch confirmation is per selected fulfillment, not proof that every record is eligible.</bpmn:documentation>
+      <bpmn:documentation>Confirm that preparation is starting and ingredients will be recorded as used. If the supported screen includes an allocation draft, it is subject to BPMN-12 validation and the same atomic commit. Batch confirmation is per selected fulfillment, not proof that every record is eligible.</bpmn:documentation>
       <bpmn:incoming>Flow_17_17</bpmn:incoming>
       <bpmn:outgoing>Flow_17_18</bpmn:outgoing>
     </bpmn:userTask>
@@ -88,7 +88,7 @@
       <bpmn:outgoing>Flow_17_1</bpmn:outgoing>
       <bpmn:outgoing>Flow_17_28</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="StartAllocation_17" name="Refer to BPMN-16 — Validate preparing-owner allocations" calledElement="k406:Process_16">
+    <bpmn:callActivity id="StartAllocation_17" name="Refer to BPMN-12 — Validate preparing-owner allocations" calledElement="k406:Process_12">
       <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with fulfillment ID, acting account, expected version and action=start preparation. Return validated saved per-line owner allocations or specific permission/version/allocation/lock failure. A draft supplied by a combined action must be validated without independent commit. No forced re-entry of valid saved allocations. Caller owns material and status checks.</bpmn:documentation>
       <bpmn:incoming>Flow_17_28</bpmn:incoming>
       <bpmn:outgoing>Flow_17_22</bpmn:outgoing>
@@ -99,7 +99,7 @@
       <bpmn:outgoing>Flow_17_29</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:businessRuleTask id="Materials_17" name="Check full ingredient reservation and physical material readiness">
-      <bpmn:documentation>FR-INV-09,19; FR-FUL-08. Require complete active reservation linked to this fulfillment and every valid recipe/configuration ingredient quantity physically available for consumption, respecting other reservations. A projected requirement alone is not a reservation. First checkout reservations come from BPMN-09/13; later subscription reservations from BPMN-15. Do not silently create a missing reservation or use this as a new checkout.</bpmn:documentation>
+      <bpmn:documentation>FR-INV-09,19; FR-FUL-08. Require complete active reservation linked to this fulfillment and every valid recipe/configuration ingredient quantity physically available for consumption, respecting other reservations. A projected requirement alone is not a reservation. First checkout reservations come from BPMN-09/10; later subscription reservations from BPMN-11. Do not silently create a missing reservation or use this as a new checkout.</bpmn:documentation>
       <bpmn:incoming>Flow_17_29</bpmn:incoming>
       <bpmn:outgoing>Flow_17_23</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -109,7 +109,7 @@
       <bpmn:outgoing>Flow_17_30</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="CommitStart_17" name="Consume ingredients once; save Preparing and audit history atomically">
-      <bpmn:documentation>FR-INV-09,17,19; FR-FUL-23,26; NFR-REL-03,05. Under current version/permission/lock/material checks, deduct actual physical quantities once, convert linked reservation to consumed, record ingredient movements, actor/time and preparing transition/history/version together. Preserve product amounts and existing reporting timestamps. An optional combined allocation draft/history joins this same transaction after BPMN-16 validation. Use fulfillment/action operation identity so repeated requests do not consume twice. If the same completed operation is replayed, return existing success without another mutation; conflicting/stale operations reject. Do not reserve a later subscription fulfillment here. Failed combined save retains the prior saved state with no partial consumption or status update.</bpmn:documentation>
+      <bpmn:documentation>FR-INV-09,17,19; FR-FUL-23,26; NFR-REL-03,05. Under current version/permission/lock/material checks, deduct actual physical quantities once, convert linked reservation to consumed, record ingredient movements, actor/time and preparing transition/history/version together. Preserve product amounts and existing reporting timestamps. An optional combined allocation draft/history joins this same transaction after BPMN-12 validation. Use fulfillment/action operation identity so repeated requests do not consume twice. If the same completed operation is replayed, return existing success without another mutation; conflicting/stale operations reject. Do not reserve a later subscription fulfillment here. Failed combined save retains the prior saved state with no partial consumption or status update.</bpmn:documentation>
       <bpmn:incoming>Flow_17_30</bpmn:incoming>
       <bpmn:outgoing>Flow_17_24</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -124,7 +124,7 @@
       <bpmn:outgoing>Flow_17_35</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:userTask id="ReadyRequest_17" name="Review prepared and packed products; confirm Ready or cancel">
-      <bpmn:documentation>Confirm this fulfillment is prepared, packed and staged. Existing saved owner allocations are retained; corrections are a separate BPMN-16 edit while unlocked. Cancelling this confirmation does not reverse previously recorded preparation or ingredient consumption.</bpmn:documentation>
+      <bpmn:documentation>Confirm this fulfillment is prepared, packed and staged. Existing saved owner allocations are retained; corrections are a separate BPMN-12 edit while unlocked. Cancelling this confirmation does not reverse previously recorded preparation or ingredient consumption.</bpmn:documentation>
       <bpmn:incoming>Flow_17_36</bpmn:incoming>
       <bpmn:incoming>Flow_17_35</bpmn:incoming>
       <bpmn:outgoing>Flow_17_37</bpmn:outgoing>
@@ -141,7 +141,7 @@
     <bpmn:endEvent id="CancelReady_17" name="Ready cancelled; remains Preparing">
       <bpmn:incoming>Flow_17_38</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="ReadyAllocation_17" name="Refer to BPMN-16 — Revalidate saved owner allocations" calledElement="k406:Process_16">
+    <bpmn:callActivity id="ReadyAllocation_17" name="Refer to BPMN-12 — Revalidate saved owner allocations" calledElement="k406:Process_12">
       <bpmn:documentation>Invoke k406:Process_16 with validation-only mode, requested action=mark ready, current acting account and expected order version. Do not prompt for valid existing owner selections. Return exact permission/stale-version/allocation/lock reason on rejection. If a draft is submitted with the status request, validate and commit it consistently with Ready; never change the acting staff account into an allocation recipient.</bpmn:documentation>
       <bpmn:incoming>Flow_17_39</bpmn:incoming>
       <bpmn:outgoing>Flow_17_25</bpmn:outgoing>
@@ -172,7 +172,7 @@
       <bpmn:outgoing>Flow_17_33</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Ready_17" name="Ready for the separate pickup/delivery process">
-      <bpmn:documentation>Output: paid ready fulfillment with preserved allocations, one recorded consumption and updated operational history. Standard/subscription pickup uses BPMN-18; standard/subscription delivery uses BPMN-19/20; cakes use BPMN-21 owner handoff. Ready is not completed and does not create Fulfilled sales. Applicable notifications run independently in BPMN-28/29; customer status inquiry belongs to BPMN-34.</bpmn:documentation>
+      <bpmn:documentation>Output: paid ready fulfillment with preserved allocations, one recorded consumption and updated operational history. Standard/subscription pickup uses BPMN-14; standard/subscription delivery uses BPMN-15/16; cakes use BPMN-17 owner handoff. Ready is not completed and does not create Fulfilled sales. Applicable notifications run independently in BPMN-24/25; customer status inquiry belongs to BPMN-30.</bpmn:documentation>
       <bpmn:incoming>Flow_17_33</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="EligibilityError_17" name="Explain unpaid, not-due or invalid-status reason; retain state">
@@ -183,8 +183,8 @@
     <bpmn:endEvent id="EligibilityEnd_17" name="Preparation blocked; review eligibility">
       <bpmn:incoming>Flow_17_2</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="StartAllocationError_17" name="Return BPMN-16 permission, version, allocation or lock reason">
-      <bpmn:documentation>Retain latest saved state. Permission denied requires permitted account/action; stale version requires refresh/review; invalid allocations can be corrected via BPMN-16 while unlocked. Do not bypass validation or rerun payment.</bpmn:documentation>
+    <bpmn:serviceTask id="StartAllocationError_17" name="Return BPMN-12 permission, version, allocation or lock reason">
+      <bpmn:documentation>Retain latest saved state. Permission denied requires permitted account/action; stale version requires refresh/review; invalid allocations can be corrected via BPMN-12 while unlocked. Do not bypass validation or rerun payment.</bpmn:documentation>
       <bpmn:incoming>Flow_17_3</bpmn:incoming>
       <bpmn:outgoing>Flow_17_4</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -192,7 +192,7 @@
       <bpmn:incoming>Flow_17_4</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="MaterialError_17" name="Explain missing reservation or ingredient shortage; retain Confirmed">
-      <bpmn:documentation>Refer to BPMN-15 for later subscription reservation/retry; BPMN-24 for restocking. These are separate recovery processes, not automatic preparation approval. No consumption or cancellation. Missing/invalid recipe is a data issue, not zero ingredients.</bpmn:documentation>
+      <bpmn:documentation>Refer to BPMN-11 for later subscription reservation/retry; BPMN-20 for restocking. These are separate recovery processes, not automatic preparation approval. No consumption or cancellation. Missing/invalid recipe is a data issue, not zero ingredients.</bpmn:documentation>
       <bpmn:incoming>Flow_17_5</bpmn:incoming>
       <bpmn:outgoing>Flow_17_6</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -207,7 +207,7 @@
     <bpmn:endEvent id="StartSaveEnd_17" name="Start failed; refresh, review and retry">
       <bpmn:incoming>Flow_17_8</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="ReadyAllocationError_17" name="Return BPMN-16 reason; retain saved Preparing state">
+    <bpmn:serviceTask id="ReadyAllocationError_17" name="Return BPMN-12 reason; retain saved Preparing state">
       <bpmn:documentation>No second consumption or rollback of actual preparation. Refresh stale data, correct editable allocations or use authorized account as appropriate; retry ready confirmation separately.</bpmn:documentation>
       <bpmn:incoming>Flow_17_9</bpmn:incoming>
       <bpmn:outgoing>Flow_17_10</bpmn:outgoing>
@@ -276,7 +276,7 @@ Paid, confirmed operational fulfillment.
 Applicable preparation date reached.
 Current state = Confirmed.
 All three fulfillment types use these controls.
-BPMN-30 owns sign-in; BPMN-16 checks action permissions/version/locks.</bpmn:text>
+BPMN-26 owns sign-in; BPMN-12 checks action permissions/version/locks.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_EligibilityRules_17" sourceRef="CheckStart_17" targetRef="EligibilityRules_17" associationDirection="None" />
     <bpmn:textAnnotation id="MaterialRules_17">
@@ -285,7 +285,7 @@ Full reservation belongs to this fulfillment.
 Every required recipe ingredient is available for consumption.
 Projected requirements alone are insufficient.
 No new checkout or capacity booking.
-BPMN-15/24 own applicable reservation recovery and restocking.</bpmn:text>
+BPMN-11/20 own applicable reservation recovery and restocking.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_MaterialRules_17" sourceRef="Materials_17" targetRef="MaterialRules_17" associationDirection="None" />
     <bpmn:textAnnotation id="StartCommitRules_17">
@@ -301,30 +301,30 @@ Failed update: no partial changes.</bpmn:text>
       <bpmn:text>Ready requirements
 Paid order remains Preparing.
 Preparation consumption already recorded.
-BPMN-16 revalidates owner allocations and action controls.
+BPMN-12 revalidates owner allocations and action controls.
 Do not consume or reserve ingredients again.
 Ready is not completed and creates no Fulfilled sale.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_ReadyRules_17" sourceRef="CheckReady_17" targetRef="ReadyRules_17" associationDirection="None" />
     <bpmn:textAnnotation id="CallReference_17">
-      <bpmn:text>BPMN-16 — Preparing-Owner Assignment and Allocation Validation
+      <bpmn:text>BPMN-12 — Preparing-Owner Assignment and Allocation Validation
 External call, validation-only mode.
 Returns saved allocation result and version without user re-entry.
-Source: bpmn-16-preparing-owner-assignment-and-allocation-validation.bpmn.xml</bpmn:text>
+Source: bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_CallReference_17" sourceRef="StartAllocation_17" targetRef="CallReference_17" associationDirection="None" />
     <bpmn:textAnnotation id="Handoffs_17">
       <bpmn:text>After Ready (separate processes)
-BPMN-18: standard/subscription pickup.
-BPMN-19/20: standard/subscription courier booking and delivery.
-BPMN-21: owner-managed cake delivery/handoff.
+BPMN-14: standard/subscription pickup.
+BPMN-15/16: standard/subscription courier booking and delivery.
+BPMN-17: owner-managed cake delivery/handoff.
 Batch actions: independent validation/result per fulfillment; failed rows retain prior saved state.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_Handoffs_17" sourceRef="Ready_17" targetRef="Handoffs_17" associationDirection="None" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_17">
-    <bpmndi:BPMNPlane id="Plane_17" bpmnElement="Collaboration_17">
-      <bpmndi:BPMNShape id="Shape_Participant_17" bpmnElement="Participant_17" isHorizontal="false">
+  <bpmndi:BPMNDiagram id="Diagram_13">
+    <bpmndi:BPMNPlane id="Plane_13" bpmnElement="Collaboration_13">
+      <bpmndi:BPMNShape id="Shape_Participant_17" bpmnElement="Participant_13" isHorizontal="false">
         <dc:Bounds x="40" y="40" width="1350" height="4600" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_17_user" bpmnElement="Lane_17_user" isHorizontal="false">
