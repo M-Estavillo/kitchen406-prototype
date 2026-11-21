@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_26" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_26"><bpmn:participant id="Participant_26" name="BPMN-26 | Fulfillment Material Requirements Projection" processRef="Process_26" /></bpmn:collaboration>
+  <bpmn:process id="Process_26" name="Fulfillment Material Requirements Projection" isExecutable="false">
+    <bpmn:documentation>BPMN-26 ? Fulfillment Material Requirements Projection. Sources: docs/proposed-bpmn-catalog.md (all 43 scopes and reuse rules); Chapters/Kitchen406 - Capstone Paper.md SRS 4.12 FR-INV-03?05 and 4.13 FR-BOM-07?08; supporting FR-BOM-06,13?14, FR-INV-09,19, FR-STAFF-04?06, NFR-SEC-03 and BR-25. Implementation: index.html script wiring; app/inventory-state.js I.materials, I.plan, I.retime, I.requirementRows (separate from I.reserve / I.consume); app/staff-ui.js materialTable and recipe views; app/owner-inventory.js stock/reservation views. Prototype contains illustrative recipes and per-order planning; proposed SRS controls the complete pending/confirmed projection. Existing docs XML reviewed, including broad inventory-control.bpmn.xml and bounded 01?07,22?25. No existing bounded process supplies this calculation, so no call activity is needed. Refer to BPMN-39 for separate recipe maintenance, BPMN-09 and BPMN-15 for separate reservations, BPMN-17 for actual consumption and BPMN-24 for recording received stock. These operations are not invoked by planning; no duplicate workflows or unresolved calledElement references are introduced. Authentication is a precondition (BPMN-30). Two internal responsibility lanes share one pool; sequence flows, not message flows, connect them. No external participant is involved. The two untyped starts describe alternative planning triggers, not external messages. Non-executable proposed process; read top to bottom. Empty and invalid-data outcomes are explicit; stock shortage does not prevent calculating demand. No automatic purchasing or stock deduction. Existing diagrams remain unchanged.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_26">
+      <bpmn:lane id="Lane_26_User" name="Admin/Owner or authorized Staff">
+        <bpmn:flowNodeRef>N26_Request</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Submit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Review</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_26_System" name="Kitchen406 System | Inventory Management">
+        <bpmn:flowNodeRef>N26_Change</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Load</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Data</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Issue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Blocked</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Any</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Empty</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Calculate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Project</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N26_Publish</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="N26_Request" name="Material planning requested">
+      <bpmn:outgoing>F26_01</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="N26_Submit" name="Request fulfillment material requirements">
+      <bpmn:documentation>Authenticated Admin/Owner or authorized Staff requests operational planning information. Authentication is a precondition: Refer to BPMN-30 ? User Authentication and Role-Based Access. No pricing, cost or sales information is required.</bpmn:documentation>
+      <bpmn:incoming>F26_01</bpmn:incoming>
+      <bpmn:outgoing>F26_02</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="N26_Change" name="Relevant fulfillment change">
+      <bpmn:documentation>Alternative trigger: an existing pending/confirmed fulfillment is created or its relevant quantities, configuration, schedule or eligibility changes. Descriptive trigger; no new external webhook or timer is specified.</bpmn:documentation>
+      <bpmn:outgoing>F26_03</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="N26_Merge">
+      <bpmn:documentation>Alternative entry paths merge; each request/change starts its own calculation.</bpmn:documentation>
+      <bpmn:incoming>F26_02</bpmn:incoming>
+      <bpmn:incoming>F26_03</bpmn:incoming>
+      <bpmn:outgoing>F26_04</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="N26_Load" name="Load eligible fulfillments and recipe / cake mappings">
+      <bpmn:documentation>FR-INV-04; FR-BOM-07?08. Retrieve pending and confirmed fulfillments with line quantities, product variants, configuration and applicable schedules. Include each weekly subscription fulfillment once, rather than also counting its enrollment purchase. Exclude cancelled fulfillments and quantities already consumed from upcoming consumption. Read single-level base-ingredient mappings; cake materials follow the selected/accepted configuration, including accepted quotation material details where applicable.</bpmn:documentation>
+      <bpmn:incoming>F26_04</bpmn:incoming>
+      <bpmn:outgoing>F26_05</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="N26_Data" name="Required data usable?" default="F26_06">
+      <bpmn:incoming>F26_05</bpmn:incoming>
+      <bpmn:outgoing>F26_06</bpmn:outgoing>
+      <bpmn:outgoing>F26_08</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="N26_Issue" name="Identify missing or invalid recipe / fulfillment data">
+      <bpmn:documentation>Do not silently treat unknown materials as zero or publish a complete projection. Refer to BPMN-39 ? Recipe and Bill of Materials Maintenance for owner-only correction of recipe definitions. A corrected request/change starts a new calculation; this process does not edit recipes. This exception reflects the prototype materials/reason checks and the documented dependence on accurate data.</bpmn:documentation>
+      <bpmn:incoming>F26_06</bpmn:incoming>
+      <bpmn:outgoing>F26_07</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="N26_Blocked" name="Projection unavailable; correction required">
+      <bpmn:incoming>F26_07</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="N26_Any" name="Eligible fulfillments found?" default="F26_09">
+      <bpmn:incoming>F26_08</bpmn:incoming>
+      <bpmn:outgoing>F26_09</bpmn:outgoing>
+      <bpmn:outgoing>F26_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="N26_Empty" name="Publish empty material requirements">
+      <bpmn:documentation>An empty eligible set is a valid planning result. Show that no upcoming requirements were found, rather than reporting a stock error.</bpmn:documentation>
+      <bpmn:incoming>F26_09</bpmn:incoming>
+      <bpmn:outgoing>F26_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="N26_Calculate" name="Calculate ingredients for each fulfillment">
+      <bpmn:documentation>FR-INV-03?04; FR-BOM-07?08. Multiply each recipe/configuration ingredient quantity by its applicable ordered quantity and sum shared base ingredients per fulfillment in consistent inventory units. Preserve fulfillment identity, schedule and pending/confirmed status. Read defined mappings; do not invent demo recipe quantities, nested components or batch-yield assumptions.</bpmn:documentation>
+      <bpmn:incoming>F26_10</bpmn:incoming>
+      <bpmn:outgoing>F26_11</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="N26_Project" name="Aggregate requirements; project confirmed consumption">
+      <bpmn:documentation>FR-INV-04?05. Produce pending and confirmed material requirements with a clearly distinguished confirmed-only upcoming consumption projection. Group by ingredient and applicable fulfillment schedule. Recalculation replaces the corresponding planning result rather than appending duplicate demand. Reserved stock is not another demand line; already consumed quantities are not deducted again. Pending requirements do not become confirmed consumption.</bpmn:documentation>
+      <bpmn:incoming>F26_11</bpmn:incoming>
+      <bpmn:outgoing>F26_12</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="N26_Publish" name="Make requirements and projection available">
+      <bpmn:documentation>Expose ingredient quantities, units, fulfillment references and schedules with pending/confirmed distinctions. This is recipe-based descriptive planning, not demand forecasting. No stock shortage blocks calculation of required quantities; stock eligibility is owned by reservation processes. No inventory movement, reservation, supplier purchase or payment is created.</bpmn:documentation>
+      <bpmn:incoming>F26_12</bpmn:incoming>
+      <bpmn:outgoing>F26_13</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="N26_Review" name="Review planning information">
+      <bpmn:documentation>Authorized operational users may review the populated or empty result. Planning can inform separate work, without automatically invoking it: Refer to BPMN-24 ? Ingredient Stock Restocking.</bpmn:documentation>
+      <bpmn:incoming>F26_13</bpmn:incoming>
+      <bpmn:incoming>F26_14</bpmn:incoming>
+      <bpmn:outgoing>F26_15</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="N26_Done" name="Planning information available">
+      <bpmn:incoming>F26_15</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F26_01" sourceRef="N26_Request" targetRef="N26_Submit"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_02" sourceRef="N26_Submit" targetRef="N26_Merge"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_03" sourceRef="N26_Change" targetRef="N26_Merge"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_04" sourceRef="N26_Merge" targetRef="N26_Load"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_05" sourceRef="N26_Load" targetRef="N26_Data"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_06" sourceRef="N26_Data" targetRef="N26_Issue" name="No"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_07" sourceRef="N26_Issue" targetRef="N26_Blocked"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_08" sourceRef="N26_Data" targetRef="N26_Any" name="Yes"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Required fulfillment quantities and applicable ingredient mappings are present and valid.</bpmn:conditionExpression></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_09" sourceRef="N26_Any" targetRef="N26_Empty" name="No"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_10" sourceRef="N26_Any" targetRef="N26_Calculate" name="Yes"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">At least one eligible pending or confirmed fulfillment exists.</bpmn:conditionExpression></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_11" sourceRef="N26_Calculate" targetRef="N26_Project"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_12" sourceRef="N26_Project" targetRef="N26_Publish"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_13" sourceRef="N26_Publish" targetRef="N26_Review"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_14" sourceRef="N26_Empty" targetRef="N26_Review"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F26_15" sourceRef="N26_Review" targetRef="N26_Done"></bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_26"><bpmndi:BPMNPlane id="Plane_26" bpmnElement="Collaboration_26">
+    <bpmndi:BPMNShape id="Shape_Participant_26" bpmnElement="Participant_26" isHorizontal="false"><dc:Bounds x="20" y="20" width="1180" height="1510" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_Lane_26_User" bpmnElement="Lane_26_User" isHorizontal="false"><dc:Bounds x="20" y="50" width="400" height="1480" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_Lane_26_System" bpmnElement="Lane_26_System" isHorizontal="false"><dc:Bounds x="420" y="50" width="780" height="1480" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Request" bpmnElement="N26_Request"><dc:Bounds x="222" y="130" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="145" y="85" width="190" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Submit" bpmnElement="N26_Submit"><dc:Bounds x="130" y="220" width="220" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Change" bpmnElement="N26_Change"><dc:Bounds x="632" y="130" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="555" y="85" width="190" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Merge" bpmnElement="N26_Merge"><dc:Bounds x="625" y="335" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Load" bpmnElement="N26_Load"><dc:Bounds x="540" y="425" width="220" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Data" bpmnElement="N26_Data"><dc:Bounds x="625" y="565" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="435" y="565" width="175" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Issue" bpmnElement="N26_Issue"><dc:Bounds x="900" y="550" width="220" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Blocked" bpmnElement="N26_Blocked"><dc:Bounds x="992" y="685" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1035" y="680" width="150" height="44" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Any" bpmnElement="N26_Any"><dc:Bounds x="625" y="710" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="435" y="710" width="175" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Empty" bpmnElement="N26_Empty"><dc:Bounds x="900" y="780" width="220" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Calculate" bpmnElement="N26_Calculate"><dc:Bounds x="540" y="815" width="220" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Project" bpmnElement="N26_Project"><dc:Bounds x="540" y="965" width="220" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Publish" bpmnElement="N26_Publish"><dc:Bounds x="540" y="1115" width="220" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Review" bpmnElement="N26_Review"><dc:Bounds x="130" y="1260" width="220" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Shape_N26_Done" bpmnElement="N26_Done"><dc:Bounds x="222" y="1420" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="145" y="1463" width="190" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="Edge_F26_01" bpmnElement="F26_01"><di:waypoint x="240" y="166" /><di:waypoint x="240" y="220" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_02" bpmnElement="F26_02"><di:waypoint x="240" y="300" /><di:waypoint x="240" y="360" /><di:waypoint x="625" y="360" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_03" bpmnElement="F26_03"><di:waypoint x="650" y="166" /><di:waypoint x="650" y="335" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_04" bpmnElement="F26_04"><di:waypoint x="650" y="385" /><di:waypoint x="650" y="425" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_05" bpmnElement="F26_05"><di:waypoint x="650" y="515" /><di:waypoint x="650" y="565" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_06" bpmnElement="F26_06"><di:waypoint x="675" y="590" /><di:waypoint x="900" y="590" /><bpmndi:BPMNLabel><dc:Bounds x="710" y="598" width="30" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_07" bpmnElement="F26_07"><di:waypoint x="1010" y="630" /><di:waypoint x="1010" y="685" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_08" bpmnElement="F26_08"><di:waypoint x="650" y="615" /><di:waypoint x="650" y="710" /><bpmndi:BPMNLabel><dc:Bounds x="662" y="623" width="30" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_09" bpmnElement="F26_09"><di:waypoint x="675" y="735" /><di:waypoint x="1010" y="735" /><di:waypoint x="1010" y="780" /><bpmndi:BPMNLabel><dc:Bounds x="710" y="743" width="30" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_10" bpmnElement="F26_10"><di:waypoint x="650" y="760" /><di:waypoint x="650" y="815" /><bpmndi:BPMNLabel><dc:Bounds x="662" y="768" width="30" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_11" bpmnElement="F26_11"><di:waypoint x="650" y="905" /><di:waypoint x="650" y="965" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_12" bpmnElement="F26_12"><di:waypoint x="650" y="1055" /><di:waypoint x="650" y="1115" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_13" bpmnElement="F26_13"><di:waypoint x="650" y="1195" /><di:waypoint x="650" y="1300" /><di:waypoint x="350" y="1300" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_14" bpmnElement="F26_14"><di:waypoint x="1120" y="820" /><di:waypoint x="1160" y="820" /><di:waypoint x="1160" y="1380" /><di:waypoint x="390" y="1380" /><di:waypoint x="390" y="1300" /><di:waypoint x="350" y="1300" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Edge_F26_15" bpmnElement="F26_15"><di:waypoint x="240" y="1340" /><di:waypoint x="240" y="1420" /></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

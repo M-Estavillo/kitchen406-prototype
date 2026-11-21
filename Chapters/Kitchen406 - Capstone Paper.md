@@ -2221,13 +2221,13 @@ This feature manages standard orders placed for catalog products and maintains t
 
 ### **4.8.1 Description and Priority** {#4.8.1-description-and-priority}
 
-This feature manages Kitchen406's prepaid subscription workflow consisting of four scheduled weekly fulfillments. Customers choose courier delivery or bakery pickup for all four fulfillments. Pickup requires no delivery address or delivery fee; courier delivery requires a confirmed address and prepaid delivery fees. **Priority: High.**
+This feature manages Kitchen406's prepaid subscription workflow consisting of four scheduled deliveries. **Priority: High.**
 
 ### **4.8.2 Stimulus/Response Sequences** {#4.8.2-stimulus/response-sequences}
 
 * When a customer selects an eligible subscription offering, the system displays the applicable subscription schedule and transaction information.  
 * When a customer selects a subscription schedule, the system checks the required production capacity before the subscription commitment is finalized.  
-* When the customer successfully completes the payment, the system creates four scheduled fulfillment records, confirms their capacity allocations, and retains the first fulfillment's ingredient reservation. Ingredient requirements for later fulfillments remain projected until their respective reservation dates.  
+* When the customer successfully completes the payment, the system creates four scheduled delivery records, confirms their capacity allocations, and retains the first fulfillment's ingredient reservation. Ingredient requirements for later fulfillments remain projected until their respective reservation dates.  
 * When a prepaid subscription is confirmed, the system apportions the actual prepaid product amount across its four fulfillment orders using the original quantity and selling-price snapshots. Delivery fees are excluded from these product amounts.  
 * When an authorized user opens a subscription fulfillment for preparation, the system allows preparing-owner allocations to be recorded independently of the other weekly fulfillments.  
 * When a subscription fulfillment is completed, its apportioned product amount enters Fulfilled sales using its actual completion date. The original prepaid purchase remains the payment source and is counted only once in Recorded payments.  
@@ -2242,7 +2242,7 @@ This feature manages Kitchen406's prepaid subscription workflow consisting of fo
 | ----- | ----- | ----- |
 | FR-SUB-01 | The system shall allow registered customers to enroll in available subscription offerings. | High |
 | FR-SUB-02 | The system shall require full prepaid payment for the four-week subscription. | High |
-| FR-SUB-03 | The system shall create four scheduled subscription fulfillment records for each successful subscription. | High |
+| FR-SUB-03 | The system shall create four scheduled subscription delivery records for each successful subscription. | High |
 | FR-SUB-04 | The system shall track the remaining and completed subscription deliveries. | High |
 | FR-SUB-05 | The system shall preserve the agreed preparation and fulfillment schedules of confirmed subscriptions, preventing subsequent changes to administrative schedule configurations from affecting existing commitments. | High |
 | FR-SUB-06 | The system shall allow customers to request deferment of an upcoming, unfulfilled subscription delivery. | High |
@@ -2289,7 +2289,6 @@ This feature manages custom requests for personalized cakes, including cake conf
 | FR-CAKE-07 | The system shall preserve previous quotation versions, including their agreed cake specifications and fulfillment details. | Medium |
 | FR-CAKE-08 | The system shall record the quotation accepted by the customer. | High |
 | FR-CAKE-09 | An accepted and paid custom cake quotation shall be linked to the corresponding order transaction. | High |
-| FR-CAKE-10 | The system shall expire an unanswered custom cake quotation 48 hours after that version is issued. | High |
 
 ## **4.10 Checkout and Payment Management** {#4.10-checkout-and-payment-management}
 
@@ -2386,7 +2385,9 @@ This feature manages Kitchen406’s ingredient stock and the inventory movements
 * When a required ingredient becomes fully depleted, the system prevents affected products from being ordered while the required ingredient remains unavailable.  
 * When an Admin/Owner or Staff member records newly purchased ingredients, the system increases the corresponding recorded stock and records the restocking movement.  
 * When an Admin/Owner or Staff member finds a discrepancy between physical and recorded stock, the user records an inventory adjustment and the system updates the stock quantity while preserving the reason for the adjustment.  
-* When ingredient stock is consumed, replenished, reversed, or adjusted, the system records the resulting inventory movement for traceability.
+* When ingredient stock is consumed, replenished, reversed, or adjusted, the system records the resulting inventory movement for traceability.  
+* When an authorized accidental correction returns a fulfillment from Preparing to Confirmed, the system reverses its recorded preparation consumption, restores the corresponding recorded physical stock, and retains those quantities as reserved for that fulfillment.  
+* When preparation subsequently starts again, the system records consumption against the restored reservation without duplicating the earlier consumption or reversal.
 
 ### **4.12.3 Functional Requirements** {#4.12.3-functional-requirements}
 
@@ -2404,9 +2405,9 @@ This feature manages Kitchen406’s ingredient stock and the inventory movements
 | FR-INV-10 | The system shall monitor ingredient stock against predefined low-stock thresholds. | High |
 | FR-INV-11 | The system shall notify the Admin/Owner when an ingredient reaches its predefined low-stock threshold. | High |
 | FR-INV-12 | The system shall prevent the ordering of an affected product when a required ingredient is fully depleted and the product can no longer be fulfilled. | High |
-| FR-INV-13 | The system shall allow authorized Admin/Owner and Staff accounts to record ingredient restocking quantities. | High |
-| FR-INV-14 | The system shall increase the recorded stock quantity of an ingredient when a valid restocking transaction is recorded. | High |
-| FR-INV-15 | The system shall allow authorized Admin/Owner and Staff accounts to record manual inventory adjustments when the physical stock differs from the system-recorded stock. | High |
+| FR-INV-13 | The system shall allow authorized Admin/Owner and Staff accounts to record ingredient restocks with a positive received quantity, compatible measurement unit, nonnegative Total Cost in PHP with at most two decimal places, and optional Notes. | High |
+| FR-INV-14 | The system shall increase recorded physical stock and update the ingredient’s weighted-average unit cost when a valid restock is recorded. Stock, unit cost, and the restocking movement shall be saved together without duplicate effects on retry. | High |
+| FR-INV-15 | The system shall record inventory movements resulting from restocking, consumption, reversals, and manual adjustments. Restocking movements shall retain the received quantity, total purchase cost, optional notes, timestamp, and before-and-after stock quantities. | High |
 | FR-INV-16 | The system shall require a reason for every manual inventory adjustment, including spoilage, damage, miscount, theft, correction, or another specified reason. | Medium |
 | FR-INV-17 | The system shall record inventory movements resulting from restocking, consumption, reversals, and manual adjustments. | High |
 | FR-INV-18 | The system shall record the responsible Admin/Owner or Staff account for manually performed restocking and inventory-adjustment transactions. | Medium |
@@ -2415,6 +2416,8 @@ This feature manages Kitchen406’s ingredient stock and the inventory movements
 | FR-INV-21 | The system shall automatically reserve ingredients for subsequent subscription fulfillments one day before their scheduled preparation dates. | High |
 | FR-INV-22 | The system shall notify the Admin/Owner when a scheduled ingredient reservation fails due to insufficient stock. | High |
 | FR-INV-23 | The system shall allow failed subscription ingredient reservations to be retried after stock replenishment without creating duplicate reservations. | High |
+| FR-INV-24 | When an authorized accidental status correction returns a fulfillment from Preparing to Confirmed, the system shall reverse only the ingredient consumption recorded for that fulfillment’s preparation start. It shall restore the original consumed quantities to recorded physical stock and return the associated reservation to its confirmed, unconsumed state. The restored quantities shall remain reserved for the same fulfillment rather than becoming available to other orders. | High |
+| FR-INV-25 | The system shall record each preparation-consumption reversal as a separate inventory movement linked to the original fulfillment and correction, preserving the original consumption history. Repeated processing shall not restore stock more than once. A later valid preparation start shall consume the restored reservation once. Reversals from Ready to Preparing or Completed to Ready shall not restore ingredient stock. | High |
 
 ## **4.13 Recipe and Bill of Materials Management** {#4.13-recipe-and-bill-of-materials-management}
 
@@ -2517,7 +2520,13 @@ Users may review and correct allocations while the fulfillment remains unlocked.
 * When the user marks an order ready, the system retains the saved allocations. Ready status does not create a fulfilled sale.  
 * When a courier booking becomes active or unresolved, the system locks allocations. If the booking fails or is cancelled while the order remains incomplete, the system permits allocation review before another booking attempt.  
 * When pickup, courier delivery, or owner-managed cake handoff is completed, the system records the completion timestamp and locks allocations.  
-* When an allocation or status save fails or conflicts with a newer order version, the system retains the previously saved values and requires the user to review and retry.
+* When an allocation or status save fails or conflicts with a newer order version, the system retains the previously saved values and requires the user to review and retry.  
+* When an Admin/Owner or Staff member requests correction of an accidental fulfillment status change, the system displays the permitted previous status and the effects of confirming the reversal.  
+* When the user confirms a reversal from Preparing to Confirmed, the system reverses the ingredient consumption recorded for that preparation start and restores the corresponding quantities to reserved stock for the same fulfillment.  
+* When the user confirms a reversal from Ready to Preparing, the system changes the fulfillment status without reversing ingredient consumption.  
+* When the user confirms a reversal from Completed to Ready, the system removes the fulfillment from Fulfilled sales, retains the previous completion information in audit history, and updates any linked subscription progress.  
+* When a correction is unauthorized, conflicts with the current order version, or is blocked by courier status, the system rejects it without changing saved records.  
+* When the user cancels confirmation or the save fails, the system preserves the prior fulfillment and inventory state.
 
 ### **4.15.3 Functional Requirements** {#4.15.3-functional-requirements}
 
@@ -2550,6 +2559,12 @@ Users may review and correct allocations while the fulfillment remains unlocked.
 | FR-FUL-25 | For supported batch production actions, the system shall validate and report results per fulfillment. Successful updates may proceed, while failed fulfillments retain their prior saved state for review and retry. | High |
 | FR-FUL-26 | The system shall preserve each fulfillment item’s product amount and the order’s completion and allocation-lock timestamps for reporting. Allocations shall reference eligible baking owners. Staff shall be recorded as action performers without receiving an owner allocation. | High |
 | FR-FUL-27 | When an authorized accidental status reversal makes an order incomplete, the system shall remove it from Fulfilled sales and retain its audit history. Subsequent valid completion shall record the new completion timestamp and include the order once. | High |
+| FR-FUL-28 | The system shall allow authorized Admin/Owner and Staff accounts to correct accidental fulfillment status changes through the following one-step reversals: Preparing to Confirmed, Ready to Preparing, and Completed to Ready. Reversal shall apply only to paid operational fulfillments and shall not reverse courier progress. | High |
+| FR-FUL-29 | Before applying a reversal, the system shall display the target status and applicable inventory or completion effects and require explicit user confirmation. Cancelling confirmation shall preserve the saved state. | High |
+| FR-FUL-30 | The system shall reject fulfillment status reversal when the associated courier booking is pending, booked, in transit, delivered, or unresolved. A failed or cancelled booking shall not by itself prevent an otherwise permitted correction. | High |
+| FR-FUL-31 | The system shall validate the acting account’s permission, current fulfillment status, and order version before committing a reversal. The status change, applicable inventory reversal, audit entry, completion-state changes, and linked subscription progress shall be committed consistently. A validation conflict or failed save shall preserve the prior saved state. Repeated submission of the same correction shall not duplicate its effects. | High |
+| FR-FUL-32 | The system shall retain an audit record for each successful status reversal containing the affected fulfillment, previous and resulting statuses, acting account, correction reason, correction timestamp, and applicable inventory-movement references. Previous completion information shall remain available in audit history. | High |
+| FR-FUL-33 | When a status reversal affects a subscription fulfillment, the system shall update its fulfillment status and recalculate completed and remaining counts from the current linked fulfillment records. A cycle shall remain Active while any of its four fulfillments is incomplete. The reversal shall preserve the original payment, fulfillment schedule, and apportioned product amounts. | High |
 
 ## **4.16 Delivery Management** {#4.16-delivery-management}
 
@@ -2889,7 +2904,7 @@ For this system, safety mainly concerns preventing incorrect transactions, corru
 
 * **BR-25**: System outputs involving inventory, product costing, pricing suggestions, production capacity, and scheduling are dependent on the accuracy of the data maintained by the Admin/Owner and authorized Staff.
 
-* **BR-26:** For a subscription using courier delivery, the selected delivery address shall apply to all four fulfillments and remain unchanged after payment confirmation.
+* **BR-26:** The delivery address selected for a subscription shall apply to all four fulfillments and remain unchanged after payment confirmation.
 
 * **BR-27:** The delivery fees calculated during enrollment shall form part of the prepaid subscription total. Any differences between prepaid fees and actual courier charges at fulfillment shall be absorbed by the bakery without additional customer charges or refunds.
 
