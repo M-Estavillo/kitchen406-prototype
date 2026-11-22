@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_21" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:signal id="Signal_25_StockChanged" name="Ingredient stock changed" />
   <bpmn:collaboration id="Collaboration_21">
@@ -11,16 +11,15 @@
         <bpmn:flowNodeRef>N25_Start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Review</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Submit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N25_Correct</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_25_1" name="Kitchen406 System | Inventory Management">
         <bpmn:flowNodeRef>N25_Validate</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Valid</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Invalid</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>N25_Rejected</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Save</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Saved</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Failure</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>N25_Failed</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Signal</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Result</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N25_Done</bpmn:flowNodeRef>
@@ -38,6 +37,7 @@
     <bpmn:userTask id="N25_Submit" name="Submit physical count, mandatory reason and optional notes">
       <bpmn:documentation>FR-INV-15-16. Enter actual physical count in a supported unit, not a signed amount to add. Preview the resulting signed stock change. Reasons: spoilage, damage, miscount, theft, correction, or another specified reason. Describe Other in notes. A correction may note the original movement reference. Prevent repeated submissions while saving; closing before submission changes nothing.</bpmn:documentation>
       <bpmn:incoming>F25_02</bpmn:incoming>
+      <bpmn:incoming>F25_Correction</bpmn:incoming>
       <bpmn:outgoing>F25_03</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:businessRuleTask id="N25_Validate" name="Validate access, count, unit, reason and discrepancy">
@@ -56,10 +56,12 @@
       <bpmn:incoming>F25_06</bpmn:incoming>
       <bpmn:outgoing>F25_07</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="N25_Rejected" name="Not applied; stock unchanged">
-      <bpmn:documentation>No new movement. The operator can correct input and submit another attempt.</bpmn:documentation>
+    <bpmn:userTask id="N25_Correct" name="Correct or complete adjustment details">
+      <bpmn:documentation>Review the message and retained count, reason and notes before resubmitting. If the prior save result is uncertain, check whether the adjustment was recorded before editing or submitting again. An unchanged retry uses the same request identity.</bpmn:documentation>
       <bpmn:incoming>F25_07</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:incoming>F25_11</bpmn:incoming>
+      <bpmn:outgoing>F25_Correction</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:serviceTask id="N25_Save" name="Save physical count and justified adjustment movement">
       <bpmn:documentation>FR-INV-15-18. Save counted quantity as physical stock and record adjustment movement together: ingredient, signed delta, before and after quantities, unit, mandatory reason, optional notes, timestamp and responsible account. Recalculate delta against stock at commit. Preserve original movements; a correction adds a separate movement. Preserve ingredient unit cost and existing reservations; adjustment does not represent reserved-stock consumption or automatically cancel paid orders. Physical count may be below reserved quantity: retain the discrepancy and commitments for monitoring rather than reject a true count or erase reservations. Preserve prior stock and ledger on failed combined update. Identical already-saved requests return their existing result without a second movement.</bpmn:documentation>
       <bpmn:incoming>F25_05</bpmn:incoming>
@@ -71,15 +73,11 @@
       <bpmn:outgoing>F25_09</bpmn:outgoing>
       <bpmn:outgoing>F25_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="N25_Failure" name="Show save failure; retain input for safe retry">
+    <bpmn:serviceTask id="N25_Failure" name="Show adjustment save failure">
       <bpmn:documentation>Retry with the same operation identity and check the saved result after an uncertain response. Do not create another adjustment for an already recorded request.</bpmn:documentation>
       <bpmn:incoming>F25_10</bpmn:incoming>
       <bpmn:outgoing>F25_11</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="N25_Failed" name="Not recorded; retry available">
-      <bpmn:documentation>No partial stock or movement update. A retry is another attempt using the same request identity.</bpmn:documentation>
-      <bpmn:incoming>F25_11</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:intermediateThrowEvent id="N25_Signal" name="Stock changed: Refer to BPMN-23">
       <bpmn:documentation>After a new commit, signal BPMN-23 ? Low-Stock Monitoring and Product Availability Control independently. That process owns threshold evaluation, owner alerts and affected new-order availability. Do not repeat notification delivery, cancel paid orders or wait for alerts here. Retrieving an already-recorded result does not emit duplicate effects.</bpmn:documentation>
       <bpmn:incoming>F25_09</bpmn:incoming>
@@ -95,23 +93,24 @@
       <bpmn:documentation>FR-INV-15-18 satisfied. A physical-count correction is complete; it does not reserve stock, start production or receive new supplies.</bpmn:documentation>
       <bpmn:incoming>F25_13</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="F25_01" sourceRef="N25_Start" targetRef="N25_Review"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_02" sourceRef="N25_Review" targetRef="N25_Submit"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_03" sourceRef="N25_Submit" targetRef="N25_Validate"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_04" sourceRef="N25_Validate" targetRef="N25_Valid"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F25_Correction" sourceRef="N25_Correct" targetRef="N25_Submit" />
+    <bpmn:sequenceFlow id="F25_01" sourceRef="N25_Start" targetRef="N25_Review" />
+    <bpmn:sequenceFlow id="F25_02" sourceRef="N25_Review" targetRef="N25_Submit" />
+    <bpmn:sequenceFlow id="F25_03" sourceRef="N25_Submit" targetRef="N25_Validate" />
+    <bpmn:sequenceFlow id="F25_04" sourceRef="N25_Validate" targetRef="N25_Valid" />
     <bpmn:sequenceFlow id="F25_05" sourceRef="N25_Valid" targetRef="N25_Save" name="Yes">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">valid</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_06" sourceRef="N25_Valid" targetRef="N25_Invalid" name="No"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_07" sourceRef="N25_Invalid" targetRef="N25_Rejected"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_08" sourceRef="N25_Save" targetRef="N25_Saved"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F25_06" sourceRef="N25_Valid" targetRef="N25_Invalid" name="No" />
+    <bpmn:sequenceFlow id="F25_07" sourceRef="N25_Invalid" targetRef="N25_Correct" />
+    <bpmn:sequenceFlow id="F25_08" sourceRef="N25_Save" targetRef="N25_Saved" />
     <bpmn:sequenceFlow id="F25_09" sourceRef="N25_Saved" targetRef="N25_Signal" name="Yes">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">saved</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_10" sourceRef="N25_Saved" targetRef="N25_Failure" name="No"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_11" sourceRef="N25_Failure" targetRef="N25_Failed"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_12" sourceRef="N25_Signal" targetRef="N25_Result"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F25_13" sourceRef="N25_Result" targetRef="N25_Done"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F25_10" sourceRef="N25_Saved" targetRef="N25_Failure" name="No" />
+    <bpmn:sequenceFlow id="F25_11" sourceRef="N25_Failure" targetRef="N25_Correct" />
+    <bpmn:sequenceFlow id="F25_12" sourceRef="N25_Signal" targetRef="N25_Result" />
+    <bpmn:sequenceFlow id="F25_13" sourceRef="N25_Result" targetRef="N25_Done" />
     <bpmn:textAnnotation id="Annotation_25_Reuse">
       <bpmn:text>Separate catalog processes:
 BPMN-26: authentication precondition.
@@ -157,12 +156,6 @@ Reservations remain distinct from physical stock.</bpmn:text>
       <bpmndi:BPMNShape id="Shape_N25_Invalid" bpmnElement="N25_Invalid">
         <dc:Bounds x="940" y="770" width="260" height="85" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_N25_Rejected" bpmnElement="N25_Rejected">
-        <dc:Bounds x="1052" y="915" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="975" y="959" width="190" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_N25_Save" bpmnElement="N25_Save">
         <dc:Bounds x="590" y="835" width="270" height="100" />
       </bpmndi:BPMNShape>
@@ -174,12 +167,6 @@ Reservations remain distinct from physical stock.</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_N25_Failure" bpmnElement="N25_Failure">
         <dc:Bounds x="940" y="1135" width="260" height="85" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_N25_Failed" bpmnElement="N25_Failed">
-        <dc:Bounds x="1052" y="1280" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="975" y="1325" width="190" height="40" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_N25_Signal" bpmnElement="N25_Signal">
         <dc:Bounds x="707" y="1175" width="36" height="36" />
@@ -198,6 +185,9 @@ Reservations remain distinct from physical stock.</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Annotation_25_Reuse" bpmnElement="Annotation_25_Reuse">
         <dc:Bounds x="85" y="1155" width="320" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_N25_Correct" bpmnElement="N25_Correct">
+        <dc:Bounds x="120" y="720" width="260" height="90" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_F25_01" bpmnElement="F25_01">
         <di:waypoint x="250" y="186" />
@@ -233,7 +223,10 @@ Reservations remain distinct from physical stock.</bpmn:text>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F25_07" bpmnElement="F25_07">
         <di:waypoint x="1070" y="855" />
-        <di:waypoint x="1070" y="915" />
+        <di:waypoint x="1070" y="965" />
+        <di:waypoint x="465" y="965" />
+        <di:waypoint x="465" y="748" />
+        <di:waypoint x="380" y="748" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F25_08" bpmnElement="F25_08">
         <di:waypoint x="725" y="935" />
@@ -256,7 +249,10 @@ Reservations remain distinct from physical stock.</bpmn:text>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F25_11" bpmnElement="F25_11">
         <di:waypoint x="1070" y="1220" />
-        <di:waypoint x="1070" y="1280" />
+        <di:waypoint x="1070" y="1275" />
+        <di:waypoint x="435" y="1275" />
+        <di:waypoint x="435" y="785" />
+        <di:waypoint x="380" y="785" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F25_12" bpmnElement="F25_12">
         <di:waypoint x="725" y="1211" />
@@ -271,6 +267,12 @@ Reservations remain distinct from physical stock.</bpmn:text>
         <di:waypoint x="420" y="1493" />
         <di:waypoint x="420" y="1365" />
         <di:waypoint x="405" y="1365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F25_Correction" bpmnElement="F25_Correction">
+        <di:waypoint x="120" y="765" />
+        <di:waypoint x="75" y="765" />
+        <di:waypoint x="75" y="430" />
+        <di:waypoint x="120" y="430" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

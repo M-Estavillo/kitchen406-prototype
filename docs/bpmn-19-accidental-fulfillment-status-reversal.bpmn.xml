@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_19" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:collaboration id="Collaboration_19">
     <bpmn:participant id="Participant_19" name="BPMN-19 | Accidental Fulfillment Status Reversal" processRef="Process_19" />
@@ -14,6 +14,8 @@
         <bpmn:flowNodeRef>N23_CancelEnd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_Reject</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_RejectEnd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N23_View</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N23_Done</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_23_1" name="Kitchen406 System - Fulfillment, inventory and reporting consistency">
         <bpmn:flowNodeRef>N23_Validate</bpmn:flowNodeRef>
@@ -25,9 +27,7 @@
         <bpmn:flowNodeRef>N23_Completion</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_Merge</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_Commit</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>N23_Saved</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N23_Result</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>N23_Done</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="N23_Start" name="Accidental status correction requested">
@@ -39,7 +39,7 @@
       <bpmn:incoming>F23_01</bpmn:incoming>
       <bpmn:outgoing>F23_02</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:businessRuleTask id="N23_Validate" name="Check permission, latest status, version and courier restrictions">
+    <bpmn:businessRuleTask id="N23_Validate" name="Check latest fulfillment status and version">
       <bpmn:documentation>FR-FUL-28,30-31. Only paid operational fulfillments: Preparing to Confirmed, Ready to Preparing, Completed to Ready. Reject pending, booked, in-transit, delivered or unresolved courier bookings. Failed/cancelled bookings do not alone prevent correction. Validate current version and operation identifier. Previously processed correction returns its recorded result without new effects.</bpmn:documentation>
       <bpmn:incoming>F23_02</bpmn:incoming>
       <bpmn:outgoing>F23_03</bpmn:outgoing>
@@ -99,46 +99,43 @@
       <bpmn:incoming>F23_15</bpmn:incoming>
       <bpmn:outgoing>F23_16</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="N23_Commit" name="Recheck and save reversal, related changes and audit together">
-      <bpmn:documentation>FR-FUL-31-33; FR-INV-24-25. Recheck permission, current source status, version and courier restrictions, and process the unique correction once. Atomically commit the staged status and any inventory movement/reservation or active completion change with the audit entry (fulfillment, prior/new statuses, actor, system-recorded reason, time, original completion details and inventory references). Synchronize a linked subscription status and recalculate distinct completed/remaining counts; keep its cycle Active while any of four fulfillments is incomplete. Preserve payment, schedule, original apportioned product amounts and saved allocations. Do not invent allocation-unlocking behavior. On conflict or failure roll back all effects. Restored stock remains reserved. Repeated saves never duplicate stock restoration, audit entries or completion/report effects.</bpmn:documentation>
+    <bpmn:serviceTask id="N23_Commit" name="Save reversal and related changes">
+      <bpmn:documentation>FR-FUL-31-33; FR-INV-24-25. Use the latest saved record and process each correction once. Atomically commit the staged status and any inventory movement/reservation or active completion change with the audit entry (fulfillment, prior/new statuses, actor, system-recorded reason, time, original completion details and inventory references). Synchronize a linked subscription status and recalculate distinct completed/remaining counts; keep its cycle Active while any of four fulfillments is incomplete. Preserve payment, schedule, original apportioned product amounts and saved allocations. Do not invent allocation-unlocking behavior. On conflict or failure keep the prior records and show a save error. Return a corrected status only after a successful save. Restored stock remains reserved. Repeated saves never duplicate stock restoration, audit entries or completion/report effects.</bpmn:documentation>
       <bpmn:incoming>F23_16</bpmn:incoming>
       <bpmn:outgoing>F23_17</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="N23_Saved" name="All changes saved?" default="F23_18">
-      <bpmn:documentation>No partial success: a failed save or final validation conflict preserves the prior records.</bpmn:documentation>
-      <bpmn:incoming>F23_17</bpmn:incoming>
-      <bpmn:outgoing>F23_18</bpmn:outgoing>
-      <bpmn:outgoing>F23_20</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="N23_Reject" name="Return reason or previously recorded correction result">
       <bpmn:documentation>For unauthorized/ineligible/stale requests or save failure return the reason; no new changes are saved. For a repeated operation return the existing result without another reversal. Review current records before a new attempt. Staff receive operational information only.</bpmn:documentation>
       <bpmn:incoming>F23_05</bpmn:incoming>
-      <bpmn:incoming>F23_18</bpmn:incoming>
       <bpmn:outgoing>F23_19</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="N23_RejectEnd" name="No new changes saved">
       <bpmn:documentation>Saved records remain unchanged by this request; a duplicate may refer to an earlier successful correction.</bpmn:documentation>
       <bpmn:incoming>F23_19</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="N23_Result" name="Return corrected status and retain audit history">
+    <bpmn:serviceTask id="N23_Result" name="Return corrected status">
       <bpmn:documentation>The fulfillment is incomplete: Confirmed, Preparing or Ready. Current-state reporting excludes it from Fulfilled sales; verified payments remain on their existing reporting basis. No financial access is granted to Staff.</bpmn:documentation>
-      <bpmn:incoming>F23_20</bpmn:incoming>
+      <bpmn:incoming>F23_17</bpmn:incoming>
       <bpmn:outgoing>F23_21</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="N23_Done" name="Accidental correction saved">
-      <bpmn:documentation>Normal preparation or actual completion resumes only on its own later trigger.</bpmn:documentation>
+    <bpmn:userTask id="N23_View" name="View reversed status">
       <bpmn:incoming>F23_21</bpmn:incoming>
+      <bpmn:outgoing>F23_ViewDone</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="N23_Done" name="Reversed status viewed">
+      <bpmn:documentation>Normal preparation or actual completion resumes only on its own later trigger.</bpmn:documentation>
+      <bpmn:incoming>F23_ViewDone</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="F23_01" sourceRef="N23_Start" targetRef="N23_Request"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_02" sourceRef="N23_Request" targetRef="N23_Validate"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_03" sourceRef="N23_Validate" targetRef="N23_Allowed"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F23_01" sourceRef="N23_Start" targetRef="N23_Request" />
+    <bpmn:sequenceFlow id="F23_02" sourceRef="N23_Request" targetRef="N23_Validate" />
+    <bpmn:sequenceFlow id="F23_03" sourceRef="N23_Validate" targetRef="N23_Allowed" />
     <bpmn:sequenceFlow id="F23_04" sourceRef="N23_Allowed" targetRef="N23_Explain" name="Yes">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">eligibleNewCorrection</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_05" sourceRef="N23_Allowed" targetRef="N23_Reject" name="No / already processed"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_06" sourceRef="N23_Explain" targetRef="N23_Confirm"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_07" sourceRef="N23_Confirm" targetRef="N23_Confirmed"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_08" sourceRef="N23_Confirmed" targetRef="N23_CancelEnd" name="Cancel"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F23_05" sourceRef="N23_Allowed" targetRef="N23_Reject" name="No / already processed" />
+    <bpmn:sequenceFlow id="F23_06" sourceRef="N23_Explain" targetRef="N23_Confirm" />
+    <bpmn:sequenceFlow id="F23_07" sourceRef="N23_Confirm" targetRef="N23_Confirmed" />
+    <bpmn:sequenceFlow id="F23_08" sourceRef="N23_Confirmed" targetRef="N23_CancelEnd" name="Cancel" />
     <bpmn:sequenceFlow id="F23_09" sourceRef="N23_Confirmed" targetRef="N23_Type" name="Confirm">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">confirmed</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -148,22 +145,19 @@
     <bpmn:sequenceFlow id="F23_11" sourceRef="N23_Type" targetRef="N23_Ready" name="Ready">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">sourceStatus == ready</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_12" sourceRef="N23_Type" targetRef="N23_Completion" name="Completed"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_13" sourceRef="N23_Stock" targetRef="N23_Merge"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_14" sourceRef="N23_Ready" targetRef="N23_Merge"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_15" sourceRef="N23_Completion" targetRef="N23_Merge"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_16" sourceRef="N23_Merge" targetRef="N23_Commit"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_17" sourceRef="N23_Commit" targetRef="N23_Saved"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_18" sourceRef="N23_Saved" targetRef="N23_Reject" name="No / conflict / failure"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_19" sourceRef="N23_Reject" targetRef="N23_RejectEnd"></bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_20" sourceRef="N23_Saved" targetRef="N23_Result" name="Yes">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">saved</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F23_21" sourceRef="N23_Result" targetRef="N23_Done"></bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F23_12" sourceRef="N23_Type" targetRef="N23_Completion" name="Completed" />
+    <bpmn:sequenceFlow id="F23_13" sourceRef="N23_Stock" targetRef="N23_Merge" />
+    <bpmn:sequenceFlow id="F23_14" sourceRef="N23_Ready" targetRef="N23_Merge" />
+    <bpmn:sequenceFlow id="F23_15" sourceRef="N23_Completion" targetRef="N23_Merge" />
+    <bpmn:sequenceFlow id="F23_16" sourceRef="N23_Merge" targetRef="N23_Commit" />
+    <bpmn:sequenceFlow id="F23_17" sourceRef="N23_Commit" targetRef="N23_Result" />
+    <bpmn:sequenceFlow id="F23_19" sourceRef="N23_Reject" targetRef="N23_RejectEnd" />
+    <bpmn:sequenceFlow id="F23_21" sourceRef="N23_Result" targetRef="N23_View" />
+    <bpmn:sequenceFlow id="F23_ViewDone" sourceRef="N23_View" targetRef="N23_Done" />
     <bpmn:textAnnotation id="Note23_Resume">
       <bpmn:text>Later actions use their existing processes: Refer to BPMN-13 - Fulfillment Preparation and Ready Confirmation (consume a restored reservation once). Actual completion: BPMN-14 - Standard Order and Subscription Pickup and Completion; BPMN-16 - Courier Delivery Status Tracking and Completion; BPMN-17 - Owner-Managed Cake Delivery and Handoff. After a reversed completion, record a NEW timestamp and include the fulfillment ONCE. BPMN-05 handles subsequent subscription completion progress; BPMN-39 owns report generation. These are later handoffs, not automatic calls from reversal.</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Assoc23_Resume" sourceRef="N23_Done" targetRef="Note23_Resume" associationDirection="None" />
+    <bpmn:association id="Assoc23_Resume" sourceRef="N23_Result" targetRef="Note23_Resume" associationDirection="None" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_19">
     <bpmndi:BPMNPlane id="Plane_19" bpmnElement="Collaboration_19">
@@ -233,12 +227,6 @@
       <bpmndi:BPMNShape id="Shape23_Commit" bpmnElement="N23_Commit">
         <dc:Bounds x="845" y="1595" width="270" height="115" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape23_Saved" bpmnElement="N23_Saved" isMarkerVisible="true">
-        <dc:Bounds x="955" y="1790" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1020" y="1790" width="220" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape23_Reject" bpmnElement="N23_Reject">
         <dc:Bounds x="105" y="1890" width="250" height="95" />
       </bpmndi:BPMNShape>
@@ -252,13 +240,16 @@
         <dc:Bounds x="845" y="1930" width="270" height="95" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape23_Done" bpmnElement="N23_Done">
-        <dc:Bounds x="962" y="2110" width="36" height="36" />
+        <dc:Bounds x="212" y="2260" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="867" y="2156" width="225" height="45" />
+          <dc:Bounds x="117" y="2305" width="225" height="45" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape23_Note" bpmnElement="Note23_Resume">
         <dc:Bounds x="475" y="2230" width="1010" height="145" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_N23_View" bpmnElement="N23_View">
+        <dc:Bounds x="105" y="2140" width="250" height="85" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge23_01" bpmnElement="F23_01">
         <di:waypoint x="230" y="176" />
@@ -359,35 +350,25 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge23_17" bpmnElement="F23_17">
         <di:waypoint x="980" y="1710" />
-        <di:waypoint x="980" y="1790" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge23_18" bpmnElement="F23_18">
-        <di:waypoint x="955" y="1815" />
-        <di:waypoint x="380" y="1815" />
-        <di:waypoint x="380" y="1937" />
-        <di:waypoint x="355" y="1937" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="460" y="1785" width="230" height="25" />
-        </bpmndi:BPMNLabel>
+        <di:waypoint x="980" y="1930" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge23_19" bpmnElement="F23_19">
         <di:waypoint x="230" y="1985" />
         <di:waypoint x="230" y="2070" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge23_20" bpmnElement="F23_20">
-        <di:waypoint x="980" y="1840" />
-        <di:waypoint x="980" y="1930" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="995" y="1870" width="90" height="24" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge23_21" bpmnElement="F23_21">
-        <di:waypoint x="980" y="2025" />
-        <di:waypoint x="980" y="2110" />
+        <di:waypoint x="845" y="1978" />
+        <di:waypoint x="415" y="1978" />
+        <di:waypoint x="415" y="2180" />
+        <di:waypoint x="355" y="2180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge23_Assoc" bpmnElement="Assoc23_Resume">
-        <di:waypoint x="980" y="2146" />
+        <di:waypoint x="980" y="2025" />
         <di:waypoint x="980" y="2230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_F23_ViewDone" bpmnElement="F23_ViewDone">
+        <di:waypoint x="230" y="2225" />
+        <di:waypoint x="230" y="2260" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

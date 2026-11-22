@@ -19,7 +19,6 @@
         <bpmn:flowNodeRef>Read</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Found</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NoResult</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndUnavailable</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Present</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
@@ -63,17 +62,14 @@
       <bpmn:incoming>F08</bpmn:incoming>
       <bpmn:outgoing>F09</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:endEvent id="EndUnavailable" name="No results shown">
-      <bpmn:documentation>The customer may change the inquiry or retry as appropriate.</bpmn:documentation>
-      <bpmn:incoming>F09</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:task id="Present" name="Display requested details and status">
       <bpmn:documentation>FR-PROF-04: show matching transaction history. FR-FUL-12 and 13: show owned order status and saved fulfillment date and method. FR-SUB-04: show completed and remaining deliveries and applicable schedule. Show the saved cake request status and applicable quotation details. FR-DEL-13: show the latest available courier status for applicable orders, as recorded by BPMN-16.</bpmn:documentation>
       <bpmn:incoming>F07</bpmn:incoming>
       <bpmn:outgoing>F10</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="View" name="View transaction information">
-      <bpmn:documentation>The customer reads the list or detail. Selecting another transaction starts an inquiry with the same scope checks.</bpmn:documentation>
+      <bpmn:documentation>The customer views the list, detail, or empty or unavailable result. The customer may change the inquiry or retry as appropriate. Selecting another transaction starts an inquiry with the same scope checks.</bpmn:documentation>
+      <bpmn:incoming>F09</bpmn:incoming>
       <bpmn:incoming>F10</bpmn:incoming>
       <bpmn:outgoing>F11</bpmn:outgoing>
     </bpmn:task>
@@ -93,7 +89,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Authorized matching data was retrieved.</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F08" sourceRef="Found" targetRef="NoResult" name="No" />
-    <bpmn:sequenceFlow id="F09" sourceRef="NoResult" targetRef="EndUnavailable" />
+    <bpmn:sequenceFlow id="F09" sourceRef="NoResult" targetRef="View" />
     <bpmn:sequenceFlow id="F10" sourceRef="Present" targetRef="View" />
     <bpmn:sequenceFlow id="F11" sourceRef="View" targetRef="EndShown" />
   </bpmn:process>
@@ -143,12 +139,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_NoResult" bpmnElement="NoResult">
         <dc:Bounds x="529" y="502" width="150" height="58" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_EndUnavailable" bpmnElement="EndUnavailable">
-        <dc:Bounds x="589" y="589" width="30" height="30" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="546" y="624" width="116" height="22" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Present" bpmnElement="Present">
         <dc:Bounds x="339" y="502" width="172" height="58" />
@@ -212,7 +202,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F09" bpmnElement="F09">
         <di:waypoint x="604" y="560" />
-        <di:waypoint x="604" y="589" />
+        <di:waypoint x="604" y="616" />
+        <di:waypoint x="285" y="616" />
+        <di:waypoint x="243" y="616" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F10" bpmnElement="F10">
         <di:waypoint x="339" y="531" />

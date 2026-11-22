@@ -1,178 +1,122 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_17" targetNamespace="https://kitchen406.local/bpmn" xmlns:k406="https://kitchen406.local/bpmn">
-  <bpmn:import namespace="https://kitchen406.local/bpmn" location="bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml" importType="http://www.omg.org/spec/BPMN/20100524/MODEL" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_17" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:message id="OutForDeliveryNotice_21" name="Out for Delivery notification" />
   <bpmn:collaboration id="Collaboration_17">
     <bpmn:participant id="Participant_17" name="BPMN-17 | Owner-Managed Cake Delivery and Handoff" processRef="Process_17" />
+    <bpmn:participant id="CustomerPool_21" name="Customer" processRef="CustomerProcess_21" />
+    <bpmn:messageFlow id="CustomerNoticeFlow_21" sourceRef="NotifyCustomer_21" targetRef="ReceiveNotice_21" messageRef="OutForDeliveryNotice_21" />
   </bpmn:collaboration>
   <bpmn:process id="Process_17" name="Owner-Managed Cake Delivery and Handoff" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-17 and all catalog ownership/reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.16 FR-DEL-16; 4.15 FR-FUL-08,18,20-21,26; supporting FR-FUL-23, FR-CAKE-08-09, NFR-SEC-14, NFR-REL-03,05-06 and BR-20. Website: index.html loads app/owner-orders.js (Confirm handoff for paid ready cakes), app/fulfillment-state.js F.transition (owner-only cake completion), app/earnings-allocation.js and app/owner-cake-state.js. Current XMLs reviewed, particularly BPMN-12/13/14/15/16; SRS governs missing server-side and consistent lock/timestamp persistence in the in-memory prototype. Scope is a ready paid custom-cake operational order linked to the customer-accepted quotation and agreed owner-managed delivery arrangement from BPMN-08. Agreement/quotation revision is not repeated here. Delivery and physical handoff are manual owner activities; system recording is an Owner confirmation, not a Lalamove webhook or customer acknowledgment. Two internal responsibility lanes use sequence flows. No external API pool/message flow or generic broadcast signal is appropriate. Owner access applies to this cake handoff even though other production actions may permit Staff. Authentication is upstream BPMN-26; recheck Owner permission and current state at completion. BPMN-12 is an external reusable call in validation-only mode, with relative import and qualified Process_16 reference, not an embedded subprocess or forced allocation entry. All local checks and essential unsuccessful outcomes are visible. No courier distance limit, Maps eligibility/fee quotation, Lalamove booking/status, live tracking, new payment, refund, production consumption or subscription progress is executed. A failed/cancelled confirmation leaves system state incomplete; actual transport/handoff cannot be undone by system rollback. If physical handoff already occurred, retry only its recording. Completion and lock timestamps, original amounts and shares save consistently; matching concurrent completions reuse the original result. BPMN-24/25 own applicable notices; BPMN-30 owns inquiry; BPMN-39 reporting; BPMN-19 authorized reversal. Existing BPMNs are unchanged. BPMN-16 is partially reviewed by the user, not treated as fully approved.</bpmn:documentation>
+    <bpmn:documentation>Sources: capstone SRS FR-DEL-16, FR-FUL-20–21,26 and FR-CAKE-08–09. A paid custom cake is Ready for agreed Owner delivery. The Owner selects Out for Delivery and the customer receives a notice. The Owner records whether the cake was received. On successful handoff, the system records completion and locks existing allocations automatically. On unsuccessful handoff, the Owner records the outcome and reason. If saving completion fails, the Owner retries recording without repeating physical handoff.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_17">
       <bpmn:lane id="Lane_21_user" name="Admin/Owner — cake delivery and handoff">
+        <bpmn:flowNodeRef>OutForDelivery_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Handover_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirmed_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Cancelled_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>PhysicalHandoff_21</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LogUnsuccessfulHandoff_21</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetrySave_21</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_21_system" name="Kitchen406 System — Fulfillment Management">
         <bpmn:flowNodeRef>Start_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Load_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Eligibility_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Eligible_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Allocation_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>AllocationValid_21</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NotifyCustomer_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Commit_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Saved_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Publish_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Completed_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EligibilityError_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EligibilityEnd_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>AllocationError_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>AllocationEnd_21</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>SaveError_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>SaveEnd_21</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Reuse_21</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Start_21" name="Ready paid cake enters agreed owner delivery">
-      <bpmn:documentation>Input: custom cake paid and Ready from BPMN-13, with accepted quotation/owner delivery arrangement from BPMN-08 linked through BPMN-10. A fresh recording retry may enter after physical handoff; do not transport or deliver another cake merely because the system save is retried.</bpmn:documentation>
+    <bpmn:startEvent id="Start_21" name="Cake order marked Ready for Delivery">
+      <bpmn:documentation>Start when the paid custom cake is marked Ready for its agreed Owner-managed delivery.</bpmn:documentation>
       <bpmn:outgoing>Flow_21_7</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Load_21" name="Load cake order, accepted quotation and agreed delivery terms">
-      <bpmn:documentation>FR-DEL-16; FR-CAKE-08-09. Enforce Owner operational record access; read cake identity/products/quantity, accepted quotation version and saved agreed destination/schedule/delivery terms, payment, Ready state, recorded preparation consumption, saved owner allocations and expected/current version. Preserve the agreed arrangement; no new courier fee quotation or silent address change.</bpmn:documentation>
+    <bpmn:userTask id="OutForDelivery_21" name="Owner clicks “Out for Delivery”">
+      <bpmn:documentation>The Admin/Owner selects Out for Delivery when leaving to deliver the prepared cake under the accepted arrangement.</bpmn:documentation>
       <bpmn:incoming>Flow_21_7</bpmn:incoming>
       <bpmn:outgoing>Flow_21_8</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:businessRuleTask id="Eligibility_21" name="Check Owner access, paid Ready cake and accepted arrangement">
-      <bpmn:documentation>FR-DEL-16; FR-FUL-08. Require Owner account, paid confirmed cake operational order, current Ready status, matching accepted quotation and owner-accepted manual delivery arrangement, with prior preparation/material-consumption record. No fixed courier-distance restriction. Reject unsupported order type, unpaid/not-ready state, missing/conflicting agreement or record-access failure. A previously completed matching operation may only reuse its result, not authorize another physical delivery; conflicting completed order requests retain current saved state.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:sendTask id="NotifyCustomer_21" name="Set Out for Delivery and notify the customer" messageRef="OutForDeliveryNotice_21">
+      <bpmn:documentation>Save and display Out for Delivery and send an update to the customer that the Owner is on the way. The Owner can proceed without waiting for the customer to open the notice.</bpmn:documentation>
       <bpmn:incoming>Flow_21_8</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_9</bpmn:outgoing>
-    </bpmn:businessRuleTask>
-    <bpmn:exclusiveGateway id="Eligible_21" name="Eligible for agreed cake delivery?">
-      <bpmn:documentation>Eligibility result comes from the preceding task; rejected requests cannot proceed with this workflow. Existing completed matching-operation lookup does not repeat physical delivery. Completion mutation is guarded again at save.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_9</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_1</bpmn:outgoing>
-      <bpmn:outgoing>Flow_21_10</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="Allocation_21" name="Refer to BPMN-12 — Validate saved preparing-owner allocations" calledElement="k406:Process_12">
-      <bpmn:documentation>Invoke k406:Process_16 in validation-only mode with cake fulfillment identity, Owner actor, expected version and action=owner cake handoff. Return saved allocation validation or exact permission/version/owner-split/lock reason. Do not reopen valid saved owner splits or independently save allocation edits. Any supported combined draft must validate and join the same final transaction; preparation shares remain separate from the person driving/confirming.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_10</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_11</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:exclusiveGateway id="AllocationValid_21" name="Allocation/action validation passed?">
-      <bpmn:incoming>Flow_21_11</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_3</bpmn:outgoing>
       <bpmn:outgoing>Flow_21_12</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
+    </bpmn:sendTask>
     <bpmn:manualTask id="Handover_21" name="Transport cake under the accepted owner-managed arrangement">
       <bpmn:documentation>FR-DEL-16; BR-20. Owner manually transports the prepared cake according to accepted quotation delivery terms. This is physical work outside API integration, with no Lalamove booking, fixed service-area distance cap or automated location tracking. If already handed over and retrying a recording, review the established fact instead of repeating transport.</bpmn:documentation>
       <bpmn:incoming>Flow_21_12</bpmn:incoming>
       <bpmn:outgoing>Flow_21_13</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Confirm_21" name="Confirm actual cake handoff in system, or leave incomplete">
-      <bpmn:documentation>FR-FUL-21. Owner confirms actual cake handoff only after it has occurred. An incomplete or unconfirmed physical handoff must take the No path and leave completion unrecorded. Customer receipt acknowledgment is not required. Cancelling confirmation creates no status/lock/time change and does not cancel/refund the paid cake. A recording retry must not repeat transport or handoff.</bpmn:documentation>
+    <bpmn:userTask id="Confirm_21" name="Record whether the customer received the cake">
+      <bpmn:documentation>The Owner records the physical handoff outcome. If the customer did not receive the cake, record the reason.</bpmn:documentation>
       <bpmn:incoming>Flow_21_20</bpmn:incoming>
       <bpmn:outgoing>Flow_21_14</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Confirmed_21" name="Owner confirms actual handoff?">
+    <bpmn:exclusiveGateway id="Confirmed_21" name="Did the customer receive the cake?">
       <bpmn:incoming>Flow_21_14</bpmn:incoming>
       <bpmn:outgoing>Flow_21_15</bpmn:outgoing>
       <bpmn:outgoing>Flow_21_16</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Cancelled_21" name="No completion recorded; handoff still needs confirmation">
-      <bpmn:documentation>Output: no completion saved by this attempt. Retain the current paid/Ready saved operational state unless independently changed; the physical delivery may be pending, or the Owner may still need to record an already performed handoff. No automatic reschedule, cancellation, refund or repeat delivery is invented.</bpmn:documentation>
+    <bpmn:userTask id="LogUnsuccessfulHandoff_21" name="Record unsuccessful handoff and reason">
+      <bpmn:documentation>The Owner records that the customer did not receive the cake and why. Leave the order incomplete for follow-up.</bpmn:documentation>
       <bpmn:incoming>Flow_21_15</bpmn:incoming>
+      <bpmn:outgoing>NoHandoffEnd_21</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Cancelled_21" name="Unsuccessful handoff recorded">
+      <bpmn:documentation>The attempt outcome and reason are saved. The order remains incomplete for follow-up.</bpmn:documentation>
+      <bpmn:incoming>NoHandoffEnd_21</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Commit_21" name="Recheck handoff controls; save Completed, time and allocation lock together">
-      <bpmn:documentation>FR-FUL-08,20-21,23,26; NFR-SEC-14; NFR-REL-03,05-06. Under consistent/version-checked update revalidate Owner permission, actual handoff confirmation, paid Ready cake state, accepted order/arrangement identity, recorded consumption and valid saved allocations/action locks. Save Completed status, completion timestamp, allocation lock and lock timestamp, action/actor history and updated version together. Preserve original cake product amounts, payment/quotation links and owner percentages; driver/acting account receives no automatic share. Any supported combined owner draft/history joins the transaction. First check current operation/completion identity: if this same handoff completed concurrently after earlier checks, reuse original saved completion/time without new mutation. New save commits all related records or none. Stale/conflicting or failed write retains latest saved records/evidence for safe recording retry, not physical redelivery. No second stock consumption, payment or report calculation.</bpmn:documentation>
+    <bpmn:serviceTask id="Commit_21" name="Mark Completed and record handoff time">
+      <bpmn:documentation>Save Completed status, actual completion timestamp and handoff history. Completion automatically locks the existing preparing-owner allocations under FR-FUL-20 and FR-FUL-26. Preserve the saved shares. A failed save preserves the existing record for retry.</bpmn:documentation>
       <bpmn:incoming>Flow_21_16</bpmn:incoming>
+      <bpmn:incoming>RetryFlow_21</bpmn:incoming>
       <bpmn:outgoing>Flow_21_17</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Saved_21" name="Completion save result?">
-      <bpmn:documentation>Three mutually exclusive results are visible: new completion saved; same handoff already recorded concurrently, so reuse its result; or failed/conflicting request. Do not loop back or restamp original completion. Earlier eligibility checks do not prevent a concurrent matching completion, so the protected save rechecks identity.</bpmn:documentation>
+    <bpmn:exclusiveGateway id="Saved_21" name="Was completion recorded?">
+      <bpmn:documentation>A new save proceeds. If the same handoff was already recorded, use the saved result. If saving fails, the Owner can retry recording.</bpmn:documentation>
       <bpmn:incoming>Flow_21_17</bpmn:incoming>
       <bpmn:outgoing>Flow_21_5</bpmn:outgoing>
       <bpmn:outgoing>Flow_21_18</bpmn:outgoing>
-      <bpmn:outgoing>Flow_21_21</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Publish_21" name="Use recorded cake completion for applicable notification follow-up">
-      <bpmn:documentation>Use this same recorded completion identity for supported BPMN-24 external or BPMN-25 internal notification work, independently of successful completion. No generic broadcast-signal architecture is prescribed, and no customer receipt action or notification-delivery success is required. Matching completion reuse resumes only pending follow-up and never duplicates already handled effects. Cake orders do not call BPMN-05 subscription progress. Status inquiry is BPMN-30; report generation is BPMN-39.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_22</bpmn:incoming>
+      <bpmn:documentation>Use this same recorded completion identity for supported BPMN-24 external or BPMN-25 internal notification work, independently of successful completion. No generic broadcast-signal architecture is prescribed, and no customer receipt action or notification-delivery success is required. Cake orders do not call BPMN-05 subscription progress. Status inquiry is BPMN-30; report generation is BPMN-39.</bpmn:documentation>
       <bpmn:incoming>Flow_21_18</bpmn:incoming>
       <bpmn:outgoing>Flow_21_19</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="Completed_21" name="Cake handoff completed; time recorded and allocations locked">
+    <bpmn:endEvent id="Completed_21" name="Cake delivery completed">
       <bpmn:documentation>Output: paid cake fulfillment Completed with recorded handoff completion time, preserved original product amounts and locked allocations. Repeated requests cannot duplicate completion/sales or change its original timestamp. BPMN-39 uses actual completion date separately; BPMN-19 owns authorized accidental reversal. No general edit/unlock or automatic inventory reversal is introduced.</bpmn:documentation>
       <bpmn:incoming>Flow_21_19</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="EligibilityError_21" name="Explain Owner, payment, status or accepted-arrangement issue">
-      <bpmn:documentation>Return exact Owner/type/payment/Ready/quotation-arrangement/material-record reason. This attempt makes no saved operational change. Agreement changes belong to the appropriate quotation review process, not silent conversion to courier or pickup.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_1</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_2</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="EligibilityEnd_21" name="Cake delivery blocked; review saved details">
-      <bpmn:incoming>Flow_21_2</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="AllocationError_21" name="Return permission, stale-version, allocation or lock reason">
-      <bpmn:documentation>Return BPMN-12 reason. Permission failure requires allowed Owner action; stale version requires refresh/review; missing/invalid shares may be corrected separately via BPMN-12 while editable. Keep latest saved state; no external delivery API request or customer acknowledgment bypass.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_3</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_4</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="AllocationEnd_21" name="Handoff action blocked; review before retry">
-      <bpmn:incoming>Flow_21_4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="SaveError_21" name="Explain save/conflict failure; preserve latest saved records">
-      <bpmn:documentation>Save failure or conflicting operation creates no partial completion, timestamp, lock or allocation change. Retain current independently committed state and log diagnosis. If physical handoff occurred, recover the record only; do not deliver another cake. A matching saved completion takes the explicit reuse branch, not this failure path.</bpmn:documentation>
+    <bpmn:serviceTask id="SaveError_21" name="Record save failure">
+      <bpmn:documentation>Keep the saved order and handoff details, and prompt the Owner to retry.</bpmn:documentation>
       <bpmn:incoming>Flow_21_5</bpmn:incoming>
       <bpmn:outgoing>Flow_21_6</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="SaveEnd_21" name="Handoff recording awaiting safe review/retry">
+    <bpmn:userTask id="RetrySave_21" name="Retry recording the handoff">
+      <bpmn:documentation>The Owner retries saving the same confirmed handoff. The system saves the completion record without repeating delivery.</bpmn:documentation>
       <bpmn:incoming>Flow_21_6</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_21_1" sourceRef="Eligible_21" targetRef="EligibilityError_21" name="No" />
-    <bpmn:sequenceFlow id="Flow_21_2" sourceRef="EligibilityError_21" targetRef="EligibilityEnd_21" />
-    <bpmn:sequenceFlow id="Flow_21_3" sourceRef="AllocationValid_21" targetRef="AllocationError_21" name="No" />
-    <bpmn:sequenceFlow id="Flow_21_4" sourceRef="AllocationError_21" targetRef="AllocationEnd_21" />
-    <bpmn:sequenceFlow id="Flow_21_5" sourceRef="Saved_21" targetRef="SaveError_21" name="Failed / conflicting update" />
-    <bpmn:sequenceFlow id="Flow_21_6" sourceRef="SaveError_21" targetRef="SaveEnd_21" />
-    <bpmn:sequenceFlow id="Flow_21_7" sourceRef="Start_21" targetRef="Load_21" />
-    <bpmn:sequenceFlow id="Flow_21_8" sourceRef="Load_21" targetRef="Eligibility_21" />
-    <bpmn:sequenceFlow id="Flow_21_9" sourceRef="Eligibility_21" targetRef="Eligible_21" />
-    <bpmn:sequenceFlow id="Flow_21_10" sourceRef="Eligible_21" targetRef="Allocation_21" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_21_11" sourceRef="Allocation_21" targetRef="AllocationValid_21" />
-    <bpmn:sequenceFlow id="Flow_21_12" sourceRef="AllocationValid_21" targetRef="Handover_21" name="Yes" />
+      <bpmn:outgoing>RetryFlow_21</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="RetryFlow_21" sourceRef="RetrySave_21" targetRef="Commit_21" />
+    <bpmn:sequenceFlow id="NoHandoffEnd_21" sourceRef="LogUnsuccessfulHandoff_21" targetRef="Cancelled_21" />
+    <bpmn:sequenceFlow id="Flow_21_5" sourceRef="Saved_21" targetRef="SaveError_21" name="Save failed" />
+    <bpmn:sequenceFlow id="Flow_21_6" sourceRef="SaveError_21" targetRef="RetrySave_21" />
+    <bpmn:sequenceFlow id="Flow_21_7" sourceRef="Start_21" targetRef="OutForDelivery_21" />
+    <bpmn:sequenceFlow id="Flow_21_8" sourceRef="OutForDelivery_21" targetRef="NotifyCustomer_21" />
+    <bpmn:sequenceFlow id="Flow_21_12" sourceRef="NotifyCustomer_21" targetRef="Handover_21" />
     <bpmn:sequenceFlow id="Flow_21_13" sourceRef="Handover_21" targetRef="PhysicalHandoff_21" />
     <bpmn:sequenceFlow id="Flow_21_14" sourceRef="Confirm_21" targetRef="Confirmed_21" />
-    <bpmn:sequenceFlow id="Flow_21_15" sourceRef="Confirmed_21" targetRef="Cancelled_21" name="No / cancelled" />
+    <bpmn:sequenceFlow id="Flow_21_15" sourceRef="Confirmed_21" targetRef="LogUnsuccessfulHandoff_21" name="No" />
     <bpmn:sequenceFlow id="Flow_21_16" sourceRef="Confirmed_21" targetRef="Commit_21" name="Yes" />
     <bpmn:sequenceFlow id="Flow_21_17" sourceRef="Commit_21" targetRef="Saved_21" />
     <bpmn:sequenceFlow id="Flow_21_18" sourceRef="Saved_21" targetRef="Publish_21" name="New completion saved" />
     <bpmn:sequenceFlow id="Flow_21_19" sourceRef="Publish_21" targetRef="Completed_21" />
-    <bpmn:textAnnotation id="EligibilityRules_21">
-      <bpmn:text>Cake delivery eligibility
-Owner account; paid Ready cake.
-Accepted quotation linked to the order.
-Use the agreed manual delivery arrangement.
-Preparation/consumption already recorded.
-No fixed courier-distance limit; no Lalamove, Maps quotation or pickup workflow.</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Assoc_EligibilityRules_21" sourceRef="Eligibility_21" targetRef="EligibilityRules_21" associationDirection="None" />
-    <bpmn:textAnnotation id="AllocationRules_21">
-      <bpmn:text>Refer to BPMN-12
-Validate existing allocations, Owner action permission, version and locks.
-No forced owner-split entry.
-Driving/confirming does not earn an automatic owner share.
-Any supported combined allocation draft joins the same completion save.</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Assoc_AllocationRules_21" sourceRef="Allocation_21" targetRef="AllocationRules_21" associationDirection="None" />
     <bpmn:textAnnotation id="CommitRules_21">
-      <bpmn:text>Handoff completion controls
-Owner confirms actual physical handoff.
-No customer acknowledgment required.
-Completed, completion time and allocation lock/time save together.
-Recheck controls and duplicate identity at save.
-New save, matching-result reuse and failure are separate outcomes.
-No second ingredient consumption.</bpmn:text>
+      <bpmn:text>Handoff completion
+• Save Completed, handoff time and history.
+• Existing allocations lock automatically on completion.
+• A retry records the same handoff and keeps any saved completion timestamp.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_CommitRules_21" sourceRef="Commit_21" targetRef="CommitRules_21" associationDirection="None" />
     <bpmn:textAnnotation id="Handoffs_21">
@@ -190,24 +134,33 @@ Any recording retry must not repeat physical delivery or handoff.</bpmn:text>
       <bpmn:outgoing>Flow_21_20</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:sequenceFlow id="Flow_21_20" sourceRef="PhysicalHandoff_21" targetRef="Confirm_21" />
-    <bpmn:serviceTask id="Reuse_21" name="Reuse recorded handoff identity and original completion time">
-      <bpmn:documentation>A matching cake handoff completed concurrently after the earlier checks. Reuse its saved result/timestamp, owner shares and lock without a new completion or sale. Follow-up reuses that same identity and performs only still-pending applicable work.</bpmn:documentation>
-      <bpmn:incoming>Flow_21_21</bpmn:incoming>
-      <bpmn:outgoing>Flow_21_22</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_21_21" sourceRef="Saved_21" targetRef="Reuse_21" name="Matching handoff already recorded" />
-    <bpmn:sequenceFlow id="Flow_21_22" sourceRef="Reuse_21" targetRef="Publish_21" />
+  </bpmn:process>
+  <bpmn:process id="CustomerProcess_21" name="Receive cake delivery notice" isExecutable="false">
+    <bpmn:laneSet id="CustomerLaneSet_21">
+      <bpmn:lane id="CustomerLane_21" name="Customer">
+        <bpmn:flowNodeRef>ReceiveNotice_21</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NoticeEnd_21</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="ReceiveNotice_21" name="Receive Out for Delivery notification">
+      <bpmn:outgoing>NoticeFlow_21</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="NoticeMessage_21" messageRef="OutForDeliveryNotice_21" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="NoticeEnd_21" name="Delivery notice received">
+      <bpmn:incoming>NoticeFlow_21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="NoticeFlow_21" sourceRef="ReceiveNotice_21" targetRef="NoticeEnd_21" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_17">
     <bpmndi:BPMNPlane id="Plane_17" bpmnElement="Collaboration_17">
       <bpmndi:BPMNShape id="Shape_Participant_21" bpmnElement="Participant_17" isHorizontal="false">
-        <dc:Bounds x="40" y="40" width="1350" height="3700" />
+        <dc:Bounds x="40" y="40" width="1350" height="3070" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_21_user" bpmnElement="Lane_21_user" isHorizontal="false">
-        <dc:Bounds x="70" y="70" width="420" height="3670" />
+        <dc:Bounds x="70" y="70" width="420" height="3040" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_21_system" bpmnElement="Lane_21_system" isHorizontal="false">
-        <dc:Bounds x="490" y="70" width="900" height="3670" />
+        <dc:Bounds x="490" y="70" width="900" height="3040" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Start_21" bpmnElement="Start_21">
         <dc:Bounds x="782" y="130" width="36" height="36" />
@@ -215,242 +168,184 @@ Any recording retry must not repeat physical delivery or handoff.</bpmn:text>
           <dc:Bounds x="840" y="125" width="240" height="60" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Load_21" bpmnElement="Load_21">
-        <dc:Bounds x="670" y="280" width="260" height="90" />
+      <bpmndi:BPMNShape id="Shape_OutForDelivery_21" bpmnElement="OutForDelivery_21">
+        <dc:Bounds x="150" y="280" width="260" height="90" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Eligibility_21" bpmnElement="Eligibility_21">
+      <bpmndi:BPMNShape id="Shape_NotifyCustomer_21" bpmnElement="NotifyCustomer_21">
         <dc:Bounds x="670" y="470" width="260" height="100" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Eligible_21" bpmnElement="Eligible_21">
-        <dc:Bounds x="775" y="650" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="650" width="230" height="55" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Allocation_21" bpmnElement="Allocation_21">
-        <dc:Bounds x="670" y="890" width="260" height="100" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AllocationValid_21" bpmnElement="AllocationValid_21">
-        <dc:Bounds x="775" y="1070" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="1070" width="230" height="60" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Handover_21" bpmnElement="Handover_21">
-        <dc:Bounds x="140" y="1320" width="280" height="100" />
+        <dc:Bounds x="140" y="690" width="280" height="100" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Confirm_21" bpmnElement="Confirm_21">
-        <dc:Bounds x="140" y="1740" width="280" height="100" />
+        <dc:Bounds x="140" y="1110" width="280" height="100" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Confirmed_21" bpmnElement="Confirmed_21">
-        <dc:Bounds x="255" y="1930" width="50" height="50" />
+        <dc:Bounds x="255" y="1300" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="85" y="1930" width="155" height="65" />
+          <dc:Bounds x="85" y="1300" width="155" height="65" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Cancelled_21" bpmnElement="Cancelled_21">
-        <dc:Bounds x="262" y="2120" width="36" height="36" />
+        <dc:Bounds x="262" y="1600" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="175" y="2165" width="220" height="75" />
+          <dc:Bounds x="175" y="1642" width="220" height="48" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Commit_21" bpmnElement="Commit_21">
-        <dc:Bounds x="670" y="2150" width="260" height="120" />
+        <dc:Bounds x="670" y="1520" width="260" height="120" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Saved_21" bpmnElement="Saved_21">
-        <dc:Bounds x="775" y="2360" width="50" height="50" />
+        <dc:Bounds x="775" y="1730" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="2360" width="230" height="60" />
+          <dc:Bounds x="530" y="1730" width="230" height="60" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Publish_21" bpmnElement="Publish_21">
-        <dc:Bounds x="660" y="3060" width="280" height="110" />
+        <dc:Bounds x="660" y="2430" width="280" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Completed_21" bpmnElement="Completed_21">
-        <dc:Bounds x="782" y="3500" width="36" height="36" />
+        <dc:Bounds x="782" y="2870" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="690" y="3545" width="250" height="65" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_EligibilityError_21" bpmnElement="EligibilityError_21">
-        <dc:Bounds x="1080" y="635" width="270" height="100" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_EligibilityEnd_21" bpmnElement="EligibilityEnd_21">
-        <dc:Bounds x="1197" y="800" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1095" y="845" width="240" height="65" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AllocationError_21" bpmnElement="AllocationError_21">
-        <dc:Bounds x="1080" y="1055" width="270" height="100" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AllocationEnd_21" bpmnElement="AllocationEnd_21">
-        <dc:Bounds x="1197" y="1220" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1095" y="1265" width="240" height="65" />
+          <dc:Bounds x="690" y="2915" width="250" height="65" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_SaveError_21" bpmnElement="SaveError_21">
-        <dc:Bounds x="1080" y="2345" width="270" height="100" />
+        <dc:Bounds x="1080" y="1715" width="270" height="100" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_SaveEnd_21" bpmnElement="SaveEnd_21">
-        <dc:Bounds x="1197" y="2510" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1095" y="2555" width="240" height="65" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_EligibilityRules_21" bpmnElement="EligibilityRules_21">
-        <dc:Bounds x="120" y="450" width="330" height="240" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AllocationRules_21" bpmnElement="AllocationRules_21">
-        <dc:Bounds x="120" y="860" width="330" height="245" />
+      <bpmndi:BPMNShape id="Shape_RetrySave_21" bpmnElement="RetrySave_21">
+        <dc:Bounds x="140" y="2070" width="280" height="95" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_CommitRules_21" bpmnElement="CommitRules_21">
-        <dc:Bounds x="120" y="2340" width="330" height="280" />
+        <dc:Bounds x="120" y="1710" width="330" height="280" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Handoffs_21" bpmnElement="Handoffs_21">
-        <dc:Bounds x="1030" y="3060" width="270" height="300" />
+        <dc:Bounds x="1030" y="2430" width="270" height="300" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_1" bpmnElement="Flow_21_1">
-        <di:waypoint x="825" y="675" />
-        <di:waypoint x="1080" y="675" />
+      <bpmndi:BPMNShape id="Shape_PhysicalHandoff_21" bpmnElement="PhysicalHandoff_21">
+        <dc:Bounds x="140" y="900" width="280" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CustomerPool_21" bpmnElement="CustomerPool_21" isHorizontal="false">
+        <dc:Bounds x="1430" y="40" width="330" height="790" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CustomerLane_21" bpmnElement="CustomerLane_21" isHorizontal="false">
+        <dc:Bounds x="1460" y="70" width="300" height="760" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReceiveNotice_21" bpmnElement="ReceiveNotice_21">
+        <dc:Bounds x="1572" y="502" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="945" y="645" width="40" height="20" />
+          <dc:Bounds x="1470" y="550" width="270" height="50" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_2" bpmnElement="Flow_21_2">
-        <di:waypoint x="1215" y="735" />
-        <di:waypoint x="1215" y="800" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_3" bpmnElement="Flow_21_3">
-        <di:waypoint x="825" y="1095" />
-        <di:waypoint x="1080" y="1095" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_NoticeEnd_21" bpmnElement="NoticeEnd_21">
+        <dc:Bounds x="1572" y="670" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="945" y="1065" width="40" height="20" />
+          <dc:Bounds x="1470" y="715" width="270" height="45" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_4" bpmnElement="Flow_21_4">
-        <di:waypoint x="1215" y="1155" />
-        <di:waypoint x="1215" y="1220" />
-      </bpmndi:BPMNEdge>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LogUnsuccessfulHandoff_21" bpmnElement="LogUnsuccessfulHandoff_21">
+        <dc:Bounds x="140" y="1420" width="280" height="95" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_21_5" bpmnElement="Flow_21_5">
-        <di:waypoint x="825" y="2385" />
-        <di:waypoint x="1080" y="2385" />
+        <di:waypoint x="825" y="1755" />
+        <di:waypoint x="1080" y="1755" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="900" y="2340" width="175" height="35" />
+          <dc:Bounds x="910" y="1710" width="150" height="35" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_6" bpmnElement="Flow_21_6">
-        <di:waypoint x="1215" y="2445" />
-        <di:waypoint x="1215" y="2510" />
+        <di:waypoint x="1215" y="1815" />
+        <di:waypoint x="1215" y="2020" />
+        <di:waypoint x="280" y="2020" />
+        <di:waypoint x="280" y="2070" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_7" bpmnElement="Flow_21_7">
         <di:waypoint x="800" y="166" />
-        <di:waypoint x="800" y="280" />
+        <di:waypoint x="800" y="220" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="280" y="280" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_8" bpmnElement="Flow_21_8">
-        <di:waypoint x="800" y="370" />
+        <di:waypoint x="280" y="370" />
+        <di:waypoint x="280" y="420" />
+        <di:waypoint x="800" y="420" />
         <di:waypoint x="800" y="470" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_9" bpmnElement="Flow_21_9">
-        <di:waypoint x="800" y="570" />
-        <di:waypoint x="800" y="650" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_10" bpmnElement="Flow_21_10">
-        <di:waypoint x="800" y="700" />
-        <di:waypoint x="800" y="890" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="780" width="40" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_11" bpmnElement="Flow_21_11">
-        <di:waypoint x="800" y="990" />
-        <di:waypoint x="800" y="1070" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_12" bpmnElement="Flow_21_12">
-        <di:waypoint x="800" y="1120" />
-        <di:waypoint x="800" y="1250" />
-        <di:waypoint x="280" y="1250" />
-        <di:waypoint x="280" y="1320" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="1175" width="40" height="20" />
-        </bpmndi:BPMNLabel>
+        <di:waypoint x="800" y="570" />
+        <di:waypoint x="800" y="630" />
+        <di:waypoint x="280" y="630" />
+        <di:waypoint x="280" y="690" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_13" bpmnElement="Flow_21_13">
-        <di:waypoint x="280" y="1420" />
-        <di:waypoint x="280" y="1530" />
+        <di:waypoint x="280" y="790" />
+        <di:waypoint x="280" y="900" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_14" bpmnElement="Flow_21_14">
-        <di:waypoint x="280" y="1840" />
-        <di:waypoint x="280" y="1930" />
+        <di:waypoint x="280" y="1210" />
+        <di:waypoint x="280" y="1300" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_15" bpmnElement="Flow_21_15">
-        <di:waypoint x="280" y="1980" />
-        <di:waypoint x="280" y="2120" />
+        <di:waypoint x="280" y="1350" />
+        <di:waypoint x="280" y="1420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1365" width="50" height="25" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_16" bpmnElement="Flow_21_16">
-        <di:waypoint x="305" y="1955" />
-        <di:waypoint x="800" y="1955" />
-        <di:waypoint x="800" y="2150" />
+        <di:waypoint x="305" y="1325" />
+        <di:waypoint x="800" y="1325" />
+        <di:waypoint x="800" y="1520" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="1925" width="40" height="20" />
+          <dc:Bounds x="530" y="1295" width="40" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_17" bpmnElement="Flow_21_17">
-        <di:waypoint x="800" y="2270" />
-        <di:waypoint x="800" y="2360" />
+        <di:waypoint x="800" y="1640" />
+        <di:waypoint x="800" y="1730" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_18" bpmnElement="Flow_21_18">
-        <di:waypoint x="800" y="2410" />
-        <di:waypoint x="800" y="3060" />
+        <di:waypoint x="800" y="1780" />
+        <di:waypoint x="800" y="2430" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="2880" width="160" height="40" />
+          <dc:Bounds x="810" y="2250" width="160" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_21_19" bpmnElement="Flow_21_19">
-        <di:waypoint x="800" y="3170" />
-        <di:waypoint x="800" y="3500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Assoc_EligibilityRules_21" bpmnElement="Assoc_EligibilityRules_21">
-        <di:waypoint x="670" y="520" />
-        <di:waypoint x="450" y="520" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Assoc_AllocationRules_21" bpmnElement="Assoc_AllocationRules_21">
-        <di:waypoint x="670" y="940" />
-        <di:waypoint x="450" y="940" />
+        <di:waypoint x="800" y="2540" />
+        <di:waypoint x="800" y="2870" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Assoc_CommitRules_21" bpmnElement="Assoc_CommitRules_21">
-        <di:waypoint x="670" y="2210" />
-        <di:waypoint x="470" y="2210" />
-        <di:waypoint x="470" y="2400" />
-        <di:waypoint x="450" y="2400" />
+        <di:waypoint x="670" y="1580" />
+        <di:waypoint x="470" y="1580" />
+        <di:waypoint x="470" y="1770" />
+        <di:waypoint x="450" y="1770" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Assoc_Handoffs_21" bpmnElement="Assoc_Handoffs_21">
-        <di:waypoint x="940" y="3115" />
-        <di:waypoint x="1030" y="3115" />
+        <di:waypoint x="940" y="2485" />
+        <di:waypoint x="1030" y="2485" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Shape_PhysicalHandoff_21" bpmnElement="PhysicalHandoff_21">
-        <dc:Bounds x="140" y="1530" width="280" height="100" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Reuse_21" bpmnElement="Reuse_21">
-        <dc:Bounds x="500" y="2700" width="240" height="110" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_21_20" bpmnElement="Flow_21_20">
-        <di:waypoint x="280" y="1630" />
-        <di:waypoint x="280" y="1740" />
+        <di:waypoint x="280" y="1000" />
+        <di:waypoint x="280" y="1110" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_21" bpmnElement="Flow_21_21">
-        <di:waypoint x="775" y="2385" />
-        <di:waypoint x="620" y="2385" />
-        <di:waypoint x="620" y="2700" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="500" y="2500" width="110" height="110" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Edge_CustomerNoticeFlow_21" bpmnElement="CustomerNoticeFlow_21">
+        <di:waypoint x="930" y="520" />
+        <di:waypoint x="1572" y="520" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_21_22" bpmnElement="Flow_21_22">
-        <di:waypoint x="620" y="2810" />
-        <di:waypoint x="620" y="3115" />
-        <di:waypoint x="660" y="3115" />
+      <bpmndi:BPMNEdge id="Edge_NoticeFlow_21" bpmnElement="NoticeFlow_21">
+        <di:waypoint x="1590" y="538" />
+        <di:waypoint x="1590" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_NoHandoffEnd_21" bpmnElement="NoHandoffEnd_21">
+        <di:waypoint x="280" y="1515" />
+        <di:waypoint x="280" y="1600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_RetryFlow_21" bpmnElement="RetryFlow_21">
+        <di:waypoint x="420" y="2115" />
+        <di:waypoint x="460" y="2115" />
+        <di:waypoint x="460" y="1605" />
+        <di:waypoint x="670" y="1605" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

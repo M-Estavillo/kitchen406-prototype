@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_31" targetNamespace="https://kitchen406.local/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_31" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:collaboration id="Collaboration_31">
     <bpmn:participant id="Participant_31" name="BPMN-31 | Saved Delivery Address Maintenance" processRef="Process_31" />
     <bpmn:participant id="Maps_35" name="Google Maps Platform — address search and validation" />
@@ -14,55 +14,43 @@
         <bpmn:flowNodeRef>Edit_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Cancel_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>MapsPending_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ChooseMapsRetry_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryMaps_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ViewUpdated_35</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_35_system" name="Kitchen406 System — Delivery Address Management">
         <bpmn:flowNodeRef>Load_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Access_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>AccessError_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>AccessEnd_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Validate_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Valid_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>InputError_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>InputEnd_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>LocationChanged_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>MapsLookup_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>MapsResult_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>LocationError_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>LocationEnd_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>MapsError_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>MapsPending_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Save_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Saved_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>SaveError_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>SaveEnd_35</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Show_35</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End_35</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start_35" name="Customer opens saved-address maintenance">
       <bpmn:outgoing>Flow_35_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Load_35" name="Check customer access and load own address book">
-      <bpmn:documentation>FR-ADDR-01; NFR-SEC-03-04. Require authenticated customer access and retrieve only that customer’s saved records, labels and default. An empty book is valid. No other customer address information is exposed; lookup/authorization failure does not create an empty replacement book.</bpmn:documentation>
+    <bpmn:serviceTask id="Load_35" name="Load saved address book">
+      <bpmn:documentation>FR-ADDR-01. Load the signed-in customer’s saved addresses, labels and default. An empty address book is valid. Sign-in is handled in BPMN-26.</bpmn:documentation>
       <bpmn:incoming>Flow_35_1</bpmn:incoming>
       <bpmn:outgoing>Flow_35_2</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Access_35" name="Customer address access allowed?">
-      <bpmn:incoming>Flow_35_2</bpmn:incoming>
-      <bpmn:outgoing>Flow_35_3</bpmn:outgoing>
-      <bpmn:outgoing>Flow_35_5</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="AccessError_35" name="Explain access/load issue; leave address book unchanged">
-      <bpmn:documentation>Denied session/role/ownership or failed load returns safe user-facing reason; no record/default mutation. Sign-in recovery belongs to BPMN-26, not duplicate credential processing here.</bpmn:documentation>
-      <bpmn:incoming>Flow_35_3</bpmn:incoming>
-      <bpmn:outgoing>Flow_35_4</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="AccessEnd_35" name="Address maintenance not started">
-      <bpmn:incoming>Flow_35_4</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:userTask id="Edit_35" name="Add/edit a labeled address, choose a default, remove an address or leave">
       <bpmn:documentation>FR-ADDR-01-03. Select action and owned address where applicable. Add/edit captures applicable address/location information, label and optional default choice. Address search assistance is provided by the Maps task later in the flow; customer can correct/retry rejected input. Remove shows confirmation; default selects an existing saved record. Leaving cancels maintenance. No fixed address count, uniqueness of labels or administrative approval is imposed by the SRS.</bpmn:documentation>
-      <bpmn:incoming>Flow_35_5</bpmn:incoming>
+      <bpmn:incoming>Flow_35_2</bpmn:incoming>
+      <bpmn:incoming>Flow_35_11</bpmn:incoming>
+      <bpmn:incoming>Flow_35_17</bpmn:incoming>
+      <bpmn:incoming>Flow_35_RetryYes</bpmn:incoming>
       <bpmn:outgoing>Flow_35_6</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="Confirm_35" name="Customer submits/confirms the change?">
@@ -88,9 +76,6 @@
       <bpmn:incoming>Flow_35_10</bpmn:incoming>
       <bpmn:outgoing>Flow_35_11</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="InputEnd_35" name="Change rejected; correct/review before retry">
-      <bpmn:incoming>Flow_35_11</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:exclusiveGateway id="LocationChanged_35" name="New or changed delivery location?">
       <bpmn:documentation>Add/new or changed location requires Maps support; set-default/remove/label-only edit of valid saved location bypasses new Maps request. Reuse valid location only if its data is unchanged.</bpmn:documentation>
       <bpmn:incoming>Flow_35_12</bpmn:incoming>
@@ -98,7 +83,7 @@
       <bpmn:outgoing>Flow_35_14</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="MapsLookup_35" name="Search and validate the proposed address through Google Maps">
-      <bpmn:documentation>FR-ADDR-04. Provide address-search/location support and validate the customer’s proposed location. Return validated location/address information, invalid/ambiguous location requiring correction, or provider unavailable/timeout/error. Do not infer validation from static preview, treat unavailable provider as a valid address, or invent autocomplete fields/API details. Returned location must correspond to customer input; do not silently replace with a different destination. This does not check courier service area, request Lalamove fees or book a courier.</bpmn:documentation>
+      <bpmn:documentation>FR-ADDR-04. Provide address-search/location support and validate the customer’s proposed location. Return validated location/address information, invalid location requiring correction, or provider unavailable/timeout/error. Do not infer validation from static preview, treat unavailable provider as a valid address, or invent autocomplete fields/API details. Returned location must correspond to customer input; do not silently replace with a different destination. This does not check courier service area, request Lalamove fees or book a courier.</bpmn:documentation>
       <bpmn:incoming>Flow_35_13</bpmn:incoming>
       <bpmn:outgoing>Flow_35_15</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -108,26 +93,23 @@
       <bpmn:outgoing>Flow_35_18</bpmn:outgoing>
       <bpmn:outgoing>Flow_35_20</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="LocationError_35" name="Explain invalid/ambiguous location; request address correction">
-      <bpmn:documentation>No address/default change. Correct/refine the proposed location and submit a fresh validation attempt. No forced saving of an ambiguous provider suggestion.</bpmn:documentation>
+    <bpmn:serviceTask id="LocationError_35" name="Show invalid location and request address correction">
+      <bpmn:documentation>Keep saved addresses and the default unchanged. Return to Add/edit so the customer can correct and resubmit the proposed address.</bpmn:documentation>
       <bpmn:incoming>Flow_35_16</bpmn:incoming>
       <bpmn:outgoing>Flow_35_17</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="LocationEnd_35" name="Location not validated; saved book retained">
-      <bpmn:incoming>Flow_35_17</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:serviceTask id="MapsError_35" name="Explain Maps unavailability; keep saved book for safe retry">
       <bpmn:documentation>NFR-REL-01-04. Provider timeout/failure is distinct from invalid address. Do not save new/changed unvalidated location or corrupt existing book/default. Retry safely later; no automatic retry count/delay is invented. Default/remove operations can be requested separately without a new Maps validation.</bpmn:documentation>
       <bpmn:incoming>Flow_35_18</bpmn:incoming>
       <bpmn:outgoing>Flow_35_19</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="MapsPending_35" name="Validation unavailable; retry later">
-      <bpmn:incoming>Flow_35_19</bpmn:incoming>
+    <bpmn:endEvent id="MapsPending_35" name="Retry declined; saved addresses unchanged">
+      <bpmn:incoming>Flow_35_RetryNo</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Save_35" name="Apply address action and maintain default consistently">
+    <bpmn:serviceTask id="Save_35" name="Apply address action and update details">
       <bpmn:documentation>Recheck authentication/record ownership and current address state at commit. Add creates a distinct record linked to customer; edit updates only selected record; remove makes it unavailable for future selection (prototype archives); set-default selects one owned active record and clears previous default. For location writes require current valid Maps result matching this draft. Save requested change and related default changes consistently; first/remaining default fallback follows documented prototype policy. Setting same default or replaying a successful request must not duplicate records. On conflict/failure preserve current saved state, including newer independent changes. Keep historical transaction address snapshots and confirmed subscription address unchanged; no order/delivery mutation.</bpmn:documentation>
-      <bpmn:incoming>Flow_35_20</bpmn:incoming>
       <bpmn:incoming>Flow_35_14</bpmn:incoming>
+      <bpmn:incoming>Flow_35_20</bpmn:incoming>
       <bpmn:outgoing>Flow_35_21</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Saved_35" name="Address/default change saved?">
@@ -148,34 +130,52 @@
       <bpmn:incoming>Flow_35_24</bpmn:incoming>
       <bpmn:outgoing>Flow_35_25</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="End_35" name="Address book maintained; available for later purchase selection">
-      <bpmn:incoming>Flow_35_25</bpmn:incoming>
+    <bpmn:endEvent id="End_35" name="Updated address details viewed">
+      <bpmn:incoming>Flow_35_ViewEnd</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:userTask id="ChooseMapsRetry_35" name="Choose whether to retry address validation">
+      <bpmn:documentation>The customer chooses to return to address editing or leave after Google Maps is unavailable.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_RetryChoice</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="RetryMaps_35" name="Retry address validation?" default="Flow_35_RetryNo">
+      <bpmn:incoming>Flow_35_RetryChoice</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_RetryYes</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_RetryNo</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ViewUpdated_35" name="View and confirm updated address details">
+      <bpmn:documentation>The customer reviews the saved result, including the default if applicable. The change is already saved.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_ViewEnd</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_35_1" sourceRef="Start_35" targetRef="Load_35" />
-    <bpmn:sequenceFlow id="Flow_35_2" sourceRef="Load_35" targetRef="Access_35" />
-    <bpmn:sequenceFlow id="Flow_35_3" sourceRef="Access_35" targetRef="AccessError_35" name="No" />
-    <bpmn:sequenceFlow id="Flow_35_4" sourceRef="AccessError_35" targetRef="AccessEnd_35" />
-    <bpmn:sequenceFlow id="Flow_35_5" sourceRef="Access_35" targetRef="Edit_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_2" sourceRef="Load_35" targetRef="Edit_35" />
     <bpmn:sequenceFlow id="Flow_35_6" sourceRef="Edit_35" targetRef="Confirm_35" />
     <bpmn:sequenceFlow id="Flow_35_7" sourceRef="Confirm_35" targetRef="Cancel_35" name="No / leave" />
     <bpmn:sequenceFlow id="Flow_35_8" sourceRef="Confirm_35" targetRef="Validate_35" name="Yes" />
     <bpmn:sequenceFlow id="Flow_35_9" sourceRef="Validate_35" targetRef="Valid_35" />
     <bpmn:sequenceFlow id="Flow_35_10" sourceRef="Valid_35" targetRef="InputError_35" name="No" />
-    <bpmn:sequenceFlow id="Flow_35_11" sourceRef="InputError_35" targetRef="InputEnd_35" />
+    <bpmn:sequenceFlow id="Flow_35_11" sourceRef="InputError_35" targetRef="Edit_35" />
     <bpmn:sequenceFlow id="Flow_35_12" sourceRef="Valid_35" targetRef="LocationChanged_35" name="Yes" />
     <bpmn:sequenceFlow id="Flow_35_13" sourceRef="LocationChanged_35" targetRef="MapsLookup_35" name="Yes — add/change location" />
     <bpmn:sequenceFlow id="Flow_35_14" sourceRef="LocationChanged_35" targetRef="Save_35" name="No — default/remove/label only" />
     <bpmn:sequenceFlow id="Flow_35_15" sourceRef="MapsLookup_35" targetRef="MapsResult_35" />
-    <bpmn:sequenceFlow id="Flow_35_16" sourceRef="MapsResult_35" targetRef="LocationError_35" name="Invalid / ambiguous" />
-    <bpmn:sequenceFlow id="Flow_35_17" sourceRef="LocationError_35" targetRef="LocationEnd_35" />
+    <bpmn:sequenceFlow id="Flow_35_16" sourceRef="MapsResult_35" targetRef="LocationError_35" name="Invalid location" />
+    <bpmn:sequenceFlow id="Flow_35_17" sourceRef="LocationError_35" targetRef="Edit_35" />
     <bpmn:sequenceFlow id="Flow_35_18" sourceRef="MapsResult_35" targetRef="MapsError_35" name="Unavailable / timeout" />
-    <bpmn:sequenceFlow id="Flow_35_19" sourceRef="MapsError_35" targetRef="MapsPending_35" />
+    <bpmn:sequenceFlow id="Flow_35_19" sourceRef="MapsError_35" targetRef="ChooseMapsRetry_35" />
     <bpmn:sequenceFlow id="Flow_35_20" sourceRef="MapsResult_35" targetRef="Save_35" name="Valid location" />
     <bpmn:sequenceFlow id="Flow_35_21" sourceRef="Save_35" targetRef="Saved_35" />
     <bpmn:sequenceFlow id="Flow_35_22" sourceRef="Saved_35" targetRef="SaveError_35" name="No" />
     <bpmn:sequenceFlow id="Flow_35_23" sourceRef="SaveError_35" targetRef="SaveEnd_35" />
     <bpmn:sequenceFlow id="Flow_35_24" sourceRef="Saved_35" targetRef="Show_35" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_35_25" sourceRef="Show_35" targetRef="End_35" />
+    <bpmn:sequenceFlow id="Flow_35_25" sourceRef="Show_35" targetRef="ViewUpdated_35" />
+    <bpmn:sequenceFlow id="Flow_35_RetryChoice" sourceRef="ChooseMapsRetry_35" targetRef="RetryMaps_35" />
+    <bpmn:sequenceFlow id="Flow_35_RetryYes" sourceRef="RetryMaps_35" targetRef="Edit_35" name="Yes">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerChoosesRetry</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_35_RetryNo" sourceRef="RetryMaps_35" targetRef="MapsPending_35" name="No" />
+    <bpmn:sequenceFlow id="Flow_35_ViewEnd" sourceRef="ViewUpdated_35" targetRef="End_35" />
     <bpmn:textAnnotation id="InputRules_35">
       <bpmn:text>Input/access rules
 Use only this customer’s selected saved record.
@@ -238,21 +238,6 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       <bpmndi:BPMNShape id="Shape_Load_35" bpmnElement="Load_35">
         <dc:Bounds x="670" y="280" width="270" height="100" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Access_35" bpmnElement="Access_35">
-        <dc:Bounds x="775" y="470" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="470" width="230" height="60" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AccessError_35" bpmnElement="AccessError_35">
-        <dc:Bounds x="1080" y="455" width="270" height="100" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_AccessEnd_35" bpmnElement="AccessEnd_35">
-        <dc:Bounds x="1197" y="640" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1090" y="685" width="240" height="60" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Edit_35" bpmnElement="Edit_35">
         <dc:Bounds x="140" y="720" width="280" height="120" />
       </bpmndi:BPMNShape>
@@ -280,12 +265,6 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       <bpmndi:BPMNShape id="Shape_InputError_35" bpmnElement="InputError_35">
         <dc:Bounds x="1080" y="1325" width="270" height="100" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_InputEnd_35" bpmnElement="InputEnd_35">
-        <dc:Bounds x="1197" y="1510" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1090" y="1555" width="240" height="65" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_LocationChanged_35" bpmnElement="LocationChanged_35">
         <dc:Bounds x="775" y="1600" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -304,19 +283,13 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       <bpmndi:BPMNShape id="Shape_LocationError_35" bpmnElement="LocationError_35">
         <dc:Bounds x="1080" y="2025" width="270" height="110" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_LocationEnd_35" bpmnElement="LocationEnd_35">
-        <dc:Bounds x="1197" y="2210" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1090" y="2255" width="240" height="65" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_MapsError_35" bpmnElement="MapsError_35">
         <dc:Bounds x="510" y="2250" width="250" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_MapsPending_35" bpmnElement="MapsPending_35">
-        <dc:Bounds x="617" y="2440" width="36" height="36" />
+        <dc:Bounds x="262" y="2440" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="530" y="2485" width="220" height="60" />
+          <dc:Bounds x="306" y="2426" width="170" height="65" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Save_35" bpmnElement="Save_35">
@@ -341,9 +314,9 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
         <dc:Bounds x="660" y="3140" width="280" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_End_35" bpmnElement="End_35">
-        <dc:Bounds x="782" y="3380" width="36" height="36" />
+        <dc:Bounds x="262" y="3460" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="680" y="3425" width="260" height="70" />
+          <dc:Bounds x="150" y="3504" width="260" height="56" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_InputRules_35" bpmnElement="InputRules_35">
@@ -358,6 +331,18 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       <bpmndi:BPMNShape id="Shape_Reuse_35" bpmnElement="Reuse_35">
         <dc:Bounds x="120" y="3020" width="330" height="260" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ChooseMapsRetry_35" bpmnElement="ChooseMapsRetry_35">
+        <dc:Bounds x="140" y="2190" width="280" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RetryMaps_35" bpmnElement="RetryMaps_35">
+        <dc:Bounds x="255" y="2330" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="312" y="2322" width="165" height="62" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ViewUpdated_35" bpmnElement="ViewUpdated_35">
+        <dc:Bounds x="140" y="3320" width="280" height="90" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_35_1" bpmnElement="Flow_35_1">
         <di:waypoint x="280" y="166" />
         <di:waypoint x="280" y="220" />
@@ -366,29 +351,9 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_2" bpmnElement="Flow_35_2">
         <di:waypoint x="805" y="380" />
-        <di:waypoint x="805" y="420" />
-        <di:waypoint x="800" y="420" />
-        <di:waypoint x="800" y="470" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_35_3" bpmnElement="Flow_35_3">
-        <di:waypoint x="825" y="495" />
-        <di:waypoint x="1080" y="495" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="945" y="465" width="40" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_35_4" bpmnElement="Flow_35_4">
-        <di:waypoint x="1215" y="555" />
-        <di:waypoint x="1215" y="640" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_35_5" bpmnElement="Flow_35_5">
-        <di:waypoint x="800" y="520" />
-        <di:waypoint x="800" y="650" />
-        <di:waypoint x="280" y="650" />
+        <di:waypoint x="805" y="600" />
+        <di:waypoint x="280" y="600" />
         <di:waypoint x="280" y="720" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="575" width="40" height="20" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_6" bpmnElement="Flow_35_6">
         <di:waypoint x="280" y="840" />
@@ -423,8 +388,10 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_11" bpmnElement="Flow_35_11">
-        <di:waypoint x="1215" y="1425" />
-        <di:waypoint x="1215" y="1510" />
+        <di:waypoint x="1350" y="1375" />
+        <di:waypoint x="1370" y="1375" />
+        <di:waypoint x="1370" y="765" />
+        <di:waypoint x="420" y="765" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_12" bpmnElement="Flow_35_12">
         <di:waypoint x="800" y="1390" />
@@ -461,12 +428,14 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
         <di:waypoint x="825" y="2065" />
         <di:waypoint x="1080" y="2065" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="870" y="2025" width="200" height="30" />
+          <dc:Bounds x="875" y="2023" width="170" height="30" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_17" bpmnElement="Flow_35_17">
-        <di:waypoint x="1215" y="2135" />
-        <di:waypoint x="1215" y="2210" />
+        <di:waypoint x="1350" y="2080" />
+        <di:waypoint x="1380" y="2080" />
+        <di:waypoint x="1380" y="810" />
+        <di:waypoint x="420" y="810" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_18" bpmnElement="Flow_35_18">
         <di:waypoint x="775" y="2065" />
@@ -477,8 +446,10 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_19" bpmnElement="Flow_35_19">
-        <di:waypoint x="635" y="2360" />
-        <di:waypoint x="635" y="2440" />
+        <di:waypoint x="510" y="2305" />
+        <di:waypoint x="465" y="2305" />
+        <di:waypoint x="465" y="2235" />
+        <di:waypoint x="420" y="2235" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_20" bpmnElement="Flow_35_20">
         <di:waypoint x="800" y="2090" />
@@ -510,8 +481,10 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_35_25" bpmnElement="Flow_35_25">
-        <di:waypoint x="800" y="3250" />
-        <di:waypoint x="800" y="3380" />
+        <di:waypoint x="660" y="3230" />
+        <di:waypoint x="470" y="3230" />
+        <di:waypoint x="470" y="3365" />
+        <di:waypoint x="420" y="3365" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Assoc_InputRules_35" bpmnElement="Assoc_InputRules_35">
         <di:waypoint x="670" y="1195" />
@@ -540,6 +513,30 @@ FR-ADDR-05 is enabled by the saved book; no checkout is started here.</bpmn:text
       <bpmndi:BPMNEdge id="Edge_MapsResponse_35" bpmnElement="MapsResponse_35">
         <di:waypoint x="1510" y="1920" />
         <di:waypoint x="940" y="1920" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_RetryChoice" bpmnElement="Flow_35_RetryChoice">
+        <di:waypoint x="280" y="2280" />
+        <di:waypoint x="280" y="2330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_RetryYes" bpmnElement="Flow_35_RetryYes">
+        <di:waypoint x="255" y="2355" />
+        <di:waypoint x="76" y="2355" />
+        <di:waypoint x="76" y="780" />
+        <di:waypoint x="140" y="780" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="195" y="2318" width="52" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_RetryNo" bpmnElement="Flow_35_RetryNo">
+        <di:waypoint x="280" y="2380" />
+        <di:waypoint x="280" y="2440" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="2396" width="45" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_ViewEnd" bpmnElement="Flow_35_ViewEnd">
+        <di:waypoint x="280" y="3410" />
+        <di:waypoint x="280" y="3460" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
