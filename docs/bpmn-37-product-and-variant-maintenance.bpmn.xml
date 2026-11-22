@@ -1,0 +1,712 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_37" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_37">
+    <bpmn:participant id="Participant_37" name="BPMN-37 | Product and Variant Maintenance" processRef="Process_37" />
+    <bpmn:participant id="Cloudinary_37" name="Cloudinary — product image storage" />
+    <bpmn:messageFlow id="UploadRequest_37" sourceRef="Upload_37" targetRef="Cloudinary_37" name="Validated image upload" />
+    <bpmn:messageFlow id="UploadResponse_37" sourceRef="Cloudinary_37" targetRef="Upload_37" name="Stored media reference or failure" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_37" name="Product and Variant Maintenance" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-37, full catalog boundaries and shared-process rules; Chapters/Kitchen406 - Capstone Paper.md SRS 4.5 FR-CAT-01-05; supporting FR-PRICE-11-13, FR-BOM-07-08, NFR-SEC-03,08-09, NFR-REL-01-03,05-06, BR-24 and the documented Cloudinary image-storage integration. Implementation: index.html loads app/owner-products.js product/variant forms, confirmActivation and submit handler, app/pricing-state.js P.setPrice, app/staff-integration.js I.productAvailable, app/catalog.js and app/product.js. Current docs XMLs reviewed for convention/reuse, especially BPMN-27/30/35/36. SRS governs differences: preview image selection uses predefined assets; proposed upload validation/storage follows documented external-media support. No provider-specific transformation, file limit or upload endpoint is invented. Admin/Owner is the only editor; authentication is upstream BPMN-30, rechecked at protected saves. Local validation and exceptions are on the main diagram; external Cloudinary is a black-box pool with message flows, no generic broadcast signal. Scope is one catalog maintenance request covering create/update product or variant, activation/deactivation and subscription eligibility. Product name/description/image, applicable category association and per-variant label/active state are maintained without expanding independent category administration. Recipe/Bill of Materials and costing/final-price approval are separately owned by BPMN-39/40; supplied saved references/reviewed prices are used here, not automatically recalculated or approved. No BPMN-39/40 XML exists at authoring time, so references are visible rule/annotation references, not unresolved external call activities or fake embedded subprocesses. Product creation may save before a recipe is ready; no ready recipe means no ordering eligibility, not invented catalog-record rejection. Final prices must be valid owner-selected values where required for selected sellable variants; suggestions never replace them automatically. New subscription offerings/schedules belong to BPMN-38/03; this process records eligibility and does not enroll customers or alter paid subscription commitments. A combined product editor must validate dependent draft recipe/price/schedule changes under their owning rules and avoid partial saves. Availability reflects saved activation plus independent variant/recipe/stock constraints (BPMN-27 and checkout BPMN-09); activation alone does not promise stock or capacity. Failed writes retain existing catalog and transaction snapshots; media failure cannot publish a partially saved product. No deletion of historical products/variants, paid-order rewriting, price recomputation of purchased items, owner allocation, checkout, payment or marketing is introduced. Recoverable failures now remain in the same editing process with explicit review/edit/retry/stop paths. Recovery refreshes current data, guards stale drafts, reuses successful media and known successful operation results, and revalidates before protected writes. End events are reserved for success, denied access or administrator cancellation/stopping. No earlier BPMN is revised by this correction.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_37">
+      <bpmn:lane id="Lane_37_admin" name="Admin/Owner">
+        <bpmn:flowNodeRef>Start_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Edit_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryReview_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecoveryChoice_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stop_37</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_37_system" name="Kitchen406 System — Product Catalog Management">
+        <bpmn:flowNodeRef>Access_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AccessError_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AccessEnd_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InputError_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NewImage_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CheckImage_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ImageValid_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ImageError_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Upload_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Uploaded_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UploadError_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveError_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Refresh_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Recover_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryCheck_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryRoute_37</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AlreadySaved_37</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_37" name="Administrator requests product or variant maintenance">
+      <bpmn:outgoing>Flow_37_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Access_37" name="Check administrator access; load catalog entry and current version">
+      <bpmn:documentation>FR-CAT-03-04; NFR-SEC-03. Require Admin/Owner before exposing maintenance controls. Load existing product/variant where selected, catalog/version context and saved recipe/price references; new product/variant has no existing target. Staff cannot edit catalog or owner pricing.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed_37" name="Administrator access and target valid?">
+      <bpmn:incoming>Flow_37_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AccessError_37" name="Explain permission, missing target or load failure; retain catalog">
+      <bpmn:incoming>Flow_37_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="AccessEnd_37" name="Maintenance blocked; no changes">
+      <bpmn:incoming>Flow_37_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Edit_37" name="Create/edit product or variant; set images, availability and subscription eligibility">
+      <bpmn:documentation>FR-CAT-01-05. Edit product name/description/images, supported category association and variant labels/status; select activation/deactivation and subscription eligibility. Review existing variant final prices; if a price/recipe is changed, use BPMN-40/39 rules rather than catalog auto-pricing. Prototype separate variant form preserves existing prices on label/status edits. Deactivation prevents new selection, not fulfillment of paid orders. Unselecting a variant must not delete purchased references. Multiple variant support does not require a separate product for each variation.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_31</bpmn:incoming>
+      <bpmn:incoming>Flow_37_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_37" name="Administrator confirms requested changes?">
+      <bpmn:incoming>Flow_37_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_37" name="Cancelled; saved catalog retained">
+      <bpmn:incoming>Flow_37_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Validate_37" name="Validate catalog fields, variant references and related saved inputs">
+      <bpmn:documentation>FR-CAT-01-05; NFR-SEC-08. Validate action/target/version, applicable product name/description/category/image choice and supported variants. Prototype requires name/description, valid category, at least one selected variant on product save, unique variant label within product and positive finite selected final prices. Apply only fields relevant to current operation; activation-only does not require re-entering product/price. Reuse saved recipe references (BPMN-39) and owner-reviewed final price inputs (BPMN-40); distinguish valid draft catalog creation from missing ordering readiness. Never infer zero/missing cost as a price or change approved final price from a suggestion. Subscription eligibility refers to future offerings; do not rewrite confirmed schedule/address/amount commitments. If dependent edits accompany same form, validate them under their owning rules before any combined save.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_34</bpmn:incoming>
+      <bpmn:incoming>Flow_37_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_9</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Valid_37" name="Catalog input and version valid?">
+      <bpmn:incoming>Flow_37_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="InputError_37" name="Explain input/version issue; retain editable draft and saved catalog">
+      <bpmn:documentation>Return exact issue; correct relevant input or reopen latest entry. Preserve latest saved catalog, recipe/price and existing purchases. Do not invent unique product-name constraint or require complete stock just to save a catalog record.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_11</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="NewImage_37" name="Selected image still needs upload?">
+      <bpmn:documentation>Upload only new/changed selected media without an already successful usable upload reference. An unchanged successfully stored image is reused after local save failure. A failed upload retains the proposed file for validation/retry; choosing a different file invalidates prior validation/reference.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="CheckImage_37" name="Validate uploaded image type and size before storage">
+      <bpmn:documentation>NFR-SEC-09. Permit only supported image file types/sizes under configured rules; reject unsupported/executable content. Do not invent a size limit or assume file extension alone is sufficient. Existing validated media selection/reference bypasses a new upload.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_15</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="ImageValid_37" name="Image permitted?">
+      <bpmn:incoming>Flow_37_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ImageError_37" name="Explain unsupported image; retain draft for correction">
+      <bpmn:incoming>Flow_37_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Upload_37" name="Store validated product image through Cloudinary">
+      <bpmn:documentation>Use supported protected integration; return usable media reference or safe provider failure. Keep current catalog/image until final save succeeds. No unsupported automatic deletion of remote assets after a later local failure. Upload alone does not activate or publish product.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Uploaded_37" name="Usable image reference returned?">
+      <bpmn:incoming>Flow_37_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="UploadError_37" name="Explain upload failure; retain file and draft for safe retry">
+      <bpmn:incoming>Flow_37_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save_37" name="Save product/variant changes, activation and subscription eligibility consistently">
+      <bpmn:documentation>Recheck administrator session/action permission, target and current catalog/dependent version at commit. Create distinct product/variant or update existing fields; retain stable references to inactive variants needed by history. Preserve unchanged saved recipe and final price; supplied combined recipe/price/schedule drafts must save consistently only after owning rule validation. Save activation/deactivation and subscription flag, supported media reference and catalog version together. Failed combined update commits no partial catalog/dependent changes; preserve independently committed newer state. Use safe repeated-operation identity/record context to avoid duplicate creates. Never rewrite purchased item price/quantity/configuration snapshots, subscription amounts/schedules or preparing-owner shares.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_22</bpmn:incoming>
+      <bpmn:incoming>Flow_37_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Saved_37" name="Catalog changes saved?">
+      <bpmn:incoming>Flow_37_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_26</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SaveError_37" name="Explain save/conflict failure; retain draft and successful media reference">
+      <bpmn:documentation>No partial published product, activation flag, variant, price or recipe update. Refresh/review before retry; reuse known completed request result rather than duplicate creation. Existing remote upload does not mean catalog save succeeded. Old purchase commitments remain intact.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_25</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Refresh_37" name="Refresh storefront details and applicable ordering/subscription eligibility">
+      <bpmn:documentation>FR-CAT-01-05. Show saved product information, images, variant/final price and availability consistently. Inactive product/variant cannot be selected for new transactions. Active still requires applicable recipe/stock controls owned by BPMN-27/shared inventory rules and final checkout BPMN-09; no ingredient/capacity reservation here. Subscription flag makes applicable configured offerings eligible for future enrollment through BPMN-03/38; it does not create a schedule or activate prepaid subscriptions. Preserve existing confirmed commitments when catalog eligibility is removed. A display refresh failure does not roll back a successfully saved catalog; refresh safely from saved records.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_37</bpmn:incoming>
+      <bpmn:incoming>Flow_37_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_27</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="End_37" name="Catalog maintained; storefront reflects saved availability">
+      <bpmn:incoming>Flow_37_27</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_37_1" sourceRef="Start_37" targetRef="Access_37" />
+    <bpmn:sequenceFlow id="Flow_37_2" sourceRef="Access_37" targetRef="Allowed_37" />
+    <bpmn:sequenceFlow id="Flow_37_3" sourceRef="Allowed_37" targetRef="AccessError_37" name="No" />
+    <bpmn:sequenceFlow id="Flow_37_4" sourceRef="AccessError_37" targetRef="AccessEnd_37" />
+    <bpmn:sequenceFlow id="Flow_37_5" sourceRef="Allowed_37" targetRef="Edit_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_6" sourceRef="Edit_37" targetRef="Confirm_37" />
+    <bpmn:sequenceFlow id="Flow_37_7" sourceRef="Confirm_37" targetRef="Cancel_37" name="No / cancel" />
+    <bpmn:sequenceFlow id="Flow_37_8" sourceRef="Confirm_37" targetRef="Validate_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_9" sourceRef="Validate_37" targetRef="Valid_37" />
+    <bpmn:sequenceFlow id="Flow_37_10" sourceRef="Valid_37" targetRef="InputError_37" name="No" />
+    <bpmn:sequenceFlow id="Flow_37_11" sourceRef="InputError_37" targetRef="Recover_37" />
+    <bpmn:sequenceFlow id="Flow_37_12" sourceRef="Valid_37" targetRef="NewImage_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_13" sourceRef="NewImage_37" targetRef="CheckImage_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_14" sourceRef="NewImage_37" targetRef="Save_37" name="No — retain/select existing media" />
+    <bpmn:sequenceFlow id="Flow_37_15" sourceRef="CheckImage_37" targetRef="ImageValid_37" />
+    <bpmn:sequenceFlow id="Flow_37_16" sourceRef="ImageValid_37" targetRef="ImageError_37" name="No" />
+    <bpmn:sequenceFlow id="Flow_37_17" sourceRef="ImageError_37" targetRef="Recover_37" />
+    <bpmn:sequenceFlow id="Flow_37_18" sourceRef="ImageValid_37" targetRef="Upload_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_19" sourceRef="Upload_37" targetRef="Uploaded_37" />
+    <bpmn:sequenceFlow id="Flow_37_20" sourceRef="Uploaded_37" targetRef="UploadError_37" name="No" />
+    <bpmn:sequenceFlow id="Flow_37_21" sourceRef="UploadError_37" targetRef="Recover_37" />
+    <bpmn:sequenceFlow id="Flow_37_22" sourceRef="Uploaded_37" targetRef="Save_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_23" sourceRef="Save_37" targetRef="Saved_37" />
+    <bpmn:sequenceFlow id="Flow_37_24" sourceRef="Saved_37" targetRef="SaveError_37" name="No" />
+    <bpmn:sequenceFlow id="Flow_37_25" sourceRef="SaveError_37" targetRef="Recover_37" />
+    <bpmn:sequenceFlow id="Flow_37_26" sourceRef="Saved_37" targetRef="Refresh_37" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_37_27" sourceRef="Refresh_37" targetRef="End_37" />
+    <bpmn:textAnnotation id="ValidationRules_37">
+      <bpmn:text>Catalog validation
+Relevant product fields and supported variants.
+Existing edit target/version must be current.
+Applicable variant label/status and positive owner-selected final price.
+Use saved recipe/price references; no automatic suggested-price approval.
+BPMN-39: recipe/BoM rules.
+BPMN-40: costing and final-price approval.
+Availability-only changes reuse saved details.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_ValidationRules_37" sourceRef="Validate_37" targetRef="ValidationRules_37" associationDirection="None" />
+    <bpmn:textAnnotation id="ImageRules_37">
+      <bpmn:text>Image controls
+New upload: supported file type/size (NFR-SEC-09).
+Existing valid media: no upload required.
+Cloudinary failure ≠ successful catalog save.
+Current image/catalog remain until save.
+No provider-specific size limit or cleanup behavior is invented.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_ImageRules_37" sourceRef="CheckImage_37" targetRef="ImageRules_37" associationDirection="None" />
+    <bpmn:textAnnotation id="Snapshots_37">
+      <bpmn:text>Save and historical commitments
+Create/update the intended product/variant only.
+Activation, eligibility and supplied dependent changes save consistently.
+Deactivate rather than remove purchased variant references.
+Do not rewrite paid order/subscription snapshots or original amounts.
+Permission/version conflict or failed write leaves prior saved state intact.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Snapshots_37" sourceRef="Save_37" targetRef="Snapshots_37" associationDirection="None" />
+    <bpmn:textAnnotation id="AvailabilityRules_37">
+      <bpmn:text>Availability is not stock reservation
+Inactive product/variant blocks new selection.
+Active still depends on recipe and ingredient availability (BPMN-27).
+BPMN-09 owns final checkout resources.
+Subscription eligibility applies to future offerings; schedules/selection belong to BPMN-38/03.
+Confirmed subscriptions remain unchanged.
+BPMN-30 owns authentication.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_AvailabilityRules_37" sourceRef="Refresh_37" targetRef="AvailabilityRules_37" associationDirection="None" />
+    <bpmn:serviceTask id="Recover_37" name="Refresh current catalog and reconcile saved attempt/media before retry">
+      <bpmn:documentation>Preserve unsaved draft separately while rereading current record/session/permissions, relevant dependency versions and known operation result. If a save actually succeeded, retain its result and uploaded media identity; do not create another product/upload. Detect stale conflict and present current saved values for explicit administrator review, never blindly rebase/overwrite the old draft. Unsupported images require replacement; provider-only upload error may retry the same file; a successful upload is reusable if file/reference still matches. Permission revocation blocks resubmission. No saved business data is changed by this refresh.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_25</bpmn:incoming>
+      <bpmn:incoming>Flow_37_21</bpmn:incoming>
+      <bpmn:incoming>Flow_37_17</bpmn:incoming>
+      <bpmn:incoming>Flow_37_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_28</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="RecoveryReview_37" name="Review failure/latest data; choose Retry, Edit/replace image, or Stop">
+      <bpmn:documentation>Keep draft/context visible. Invalid fields/image require correction through Edit; missing permission requires ending the attempt. Stale-version conflict requires reviewing refreshed data and explicitly reconciling the draft through Edit before retry is eligible. Unchanged upload failure can retry with same validated file; save failure reuses successful media. A matching already successful request can retry to display its saved result without duplicating writes.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_35</bpmn:incoming>
+      <bpmn:incoming>Flow_37_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_29</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="RecoveryChoice_37" name="Administrator recovery choice?">
+      <bpmn:incoming>Flow_37_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_30</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_31</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_32</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Stop_37" name="Stopped for now; saved catalog retained">
+      <bpmn:incoming>Flow_37_30</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="RetryCheck_37" name="Check safe retry: current permission/version, corrected input and prior save result">
+      <bpmn:documentation>Retry is not unconditional. Return saved-success if same operation already completed; retry-eligible only if current authorization, expected version/dependency context and draft remain valid for resubmission. Stale/unreviewed conflict, rejected unchanged image or invalid fields requires Edit/Review, not a blind retry. Lost permission cannot authorize retry and must be resolved or stopped. Validate matching successful media reference; never re-upload after a confirmed successful upload solely because catalog save failed.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_32</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_33</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="RetryRoute_37" name="Safe retry result?">
+      <bpmn:incoming>Flow_37_33</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_34</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_35</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37_36</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AlreadySaved_37" name="Reuse confirmed saved result and media; no duplicate catalog update">
+      <bpmn:documentation>Same successful operation/result was found during recovery. Preserve original saved record/reference, do not create duplicate product/variant or overwrite current catalog. Refresh/display saved state through the existing storefront refresh task.</bpmn:documentation>
+      <bpmn:incoming>Flow_37_36</bpmn:incoming>
+      <bpmn:outgoing>Flow_37_37</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_37_28" sourceRef="Recover_37" targetRef="RecoveryReview_37" />
+    <bpmn:sequenceFlow id="Flow_37_29" sourceRef="RecoveryReview_37" targetRef="RecoveryChoice_37" />
+    <bpmn:sequenceFlow id="Flow_37_30" sourceRef="RecoveryChoice_37" targetRef="Stop_37" name="Stop / cancel" />
+    <bpmn:sequenceFlow id="Flow_37_31" sourceRef="RecoveryChoice_37" targetRef="Edit_37" name="Edit / replace image" />
+    <bpmn:sequenceFlow id="Flow_37_32" sourceRef="RecoveryChoice_37" targetRef="RetryCheck_37" name="Retry unchanged" />
+    <bpmn:sequenceFlow id="Flow_37_33" sourceRef="RetryCheck_37" targetRef="RetryRoute_37" />
+    <bpmn:sequenceFlow id="Flow_37_34" sourceRef="RetryRoute_37" targetRef="Validate_37" name="Retry eligible — revalidate" />
+    <bpmn:sequenceFlow id="Flow_37_35" sourceRef="RetryRoute_37" targetRef="RecoveryReview_37" name="Correction/review or permitted account required" />
+    <bpmn:sequenceFlow id="Flow_37_36" sourceRef="RetryRoute_37" targetRef="AlreadySaved_37" name="Same request already saved" />
+    <bpmn:sequenceFlow id="Flow_37_37" sourceRef="AlreadySaved_37" targetRef="Refresh_37" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_37">
+    <bpmndi:BPMNPlane id="Plane_37" bpmnElement="Collaboration_37">
+      <bpmndi:BPMNShape id="Shape_Participant_37" bpmnElement="Participant_37" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1510" height="5050" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_37_admin" bpmnElement="Lane_37_admin" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="5020" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_37_system" bpmnElement="Lane_37_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1060" height="5020" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cloudinary_37" bpmnElement="Cloudinary_37" isHorizontal="false">
+        <dc:Bounds x="1700" y="40" width="180" height="5050" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_37" bpmnElement="Start_37">
+        <dc:Bounds x="262" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="85" y="185" width="300" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Access_37" bpmnElement="Access_37">
+        <dc:Bounds x="670" y="280" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allowed_37" bpmnElement="Allowed_37">
+        <dc:Bounds x="775" y="470" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="470" width="230" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AccessError_37" bpmnElement="AccessError_37">
+        <dc:Bounds x="1080" y="455" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AccessEnd_37" bpmnElement="AccessEnd_37">
+        <dc:Bounds x="1197" y="650" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="695" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Edit_37" bpmnElement="Edit_37">
+        <dc:Bounds x="140" y="750" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_37" bpmnElement="Confirm_37">
+        <dc:Bounds x="255" y="980" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="980" width="160" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_37" bpmnElement="Cancel_37">
+        <dc:Bounds x="262" y="1180" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="1225" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate_37" bpmnElement="Validate_37">
+        <dc:Bounds x="670" y="1210" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid_37" bpmnElement="Valid_37">
+        <dc:Bounds x="775" y="1420" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1420" width="230" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InputError_37" bpmnElement="InputError_37">
+        <dc:Bounds x="1080" y="1405" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_NewImage_37" bpmnElement="NewImage_37">
+        <dc:Bounds x="775" y="1730" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="1730" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_CheckImage_37" bpmnElement="CheckImage_37">
+        <dc:Bounds x="670" y="1960" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ImageValid_37" bpmnElement="ImageValid_37">
+        <dc:Bounds x="775" y="2140" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2140" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ImageError_37" bpmnElement="ImageError_37">
+        <dc:Bounds x="1080" y="2125" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Upload_37" bpmnElement="Upload_37">
+        <dc:Bounds x="670" y="2400" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Uploaded_37" bpmnElement="Uploaded_37">
+        <dc:Bounds x="775" y="2590" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="2590" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_UploadError_37" bpmnElement="UploadError_37">
+        <dc:Bounds x="1080" y="2575" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Save_37" bpmnElement="Save_37">
+        <dc:Bounds x="660" y="3010" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Saved_37" bpmnElement="Saved_37">
+        <dc:Bounds x="775" y="3240" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="3240" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveError_37" bpmnElement="SaveError_37">
+        <dc:Bounds x="1080" y="3225" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Refresh_37" bpmnElement="Refresh_37">
+        <dc:Bounds x="660" y="3500" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_37" bpmnElement="End_37">
+        <dc:Bounds x="782" y="3750" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="680" y="3795" width="270" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ValidationRules_37" bpmnElement="ValidationRules_37">
+        <dc:Bounds x="120" y="1420" width="330" height="280" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ImageRules_37" bpmnElement="ImageRules_37">
+        <dc:Bounds x="120" y="2030" width="320" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Snapshots_37" bpmnElement="Snapshots_37">
+        <dc:Bounds x="120" y="2850" width="330" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AvailabilityRules_37" bpmnElement="AvailabilityRules_37">
+        <dc:Bounds x="120" y="3430" width="330" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_1" bpmnElement="Flow_37_1">
+        <di:waypoint x="280" y="166" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="805" y="220" />
+        <di:waypoint x="805" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_2" bpmnElement="Flow_37_2">
+        <di:waypoint x="805" y="380" />
+        <di:waypoint x="805" y="420" />
+        <di:waypoint x="800" y="420" />
+        <di:waypoint x="800" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_3" bpmnElement="Flow_37_3">
+        <di:waypoint x="825" y="495" />
+        <di:waypoint x="1080" y="495" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="465" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_4" bpmnElement="Flow_37_4">
+        <di:waypoint x="1215" y="565" />
+        <di:waypoint x="1215" y="650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_5" bpmnElement="Flow_37_5">
+        <di:waypoint x="800" y="520" />
+        <di:waypoint x="800" y="670" />
+        <di:waypoint x="280" y="670" />
+        <di:waypoint x="280" y="750" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="590" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_6" bpmnElement="Flow_37_6">
+        <di:waypoint x="280" y="880" />
+        <di:waypoint x="280" y="980" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_7" bpmnElement="Flow_37_7">
+        <di:waypoint x="280" y="1030" />
+        <di:waypoint x="280" y="1180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1090" width="110" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_8" bpmnElement="Flow_37_8">
+        <di:waypoint x="305" y="1005" />
+        <di:waypoint x="805" y="1005" />
+        <di:waypoint x="805" y="1210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="975" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_9" bpmnElement="Flow_37_9">
+        <di:waypoint x="805" y="1330" />
+        <di:waypoint x="805" y="1370" />
+        <di:waypoint x="800" y="1370" />
+        <di:waypoint x="800" y="1420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_10" bpmnElement="Flow_37_10">
+        <di:waypoint x="825" y="1445" />
+        <di:waypoint x="1080" y="1445" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="1415" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_11" bpmnElement="Flow_37_11">
+        <di:waypoint x="1350" y="1460.0" />
+        <di:waypoint x="1410" y="1460.0" />
+        <di:waypoint x="1410" y="3940" />
+        <di:waypoint x="800" y="3940" />
+        <di:waypoint x="800" y="4100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_12" bpmnElement="Flow_37_12">
+        <di:waypoint x="800" y="1470" />
+        <di:waypoint x="800" y="1730" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="1590" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_13" bpmnElement="Flow_37_13">
+        <di:waypoint x="800" y="1780" />
+        <di:waypoint x="800" y="1870" />
+        <di:waypoint x="805" y="1870" />
+        <di:waypoint x="805" y="1960" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="815" y="1860" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_14" bpmnElement="Flow_37_14">
+        <di:waypoint x="775" y="1755" />
+        <di:waypoint x="480" y="1755" />
+        <di:waypoint x="480" y="3075" />
+        <di:waypoint x="660" y="3075" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="1785" width="250" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_15" bpmnElement="Flow_37_15">
+        <di:waypoint x="805" y="2060" />
+        <di:waypoint x="805" y="2100" />
+        <di:waypoint x="800" y="2100" />
+        <di:waypoint x="800" y="2140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_16" bpmnElement="Flow_37_16">
+        <di:waypoint x="825" y="2165" />
+        <di:waypoint x="1080" y="2165" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="2135" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_17" bpmnElement="Flow_37_17">
+        <di:waypoint x="1350" y="2175.0" />
+        <di:waypoint x="1430" y="2175.0" />
+        <di:waypoint x="1430" y="3975" />
+        <di:waypoint x="800" y="3975" />
+        <di:waypoint x="800" y="4100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_18" bpmnElement="Flow_37_18">
+        <di:waypoint x="800" y="2190" />
+        <di:waypoint x="800" y="2310" />
+        <di:waypoint x="805" y="2310" />
+        <di:waypoint x="805" y="2400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="815" y="2290" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_19" bpmnElement="Flow_37_19">
+        <di:waypoint x="805" y="2500" />
+        <di:waypoint x="805" y="2540" />
+        <di:waypoint x="800" y="2540" />
+        <di:waypoint x="800" y="2590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_20" bpmnElement="Flow_37_20">
+        <di:waypoint x="825" y="2615" />
+        <di:waypoint x="1080" y="2615" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="2585" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_21" bpmnElement="Flow_37_21">
+        <di:waypoint x="1350" y="2630.0" />
+        <di:waypoint x="1450" y="2630.0" />
+        <di:waypoint x="1450" y="4010" />
+        <di:waypoint x="800" y="4010" />
+        <di:waypoint x="800" y="4100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_22" bpmnElement="Flow_37_22">
+        <di:waypoint x="800" y="2640" />
+        <di:waypoint x="800" y="3010" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="2810" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_23" bpmnElement="Flow_37_23">
+        <di:waypoint x="800" y="3140" />
+        <di:waypoint x="800" y="3240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_24" bpmnElement="Flow_37_24">
+        <di:waypoint x="825" y="3265" />
+        <di:waypoint x="1080" y="3265" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="945" y="3235" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_25" bpmnElement="Flow_37_25">
+        <di:waypoint x="1350" y="3285.0" />
+        <di:waypoint x="1470" y="3285.0" />
+        <di:waypoint x="1470" y="4045" />
+        <di:waypoint x="800" y="4045" />
+        <di:waypoint x="800" y="4100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_26" bpmnElement="Flow_37_26">
+        <di:waypoint x="800" y="3290" />
+        <di:waypoint x="800" y="3500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="3380" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_27" bpmnElement="Flow_37_27">
+        <di:waypoint x="800" y="3620" />
+        <di:waypoint x="800" y="3750" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_ValidationRules_37" bpmnElement="Assoc_ValidationRules_37">
+        <di:waypoint x="670" y="1270" />
+        <di:waypoint x="460" y="1270" />
+        <di:waypoint x="460" y="1480" />
+        <di:waypoint x="450" y="1480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_ImageRules_37" bpmnElement="Assoc_ImageRules_37">
+        <di:waypoint x="670" y="2010" />
+        <di:waypoint x="500" y="2010" />
+        <di:waypoint x="500" y="2070" />
+        <di:waypoint x="440" y="2070" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Snapshots_37" bpmnElement="Assoc_Snapshots_37">
+        <di:waypoint x="660" y="3075" />
+        <di:waypoint x="450" y="3075" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_AvailabilityRules_37" bpmnElement="Assoc_AvailabilityRules_37">
+        <di:waypoint x="660" y="3560" />
+        <di:waypoint x="450" y="3560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_UploadRequest_37" bpmnElement="UploadRequest_37">
+        <di:waypoint x="940" y="2430" />
+        <di:waypoint x="1700" y="2430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_UploadResponse_37" bpmnElement="UploadResponse_37">
+        <di:waypoint x="1700" y="2480" />
+        <di:waypoint x="940" y="2480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_Recover_37" bpmnElement="Recover_37">
+        <dc:Bounds x="660" y="4100" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryReview_37" bpmnElement="RecoveryReview_37">
+        <dc:Bounds x="140" y="4330" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecoveryChoice_37" bpmnElement="RecoveryChoice_37">
+        <dc:Bounds x="255" y="4550" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="4550" width="160" height="80" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Stop_37" bpmnElement="Stop_37">
+        <dc:Bounds x="262" y="4780" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="4825" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RetryCheck_37" bpmnElement="RetryCheck_37">
+        <dc:Bounds x="660" y="4500" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RetryRoute_37" bpmnElement="RetryRoute_37">
+        <dc:Bounds x="775" y="4730" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="530" y="4730" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AlreadySaved_37" bpmnElement="AlreadySaved_37">
+        <dc:Bounds x="1080" y="4680" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_28" bpmnElement="Flow_37_28">
+        <di:waypoint x="800" y="4220" />
+        <di:waypoint x="800" y="4270" />
+        <di:waypoint x="280" y="4270" />
+        <di:waypoint x="280" y="4330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_29" bpmnElement="Flow_37_29">
+        <di:waypoint x="280" y="4450" />
+        <di:waypoint x="280" y="4550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_30" bpmnElement="Flow_37_30">
+        <di:waypoint x="280" y="4600" />
+        <di:waypoint x="280" y="4780" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="4670" width="140" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_31" bpmnElement="Flow_37_31">
+        <di:waypoint x="255" y="4575" />
+        <di:waypoint x="100" y="4575" />
+        <di:waypoint x="100" y="815" />
+        <di:waypoint x="140" y="815" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="110" y="4520" width="135" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_32" bpmnElement="Flow_37_32">
+        <di:waypoint x="305" y="4575" />
+        <di:waypoint x="660" y="4575" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="415" y="4535" width="170" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_33" bpmnElement="Flow_37_33">
+        <di:waypoint x="800" y="4620" />
+        <di:waypoint x="800" y="4730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_34" bpmnElement="Flow_37_34">
+        <di:waypoint x="775" y="4755" />
+        <di:waypoint x="590" y="4755" />
+        <di:waypoint x="590" y="1270" />
+        <di:waypoint x="670" y="1270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="600" y="4640" width="165" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_35" bpmnElement="Flow_37_35">
+        <di:waypoint x="800" y="4780" />
+        <di:waypoint x="800" y="4920" />
+        <di:waypoint x="460" y="4920" />
+        <di:waypoint x="460" y="4390" />
+        <di:waypoint x="420" y="4390" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="475" y="4860" width="310" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_36" bpmnElement="Flow_37_36">
+        <di:waypoint x="825" y="4755" />
+        <di:waypoint x="1080" y="4755" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="850" y="4795" width="210" height="45" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_37_37" bpmnElement="Flow_37_37">
+        <di:waypoint x="1350" y="4740" />
+        <di:waypoint x="1490" y="4740" />
+        <di:waypoint x="1490" y="3700" />
+        <di:waypoint x="990" y="3700" />
+        <di:waypoint x="990" y="3560" />
+        <di:waypoint x="940" y="3560" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
