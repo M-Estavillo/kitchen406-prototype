@@ -802,6 +802,28 @@ The Admin/Owner can filter analytics by date, product, order type, and, for fulf
 
 The estimated profit figures depend on the available ingredient, packaging, and utility cost information maintained within the platform. The analytics serve as a reporting tool and do not automatically process owner payouts, payroll, or financial settlements. Staff may record preparing-owner allocations through authorized operational functions but cannot access the financial dashboard.
 
+### Online Ordering Workflows
+
+Customers must register and sign in before placing standard orders, enrolling in prepaid subscriptions, or submitting custom cake requests. They can track order status from their account and save, label, and manage multiple delivery addresses. For delivery, customers select a saved address at checkout and confirm its details before submitting the order. Administrators can adjust daily product limits, order cut-off times, and minimum lead times for applicable order types as production capacity changes.
+
+Standard orders are one-time purchases of catalog bread and pastries. Products offered through prepaid subscriptions are also available as one-time purchases, and customers can combine them with other products in the same cart. All items in a standard order share one fulfillment date. The system offers only dates when every item meets the applicable lead time, cut-off, capacity, blocked-date, and ingredient availability rules. Batch-produced items must also follow their configured production days, even when subscription enrollment is paused or closed. If the lead time or cut-off for an upcoming batch has passed, the next eligible batch date is the earliest date available for that item, subject to availability for the rest of the cart.
+
+Customers can collect standard orders from the bakery without a delivery fee or select courier delivery. Orders delivered together incur one delivery fee. Both pickup and courier delivery draw from standard-order capacity. Prepaid subscriptions cover selected bread and pastries and commit the customer to four scheduled weekly fulfillments. Subscription scheduling applies its own capacity limits, lead times, cut-off times, blocked dates, and ingredient availability rules.
+
+For custom cake requests, the cake configurator uses predefined options such as size to calculate a preliminary cost estimate. Customers may upload one to three reference images and specify a requested fulfillment date. During administrative review, the owners finalize the design with the customer, assess charges for design complexity and customization on a case-by-case basis, and issue a final quotation for acceptance. The system confirms the order after the customer accepts the quotation and pays in full.
+
+At subscription enrollment, customers select an available product variant, a predefined fulfillment schedule, and either bakery pickup or courier delivery. For courier delivery, customers must confirm their delivery address before payment. The address is locked after payment confirmation to preserve the prepaid delivery fee. If a customer switches to pickup and qualifies for a refund of prepaid delivery fees, the owners process the refund manually at the bakery, outside the platform. The system does not issue the refund or adjust the payment automatically.
+
+The customer must request a deferment before the affected fulfillment’s preparation day begins. The system checks two replacement dates only, the day after the affected fulfillment and one week after the subscription’s final scheduled fulfillment. It offers only dates with sufficient production capacity. If the customer confirms an offered date and has an unused deferment allowance, the system reschedules the fulfillment and uses the allowance. If neither date has sufficient capacity, the request arrives late, or the allowance has already been used, the original schedule and allowance remain as they were. A successful deferment may extend the subscription end date while preserving the four-fulfillment commitment.
+
+For standard orders, a customer can submit one review per eligible purchased item after the order is completed. For prepaid subscriptions, a customer can submit one review per enrollment after all four fulfillments are completed. Each review may include a rating, an optional comment, and up to three photos. Administrators can hide or unhide reviews and feedback to moderate malicious, spam, or inappropriate content.
+
+The system uses the Lalamove API to book and track courier deliveries for standard orders and subscription fulfillments. Each weekly subscription fulfillment is represented as a separate order for courier booking and tracking. The owners arrange custom cake deliveries directly outside the platform.
+
+### Inventory Management and Product Costing
+
+The single-level Bill of Materials links finished products directly to base ingredients. Packaging is included in product costing and can be tracked as inventory. To account for production waste, ingredient loss, or variations in batch yield, the owners maintain recipe quantities, adjust inventory records, or update costing data manually. These records support ingredient projections and production-cost estimates.
+
 ## **4.3 Development Model** {#4.3-development-model}
 
 For the development of the system, the developers adopt the agile development methodology. Agile development is an iterative and incremental approach to software development in which the system is built through a series of short, repeating cycles rather than a single linear sequence of phases. Each cycle produces a working increment of the system, which is then reviewed and refined based on feedback before the next cycle begins.
