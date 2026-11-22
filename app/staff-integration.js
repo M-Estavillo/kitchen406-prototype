@@ -12,7 +12,7 @@ const emit=A.notifications.emit;A.notifications.emit=(key,category,title,message
 };
 // Legacy ready labels are accepted at the boundary; courier progress has its own record.
 C.recordHistory=(o,next)=>{const history=S.history.get(o.id)||[];if(history[0]?.status===next)return;history.unshift({history_id:o.id+':'+(history.length+1),order_id:o.id,status:next,actor:A.session?.actor()?.name||'System',changed_by_account_id:A.session?.actor()?.id||null,changed_at:Date.now(),at:Date.now()});S.history.set(o.id,history);};
-const status=C.setStatus;C.setStatus=(o,next)=>{if(!o)return;if(next==='cancelled')I.release(o.id);if(next==='in-transit'){o.delivery={...o.delivery,order_id:o.id,status:'in_transit'};next='ready';}if(['ready-pickup','ready-delivery'].includes(next))next='ready';status(o,next);C.recordHistory(o,S.orderStatus(o));};
+const status=C.setStatus;C.setStatus=(o,next,options)=>{if(!o)return;if(next==='cancelled'&&!options?.preserveMaterials)I.release(o.id);if(next==='in-transit'){o.delivery={...o.delivery,order_id:o.id,status:'in_transit'};next='ready';}if(['ready-pickup','ready-delivery'].includes(next))next='ready';status(o,next,options);C.recordHistory(o,S.orderStatus(o));};
 C.orderRecord=o=>({order_id:o.id,customer_id:o.customer_id,type:({standard:'standard_purchase',subscription:'subscription_fulfillment',cake:'custom_cake_purchase'})[o.type],status:({'pending-payment':'pending_payment','payment-failed':'pending_payment','payment-resolution':'payment_resolution_required'})[o.status]||S.orderStatus(o),fulfillment_date:o.fulfillment.date,fulfillment_method:o.fulfillment.method});
 C.reserveStandard=(o,previous)=>I.reserve(o,false,false,previous?[o.id,previous]:o.id);
 const create=C.createOrder;C.createOrder=()=>{C.state.serial=Math.max(C.state.serial,...I.allOrders().map(o=>Number(o.id.match(/^K406-(\d+)$/)?.[1])||0));return create();};
@@ -176,16 +176,6 @@ B.reserveNext=(record,ingredientId)=>{
  return updated;
 };
 B.retryIngredientShortages=id=>{for(const record of B.allRecords())B.reserveNext(record,id);};
-B.preparationReservation=order=>{
- if(order.type!=='subscription')return '';
- const record=B.allRecords().find(r=>r.id===order.subscriptionId),delivery=record?.deliveries.find(d=>d.orderId===order.id);
- if(!delivery)return 'The subscription fulfillment link could not be verified.';
- if(delivery.cycle===1)return '';
- const details=reservationDetails(record,delivery,order);
- if(!details)return 'The current subscription schedule could not be verified.';
- if(details.due>A.schedule.today())return 'Ingredient reservation is scheduled for '+details.due+' (Manila). Preparation is blocked until then.';
- return reserveScheduled(order,details.due);
-};
 const pay=B.pay;B.pay=(p,state)=>{
  if(!p||p.paid||p.payment==='cancelled'&&state!=='confirmed')return;
  C.state.serial=Math.max(C.state.serial,...I.allOrders().map(o=>Number(o.id.match(/^K406-(\d+)$/)?.[1])||0));
@@ -200,7 +190,9 @@ const pay=B.pay;B.pay=(p,state)=>{
 const defer=B.applyDefer;B.applyDefer=(r,d,...args)=>{const error=defer(r,d,...args);if(!error)S.emit('defer:'+d.orderId+':'+d.date,'orders',d.orderId+' moved from '+d.originalDate+' to '+d.date+'.','staff/production/'+d.orderId);return error;};
 // The demo scheduler scans due records. Only a relevant restock retries a recorded shortage.
 let availabilitySignature='';setInterval(()=>{
- let updated=false;
+ const pickupsChanged=A.fulfillment.checkPickupCutoffs();
+ if(pickupsChanged&&A.route==='orders')C.render();
+ let updated=pickupsChanged;
  for(const record of B.allRecords())if(B.reserveNext(record))updated=true;
  if(updated){S.render?.();A.owner?.render();A.shell?.sync();}
  const signature=I.items.map(i=>I.available(i.id)).join(',');

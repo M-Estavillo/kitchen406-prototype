@@ -7,7 +7,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){menu.
 setInterval(()=>{if(K.expire()){V.render();C.render();A.inspector();}},1000);
 
 const reset=C.reset;C.reset=()=>{K.reset();N.reset();P.reset();reset();};
-const setStatus=C.setStatus;C.setStatus=(o,status)=>{const old=o?.status;setStatus(o,status);if(o&&old!==status){if(o.quotationId&&status==='cancelled')K.release(o.id);N.emit('status-'+o.id+'-'+status,'orders','Order status updated',o.id+' is now '+status.replaceAll('-',' ')+'.','orders/'+o.id,o.customer_id||P.id());}};
+C.notifyStatus=(o,status)=>{
+ const pickupReady=status==='ready'&&o.fulfillment?.method==='pickup'&&['standard','subscription'].includes(o.type);
+ const title=pickupReady?'Ready for pickup':status==='cancelled'&&o.cancellationReason?'Pickup cancelled':'Order status updated';
+ const message=pickupReady?'Order '+o.id+' is ready for bakery pickup on '+o.fulfillment.date+'. Please arrive by 7:00 p.m. Manila time.':status==='cancelled'&&o.cancellationReason?'Order '+o.id+' was cancelled. '+o.cancellationReason+'.':o.id+' is now '+status.replaceAll('-',' ')+'.';
+ N.emit('status-'+o.id+'-'+status,'orders',title,message,'orders/'+o.id,o.customer_id||P.id());
+};
+const setStatus=C.setStatus;C.setStatus=(o,status,options)=>{
+ const old=o?.status;setStatus(o,status);
+ if(!o||old===status)return;
+ if(o.quotationId&&status==='cancelled')K.release(o.id);
+ if(!options?.deferNotification)C.notifyStatus(o,status);
+};
 const createOrder=C.createOrder;C.createOrder=()=>{if(!P.allowed())return null;const o=createOrder();if(o){o.customer_id=P.id();o.contact||=P.contact();}return o;};
 const setPayment=C.setPayment;C.setPayment=(o,state)=>{const paid=o?.paid;setPayment(o,state);if(o&&!o.quotationId&&!paid&&o.paid&&o.status==='confirmed')N.emit('confirmed-'+o.id,'orders','Order confirmed','Your order '+o.id+' is confirmed.','orders/'+o.id,o.customer_id||P.id());};
 const B=A.subscriptions,pay=B.pay,defer=B.applyDefer;

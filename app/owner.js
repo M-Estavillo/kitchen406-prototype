@@ -55,10 +55,13 @@ document.addEventListener('click',e=>{
  if(action==='clear-filters'){O.filters=blank();O.status='all';O.page=1;O.render();return;}
  if(action==='inventory-type'){O.filters.type=el.dataset.type;O.page=1;O.render();document.querySelector('[data-owner=inventory-type][aria-pressed=true]')?.focus();return;}
  if(action==='status'){O.status=el.dataset.status;O.page=1;O.render();return;}
- if(action==='transition'){confirmAction(el.textContent,el.dataset.target==='preparing'?'Starting preparation records the reserved materials as used.':el.dataset.target==='completed'?'Confirm the order has been handed over.':'Confirm that this order is prepared and ready for handoff.','confirm-transition',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`,el.dataset.target==='ready'?A.earnings.readyEditor(A.operations.record(id)):'');return;}
+ if(action==='record-arrival'){A.toast(A.fulfillment.recordArrival(id,Number(el.dataset.version))||'Arrival recorded.');return;}
+ if(action==='transition'){confirmAction(el.textContent,el.dataset.target==='preparing'?'Starting preparation records the reserved materials as used.':el.dataset.target==='completed'?'Confirm the order has been handed over.':'Confirm that this order is prepared and ready for handoff.','confirm-transition',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`,el.dataset.target==='preparing'?A.earnings.preparationEditor(A.operations.record(id)):'');return;}
+ if(action==='edit-allocation'){const o=A.operations.record(id);if(A.earnings.editable(o))confirmAction('Save Allocation','Review the preparing owners for each product line.','confirm-allocation',`data-id="${E(id)}" data-version="${el.dataset.version}"`,A.earnings.editor(o));return;}
+ if(action==='confirm-allocation'){result(A.fulfillment.editAllocation(id,Number(el.dataset.version),O.formKey));return;}
  if(action==='revert-status'){const o=A.operations.record(id),target=A.fulfillment.previous(o);if(!target)return;confirmAction('Revert status','Return this order to '+target+'?'+(target==='confirmed'?' Consumed ingredients will be restored to reserved stock.':''),'confirm-revert',`data-id="${E(id)}" data-version="${el.dataset.version}"`);return;}
  if(action==='confirm-revert'){result(A.fulfillment.revert(id,Number(el.dataset.version),O.formKey));return;}
- if(action==='confirm-transition'){if(O.saveError){result('The update could not be saved. Retry.');return;}result(A.fulfillment.transition(id,el.dataset.target,Number(el.dataset.version),O.formKey));return;}
+ if(action==='confirm-transition'){result(A.fulfillment.transition(id,el.dataset.target,Number(el.dataset.version),O.formKey));return;}
  if(action==='book'){A.deliveryTracking.book(id,Number(el.dataset.version));return;}
 
  if(action==='stock'){A.ownerInventory.openStock(id,el.dataset.type);return;}

@@ -162,7 +162,15 @@ B.progressPlan=(record,change)=>{
   updates.push({delivery,status:({confirmed:'scheduled','ready-pickup':'ready','ready-delivery':'ready',completed:'fulfilled'})[status]||status,completedAt:status==='completed'?completedAt:null});
  }
  const completedCount=updates.filter(update=>update.status==='fulfilled').length;
- return {completedCount,commit(){
+ const previous={status:record.status,completedCount:record.completedCount,remainingCount:record.remainingCount};
+ const previousDeliveries=updates.map(({delivery})=>[delivery,delivery.status,delivery.fulfilled_at]);
+ return {completedCount,rollback(){
+  for(const [key,value] of Object.entries(previous)){if(value===undefined)delete record[key];else record[key]=value;}
+  for(const [delivery,status,at] of previousDeliveries){
+   delivery.status=status;
+   if(at===undefined)delete delivery.fulfilled_at;else delivery.fulfilled_at=at;
+  }
+ },commit(){
   const previouslyCompleted=record.status==='completed';
   for(const {delivery,status,completedAt} of updates){
    delivery.status=status;
@@ -182,7 +190,7 @@ B.progressForOrder=(order,status,completedAt)=>{
 };
 B.sync=record=>{B.progressPlan(record).commit?.();return record;};
 B.reviewable=record=>!!record&&A.account?.owns(record)&&record.status==='completed'&&B.progressPlan(record).completedCount===4;
-B.next=record=>record.deliveries.filter(d=>d.status!=='fulfilled').sort((a,b)=>a.date.localeCompare(b.date))[0];
+B.next=record=>record.deliveries.filter(d=>!['fulfilled','cancelled'].includes(d.status)).sort((a,b)=>a.date.localeCompare(b.date))[0];
 B.deferTarget=(record,delivery,option)=>option==='day'?D.add(delivery.date,1):D.add(record.deliveries.map(d=>d.date).sort().at(-1),7);
 B.replacementReason=(record,delivery,date)=>{
  const reason=D.base(date,record.snapshot.productId,{replacement:true});if(reason)return reason;
