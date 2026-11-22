@@ -4,7 +4,7 @@
 <bpmn:participant id="Participant_02" name="BPMN-02 | Checkout Fulfillment Arrangement and Purchase Review" processRef="Process_02" />
 </bpmn:collaboration>
   <bpmn:process id="Process_02" name="Checkout Fulfillment Arrangement and Purchase Review" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-02 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, SRS scope items 3 and 6; 4.4 (FR-ADDR-05), 4.7 (FR-ORD-02), 4.8 (FR-SUB-01, 02, 05), 4.10 (FR-PAY-03), 4.16 (FR-DEL-02 through 09); BR-11, 12, 19, 26, 27. Read top to bottom. Customer and Kitchen406 System are responsibility swimlanes in one descriptive process; cross-lane arrows are sequence flows. BPMN-22 encapsulates provider interactions. Authentication is a precondition. Confirmation means customer review only; BPMN-09 owns final resource checks/reservation. Custom cakes bypass this process. BPMN-01 owns cart edits and its subtotal; BPMN-03 owns subscription configuration. This process displays those inputs again for complete purchase review, without editing them. Re-entry after changes requires schedule validation, applicable address checks, quotations and recalculation.</bpmn:documentation>
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-02 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, SRS scope items 3 and 6; 4.4 (FR-ADDR-05), 4.7 (FR-ORD-02), 4.8 (FR-SUB-01, 02, 05), 4.10 (FR-PAY-03), 4.16 (FR-DEL-02 through 09); BR-11, 12, 19, 26, 27. Read top to bottom. Customer and Kitchen406 System are responsibility swimlanes in one descriptive process; cross-lane arrows are sequence flows. BPMN-18 encapsulates provider interactions. Authentication is a precondition. Confirmation means customer review only; BPMN-09 owns final resource checks/reservation. Custom cakes bypass this process. BPMN-01 owns cart edits and its subtotal; BPMN-03 owns subscription configuration. This process displays those inputs again for complete purchase review, without editing them. Re-entry after changes requires schedule validation, applicable address checks, quotations and recalculation.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_02">
       <bpmn:lane id="Lane_02_C" name="Customer">
 <bpmn:flowNodeRef>Arrange</bpmn:flowNodeRef>
@@ -72,12 +72,12 @@
       <bpmn:outgoing>Flow_02_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:userTask id="Address" name="Select and confirm saved delivery address">
-      <bpmn:documentation>FR-ADDR-05; FR-DEL-02; BR-26. Confirm the selected address as the destination. For courier subscriptions, one address applies to all four fulfillments and is fixed after payment confirmation. Pickup requires no delivery address. Address-book maintenance is separate (BPMN-35).</bpmn:documentation>
+      <bpmn:documentation>FR-ADDR-05; FR-DEL-02; BR-26. Confirm the selected address as the destination. For courier subscriptions, one address applies to all four fulfillments and is fixed after payment confirmation. Pickup requires no delivery address. Address-book maintenance is separate (BPMN-31).</bpmn:documentation>
       <bpmn:incoming>Flow_02_9</bpmn:incoming>
       <bpmn:outgoing>Flow_02_11</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:callActivity id="Quote" name="BPMN-22: Check address eligibility and quote delivery fees" calledElement="Process_22_Reference">
-      <bpmn:documentation>FR-DEL-02 through FR-DEL-09. Invoke separate reusable BPMN-22: Google Maps address validation/location, configured service area (default maximum 10 km), and Lalamove quotation. Return destination, eligibility, applicable fees or address/provider issue. For subscriptions obtain applicable fees for all four scheduled deliveries. Do not book a courier.</bpmn:documentation>
+    <bpmn:callActivity id="Quote" name="BPMN-18: Check address eligibility and quote delivery fees" calledElement="Process_18_Reference">
+      <bpmn:documentation>FR-DEL-02 through FR-DEL-09. Invoke separate reusable BPMN-18: Google Maps address validation/location, configured service area (default maximum 10 km), and Lalamove quotation. Return destination, eligibility, applicable fees or address/provider issue. For subscriptions obtain applicable fees for all four scheduled deliveries. Do not book a courier.</bpmn:documentation>
       <bpmn:incoming>Flow_02_11</bpmn:incoming>
       <bpmn:incoming>Flow_02_16</bpmn:incoming>
       <bpmn:outgoing>Flow_02_12</bpmn:outgoing>
@@ -195,8 +195,8 @@
 <bpmn:sequenceFlow id="Flow_02_edit_cart" sourceRef="EditType" targetRef="ReturnCart" name="Standard order" />
 <bpmn:sequenceFlow id="Flow_02_edit_subscription" sourceRef="EditType" targetRef="ReturnSubscription" name="Subscription" />
   </bpmn:process>
-  <bpmn:process id="Process_22_Reference" name="BPMN-22 | Courier Address Eligibility and Delivery Fee Quotation (reference only)" isExecutable="false">
-<bpmn:documentation>Reference stub for the separately catalogued reusable BPMN-22, not its implementation. Input: selected address and applicable delivery schedule(s). Output: validated destination, service-area eligibility and applicable Lalamove quotation(s), or an address/provider issue. Detailed BPMN-22 is intentionally outside this diagram. Replace this reference with the full reusable process when combining models.</bpmn:documentation>
+  <bpmn:process id="Process_18_Reference" name="BPMN-18 | Courier Address Eligibility and Delivery Fee Quotation (reference only)" isExecutable="false">
+<bpmn:documentation>Reference stub for the separately catalogued reusable BPMN-18, not its implementation. Input: selected address and applicable delivery schedule(s). Output: validated destination, service-area eligibility and applicable Lalamove quotation(s), or an address/provider issue. Detailed BPMN-18 is intentionally outside this diagram. Replace this reference with the full reusable process when combining models.</bpmn:documentation>
 </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_02">
 <bpmndi:BPMNPlane id="Plane_02" bpmnElement="Collaboration_02">

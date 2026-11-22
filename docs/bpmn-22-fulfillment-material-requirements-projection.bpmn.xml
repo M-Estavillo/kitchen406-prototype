@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_26" targetNamespace="https://kitchen406.local/bpmn">
-  <bpmn:collaboration id="Collaboration_26"><bpmn:participant id="Participant_26" name="BPMN-26 | Fulfillment Material Requirements Projection" processRef="Process_26" /></bpmn:collaboration>
-  <bpmn:process id="Process_26" name="Fulfillment Material Requirements Projection" isExecutable="false">
-    <bpmn:documentation>BPMN-26 ? Fulfillment Material Requirements Projection. Sources: docs/proposed-bpmn-catalog.md (all 43 scopes and reuse rules); Chapters/Kitchen406 - Capstone Paper.md SRS 4.12 FR-INV-03?05 and 4.13 FR-BOM-07?08; supporting FR-BOM-06,13?14, FR-INV-09,19, FR-STAFF-04?06, NFR-SEC-03 and BR-25. Implementation: index.html script wiring; app/inventory-state.js I.materials, I.plan, I.retime, I.requirementRows (separate from I.reserve / I.consume); app/staff-ui.js materialTable and recipe views; app/owner-inventory.js stock/reservation views. Prototype contains illustrative recipes and per-order planning; proposed SRS controls the complete pending/confirmed projection. Existing docs XML reviewed, including broad inventory-control.bpmn.xml and bounded 01?07,22?25. No existing bounded process supplies this calculation, so no call activity is needed. Refer to BPMN-39 for separate recipe maintenance, BPMN-09 and BPMN-15 for separate reservations, BPMN-17 for actual consumption and BPMN-24 for recording received stock. These operations are not invoked by planning; no duplicate workflows or unresolved calledElement references are introduced. Authentication is a precondition (BPMN-30). Two internal responsibility lanes share one pool; sequence flows, not message flows, connect them. No external participant is involved. The two untyped starts describe alternative planning triggers, not external messages. Non-executable proposed process; read top to bottom. Empty and invalid-data outcomes are explicit; stock shortage does not prevent calculating demand. No automatic purchasing or stock deduction. Existing diagrams remain unchanged.</bpmn:documentation>
-    <bpmn:laneSet id="LaneSet_26">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_22" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_22"><bpmn:participant id="Participant_22" name="BPMN-22 | Fulfillment Material Requirements Projection" processRef="Process_22" /></bpmn:collaboration>
+  <bpmn:process id="Process_22" name="Fulfillment Material Requirements Projection" isExecutable="false">
+    <bpmn:documentation>BPMN-22 ? Fulfillment Material Requirements Projection. Sources: docs/proposed-bpmn-catalog.md (all 43 scopes and reuse rules); Chapters/Kitchen406 - Capstone Paper.md SRS 4.12 FR-INV-03?05 and 4.13 FR-BOM-07?08; supporting FR-BOM-06,13?14, FR-INV-09,19, FR-STAFF-04?06, NFR-SEC-03 and BR-25. Implementation: index.html script wiring; app/inventory-state.js I.materials, I.plan, I.retime, I.requirementRows (separate from I.reserve / I.consume); app/staff-ui.js materialTable and recipe views; app/owner-inventory.js stock/reservation views. Prototype contains illustrative recipes and per-order planning; proposed SRS controls the complete pending/confirmed projection. Existing docs XML reviewed, including broad inventory-control.bpmn.xml and bounded 01?07,22?25. No existing bounded process supplies this calculation, so no call activity is needed. Refer to BPMN-35 for separate recipe maintenance, BPMN-09 and BPMN-11 for separate reservations, BPMN-13 for actual consumption and BPMN-20 for recording received stock. These operations are not invoked by planning; no duplicate workflows or unresolved calledElement references are introduced. Authentication is a precondition (BPMN-26). Two internal responsibility lanes share one pool; sequence flows, not message flows, connect them. No external participant is involved. The two untyped starts describe alternative planning triggers, not external messages. Non-executable proposed process; read top to bottom. Empty and invalid-data outcomes are explicit; stock shortage does not prevent calculating demand. No automatic purchasing or stock deduction. Existing diagrams remain unchanged.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_22">
       <bpmn:lane id="Lane_26_User" name="Admin/Owner or authorized Staff">
         <bpmn:flowNodeRef>N26_Request</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>N26_Submit</bpmn:flowNodeRef>
@@ -28,7 +28,7 @@
       <bpmn:outgoing>F26_01</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="N26_Submit" name="Request fulfillment material requirements">
-      <bpmn:documentation>Authenticated Admin/Owner or authorized Staff requests operational planning information. Authentication is a precondition: Refer to BPMN-30 ? User Authentication and Role-Based Access. No pricing, cost or sales information is required.</bpmn:documentation>
+      <bpmn:documentation>Authenticated Admin/Owner or authorized Staff requests operational planning information. Authentication is a precondition: Refer to BPMN-26 ? User Authentication and Role-Based Access. No pricing, cost or sales information is required.</bpmn:documentation>
       <bpmn:incoming>F26_01</bpmn:incoming>
       <bpmn:outgoing>F26_02</bpmn:outgoing>
     </bpmn:userTask>
@@ -53,7 +53,7 @@
       <bpmn:outgoing>F26_08</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="N26_Issue" name="Identify missing or invalid recipe / fulfillment data">
-      <bpmn:documentation>Do not silently treat unknown materials as zero or publish a complete projection. Refer to BPMN-39 ? Recipe and Bill of Materials Maintenance for owner-only correction of recipe definitions. A corrected request/change starts a new calculation; this process does not edit recipes. This exception reflects the prototype materials/reason checks and the documented dependence on accurate data.</bpmn:documentation>
+      <bpmn:documentation>Do not silently treat unknown materials as zero or publish a complete projection. Refer to BPMN-35 ? Recipe and Bill of Materials Maintenance for owner-only correction of recipe definitions. A corrected request/change starts a new calculation; this process does not edit recipes. This exception reflects the prototype materials/reason checks and the documented dependence on accurate data.</bpmn:documentation>
       <bpmn:incoming>F26_06</bpmn:incoming>
       <bpmn:outgoing>F26_07</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -86,7 +86,7 @@
       <bpmn:outgoing>F26_13</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="N26_Review" name="Review planning information">
-      <bpmn:documentation>Authorized operational users may review the populated or empty result. Planning can inform separate work, without automatically invoking it: Refer to BPMN-24 ? Ingredient Stock Restocking.</bpmn:documentation>
+      <bpmn:documentation>Authorized operational users may review the populated or empty result. Planning can inform separate work, without automatically invoking it: Refer to BPMN-20 ? Ingredient Stock Restocking.</bpmn:documentation>
       <bpmn:incoming>F26_13</bpmn:incoming>
       <bpmn:incoming>F26_14</bpmn:incoming>
       <bpmn:outgoing>F26_15</bpmn:outgoing>
@@ -110,8 +110,8 @@
     <bpmn:sequenceFlow id="F26_14" sourceRef="N26_Empty" targetRef="N26_Review"></bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F26_15" sourceRef="N26_Review" targetRef="N26_Done"></bpmn:sequenceFlow>
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_26"><bpmndi:BPMNPlane id="Plane_26" bpmnElement="Collaboration_26">
-    <bpmndi:BPMNShape id="Shape_Participant_26" bpmnElement="Participant_26" isHorizontal="false"><dc:Bounds x="20" y="20" width="1180" height="1510" /></bpmndi:BPMNShape>
+  <bpmndi:BPMNDiagram id="Diagram_22"><bpmndi:BPMNPlane id="Plane_22" bpmnElement="Collaboration_22">
+    <bpmndi:BPMNShape id="Shape_Participant_26" bpmnElement="Participant_22" isHorizontal="false"><dc:Bounds x="20" y="20" width="1180" height="1510" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Shape_Lane_26_User" bpmnElement="Lane_26_User" isHorizontal="false"><dc:Bounds x="20" y="50" width="400" height="1480" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Shape_Lane_26_System" bpmnElement="Lane_26_System" isHorizontal="false"><dc:Bounds x="420" y="50" width="780" height="1480" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Shape_N26_Request" bpmnElement="N26_Request"><dc:Bounds x="222" y="130" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="145" y="85" width="190" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>

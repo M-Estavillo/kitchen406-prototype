@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_29" targetNamespace="https://kitchen406.example/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_25" targetNamespace="https://kitchen406.example/bpmn">
   <bpmn:message id="Message_OperationalEvent" name="Notification-relevant operational event" />
   <bpmn:error id="Error_ReadSave" name="Read status save failed" />
-  <bpmn:collaboration id="Collaboration_29">
+  <bpmn:collaboration id="Collaboration_25">
     <bpmn:participant id="Pool_Source" name="Originating Kitchen406 workflow">
-      <bpmn:documentation>Examples: BPMN-06 subscription deferment, BPMN-15 material shortage, BPMN-27 low stock, or the owner alert from BPMN-28 after external retries are exhausted. Each source owns its event and business outcome.</bpmn:documentation>
+      <bpmn:documentation>Examples: BPMN-06 subscription deferment, BPMN-11 reservation blocked by insufficient stock, BPMN-23 low-stock threshold alert (including after a successful reservation), or the owner alert from BPMN-24 after external retries are exhausted. Each source owns its event and business outcome.</bpmn:documentation>
     </bpmn:participant>
-    <bpmn:participant id="Pool_29" name="BPMN-29 | Internal Notification Creation and Read Acknowledgment" processRef="Process_29" />
+    <bpmn:participant id="Pool_29" name="BPMN-25 | Internal Notification Creation and Read Acknowledgment" processRef="Process_25" />
     <bpmn:messageFlow id="Flow_OperationalEvent" sourceRef="Pool_Source" targetRef="Start_Operational" messageRef="Message_OperationalEvent" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_29" name="Internal Notification Creation and Read Acknowledgment" isExecutable="false">
-    <bpmn:documentation>Sources: proposed-bpmn-catalog.md, BPMN-29; Kitchen406 - Capstone Paper.md, SRS 4.17.2 and FR-NOTIF-08 through FR-NOTIF-10; NFR-SEC-03, 05 and NFR-AVL-02. The prototype routes linked by index.html show notification lists, View details, Mark all as read, unread indicators, and failed-save feedback for Owner and Staff. Read state scoped to the recipient account follows the SRS. Creation and later acknowledgment are independent top-to-bottom paths; either can finish without the other running. The originating workflow hands off a relevant event and continues independently. Refer to BPMN-28 for email/SMS dispatch and retry. Refer to BPMN-30 for the prerequisite authenticated workspace session; this process applies its access rules to the specific acknowledgment target.</bpmn:documentation>
+  <bpmn:process id="Process_25" name="Internal Notification Creation and Read Acknowledgment" isExecutable="false">
+    <bpmn:documentation>Sources: proposed-bpmn-catalog.md, BPMN-25; Kitchen406 - Capstone Paper.md, SRS 4.17.2 and FR-NOTIF-08 through FR-NOTIF-10; NFR-SEC-03, 05 and NFR-AVL-02. The prototype routes linked by index.html show notification lists, View details, Mark all as read, unread indicators, and failed-save feedback for Owner and Staff. Read state scoped to the recipient account follows the SRS. Creation and later acknowledgment are independent top-to-bottom paths; either can finish without the other running. The originating workflow hands off a relevant event and continues independently. Refer to BPMN-24 for email/SMS dispatch and retry. Refer to BPMN-26 for the prerequisite authenticated workspace session; this process applies its access rules to the specific acknowledgment target.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_29">
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
         <bpmn:flowNodeRef>Start_Operational</bpmn:flowNodeRef>
@@ -51,7 +51,7 @@
       <bpmn:incoming>F03</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:startEvent id="Start_Workspace" name="Acknowledgment initiated later">
-      <bpmn:documentation>An Admin/Owner or Staff recipient initiates an acknowledgment in the Notifications workspace under the session established by BPMN-30.</bpmn:documentation>
+      <bpmn:documentation>An Admin/Owner or Staff recipient initiates an acknowledgment in the Notifications workspace under the session established by BPMN-26.</bpmn:documentation>
       <bpmn:outgoing>F04</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="Task_Acknowledge" name="Select View details or Mark all as read">
@@ -60,7 +60,7 @@
       <bpmn:outgoing>F05</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="Task_Check" name="Check session, role and notification access">
-      <bpmn:documentation>Apply BPMN-30 session and role access rules to the acting account. Verify the selected notice still exists and is visible to that account, or resolve the set of visible notices for Mark all as read.</bpmn:documentation>
+      <bpmn:documentation>Apply BPMN-26 session and role access rules to the acting account. Verify the selected notice still exists and is visible to that account, or resolve the set of visible notices for Mark all as read.</bpmn:documentation>
       <bpmn:incoming>F05</bpmn:incoming>
       <bpmn:outgoing>F06</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -111,8 +111,8 @@
     <bpmn:sequenceFlow id="F10" sourceRef="Boundary_Save" targetRef="End_SaveFailed" />
     <bpmn:sequenceFlow id="F11" sourceRef="Task_Show" targetRef="End_Read" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_29">
-    <bpmndi:BPMNPlane id="Plane_29" bpmnElement="Collaboration_29">
+  <bpmndi:BPMNDiagram id="Diagram_25">
+    <bpmndi:BPMNPlane id="Plane_25" bpmnElement="Collaboration_25">
       <bpmndi:BPMNShape id="Shape_Pool_Source" bpmnElement="Pool_Source" isHorizontal="true">
         <dc:Bounds x="60" y="30" width="340" height="50" />
       </bpmndi:BPMNShape>

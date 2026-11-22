@@ -1,24 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_10_14" targetNamespace="https://kitchen406.local/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_10" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:message id="Message_Session" name="QR session request" />
   <bpmn:message id="Message_QR" name="QR session details" />
   <bpmn:message id="Message_Status" name="Existing payment status request" />
   <bpmn:message id="Message_Result" name="Payment status or lookup error" />
-  <bpmn:collaboration id="Collaboration_10_14">
-    <bpmn:participant id="Kitchen406" name="BPMN 10-14 | Payment and Purchase Confirmation" processRef="Process_10_14" />
+  <bpmn:collaboration id="Collaboration_10">
+    <bpmn:participant id="Kitchen406" name="BPMN-10 | Payment and Purchase Confirmation" processRef="Process_10" />
     <bpmn:participant id="PayMongo" name="PayMongo" />
     <bpmn:messageFlow id="Msg_Session" sourceRef="ShowQR" targetRef="PayMongo" messageRef="Message_Session" />
     <bpmn:messageFlow id="Msg_QR" sourceRef="PayMongo" targetRef="ShowQR" messageRef="Message_QR" />
     <bpmn:messageFlow id="Msg_Status" sourceRef="Check" targetRef="PayMongo" messageRef="Message_Status" />
     <bpmn:messageFlow id="Msg_Result" sourceRef="PayMongo" targetRef="Check" messageRef="Message_Result" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_10_14" name="Payment and Purchase Confirmation" isExecutable="false">
+  <bpmn:process id="Process_10" name="Payment and Purchase Confirmation" isExecutable="false">
     <bpmn:documentation>Shared checkout payment and purchase confirmation, including late-payment reconciliation. Inputs from BPMN-09: reviewed purchase and saved payable total, ingredient and capacity reservations, and original hold expiry. Applies to standard orders, prepaid subscriptions, and accepted custom cake quotations. SRS: FR-PAY-03 through FR-PAY-08, FR-CAP-15 through FR-CAP-16, FR-CAP-18, FR-INV-07 through FR-INV-08, FR-INV-20, NFR-SAF-01 through NFR-SAF-03, NFR-SAF-06, and NFR-SEC-10.</bpmn:documentation>
     <bpmn:laneSet id="Lanes">
       <bpmn:lane id="Customer" name="Customer">
         <bpmn:flowNodeRef>Scan</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>QRExpiry</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ViewPurchase</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewStatus</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="System" name="Kitchen406 System">
         <bpmn:flowNodeRef>ShowQR</bpmn:flowNodeRef>
@@ -34,7 +37,6 @@
         <bpmn:flowNodeRef>Cancel</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Status</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Show</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>End</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StatusEnd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Restored</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ReadyToConfirm</bpmn:flowNodeRef>
@@ -45,6 +47,9 @@
         <bpmn:flowNodeRef>ReserveRecovery</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ConfirmError</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ConfirmRecovery</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NextAction</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReturnToCheckout</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CheckoutHandoff</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start" name="Enter Payment Page">
@@ -55,6 +60,7 @@
       <bpmn:documentation>For an eligible first visit, request a QR Ph session using the saved payable amount and record the attempt reference. On reopening, recover the existing attempt. Display its QR only if still payable. If the attempt requires verification, the customer requests cancellation, or initiation fails or is unclear, continue to the existing payment check before offering another session.</bpmn:documentation>
       <bpmn:incoming>F_Start_ShowQR</bpmn:incoming>
       <bpmn:outgoing>F_ShowQR_QRReady</bpmn:outgoing>
+      <bpmn:incoming>F_NextAction_ShowQR</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="QRReady" name="QR ready?" default="F_QRReady_Merge">
       <bpmn:incoming>F_ShowQR_QRReady</bpmn:incoming>
@@ -90,6 +96,7 @@
       <bpmn:documentation>Match the provider result to the original attempt and saved full payable amount. Make a final status lookup at hold expiry or before acting on a cancellation request. Distinguish a completed check that reports failed, expired, or still unresolved payment from a failed lookup. Record the outcome once; serialize competing attempts and check the current purchase and reservation state before any transition. Verify PayMongo signatures before applying any webhook data used as supporting evidence.</bpmn:documentation>
       <bpmn:incoming>F_Merge_Check</bpmn:incoming>
       <bpmn:outgoing>F_Check_Paid</bpmn:outgoing>
+      <bpmn:incoming>F_NextAction_Verify</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Paid" name="Verified payment to resolve?" default="F_Paid_ReleaseEligible">
       <bpmn:incoming>F_Check_Paid</bpmn:incoming>
@@ -108,12 +115,13 @@
       <bpmn:outgoing>F_ReleaseEligible_Status</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Confirm" name="Confirm purchase and commit reservations">
-      <bpmn:documentation>Recheck the required reservations and confirm purchase and payment in one consistent transition. Keep ingredient reservations and commit held capacity. Make a standard or cake order available for fulfillment, or hand off the prepaid subscription to BPMN-04. Dispatch applicable notifications independently. For a late payment, commit the newly restored reservations for the same purchase. On a technical failure, keep the purchase and reservations in a safely recoverable state without publishing confirmation.</bpmn:documentation>
+      <bpmn:documentation>Recheck the required reservations and confirm purchase and payment in one consistent transition. Keep ingredient reservations and commit held capacity. Make a standard or cake order available for fulfillment, or hand off the prepaid subscription to BPMN-04. Dispatch applicable notifications independently. For a late payment, commit the newly restored reservations for the same purchase. On a technical failure, keep the purchase and reservations in a safely recoverable state without publishing confirmation. On retry, read the current state under the same guard. If already confirmed, show the recorded confirmation without duplicating commitments or notifications.</bpmn:documentation>
       <bpmn:incoming>F_ReadyToConfirm_Confirm</bpmn:incoming>
       <bpmn:outgoing>F_Confirm_Show</bpmn:outgoing>
+      <bpmn:incoming>F_ConfirmRecovery_Retry</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:subProcess id="Late" name="Recheck and reserve original resources&#10;Refer to BPMN-09">
-      <bpmn:documentation>Apply the applicable BPMN-09 checks to the same purchase and agreed fulfillment details: original scheduling constraints, blocked dates, capacity and ingredients. Restore all applicable reservations together. For subscriptions, reserve capacity for all four commitments and ingredients for the first fulfillment. For cakes, preserve the accepted quotation and the original submission timing. No new purchase, checkout hold or payment attempt. Return a definitive availability result; signal a technical error separately.</bpmn:documentation>
+      <bpmn:documentation>Apply the applicable BPMN-09 checks to the same purchase and agreed fulfillment details: original scheduling constraints, blocked dates, capacity and ingredients. Restore all applicable reservations together. For subscriptions, reserve capacity for all four commitments and ingredients for the first fulfillment. For cakes, preserve the accepted quotation and the original submission timing. No new purchase, checkout hold or payment attempt. Return a definitive availability result; signal a technical error separately. On retry, read the current state under the same guard and reuse any reservations already restored for this purchase.</bpmn:documentation>
       <bpmn:incoming>F_Held_Late</bpmn:incoming>
       <bpmn:outgoing>F_Late_Restored</bpmn:outgoing>
       <bpmn:startEvent id="Late_Start">
@@ -128,28 +136,46 @@
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="F_Late_Begin" sourceRef="Late_Start" targetRef="Late_Work" />
       <bpmn:sequenceFlow id="F_Late_Finish" sourceRef="Late_Work" targetRef="Late_End" />
+      <bpmn:incoming>F_ReserveRecovery_Retry</bpmn:incoming>
+      <bpmn:textAnnotation id="LateRules">
+        <bpmn:text>Recheck the original dates, scheduling rules, capacity and ingredients.
+For subscriptions, check all four capacity commitments and first-fulfillment ingredients.
+Keep the accepted cake quotation and original submission timing.
+Restore reservations together for the original purchase. Report technical errors separately from confirmed unavailability.</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Ref_LateRules" sourceRef="Late_Work" targetRef="LateRules" />
     </bpmn:subProcess>
     <bpmn:serviceTask id="Cancel" name="Cancel purchase and release reservations">
       <bpmn:documentation>Cancel only an unconfirmed purchase; release its temporary capacity and ingredient reservations once.</bpmn:documentation>
       <bpmn:incoming>F_ReleaseEligible_Cancel</bpmn:incoming>
       <bpmn:outgoing>F_Cancel_Status</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Status" name="Show current payment status">
-      <bpmn:documentation>Show the recorded outcome: cancelled and released, failed, QR expired, still verifying, or already resolved. Reuse a payable QR for the same attempt when appropriate. If PayMongo is unavailable, keep verification pending and block a second payment. Offer a new attempt only when the existing attempt is resolved and checkout is eligible; return to BPMN-09 when new reservations are required. Neither deadline is extended.</bpmn:documentation>
+    <bpmn:serviceTask id="Status" name="Show payment status and available actions">
+      <bpmn:documentation>Show the recorded outcome and offer only actions allowed by the current purchase, reservation, and provider state. Verification may resume following a customer status check or a later provider update. Reuse a payable QR for the same attempt. A new session requires a definitive outcome for the previous attempt and enough time under the original hold. A fresh checkout requires BPMN-09. Neither deadline is extended.</bpmn:documentation>
       <bpmn:incoming>F_ReleaseEligible_Status</bpmn:incoming>
       <bpmn:incoming>F_Cancel_Status</bpmn:incoming>
-      <bpmn:outgoing>F_Status_StatusEnd</bpmn:outgoing>
+      <bpmn:outgoing>F_Status_ReviewStatus</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Show" name="Show purchase confirmation">
-      <bpmn:documentation>Show the confirmation for the original purchase.</bpmn:documentation>
+    <bpmn:serviceTask id="Show" name="Show Payment confirmed and purchase link">
+      <bpmn:documentation>Show Payment confirmed and the original purchase reference after purchase confirmation is saved. Provide View order for standard and custom cake orders or View subscription for prepaid subscriptions. The link opens the confirmed purchase details.</bpmn:documentation>
       <bpmn:incoming>F_Confirm_Show</bpmn:incoming>
-      <bpmn:outgoing>F_Show_End</bpmn:outgoing>
+      <bpmn:outgoing>F_Show_ViewPurchase</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="End" name="Purchase outcome shown">
-      <bpmn:incoming>F_Show_End</bpmn:incoming>
+    <bpmn:userTask id="ViewPurchase" name="Review confirmation and optionally open order or subscription">
+      <bpmn:documentation>The customer can open the confirmed purchase details or leave the confirmation page. The purchase is confirmed before this interaction.</bpmn:documentation>
+      <bpmn:incoming>F_Show_ViewPurchase</bpmn:incoming>
+      <bpmn:outgoing>F_ViewPurchase_End</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="ReviewStatus" name="Review payment status and choose next action">
+      <bpmn:documentation>While payment is unresolved, check the existing attempt again or leave and revisit its status. Use the same payable QR only while valid, or request a replacement QR when eligible. If payment has been resolved and a new attempt is eligible, follow the retry option, returning to BPMN-09 when new reservations are required. If the purchase is already confirmed, open its details from the status page. A status refresh uses the existing attempt and does not extend either deadline.</bpmn:documentation>
+      <bpmn:incoming>F_Status_ReviewStatus</bpmn:incoming>
+      <bpmn:outgoing>F_ReviewStatus_NextAction</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="End" name="Confirmation reviewed">
+      <bpmn:incoming>F_ViewPurchase_End</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:endEvent id="StatusEnd" name="Payment status shown">
-      <bpmn:incoming>F_Status_StatusEnd</bpmn:incoming>
+    <bpmn:endEvent id="StatusEnd" name="Current payment outcome shown">
+      <bpmn:incoming>F_NextAction_StatusEnd</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="Restored" name="Required resources reserved again?" gatewayDirection="Diverging" default="F_Restored_KeepCancelled">
       <bpmn:incoming>F_Late_Restored</bpmn:incoming>
@@ -167,7 +193,7 @@
       <bpmn:outgoing>F_KeepCancelled_Notify</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Notify" name="Notify customer of external refund eligibility">
-      <bpmn:documentation>Request the notice once and use BPMN-28 for applicable external dispatch and retry. The refund itself is handled externally.</bpmn:documentation>
+      <bpmn:documentation>Request the notice once and use BPMN-24 for applicable external dispatch and retry. The refund itself is handled externally.</bpmn:documentation>
       <bpmn:incoming>F_KeepCancelled_Notify</bpmn:incoming>
       <bpmn:outgoing>F_Notify_RefundEnd</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -178,17 +204,26 @@
       <bpmn:outgoing>F_ReserveError_ReserveRecovery</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ReserveError_Definition" />
     </bpmn:boundaryEvent>
-    <bpmn:endEvent id="ReserveRecovery" name="Reconciliation pending recovery">
-      <bpmn:documentation>Preserve the verified payment and safely recoverable state. A temporary system failure does not establish refund eligibility.</bpmn:documentation>
+    <bpmn:intermediateCatchEvent id="ReserveRecovery" name="Wait before rechecking resources">
+      <bpmn:documentation>Preserve the verified payment and safely recoverable state. Retry against the original purchase after a delay. A temporary system failure does not establish refund eligibility.</bpmn:documentation>
       <bpmn:incoming>F_ReserveError_ReserveRecovery</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>F_ReserveRecovery_Retry</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="ReserveRecovery_Timer">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">reconciliationRetryDelay</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
     <bpmn:boundaryEvent id="ConfirmError" attachedToRef="Confirm" cancelActivity="true">
       <bpmn:outgoing>F_ConfirmError_ConfirmRecovery</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ConfirmError_Definition" />
     </bpmn:boundaryEvent>
-    <bpmn:endEvent id="ConfirmRecovery" name="Confirmation pending recovery">
+    <bpmn:intermediateCatchEvent id="ConfirmRecovery" name="Wait before retrying confirmation">
+      <bpmn:documentation>Keep the verified payment and recoverable state. Retry the original confirmation after a delay.</bpmn:documentation>
       <bpmn:incoming>F_ConfirmError_ConfirmRecovery</bpmn:incoming>
-    </bpmn:endEvent>
+      <bpmn:outgoing>F_ConfirmRecovery_Retry</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="ConfirmRecovery_Timer">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">confirmationRetryDelay</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="F_Start_ShowQR" sourceRef="Start" targetRef="ShowQR" />
     <bpmn:sequenceFlow id="F_ShowQR_QRReady" sourceRef="ShowQR" targetRef="QRReady" />
     <bpmn:sequenceFlow id="F_QRReady_Scan" sourceRef="QRReady" targetRef="Scan" name="Yes">
@@ -216,8 +251,10 @@
     <bpmn:sequenceFlow id="F_ReleaseEligible_Status" sourceRef="ReleaseEligible" targetRef="Status" name="No" />
     <bpmn:sequenceFlow id="F_Cancel_Status" sourceRef="Cancel" targetRef="Status" />
     <bpmn:sequenceFlow id="F_Confirm_Show" sourceRef="Confirm" targetRef="Show" />
-    <bpmn:sequenceFlow id="F_Show_End" sourceRef="Show" targetRef="End" />
-    <bpmn:sequenceFlow id="F_Status_StatusEnd" sourceRef="Status" targetRef="StatusEnd" />
+    <bpmn:sequenceFlow id="F_Show_ViewPurchase" sourceRef="Show" targetRef="ViewPurchase" />
+    <bpmn:sequenceFlow id="F_ViewPurchase_End" sourceRef="ViewPurchase" targetRef="End" />
+    <bpmn:sequenceFlow id="F_Status_ReviewStatus" sourceRef="Status" targetRef="ReviewStatus" />
+    <bpmn:sequenceFlow id="F_ReviewStatus_NextAction" sourceRef="ReviewStatus" targetRef="NextAction" />
     <bpmn:sequenceFlow id="F_Late_Restored" sourceRef="Late" targetRef="Restored" />
     <bpmn:sequenceFlow id="F_Restored_ReadyToConfirm" sourceRef="Restored" targetRef="ReadyToConfirm" name="Yes">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">allRequiredResourcesReserved</bpmn:conditionExpression>
@@ -228,20 +265,54 @@
     <bpmn:sequenceFlow id="F_Notify_RefundEnd" sourceRef="Notify" targetRef="RefundEnd" />
     <bpmn:sequenceFlow id="F_ReserveError_ReserveRecovery" sourceRef="ReserveError" targetRef="ReserveRecovery" />
     <bpmn:sequenceFlow id="F_ConfirmError_ConfirmRecovery" sourceRef="ConfirmError" targetRef="ConfirmRecovery" />
+    <bpmn:exclusiveGateway id="NextAction" name="Eligible follow-up?" default="F_NextAction_StatusEnd">
+      <bpmn:incoming>F_ReviewStatus_NextAction</bpmn:incoming>
+      <bpmn:outgoing>F_NextAction_StatusEnd</bpmn:outgoing>
+      <bpmn:outgoing>F_NextAction_Verify</bpmn:outgoing>
+      <bpmn:outgoing>F_NextAction_ShowQR</bpmn:outgoing>
+      <bpmn:outgoing>F_NextAction_Validate</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ReturnToCheckout" name="Return to validation and reservation (BPMN-09)">
+      <bpmn:incoming>F_NextAction_Validate</bpmn:incoming>
+      <bpmn:outgoing>F_Validate_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="CheckoutHandoff" name="Fresh checkout handed off">
+      <bpmn:incoming>F_Validate_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F_NextAction_StatusEnd" sourceRef="NextAction" targetRef="StatusEnd" name="Leave or no action available" />
+    <bpmn:sequenceFlow id="F_NextAction_Verify" sourceRef="NextAction" targetRef="Check" name="Check again">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">paymentVerificationOutstanding and verificationRequestedOrProviderUpdated</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F_NextAction_ShowQR" sourceRef="NextAction" targetRef="ShowQR" name="Use valid QR or regenerate if eligible">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerRequestedPayment and checkoutEligible and originalHoldActive and (existingQrPayable or (previousAttemptDefinitivelyResolvedWithoutPayment and sufficientTimeForNewSession))</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F_NextAction_Validate" sourceRef="NextAction" targetRef="ReturnToCheckout" name="Start fresh checkout">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerRequestedFreshCheckout and requiresNewReservations and noSuccessfulOrUnresolvedPayment</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="F_Validate_End" sourceRef="ReturnToCheckout" targetRef="CheckoutHandoff" />
+    <bpmn:sequenceFlow id="F_ReserveRecovery_Retry" sourceRef="ReserveRecovery" targetRef="Late" />
+    <bpmn:sequenceFlow id="F_ConfirmRecovery_Retry" sourceRef="ConfirmRecovery" targetRef="Confirm" />
+    <bpmn:textAnnotation id="PaymentRules">
+      <bpmn:text>Verification outstanding: check the same payment again.
+Active hold: reuse a payable QR or retry only after the previous attempt is resolved and time permits.
+New reservations: return to BPMN-09.
+The original deadlines still apply.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Ref_PaymentRules" sourceRef="Status" targetRef="PaymentRules" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_10_14">
-    <bpmndi:BPMNPlane id="Plane_10_14" bpmnElement="Collaboration_10_14">
+  <bpmndi:BPMNDiagram id="Diagram_10">
+    <bpmndi:BPMNPlane id="Plane_10" bpmnElement="Collaboration_10">
       <bpmndi:BPMNShape id="Kitchen406_di" bpmnElement="Kitchen406" isHorizontal="false">
-        <dc:Bounds x="55" y="40" width="1235" height="1510" />
+        <dc:Bounds x="55" y="40" width="1320" height="1650" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Customer_di" bpmnElement="Customer" isHorizontal="false">
-        <dc:Bounds x="55" y="70" width="280" height="1480" />
+        <dc:Bounds x="55" y="70" width="280" height="1620" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="System_di" bpmnElement="System" isHorizontal="false">
-        <dc:Bounds x="335" y="70" width="955" height="1480" />
+        <dc:Bounds x="335" y="70" width="1040" height="1620" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="PayMongo_di" bpmnElement="PayMongo" isHorizontal="false">
-        <dc:Bounds x="1330" y="40" width="100" height="1510" />
+        <dc:Bounds x="1415" y="40" width="100" height="1650" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
         <dc:Bounds x="187" y="119" width="36" height="36" />
@@ -313,15 +384,15 @@
         <dc:Bounds x="510" y="1320" width="240" height="76" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="End_di" bpmnElement="End">
-        <dc:Bounds x="612" y="1440" width="36" height="36" />
+        <dc:Bounds x="187" y="1600" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="551" y="1481" width="159" height="23" />
+          <dc:Bounds x="115" y="1641" width="180" height="23" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StatusEnd_di" bpmnElement="StatusEnd">
-        <dc:Bounds x="982" y="1120" width="36" height="36" />
+        <dc:Bounds x="982" y="1240" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="922" y="1162" width="156" height="24" />
+          <dc:Bounds x="899" y="1282" width="202" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F_Start_ShowQR_di" bpmnElement="F_Start_ShowQR">
@@ -426,28 +497,45 @@
         <di:waypoint x="630" y="1278" />
         <di:waypoint x="630" y="1320" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="F_Show_End_di" bpmnElement="F_Show_End">
+      <bpmndi:BPMNShape id="ViewPurchase_di" bpmnElement="ViewPurchase">
+        <dc:Bounds x="100" y="1480" width="210" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F_Show_ViewPurchase_di" bpmnElement="F_Show_ViewPurchase">
         <di:waypoint x="630" y="1396" />
-        <di:waypoint x="630" y="1440" />
+        <di:waypoint x="630" y="1518" />
+        <di:waypoint x="310" y="1518" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="F_Status_StatusEnd_di" bpmnElement="F_Status_StatusEnd">
+      <bpmndi:BPMNEdge id="F_ViewPurchase_End_di" bpmnElement="F_ViewPurchase_End">
+        <di:waypoint x="205" y="1556" />
+        <di:waypoint x="205" y="1600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReviewStatus_di" bpmnElement="ReviewStatus">
+        <dc:Bounds x="100" y="1015" width="210" height="88" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F_Status_ReviewStatus_di" bpmnElement="F_Status_ReviewStatus">
         <di:waypoint x="1000" y="1038" />
-        <di:waypoint x="1000" y="1120" />
+        <di:waypoint x="1000" y="1062" />
+        <di:waypoint x="310" y="1062" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_ReviewStatus_NextAction_di" bpmnElement="F_ReviewStatus_NextAction">
+        <di:waypoint x="310" y="1070" />
+        <di:waypoint x="1000" y="1070" />
+        <di:waypoint x="1000" y="1090" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Msg_Session_di" bpmnElement="Msg_Session">
         <di:waypoint x="750" y="260" />
-        <di:waypoint x="1330" y="260" />
+        <di:waypoint x="1415" y="260" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Msg_QR_di" bpmnElement="Msg_QR">
-        <di:waypoint x="1330" y="295" />
+        <di:waypoint x="1415" y="295" />
         <di:waypoint x="750" y="295" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Msg_Status_di" bpmnElement="Msg_Status">
         <di:waypoint x="750" y="562" />
-        <di:waypoint x="1330" y="562" />
+        <di:waypoint x="1415" y="562" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Msg_Result_di" bpmnElement="Msg_Result">
-        <di:waypoint x="1330" y="601" />
+        <di:waypoint x="1415" y="601" />
         <di:waypoint x="750" y="601" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Restored_di" bpmnElement="Restored">
@@ -474,20 +562,8 @@
       <bpmndi:BPMNShape id="ReserveError_di" bpmnElement="ReserveError">
         <dc:Bounds x="482" y="995" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ReserveRecovery_di" bpmnElement="ReserveRecovery">
-        <dc:Bounds x="537" y="1025" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="522" y="964" width="98" height="36" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ConfirmError_di" bpmnElement="ConfirmError">
         <dc:Bounds x="732" y="1225" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ConfirmRecovery_di" bpmnElement="ConfirmRecovery">
-        <dc:Bounds x="815" y="1318" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="798" y="1362" width="138" height="35" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F_Late_Restored_di" bpmnElement="F_Late_Restored">
         <di:waypoint x="425" y="1038" />
@@ -521,15 +597,130 @@
         <di:waypoint x="425" y="1396" />
         <di:waypoint x="425" y="1440" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="NextAction_di" bpmnElement="NextAction">
+        <dc:Bounds x="975" y="1090" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1007" y="1050" width="166" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReturnToCheckout_di" bpmnElement="ReturnToCheckout">
+        <dc:Bounds x="1110" y="1190" width="220" height="74" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CheckoutHandoff_di" bpmnElement="CheckoutHandoff">
+        <dc:Bounds x="1202" y="1310" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1114" y="1350" width="212" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F_NextAction_StatusEnd_di" bpmnElement="F_NextAction_StatusEnd">
+        <di:waypoint x="1000" y="1140" />
+        <di:waypoint x="1000" y="1240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="888" y="1155" width="108" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_NextAction_Verify_di" bpmnElement="F_NextAction_Verify">
+        <di:waypoint x="975" y="1115" />
+        <di:waypoint x="875" y="1115" />
+        <di:waypoint x="875" y="840" />
+        <di:waypoint x="970" y="840" />
+        <di:waypoint x="970" y="640" />
+        <di:waypoint x="710" y="640" />
+        <di:waypoint x="710" y="620" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="776" y="1093" width="92" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_NextAction_ShowQR_di" bpmnElement="F_NextAction_ShowQR">
+        <di:waypoint x="1025" y="1115" />
+        <di:waypoint x="1320" y="1115" />
+        <di:waypoint x="1320" y="310" />
+        <di:waypoint x="750" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1110" y="1088" width="160" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_NextAction_Validate_di" bpmnElement="F_NextAction_Validate">
+        <di:waypoint x="1013" y="1127" />
+        <di:waypoint x="1013" y="1160" />
+        <di:waypoint x="1220" y="1160" />
+        <di:waypoint x="1220" y="1190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1043" y="1135" width="158" height="22" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Validate_End_di" bpmnElement="F_Validate_End">
+        <di:waypoint x="1220" y="1264" />
+        <di:waypoint x="1220" y="1310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="PaymentRules_di" bpmnElement="PaymentRules">
+        <dc:Bounds x="668" y="857" width="190" height="176" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Ref_PaymentRules_di" bpmnElement="Ref_PaymentRules">
+        <di:waypoint x="890" y="985" />
+        <di:waypoint x="858" y="985" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReserveRecovery_di" bpmnElement="ReserveRecovery">
+        <dc:Bounds x="539" y="950" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="865" width="144" height="43" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F_ReserveError_ReserveRecovery_di" bpmnElement="F_ReserveError_ReserveRecovery">
         <di:waypoint x="518" y="1013" />
-        <di:waypoint x="555" y="1013" />
-        <di:waypoint x="555" y="1025" />
+        <di:waypoint x="557" y="1013" />
+        <di:waypoint x="557" y="986" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_ReserveRecovery_Retry_di" bpmnElement="F_ReserveRecovery_Retry">
+        <di:waypoint x="539" y="968" />
+        <di:waypoint x="521" y="968" />
+        <di:waypoint x="521" y="925" />
+        <di:waypoint x="465" y="925" />
+        <di:waypoint x="465" y="958" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ConfirmRecovery_di" bpmnElement="ConfirmRecovery">
+        <dc:Bounds x="800" y="1225" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="771" y="1271" width="133" height="44" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F_ConfirmError_ConfirmRecovery_di" bpmnElement="F_ConfirmError_ConfirmRecovery">
         <di:waypoint x="768" y="1243" />
-        <di:waypoint x="833" y="1243" />
-        <di:waypoint x="833" y="1318" />
+        <di:waypoint x="800" y="1243" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_ConfirmRecovery_Retry_di" bpmnElement="F_ConfirmRecovery_Retry">
+        <di:waypoint x="818" y="1225" />
+        <di:waypoint x="818" y="1174" />
+        <di:waypoint x="710" y="1174" />
+        <di:waypoint x="710" y="1198" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="Diagram_Late">
+    <bpmndi:BPMNPlane id="Plane_Late" bpmnElement="Late">
+      <bpmndi:BPMNShape id="Late_Start_di" bpmnElement="Late_Start">
+        <dc:Bounds x="272" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Late_Work_di" bpmnElement="Late_Work">
+        <dc:Bounds x="170" y="155" width="240" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Late_End_di" bpmnElement="Late_End">
+        <dc:Bounds x="272" y="275" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F_Late_Begin_di" bpmnElement="F_Late_Begin">
+        <di:waypoint x="290" y="116" />
+        <di:waypoint x="290" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Late_Finish_di" bpmnElement="F_Late_Finish">
+        <di:waypoint x="290" y="231" />
+        <di:waypoint x="290" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="LateRules_di" bpmnElement="LateRules">
+        <dc:Bounds x="450" y="116" width="290" height="205" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Ref_LateRules_di" bpmnElement="Ref_LateRules">
+        <di:waypoint x="410" y="193" />
+        <di:waypoint x="450" y="193" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -2,10 +2,10 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_06" targetNamespace="https://kitchen406.local/bpmn">
   <bpmn:collaboration id="Collaboration_06"><bpmn:participant id="Participant_06" name="BPMN-06 | Subscription Delivery Deferment" processRef="Process_06" /></bpmn:collaboration>
   <bpmn:process id="Process_06" name="Subscription Delivery Deferment" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-06; Chapters/Kitchen406 - Capstone Paper.md SRS FR-SUB-06-14,18 and FR-CAP-17. Reliability controls: NFR-REL-03,05-06. Website reference: index.html and linked app/subscriptions.js and app/subscription-state.js. SRS governs: second candidate is always one week after the final scheduled fulfillment, rather than the prototype's conditional next-week fallback. Read top to bottom in vertical Customer and Kitchen406 System swimlanes within one descriptive workflow pool. Customer interaction is modeled with user tasks. No manual owner approval. Reuse boundary: the Dates and Recheck business-rule tasks reference BPMN-09 capacity-validation rules without invoking its complete checkout process. Deferment-specific decisions and capacity replacement remain local. Authentication is an upstream precondition covered by BPMN-30; rule configuration is maintained separately by BPMN-38, not invoked during this request. Use call activities only when an entire separately defined reusable process is actually invoked. Diagram is descriptive BPMN 2.0, not executable code.</bpmn:documentation>
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-06; Chapters/Kitchen406 - Capstone Paper.md SRS FR-SUB-06-14,18 and FR-CAP-17. Reliability controls: NFR-REL-03,05-06. Website reference: index.html and linked app/subscriptions.js and app/subscription-state.js. SRS governs: second candidate is always one week after the final scheduled fulfillment, rather than the prototype's conditional next-week fallback. Read top to bottom in vertical Customer and Kitchen406 System swimlanes within one descriptive workflow pool. Customer interaction is modeled with user tasks. No manual owner approval. Reuse boundary: the Dates and Recheck business-rule tasks reference BPMN-09 capacity-validation rules without invoking its complete checkout process. Deferment-specific decisions and capacity replacement remain local. Authentication is an upstream precondition covered by BPMN-26; rule configuration is maintained separately by BPMN-34, not invoked during this request. Use call activities only when an entire separately defined reusable process is actually invoked. Diagram is descriptive BPMN 2.0, not executable code.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_06">
-      <bpmn:lane id="Lane_06_0" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Request</bpmn:flowNodeRef><bpmn:flowNodeRef>Choose</bpmn:flowNodeRef><bpmn:flowNodeRef>Confirmed</bpmn:flowNodeRef></bpmn:lane>
-      <bpmn:lane id="Lane_06_1" name="Kitchen406 System"><bpmn:flowNodeRef>Validate</bpmn:flowNodeRef><bpmn:flowNodeRef>Eligible</bpmn:flowNodeRef><bpmn:flowNodeRef>Dates</bpmn:flowNodeRef><bpmn:flowNodeRef>Available</bpmn:flowNodeRef><bpmn:flowNodeRef>Offer</bpmn:flowNodeRef><bpmn:flowNodeRef>Recheck</bpmn:flowNodeRef><bpmn:flowNodeRef>Valid</bpmn:flowNodeRef><bpmn:flowNodeRef>Commit</bpmn:flowNodeRef><bpmn:flowNodeRef>Saved</bpmn:flowNodeRef><bpmn:flowNodeRef>Success</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef><bpmn:flowNodeRef>Unchanged</bpmn:flowNodeRef><bpmn:flowNodeRef>NoChange</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_06_0" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Request</bpmn:flowNodeRef><bpmn:flowNodeRef>Choose</bpmn:flowNodeRef><bpmn:flowNodeRef>Review</bpmn:flowNodeRef><bpmn:flowNodeRef>Confirmed</bpmn:flowNodeRef><bpmn:flowNodeRef>ReviewSuccess</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef><bpmn:flowNodeRef>ReviewOutcome</bpmn:flowNodeRef><bpmn:flowNodeRef>NoChange</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_06_1" name="Kitchen406 System"><bpmn:flowNodeRef>Validate</bpmn:flowNodeRef><bpmn:flowNodeRef>Eligible</bpmn:flowNodeRef><bpmn:flowNodeRef>Dates</bpmn:flowNodeRef><bpmn:flowNodeRef>Available</bpmn:flowNodeRef><bpmn:flowNodeRef>Offer</bpmn:flowNodeRef><bpmn:flowNodeRef>Preview</bpmn:flowNodeRef><bpmn:flowNodeRef>Recheck</bpmn:flowNodeRef><bpmn:flowNodeRef>Valid</bpmn:flowNodeRef><bpmn:flowNodeRef>Commit</bpmn:flowNodeRef><bpmn:flowNodeRef>Saved</bpmn:flowNodeRef><bpmn:flowNodeRef>Success</bpmn:flowNodeRef><bpmn:flowNodeRef>Unchanged</bpmn:flowNodeRef></bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start" name="Deferment requested">
       <bpmn:documentation>Authenticated customer opens an owned subscription and identifies the affected fulfillment. Authentication is a precondition.</bpmn:documentation>
@@ -43,16 +43,28 @@
       <bpmn:incoming>Flow_7</bpmn:incoming>
       <bpmn:outgoing>Flow_9</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Choose" name="Choose offered date and confirm, or keep schedule">
-      <bpmn:documentation>Review original and replacement dates. Customer confirmation is required; no Admin/Owner approval.</bpmn:documentation>
+    <bpmn:userTask id="Choose" name="Choose an offered date">
+      <bpmn:documentation>Select a replacement date to open its preview.</bpmn:documentation>
       <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_23</bpmn:incoming>
       <bpmn:outgoing>Flow_10</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Confirmed" name="Customer confirms?">
-      <bpmn:documentation>Leaving or cancelling retains the original schedule and unused allowance.</bpmn:documentation>
+    <bpmn:serviceTask id="Preview" name="Show proposed fulfillment and updated schedule">
+      <bpmn:documentation>Show the affected fulfillment's original and proposed dates, items and quantities, and the full four-fulfillment schedule with the proposed change highlighted. Explain that confirming uses the one-time allowance. The preview leaves all allocations and subscription details as they are.</bpmn:documentation>
       <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Review" name="Review fulfillment and confirm, change date, or cancel">
+      <bpmn:documentation>The customer can return to the date list or cancel before committing.</bpmn:documentation>
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirmed" name="Customer decision?">
+      <bpmn:documentation>Only explicit confirmation starts revalidation.</bpmn:documentation>
+      <bpmn:incoming>Flow_22</bpmn:incoming>
       <bpmn:outgoing>Flow_11</bpmn:outgoing>
       <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:businessRuleTask id="Recheck" name="Recheck eligibility and BPMN-09 capacity rules">
       <bpmn:documentation>FR-SUB-09-14; FR-CAP-17. Re-read the subscription and fulfillment; verify ownership, upcoming/unfulfilled status, unused allowance and timing before preparation day begins. Ensure the chosen date remains a permitted candidate and matches the offered date. Reuse the same applicable BPMN-09 capacity rules as the initial date check, using current capacity and allocations. Output: valid/available or rejection reason. No new purchase, ingredient checkout reservation or payment hold. Keep this revalidation at confirmation to protect against concurrent changes.</bpmn:documentation>
@@ -81,12 +93,16 @@
       <bpmn:incoming>Flow_17</bpmn:incoming>
       <bpmn:outgoing>Flow_19</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:userTask id="ReviewSuccess" name="Review confirmed delivery and return to subscription">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:endEvent id="End" name="One replacement committed">
       <bpmn:documentation>Deferment process ends; production and fulfillment remain separate subprocesses.</bpmn:documentation>
-      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:incoming>Flow_24</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Unchanged" name="Show reason; retain original schedule and allowance">
-      <bpmn:documentation>FR-SUB-09,11. Rejection, no eligible date, cancellation, stale availability or save failure causes no change from this attempt. Preserve any independently committed concurrent changes; do not restore stale state. Explain the outcome; the customer may start a fresh request if still eligible.</bpmn:documentation>
+    <bpmn:serviceTask id="Unchanged" name="Show message and current delivery schedule">
+      <bpmn:documentation>FR-SUB-09,11. Rejection, no eligible date, cancellation, stale availability or save failure causes no change from this attempt. Preserve any independently committed concurrent changes; do not restore stale state. Show the current schedule and allowance status with a specific message for ineligibility, no replacement dates available, availability check failure, changed eligibility or capacity at confirmation, save failure, or cancellation.</bpmn:documentation>
       <bpmn:incoming>Flow_5</bpmn:incoming>
       <bpmn:incoming>Flow_8</bpmn:incoming>
       <bpmn:incoming>Flow_12</bpmn:incoming>
@@ -94,35 +110,49 @@
       <bpmn:incoming>Flow_18</bpmn:incoming>
       <bpmn:outgoing>Flow_20</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="NoChange" name="No replacement committed by this request">
-      <bpmn:documentation>Original schedule and unused allowance remain when no deferment has been committed.</bpmn:documentation>
+    <bpmn:userTask id="ReviewOutcome" name="Read message and return to subscription">
+      <bpmn:documentation>Keep the result visible until the customer returns to the subscription. The customer can start a fresh request if still eligible.</bpmn:documentation>
       <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="NoChange" name="No replacement committed by this request">
+      <bpmn:documentation>The customer has returned to the subscription after viewing the result.</bpmn:documentation>
+      <bpmn:incoming>Flow_25</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Request" />
     <bpmn:sequenceFlow id="Flow_2" sourceRef="Request" targetRef="Validate" />
     <bpmn:sequenceFlow id="Flow_3" sourceRef="Validate" targetRef="Eligible" />
     <bpmn:sequenceFlow id="Flow_4" sourceRef="Eligible" targetRef="Dates" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_5" sourceRef="Eligible" targetRef="Unchanged" name="No" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Eligible" targetRef="Unchanged" name="Ineligible" />
     <bpmn:sequenceFlow id="Flow_6" sourceRef="Dates" targetRef="Available" />
     <bpmn:sequenceFlow id="Flow_7" sourceRef="Available" targetRef="Offer" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_8" sourceRef="Available" targetRef="Unchanged" name="No / lookup failed" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Available" targetRef="Unchanged" name="No dates / check failed" />
     <bpmn:sequenceFlow id="Flow_9" sourceRef="Offer" targetRef="Choose" />
-    <bpmn:sequenceFlow id="Flow_10" sourceRef="Choose" targetRef="Confirmed" />
-    <bpmn:sequenceFlow id="Flow_11" sourceRef="Confirmed" targetRef="Recheck" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_12" sourceRef="Confirmed" targetRef="Unchanged" name="No / cancel" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Choose" targetRef="Preview" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Confirmed" targetRef="Recheck" name="Confirm" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Confirmed" targetRef="Unchanged" name="Cancel" />
     <bpmn:sequenceFlow id="Flow_13" sourceRef="Recheck" targetRef="Valid" />
     <bpmn:sequenceFlow id="Flow_14" sourceRef="Valid" targetRef="Commit" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_15" sourceRef="Valid" targetRef="Unchanged" name="No" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Valid" targetRef="Unchanged" name="Eligibility or date changed" />
     <bpmn:sequenceFlow id="Flow_16" sourceRef="Commit" targetRef="Saved" />
     <bpmn:sequenceFlow id="Flow_17" sourceRef="Saved" targetRef="Success" name="Yes" />
     <bpmn:sequenceFlow id="Flow_18" sourceRef="Saved" targetRef="Unchanged" name="No / rolled back" />
-    <bpmn:sequenceFlow id="Flow_19" sourceRef="Success" targetRef="End" />
-    <bpmn:sequenceFlow id="Flow_20" sourceRef="Unchanged" targetRef="NoChange" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Success" targetRef="ReviewSuccess" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Unchanged" targetRef="ReviewOutcome" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Preview" targetRef="Review" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Review" targetRef="Confirmed" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Confirmed" targetRef="Choose" name="Change date" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="ReviewSuccess" targetRef="End" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="ReviewOutcome" targetRef="NoChange" />
+    <bpmn:textAnnotation id="EligibilityNote"><bpmn:text>Owned, upcoming, unfulfilled delivery. One-time allowance unused. Before preparation day begins.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="EligibilityNote_link" sourceRef="Validate" targetRef="EligibilityNote" />
+    <bpmn:textAnnotation id="DateNote"><bpmn:text>Check the next day and seven days after the final scheduled fulfillment. Offer dates with sufficient capacity.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="DateNote_link" sourceRef="Dates" targetRef="DateNote" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_06"><bpmndi:BPMNPlane id="Plane_06" bpmnElement="Collaboration_06">
-    <bpmndi:BPMNShape id="Participant_06_di" bpmnElement="Participant_06" isHorizontal="false"><dc:Bounds x="60" y="60" width="900" height="2440" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Lane_06_0_di" bpmnElement="Lane_06_0" isHorizontal="false"><dc:Bounds x="90" y="90" width="360" height="2410" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Lane_06_1_di" bpmnElement="Lane_06_1" isHorizontal="false"><dc:Bounds x="450" y="90" width="510" height="2410" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Participant_06_di" bpmnElement="Participant_06" isHorizontal="false"><dc:Bounds x="60" y="60" width="900" height="2720" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_06_0_di" bpmnElement="Lane_06_0" isHorizontal="false"><dc:Bounds x="90" y="90" width="310" height="2690" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_06_1_di" bpmnElement="Lane_06_1" isHorizontal="false"><dc:Bounds x="400" y="90" width="560" height="2690" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Start_di" bpmnElement="Start"><dc:Bounds x="252" y="140" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="187" y="184" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Request_di" bpmnElement="Request"><dc:Bounds x="165" y="230" width="210" height="80" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Validate_di" bpmnElement="Validate"><dc:Bounds x="570" y="360" width="240" height="90" /></bpmndi:BPMNShape>
@@ -131,34 +161,47 @@
     <bpmndi:BPMNShape id="Available_di" bpmnElement="Available" isMarkerVisible="true"><dc:Bounds x="665" y="790" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="600" y="848" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Offer_di" bpmnElement="Offer"><dc:Bounds x="570" y="920" width="240" height="80" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="Choose_di" bpmnElement="Choose"><dc:Bounds x="155" y="1060" width="230" height="90" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Confirmed_di" bpmnElement="Confirmed" isMarkerVisible="true"><dc:Bounds x="245" y="1210" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="180" y="1268" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Recheck_di" bpmnElement="Recheck"><dc:Bounds x="570" y="1340" width="240" height="90" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true"><dc:Bounds x="665" y="1490" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="600" y="1548" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Commit_di" bpmnElement="Commit"><dc:Bounds x="570" y="1620" width="240" height="110" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Saved_di" bpmnElement="Saved" isMarkerVisible="true"><dc:Bounds x="665" y="1790" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="600" y="1848" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Success_di" bpmnElement="Success"><dc:Bounds x="570" y="1920" width="240" height="80" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="End_di" bpmnElement="End"><dc:Bounds x="672" y="2080" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="607" y="2124" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Unchanged_di" bpmnElement="Unchanged"><dc:Bounds x="570" y="2220" width="240" height="90" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="NoChange_di" bpmnElement="NoChange"><dc:Bounds x="672" y="2390" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="607" y="2434" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Confirmed_di" bpmnElement="Confirmed" isMarkerVisible="true"><dc:Bounds x="245" y="1490" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="180" y="1548" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Recheck_di" bpmnElement="Recheck"><dc:Bounds x="570" y="1620" width="240" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true"><dc:Bounds x="665" y="1770" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="600" y="1828" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Commit_di" bpmnElement="Commit"><dc:Bounds x="570" y="1900" width="240" height="110" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Saved_di" bpmnElement="Saved" isMarkerVisible="true"><dc:Bounds x="665" y="2070" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="600" y="2128" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Success_di" bpmnElement="Success"><dc:Bounds x="570" y="2200" width="240" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="End_di" bpmnElement="End"><dc:Bounds x="252" y="2360" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="187" y="2404" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Unchanged_di" bpmnElement="Unchanged"><dc:Bounds x="570" y="2500" width="240" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="NoChange_di" bpmnElement="NoChange"><dc:Bounds x="252" y="2670" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="187" y="2714" width="180" height="40" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Preview_di" bpmnElement="Preview"><dc:Bounds x="570" y="1180" width="240" height="85" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Review_di" bpmnElement="Review"><dc:Bounds x="155" y="1315" width="230" height="90" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="ReviewSuccess_di" bpmnElement="ReviewSuccess"><dc:Bounds x="155" y="2200" width="230" height="80" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="ReviewOutcome_di" bpmnElement="ReviewOutcome"><dc:Bounds x="155" y="2500" width="230" height="90" /></bpmndi:BPMNShape>
     <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="270" y="176" /><di:waypoint x="270" y="230" /></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="270" y="310" /><di:waypoint x="270" y="335" /><di:waypoint x="690" y="335" /><di:waypoint x="690" y="360" /></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3"><di:waypoint x="690" y="450" /><di:waypoint x="690" y="510" /></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4"><di:waypoint x="690" y="560" /><di:waypoint x="690" y="640" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="570" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5"><di:waypoint x="715" y="535" /><di:waypoint x="850" y="535" /><di:waypoint x="850" y="2265" /><di:waypoint x="810" y="2265" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="545" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5"><di:waypoint x="715" y="535" /><di:waypoint x="932" y="535" /><di:waypoint x="932" y="2580" /><di:waypoint x="810" y="2580" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="545" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6"><di:waypoint x="690" y="730" /><di:waypoint x="690" y="790" /></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7"><di:waypoint x="690" y="840" /><di:waypoint x="690" y="920" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="850" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8"><di:waypoint x="715" y="815" /><di:waypoint x="868" y="815" /><di:waypoint x="868" y="2265" /><di:waypoint x="810" y="2265" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="825" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8"><di:waypoint x="715" y="815" /><di:waypoint x="910" y="815" /><di:waypoint x="910" y="2565" /><di:waypoint x="810" y="2565" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="825" width="174" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9"><di:waypoint x="690" y="1000" /><di:waypoint x="690" y="1030" /><di:waypoint x="270" y="1030" /><di:waypoint x="270" y="1060" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10"><di:waypoint x="270" y="1150" /><di:waypoint x="270" y="1210" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11"><di:waypoint x="270" y="1260" /><di:waypoint x="270" y="1300" /><di:waypoint x="690" y="1300" /><di:waypoint x="690" y="1340" /><bpmndi:BPMNLabel><dc:Bounds x="278" y="1270" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12"><di:waypoint x="295" y="1235" /><di:waypoint x="886" y="1235" /><di:waypoint x="886" y="2265" /><di:waypoint x="810" y="2265" /><bpmndi:BPMNLabel><dc:Bounds x="303" y="1245" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13"><di:waypoint x="690" y="1430" /><di:waypoint x="690" y="1490" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14"><di:waypoint x="690" y="1540" /><di:waypoint x="690" y="1620" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="1550" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15"><di:waypoint x="715" y="1515" /><di:waypoint x="904" y="1515" /><di:waypoint x="904" y="2265" /><di:waypoint x="810" y="2265" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="1525" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16"><di:waypoint x="690" y="1730" /><di:waypoint x="690" y="1790" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17"><di:waypoint x="690" y="1840" /><di:waypoint x="690" y="1920" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="1850" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18"><di:waypoint x="715" y="1815" /><di:waypoint x="922" y="1815" /><di:waypoint x="922" y="2265" /><di:waypoint x="810" y="2265" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="1825" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19"><di:waypoint x="690" y="2000" /><di:waypoint x="690" y="2080" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20"><di:waypoint x="690" y="2310" /><di:waypoint x="690" y="2390" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10"><di:waypoint x="270" y="1150" /><di:waypoint x="270" y="1165" /><di:waypoint x="690" y="1165" /><di:waypoint x="690" y="1180" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11"><di:waypoint x="270" y="1540" /><di:waypoint x="270" y="1580" /><di:waypoint x="690" y="1580" /><di:waypoint x="690" y="1620" /><bpmndi:BPMNLabel><dc:Bounds x="278" y="1550" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12"><di:waypoint x="295" y="1515" /><di:waypoint x="888" y="1515" /><di:waypoint x="888" y="2550" /><di:waypoint x="810" y="2550" /><bpmndi:BPMNLabel><dc:Bounds x="303" y="1525" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13"><di:waypoint x="690" y="1710" /><di:waypoint x="690" y="1770" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14"><di:waypoint x="690" y="1820" /><di:waypoint x="690" y="1900" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="1830" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15"><di:waypoint x="715" y="1795" /><di:waypoint x="866" y="1795" /><di:waypoint x="866" y="2535" /><di:waypoint x="810" y="2535" /><bpmndi:BPMNLabel><dc:Bounds x="720" y="1805" width="145" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16"><di:waypoint x="690" y="2010" /><di:waypoint x="690" y="2070" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17"><di:waypoint x="690" y="2120" /><di:waypoint x="690" y="2200" /><bpmndi:BPMNLabel><dc:Bounds x="698" y="2130" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18"><di:waypoint x="715" y="2095" /><di:waypoint x="844" y="2095" /><di:waypoint x="844" y="2520" /><di:waypoint x="810" y="2520" /><bpmndi:BPMNLabel><dc:Bounds x="723" y="2105" width="110" height="32" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19"><di:waypoint x="570" y="2240" /><di:waypoint x="385" y="2240" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20"><di:waypoint x="570" y="2545" /><di:waypoint x="385" y="2545" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21"><di:waypoint x="690" y="1265" /><di:waypoint x="690" y="1290" /><di:waypoint x="270" y="1290" /><di:waypoint x="270" y="1315" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22"><di:waypoint x="270" y="1405" /><di:waypoint x="270" y="1490" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23"><di:waypoint x="245" y="1515" /><di:waypoint x="115" y="1515" /><di:waypoint x="115" y="1105" /><di:waypoint x="155" y="1105" /><bpmndi:BPMNLabel><dc:Bounds x="120" y="1450" width="110" height="30" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24"><di:waypoint x="270" y="2280" /><di:waypoint x="270" y="2360" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25"><di:waypoint x="270" y="2590" /><di:waypoint x="270" y="2670" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="EligibilityNote_di" bpmnElement="EligibilityNote"><dc:Bounds x="410" y="355" width="147" height="100" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="EligibilityNote_link_di" bpmnElement="EligibilityNote_link"><di:waypoint x="570" y="405" /><di:waypoint x="557" y="405" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DateNote_di" bpmnElement="DateNote"><dc:Bounds x="410" y="635" width="147" height="100" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DateNote_link_di" bpmnElement="DateNote_link"><di:waypoint x="570" y="685" /><di:waypoint x="557" y="685" /></bpmndi:BPMNEdge>
   </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
 </bpmn:definitions>

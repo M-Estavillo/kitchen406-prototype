@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_14" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:signal id="PickupCompletedSignal_18" name="Pickup fulfillment completion recorded" />
+  <bpmn:message id="CustomerArrival_18" name="Customer arrived for pickup" />
+  <bpmn:collaboration id="Collaboration_14">
+    <bpmn:participant id="Participant_14" name="BPMN-14 | Standard Order and Subscription Pickup and Completion" processRef="Process_14" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_14" name="Standard Order and Subscription Pickup and Completion" isExecutable="false">
+    <bpmn:documentation>Scope: one standard order or weekly subscription fulfillment scheduled for bakery pickup. BPMN-13 marks the fulfillment Ready. FR-FUL-18,20–21,23,26 cover completion and FR-FUL-34 covers the pickup cutoff. The pickup team records customer arrival; customer acknowledgment in the app is not required.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_14">
+      <bpmn:lane id="Lane_18_user" name="Admin/Owner or authorized Staff">
+        <bpmn:flowNodeRef>Wait_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cutoff_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RequestCancel_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Handover_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_18</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_18_system" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Start_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ready_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Notify_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Commit_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Publish_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Completed_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_18</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancelled_18</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_18" name="Pickup order ready">
+      <bpmn:documentation>Starts when BPMN-13 marks the scheduled pickup fulfillment Ready.</bpmn:documentation>
+      <bpmn:outgoing>Flow_18_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Ready_18" name="Show Ready status on the order fulfillment">
+      <bpmn:documentation>Reflect Ready in the order record and customer order view.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Notify_18" name="Notify customer that the order is ready for pickup">
+      <bpmn:documentation>Send the pickup-ready notice with the scheduled date and 7:00 p.m. local pickup cutoff.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="Wait_18" name="Wait for customer to arrive for pickup" messageRef="CustomerArrival_18">
+      <bpmn:documentation>The pickup team records customer arrival. Use the arrival time if the customer arrives around the cutoff. A customer arriving by the cutoff may finish handover after the cutoff.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_4</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:boundaryEvent id="Cutoff_18" name="7:00 p.m. on pickup date" attachedToRef="Wait_18" cancelActivity="true">
+      <bpmn:documentation>Interrupt the wait at 7:00 p.m. local bakery time on the scheduled pickup date.</bpmn:documentation>
+      <bpmn:outgoing>Flow_18_9</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="PickupCutoffTimer_18">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">scheduledPickupDateAt1900Local</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:manualTask id="Handover_18" name="Hand over the order to the customer">
+      <bpmn:documentation>Hand over the order after the customer arrives. Verify any previously completed handover when retrying the system record.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_5</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:userTask id="Confirm_18" name="Confirm Pickup">
+      <bpmn:documentation>Admin/Owner or authorized Staff confirms that the customer received the order.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Commit_18" name="Mark Completed and update pickup records">
+      <bpmn:documentation>Save Completed status, completion timestamp, order history and preparing-owner allocation lock and timestamp together. Apply FR-FUL-18 preparing-owner allocation rules as part of the save. A failure preserves saved state and lets staff retry recording the same pickup. A repeated submission preserves the original completion timestamp.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateThrowEvent id="Publish_18" name="Signal pickup completion">
+      <bpmn:documentation>Signal the saved completion once. BPMN-05 updates weekly subscription progress and Fulfilled sales uses the completion timestamp.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_8</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="PickupSignalDefinition_18" signalRef="PickupCompletedSignal_18" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Completed_18" name="Pickup completed">
+      <bpmn:incoming>Flow_18_8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="RequestCancel_18" name="Mark Cancelled">
+      <bpmn:documentation>Owner or authorized Staff marks the fulfillment for cancellation when the customer has not arrived by the pickup cutoff.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_11</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Cancel_18" name="Save Cancelled status and record failure to pick up">
+      <bpmn:documentation>Before saving, verify that the customer did not arrive by the cutoff and pickup was not completed. Save Cancelled, cancellation timestamp and the failure-to-pick-up reason for the affected fulfillment. Preserve ingredient consumption and preparation history.</bpmn:documentation>
+      <bpmn:incoming>Flow_18_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_18_10</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Cancelled_18" name="Pickup cancelled">
+      <bpmn:incoming>Flow_18_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_18_1" sourceRef="Start_18" targetRef="Ready_18" />
+    <bpmn:sequenceFlow id="Flow_18_2" sourceRef="Ready_18" targetRef="Notify_18" />
+    <bpmn:sequenceFlow id="Flow_18_3" sourceRef="Notify_18" targetRef="Wait_18" />
+    <bpmn:sequenceFlow id="Flow_18_4" sourceRef="Wait_18" targetRef="Handover_18" />
+    <bpmn:sequenceFlow id="Flow_18_5" sourceRef="Handover_18" targetRef="Confirm_18" />
+    <bpmn:sequenceFlow id="Flow_18_6" sourceRef="Confirm_18" targetRef="Commit_18" />
+    <bpmn:sequenceFlow id="Flow_18_7" sourceRef="Commit_18" targetRef="Publish_18" />
+    <bpmn:sequenceFlow id="Flow_18_8" sourceRef="Publish_18" targetRef="Completed_18" />
+    <bpmn:sequenceFlow id="Flow_18_9" sourceRef="Cutoff_18" targetRef="RequestCancel_18" />
+    <bpmn:sequenceFlow id="Flow_18_11" sourceRef="RequestCancel_18" targetRef="Cancel_18" />
+    <bpmn:sequenceFlow id="Flow_18_10" sourceRef="Cancel_18" targetRef="Cancelled_18" />
+    <bpmn:textAnnotation id="Records_18">
+      <bpmn:text>Pickup records
+• Completion timestamp and order history
+• Preparing-owner allocations checked and locked
+• If saving fails, retry recording the same pickup</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Records_18" sourceRef="Commit_18" targetRef="Records_18" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_14">
+    <bpmndi:BPMNPlane id="Plane_14" bpmnElement="Collaboration_14">
+      <bpmndi:BPMNShape id="Shape_Participant_14" bpmnElement="Participant_14" isHorizontal="false">
+        <dc:Bounds x="8" y="75" width="1464" height="1063" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_18_system" bpmnElement="Lane_18_system" isHorizontal="false">
+        <dc:Bounds x="632" y="101" width="840" height="1037" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_18_user" bpmnElement="Lane_18_user" isHorizontal="false">
+        <dc:Bounds x="28" y="101" width="604" height="1037" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_18" bpmnElement="Start_18">
+        <dc:Bounds x="845" y="193" width="40" height="40" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="901.5" y="200" width="207" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ready_18" bpmnElement="Ready_18">
+        <dc:Bounds x="690" y="268" width="350" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Notify_18" bpmnElement="Notify_18">
+        <dc:Bounds x="690" y="376" width="350" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Wait_18" bpmnElement="Wait_18">
+        <dc:Bounds x="89" y="492" width="300" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cutoff_18" bpmnElement="Cutoff_18">
+        <dc:Bounds x="372" y="513" width="34" height="34" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="410.5" y="596" width="207" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Handover_18" bpmnElement="Handover_18">
+        <dc:Bounds x="75" y="614" width="328" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_18" bpmnElement="Confirm_18">
+        <dc:Bounds x="75" y="729" width="328" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Commit_18" bpmnElement="Commit_18">
+        <dc:Bounds x="690" y="815" width="350" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Publish_18" bpmnElement="Publish_18">
+        <dc:Bounds x="844" y="937" width="42" height="42" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="907.5" y="945" width="225" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Completed_18" bpmnElement="Completed_18">
+        <dc:Bounds x="845" y="1041" width="40" height="40" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="731.5" y="1091" width="267" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RequestCancel_18" bpmnElement="RequestCancel_18">
+        <dc:Bounds x="436" y="492" width="168" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_18" bpmnElement="Cancel_18">
+        <dc:Bounds x="1036" y="609" width="342" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancelled_18" bpmnElement="Cancelled_18">
+        <dc:Bounds x="1187" y="735" width="40" height="40" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1078" y="787" width="258" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Records_18" bpmnElement="Records_18">
+        <dc:Bounds x="1130" y="920" width="315" height="168" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_1" bpmnElement="Flow_18_1">
+        <di:waypoint x="865" y="233" />
+        <di:waypoint x="865" y="268" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_2" bpmnElement="Flow_18_2">
+        <di:waypoint x="865" y="344" />
+        <di:waypoint x="865" y="376" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_3" bpmnElement="Flow_18_3">
+        <di:waypoint x="865" y="452" />
+        <di:waypoint x="865" y="466" />
+        <di:waypoint x="239" y="466" />
+        <di:waypoint x="239" y="492" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_4" bpmnElement="Flow_18_4">
+        <di:waypoint x="239" y="568" />
+        <di:waypoint x="239" y="614" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_5" bpmnElement="Flow_18_5">
+        <di:waypoint x="239" y="690" />
+        <di:waypoint x="239" y="729" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_6" bpmnElement="Flow_18_6">
+        <di:waypoint x="403" y="764" />
+        <di:waypoint x="865" y="764" />
+        <di:waypoint x="865" y="815" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_7" bpmnElement="Flow_18_7">
+        <di:waypoint x="865" y="891" />
+        <di:waypoint x="865" y="937" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_8" bpmnElement="Flow_18_8">
+        <di:waypoint x="865" y="979" />
+        <di:waypoint x="865" y="1041" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_9" bpmnElement="Flow_18_9">
+        <di:waypoint x="406" y="530" />
+        <di:waypoint x="436" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_11" bpmnElement="Flow_18_11">
+        <di:waypoint x="604" y="530" />
+        <di:waypoint x="1207" y="530" />
+        <di:waypoint x="1207" y="609" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_18_10" bpmnElement="Flow_18_10">
+        <di:waypoint x="1207" y="689" />
+        <di:waypoint x="1207" y="735" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Records_18" bpmnElement="Assoc_Records_18">
+        <di:waypoint x="1040" y="853" />
+        <di:waypoint x="1095" y="853" />
+        <di:waypoint x="1095" y="948" />
+        <di:waypoint x="1130" y="948" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -2,10 +2,10 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_07" targetNamespace="https://kitchen406.local/bpmn">
 <bpmn:collaboration id="Collaboration_07"><bpmn:participant id="Pool_07" name="BPMN-07 | Custom Cake Configuration and Request Submission" processRef="Process_07"/></bpmn:collaboration>
 <bpmn:process id="Process_07" name="Custom Cake Configuration and Request Submission" isExecutable="false">
-<bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-07; Chapters/Kitchen406 - Capstone Paper.md SRS 4.9.2-4.9.3, FR-CAKE-01-04, FR-CAP-21; NFR-SEC-08-09. Website: index.html and linked app/cake-builder.js, app/cake-data.js and app/cake-state.js. SRS/catalog govern prototype differences: reference images are optional; cake delivery terms are finalized in BPMN-08, with no pickup branch. Precondition: registered authenticated customer; reuse BPMN-30 for authentication before entering this process. Shared authorization checks remain enforced at submission. Vertical top-to-bottom descriptive BPMN; Customer and System are responsibility lanes within one pool. Output is an awaiting-review request, not an order. No resource reservation, quotation acceptance or payment occurs here. Reuse map: BPMN-30 owns sign-in; BPMN-08 owns owner review and quotations; BPMN-09 owns resource validation and reservation after quotation acceptance. FR-CAP-21 submission lead-time validation belongs locally to BPMN-07. BPMN-38 configures scheduling rules and is not a runtime validation subprocess. Preliminary estimation is FR-CAKE-04, not the owner pricing-approval workflow BPMN-40. These references are preconditions and downstream handoffs, not synchronous calls; therefore no call activity is added.</bpmn:documentation>
+<bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-07; Chapters/Kitchen406 - Capstone Paper.md SRS 4.9.2-4.9.3, FR-CAKE-01-04, FR-CAP-21; NFR-SEC-08-09. Website: index.html and linked app/cake-builder.js, app/cake-data.js and app/cake-state.js. SRS/catalog govern prototype differences: reference images are optional; cake delivery terms are finalized in BPMN-08, with no pickup branch. Precondition: registered authenticated customer; reuse BPMN-26 for authentication before entering this process. Shared authorization checks remain enforced at submission. Vertical top-to-bottom descriptive BPMN; Customer and System are responsibility lanes within one pool. Output is an awaiting-review request, not an order. No resource reservation, quotation acceptance or payment occurs here. Reuse map: BPMN-26 owns sign-in; BPMN-08 owns owner review and quotations; BPMN-09 owns resource validation and reservation after quotation acceptance. FR-CAP-21 submission lead-time validation belongs locally to BPMN-07. BPMN-34 configures scheduling rules and is not a runtime validation subprocess. Preliminary estimation is FR-CAKE-04, not the owner pricing-approval workflow BPMN-36. These references are preconditions and downstream handoffs, not synchronous calls; therefore no call activity is added.</bpmn:documentation>
 <bpmn:laneSet id="Lanes_07">
-<bpmn:lane id="Lane_0" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Configure</bpmn:flowNodeRef><bpmn:flowNodeRef>Images</bpmn:flowNodeRef><bpmn:flowNodeRef>Review</bpmn:flowNodeRef><bpmn:flowNodeRef>Decision</bpmn:flowNodeRef><bpmn:flowNodeRef>Leave</bpmn:flowNodeRef></bpmn:lane>
-<bpmn:lane id="Lane_1" name="Kitchen406 System"><bpmn:flowNodeRef>Options</bpmn:flowNodeRef><bpmn:flowNodeRef>Estimate</bpmn:flowNodeRef><bpmn:flowNodeRef>Validate</bpmn:flowNodeRef><bpmn:flowNodeRef>Valid</bpmn:flowNodeRef><bpmn:flowNodeRef>Errors</bpmn:flowNodeRef><bpmn:flowNodeRef>Save</bpmn:flowNodeRef><bpmn:flowNodeRef>Confirm</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef></bpmn:lane>
+<bpmn:lane id="Lane_0" name="Customer"><bpmn:flowNodeRef>Start</bpmn:flowNodeRef><bpmn:flowNodeRef>Configure</bpmn:flowNodeRef><bpmn:flowNodeRef>Images</bpmn:flowNodeRef><bpmn:flowNodeRef>Review</bpmn:flowNodeRef><bpmn:flowNodeRef>Decision</bpmn:flowNodeRef><bpmn:flowNodeRef>Leave</bpmn:flowNodeRef><bpmn:flowNodeRef>ViewSubmitted</bpmn:flowNodeRef><bpmn:flowNodeRef>End</bpmn:flowNodeRef></bpmn:lane>
+<bpmn:lane id="Lane_1" name="Kitchen406 System"><bpmn:flowNodeRef>Options</bpmn:flowNodeRef><bpmn:flowNodeRef>Estimate</bpmn:flowNodeRef><bpmn:flowNodeRef>Validate</bpmn:flowNodeRef><bpmn:flowNodeRef>Valid</bpmn:flowNodeRef><bpmn:flowNodeRef>Errors</bpmn:flowNodeRef><bpmn:flowNodeRef>Save</bpmn:flowNodeRef><bpmn:flowNodeRef>Confirm</bpmn:flowNodeRef></bpmn:lane>
 </bpmn:laneSet>
 <bpmn:startEvent id="Start" name="Customer begins cake request"><bpmn:outgoing>F1</bpmn:outgoing></bpmn:startEvent>
 <bpmn:serviceTask id="Options" name="Present supported options and request form"><bpmn:incoming>F1</bpmn:incoming><bpmn:outgoing>F2</bpmn:outgoing></bpmn:serviceTask>
@@ -18,8 +18,9 @@
 <bpmn:exclusiveGateway id="Valid" name="All checks passed?"><bpmn:incoming>F10</bpmn:incoming><bpmn:outgoing>F11</bpmn:outgoing><bpmn:outgoing>F12</bpmn:outgoing></bpmn:exclusiveGateway>
 <bpmn:serviceTask id="Errors" name="Explain corrections; retain entered details"><bpmn:documentation>Show specific correction messages for invalid options, required details, unsupported images or insufficient lead time. Allow correction or removal of optional images and resubmission; customer may leave instead.</bpmn:documentation><bpmn:incoming>F12</bpmn:incoming><bpmn:outgoing>F13</bpmn:outgoing></bpmn:serviceTask>
 <bpmn:serviceTask id="Save" name="Save request as Awaiting owner review"><bpmn:documentation>Store customer association, configuration, valid supplied reference images, requested fulfillment details, preliminary estimate and submission timestamp. Preserve submission timestamp as evidence of FR-CAP-21 compliance. Later owner review must not invalidate timely submission if fulfillment remains feasible. Persistence failure retains the draft for retry and must not report successful submission.</bpmn:documentation><bpmn:incoming>F11</bpmn:incoming><bpmn:outgoing>F14</bpmn:outgoing></bpmn:serviceTask>
-<bpmn:serviceTask id="Confirm" name="Show request reference and review status"><bpmn:documentation>Only report successful submission after saving. Owner review/quotation begins separately in BPMN-08. This subprocess creates no quotation, reservation, payment or confirmed order.</bpmn:documentation><bpmn:incoming>F14</bpmn:incoming><bpmn:outgoing>F15</bpmn:outgoing></bpmn:serviceTask>
-<bpmn:endEvent id="End" name="Valid request awaiting owner review (BPMN-08)"><bpmn:incoming>F15</bpmn:incoming></bpmn:endEvent>
+<bpmn:serviceTask id="Confirm" name="Show Request submitted and open request details"><bpmn:documentation>After saving, show the submission confirmation and open the customer-facing request details with its reference and Awaiting owner review status. Owner review/quotation begins separately in BPMN-08. This subprocess creates no quotation, reservation, payment or confirmed order.</bpmn:documentation><bpmn:incoming>F14</bpmn:incoming><bpmn:outgoing>F15</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="ViewSubmitted" name="View confirmation and request status"><bpmn:documentation>The customer sees that the request was received and can use the request details to follow quotations and updates. Viewing the confirmation is not required for owner review to begin.</bpmn:documentation><bpmn:incoming>F15</bpmn:incoming><bpmn:outgoing>F16</bpmn:outgoing></bpmn:userTask>
+<bpmn:endEvent id="End" name="Request submitted and awaiting owner review"><bpmn:incoming>F16</bpmn:incoming></bpmn:endEvent>
 <bpmn:endEvent id="Leave" name="No request submitted"><bpmn:documentation>Customer leaves before submission; no request is created for owner review.</bpmn:documentation><bpmn:incoming>F9</bpmn:incoming></bpmn:endEvent>
 <bpmn:sequenceFlow id="F1" sourceRef="Start" targetRef="Options"/>
 <bpmn:sequenceFlow id="F2" sourceRef="Options" targetRef="Configure"/>
@@ -35,7 +36,8 @@
 <bpmn:sequenceFlow id="F12" sourceRef="Valid" targetRef="Errors" name="No"/>
 <bpmn:sequenceFlow id="F13" sourceRef="Errors" targetRef="Configure" name="Correct and retry"/>
 <bpmn:sequenceFlow id="F14" sourceRef="Save" targetRef="Confirm"/>
-<bpmn:sequenceFlow id="F15" sourceRef="Confirm" targetRef="End"/>
+<bpmn:sequenceFlow id="F15" sourceRef="Confirm" targetRef="ViewSubmitted"/>
+<bpmn:sequenceFlow id="F16" sourceRef="ViewSubmitted" targetRef="End"/>
 <bpmn:textAnnotation id="AuthReference"><bpmn:text>Reference: BPMN-30 ? Authentication
 Precondition: customer is signed in. Reuse its sign-in flow before BPMN-07.</bpmn:text></bpmn:textAnnotation>
 <bpmn:association id="Association_AuthReference" sourceRef="Start" targetRef="AuthReference" associationDirection="None"/>
@@ -44,12 +46,12 @@ BPMN-08: owner review and quotations.
 BPMN-09: resource checks/reservations after quotation acceptance.
 
 Keep the seven-calendar-day submission check here (FR-CAP-21).</bpmn:text></bpmn:textAnnotation>
-<bpmn:association id="Association_ReuseReference" sourceRef="End" targetRef="ReuseReference" associationDirection="None"/>
+<bpmn:association id="Association_ReuseReference" sourceRef="Save" targetRef="ReuseReference" associationDirection="None"/>
 </bpmn:process>
 <bpmndi:BPMNDiagram id="Diagram_07"><bpmndi:BPMNPlane id="Plane_07" bpmnElement="Collaboration_07">
-<bpmndi:BPMNShape id="Shape_Pool_07" bpmnElement="Pool_07" isHorizontal="false"><dc:Bounds x="80" y="60" width="1290" height="1740"/></bpmndi:BPMNShape>
-<bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="false"><dc:Bounds x="80" y="90" width="620" height="1710"/></bpmndi:BPMNShape>
-<bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="false"><dc:Bounds x="700" y="90" width="670" height="1710"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Pool_07" bpmnElement="Pool_07" isHorizontal="false"><dc:Bounds x="80" y="60" width="1290" height="1850"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="false"><dc:Bounds x="80" y="90" width="620" height="1820"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="false"><dc:Bounds x="700" y="90" width="670" height="1820"/></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="320" y="140" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="255" y="184" width="166" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Options" bpmnElement="Options"><dc:Bounds x="800" y="230" width="220" height="75"/></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Configure" bpmnElement="Configure"><dc:Bounds x="290" y="350" width="240" height="85"/></bpmndi:BPMNShape>
@@ -62,7 +64,8 @@ Keep the seven-calendar-day submission check here (FR-CAP-21).</bpmn:text></bpmn
 <bpmndi:BPMNShape id="Shape_Errors" bpmnElement="Errors"><dc:Bounds x="1080" y="1240" width="220" height="75"/></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Save" bpmnElement="Save"><dc:Bounds x="800" y="1370" width="220" height="90"/></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Confirm" bpmnElement="Confirm"><dc:Bounds x="800" y="1510" width="220" height="75"/></bpmndi:BPMNShape>
-<bpmndi:BPMNShape id="Shape_End" bpmnElement="End"><dc:Bounds x="892" y="1650" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="827" y="1694" width="166" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_ViewSubmitted" bpmnElement="ViewSubmitted"><dc:Bounds x="290" y="1650" width="240" height="80"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_End" bpmnElement="End"><dc:Bounds x="392" y="1790" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="315" y="1834" width="190" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Leave" bpmnElement="Leave"><dc:Bounds x="170" y="1040" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="105" y="1084" width="166" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
 <bpmndi:BPMNEdge id="Edge_F1" bpmnElement="F1"><di:waypoint x="338" y="176"/><di:waypoint x="338" y="205"/><di:waypoint x="910" y="205"/><di:waypoint x="910" y="230"/></bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_F2" bpmnElement="F2"><di:waypoint x="910" y="305"/><di:waypoint x="910" y="325"/><di:waypoint x="410" y="325"/><di:waypoint x="410" y="350"/></bpmndi:BPMNEdge>
@@ -78,10 +81,11 @@ Keep the seven-calendar-day submission check here (FR-CAP-21).</bpmn:text></bpmn
 <bpmndi:BPMNEdge id="Edge_F12" bpmnElement="F12"><di:waypoint x="935" y="1150"/><di:waypoint x="1190" y="1150"/><di:waypoint x="1190" y="1240"/><bpmndi:BPMNLabel><dc:Bounds x="943" y="1158" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_F13" bpmnElement="F13"><di:waypoint x="1190" y="1315"/><di:waypoint x="1330" y="1315"/><di:waypoint x="1330" y="315"/><di:waypoint x="410" y="315"/><di:waypoint x="410" y="350"/><bpmndi:BPMNLabel><dc:Bounds x="1198" y="1323" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_F14" bpmnElement="F14"><di:waypoint x="910" y="1460"/><di:waypoint x="910" y="1510"/></bpmndi:BPMNEdge>
-<bpmndi:BPMNEdge id="Edge_F15" bpmnElement="F15"><di:waypoint x="910" y="1585"/><di:waypoint x="910" y="1650"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F15" bpmnElement="F15"><di:waypoint x="910" y="1585"/><di:waypoint x="910" y="1618"/><di:waypoint x="410" y="1618"/><di:waypoint x="410" y="1650"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_F16" bpmnElement="F16"><di:waypoint x="410" y="1730"/><di:waypoint x="410" y="1790"/></bpmndi:BPMNEdge>
 <bpmndi:BPMNShape id="Shape_AuthReference" bpmnElement="AuthReference"><dc:Bounds x="110" y="235" width="530" height="75"/></bpmndi:BPMNShape>
 <bpmndi:BPMNEdge id="Edge_AuthReference" bpmnElement="Association_AuthReference"><di:waypoint x="320" y="176"/><di:waypoint x="150" y="176"/><di:waypoint x="150" y="235"/></bpmndi:BPMNEdge>
 <bpmndi:BPMNShape id="Shape_ReuseReference" bpmnElement="ReuseReference"><dc:Bounds x="290" y="1370" width="350" height="190"/></bpmndi:BPMNShape>
-<bpmndi:BPMNEdge id="Edge_ReuseReference" bpmnElement="Association_ReuseReference"><di:waypoint x="892" y="1668"/><di:waypoint x="650" y="1668"/><di:waypoint x="650" y="1465"/><di:waypoint x="640" y="1465"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_ReuseReference" bpmnElement="Association_ReuseReference"><di:waypoint x="800" y="1415"/><di:waypoint x="640" y="1415"/></bpmndi:BPMNEdge>
 </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
 </bpmn:definitions>

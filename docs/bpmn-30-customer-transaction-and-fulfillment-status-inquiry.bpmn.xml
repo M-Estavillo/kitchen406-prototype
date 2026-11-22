@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_34" targetNamespace="https://kitchen406.example/bpmn">
-  <bpmn:collaboration id="Collaboration_34">
-    <bpmn:participant id="Pool_34" name="BPMN-34 | Customer Transaction and Fulfillment Status Inquiry" processRef="Process_34" />
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_30" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_30">
+    <bpmn:participant id="Pool_34" name="BPMN-30 | Customer Transaction and Fulfillment Status Inquiry" processRef="Process_30" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_34" name="Customer Transaction and Fulfillment Status Inquiry" isExecutable="false">
-    <bpmn:documentation>Sources: proposed-bpmn-catalog.md BPMN-34; Kitchen406 - Capstone Paper.md SRS 4.2.2, FR-PROF-03 and 04, FR-FUL-12 and 13, FR-SUB-04, FR-DEL-13 and NFR-SEC-04; index.html and linked app/orders.js, app/subscriptions.js, app/cake-requests.js and app/delivery-tracking.js. BPMN-30 owns sign-in and shared authorization rules. This read-only inquiry uses saved progress from BPMN-05, courier status from BPMN-20 and cake request and quotation records from BPMN-07 and BPMN-08. Operational workflows remain independent of customer viewing. The SRS specifies latest available delivery status; the prototype courier handoff is outside this inquiry.</bpmn:documentation>
+  <bpmn:process id="Process_30" name="Customer Transaction and Fulfillment Status Inquiry" isExecutable="false">
+    <bpmn:documentation>Sources: proposed-bpmn-catalog.md BPMN-30; Kitchen406 - Capstone Paper.md SRS 4.2.2, FR-PROF-03 and 04, FR-FUL-12 and 13, FR-SUB-04, FR-DEL-13 and NFR-SEC-04; index.html and linked app/orders.js, app/subscriptions.js, app/cake-requests.js and app/delivery-tracking.js. BPMN-26 owns sign-in and shared authorization rules. This read-only inquiry uses saved progress from BPMN-05, courier status from BPMN-16 and cake request and quotation records from BPMN-07 and BPMN-08. Operational workflows remain independent of customer viewing. The SRS specifies latest available delivery status; the prototype courier handoff is outside this inquiry.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_34">
       <bpmn:lane id="Lane_C" name="Customer">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
@@ -33,7 +33,7 @@
       <bpmn:outgoing>F02</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="Scope" name="Check customer access">
-      <bpmn:documentation>Apply BPMN-30 session and role rules. Scope every list, lookup and related record to the authenticated customer profile before retrieving private data.</bpmn:documentation>
+      <bpmn:documentation>Apply BPMN-26 session and role rules. Scope every list, lookup and related record to the authenticated customer profile before retrieving private data.</bpmn:documentation>
       <bpmn:incoming>F02</bpmn:incoming>
       <bpmn:outgoing>F03</bpmn:outgoing>
     </bpmn:task>
@@ -44,7 +44,7 @@
       <bpmn:outgoing>F05</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Denied" name="Access denied">
-      <bpmn:documentation>Show the applicable access response without exposing private data. An unauthenticated customer may sign in through BPMN-30 and try again.</bpmn:documentation>
+      <bpmn:documentation>Show the applicable access response without exposing private data. An unauthenticated customer may sign in through BPMN-26 and try again.</bpmn:documentation>
       <bpmn:incoming>F05</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:task id="Read" name="Retrieve matching records and status">
@@ -68,7 +68,7 @@
       <bpmn:incoming>F09</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:task id="Present" name="Display requested details and status">
-      <bpmn:documentation>FR-PROF-04: show matching transaction history. FR-FUL-12 and 13: show owned order status and saved fulfillment date and method. FR-SUB-04: show completed and remaining deliveries and applicable schedule. Show the saved cake request status and applicable quotation details. FR-DEL-13: show the latest available courier status for applicable orders, as recorded by BPMN-20.</bpmn:documentation>
+      <bpmn:documentation>FR-PROF-04: show matching transaction history. FR-FUL-12 and 13: show owned order status and saved fulfillment date and method. FR-SUB-04: show completed and remaining deliveries and applicable schedule. Show the saved cake request status and applicable quotation details. FR-DEL-13: show the latest available courier status for applicable orders, as recorded by BPMN-16.</bpmn:documentation>
       <bpmn:incoming>F07</bpmn:incoming>
       <bpmn:outgoing>F10</bpmn:outgoing>
     </bpmn:task>
@@ -97,8 +97,8 @@
     <bpmn:sequenceFlow id="F10" sourceRef="Present" targetRef="View" />
     <bpmn:sequenceFlow id="F11" sourceRef="View" targetRef="EndShown" />
   </bpmn:process>
-  <bpmndi:BPMNDiagram id="Diagram_34">
-    <bpmndi:BPMNPlane id="Plane_34" bpmnElement="Collaboration_34">
+  <bpmndi:BPMNDiagram id="Diagram_30">
+    <bpmndi:BPMNPlane id="Plane_30" bpmnElement="Collaboration_30">
       <bpmndi:BPMNShape id="Shape_Pool_34" bpmnElement="Pool_34" isHorizontal="false">
         <dc:Bounds x="45" y="50" width="652" height="710" />
       </bpmndi:BPMNShape>
