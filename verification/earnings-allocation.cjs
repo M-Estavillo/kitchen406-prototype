@@ -24,7 +24,7 @@ const order=orders[1];
 order.fulfillment={method:'pickup'};
 A.commerce={setStatus:(o,status)=>{o.status=status;}};
 Object.assign(A.staff,{history:new Map(),orders:()=>orders,orderStatus:o=>o.status.startsWith('ready-')?'ready':o.status,emit:()=>{},changed:()=>{}});
-Object.assign(A.subscriptions,{state:{records:[]},allRecords:()=>[{id:'s',purchaseId:'p',deliveries:[]}]});
+Object.assign(A.subscriptions,{state:{records:[]},allRecords:()=>[{id:'s',purchaseId:'p',deliveries:[]}],progressForOrder:()=>({})});
 A.account={buckets:new Map()};
 A.inventory.consume=()=>'';
 A.session.actor=()=>({name:'Owner'});

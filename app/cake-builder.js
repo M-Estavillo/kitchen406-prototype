@@ -1,6 +1,6 @@
 (() => {
 const A=K406,K=A.cakes,S=K.state,T=A.cakeData,C=A.commerce,U=C.ui,V=A.phase4,E=A.escape;
-const B=K.builder={busy:false,uploadError:'',tokens:[0,0,0]};
+const B=K.builder={busy:false};
 const cakeReviews=[
  {name:'Mika S.',photo:'Pink buttercream cake with cherries',quote:'The vintage piping was lovely, and the cake tasted as good as it looked. It was the highlight of our birthday table.'},
  {name:'Paolo R.',photo:'Ivory buttercream cake with lavender flowers',quote:'The little lavender flowers matched our celebration perfectly. The bakery made the whole process easy, from the first sketch to pickup.'},
@@ -24,7 +24,7 @@ function cakeReviewSection(){
   <div class="cake-review-cta">${V.button('cake-start','Create my custom cake',false,'',true)}</div>
  </section>`;
 }
-B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}<a class="btn" href="#cake-reviews">See cake reviews</a></div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add your reference photos.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>${cakeReviewSection()}`;
+B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}<a class="btn" href="#cake-reviews">See cake reviews</a></div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add reference photos if you have them.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>${cakeReviewSection()}`;
 B.summary=()=>{
  const d=S.draft,estimate=K.estimate();
  return U.panel('Your cake request',`<dl class="cake-summary"><div><dt>Requested Date</dt><dd>${d.date?U.date(d.date):'Choose a requested date'}</dd></div>${T.categories.map(type=>`<div><dt>${E(type)}</dt><dd>${E(K.selected().find(o=>o.type===type)?.name||'Not selected')}</dd></div>`).join('')}</dl><dl class="commerce-totals"><div><dt>Cake options</dt><dd>${K.money(estimate.base)}</dd></div><div class="grand-total"><dt>Preliminary estimate</dt><dd>${estimate.complete?K.money(estimate.total):'—'}</dd></div></dl><p class="muted">The owner confirms the final price, design charges, and delivery fee after review.</p>`);
@@ -36,10 +36,10 @@ B.calendar=()=>{
 B.skeleton=(label,rows=4)=>`<div role="status" aria-label="${E(label)}"><div aria-hidden="true">${Array.from({length:rows},()=>'<div class="cake-loading-row"><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div></div>').join('')}</div></div>`;
 B.loading=()=>U.page('Custom cake request','',U.columns(U.panel('Cake request',B.skeleton('Loading cake request',5)),U.panel('Details',B.skeleton('Loading details',3))));
 B.details=()=>{
- const d=S.draft,addresses=A.addresses.active(),dateReason=K.availabilityReason()||(d.date?K.dateReason(d.date):'');
+ const d=S.draft,addresses=A.addresses.active(),dateReason=d.date?K.requestDateReason(d.date):K.availabilityReason();
  const dateBody=K.mock.availability==='loading'?B.skeleton('Checking cake availability',5):B.calendar();
- const addressBody=d.method==='delivery'?U.panel('Delivery address',addresses.length?addresses.map(a=>`<div class="address-choice cake-address-choice ${d.addressId===a.address_id?'selected':''}"><label><input type="radio" name="cake-address" value="${E(a.address_id)}" ${d.addressId===a.address_id?'checked':''}><strong>${E(a.label)}</strong>${U.address(a)}<p>${K.serviceable(a)?'Within delivery area':'Outside delivery area'}</p></label>${V.button('address-edit','Edit',false,`data-id="${E(a.address_id)}"`)}</div>`).join(''):'<p>No saved delivery addresses. Add one to continue.</p>',V.button('address-add','+ Add address'))+(K.addressUI.form?C.checkout.addressForm(K.addressUI).replace('data-commerce="address-cancel"','data-p4="address-cancel"'):''):'';
- const fulfillmentInfo=d.method==='pickup'?U.panel('Bakery pickup','<p>Kitchen406, Banilad, Metro Cebu</p><p class="muted">Collect your cake on your requested date. No delivery fee.</p>'):d.method==='delivery'?U.panel('Delivery area',`<p>Delivery is available within supported areas of Metro Cebu: ${E(T.config.cities.join(', '))}.</p><p class="muted">Choose an address within these areas. Delivery availability and the final delivery fee are confirmed in your quotation.</p>`):'';
+ const addressBody=d.method==='delivery'?U.panel('Delivery address',addresses.length?addresses.map(a=>`<div class="address-choice cake-address-choice ${d.addressId===a.address_id?'selected':''}"><label><input type="radio" name="cake-address" value="${E(a.address_id)}" ${d.addressId===a.address_id?'checked':''}><strong>${E(a.label)}</strong>${U.address(a)}<p>${K.serviceable(a)?'Ready for owner review':'Address details incomplete'}</p></label>${V.button('address-edit','Edit',false,`data-id="${E(a.address_id)}"`)}</div>`).join(''):'<p>No saved delivery addresses. Add one to continue.</p>',V.button('address-add','+ Add address'))+(K.addressUI.form?C.checkout.addressForm(K.addressUI).replace('data-commerce="address-cancel"','data-p4="address-cancel"'):''):'';
+ const fulfillmentInfo=d.method==='pickup'?U.panel('Bakery pickup','<p>Kitchen406, Banilad, Metro Cebu</p><p class="muted">Collect your cake on your requested date. No delivery fee.</p>'):d.method==='delivery'?U.panel('Owner delivery','<p>The owner reviews your address and confirms delivery availability and the fee in your quotation.</p>'):'';
  return U.columns(U.panel('Requested date',dateBody+(dateReason&&K.mock.availability!=='loading'?`<div class="cake-availability-status"><p role="status">${E(dateReason)}</p>${K.mock.availability==='error'?V.button('cake-retry','Try again'):''}</div>`:''))+addressBody,
  U.panel('Fulfillment method',`<div class="fulfillment-choices">${['pickup','delivery'].map(method=>V.button('cake-method',method==='pickup'?'Pickup':'Delivery',false,`data-value="${method}" aria-pressed="${d.method===method}"`)).join('')}</div>`)+fulfillmentInfo+
  (K.fulfillmentReason()&&!dateReason?`<p class="muted" role="status">${E(K.fulfillmentReason())}</p>`:'')+
@@ -53,10 +53,10 @@ B.options=()=>{
 };
 B.photos=(images,editable=false)=>`<div class="cake-photos ${editable?'cake-reference-previews':''}">${images.map((item,index)=>item?`<section class="cake-reference-photo"><button type="button" class="cake-image-button" data-p4="cake-enlarge" data-url="${E(item.url)}" data-name="${E(item.name)}" aria-label="${E('Preview '+item.name)}"><img src="${E(item.url)}" alt="${E(item.name)}"></button><p class="cake-reference-name">${E(item.name)}</p>${editable?`<p class="muted" role="status">${item.status==='loading'?'Checking image?':item.size?(item.size/1024/1024).toFixed(1)+' MB':'Sample image'}</p><div class="cake-photo-actions"><button type="button" class="cake-photo-icon" data-p4="cake-image-add" data-slot="${index}" title="Replace image" aria-label="Replace ${E(item.name)}"><span class="material-symbols-outlined" aria-hidden="true">edit</span></button><button type="button" class="cake-photo-icon" data-p4="cake-image-remove" data-slot="${index}" aria-label="${E('Remove '+item.name)}" title="Remove image"><span class="material-symbols-outlined" aria-hidden="true">delete</span></button></div>`:''}</section>`:'').join('')}</div>`;
 B.references=()=>{
- const slot=S.draft.images.findIndex(image=>!image),reason=B.uploadError||K.referencesReason();
- return U.columns(U.panel('Reference images',`<p class="muted">Choose up to 3 sample reference images.</p><button type="button" class="cake-reference-upload ${S.draft.images.some(Boolean)?'is-compact':''}" data-p4="cake-image-add" data-slot="${slot}" ${slot<0?'hidden disabled':''}><span class="material-symbols-outlined" aria-hidden="true">add_photo_alternate</span><span>${S.draft.images.some(Boolean)?'Add another image':'Add reference image'}</span></button>${B.photos(S.draft.images,true)}<p class="muted">Reference photos guide the design; they do not change your selected cake options.</p>`)+
+ const slot=S.draft.images.findIndex(image=>!image),reason=S.draft.imageError||K.referencesReason();
+ return U.columns(U.panel('Reference images',`<p class="muted">Optional. Add up to three JPEG, PNG, or WebP images, up to 5 MB each.</p><input id="cake-reference-file" type="file" accept="image/jpeg,image/png,image/webp" hidden><button type="button" class="cake-reference-upload ${S.draft.images.some(Boolean)?'is-compact':''}" data-p4="cake-image-add" data-slot="${slot}" ${slot<0?'hidden disabled':S.draft.imageCheck?'disabled':''}><span class="material-symbols-outlined" aria-hidden="true">add_photo_alternate</span><span>${S.draft.images.some(Boolean)?'Add another image':'Add reference image'}</span></button>${B.photos(S.draft.images,true)}<p class="muted">Reference photos guide the design; they do not change your selected cake options.</p>`)+
  U.panel('Design notes',`<div class="field"><label for="cake-notes">Optional instructions for the bakery</label><textarea id="cake-notes" maxlength="600" rows="7" placeholder="Tell us which details to follow from your photos?">${E(S.draft.notes)}</textarea><p class="muted"><span id="cake-note-count">${S.draft.notes.length}</span> / 600 characters</p></div>`),
- B.summary()+`<div class="cake-reference-navigation">`+(reason?`<p class="cake-reference-error" role="alert">${E(reason)}</p>`:'')+`<div class="cake-step-actions">${V.button('cake-next','Continue to Review',!!K.referencesReason(),'data-step="review"',true)}${U.link('custom-cakes/request/options','Back to cake options')}</div></div>`);
+ B.summary()+`<div class="cake-reference-navigation">`+(K.mock.upload==='error'?V.button('cake-image-skip','Continue without this image'):'')+(reason?`<p class="cake-reference-error" role="alert">${E(reason)}</p>`:'')+`<div class="cake-step-actions">${V.button('cake-next','Continue to Review',!!K.referencesReason(),'data-step="review"',true)}${U.link('custom-cakes/request/options','Back to cake options')}</div></div>`);
 };
 B.configuration=(snapshot,showPrices=true)=>`<dl class="cake-specifications">${snapshot.options.map(o=>`<div><dt>${E(o.type)}</dt><dd>${E(o.name)}</dd>${showPrices?'<small>'+K.money(o.price)+'</small>':''}</div>`).join('')}</dl>${snapshot.addons.length?'<h3>Selected add-ons</h3>'+snapshot.addons.map(a=>`<p>${E(a.name)} × ${a.quantity} · ${showPrices?K.money(a.price*a.quantity):'Included in quotation'}</p>`).join(''):'<p class="muted">No add-ons selected.</p>'}`;
 B.fulfillment=snapshot=>`<dl class="profile-details"><div><dt>Requested date</dt><dd>${U.date(snapshot.date)}</dd></div></dl><h3>${snapshot.method==='pickup'?'Bakery pickup':'Delivery'}</h3><p>${E(snapshot.contact.name)} · ${E(snapshot.contact.mobile_number)}</p>${snapshot.method==='pickup'?'<p>Collect your cake at the bakery on the confirmed date.</p>':U.address(snapshot.address)}`;
@@ -86,17 +86,23 @@ document.addEventListener('click',e=>{
  if(action==='cake-option'){S.draft.selections[el.dataset.type]=el.dataset.id;S.draft.reviewedPrice=null;}
  if(action==='cake-addon'){const id=el.dataset.id;S.draft.addons[id]=Math.max(0,Math.min(20,(S.draft.addons[id]||0)+Number(el.dataset.delta)));S.draft.reviewedPrice=null;}
  if(action==='cake-image-add'){
-  const index=Number(el.dataset.slot);if(index<0||index>2)return;
-  const old=S.draft.images[index];if(old?.url.startsWith('blob:'))URL.revokeObjectURL(old.url);
-  S.draft.images[index]={url:'assets/custom-cake.png',name:'Cake reference '+(index+1),size:0,status:'ready'};
-  B.uploadError='';K.mock.upload='normal';
+  const index=Number(el.dataset.slot),input=A.$('cake-reference-file');
+  if(!input||S.draft.imageCheck||!Number.isInteger(index)||index<0||index>2)return;
+  input.dataset.slot=index;input.click();return;
  }
- if(action==='cake-image-remove'){const i=Number(el.dataset.slot);B.tokens[i]++;if(S.draft.images[i]?.url.startsWith('blob:'))URL.revokeObjectURL(S.draft.images[i].url);S.draft.images[i]=null;B.uploadError='';}
+ if(action==='cake-image-remove'){
+  const index=Number(el.dataset.slot);
+  if(S.draft.imageCheck||!Number.isInteger(index)||index<0||index>2)return;
+  const image=S.draft.images[index];
+  if(image?.url.startsWith('blob:'))URL.revokeObjectURL(image.url);
+  S.draft.images[index]=null;S.draft.imageError='';
+ }
+ if(action==='cake-image-skip'){K.mock.upload='normal';S.draft.imageError='';}
  if(action==='cake-retry'){K.mock.options='normal';K.mock.availability='normal';}
  if(action==='cake-next'){location.hash='#/custom-cakes/request/'+el.dataset.step;return;}
  if(action==='cake-price-accept')S.draft.reviewedPrice=K.estimate().total;
  if(action==='cake-cancel'){V.open('Discard this draft?','<p>Your unsent cake selections and reference images will be removed.</p><div class="commerce-actions">'+V.button('close','Keep editing')+V.button('cake-discard','Discard draft',false,'',true)+'</div>','discard');return;}
- if(action==='cake-discard'){B.tokens=B.tokens.map(x=>x+1);K.resetDraft();A.closeModal();location.hash='#/custom-cakes';return;}
+ if(action==='cake-discard'){K.resetDraft();A.closeModal();location.hash='#/custom-cakes';return;}
  if(action==='cake-submit'){
   if(B.busy)return;B.busy=true;V.render();const draft=S.draft,customer=A.account.id();
   setTimeout(()=>{B.busy=false;if(S.draft!==draft||customer!==A.account.id()||!A.account.allowed())return;const r=K.submit();if(r){location.hash='#/cake-requests/'+r.id;A.toast('Cake request submitted. Awaiting owner review.');}else V.render();},350);return;
@@ -104,7 +110,42 @@ document.addEventListener('click',e=>{
  if(action.startsWith('cake-')){V.render();A.inspector();}
 });
 document.addEventListener('input',e=>{if(e.target.id==='cake-notes'){S.draft.notes=e.target.value;A.$('cake-note-count').textContent=S.draft.notes.length;}});
-document.addEventListener('change',e=>{
+async function previewReference(file){
+ if(!K.referenceTypes.includes(file.type))throw Error('Choose a JPEG, PNG, or WebP image.');
+ if(!file.size||file.size>K.referenceMaxBytes)throw Error('Choose an image no larger than 5 MB.');
+ const header=new Uint8Array(await file.slice(0,12).arrayBuffer());
+ const startsWith=(...signature)=>signature.every((byte,index)=>header[index]===byte);
+ const matches={
+  'image/jpeg':startsWith(255,216,255),
+  'image/png':startsWith(137,80,78,71,13,10,26,10),
+  'image/webp':startsWith(82,73,70,70)&&String.fromCharCode(...header.slice(8,12))==='WEBP'
+ };
+ if(!matches[file.type])throw Error('The file content does not match its image format.');
+ const url=URL.createObjectURL(file),preview=new Image();
+ try{preview.src=url;await preview.decode();}
+ catch{URL.revokeObjectURL(url);throw Error('This image could not be read. Choose another file.');}
+ return {url,name:file.name,size:file.size,type:file.type,status:'ready'};
+}
+document.addEventListener('change',async e=>{
+ if(e.target.id==='cake-reference-file'){
+  const file=e.target.files[0],index=Number(e.target.dataset.slot),draft=S.draft;
+  if(!file||draft.imageCheck||!A.account.allowed()||!Number.isInteger(index)||index<0||index>2)return;
+  const check={};draft.imageCheck=check;draft.imageError='';K.mock.upload='normal';V.render();
+  try{
+   const image=await previewReference(file);
+   if(draft.imageCheck!==check){URL.revokeObjectURL(image.url);return;}
+   const previous=draft.images[index];
+   if(previous?.url.startsWith('blob:'))URL.revokeObjectURL(previous.url);
+   draft.images[index]=image;
+  }catch(error){if(draft.imageCheck===check)draft.imageError=error.message;}
+  finally{
+   if(draft.imageCheck===check){
+    draft.imageCheck=null;
+    if(S.draft===draft&&A.account.allowed())V.render();
+   }
+  }
+  return;
+ }
  if(e.target.name==='cake-address'){S.draft.addressId=e.target.value;V.render();}
 });
 })();

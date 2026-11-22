@@ -3,9 +3,19 @@ let checks=0;
 function setup(){
  const ctx={K406:{auth:'signedin',toast(){},$(){return {classList:{toggle(){}}};}},Date,Intl,crypto:require("node:crypto").webcrypto,setTimeout,clearTimeout};ctx.window=ctx;vm.createContext(ctx);
  for(const file of ['products','product-data','scheduling','commerce-state','subscription-state'])vm.runInContext(fs.readFileSync('app/'+file+'.js','utf8'),ctx);
- const A=ctx.K406,B=A.subscriptions,C=A.commerce,D=A.schedule;A.session={ownerAllowed:()=>true,actor:()=>({id:"test-owner"})};A.operations={changed(){}};B.allRecords=()=>B.state.records;B.deliveryRoute={eligible:()=>true,reset(){}};B.begin(4);return {A,B,C,D,ctx};
+ const A=ctx.K406,B=A.subscriptions,C=A.commerce,D=A.schedule;A.session={ownerAllowed:()=>true,actor:()=>({id:"test-owner"})};A.operations={changed(){}};B.allRecords=()=>B.state.records;B.deliveryRoute={eligible:()=>true,reset(){}};D.config.clock='2026-10-14T11:59:59+08:00';B.begin(4);return {A,B,C,D,ctx};
 }
 function test(label,fn){fn();checks++;console.log('PASS '+label);}
+test('enrollment closes at Manila noon before preparation and offers the next cycle',()=>{
+ const {B,D}=setup();
+ assert.equal(B.state.draft.start,'2026-10-16');
+ assert.equal(B.configReason(),'');
+ D.config.clock='2026-10-14T12:00:00+08:00';
+ assert.match(B.configReason(),/Enrollment for this cycle has closed/);
+ assert.equal(B.createPurchase(),null);
+ assert(B.begin(4));
+ assert.equal(B.state.draft.start,'2026-10-23');
+});
 test('prices and four dispatches independent of quantity',()=>{const {B}=setup();assert.equal(B.totals().total,1520);B.state.draft.quantity=2;assert.equal(B.totals().total,2640);B.begin(1);assert.equal(B.totals().total,1760);});
 test('cutoff boundary and Sunday follow configuration',()=>{const {D,C}=setup();const items=[C.line(1)];D.config.clock='2026-10-15T11:59:59+08:00';assert.equal(D.standard('2026-10-16',items),'');D.config.clock='2026-10-15T12:00:00+08:00';assert.equal(D.standard('2026-10-16',items),'Cutoff');assert.equal(D.standard('2026-10-18',items),'No batch');assert.equal(D.standard('2026-10-14',items),'Passed');});
 test('standard capacity groups variants and uses a separate pool',()=>{const {D,C}=setup();assert.equal(D.standard('2026-10-16',[C.line(1,'standard',6),C.line(1,'large',5)]),'Capacity');D.reserve('sub',1,10,['2026-10-16'],true);assert.equal(D.standard('2026-10-16',[C.line(1)]),'');});
@@ -41,8 +51,37 @@ test('full replacement weeks leave an eligible deferment unused and disable both
  assert.match(page,/No replacement dates are available/);
  assert.doesNotMatch(page,/data-sub="defer-confirm"/);
 });
-test('deferment respects cutoff, preparation status, and current capacity',()=>{const {B,C,D}=setup();const r=B.pay(B.createPurchase(),'confirmed'),d=r.deliveries[2],order=C.state.orders.find(o=>o.id===d.orderId);order.status='preparing';assert(B.defer(r,d,'day'));order.status='confirmed';D.config.clock='2026-10-28T16:00:00+08:00';assert(B.defer(r,d,'day'));assert.equal(r.deferments.length,0);});
-test('four fulfilled orders complete a subscription; deferred is not fulfilled',()=>{const {B,C}=setup();const r=B.pay(B.createPurchase(),'confirmed');B.defer(r,r.deliveries[2],'day');r.deliveries.slice(0,3).forEach(d=>C.state.orders.find(o=>o.id===d.orderId).status='completed');B.sync(r);assert.equal(r.status,'active');C.state.orders.find(o=>o.id===r.deliveries[3].orderId).status='completed';B.sync(r);assert.equal(r.status,'completed');});
+test('deferment remains eligible until midnight at the start of preparation day',()=>{
+ const {B,C,D}=setup(),r=B.pay(B.createPurchase(),'confirmed'),d=r.deliveries[2],order=C.state.orders.find(o=>o.id===d.orderId);
+ order.status='preparing';assert(B.deferEligibility(r,d));
+ order.status='confirmed';D.config.clock='2026-10-28T23:59:59+08:00';assert.equal(B.deferEligibility(r,d),'');
+ D.config.clock='2026-10-29T00:00:00+08:00';assert.match(B.deferEligibility(r,d),/preparation date has arrived/);
+ assert.equal(r.deferments.length,0);
+});
+test('replacement from irregular schedules always uses the final date and a failed save leaves the original link',()=>{
+ const {B,C,D}=setup(),r=B.pay(B.createPurchase(),'confirmed'),d=r.deliveries[0],order=C.state.orders.find(o=>o.id===d.orderId);
+ r.deliveries[1].date=D.add(r.deliveries[1].date,1);
+ assert.equal(B.deferTarget(r,d,'week'),D.add(r.deliveries[3].date,7));
+ const oldId=d.capacityAllocationId;
+ B.mock.defer='save-error';assert.match(B.defer(r,d,'week'),/could not be saved/);
+ assert.equal(r.deferments.length,0);assert.equal(B.requests.length,0);assert.equal(d.capacityAllocationId,oldId);
+ B.mock.defer='normal';assert.equal(B.defer(r,d,'week'),'');
+ assert.equal(d.capacityAllocationId,r.deferments[0].replacement_allocation_id);
+ assert.notEqual(d.capacityAllocationId,oldId);assert.equal(order.fulfillment.date,d.date);
+});
+test('progress counts four distinct completions with saved timestamps and supports reversal',()=>{
+ const {B,C}=setup(),r=B.pay(B.createPurchase(),'confirmed'),orders=r.deliveries.map(d=>C.state.orders.find(o=>o.id===d.orderId));
+ assert.equal(B.defer(r,r.deliveries[2],'day'),'');
+ orders.slice(0,3).forEach(o=>{o.status='completed';o.completedAt=1;});
+ B.sync(r);assert.equal(r.status,'active');assert.equal(r.completedCount,3);assert.equal(r.remainingCount,1);
+ orders[3].status='completed';B.sync(r);assert.equal(r.completedCount,3);
+ orders[3].completedAt=2;B.sync(r);B.sync(r);assert.equal(r.status,'completed');assert.equal(r.remainingCount,0);
+ const link=r.deliveries[3].orderId;r.deliveries[3].orderId=orders[0].id;
+ assert(B.progressPlan(r).error);assert.equal(r.completedCount,4);r.deliveries[3].orderId=link;
+ orders[3].status='ready';delete orders[3].completedAt;B.sync(r);
+ assert.equal(r.status,'active');assert.equal(r.completedCount,3);assert.equal(r.deliveries[3].fulfilled_at,undefined);
+ orders[3].status='completed';orders[3].completedAt=3;B.sync(r);assert.equal(r.deliveries[3].fulfilled_at,3);
+});
 test('pickup needs no address, route service, or courier quote and creates four free collections',()=>{const {B,C}=setup();C.state.addresses=[];B.deliveryRoute.eligible=()=>{throw Error('Pickup must not check distance');};B.state.draft.quote='error';assert(B.setMethod('pickup'));assert(B.ready());assert.equal(B.totals().fee,0);assert.equal(B.totals().delivery,0);const p=B.createPurchase();assert(p);assert.equal(p.snapshot.method,'pickup');assert.equal(p.snapshot.address,null);assert.equal(p.snapshot.total,p.snapshot.products);const r=B.pay(p,'confirmed');assert.equal(r.snapshot.method,'pickup');assert.equal(C.state.orders.length,4);assert(C.state.orders.every(o=>o.fulfillment.method==='pickup'&&o.address===null&&o.fee===0&&o.total===p.snapshot.unit*p.snapshot.quantity));});
 test('switching back to delivery restores distance validation and delivery fees',()=>{const {B}=setup();B.deliveryRoute.eligible=()=>false;assert(!B.ready());B.setMethod('pickup');assert(B.ready());B.setMethod('delivery');assert(!B.ready());assert.equal(B.totals().delivery,400);B.deliveryRoute.eligible=()=>true;assert(B.ready());});
 test('changing fulfillment invalidates unpaid pricing and locks during verification',()=>{const {B,D}=setup();const p=B.createPurchase();assert(B.setMethod('pickup'));assert.equal(p.payment,'revalidation');assert.equal(D.allocations.length,0);const pickup=B.createPurchase();assert.equal(pickup.snapshot.delivery,0);B.pay(pickup,'detected');assert(!B.setMethod('delivery'));assert.equal(B.state.draft.method,'pickup');});

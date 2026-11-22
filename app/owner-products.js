@@ -14,7 +14,6 @@ A.resetProductData=()=>{A.products.splice(0,A.products.length,...baseline.map(p=
 const setPrice=P.setPrice;P.setPrice=(...args)=>{const error=setPrice(...args);if(!error){G.display(A.products.find(p=>p.id===args[0]));G.changed();}return error;};
 // Availability is evaluated live; purchased item snapshots are never rewritten.
 const line=A.commerce.line;A.commerce.line=(id,variant='standard',quantity=1)=>({...line(id,variant,quantity),available:I.productAvailable(id,variant)});
-const valid=A.commerce.cartValid;A.commerce.cartValid=()=>valid()&&A.commerce.state.cart.every(item=>I.productAvailable(item.productId,item.key.split(':')[1],A.commerce.state.activeId));
 const config=A.subscriptions.configReason;A.subscriptions.configReason=()=>{const d=A.subscriptions.state.draft;return A.variant(d.productId,d.variant)?.active===false?'This variant is inactive.':config();};
 const status=p=>p.active===false?'inactive':I.catalogEnabled.get(p.id)===false?'unavailable':p.available?'available':'stock';
 function detail(p){const selected=A.owner.parts[3]||p.variants[0]?.id,v=p.variants.find(v=>v.id===selected);if(!v)return V.panel('Variant not found','<p>This variant is unavailable.</p>',V.link('products/'+p.id,'Back to product'));const bom=I.recipe(p.id,v.id),cost=P.cost(p.id,v.id);

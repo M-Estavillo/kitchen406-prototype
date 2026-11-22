@@ -29,7 +29,9 @@ N.transactions=()=>{
  if(!A.session.ownerAllowed())return [];
  return A.operations.orders().filter(o=>o.paid&&A.operations.status(o)==='completed').map(o=>{
   let amount=o.items.reduce((sum,i)=>sum+Math.round(i.price*100)*i.quantity,0);
-  if(o.type==='subscription'){
+  if(o.type==='subscription'&&o.items.every(item=>Number.isFinite(item.productAmount))){
+   amount=o.items.reduce((sum,item)=>sum+Math.round(item.productAmount*100),0);
+  }else if(o.type==='subscription'){
    const record=A.subscriptions.allRecords().find(r=>r.id===o.subscriptionId),purchase=A.operations.purchases().find(p=>p.id===record?.purchaseId);
    if(purchase){const siblings=A.operations.orders().filter(row=>row.subscriptionId===record.id),base=siblings.reduce((sum,row)=>sum+row.items.reduce((n,i)=>n+Math.round(i.price*100)*i.quantity,0),0);const total=Math.round((purchase.snapshot.products??purchase.snapshot.total-purchase.snapshot.delivery)*100),before=siblings.slice(0,siblings.findIndex(row=>row.id===o.id)).reduce((sum,row)=>sum+row.items.reduce((n,i)=>n+Math.round(i.price*100)*i.quantity,0),0);amount=base?Math.round(total*(before+amount)/base)-Math.round(total*before/base):0;}
   }

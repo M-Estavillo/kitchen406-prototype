@@ -2,7 +2,7 @@
 const A=K406,C=A.commerce,S=C.state,U=C.ui,E=A.escape;
 const O=C.orders={tab:'all',query:'',type:'all',sort:'newest',page:1};
 O.receivable=o=>!!o&&['standard','cake'].includes(o.type)&&o.paid&&(['completed','delivered'].includes(o.status)||o.delivery?.status==='delivered');
-O.reviewable=o=>o?.type==='subscription'?o.status==='completed':O.receivable(o)&&!!o.receivedAt;
+O.reviewable=o=>O.receivable(o)&&!!o.receivedAt;
 O.reviewed=(o,item)=>A.product.state.submitted.has(o.id+':'+item.key)||A.reviews?.records.some(r=>r.key===o.id+':'+item.key);
 const attention=o=>['pending-payment','payment-failed','payment-resolution'].includes(o.status);
 O.paymentLoading=()=>U.page('Pay with QR Ph','Preparing your payment details.',
@@ -13,19 +13,18 @@ O.payment=()=>{
  const o=C.currentOrder();if(!o)return U.empty('No payment session','Review your bag and checkout details to start a payment.',U.link('cart','View bag'));
  if(o.quotationId)return A.cakes.paymentView(o);
  if(o.prepaid)return U.empty('Prepaid subscription delivery','This delivery is already included in your subscription payment.',U.link('subscriptions/'+o.subscriptionId,'View subscription')+U.link('orders/'+o.id,'View fulfillment order'));
- const state=o.payment,locked=['detected','delayed'].includes(state);
- const messages={waiting:'Waiting for payment · Use Simulate payment to try the demo.',detected:'Payment detected — verifying. Retry is locked to prevent duplicate payments.',delayed:'Still checking your payment. Do not pay again.',confirmed:'Payment confirmed in this demo.',failed:'Payment unsuccessful. Your order details are saved.',expired:'Your order cannot be completed because the product is now unavailable. The payment session expired, releasing your checkout reservation, and the remaining stock was purchased by another customer.',revalidation:'Order revalidation required. Review availability and fulfillment before paying.'};
+ const state=C.paymentViewState(o),locked=['detected','delayed','grace'].includes(state)||o.reconciliationRequired;
+ const messages={waiting:'Waiting for payment · Use Simulate payment to try the demo.',detected:'Payment detected — verifying. Retry is locked to prevent duplicate payments.',delayed:'Still checking your payment. Do not pay again.',confirmed:'Payment confirmed in this demo.',failed:'Payment unsuccessful. Your order details are saved.',grace:'The QR session has closed. Your reservation remains held while payment is checked.',expired:'The payment and reservation window ended. You can retry checkout if availability is confirmed.',revalidation:'Order revalidation required. Review availability and fulfillment before paying.'};
  let actions='';
  if(state==='waiting')actions=U.button('simulate-payment','Simulate successful payment');
  if(locked)actions=U.button('check-payment','Check demo payment status');
- if(state==='expired')actions=U.link('shop','Back to shop');
- if(state==='failed')actions=U.button('retry-payment','Generate new demo QR session');
+ if(!locked&&['expired','failed'].includes(state))actions=U.button('retry-payment','Generate new demo QR session');
  if(state==='confirmed')actions=U.link('confirmation/'+o.id,'Continue to order confirmation',true);
- if(o.status==='cancelled')return U.empty('This order was cancelled','Start again from your bag.',U.link('cart','View bag'));
+ if(o.status==='cancelled'&&!o.checkoutClosed&&!o.refundEligible)return U.empty('This order was cancelled','Start again from your bag.',U.link('cart','View bag'));
  return U.page('Pay with QR Ph','Preview the bank and e-wallet payment experience.',U.columns(
- U.panel('Amount to pay',`<p class="payment-amount">${C.money(o.total)}</p><div class="demo-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span><strong>${state==='expired'?'Session expired':state==='confirmed'?'Payment confirmed':'QR Ph demo'}</strong><span>Non-payable preview</span></div><p class="center">${state==='waiting'?'Session expires in <strong id="payment-clock">'+C.paymentTime(o.deadline)+'</strong>':E(state.replaceAll('-',' '))}</p><p class="center muted">Reference: ${E(o.reference)}</p>`)+
+ U.panel('Amount to pay',`<p class="payment-amount">${C.money(o.total)}</p><div class="demo-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span><strong>${['expired','grace'].includes(state)?'QR session closed':state==='confirmed'?'Payment confirmed':'QR Ph demo'}</strong><span>Non-payable preview</span></div><p class="center">${state==='waiting'?'Session expires in <strong id="payment-clock">'+C.paymentTime(o.deadline)+'</strong>':E(state.replaceAll('-',' '))}</p><p class="center muted">Reference: ${E(o.reference)}</p>`)+
  U.panel('How payment works','<ol class="payment-instructions"><li>In a live checkout, open a QR Ph-supported bank or e-wallet app.</li><li>Scan the merchant QR and verify the order amount.</li><li>Return while payment is verified. For this prototype, use the simulation control below.</li></ol>')+
- U.alert(messages[state]||'Payment unavailable',['failed','expired','revalidation'].includes(state))+`<div class="commerce-actions">${actions}${!locked&&!['confirmed','expired'].includes(state)?U.link('checkout/review','Back to order review'):''}${U.link('orders/'+o.id,'View order')}</div>`,U.summary(o)+U.panel('Fulfillment details',U.fulfillment(o))),'payment');
+ U.alert(o.refundEligible?o.resolution:o.paymentCheckMessage|| (o.resolution&&['failed','expired','revalidation'].includes(state)?o.resolution:messages[state]||'Payment unavailable'),['failed','expired','revalidation'].includes(state))+`<div class="commerce-actions">${actions}${!locked&&!['confirmed','expired','grace'].includes(state)?U.link('checkout/review','Back to order review'):''}${U.link('orders/'+o.id,'View order')}</div>`,U.summary(o)+U.panel('Fulfillment details',U.fulfillment(o))),'payment');
 };
 O.timeline=o=>{
  const stages=['Order placed','Payment confirmed',o.type==='cake'?'Preparing your cake':'Preparing & proofing',o.fulfillment.method==='pickup'?'Ready for pickup':'Ready for delivery','Completed'];
@@ -49,7 +48,7 @@ O.details=(confirmation=false)=>{
 
  const detailHeader=!confirmation;
  const header=detailHeader?`<div class="cake-order-toolbar"><a class="cake-order-icon" href="#/orders" aria-label="Back to My Orders" title="Back to My Orders"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></a><div class="cake-order-meta">${U.status(o)}<div class="cake-order-reference-row"><div class="cake-order-reference"><strong>${E(o.id)}</strong><p class="muted">Placed ${new Date(o.created).toLocaleString()}${o.fixture?' · Sample order':''}</p></div><button type="button" class="cake-order-icon" data-commerce="copy-order" aria-label="Copy reference" title="Copy reference"><span class="material-symbols-outlined" aria-hidden="true">content_copy</span></button></div></div></div>`:`<div class="order-meta"><div class="order-meta-group"><div><strong>${E(o.id)}</strong><p class="muted">Placed ${new Date(o.created).toLocaleString()}${o.fixture?' · Sample order':''}</p></div>${U.status(o)}</div><div class="order-meta-group"><span>${paymentText}</span>${confirmation?'':U.button('copy-order','Copy reference')}</div></div>${actions?`<div class="commerce-actions">${actions}</div>`:''}`;
- return U.page(title,'Track your order from preparation to collection or delivery.',`${header}${pendingActions}${o.status==='payment-resolution'?U.alert('Payment was recorded, but fulfillment needs assistance. Do not pay again. Contact the bakery in a live checkout.',true):''}`+U.columns(
+ return U.page(title,'Track your order from preparation to collection or delivery.',`${header}${pendingActions}${o.refundEligible?U.alert(o.resolution,true):o.status==='payment-resolution'?U.alert('Payment was recorded, but fulfillment needs assistance. Do not pay again. Contact the bakery in a live checkout.',true):''}`+U.columns(
  confirmation?U.summary(o):U.panel('Order progress',O.timeline(o))+reviews+
  U.panel('Order activity',`<details open><summary>Activity history</summary>${o.activity.map(a=>`<p>${E(a.text)}<br><small class="muted">${E(a.at)}</small></p>`).join('')}</details>`)+`<div class="commerce-actions order-text-actions" role="group" aria-label="Customer actions">${U.button('contact','Contact bakery team')}${U.button('print','Print demo order summary')}${o.subscriptionId?U.link('subscriptions/'+o.subscriptionId,'View subscription'):''}${o.quotationId?`<a class="btn cake-order-quotation" href="#/cake-requests/${E(o.requestId)}/quotations/${E(o.quotationId)}">View accepted quotation</a>`:''}</div>`,
  U.panel('Fulfillment',U.fulfillment(o))+
@@ -68,11 +67,10 @@ O.list=()=>{
 };
 O.action=async(action,el)=>{
  const o=C.currentOrder();
- if(action==='retry-payment'&&o?.payment==='expired'){A.toast('The product is no longer available. Please return to the shop.');return;}
  if(o?.quotationId&&['simulate-payment','check-payment','retry-payment','cancel-order'].includes(action)){A.cakes.paymentAction(action,o);return;}
- if(action==='simulate-payment'&&o?.payment==='waiting'){C.setPayment(o,'detected');C.render();const id=o.id;setTimeout(()=>{const live=S.orders.find(x=>x.id===id);if(live?.payment==='detected'){C.setPayment(live,'confirmed');C.render();A.inspector();}},900);}
- if(action==='check-payment'&&['detected','delayed'].includes(o?.payment))C.setPayment(o,'confirmed');
- if(action==='retry-payment'&&C.unpaid(o)){if(!o.fixture&&o.revision!==S.revision){C.setPayment(o,'revalidation');}else{o.deadline=Date.now()+C.paymentSessionMs;o.attempts.push({state:'waiting',at:new Date().toLocaleString()});C.setPayment(o,'waiting');}}
+ if(action==='simulate-payment'&&o&&C.qrOpen(o)){C.setPayment(o,'detected');C.render();const id=o.id;setTimeout(()=>{const live=S.orders.find(x=>x.id===id);if(live?.payment==='detected'){A.checkoutHolds.simulate(live,'confirmed',C.setPayment);C.render();A.inspector();}},900);}
+ if(action==='check-payment'&&A.account.owns(o))A.checkoutHolds.check(o);
+ if(action==='retry-payment'&&C.unpaid(o))C.retryPayment(o);
  if(action==='cancel-order'&&C.unpaid(o)){A.$('cancel-order-reference').textContent=o.id;A.$('confirm-order-cancel').dataset.id=o.id;A.openModal('order-cancel-modal');}
  if(action==='copy-order'&&o){try{await navigator.clipboard.writeText(o.id);A.toast('Order reference copied.');}catch{A.notice('Order reference',o.id);}}
  if(action==='contact')A.notice('Contact Kitchen406 · Demo','Bakery contact details have not been supplied. In the live website, this control will open the bakery support channel. No message was sent.');
@@ -99,7 +97,6 @@ O.action=async(action,el)=>{
 document.addEventListener('change',e=>{if(e.target.id==='orders-type'||e.target.id==='orders-sort'){O[e.target.id==='orders-type'?'type':'sort']=e.target.value;O.page=1;C.render();}});
 document.addEventListener('input',e=>{if(e.target.id==='orders-search'){const pos=e.target.selectionStart;O.query=e.target.value;O.page=1;C.render();const input=A.$('orders-search');input.focus();input.setSelectionRange(pos,pos);}});
 setInterval(()=>{
- S.orders.forEach(o=>{if(o.payment==='waiting'&&o.status!=='cancelled'&&o.deadline<=Date.now()){C.setPayment(o,'expired');if(C.currentOrder()===o)C.render();}});
  const el=A.$('payment-clock'),o=C.currentOrder();if(el&&o){const seconds=Math.max(0,Math.ceil((o.deadline-Date.now())/1000));el.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');}
 },1000);
 })();

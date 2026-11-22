@@ -78,7 +78,7 @@ function openReviewModal(){
  $('reviewComposerModal').querySelector('h3+p').textContent=S.reviewItem?S.reviewItem.name+' ('+S.reviewItem.variant+')':current().name+' ('+$('productWeightBadge').textContent+')';
  $('modalSubmitBtn').textContent='Submit Review';$('modalSubmitBtn').disabled=true;A.openModal('reviewComposerModal');
 }
-function closeReviewModal(){pending++;S.reviewItem=null;A.closeModal();A.commerce?.render();}
+function closeReviewModal(){pending++;S.reviewItem=null;A.closeModal();A.commerce?.render();if(A.subscriptions?.active())A.subscriptions.render();}
 function renderModalStars(){
  document.querySelectorAll('#modalStarRatingRow button').forEach((b,i)=>{b.setAttribute('aria-label',(i+1)+' stars');b.setAttribute('aria-pressed',S.rating===i+1);b.querySelector('span').style.fontVariationSettings=i<S.rating?"'FILL' 1":"'FILL' 0";b.style.color=i<S.rating?'#8d4a14':'#867368';});
  $('modalRatingText').textContent=S.rating?S.rating+' / 5 stars':'Click to rate';

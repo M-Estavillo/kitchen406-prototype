@@ -6,9 +6,12 @@ F.cartLoading=()=>U.page('Your bag','Review your items before choosing fulfillme
  U.panel('Items in your bag',Array.from({length:3},()=>'<div class="cart-loading-item"><div class="cart-loading-block cart-loading-image"></div><div class="cart-loading-copy"><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div><div class="cart-loading-block cart-loading-quantity"></div></div></div>').join('')),
  U.panel('Order summary','<div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-button"></div>'))+'</div>','cart');
 C.addressContext=()=>A.subscriptions?.active()&&A.route==='subscription'?{editor:A.subscriptions.addressUI,draft:A.subscriptions.state.draft,address:A.subscriptions.address,change:A.subscriptions.change,render:A.subscriptions.render}:{editor:F,draft:S.draft,address:C.address,change:C.change,render:C.render};
-F.cart=()=>U.page('Your bag','Review your items before choosing fulfillment details.',S.cart.length&&M.page!=='empty'?U.columns(
+F.cart=()=>{
+ const issue=C.cartIssue();
+ return U.page('Your bag','Review your items before choosing fulfillment details.',S.cart.length&&M.page!=='empty'?U.columns(
  U.panel('Items in your bag',U.items(S.cart,true))+(S.removed?U.alert('Item removed. Your other selections are saved.')+U.button('undo','Undo removal'):''),
- U.summary()+(!C.cartValid()?U.alert('Resolve unavailable items or quantity limits before continuing.',true):'')+U.button('checkout','Continue to checkout',!C.cartValid())+U.link('shop','Continue shopping')):U.empty('Your bag is empty','Browse the shop and add your favorite bakes.')+(S.removed?U.button('undo','Undo removal'):''),'cart');
+ U.summary(null,false)+(issue?U.alert(issue,true):'')+U.button('checkout','Continue to checkout',!!issue)+U.link('shop','Continue shopping')):U.empty('Your bag is empty','Browse the shop and add your favorite bakes.')+(S.removed?U.button('undo','Undo removal'):''),'cart');
+};
 F.calendar=()=>{
  if(M.calendar!=='normal')return U.alert(M.calendar==='loading'?'Loading available dates…':'We could not load the calendar.',M.calendar==='error')+U.button('calendar-retry','Retry calendar');
  const first=new Date(2026,F.month,1),days=new Date(2026,F.month+1,0).getDate();
@@ -28,22 +31,32 @@ F.address=()=>{
  const a=C.address(),d=S.draft;
  return U.page('Delivery details','Choose a saved address or add a new one.',U.columns(
  d.method==='pickup'?U.panel('Pick up your order',U.fulfillment())+U.button('switch-delivery','Switch back to delivery'):
- U.panel('Choose a delivery address',A.addresses.active().length?A.addresses.active().map(addr=>`<div class="address-choice ${addr.address_id===d.addressId?'selected':''}"><label><input type="radio" name="delivery-address" value="${E(addr.address_id)}" ${addr.address_id===d.addressId?'checked':''}><strong>${E(addr.label)}</strong>${U.address(addr)}</label>${U.button('address-edit','Edit',false,`data-id="${E(addr.address_id)}"`)}</div>`).join(''):'<p>No saved addresses yet. Add an address to continue.</p>',U.button('address-add','Add new address'))+
+ U.panel('Choose a delivery address',A.addresses.active().length?A.addresses.active().map(addr=>`<div class="address-choice ${addr.address_id===d.addressId?'selected':''}"><label><input type="radio" name="delivery-address" value="${E(addr.address_id)}" ${addr.address_id===d.addressId?'checked':''}><strong>${E(addr.label)}</strong>${U.address(addr)}</label>${U.button('address-edit','Edit',false,`data-id="${E(addr.address_id)}"`)}</div>`).join(''):'<p>No saved addresses yet. Add an address to continue.</p>',U.button('address-add','Add new address')+U.button('switch-pickup','Switch to bakery pickup'))+
  (F.form?F.addressForm():'')+
  (a&&!F.form?U.panel('Your delivery location',F.mapPanel(false)+U.alert(C.deliveryRoute.message(),['outside','unreachable','error','unconfigured'].includes(C.deliveryRoute.status()))+(['error','unreachable'].includes(C.deliveryRoute.status())?U.button('service-retry','Retry delivery availability'):'')):'') ,U.summary()+U.button('address-next','Continue to review',!C.ready()||!!F.form)+U.link('checkout/fulfillment','Back to fulfillment')),'checkout/address');
 };
-F.review=()=>U.page('Review your order','Check your items and fulfillment details before proceeding to payment.',U.columns(
+F.review=()=>{
+ C.refreshCheckoutPrices();
+ F.reviewedFee=C.fee();
+ return U.page('Review your order','Check your items and fulfillment details before proceeding to payment.',U.columns(
  U.panel('Order items',U.items(S.cart),U.link('cart','Edit cart'))+U.panel('Fulfillment details',U.fulfillment(null,false),U.link('checkout/fulfillment','Edit'))+
  (S.draft.method==='delivery'?U.panel('Delivery address',U.address(C.address()),U.link('checkout/address','Edit address')):'')+
  U.panel('Payment method','<p><span class="material-symbols-outlined">qr_code_2</span> QR Ph · Bank / e-wallet transfer</p>'),
- U.summary()+(M.review!=='normal'?U.alert({stock:'Requested quantity is no longer available. Edit your bag.',capacity:'Selected date is full. Choose another fulfillment date.',error:'We could not verify this order. Your selections are saved.',checking:'Checking stock and schedule…'}[M.review],true)+U.button('review-retry','Retry verification'):'')+(C.priceNotice()?U.alert(C.priceNotice()):'')+U.button('pay','Proceed to payment',!C.ready()||M.review!=='normal')+U.link(S.draft.method==='pickup'?'checkout/fulfillment':'checkout/address','Back to '+(S.draft.method==='pickup'?'fulfillment':'delivery details'))),'checkout/review');
+ U.summary()+(F.message?U.alert(F.message,true)+U.link('cart','Edit bag')+U.link('checkout/fulfillment','Change date'):'')+(M.review!=='normal'?U.alert({stock:'Requested quantity is no longer available. Edit your bag.',capacity:'Selected date is full. Choose another fulfillment date.',error:'We could not verify this order. Your selections are saved.',checking:'Checking stock and schedule…'}[M.review],true)+U.button('review-retry','Retry verification'):'')+((C.priceNotice()||S.draft.priceMessage)?U.alert(C.priceNotice()||S.draft.priceMessage):'')+U.button('pay','Proceed to payment',!C.ready()||M.review!=='normal')+U.link(S.draft.method==='pickup'?'checkout/fulfillment':'checkout/address','Back to '+(S.draft.method==='pickup'?'fulfillment':'delivery details'))),'checkout/review');
+};
 F.action=(action,el)=>{
  const index=Number(el.dataset.index),item=S.cart[index];
- if(['increase','decrease','remove','undo','switch-pickup','switch-delivery'].includes(action)&&!C.change())return;
- if(action==='increase'&&item)item.quantity=Math.min(item.max,item.quantity+1);
- if(action==='decrease'&&item){item.quantity=Math.max(1,item.quantity-1);if(S.cart.every(i=>i.quantity<=i.max))M.stock='normal';}
- if(action==='remove'&&item){S.removed={item:C.copy(item),index};S.cart.splice(index,1);if(S.cart.every(i=>i.available&&i.quantity<=i.max))M.stock='normal';}
- if(action==='undo'&&S.removed){const old=S.cart.find(i=>i.key===S.removed.item.key);if(old)old.quantity=Math.min(old.max,old.quantity+S.removed.item.quantity);else S.cart.splice(S.removed.index,0,S.removed.item);S.removed=null;}
+ if(['remove','switch-pickup','switch-delivery'].includes(action)&&!C.change())return;
+ if((action==='increase'||action==='decrease')&&item){
+  if(!C.saveCartLine(item,item.quantity+(action==='increase'?1:-1),index,true))return;
+ }
+ if(action==='remove'&&item){S.removed={item:C.copy(item),index};S.cart.splice(index,1);}
+ if(action==='undo'&&S.removed){
+  const removed=S.removed.item,existingIndex=S.cart.findIndex(item=>item.key===removed.key),old=S.cart[existingIndex];
+  if(!C.saveCartLine(old||removed,(old?.quantity??0)+removed.quantity,old?existingIndex:S.removed.index,!!old))return;
+  S.removed=null;
+ }
+ if(['decrease','remove'].includes(action)&&S.cart.every(item=>!item.previewUnavailable&&item.quantity<=item.max))M.stock='normal';
  if(action==='checkout'){if(C.cartValid())location.hash='#/checkout/fulfillment';}
  if(action==='month-prev')F.month=Math.max(9,F.month-1);
  if(action==='month-next')F.month=Math.min(11,F.month+1);
@@ -60,9 +73,15 @@ F.action=(action,el)=>{
  if(action==='address-cancel'){F.form=null;F.editing=null;}
  if(action==='service-retry')void C.deliveryRoute.check(true);
  if(action==='quote-retry')S.draft.quote='ok';
- if(action==='address-next'&&C.ready()&&!F.form)location.hash='#/checkout/review';
+ if(action==='address-next'&&C.ready()&&!F.form){F.message='';location.hash='#/checkout/review';}
  if(action==='review-retry')M.review='normal';
- if(action==='pay'){const order=C.createOrder();if(order)location.hash='#/payment/'+order.id;}
+ if(action==='pay'){
+  F.message='';
+  if(C.ready()&&!C.refreshCheckoutPrices()){
+   if(C.fee()!==F.reviewedFee)S.draft.priceMessage='The delivery fee changed. Review the updated total before proceeding.';
+   else {const order=C.createOrder();if(order){S.draft.priceMessage='';location.hash='#/payment/'+order.id;}}
+  }
+ }
  C.sync();C.render();A.inspector();
 };
 document.addEventListener('submit',e=>{

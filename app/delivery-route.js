@@ -14,7 +14,7 @@ C.createDeliveryRoute=context=>{
   eligible:()=>status()==='ok',
   reset(){},
   message:()=>({
-   ok:'Delivery available. Sample delivery fee: '+C.money(A.quoteFee())+'.',
+   ok:'This city is in the sample delivery area.',
    outside:'This address is outside the sample delivery area. Choose another address.',
    missing:'Add or select a complete delivery address.',
    loading:'Checking delivery availability...',

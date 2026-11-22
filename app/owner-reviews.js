@@ -3,9 +3,19 @@
 const A=K406,V=A.ownerUI,E=A.escape,O=A.owner;
 const R=A.reviews={records:[]};
 R.capture=()=>{
- const s=A.product.state,key=s.reviewKey,order=A.operations.orders().find(o=>(o.items||[]).some(i=>o.id+':'+i.key===key)),item=order?.items.find(i=>order.id+':'+i.key===key);
- if(!A.account.owns(order)||!A.commerce.orders.reviewable(order)||!item||R.records.some(r=>r.key===key))return false;
- R.records.push({id:crypto.randomUUID(),key,orderId:order.id,productId:item.productId,product:item.name,variant:item.variant,customer:A.account.name(),rating:s.rating,comment:A.$('reviewCommentInput').value,images:s.photos.filter(Boolean).map(()=>item.image).filter(Boolean),created:new Date().toISOString(),hidden:false,history:[],version:0});
+ const s=A.product.state,key=s.reviewKey;
+ if(typeof key!=='string'||R.records.some(r=>r.key===key))return false;
+ let item,orderId,subscriptionId;
+ if(key.startsWith('subscription:')){
+  const record=A.subscriptions.allRecords().find(r=>'subscription:'+r.id===key);
+  if(!A.subscriptions.reviewable(record))return false;
+  item=record.snapshot;subscriptionId=record.id;
+ }else{
+  const order=A.operations.orders().find(o=>o.items?.some(i=>o.id+':'+i.key===key));
+  if(!A.account.owns(order)||!A.commerce.orders.reviewable(order))return false;
+  item=order.items.find(i=>order.id+':'+i.key===key);orderId=order.id;
+ }
+ R.records.push({id:crypto.randomUUID(),key,orderId,subscriptionId,productId:item.productId,product:item.name,variant:item.variant,customer:A.account.name(),rating:s.rating,comment:A.$('reviewCommentInput').value,images:s.photos.filter(Boolean).map(()=>item.image).filter(Boolean),created:new Date().toISOString(),hidden:false,history:[],version:0});
  return true;
 };
 R.public=()=>{

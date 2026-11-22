@@ -2,9 +2,9 @@
 (() => {
 const A=K406,D=A.schedule,B=A.subscriptions,K=A.cakes;
 const Q=A.capacity={blocks:new Map(),version:0,history:[],serial:0};
-Q.active=a=>a.status?!['released','expired'].includes(a.status)&&(a.confirmed||a.deadline>Date.now()):a.confirmed||a.deadline>Date.now();
+Q.active=a=>a.status?!['released','expired'].includes(a.status)&&(a.confirmed||(A.checkoutHolds?.retained(a.owner,a.deadline)??a.deadline>Date.now())):a.confirmed||(A.checkoutHolds?.retained(a.owner,a.deadline)??a.deadline>Date.now());
 Q.allocations=()=>{
- const standard=A.operations.orders().filter(o=>o.type==='standard'&&!['cancelled','payment-resolution'].includes(o.status)&&(o.paid||['waiting','detected','delayed'].includes(o.payment)&&o.deadline>Date.now())).flatMap(o=>o.items.map((i,n)=>({id:o.id+':standard:'+n,orderId:o.id,pool:'standard',productId:i.productId,date:o.fulfillment.date,quantity:i.quantity,status:o.paid?'confirmed':'held'})));
+ const standard=A.operations.orders().filter(o=>o.type==='standard'&&!['cancelled','payment-resolution'].includes(o.status)&&(o.paid||['waiting','detected','delayed'].includes(o.payment)&&(A.checkoutHolds?.retained(o.id,A.commerce.holdUntil(o))??A.commerce.holdUntil(o)>Date.now()))).flatMap(o=>o.items.map((i,n)=>({id:o.id+':standard:'+n,orderId:o.id,pool:'standard',productId:i.productId,date:o.fulfillment.date,quantity:i.quantity,status:o.paid?'confirmed':'held'})));
  const subscriptions=D.allocations.filter(Q.active).map(a=>({...a,id:a.id,orderId:B.allRecords().find(r=>r.purchaseId===a.owner)?.deliveries.find(d=>d.cycle===a.cycle)?.orderId||a.owner,pool:'subscription',status:a.confirmed?'confirmed':'held'}));
  const cakes=K.activeHolds().filter(h=>!['cancelled','payment-resolution'].includes(A.operations.find(h.orderId)?.status)).map(h=>({id:h.id,orderId:h.orderId,pool:'cake',date:h.date,quantity:1,status:h.status}));
  return [...standard,...subscriptions,...cakes];

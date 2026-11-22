@@ -24,16 +24,17 @@ K.requestDetail=r=>{
 K.quotationView=(r,q)=>{
  if(!r||!q||q.requestId!==r.id)return U.empty('Quotation not found','This offer is not available for your account.',U.link('cake-requests','My requests'));
  const reason=K.quoteReason(q),o=K.orders.find(o=>o.quotationId===q.id),paid=o?.paid,locked=o&&['detected','delayed'].includes(o.payment);
- const pricing=`<dl class="commerce-totals"><div><dt>Cake options & design specification</dt><dd>${K.money(q.options_total)}</dd></div><div><dt>Add-ons Charge</dt><dd>${K.money(q.addons_total)}</dd></div><div><dt>Custom design & decoration</dt><dd>${K.money(q.complexity_charge)}</dd></div><div class="grand-total"><dt>Total payable</dt><dd>${K.money(q.total)}</dd></div></dl>`;
+ const pricing=`<dl class="commerce-totals"><div><dt>Cake options & design specification</dt><dd>${K.money(q.options_total)}</dd></div><div><dt>Add-ons Charge</dt><dd>${K.money(q.addons_total)}</dd></div><div><dt>Custom design & decoration</dt><dd>${K.money(q.complexity_charge)}</dd></div><div><dt>Owner delivery fee</dt><dd>${K.money(q.delivery_fee)}</dd></div><div class="grand-total"><dt>Total payable</dt><dd>${K.money(q.total)}</dd></div></dl>`;
  let actions='';if(paid)actions=`<p class="cake-quotation-status ${o.status==='payment-resolution'?'is-error':''}" role="status">${o.status==='payment-resolution'?'Payment recorded. The owner needs to resolve fulfillment. Do not pay again.':'Full payment confirmed.'}</p>`+U.link('orders/'+o.id,'View cake order',true);
  else if(o)actions=U.alert(locked?'Payment verification is pending. Do not pay again.':'Quotation accepted. Your order is confirmed only after full payment.')+U.link('payment/'+o.id,locked?'Check payment status':'Continue payment',true);
+ else if(!reason&&q.status==='accepted')actions=U.alert('Quotation accepted. You can retry checkout with this agreement.')+V.button('quote-checkout','Continue to checkout',false,`data-id="${q.id}"`,true);
  else if(!reason&&q.status==='issued')actions=V.button('quote-accept','Accept quotation',false,`data-id="${q.id}"`,true)+V.button('quote-decline','Decline quotation',false,`data-id="${q.id}"`);
  else actions=U.alert(reason||'This quotation cannot be accepted.',true);
  return U.page('Your Cake Quotation','Request '+r.id+' · Version '+q.version,`<div class="cake-request-toolbar">${K.backLink('cake-requests/'+r.id,'Back to request')}${V.badge(K.quoteLabel(q))}</div>`+(K.message?U.alert(K.message,true):'')+U.columns(
- U.panel('Selected Cake Options',K.optionsSummary(q.snapshot))+U.panel('Reference images & notes',B.photos(q.snapshot.images)+`<h3>Customer design notes</h3><p class="cake-notes">${E(q.snapshot.notes||'No additional notes.')}</p>`)+
+ U.panel('Selected Cake Options',K.optionsSummary(q.snapshot)+(q.owner_notes?'<h3>Agreed design notes</h3><p>'+E(q.owner_notes)+'</p>':''))+U.panel('Reference images & notes',B.photos(q.snapshot.images)+`<h3>Customer design notes</h3><p class="cake-notes">${E(q.snapshot.notes||'No additional notes.')}</p>`)+
  U.panel('Agreed fulfillment',B.fulfillment(q.snapshot))+
  U.panel('Quotation history',K.versions(r).map(version=>`<a class="quote-history" href="#/${K.quotePath(version)}" ${version.id===q.id?'aria-current="page"':''}><strong>Version ${version.version}</strong><span>${K.quoteLabel(version)}</span><b>${K.money(version.total)}</b></a>`).join('')),
- U.panel('Final quotation',U.alert('Your original estimate was '+K.money(r.estimated_price)+'. The quotation reflects the owner’s design review and delivery arrangements.')+pricing+`<p class="cake-quote-validity muted">Valid until ${new Date(q.expires_at).toLocaleString('en-PH',{timeZone:'Asia/Manila'})} (Manila).</p>`)+
+ U.panel('Final quotation',U.alert('Your original estimate was '+K.money(r.estimated_price)+'. The quotation reflects the owner’s design review and delivery arrangements.')+pricing+`<p class="cake-quote-validity muted">Offer deadline ${new Date(q.expires_at).toLocaleString('en-PH',{timeZone:'Asia/Manila'})} (Manila).</p>`)+
  U.panel('Need adjustments?',`<div class="cake-adjustments"><p>Discuss changes with the bakery using reference ${E(r.id)} before accepting.</p>${U.button('contact','Contact Kitchen406')}</div>`)+`<div class="cake-quotation-actions">${actions}</div>`));
 };
 K.requestsView=()=>{
@@ -46,7 +47,11 @@ document.addEventListener('click',e=>{
  const el=e.target.closest('[data-p4]');if(!el||el.disabled||!A.account.allowed())return;
  const action=el.dataset.p4,q=K.quote(el.dataset.id);
  if(action==='quote-accept'&&q)V.open('Accept cake quotation',`<p>You are accepting Version ${q.version} for ${E(q.requestId)}.</p><p>${U.date(q.snapshot.date)}</p><p class="payment-amount">${K.money(q.total)}</p><p>Acceptance agrees to the quotation. Your order is confirmed after full QR Ph payment.</p>${V.formError()}<div class="commerce-actions">${V.button('close','Go back')}${V.button('quote-confirm','Confirm acceptance',false,`data-id="${q.id}"`,true)}</div>`,'accept');
- if(action==='quote-confirm'){const o=K.accept(q);if(o){A.closeModal();location.hash='#/payment/'+o.id;}else V.error(K.message);}
+ if(action==='quote-confirm'||action==='quote-checkout'){
+  if(action==='quote-confirm'&&!K.recordAcceptance(q)){V.error(K.message);return;}
+  const o=K.checkout(q);A.closeModal();
+  if(o)location.hash='#/payment/'+o.id;else V.render();
+ }
  if(action==='quote-decline'&&q)V.open('Decline offered price?',`<form id="quote-decline-form" data-id="${q.id}" class="auth-form"><p>Decline the offered price of <strong>${K.money(q.total)}</strong>? The bakery will be notified that you do not wish to proceed with this quotation.</p>${V.formError()}<div class="commerce-actions">${V.button('close','Keep reviewing')}<button class="btn primary">Decline price</button></div></form>`,'decline');
 });
 document.addEventListener('submit',e=>{if(e.target.id!=='quote-decline-form')return;e.preventDefault();const error=K.decline(K.quote(e.target.dataset.id));if(error)V.error(error);else{A.closeModal();V.render();A.toast('Your response has been saved.');}});

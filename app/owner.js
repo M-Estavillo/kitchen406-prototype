@@ -116,7 +116,7 @@ document.addEventListener('submit',e=>{
  else if(kind==='recipe')error=P.save({id:Number(form.dataset.id),variant:form.dataset.variant,version:Number(form.dataset.version),overhead:get('overhead-mode')==='default'?null:num('overhead'),rows:[...form.querySelectorAll('.owner-bom-row')].map(row=>({id:row.querySelector('[data-bom-id]').value,quantity:Number(row.querySelector('[data-bom-quantity]').value)}))});
  else if(kind==='price')error=P.setPrice(Number(form.dataset.id),form.dataset.variant,num('price'),Number(form.dataset.version));
  else if(kind==='pricing-settings'){if(Number(form.dataset.version)!==P.version)error='Settings changed. Reopen the form.';else if(![num('markup'),num('overhead')].every(n=>Number.isFinite(n)&&n>=0))error='Enter nonnegative markup and overhead.';else{P.markup=num('markup');P.overhead=num('overhead');P.version++;}}
- else if(kind==='quotation')error=A.ownerCakes.issue(form.dataset.id,{date:get('date'),method:A.cakes.state.requests.find(r=>r.id===form.dataset.id)?.snapshot.method||'delivery',complexity:Math.round(num('complexity')*100),addons:Math.round(num('addons')*100),fee:0,expiry:Date.now()+2*86400000,notes:get('notes')},Number(form.dataset.version),form.dataset.operation);
+ else if(kind==='quotation')error=A.ownerCakes.issue(form.dataset.id,A.ownerCakeUI.input(form),Number(form.dataset.version),form.dataset.operation);
  else if(kind==='block'){const categories=['Bakery closure','Holiday','Maintenance','Staff availability','Other'];error=!categories.includes(get('category'))||!get('reason').trim()?'Choose a reason category and enter reason details.':Q.block(get('date'),get('category')+': '+get('reason'));}
  else if(kind==='settings'){const input=Object.fromEntries(['standardUnits','standardVarieties','subscriptionUnits','maxPerWeek','maxPerDay'].map(key=>[key,num(key)]));for(const type of ['standard','subscription','cake'])input[type]={value:num(type+'-value'),unit:get(type+'-unit'),cutoff:get(type+'-cutoff')};if(!form.elements.namedItem('subscriptionUnits')){input.subscriptionUnits=A.schedule.config.subscriptionUnits;}if(!form.elements.namedItem('subscription-value')){input.subscription=A.schedule.config.timing?.subscription||{value:A.schedule.config.leadDays,unit:'days',cutoff:String(A.schedule.config.cutoffHour).padStart(2,'0')+':00'};}error=Q.save(input,Number(form.dataset.version));}
  else if(kind==='schedule')error=Q.saveSchedule({id:form.dataset.id,product_id:num('product_id'),preparation_day:num('preparation_day'),day:num('day'),status:form.elements.status.checked?'active':'inactive'},Number(form.dataset.version));
@@ -136,6 +136,8 @@ O.notifications=()=>{
  const events=[],add=(id,type,message,path,at)=>{if(!O.notificationTimes.has(id))O.notificationTimes.set(id,at||Date.now());events.push({id,type,message,path,at:O.notificationTimes.get(id),read:O.notificationReads.has(id)});};
  for(const o of A.operations.list()){
   const status=A.operations.status(o);
+  const reservation=o.materialReservationIssue;
+  if(reservation?.kind==='shortage'&&status==='confirmed')add('shortage:'+o.id+':'+reservation.at,'inventory',o.id+' · '+reservation.message,'orders/'+encodeURIComponent(o.id),reservation.at);
   if(status==='payment-resolution')add('payment:'+o.id,'payments',o.id+' · Payment requires review.','orders/'+o.id,o.created);
   else if(o.paid&&!['completed','cancelled'].includes(status))add('order:'+o.id+':'+status,'orders',o.id+' · '+status.replaceAll('-',' '),'orders/'+encodeURIComponent(o.id),o.created);
  }

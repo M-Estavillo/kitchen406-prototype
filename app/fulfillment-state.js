@@ -7,6 +7,8 @@ F.transition=(id,target,version,key)=>{
  const o=S.orders().find(o=>o.id===id);if(!o)return 'Order not found.';
  if((S.versions.get(id)||0)!==version)return 'This order changed. Review its current status.';
  const status=S.orderStatus(o);if(!(status==='confirmed'&&target==='preparing'||status==='preparing'&&target==='ready'||status==='ready'&&target==='completed'&&(o.fulfillment.method==='pickup'||A.session.ownerAllowed()&&o.type==='cake')))return 'This transition is not allowed.';
+ const completedAt=target==='completed'?Date.now():null;
+ const progress=o.type==='subscription'?A.subscriptions.progressForOrder(o,target,completedAt):{};if(progress.error)return progress.error;
  if(target==='ready'&&!A.earnings.assigned(o)){
   if(o.delivery&&!['failed','cancelled'].includes(o.delivery.status))return 'Preparing owners are locked while a courier booking is active.';
   const draft=A.earnings.read(o);
@@ -16,9 +18,8 @@ F.transition=(id,target,version,key)=>{
  if(target==='preparing'){const error=I.consume(o,A.session.actor().name);if(error)return error;}
  const actual=target==='ready'?(o.fulfillment.method==='pickup'?'ready-pickup':'ready-delivery'):target;
  C.setStatus(o,actual);S.versions.set(id,version+1);S.results.set(key,{id,target});
- if(target==='completed')o.completedAt=Date.now();
- for(const record of [...A.subscriptions.state.records,...[...A.account.buckets.values()].flatMap(b=>b.subscription?.records||[])]){const d=record.deliveries.find(d=>d.orderId===id);if(d){d.status=target==='completed'?'fulfilled':target;record.status=record.deliveries.every(d=>d.status==='fulfilled')?'completed':'active';}}
- if(target==='preparing'){const record=A.subscriptions.allRecords().find(r=>r.deliveries.some(d=>d.orderId===id));if(record)A.subscriptions.reserveNext(record);}
+ if(completedAt!==null)o.completedAt=completedAt;
+ progress.commit?.();
  S.emit('order:'+id+':'+target,'orders',id+' is '+target+'.','staff/production/'+id);S.changed();return '';
 };
 // Operational corrections reverse one operational step, never courier progress.
@@ -31,6 +32,8 @@ F.revert=(id,version,key)=>{
  const o=S.orders().find(o=>o.id===id),target=F.previous(o);
  if(!o||!target)return 'This order cannot be reverted while courier fulfillment is active.';
  if((S.versions.get(id)||0)!==version)return 'This order changed. Review its current status.';
+ const progress=o.type==='subscription'?A.subscriptions.progressForOrder(o,target,null):{};if(progress.error)return progress.error;
+ const previousCompletedAt=o.completedAt;
  if(target==='confirmed'){
   const reservation=I.reservations.get(id);
   if(reservation?.status==='consumed'){
@@ -39,8 +42,8 @@ F.revert=(id,version,key)=>{
   }
  }
  C.setStatus(o,target);delete o.completedAt;S.versions.set(id,version+1);S.results.set(key,{id,target,revert:true});
- const entry=S.history.get(id)?.[0];if(entry)entry.reason=A.session.actor().name+' reverted an accidental status change';
- for(const record of A.subscriptions.allRecords()){const d=record.deliveries.find(d=>d.orderId===id);if(d){d.status=target;record.status='active';}}
+ const entry=S.history.get(id)?.[0];if(entry){entry.reason=A.session.actor().name+' reverted an accidental status change';if(previousCompletedAt!=null)entry.previous_completed_at=previousCompletedAt;}
+ progress.commit?.();
  S.changed();return '';
 };
 })();

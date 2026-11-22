@@ -50,24 +50,44 @@ I.materials=o=>{
  if(o.type==='cake')return null;
  const out={};for(const line of o.items){const variant=line.key?.split(':')[1]||'standard',bom=I.recipe(line.productId,variant);if(!bom)return null;for(const [id,q] of Object.entries(bom))out[id]=(out[id]||0)+q*line.quantity;}return out;
 };
-I.active=r=>r.status==='confirmed'||r.status==='held'&&r.expires>Date.now();
-I.reserved=(id,exclude)=>[...I.reservations.values()].filter(r=>r.orderId!==exclude&&I.active(r)).reduce((n,r)=>n+(r.materials[id]||0),0);
+I.projectRequirements=date=>{
+ const totals=new Map(),missing=[];
+ for(const order of I.allOrders()){
+  const confirmed=order.paid&&order.status==='confirmed';
+  const pending=!order.paid&&order.status==='pending-payment';
+  if((!confirmed&&!pending)||I.reservations.get(order.id)?.status==='consumed')continue;
+  const preparation=order.type==='subscription'?A.subscriptions.preparationDate(order):order.fulfillment?.date;
+  if(preparation!==date)continue;
+  const materials=I.materials(order);
+  if(!materials||!Object.keys(materials).length||Object.entries(materials).some(([id,q])=>!I.item(id)||!Number.isFinite(q)||q<0)){
+   missing.push(order.id);
+   continue;
+  }
+  for(const [id,quantity] of Object.entries(materials)){
+   if(!totals.has(id))totals.set(id,{ingredient:I.item(id),confirmed:0,pending:0});
+   totals.get(id)[confirmed?'confirmed':'pending']+=quantity;
+  }
+ }
+ return {rows:[...totals.values()].sort((a,b)=>a.ingredient.name.localeCompare(b.ingredient.name)),missing};
+};
+I.active=r=>r.status==='confirmed'||r.status==='held'&&(A.checkoutHolds?.retained(r.orderId,r.expires)??r.expires>Date.now());
+I.reserved=(id,exclude)=>[...I.reservations.values()].filter(r=>!(Array.isArray(exclude)?exclude.includes(r.orderId):r.orderId===exclude)&&I.active(r)).reduce((n,r)=>n+(r.materials[id]||0),0);
 I.available=(id,exclude)=>I.item(id).stock-I.reserved(id,exclude);
 I.status=i=>I.available(i.id)<=0?'Out of stock':I.available(i.id)<=i.threshold?'Low stock':'Available';
 I.reason=(materials,exclude)=>!materials?'Recipe requirements are not configured.':Object.entries(materials).some(([id,q])=>!I.item(id)||!Number.isFinite(q)||q<0)?'Invalid ingredient requirements.':Object.entries(materials).find(([id,q])=>I.available(id,exclude)+1e-8<q)?'Insufficient available ingredients. Review inventory before continuing.':'';
-I.plan=o=>{if(!I.requirements.has(o.id)){const m=I.materials(o);if(!m)return null;I.requirements.set(o.id,m);for(const [id,quantity] of Object.entries(m))I.requirementRows.set(o.id+':'+id,{requirement_id:o.id+':'+id,order_id:o.id,inventory_id:id,quantity_required:quantity,fulfillment_date:o.fulfillment?.date||null,reserve_at:o.reserveAt||null,created_at:Date.now()});}return I.requirements.get(o.id);};
+I.plan=(o,materials)=>{if(!I.requirements.has(o.id)){const m=materials===undefined?I.materials(o):materials;if(!m)return null;I.requirements.set(o.id,m);for(const [id,quantity] of Object.entries(m))I.requirementRows.set(o.id+':'+id,{requirement_id:o.id+':'+id,order_id:o.id,inventory_id:id,quantity_required:quantity,fulfillment_date:o.fulfillment?.date||null,reserve_at:o.reserveAt||null,created_at:Date.now()});}return I.requirements.get(o.id);};
 I.notify=()=>{A.staff?.checkStockAlerts?.();};
 I.retime=(o,reserveAt)=>{I.plan(o);for(const row of I.requirementRows.values())if(row.order_id===o.id){row.fulfillment_date=o.fulfillment.date;row.reserve_at=reserveAt;}};
 I.closeReservation=(r,status)=>{r.status=status;r.rows?.forEach(row=>{row.status=status;row[status==='consumed'?'consumed_at':'released_at']=Date.now();});};
-I.reserve=(o,confirmed=false)=>{
+I.reserve=(o,confirmed=false,notify=true,exclude=o.id)=>{
  const existing=I.reservations.get(o.id);if(existing?.status==='consumed')return '';
- const materials=I.plan(o),error=I.reason(materials,o.id);if(error)return error;
- A.checkoutHolds?.ensure(o);
- if(existing&&I.active(existing)){existing.status=confirmed?'confirmed':existing.status;existing.rows.forEach(row=>row.status=existing.status);I.notify();return '';}
+ if(existing&&I.active(existing)){existing.status=confirmed?'confirmed':existing.status;existing.rows.forEach(row=>row.status=existing.status);if(notify)I.notify();return '';}
+ const materials=I.requirements.get(o.id)||I.materials(o),error=I.reason(materials,exclude);if(error)return error;I.plan(o,materials);
+ if(!confirmed)A.checkoutHolds?.ensure(o);
  if(existing?.status==='held')I.closeReservation(existing,'expired');
- const holdId='IH-'+(++I.holdSerial),status=confirmed?'confirmed':'held',expires=o.deadline||Date.now()+C.paymentSessionMs;
+ const holdId='IH-'+(++I.holdSerial),status=confirmed?'confirmed':'held',expires=C.holdUntil(o)||Date.now()+C.checkoutHoldMs;
  const rows=Object.entries(materials).map(([id,quantity])=>({reservation_id:holdId+':'+id,requirement_id:o.id+':'+id,hold_id:holdId,quantity,status,expires_at:expires,created_at:Date.now()}));
- I.reservationHistory.push(...rows);I.reservations.set(o.id,{orderId:o.id,holdId,materials:{...materials},status,expires,rows});const checkout=A.checkoutHolds?.get(o.attempts?.at(-1));if(checkout){rows.forEach(row=>row.checkout_hold_id=checkout.id);const recovery=checkout.status!=='active'&&checkout.status!=='confirmed';if(recovery)rows.forEach(row=>row.recovery_for_hold_id=checkout.id);}I.notify();return '';
+ I.reservationHistory.push(...rows);I.reservations.set(o.id,{orderId:o.id,holdId,materials:{...materials},status,expires,rows});const checkout=A.checkoutHolds?.get(o.attempts?.at(-1));if(checkout){rows.forEach(row=>row.checkout_hold_id=checkout.id);const recovery=checkout.status!=='active'&&checkout.status!=='confirmed';if(recovery)rows.forEach(row=>row.recovery_for_hold_id=checkout.id);}if(notify)I.notify();return '';
 };
 I.release=id=>{const r=I.reservations.get(id);if(r&&r.status!=='consumed')I.closeReservation(r,'released');I.notify();};
 I.move=(id,delta,type,actor,orderId,reason,notes,key,totalCost=null)=>{
@@ -76,6 +96,7 @@ I.move=(id,delta,type,actor,orderId,reason,notes,key,totalCost=null)=>{
 };
 I.consume=(o,actor)=>{
  const key='consume:'+o.id;if(I.operations.has(key))return '';
+ const scheduled=A.subscriptions?.preparationReservation?.(o);if(scheduled)return scheduled;
  const m=I.plan(o),error=I.reason(m,o.id);if(error)return error;
  // Validate every line before making any mutation.
  for(const [id,q] of Object.entries(m))if(I.item(id).stock<q)return 'Physical stock is insufficient.';
@@ -127,6 +148,6 @@ I.change=({id,quantity,unit,type,totalCost,reason='',notes='',key})=>{
   if(A.pricing)A.pricing.version++;
  }
  I.move(id,delta,type,A.session.actor().name,null,reason,notes,key,restock?totalCost:null);
- I.operations.add(key);I.changeResults.set(key,signature);A.staff.changed();return '';
+ I.operations.add(key);I.changeResults.set(key,signature);if(restock)A.subscriptions?.retryIngredientShortages?.(id);A.staff.changed();return '';
 };
 })();

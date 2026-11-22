@@ -6,7 +6,7 @@ const cakeStatus=r=>`<span class="order-badge owner-cake-status" data-status="${
 function cakeRequestDetails(r){
  const s=r.snapshot,versions=K.versions(r),path='cake-requests/'+encodeURIComponent(r.id);
  const reason=K.dateReason(s.date)||K.materialReason(K.materials(s.options,s.addons));
- const closed=['rejected','expired'].includes(r.status),locked=A.ownerCakes.locked(r);
+ const closed=r.status==='rejected',locked=A.ownerCakes.locked(r);
  const order=K.orders.find(o=>o.requestId===r.id&&o.paid)||K.orders.find(o=>o.quotationId===r.accepted_quotation_id);
  const facts=entries=>`<dl class="owner-detail-facts">${entries.map(([label,value])=>`<div><dt>${E(label)}</dt><dd>${E(value)}</dd></div>`).join('')}</dl>`;
  const contact=s.contact||{},address=s.address||{};
@@ -41,17 +41,31 @@ A.ownerPages.quotation=()=>{const r=K.state.requests.find(r=>r.id===A.owner.part
 };
 A.ownerCakeUI={open(id){
  const r=K.state.requests.find(r=>r.id===id);
- if(!r||A.ownerCakes.locked(r)||['rejected','expired'].includes(r.status)){A.toast('This request cannot receive a new quotation.');return;}
- const s=r.snapshot;
- const body=`${V.field('date','Fulfillment date',s.date,'date','required')}${V.field('addons','Add-ons charge (PHP)',s.addons.reduce((n,x)=>n+x.price*x.quantity,0)/100,'number','min="0" step="0.01" required')}${V.field('complexity','Complexity charge (PHP)',0,'number','min="0" step="0.01" required')}<div class="field owner-quotation-notes"><label for="owner-notes">Owner design notes</label><textarea name="notes" id="owner-notes" maxlength="2000" rows="3"></textarea></div><section class="owner-quote-breakdown" aria-labelledby="owner-breakdown-title"><h3 id="owner-breakdown-title">Quoted price breakdown</h3><dl aria-live="polite" id="owner-quote-breakdown"></dl></section>${V.error()}<div class="owner-cake-modal-actions">${V.button('cancel-cake-modal','Cancel')}<button class="btn primary" type="submit">Issue quotation</button></div>`;
- A.owner.open('Create quotation',`<div class="owner-quotation"><h3>Quotation details</h3><form data-owner-form="quotation" class="staff-form" data-id="${E(r.id)}" data-version="${r.version||0}">${body}</form></div>`);
+ if(!r||A.ownerCakes.locked(r)||r.status==='rejected'){A.toast('This request cannot receive a new quotation.');return;}
+ const T=A.cakeData,prior=K.versions(r)[0],s=prior?.snapshot||r.snapshot,address=s.address||r.snapshot.address||{};
+ const options=T.categories.map(type=>V.select('option-'+type,type[0].toUpperCase()+type.slice(1),T.options.filter(o=>o.type===type&&o.available).map(o=>[o.id,o.name+' ('+K.money(o.price)+')']),s.options.find(o=>o.type===type)?.id)).join('');
+ const quantities=T.addons.filter(a=>a.available).map(a=>V.field('qty-'+a.id,a.name+' quantity',s.addons.find(x=>x.id===a.id)?.quantity||0,'number','min="0" max="20" step="1" required')).join('');
+ const method=V.select('method','Agreed fulfillment method',[['pickup','Bakery pickup'],['delivery','Owner delivery']],s.method||'delivery');
+ const addressFields=V.field('street','Address line 1',address.add_line_1)+V.field('street2','Address line 2',address.add_line_2)+V.field('city','City',address.city)+V.field('postal','Postal code',address.postal_code)+V.field('barangay','Barangay',address.barangay)+V.field('landmark','Landmark or instructions',address.landmark);
+ const body=options+quantities+V.field('date','Fulfillment date',s.date,'date','required')+method+'<fieldset data-quote-delivery><legend>Owner delivery</legend>'+addressFields+V.field('fee','Delivery fee (PHP)',(prior?.delivery_fee??0)/100,'number','min="0" step="0.01" required')+'</fieldset>'+
+ V.field('addons','Add-ons charge (PHP)',(prior?.addons_total??s.addons.reduce((n,x)=>n+x.price*x.quantity,0))/100,'number','min="0" step="0.01" required')+
+ V.field('complexity','Complexity charge (PHP)',(prior?.complexity_charge??0)/100,'number','min="0" step="0.01" required')+
+ '<div class="field owner-quotation-notes"><label for="owner-notes">Owner design notes</label><textarea name="notes" id="owner-notes" maxlength="2000" rows="3">'+E(prior?.owner_notes||'')+'</textarea></div><section class="owner-quote-breakdown" aria-labelledby="owner-breakdown-title"><h3 id="owner-breakdown-title">Quoted price breakdown</h3><dl aria-live="polite" id="owner-quote-breakdown"></dl></section>'+V.error()+'<div class="owner-cake-modal-actions">'+V.button('cancel-cake-modal','Cancel')+'<button class="btn primary" type="submit">Issue quotation</button></div>';
+ A.owner.open(prior?'Revise quotation':'Create quotation','<div class="owner-quotation"><h3>Quotation details</h3><form data-owner-form="quotation" class="staff-form" data-id="'+E(r.id)+'" data-version="'+(r.version||0)+'">'+body+'</form></div>');
  A.ownerCakeUI.preview(A.$('owner-dialog-body').querySelector('form'));
+},input(form){
+ const data=new FormData(form),get=name=>String(data.get(name)??'').trim(),money=name=>Math.round(Number(get(name))*100);
+ const T=A.cakeData,method=get('method');
+ return {date:get('date'),method,options:Object.fromEntries(T.categories.map(type=>[type,get('option-'+type)])),
+  addonQuantities:Object.fromEntries(T.addons.filter(a=>a.available).map(a=>[a.id,Number(get('qty-'+a.id))])),
+  address:method==='delivery'?{label:'Agreed delivery address',add_line_1:get('street'),add_line_2:get('street2'),city:get('city'),postal_code:get('postal'),barangay:get('barangay'),landmark:get('landmark')}:null,
+  complexity:money('complexity'),addons:money('addons'),fee:method==='delivery'?money('fee'):0,notes:get('notes')};
 },preview(form){
- const r=K.state.requests.find(r=>r.id===form.dataset.id);if(!r)return;
- const selections=r.snapshot.options.reduce((n,x)=>n+x.price,0),addons=Math.round(Number(form.elements.addons.value)*100);
- const complexity=Math.round(Number(form.elements.complexity.value)*100),valid=Number.isFinite(complexity)&&complexity>=0&&Number.isFinite(addons)&&addons>=0;
- const rows=[['Selections',selections],['Add-ons',addons],['Complexity charge',valid?complexity:null],['Total',valid?selections+addons+complexity:null]];
- form.querySelector('#owner-quote-breakdown').innerHTML=rows.map(([label,amount])=>`<div><dt>${label}</dt><dd>${amount===null?'&mdash;':K.money(amount)}</dd></div>`).join('');
+ const input=A.ownerCakeUI.input(form),T=A.cakeData;
+ form.querySelector('[data-quote-delivery]').hidden=input.method!=='delivery';
+ const selections=T.options.filter(o=>o.id===input.options[o.type]).reduce((n,o)=>n+o.price,0);
+ const rows=[['Selections',selections],['Add-ons',input.addons],['Complexity charge',input.complexity],['Delivery fee',input.fee],['Total',selections+input.addons+input.complexity+input.fee]];
+ form.querySelector('#owner-quote-breakdown').innerHTML=rows.map(([label,amount])=>'<div><dt>'+label+'</dt><dd>'+(Number.isFinite(amount)&&amount>=0?K.money(amount):'&mdash;')+'</dd></div>').join('');
 },openRejection(id,version){
  const categories=A.ownerCakes.rejectionCategories.map(category=>[category,category]);
  A.owner.open('Reject cake request',`<form class="staff-form owner-cake-reject" data-owner-form="cake-reject" data-id="${E(id)}" data-version="${version}">
