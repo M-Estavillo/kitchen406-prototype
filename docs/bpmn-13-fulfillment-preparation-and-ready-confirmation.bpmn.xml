@@ -5,7 +5,7 @@
     <bpmn:participant id="Participant_13" name="BPMN-13 | Fulfillment Preparation and Ready Confirmation" processRef="Process_13" />
   </bpmn:collaboration>
   <bpmn:process id="Process_13" name="Fulfillment Preparation and Ready Confirmation" isExecutable="false">
-    <bpmn:documentation>Scope: preparation and Ready confirmation for paid standard orders, subscription weeks and accepted paid cake orders. Starting preparation checks material readiness and consumes reserved ingredients once. Mark Ready invokes BPMN-12 (k406:Process_12) to capture a preparing-owner allocation only when one has not already been recorded. Commit new allocations and Ready together. Reuse saved assignments after status reversal. Authentication is a BPMN-26 precondition. Recheck permissions, version and locks at commit. Batch results are independent per fulfillment. BPMN-11 owns scheduled subscription ingredient reservation and recovery. BPMN-14/15/16/17 own the actions after Ready.</bpmn:documentation>
+    <bpmn:documentation>Scope: preparation and Ready confirmation for paid standard orders, subscription weeks and accepted paid cake orders. Starting preparation checks material readiness and consumes reserved ingredients once. Start preparation invokes BPMN-12 (k406:Process_12) to validate a saved allocation or collect a draft. Commit any new allocation and its history together with ingredient consumption and Preparing. Mark Ready validates saved allocations. Reuse saved assignments after status reversal. Authentication is a BPMN-26 precondition. Recheck permissions, version and locks at commit. Batch results are independent per fulfillment. BPMN-11 owns scheduled subscription ingredient reservation and recovery. BPMN-19 owns accidental status correction. BPMN-14/15/16/17 own the actions after Ready.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_13">
       <bpmn:lane id="Lane_17_user" name="Admin/Owner or authorized Staff">
         <bpmn:flowNodeRef>Review_17</bpmn:flowNodeRef>
@@ -24,6 +24,8 @@
         <bpmn:flowNodeRef>StartEligible_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Materials_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>MaterialReady_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocation_17</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartAllocationValid_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CommitStart_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartSaved_17</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ResumeReady_17</bpmn:flowNodeRef>
@@ -52,7 +54,7 @@
       <bpmn:outgoing>Flow_17_15</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Load_17" name="Load paid fulfillment, schedule, products and production details">
-      <bpmn:documentation>FR-FUL-01-07,10-11,14; FR-BOM-10. Load confirmed operational fulfillment, products/variants/quantities, preparation and fulfillment dates, method, recipe and accepted cake specifications as applicable. Restrict staff to operational information; no sales/cost/profit/customer-management access. Review can include upcoming work, but starting preparation must satisfy the applicable due date.</bpmn:documentation>
+      <bpmn:documentation>FR-FUL-01-07,10-11,14; FR-BOM-10. Load confirmed operational fulfillment, products/variants/quantities, preparation and fulfillment dates, method, recipe and accepted cake specifications as applicable. Restrict staff to operational information; no sales/cost/profit/customer-management access. Review can include upcoming work, but starting preparation must satisfy the scheduled preparation date where one is established.</bpmn:documentation>
       <bpmn:incoming>Flow_17_15</bpmn:incoming>
       <bpmn:outgoing>Flow_17_16</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -62,7 +64,7 @@
       <bpmn:outgoing>Flow_17_17</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="RequestStart_17" name="Confirm start preparation or cancel">
-      <bpmn:documentation>Confirm that preparation is starting and ingredients will be recorded as used. Batch confirmation is per selected fulfillment, not proof that every record is eligible.</bpmn:documentation>
+      <bpmn:documentation>Confirm that preparation is starting and ingredients will be recorded as used. Batch confirmation displays saved line allocations and validates and reports each selected fulfillment independently.</bpmn:documentation>
       <bpmn:incoming>Flow_17_17</bpmn:incoming>
       <bpmn:outgoing>Flow_17_18</bpmn:outgoing>
     </bpmn:userTask>
@@ -74,18 +76,18 @@
     <bpmn:endEvent id="CancelStart_17" name="Cancelled; confirmed state unchanged">
       <bpmn:incoming>Flow_17_19</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:businessRuleTask id="CheckStart_17" name="Check payment, due preparation date and current status">
-      <bpmn:documentation>FR-FUL-01,03,08. Require verified paid/confirmed operational order, the applicable preparation date reached and current confirmed status. Standard/subscription/cake type does not change the core controls. Do not start on an unpaid purchase or completed/ready fulfillment. Missing required schedule/configuration is a rejection reason. No new payment verification workflow is performed here.</bpmn:documentation>
+    <bpmn:businessRuleTask id="CheckStart_17" name="Check payment, current status and applicable preparation date">
+      <bpmn:documentation>FR-FUL-01,03,08. Require verified paid/confirmed operational order, current Confirmed status, and that any scheduled preparation date has arrived. Use the recorded preparation date for subscriptions. A separate preparation date is not required for standard or cake orders without a preparation schedule. Do not start on an unpaid purchase or completed/ready fulfillment. A missing subscription preparation date is a rejection reason. No new payment verification workflow is performed here.</bpmn:documentation>
       <bpmn:incoming>Flow_17_20</bpmn:incoming>
       <bpmn:outgoing>Flow_17_21</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:exclusiveGateway id="StartEligible_17" name="Paid, due and confirmed?">
+    <bpmn:exclusiveGateway id="StartEligible_17" name="Paid, confirmed and schedule eligible?">
       <bpmn:incoming>Flow_17_21</bpmn:incoming>
       <bpmn:outgoing>Flow_17_1</bpmn:outgoing>
       <bpmn:outgoing>Flow_17_28</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:businessRuleTask id="Materials_17" name="Check full ingredient reservation and physical material readiness">
-      <bpmn:documentation>FR-INV-09,19; FR-FUL-08. Require complete active reservation linked to this fulfillment and every valid recipe/configuration ingredient quantity physically available for consumption, respecting other reservations. A projected requirement alone is not a reservation. First checkout reservations come from BPMN-09/10; later subscription reservations from BPMN-11. Do not silently create a missing reservation or use this as a new checkout.</bpmn:documentation>
+      <bpmn:documentation>FR-INV-09,19; FR-FUL-08. Require complete confirmed reservation linked to this fulfillment and every valid recipe/configuration ingredient quantity physically available for consumption, respecting other reservations. A projected requirement alone is not a reservation. First checkout reservations come from BPMN-09/10; later subscription reservations from BPMN-11. Do not silently create a missing reservation or use this as a new checkout.</bpmn:documentation>
       <bpmn:incoming>Flow_17_28</bpmn:incoming>
       <bpmn:outgoing>Flow_17_23</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -94,9 +96,19 @@
       <bpmn:outgoing>Flow_17_5</bpmn:outgoing>
       <bpmn:outgoing>Flow_17_30</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="CommitStart_17" name="Consume ingredients once; save Preparing and audit history atomically">
-      <bpmn:documentation>FR-INV-09,17,19; FR-FUL-23,26; NFR-REL-03,05. Under current version/permission/lock/material checks, deduct actual physical quantities once, convert linked reservation to consumed, record ingredient movements, actor/time and preparing transition/history/version together. Preserve product amounts and existing reporting timestamps. Use fulfillment/action operation identity so repeated requests do not consume twice. If the same completed operation is replayed, return existing success without another mutation; conflicting/stale operations reject. Do not reserve a later subscription fulfillment here. Failed combined save retains the prior saved state with no partial consumption or status update.</bpmn:documentation>
+    <bpmn:callActivity id="StartAllocation_17" name="BPMN-12: Collect or validate preparing owners" calledElement="k406:Process_12">
+      <bpmn:documentation>Check saved owners or validate a new draft per line. Leave the draft unsaved until preparation commits.</bpmn:documentation>
       <bpmn:incoming>Flow_17_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_40</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="StartAllocationValid_17" name="Allocation accepted?">
+      <bpmn:incoming>Flow_17_40</bpmn:incoming>
+      <bpmn:outgoing>Flow_17_41</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17_42</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CommitStart_17" name="Consume ingredients once; save Preparing and audit history atomically">
+      <bpmn:documentation>FR-INV-09,17,19; FR-FUL-23,26; NFR-REL-03,05. Under current version/permission/lock/material checks, deduct actual physical quantities once, convert linked reservation to consumed, record ingredient movements, actor/time and preparing transition/history/version together with any new allocation and per-line history. Preserve product amounts and existing reporting timestamps. Use fulfillment/action operation identity so repeated requests do not consume twice. If the same completed operation is replayed, return existing success without another mutation; conflicting/stale operations reject. Do not reserve a later subscription fulfillment here. Failed combined save retains the prior saved state with no partial consumption or status update.</bpmn:documentation>
+      <bpmn:incoming>Flow_17_41</bpmn:incoming>
       <bpmn:outgoing>Flow_17_24</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="StartSaved_17" name="Preparation start saved?">
@@ -110,7 +122,7 @@
       <bpmn:outgoing>Flow_17_35</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:userTask id="ReadyRequest_17" name="Review prepared and packed products; confirm Ready or cancel">
-      <bpmn:documentation>Confirm this fulfillment is prepared, packed and staged. BPMN-12 collects preparing-owner choices during this confirmation when an assignment is needed. Cancelling this confirmation does not reverse previously recorded preparation or ingredient consumption.</bpmn:documentation>
+      <bpmn:documentation>Confirm this fulfillment is prepared, packed and staged. BPMN-12 validates saved preparing-owner choices for this action. Batch Ready confirmation displays saved line allocations. Cancelling this confirmation does not reverse previously recorded preparation or ingredient consumption.</bpmn:documentation>
       <bpmn:incoming>Flow_17_36</bpmn:incoming>
       <bpmn:incoming>Flow_17_35</bpmn:incoming>
       <bpmn:outgoing>Flow_17_37</bpmn:outgoing>
@@ -127,8 +139,8 @@
     <bpmn:endEvent id="CancelReady_17" name="Ready cancelled; remains Preparing">
       <bpmn:incoming>Flow_17_38</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="ReadyAllocation_17" name="Refer to BPMN-12 — Select or validate preparing owners" calledElement="k406:Process_12">
-      <bpmn:documentation>Invoke k406:Process_12 during Mark Ready. The authorized operator chooses preparing owners and splits per line when no valid assignment exists. Reuse valid saved allocations. Return specific permission, version, allocation and lock failures. Join a new assignment to the Ready commit.</bpmn:documentation>
+    <bpmn:callActivity id="ReadyAllocation_17" name="Refer to BPMN-12 — Validate saved preparing owners" calledElement="k406:Process_12">
+      <bpmn:documentation>Invoke k406:Process_12 during Mark Ready. Check saved per-line assignments. Return specific permission, version, allocation and lock failures. A missing or invalid assignment is corrected through Edit Allocation before retrying.</bpmn:documentation>
       <bpmn:incoming>Flow_17_39</bpmn:incoming>
       <bpmn:outgoing>Flow_17_25</bpmn:outgoing>
     </bpmn:callActivity>
@@ -148,7 +160,7 @@
       <bpmn:outgoing>Flow_17_32</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="CommitReady_17" name="Save Ready and owner assignments together">
-      <bpmn:documentation>FR-FUL-08-09,15,23,26. Recheck permissions/version/locks and prerequisite state at commit. Save ready-for-pickup or ready-for-delivery as applicable, status history, actor and new version consistently. Commit new allocations and their audit history together with Ready. Reuse existing allocations and preserve product amounts and reporting timestamps. No second consumption, completion timestamp, completion lock, fulfilled sale or courier booking. Same-operation retry reuses saved result; conflicting save fails without partial changes.</bpmn:documentation>
+      <bpmn:documentation>FR-FUL-08-09,15,23,26. Recheck permissions/version/locks and prerequisite state at commit. Save ready-for-pickup or ready-for-delivery as applicable, status history, actor and new version consistently. Reuse existing allocations and preserve product amounts and reporting timestamps. No second consumption, completion timestamp, completion lock, fulfilled sale or courier booking. Same-operation retry reuses saved result; conflicting save fails without partial changes.</bpmn:documentation>
       <bpmn:incoming>Flow_17_32</bpmn:incoming>
       <bpmn:outgoing>Flow_17_27</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -158,7 +170,7 @@
       <bpmn:outgoing>Flow_17_33</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Ready_17" name="Ready for the separate pickup/delivery process">
-      <bpmn:documentation>Output: paid ready fulfillment with preserved allocations, one recorded consumption and updated operational history. Standard/subscription pickup uses BPMN-14; standard/subscription delivery uses BPMN-15/16; cakes use BPMN-17 owner handoff. Ready is not completed and does not create Fulfilled sales. Applicable notifications run independently in BPMN-24/25; customer status inquiry belongs to BPMN-30.</bpmn:documentation>
+      <bpmn:documentation>Output: paid ready fulfillment with preserved allocations, one recorded consumption and updated operational history. Standard/subscription pickup uses BPMN-14 for the pickup-ready notice and cutoff; standard/subscription delivery uses BPMN-15/16; cakes use BPMN-17 owner handoff. Ready is not completed and does not create Fulfilled sales. Authorized accidental reversals are handled by BPMN-19. Applicable notifications run independently in BPMN-24/25; customer status inquiry belongs to BPMN-30.</bpmn:documentation>
       <bpmn:incoming>Flow_17_33</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="EligibilityError_17" name="Explain unpaid, not-due or invalid-status reason; retain state">
@@ -177,16 +189,17 @@
     <bpmn:endEvent id="MaterialEnd_17" name="Preparation blocked; material recovery needed">
       <bpmn:incoming>Flow_17_6</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="StartSaveError_17" name="Return conflict/save failure; no partial consumption or status update">
-      <bpmn:documentation>Preserve prior saved allocations, physical stock, reservation state and operational state for a failed combined update. A concurrently committed successful operation remains authoritative; replay it safely rather than deducting again. Log technical failure.</bpmn:documentation>
+    <bpmn:serviceTask id="StartSaveError_17" name="Explain allocation rejection or save failure; retain Confirmed">
+      <bpmn:documentation>Return the BPMN-12 reason for a rejected allocation. For a failed combined update preserve prior saved allocations, physical stock, reservation state and operational state. A concurrently committed successful operation remains authoritative; replay it safely rather than deducting again. Log technical failure.</bpmn:documentation>
       <bpmn:incoming>Flow_17_7</bpmn:incoming>
+      <bpmn:incoming>Flow_17_42</bpmn:incoming>
       <bpmn:outgoing>Flow_17_8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="StartSaveEnd_17" name="Start failed; refresh, review and retry">
       <bpmn:incoming>Flow_17_8</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="ReadyAllocationError_17" name="Return BPMN-12 reason; retain saved Preparing state">
-      <bpmn:documentation>No second consumption or rollback of actual preparation. Refresh stale data, correct the Ready draft or use authorized account as appropriate; retry ready confirmation separately.</bpmn:documentation>
+      <bpmn:documentation>No second consumption or rollback of actual preparation. Refresh stale data, correct saved allocations through Edit Allocation or use authorized account as appropriate; retry ready confirmation separately.</bpmn:documentation>
       <bpmn:incoming>Flow_17_9</bpmn:incoming>
       <bpmn:outgoing>Flow_17_10</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -234,7 +247,10 @@
     <bpmn:sequenceFlow id="Flow_17_26" sourceRef="CheckReady_17" targetRef="ReadyEligible_17" />
     <bpmn:sequenceFlow id="Flow_17_27" sourceRef="CommitReady_17" targetRef="ReadySaved_17" />
     <bpmn:sequenceFlow id="Flow_17_28" sourceRef="StartEligible_17" targetRef="Materials_17" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_17_30" sourceRef="MaterialReady_17" targetRef="CommitStart_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_30" sourceRef="MaterialReady_17" targetRef="StartAllocation_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_40" sourceRef="StartAllocation_17" targetRef="StartAllocationValid_17" />
+    <bpmn:sequenceFlow id="Flow_17_41" sourceRef="StartAllocationValid_17" targetRef="CommitStart_17" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_17_42" sourceRef="StartAllocationValid_17" targetRef="StartSaveError_17" name="No" />
     <bpmn:sequenceFlow id="Flow_17_31" sourceRef="ReadyAllocationValid_17" targetRef="CheckReady_17" name="Yes" />
     <bpmn:sequenceFlow id="Flow_17_32" sourceRef="ReadyEligible_17" targetRef="CommitReady_17" name="Yes" />
     <bpmn:sequenceFlow id="Flow_17_33" sourceRef="ReadySaved_17" targetRef="Ready_17" name="Yes" />
@@ -247,7 +263,7 @@
     <bpmn:textAnnotation id="EligibilityRules_17">
       <bpmn:text>Start requirements
 Paid, confirmed operational fulfillment.
-Applicable preparation date reached.
+Scheduled preparation date reached where applicable.
 Current state = Confirmed.
 All three fulfillment types use these controls.
 BPMN-26 owns sign-in; BPMN-12 checks action permissions/version/locks.</bpmn:text>
@@ -267,7 +283,7 @@ BPMN-11/20 own applicable reservation recovery and restocking.</bpmn:text>
 Physical consumption + reservation consumed + Preparing history/version save together.
 Recheck current controls at commit.
 Repeated operation: no double deduction.
-Preparing-owner assignment occurs during Mark Ready.
+Save any new preparing-owner allocation and history with Preparing.
 Failed update: no partial changes.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_StartCommitRules_17" sourceRef="CommitStart_17" targetRef="StartCommitRules_17" associationDirection="None" />
@@ -275,7 +291,7 @@ Failed update: no partial changes.</bpmn:text>
       <bpmn:text>Ready requirements
 Paid order remains Preparing.
 Preparation consumption already recorded.
-BPMN-12 collects and validates the first assignment or reuses the saved assignment.
+BPMN-12 validates the saved assignment before Ready.
 Do not consume or reserve ingredients again.
 Ready is not completed and creates no Fulfilled sale.</bpmn:text>
     </bpmn:textAnnotation>
@@ -283,13 +299,13 @@ Ready is not completed and creates no Fulfilled sale.</bpmn:text>
     <bpmn:textAnnotation id="CallReference_17">
       <bpmn:text>BPMN-12 — Preparing-Owner Assignment and Allocation Validation
 External call, validation-only mode.
-Collects the assignment during Ready when needed, then reuses it.
+For Ready, use the previously saved allocation.
 Source: bpmn-12-preparing-owner-assignment-and-allocation-validation.bpmn.xml</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Assoc_CallReference_17" sourceRef="ReadyAllocation_17" targetRef="CallReference_17" associationDirection="None" />
     <bpmn:textAnnotation id="Handoffs_17">
       <bpmn:text>After Ready (separate processes)
-BPMN-14: standard/subscription pickup.
+BPMN-14: standard/subscription pickup notice, cutoff and handoff.
 BPMN-15/16: standard/subscription courier booking and delivery.
 BPMN-17: owner-managed cake delivery/handoff.
 Batch actions: independent validation/result per fulfillment; failed rows retain prior saved state.</bpmn:text>
@@ -351,6 +367,13 @@ Batch actions: independent validation/result per fulfillment; failed rows retain
         <bpmndi:BPMNLabel>
           <dc:Bounds x="530" y="2000" width="230" height="55" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocation_17" bpmnElement="StartAllocation_17">
+        <dc:Bounds x="670" y="2075" width="260" height="65" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartAllocationValid_17" bpmnElement="StartAllocationValid_17">
+        <dc:Bounds x="775" y="2160" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="635" y="2173" width="135" height="20" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_CommitStart_17" bpmnElement="CommitStart_17">
         <dc:Bounds x="670" y="2230" width="260" height="110" />
@@ -622,10 +645,19 @@ Batch actions: independent validation/result per fulfillment; failed rows retain
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_17_30" bpmnElement="Flow_17_30">
         <di:waypoint x="800" y="2050" />
-        <di:waypoint x="800" y="2230" />
+        <di:waypoint x="800" y="2075" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="810" y="2115" width="40" height="20" />
+          <dc:Bounds x="810" y="2052" width="40" height="20" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_40" bpmnElement="Flow_17_40">
+        <di:waypoint x="800" y="2140" /><di:waypoint x="800" y="2160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_41" bpmnElement="Flow_17_41">
+        <di:waypoint x="800" y="2210" /><di:waypoint x="800" y="2230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_17_42" bpmnElement="Flow_17_42">
+        <di:waypoint x="825" y="2185" /><di:waypoint x="1215" y="2185" /><di:waypoint x="1215" y="2395" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_17_31" bpmnElement="Flow_17_31">
         <di:waypoint x="800" y="3480" />

@@ -111,7 +111,7 @@ for(const [object,name] of [[C,'setPayment'],[B,'pay'],[K,'pay']]){
  };
 }
 for(const object of [B,K]){const original=object.cancel;object.cancel=o=>{const result=original(o);if(result)H.finish(o,'cancelled');return result;};}
-const status=C.setStatus;C.setStatus=(o,next)=>{status(o,next);if(next==='cancelled'&&!o?.paid){o.payment='cancelled';H.finish(o,'cancelled');}};
+const status=C.setStatus;C.setStatus=(o,next,options)=>{status(o,next,options);if(next==='cancelled'&&!o?.paid){o.payment='cancelled';H.finish(o,'cancelled');}};
 const change=B.change;B.change=()=>{const p=B.pending(),result=change();if(result&&p&&!p.paid)H.finish(p,p.payment);return result;};
 const reset=C.reset;C.reset=()=>{reset();H.records.clear();H.current.clear();H.serial=0;};
 setInterval(()=>{

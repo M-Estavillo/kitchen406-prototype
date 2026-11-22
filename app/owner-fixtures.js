@@ -42,10 +42,14 @@ A.owner.seed=()=>{
  function order(id,method,paid=true,items=[C.line(1,'standard',1)],fulfillmentDate=date){const o={id,fixture:true,customer_id:customer,contact:C.copy(contact),type:'standard',items,fulfillment:{date:fulfillmentDate,method},address:method==='pickup'?null:C.copy(address),fee:method==='pickup'?0:100,total:C.subtotal(items)+(method==='pickup'?0:100),paid,payment:paid?'confirmed':'waiting',status:paid?'confirmed':'pending-payment',created:Date.now(),paidAt:paid?new Date().toLocaleString():null,deadline:Date.now()+C.paymentSessionMs,reference:'DEMO-QR-'+id,attempts:[{state:paid?'confirmed':'waiting',at:Date.now()}],activity:[]};C.state.orders.push(o);return o;}
  // Two existing commitments are due on the prototype clock's today, independent of checkout lead times.
  const pickup=order('OWNER-DEMO-PICKUP','pickup',true,[C.line(1,'standard',1)],D.today()),courier=order('OWNER-DEMO-COURIER','delivery',true,[C.line(4,'standard',2),C.line(1,'standard',1)],D.today()),pending=order('OWNER-DEMO-PENDING','pickup',false),issue=order('OWNER-DEMO-RESOLUTION','delivery');
+ const arrival=order('OWNER-DEMO-ARRIVAL','pickup',true,[C.line(1,'standard',1)],D.today());
+ const noShow=order('OWNER-DEMO-NO-SHOW','pickup',true,[C.line(1,'standard',1)],D.today());
  const preparing=order('OWNER-DEMO-PREPARING','delivery',true,[C.line(4,'standard',1)],D.add(date,1));
- for(const o of [pickup,courier,pending,preparing]){const error=I.reserve(o,o.paid);if(error){o.materialIssue=error;if(!o.paid){o.payment='revalidation';o.status='payment-failed';}}}
+ for(const o of [pickup,courier,pending,preparing,arrival,noShow]){const error=I.reserve(o,o.paid);if(error){o.materialIssue=error;if(!o.paid){o.payment='revalidation';o.status='payment-failed';}}}
+ // Seed explicit preparing-owner choices for orders already in production.
+ for(const o of [courier,preparing,arrival,noShow])if(!o.materialIssue)o.ownerAllocation=o.items.map(()=>({choice:'both',a:50}));
  // Keep today's pickup confirmed so the dashboard demonstrates Start preparation.
- for(const o of [courier])if(!o.materialIssue){A.fulfillment.transition(o.id,'preparing',0,'fixture-prepare-'+o.id);A.fulfillment.transition(o.id,'ready',1,'fixture-ready-'+o.id);}
+ for(const o of [courier,arrival,noShow])if(!o.materialIssue){A.fulfillment.transition(o.id,'preparing',0,'fixture-prepare-'+o.id);A.fulfillment.transition(o.id,'ready',1,'fixture-ready-'+o.id);}
  if(!preparing.materialIssue)A.fulfillment.transition(preparing.id,'preparing',0,'fixture-prepare-'+preparing.id);
  Object.assign(issue,{payment:'resolution',status:'payment-resolution',resolution:'Payment arrived after the temporary checkout hold expired. Resource recovery requires owner review.'});I.plan(issue);
  // Historical checkout examples use explicit audit timestamps, without changing customer checkout.

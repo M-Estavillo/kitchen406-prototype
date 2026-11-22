@@ -4,7 +4,7 @@
     <bpmn:participant id="Participant_12" name="BPMN-12 | Preparing-Owner Assignment and Allocation Validation" processRef="Process_12" />
   </bpmn:collaboration>
   <bpmn:process id="Process_12" name="Preparing-Owner Assignment and Allocation Validation" isExecutable="false">
-    <bpmn:documentation>BPMN-13 invokes this process during Mark Ready. One instance handles one fulfillment, including one subscription week. If there is no valid saved allocation, the Admin/Owner or Staff member selects preparing owners per product line in the Ready confirmation. Commit the allocation and its audit history in the same transaction as Ready. This is the only assignment point. Existing valid assignments, including those retained after a status reversal, are reused. Later pickup, courier or cake handoff workflows can validate saved allocations without prompting. Authentication is upstream in BPMN-26. Stale version, invalid allocation and lock failures are shown on the main diagram. Batch Ready applies these checks and reports outcomes independently for each fulfillment.</bpmn:documentation>
+    <bpmn:documentation>One instance handles one fulfillment, including a single subscription week. BPMN-13 requests a checked draft or valid saved allocation before starting preparation, and validates saved allocations before Ready. Later pickup, courier booking and cake handoff also validate saved allocations. Authorized operators may edit an incomplete fulfillment while no courier lock applies. Record changed lines with old/new owners and percentages, actor and timestamp. Authentication is upstream in BPMN-26. Batch actions report outcomes independently.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_12">
       <bpmn:lane id="Lane_16_user" name="Admin/Owner or Staff">
         <bpmn:flowNodeRef>Edit_16</bpmn:flowNodeRef>
@@ -35,8 +35,8 @@
         <bpmn:flowNodeRef>ReturnError_16</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Start_16" name="Mark Ready or check saved assignments">
-      <bpmn:documentation>Begin with a Mark Ready request or a downstream saved-allocation check. Historical completed records without an allocation remain Unallocated.</bpmn:documentation>
+    <bpmn:startEvent id="Start_16" name="Start preparation, edit allocation or validate saved assignments">
+      <bpmn:documentation>Begin with Start preparation, standalone Edit Allocation, or a saved-allocation check. Historical completed records without an allocation remain Unallocated.</bpmn:documentation>
       <bpmn:outgoing>Flow_16_1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Load_16" name="Load fulfillment details and saved owner assignments">
@@ -45,19 +45,19 @@
       <bpmn:outgoing>Flow_16_2</bpmn:outgoing>
       <bpmn:incoming>Flow_16_31</bpmn:incoming>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Mode_16" name="New assignment needed for Ready?" default="Flow_16_4">
-      <bpmn:documentation>Select owners only during Mark Ready and only when the fulfillment lacks a valid saved allocation. For a repeated Ready transition or a downstream check, use saved allocations and skip selection.</bpmn:documentation>
+    <bpmn:exclusiveGateway id="Mode_16" name="Editable draft needed?" default="Flow_16_4">
+      <bpmn:documentation>Open the editor for an eligible standalone edit, or when an eligible Start preparation request lacks a valid saved allocation. Otherwise use saved allocations and skip selection. A locked edit returns a rejection.</bpmn:documentation>
       <bpmn:incoming>Flow_16_2</bpmn:incoming>
       <bpmn:outgoing>Flow_16_3</bpmn:outgoing>
       <bpmn:outgoing>Flow_16_4</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Edit_16" name="Select preparing owners and splits in Mark Ready">
+    <bpmn:userTask id="Edit_16" name="Select preparing owners and splits">
       <bpmn:documentation>FR-FUL-16-17,24. Display saved choices and whole line quantities. Select eligible Owner A at 100%, Owner B at 100%, or both. Newly selecting both proposes 50/50; allow Owner A an integer 1-99 and set B to 100 minus A. Apply-to-all affects only this fulfillment: retain and display existing per-line splits when applying both, using 50/50 only where no prior both-owner split exists. Review every affected line before confirmation. Selecting a single owner gives that owner 100%. The acting account is never assigned a share automatically. Locked records must not accept normal editing; a stale or forged draft is rejected by server validation. Cancel leaves all saved values unchanged.</bpmn:documentation>
       <bpmn:incoming>Flow_16_3</bpmn:incoming>
       <bpmn:outgoing>Flow_16_5</bpmn:outgoing>
       <bpmn:incoming>Flow_16_30</bpmn:incoming>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Confirm_16" name="Confirm Mark Ready?">
+    <bpmn:exclusiveGateway id="Confirm_16" name="Confirm allocation?">
       <bpmn:incoming>Flow_16_5</bpmn:incoming>
       <bpmn:outgoing>Flow_16_6</bpmn:outgoing>
       <bpmn:outgoing>Flow_16_7</bpmn:outgoing>
@@ -82,7 +82,7 @@
       <bpmn:outgoing>Flow_16_14</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:businessRuleTask id="Allocation_16" name="Check eligible owners and percentages on every line">
-      <bpmn:documentation>FR-FUL-16-18,24,26. Every product line requires exactly one valid allocation for the whole line quantity. Only the two eligible baking owners: A alone=100/0, B alone=0/100, both=integer A 1..99 and B=100-A. New both-owner selection defaults to 50/50; apply-to-all preserves and displays existing both-owner splits for review. Use the Ready draft for a new assignment and saved values for later validation. Staff action never implies a share. Historical completed items remain Unallocated, not retroactively inferred.</bpmn:documentation>
+      <bpmn:documentation>FR-FUL-16-18,24,26. Every product line requires exactly one valid allocation for the whole line quantity. Only the two eligible baking owners: A alone=100/0, B alone=0/100, both=integer A 1..99 and B=100-A. New both-owner selection defaults to 50/50; apply-to-all preserves and displays existing both-owner splits for review. Validate the submitted draft for assignment or editing, and saved values for validation-only requests. Staff action never implies a share. Historical completed items remain Unallocated, not retroactively inferred.</bpmn:documentation>
       <bpmn:incoming>Flow_16_15</bpmn:incoming>
       <bpmn:outgoing>Flow_16_16</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -92,12 +92,12 @@
       <bpmn:outgoing>Flow_16_19</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="AllocationError_16" name="Explain missing/invalid assignments or percentages">
-      <bpmn:documentation>Show affected lines and what needs correction. The Mark Ready confirmation can correct a rejected draft. Return saved-allocation validation failures to the caller without opening an editor.</bpmn:documentation>
+      <bpmn:documentation>Show affected lines and what needs correction. The operator can correct a rejected Start preparation or standalone edit draft. Return saved-allocation validation failures to the caller without opening an editor.</bpmn:documentation>
       <bpmn:incoming>Flow_16_17</bpmn:incoming>
       <bpmn:outgoing>Flow_16_18</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:businessRuleTask id="Lock_16" name="Check Ready eligibility and courier locks">
-      <bpmn:documentation>A new assignment requires Preparing status, a Mark Ready request and no active or unresolved courier booking. Ready and later actions reuse saved assignments. For saved-allocation validation, check lock compatibility with the requested fulfillment action.</bpmn:documentation>
+    <bpmn:businessRuleTask id="Lock_16" name="Check permissions, action eligibility and locks">
+      <bpmn:documentation>Recheck authorization and requested action. Standalone edits require an incomplete eligible fulfillment. Drafts are locked during pending, booked, in-transit or unresolved courier bookings and on completion. Validate saved allocations for protected actions without modifying them. Preserve product amounts and existing reporting timestamps. The calling workflow records the allocation lock time on booking or completion and retains lock history if a permitted correction reopens editing.</bpmn:documentation>
       <bpmn:incoming>Flow_16_19</bpmn:incoming>
       <bpmn:outgoing>Flow_16_20</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -114,18 +114,18 @@
     <bpmn:endEvent id="LockRejected_16" name="Rejected: requested action locked">
       <bpmn:incoming>Flow_16_22</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="SaveMode_16" name="New Ready assignment?">
-      <bpmn:documentation>A newly confirmed Ready draft proceeds to the combined commit. A valid saved allocation returns the checked version for the caller?s protected action.</bpmn:documentation>
+    <bpmn:exclusiveGateway id="SaveMode_16" name="Standalone edit?">
+      <bpmn:documentation>Commit a standalone edit here. For Start preparation return the draft or saved values and checked version for BPMN-13 to commit with preparation. For other protected actions return the checked saved values.</bpmn:documentation>
       <bpmn:incoming>Flow_16_23</bpmn:incoming>
       <bpmn:outgoing>Flow_16_24</bpmn:outgoing>
       <bpmn:outgoing>Flow_16_25</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Validated_16" name="Saved assignments validated">
-      <bpmn:documentation>Return the saved allocation and checked version to the invoking Ready or downstream workflow. Recheck the version and applicable controls at that workflow?s commit.</bpmn:documentation>
+    <bpmn:endEvent id="Validated_16" name="Return checked allocation and version">
+      <bpmn:documentation>Return a valid draft or saved allocation and checked version. Recheck controls at the caller's commit; commit a preparation draft only together with Preparing and material consumption.</bpmn:documentation>
       <bpmn:incoming>Flow_16_24</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Commit_16" name="Commit allocations and history with Ready via BPMN-13">
-      <bpmn:documentation>Recheck version, lock state and per-line validity. Save the allocation, actor, timestamp and previous/new values with the Ready status and version in the atomic commit in BPMN-13. Reject a failed transaction without saving a partial allocation or status. Replay an already successful operation without duplicating history.</bpmn:documentation>
+    <bpmn:serviceTask id="Commit_16" name="Save standalone allocation edit and history">
+      <bpmn:documentation>Recheck version, lock state and per-line validity. Save allocations, updated version and history together. Record each affected line, old and new selections and percentages, actor and timestamp. Reject a failed transaction without saving a partial allocation or status. Replay an already successful operation without duplicating history.</bpmn:documentation>
       <bpmn:incoming>Flow_16_25</bpmn:incoming>
       <bpmn:outgoing>Flow_16_26</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -134,8 +134,8 @@
       <bpmn:outgoing>Flow_16_27</bpmn:outgoing>
       <bpmn:outgoing>Flow_16_28</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Success_16" name="Ready and owner assignments saved">
-      <bpmn:documentation>Return the saved per-line allocations and Ready version. Reuse these assignments for later fulfillment actions and reporting.</bpmn:documentation>
+    <bpmn:endEvent id="Success_16" name="Allocation edit saved">
+      <bpmn:documentation>Return the saved per-line allocations and updated version. Reuse these assignments for later fulfillment actions and reporting.</bpmn:documentation>
       <bpmn:incoming>Flow_16_27</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Reject_16" name="Explain why allocations could not be saved">
@@ -144,7 +144,7 @@
       <bpmn:outgoing>Flow_16_29</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Recovery_16" name="How can this request recover?" default="Flow_16_32">
-      <bpmn:documentation>Within a Mark Ready confirmation, correct a rejected draft or refresh after a stale version or retryable write error. Reloading may reveal a valid saved allocation, in which case selection is skipped. Saved-allocation checks return their rejection to the caller.</bpmn:documentation>
+      <bpmn:documentation>Within Start preparation or standalone Edit Allocation, correct a rejected draft or refresh after a stale version or retryable write error. Reloading may reveal a valid saved allocation, in which case selection is skipped. Saved-allocation checks return their rejection to the caller.</bpmn:documentation>
       <bpmn:incoming>Flow_16_14</bpmn:incoming>
       <bpmn:incoming>Flow_16_18</bpmn:incoming>
       <bpmn:incoming>Flow_16_29</bpmn:incoming>
@@ -158,9 +158,9 @@
     <bpmn:sequenceFlow id="Flow_16_1" sourceRef="Start_16" targetRef="Load_16" />
     <bpmn:sequenceFlow id="Flow_16_2" sourceRef="Load_16" targetRef="Mode_16" />
     <bpmn:sequenceFlow id="Flow_16_3" sourceRef="Mode_16" targetRef="Edit_16" name="Yes">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">markReady and not(validSavedAllocation)</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">assignmentAllowed and (editAllocation or (startPreparation and not(validSavedAllocation)))</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_16_4" sourceRef="Mode_16" targetRef="Version_16" name="No — validate existing allocations" />
+    <bpmn:sequenceFlow id="Flow_16_4" sourceRef="Mode_16" targetRef="Version_16" name="No — check saved allocations" />
     <bpmn:sequenceFlow id="Flow_16_5" sourceRef="Edit_16" targetRef="Confirm_16" />
     <bpmn:sequenceFlow id="Flow_16_6" sourceRef="Confirm_16" targetRef="Cancel_16" name="No" />
     <bpmn:sequenceFlow id="Flow_16_7" sourceRef="Confirm_16" targetRef="Version_16" name="Yes" />
@@ -176,17 +176,17 @@
     <bpmn:sequenceFlow id="Flow_16_21" sourceRef="LockValid_16" targetRef="LockError_16" name="No" />
     <bpmn:sequenceFlow id="Flow_16_22" sourceRef="LockError_16" targetRef="LockRejected_16" />
     <bpmn:sequenceFlow id="Flow_16_23" sourceRef="LockValid_16" targetRef="SaveMode_16" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_16_24" sourceRef="SaveMode_16" targetRef="Validated_16" name="No — validation only" />
+    <bpmn:sequenceFlow id="Flow_16_24" sourceRef="SaveMode_16" targetRef="Validated_16" name="No — return to caller" />
     <bpmn:sequenceFlow id="Flow_16_25" sourceRef="SaveMode_16" targetRef="Commit_16" name="Yes" />
     <bpmn:sequenceFlow id="Flow_16_26" sourceRef="Commit_16" targetRef="Saved_16" />
     <bpmn:sequenceFlow id="Flow_16_27" sourceRef="Saved_16" targetRef="Success_16" name="Yes" />
     <bpmn:sequenceFlow id="Flow_16_28" sourceRef="Saved_16" targetRef="Reject_16" name="No" />
     <bpmn:sequenceFlow id="Flow_16_29" sourceRef="Reject_16" targetRef="Recovery_16" />
     <bpmn:sequenceFlow id="Flow_16_30" name="Correct allocations" sourceRef="Recovery_16" targetRef="Edit_16">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">markReadyRequest and assignmentAllowed and invalidAllocations</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">draftRequest and assignmentAllowed and invalidAllocations</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_16_31" name="Refresh and review" sourceRef="Recovery_16" targetRef="Load_16">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">markReadyRequest and (staleVersion or retryableWriteFailure)</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">draftRequest and (staleVersion or retryableWriteFailure)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_16_32" name="Stop request" sourceRef="Recovery_16" targetRef="ReturnError_16" />
     <bpmn:textAnnotation id="References_16">
@@ -197,7 +197,8 @@ Staff is the action performer, never an automatic recipient.
 
 Reuse boundaries
 BPMN-26: authentication precondition.
-BPMN-13: select once in Mark Ready and commit together.
+BPMN-13: validate before Preparing; commit any draft with stock and status.
+Edit Allocation: save eligible corrections and history.
 BPMN-14/15/17: check saved assignments as needed.
 Validation-only follows the visible checks without prompting for edits.
 Batch: validate and report each fulfillment separately.

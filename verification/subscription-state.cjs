@@ -22,6 +22,15 @@ test('standard capacity groups variants and uses a separate pool',()=>{const {D,
 test('mixed cart observes each product lead time and batch days',()=>{const {D,C}=setup();D.config.productRules[2]={leadDays:5,batches:[2,5]};assert.equal(D.standard('2026-10-16',[C.line(1)]),'');assert.equal(D.standard('2026-10-16',[C.line(1),C.line(2)]),'Cutoff');assert.equal(D.standard('2026-10-20',[C.line(1),C.line(2)]),'No batch');});
 test('all four weeks checked before payment; expired holds release',()=>{const {B,D}=setup();D.reserve('other',4,10,['2026-10-30'],true);assert.equal(B.createPurchase(),null);D.release('other');const p=B.createPurchase();assert.equal(D.allocations.length,4);assert.equal(B.state.records.length,0);B.pay(p,'expired');assert.equal(D.allocations.length,0);assert(B.retry(p));assert.equal(p.attempts.length,2);});
 test('confirmation is repeat safe and leaves standard cart intact',()=>{const {B,C,D}=setup();C.state.cart=[C.line(1,'large',2)];const p=B.createPurchase();const r=B.pay(p,'confirmed');B.pay(p,'confirmed');assert.equal(B.state.records.length,1);assert.equal(r.deliveries.length,4);assert.equal(C.state.orders.length,4);assert.equal(C.state.cart[0].quantity,2);assert.equal(C.state.cart[0].price,480);assert(D.allocations.every(a=>a.confirmed));assert(C.state.orders.every(o=>o.prepaid&&o.reference===p.id));});
+test('cancelled pickup week is excluded from upcoming and completed fulfillments',()=>{
+ const {B,C}=setup(),r=B.pay(B.createPurchase(),'confirmed'),first=r.deliveries[0];
+ C.state.orders.find(o=>o.id===first.orderId).status='cancelled';
+ B.progressForOrder(C.state.orders[0],'cancelled',null).commit();
+ assert.equal(first.status,'cancelled');
+ assert.equal(B.next(r).id,r.deliveries[1].id);
+ assert.equal(r.completedCount,0);
+ assert.equal(r.status,'active');
+});
 test('paid snapshots survive product and saved address edits',()=>{const {B,C}=setup();const p=B.createPurchase();B.pay(p,'confirmed');B.variant().price=900;C.state.addresses[0].city='Changed';assert.equal(p.snapshot.total,1520);assert.equal(p.snapshot.unit,280);assert.equal(p.snapshot.address.city,'Mandaue City');});
 test('verification prevents edits, cancellation, and retry',()=>{const {B}=setup();const p=B.createPurchase();B.pay(p,'detected');assert(!B.change());assert(!B.cancel(p));assert(!B.retry(p));assert.equal(B.createPurchase(),null);});
 test('late payment after released hold requires resolution when full',()=>{const {B,D}=setup();const p=B.createPurchase();B.pay(p,'expired');D.reserve('other',4,10,p.snapshot.dates,true);B.pay(p,'confirmed');assert.equal(p.payment,'resolution');assert(p.paid);assert.equal(B.state.records.length,0);assert(!B.retry(p));});

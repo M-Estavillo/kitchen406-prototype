@@ -29,18 +29,17 @@ function blocker(row,date){
  if(!actionDate)return 'No '+stage.date+' date is recorded.';
  if(actionDate!==date)return 'Use the '+stage.date+' date, '+V.date(actionDate)+'.';
  if(status!==stage.required)return 'Requires '+stage.required+' status.';
- if(action==='preparing'){
-  const inventory=A.inventory;
-  return inventory.reason(inventory.requirements.get(order.id)??inventory.materials(order),order.id);
- }
+ if(action==='preparing')return A.fulfillment.preparationIssue(order);
  if(action==='courier'){
-  if(order.delivery?.status==='pending')return 'Booking pending. Check the order before retrying.';
+  if(!A.session.ownerAllowed())return 'Admin/Owner access required.';
+  if(['pending','unknown'].includes(order.delivery?.status))return 'Booking pending. Check the order before retrying.';
   if(order.delivery&&!['failed','cancelled'].includes(order.delivery.status))return 'Courier booking already exists.';
   return A.deliveries.reason(order);
  }
  return '';
 }
 function sync(date){
+ if(action==='courier'&&!A.session.ownerAllowed())action='preparing';
  const key=[A.session.generation,A.route,date,action].join(':');
  if(context!==key){context=key;selected.clear();results.clear();}
 }
@@ -78,7 +77,7 @@ function panel(date,allRows=orders()){
   label:'Go to '+stage.date+' · '+V.date(day),extra:`data-date="${E(day)}"`
  }));
  return `<section class="commerce-card owner-subscription-batches" aria-labelledby="owner-batches-title">
- <div class="commerce-card-heading"><div><h2 id="owner-batches-title">Subscription batches</h2><p>Selected date · ${E(V.date(date))}</p></div>${V.select('batch-action','Batch action',Object.entries(actions).map(([key,value])=>[key,value.label]),action,running?'disabled':'')}</div>
+ <div class="commerce-card-heading"><div><h2 id="owner-batches-title">Subscription batches</h2><p>Selected date · ${E(V.date(date))}</p></div>${V.select('batch-action','Batch action',Object.entries(actions).filter(([key])=>key!=='courier'||A.session.ownerAllowed()).map(([key,value])=>[key,value.label]),action,running?'disabled':'')}</div>
  <p class="muted">${stage.label} uses each order’s ${stage.date} date.</p>
  ${dateLinks.length?`<div class="owner-batch-date-links">${dateLinks.join('')}</div>`:''}
  ${resultsHtml(rows)}
@@ -136,8 +135,8 @@ function confirm(rows,date,retry=false){
  const picks=rows.map(({order})=>({id:order.id,version:version(order.id)}));
  const note=action==='preparing'?'This records ingredients as used. Orders that fail stock checks stay confirmed.':action==='courier'?'Each delivery gets a separate booking. You can retry failed bookings from the results.':'Confirm that these orders are prepared and staged.';
  const label=retry?'Book another courier':stage.label;
- const summary=retry?`<p>Try another courier for <strong>${E(picks[0].id)}</strong> using the same delivery details?</p>`:`<p>${count(rows.length,'order')} · ${count(rows.reduce((n,row)=>n+units(row),0),'unit')}</p><ul class="owner-batch-confirm-list">${rows.map(({order})=>`<li>${E(order.id)} · ${E(order.items[0].name)}</li>`).join('')}</ul><p>${note}</p>`;
- workspace().open(label+'?',`<div class="owner-order-confirm">${summary}${action==='ready'?rows.map(({order})=>A.earnings.readyEditor(order)).join(''):''}<div class="owner-order-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${V.button('batch-confirm',label,'',true)}</div></div>`,true);
+ const summary=retry?`<p>Try another courier for <strong>${E(picks[0].id)}</strong> using the same delivery details?</p>`:`<p>${count(rows.length,'order')} · ${count(rows.reduce((n,row)=>n+units(row),0),'unit')}</p><ul class="owner-batch-confirm-list">${rows.map(({order})=>`<li>${E(order.id)} · ${E(order.items[0].name)}${action==='preparing'||action==='ready'?A.earnings.summary(order):''}</li>`).join('')}</ul><p>${note}</p>`;
+ workspace().open(label+'?',`<div class="owner-order-confirm">${summary}${action==='preparing'?rows.map(({order})=>A.earnings.preparationEditor(order)).join(''):''}<div class="owner-order-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${V.button('batch-confirm',label,'',true)}</div></div>`,true);
  A.$(staffCalendar()?'staff-dialog-body':'owner-dialog-body').querySelector('[data-owner=batch-confirm]').addEventListener('click',()=>execute(picks,date,key,generation,operation,retry),{once:true});
 }
 document.addEventListener('change',event=>{

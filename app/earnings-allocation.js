@@ -5,16 +5,41 @@ N.assigned=o=>o.ownerAllocation?.length===o.items.length && o.items.every((item,
  const share=o.ownerAllocation[index];
  return share?.choice==='a'&&share.a===100||share?.choice==='b'&&share.a===0||share?.choice==='both'&&Number.isInteger(share.a)&&share.a>=1&&share.a<=99;
 });
-N.readyEditor=o=>o&&!N.assigned(o)?N.editor(o):'';
+N.preparationEditor=o=>o&&!N.assigned(o)?N.editor(o):'';
 N.editor=o=>`<fieldset data-allocation-order="${E(o.id)}"><legend>${E(o.id)} · Prepared by</legend><p class="muted">Select the baking owner per product. Staff actions do not receive an earnings share.</p><label>Apply to all products <select data-allocation-all><option value="">Choose owners</option><option value="a">Owner A</option><option value="b">Owner B</option><option value="both">Both owners</option></select></label>${o.items.map((item,index)=>{const share=o.ownerAllocation?.[index];return `<div class="field" data-allocation-item="${index}"><label for="allocation-${E(o.id)}-${index}">${E(item.name)} · ${E(item.variant||'')} × ${item.quantity}</label><select id="allocation-${E(o.id)}-${index}" data-allocation-choice><option value="">Choose owners</option>${[['a','Owner A'],['b','Owner B'],['both','Both owners']].map(([value,label])=>`<option value="${value}" ${share?.choice===value?'selected':''}>${label}</option>`).join('')}</select><label>Owner A share (%) <input data-allocation-percent type="number" min="1" max="99" step="1" value="${share?.a>0&&share.a<100?share.a:50}" ${share?.choice==='both'?'':'disabled'}></label><small>Both owners: Owner B receives the remaining percentage.</small></div>`;}).join('')}</fieldset>`;
 N.read=o=>{
- const field=[...document.querySelectorAll('[data-allocation-order]')].find(el=>el.dataset.allocationOrder===o.id);
- if(!field)return {error:'Choose preparing owners before marking the order ready.'};
+ const field=[...document.querySelectorAll('[data-allocation-order]')].find(el=>el.dataset.allocationOrder===o.id&&!el.closest?.('[hidden]'));
+ if(!field)return {error:'Choose preparing owners for every product before continuing.'};
  const values=[...field.querySelectorAll('[data-allocation-item]')].map(row=>{const choice=row.querySelector('select').value,a=choice==='a'?100:choice==='b'?0:Number(row.querySelector('input').value);return {choice,a};});
  if(values.length!==o.items.length||values.some(v=>!['a','b','both'].includes(v.choice)||!Number.isInteger(v.a)||v.choice==='both'&&(v.a<1||v.a>99)))return {error:'Choose preparing owners for every product and a whole-number split from 1% to 99% when both owners bake.'};
  return {values};
 };
-N.panel=o=>!o||o.type==='subscription_purchase'?'':V.panel('Preparing owners',`${o.items.map((item,index)=>{const share=o.ownerAllocation?.[index];return `<p><strong>${E(item.name)}</strong> · ${share?share.choice==='a'?'Owner A · 100%':share.choice==='b'?'Owner B · 100%':`Owner A ${share.a}% / Owner B ${100-share.a}%`:'Unallocated'}</p>`;}).join('')}`);
+N.required=o=>N.assigned(o)?'':'Valid preparing-owner allocations are required. Use Edit Allocation to correct the product lines.';
+N.locked=o=>['pending','booked','in_transit','unknown','delivered'].includes(o.delivery?.status)||A.operations.status(o)==='completed';
+N.editable=o=>o?.paid&&['standard','subscription','cake'].includes(o.type)&&['confirmed','preparing','ready'].includes(A.operations.status(o))&&!N.locked(o);
+N.updateLock=(o,at=Date.now())=>{
+ const locked=N.locked(o);
+ if(locked===(o.allocationLockedAt!=null))return;
+ if(locked)o.allocationLockedAt=at;
+ else delete o.allocationLockedAt;
+ (o.allocationLockHistory||=[]).push({locked,at,actor:A.session.actor().id});
+};
+N.save=(o,values)=>{
+ const actor=A.session.actor().id,at=Date.now();
+ const shares=value=>value?{choice:value.choice,ownerA:value.a,ownerB:100-value.a}:null;
+ values.forEach((next,index)=>{
+  const previous=o.ownerAllocation?.[index];
+  if(previous?.choice===next.choice&&previous?.a===next.a)return;
+  (o.allocationHistory||=[]).push({line:index,orderItemId:o.items[index].id??null,productId:o.items[index].productId,previous:shares(previous),next:shares(next),actor,at});
+ });
+ o.ownerAllocation=values;
+};
+N.summary=o=>o.items.map((item,index)=>{
+ const share=o.ownerAllocation?.[index];
+ const split=share?.choice==='a'?'Owner A ? 100%':share?.choice==='b'?'Owner B ? 100%':share?.choice==='both'?('Owner A '+share.a+'% / Owner B '+(100-share.a)+'%'):'Unallocated';
+ return `<p><strong>${E(item.name)}</strong> ? ${E(split)}</p>`;
+}).join('');
+N.panel=o=>!o||o.type==='subscription_purchase'?'':V.panel('Preparing owners',N.summary(o));
 document.addEventListener('change',event=>{
  const field=event.target.closest('[data-allocation-order]');
  if(field){

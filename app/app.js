@@ -9,7 +9,7 @@ A.inspector=()=>{
  let html='<strong>Kitchen406 · State Inspector</strong><p class="muted">UI simulation only. No real accounts, emails, payments, orders, or uploads are created.</p>';
  html+='<div class="mock-actions"><button data-owner="enter">Enter owner preview</button><button data-staff="enter">Enter staff preview</button><button data-staff="customer">Return to customer</button></div><p class="muted">Owner/staff preview password: Kitchen406! ? Recipes are sample quantities.</p>';
  if(A.route==='owner')html+=select('mock-owner-mode','Owner page state',['normal','loading','empty','error'],A.owner.mode)+select('mock-owner-save','Owner save result',['normal','error'],A.owner.saveError?'error':'normal')+select('mock-owner-notification','Simulated notification delivery',['success','failure'],A.ownerCakes.notificationOutcome)+'<div class="mock-actions"><button data-owner="seed">Load owner examples</button></div>';
- if(['owner','staff'].includes(A.route))html+=select('mock-courier-outcome','Courier booking result',['success','one-failure','cancelled','unavailable','error'],A.deliveries.outcome);
+ if(A.route==='owner')html+=select('mock-courier-outcome','Simulated booking result',['success','one-failure','cancelled','unavailable','error','unknown'],A.deliveries.outcome)+select('mock-courier-lookup','Simulated booking status check',['unknown','success','cancelled','unavailable','error'],A.deliveries.lookupOutcome);
  if(A.route==='staff'){html+=select('mock-staff-mode','Staff page state',['normal','loading','empty','error'],A.staff.mode)+select('mock-staff-save','Staff save result',['normal','error'],A.staff.saveError?'error':'normal')+'<div class="mock-actions"><button data-staff="seed">Load staff orders</button><button data-staff="seed-attention">Load attention examples</button></div>';}
  html+=select('mock-auth','Authentication',['guest','signedin'],A.auth);
  if(auth){
@@ -39,6 +39,22 @@ A.inspector=()=>{
   const label=panel.querySelector('label[for="'+dropdown.id+'"]');
   const field=document.createElement('div');field.className='mock-field';
   if(label)field.append(label);field.append(dropdown);controls.append(field);
+ }
+ if(['owner','staff'].includes(A.route)&&A.session.operational()){
+  const field=document.createElement('label');
+  field.className='mock-field';field.textContent='Demo clock (Manila)';
+  const clock=document.createElement('input');clock.type='datetime-local';
+  clock.value=new Date(Date.parse(A.schedule.config.clock)+8*3600000).toISOString().slice(0,16);
+  const applyClock=()=>{
+   if(!clock.value)return;
+   A.schedule.config.clock=clock.value+':00+08:00';
+   const cancelled=A.fulfillment.checkPickupCutoffs();
+   A.operations.changed();
+   if(cancelled)A.toast('Pickup cancelled. Review the order for the reason.');
+  };
+  const apply=document.createElement('button');apply.type='button';apply.className='btn';apply.textContent='Apply Demo Clock';
+  apply.addEventListener('click',applyClock);
+  field.append(clock);controls.append(field,apply);
  }
  const actions=document.createElement('section');actions.className='mock-group mock-actions';actions.innerHTML='<h3>Preview actions</h3>';
  const navigation=document.createElement('details');navigation.className='mock-group mock-jumps';navigation.innerHTML='<summary>Jump to a screen</summary><div class="mock-actions"></div>';
