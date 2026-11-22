@@ -4,7 +4,7 @@
   <bpmn:error id="Error_ReadSave" name="Read status save failed" />
   <bpmn:collaboration id="Collaboration_25">
     <bpmn:participant id="Pool_Source" name="Originating Kitchen406 workflow">
-      <bpmn:documentation>Examples: BPMN-06 subscription deferment, BPMN-11 material shortage, BPMN-23 low stock, or the owner alert from BPMN-24 after external retries are exhausted. Each source owns its event and business outcome.</bpmn:documentation>
+      <bpmn:documentation>Examples: BPMN-06 subscription deferment, BPMN-11 reservation blocked by insufficient stock, BPMN-23 low-stock threshold alert (including after a successful reservation), or the owner alert from BPMN-24 after external retries are exhausted. Each source owns its event and business outcome.</bpmn:documentation>
     </bpmn:participant>
     <bpmn:participant id="Pool_29" name="BPMN-25 | Internal Notification Creation and Read Acknowledgment" processRef="Process_25" />
     <bpmn:messageFlow id="Flow_OperationalEvent" sourceRef="Pool_Source" targetRef="Start_Operational" messageRef="Message_OperationalEvent" />
