@@ -14,6 +14,8 @@
 <bpmn:flowNodeRef>ReturnSubscription</bpmn:flowNodeRef>
 <bpmn:flowNodeRef>Continue</bpmn:flowNodeRef>
 <bpmn:flowNodeRef>Address</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>AddressAction</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>MaintainAddress</bpmn:flowNodeRef>
 <bpmn:flowNodeRef>Recover</bpmn:flowNodeRef>
 <bpmn:flowNodeRef>Recovery</bpmn:flowNodeRef>
 <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
@@ -71,11 +73,23 @@
       <bpmn:outgoing>Flow_02_9</bpmn:outgoing>
       <bpmn:outgoing>Flow_02_10</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Address" name="Select and confirm saved delivery address">
-      <bpmn:documentation>FR-ADDR-05; FR-DEL-02; BR-26. Confirm the selected address as the destination. For courier subscriptions, one address applies to all four fulfillments and is fixed after payment confirmation. Pickup requires no delivery address. Address-book maintenance is separate (BPMN-31).</bpmn:documentation>
+    <bpmn:userTask id="Address" name="Select a saved address or request an add/edit">
+      <bpmn:documentation>FR-ADDR-05; FR-DEL-02; BR-26. Confirm the selected address as the destination. For courier subscriptions, one address applies to all four fulfillments and is fixed after payment confirmation. Pickup requires no delivery address.</bpmn:documentation>
       <bpmn:incoming>Flow_02_9</bpmn:incoming>
-      <bpmn:outgoing>Flow_02_11</bpmn:outgoing>
+      <bpmn:incoming>Flow_02_AddressReturn</bpmn:incoming>
+      <bpmn:incoming>Flow_02_CorrectAddress</bpmn:incoming>
+      <bpmn:incoming>Flow_02_EditAddress</bpmn:incoming>
+      <bpmn:outgoing>Flow_02_AddressAction</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:exclusiveGateway id="AddressAction" name="Address action?">
+      <bpmn:incoming>Flow_02_AddressAction</bpmn:incoming>
+      <bpmn:outgoing>Flow_02_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02_MaintainAddress</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="MaintainAddress" name="Add or edit address via BPMN-31" calledElement="Process_31_Reference">
+      <bpmn:incoming>Flow_02_MaintainAddress</bpmn:incoming>
+      <bpmn:outgoing>Flow_02_AddressReturn</bpmn:outgoing>
+    </bpmn:callActivity>
     <bpmn:callActivity id="Quote" name="BPMN-18: Check address eligibility and quote delivery fees" calledElement="Process_18_Reference">
       <bpmn:documentation>FR-DEL-02 through FR-DEL-09. Invoke separate reusable BPMN-18: Google Maps address validation/location, configured service area (default maximum 10 km), and Lalamove quotation. Return destination, eligibility, applicable fees or address/provider issue. For subscriptions obtain applicable fees for all four scheduled deliveries. Do not book a courier.</bpmn:documentation>
       <bpmn:incoming>Flow_02_11</bpmn:incoming>
@@ -94,7 +108,7 @@
       <bpmn:outgoing>Flow_02_14</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="Recover" name="Choose retry, correction, or leave">
-      <bpmn:documentation>Retry uses the same selected address. Correction returns to arrangement and address selection; both standard orders and subscriptions may switch to pickup. No automatic retry schedule is specified.</bpmn:documentation>
+      <bpmn:documentation>Retry the same address, return directly to address selection to correct the destination, or change the fulfillment arrangement. Both standard orders and subscriptions may switch to pickup.</bpmn:documentation>
       <bpmn:incoming>Flow_02_14</bpmn:incoming>
       <bpmn:outgoing>Flow_02_15</bpmn:outgoing>
     </bpmn:userTask>
@@ -102,22 +116,26 @@
       <bpmn:incoming>Flow_02_15</bpmn:incoming>
       <bpmn:outgoing>Flow_02_16</bpmn:outgoing>
       <bpmn:outgoing>Flow_02_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02_CorrectAddress</bpmn:outgoing>
       <bpmn:outgoing>Flow_02_18</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Total" name="Calculate payable total; display products, schedule and fee breakdown">
       <bpmn:documentation>FR-PAY-03; FR-ORD-02; FR-DEL-07; FR-SUB-02; BR-27. Show products/variants, quantities, prices, subtotal, fulfillment method and schedule, plus selected address and applicable quoted fees for delivery. Pickup has no courier fee for either purchase type. Subscription summary includes all four schedules and the selected method in one fully prepaid total; courier delivery includes all enrollment delivery fees, while pickup has no delivery fee. Later actual courier-fee differences are absorbed by the bakery without extra customer charges or refunds. Any applicable refund of prepaid delivery fees following a later change to pickup is handled manually outside the platform, as stated in scope item 6.</bpmn:documentation>
       <bpmn:incoming>Flow_02_10</bpmn:incoming>
       <bpmn:incoming>Flow_02_19</bpmn:incoming>
+      <bpmn:incoming>Flow_02_UpdatedAmount</bpmn:incoming>
       <bpmn:outgoing>Flow_02_20</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="Review" name="Review fulfillment details and payable summary">
-      <bpmn:documentation>Customer reviews the exact current arrangement and amount before submitting. Changes invalidate the old review and return through applicable validation/quotation and recalculation.</bpmn:documentation>
+      <bpmn:documentation>Customer reviews the current arrangement and amount before submitting. Recheck catalog prices and applicable fees at submission. If any amount changed, recalculate and show the breakdown for another review before handing off to BPMN-09.</bpmn:documentation>
       <bpmn:incoming>Flow_02_20</bpmn:incoming>
       <bpmn:outgoing>Flow_02_21</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="Decision" name="Customer decision?">
       <bpmn:incoming>Flow_02_21</bpmn:incoming>
       <bpmn:outgoing>Flow_02_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02_EditAddress</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02_UpdatedAmount</bpmn:outgoing>
       <bpmn:outgoing>Flow_02_23</bpmn:outgoing>
       <bpmn:outgoing>Flow_02_24</bpmn:outgoing>
 <bpmn:outgoing>Flow_02_edit_selection</bpmn:outgoing>
@@ -147,18 +165,24 @@
     <bpmn:sequenceFlow id="Flow_02_8" sourceRef="Valid" targetRef="Delivery" name="Yes" />
     <bpmn:sequenceFlow id="Flow_02_9" sourceRef="Delivery" targetRef="Address" name="Yes: delivery" />
     <bpmn:sequenceFlow id="Flow_02_10" sourceRef="Delivery" targetRef="Total" name="Pickup: either type" />
-    <bpmn:sequenceFlow id="Flow_02_11" sourceRef="Address" targetRef="Quote" />
+    <bpmn:sequenceFlow id="Flow_02_11" sourceRef="AddressAction" targetRef="Quote" name="Confirm selection" />
+    <bpmn:sequenceFlow id="Flow_02_AddressAction" sourceRef="Address" targetRef="AddressAction" />
+    <bpmn:sequenceFlow id="Flow_02_MaintainAddress" sourceRef="AddressAction" targetRef="MaintainAddress" name="Add or edit" />
+    <bpmn:sequenceFlow id="Flow_02_AddressReturn" sourceRef="MaintainAddress" targetRef="Address" />
     <bpmn:sequenceFlow id="Flow_02_12" sourceRef="Quote" targetRef="Eligible" />
     <bpmn:sequenceFlow id="Flow_02_13" sourceRef="Eligible" targetRef="Issue" name="No / unavailable" />
     <bpmn:sequenceFlow id="Flow_02_14" sourceRef="Issue" targetRef="Recover" />
     <bpmn:sequenceFlow id="Flow_02_15" sourceRef="Recover" targetRef="Recovery" />
-    <bpmn:sequenceFlow id="Flow_02_16" sourceRef="Recovery" targetRef="Quote" name="Retry" />
-    <bpmn:sequenceFlow id="Flow_02_17" sourceRef="Recovery" targetRef="PurchaseType" name="Correct / change" />
+    <bpmn:sequenceFlow id="Flow_02_16" sourceRef="Recovery" targetRef="Quote" name="Retry quotation" />
+    <bpmn:sequenceFlow id="Flow_02_17" sourceRef="Recovery" targetRef="PurchaseType" name="Change fulfillment" />
+    <bpmn:sequenceFlow id="Flow_02_CorrectAddress" sourceRef="Recovery" targetRef="Address" name="Correct address" />
     <bpmn:sequenceFlow id="Flow_02_18" sourceRef="Recovery" targetRef="Leave" name="Leave" />
     <bpmn:sequenceFlow id="Flow_02_19" sourceRef="Eligible" targetRef="Total" name="Yes" />
     <bpmn:sequenceFlow id="Flow_02_20" sourceRef="Total" targetRef="Review" />
     <bpmn:sequenceFlow id="Flow_02_21" sourceRef="Review" targetRef="Decision" />
     <bpmn:sequenceFlow id="Flow_02_22" sourceRef="Decision" targetRef="PurchaseType" name="Edit fulfillment" />
+    <bpmn:sequenceFlow id="Flow_02_EditAddress" sourceRef="Decision" targetRef="Address" name="Edit delivery address" />
+    <bpmn:sequenceFlow id="Flow_02_UpdatedAmount" sourceRef="Decision" targetRef="Total" name="Price or fee changed" />
     <bpmn:sequenceFlow id="Flow_02_23" sourceRef="Decision" targetRef="Leave" name="Leave" />
     <bpmn:sequenceFlow id="Flow_02_24" sourceRef="Decision" targetRef="Save" name="Proceed to reservation" />
     <bpmn:sequenceFlow id="Flow_02_25" sourceRef="Save" targetRef="Done" />
@@ -194,6 +218,9 @@
 <bpmn:sequenceFlow id="Flow_02_edit_selection" sourceRef="Decision" targetRef="EditType" name="Edit items / configuration" />
 <bpmn:sequenceFlow id="Flow_02_edit_cart" sourceRef="EditType" targetRef="ReturnCart" name="Standard order" />
 <bpmn:sequenceFlow id="Flow_02_edit_subscription" sourceRef="EditType" targetRef="ReturnSubscription" name="Subscription" />
+  </bpmn:process>
+  <bpmn:process id="Process_31_Reference" name="BPMN-31 | Saved Delivery Address Maintenance (reference only)" isExecutable="false">
+    <bpmn:documentation>See bpmn-31-saved-delivery-address-maintenance.bpmn.xml. Return to address selection after saving or cancelling the edit.</bpmn:documentation>
   </bpmn:process>
   <bpmn:process id="Process_18_Reference" name="BPMN-18 | Courier Address Eligibility and Delivery Fee Quotation (reference only)" isExecutable="false">
 <bpmn:documentation>Reference stub for the separately catalogued reusable BPMN-18, not its implementation. Input: selected address and applicable delivery schedule(s). Output: validated destination, service-area eligibility and applicable Lalamove quotation(s), or an address/provider issue. Detailed BPMN-18 is intentionally outside this diagram. Replace this reference with the full reusable process when combining models.</bpmn:documentation>
@@ -253,6 +280,13 @@
 </bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Address" bpmnElement="Address">
 <dc:Bounds x="335" y="1025" width="250" height="90" />
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_AddressAction" bpmnElement="AddressAction">
+<dc:Bounds x="435" y="1155" width="50" height="50" />
+<bpmndi:BPMNLabel><dc:Bounds x="498" y="1184" width="120" height="26" /></bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Shape_MaintainAddress" bpmnElement="MaintainAddress" isExpanded="false">
+<dc:Bounds x="100" y="1035" width="180" height="80" />
 </bpmndi:BPMNShape>
 <bpmndi:BPMNShape id="Shape_Quote" bpmnElement="Quote">
 <dc:Bounds x="795" y="1165" width="250" height="90" />
@@ -340,12 +374,15 @@
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_4" bpmnElement="Flow_02_4">
-<di:waypoint x="460" y="535" />
-<di:waypoint x="460" y="1478.5" />
-<di:waypoint x="640" y="1478.5" />
+<di:waypoint x="435" y="510" />
+<di:waypoint x="335" y="510" />
+<di:waypoint x="335" y="546" />
+<di:waypoint x="704" y="546" />
+<di:waypoint x="704" y="2385" />
+<di:waypoint x="640" y="2385" />
 <di:waypoint x="640" y="2422" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="468" y="1486.5" width="150" height="32" />
+<dc:Bounds x="616" y="550" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_5" bpmnElement="Flow_02_5">
@@ -354,20 +391,18 @@
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_6" bpmnElement="Flow_02_6">
 <di:waypoint x="945" y="780" />
-<di:waypoint x="1360" y="780" />
-<di:waypoint x="1360" y="780" />
-<di:waypoint x="1345" y="780" />
+<di:waypoint x="1095" y="780" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1368" y="788" width="150" height="32" />
+<dc:Bounds x="965" y="750" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_7" bpmnElement="Flow_02_7">
 <di:waypoint x="1345" y="780" />
-<di:waypoint x="1346" y="780" />
-<di:waypoint x="1346" y="230" />
+<di:waypoint x="1355" y="780" />
+<di:waypoint x="1355" y="230" />
 <di:waypoint x="945" y="230" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1354" y="788" width="150" height="32" />
+<dc:Bounds x="1160" y="198" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_8" bpmnElement="Flow_02_8">
@@ -387,17 +422,37 @@
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_10" bpmnElement="Flow_02_10">
-<di:waypoint x="920" y="955" />
+<di:waypoint x="945" y="930" />
+<di:waypoint x="1068" y="930" />
+<di:waypoint x="1068" y="1730" />
+<di:waypoint x="920" y="1730" />
 <di:waypoint x="920" y="1755" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="928" y="1763" width="150" height="32" />
+<dc:Bounds x="1069" y="905" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_11" bpmnElement="Flow_02_11">
-<di:waypoint x="460" y="1115" />
-<di:waypoint x="460" y="1140" />
-<di:waypoint x="920" y="1140" />
-<di:waypoint x="920" y="1165" />
+<di:waypoint x="485" y="1180" />
+<di:waypoint x="795" y="1180" />
+<bpmndi:BPMNLabel><dc:Bounds x="577" y="1150" width="145" height="26" /></bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_AddressAction" bpmnElement="Flow_02_AddressAction">
+<di:waypoint x="460" y="1115"/><di:waypoint x="460" y="1155"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_MaintainAddress" bpmnElement="Flow_02_MaintainAddress">
+<di:waypoint x="435" y="1180"/><di:waypoint x="190" y="1180"/><di:waypoint x="190" y="1115"/>
+<bpmndi:BPMNLabel><dc:Bounds x="218" y="1184" width="115" height="26"/></bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_AddressReturn" bpmnElement="Flow_02_AddressReturn">
+<di:waypoint x="280" y="1065"/><di:waypoint x="335" y="1065"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_CorrectAddress" bpmnElement="Flow_02_CorrectAddress">
+<di:waypoint x="435" y="1640"/><di:waypoint x="315" y="1640"/><di:waypoint x="315" y="1080"/><di:waypoint x="335" y="1080"/>
+<bpmndi:BPMNLabel><dc:Bounds x="319" y="1648" width="120" height="26"/></bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_EditAddress" bpmnElement="Flow_02_EditAddress">
+<di:waypoint x="435" y="2110"/><di:waypoint x="297" y="2110"/><di:waypoint x="297" y="1095"/><di:waypoint x="335" y="1095"/>
+<bpmndi:BPMNLabel><dc:Bounds x="302" y="2118" width="130" height="26"/></bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_12" bpmnElement="Flow_02_12">
 <di:waypoint x="920" y="1255" />
@@ -405,11 +460,9 @@
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_13" bpmnElement="Flow_02_13">
 <di:waypoint x="945" y="1350" />
-<di:waypoint x="1332" y="1350" />
-<di:waypoint x="1332" y="1350" />
-<di:waypoint x="1345" y="1350" />
+<di:waypoint x="1095" y="1350" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1340" y="1358" width="150" height="32" />
+<dc:Bounds x="960" y="1321" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_14" bpmnElement="Flow_02_14">
@@ -424,29 +477,31 @@
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_16" bpmnElement="Flow_02_16">
 <di:waypoint x="485" y="1640" />
-<di:waypoint x="1318" y="1640" />
-<di:waypoint x="1318" y="1210" />
+<di:waypoint x="1360" y="1640" />
+<di:waypoint x="1360" y="1210" />
 <di:waypoint x="1045" y="1210" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1326" y="1648" width="150" height="32" />
+<dc:Bounds x="1130" y="1645" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_17" bpmnElement="Flow_02_17">
-<di:waypoint x="485" y="1640" />
-<di:waypoint x="1304" y="1640" />
-<di:waypoint x="1304" y="230" />
-<di:waypoint x="945" y="230" />
+<di:waypoint x="472" y="1627" />
+<di:waypoint x="1375" y="1627" />
+<di:waypoint x="1375" y="242" />
+<di:waypoint x="933" y="242" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1312" y="1648" width="150" height="32" />
+<dc:Bounds x="1130" y="1598" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_18" bpmnElement="Flow_02_18">
 <di:waypoint x="460" y="1665" />
-<di:waypoint x="460" y="2043.5" />
-<di:waypoint x="640" y="2043.5" />
+<di:waypoint x="460" y="1700" />
+<di:waypoint x="668" y="1700" />
+<di:waypoint x="668" y="2400" />
+<di:waypoint x="640" y="2400" />
 <di:waypoint x="640" y="2422" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="468" y="2051.5" width="150" height="32" />
+<dc:Bounds x="510" y="1670" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_19" bpmnElement="Flow_02_19">
@@ -468,11 +523,20 @@
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_22" bpmnElement="Flow_02_22">
 <di:waypoint x="485" y="2110" />
-<di:waypoint x="1290" y="2110" />
-<di:waypoint x="1290" y="230" />
-<di:waypoint x="945" y="230" />
+<di:waypoint x="1388" y="2110" />
+<di:waypoint x="1388" y="217" />
+<di:waypoint x="932" y="217" />
 <bpmndi:BPMNLabel>
-<dc:Bounds x="1298" y="2118" width="150" height="32" />
+<dc:Bounds x="1130" y="2115" width="150" height="30" />
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Edge_Flow_02_UpdatedAmount" bpmnElement="Flow_02_UpdatedAmount">
+<di:waypoint x="473" y="2098" />
+<di:waypoint x="1065" y="2098" />
+<di:waypoint x="1065" y="1800" />
+<di:waypoint x="1045" y="1800" />
+<bpmndi:BPMNLabel>
+<dc:Bounds x="742" y="2068" width="150" height="30" />
 </bpmndi:BPMNLabel>
 </bpmndi:BPMNEdge>
 <bpmndi:BPMNEdge id="Edge_Flow_02_23" bpmnElement="Flow_02_23">

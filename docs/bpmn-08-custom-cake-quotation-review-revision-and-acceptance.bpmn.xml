@@ -9,7 +9,7 @@
     <bpmn:participant id="Pool_08" name="BPMN-08 | Custom Cake Quotation Review, Revision, and Acceptance" processRef="Process_08"/>
   </bpmn:collaboration>
   <bpmn:process id="Process_08" name="Custom Cake Quotation Review, Revision, and Acceptance" isExecutable="false">
-    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-08 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, custom-cake workflow and SRS 4.9, FR-CAKE-05–08, FR-CAKE-10, FR-DEL-16 and FR-CAP-21; index.html and its linked owner-cake-state.js, owner-cakes.js, cake-requests.js and cake-state.js. Owner and customer access are authenticated (BPMN-26). The three lanes record roles within a single process; sequence flows connect their work. BPMN-07 supplies the submitted request. Applicable external notification dispatch is asynchronous in BPMN-24. BPMN-09 is a separate checkout handoff. Quotation acceptance alone creates no paid order. The proposed owner-managed delivery rules take precedence over prototype pickup and geographic restrictions.</bpmn:documentation>
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md, BPMN-08 and reuse rules; Chapters/Kitchen406 - Capstone Paper.md, custom-cake workflow and SRS 4.9, FR-CAKE-05–08, FR-CAKE-10, FR-DEL-16 and FR-CAP-21; index.html and its linked owner-cake-state.js, owner-cakes.js, cake-requests.js and cake-state.js. Owner and customer access are authenticated (BPMN-26). The three lanes record roles within a single process; sequence flows connect their work. BPMN-07 supplies the submitted request. Applicable external notification dispatch is asynchronous in BPMN-24. BPMN-09 is a separate checkout handoff. Quotation acceptance alone creates no paid order. Customers may agree to bakery pickup or owner-managed delivery. Owners assess delivery addresses without a fixed distance limit.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_08">
       <bpmn:lane id="Lane_Owner" name="Admin / Owner">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
@@ -21,7 +21,7 @@
         <bpmn:flowNodeRef>Reject</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Rejected</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Publish</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Accept</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Accept</bpmn:flowNodeRef><bpmn:flowNodeRef>AcceptanceSaved</bpmn:flowNodeRef><bpmn:flowNodeRef>AcceptanceIssue</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Accepted</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Customer" name="Customer">
@@ -38,7 +38,7 @@
       <bpmn:outgoing>Flow_1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="Review" name="Assess feasibility and decide whether to quote">
-      <bpmn:documentation>FR-CAKE-05, FR-CAP-21 and FR-DEL-16. Assess design complexity, date, materials and the proposed owner-managed delivery. Use the original submission timestamp from BPMN-07: later review does not invalidate timely submission if fulfillment is still feasible. Delivery is subject to the owner's agreement, with no fixed distance limit.</bpmn:documentation>
+      <bpmn:documentation>FR-CAKE-05, FR-CAP-21 and FR-DEL-16. Assess design complexity, date, materials and the proposed pickup or owner-managed delivery arrangement. Use the original submission timestamp from BPMN-07: later review does not invalidate timely submission if fulfillment is still feasible. Delivery is subject to the owner's agreement, with no fixed distance limit.</bpmn:documentation>
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:userTask>
@@ -56,7 +56,7 @@
       <bpmn:incoming>Flow_4</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:userTask id="Prepare" name="Prepare or revise quotation">
-      <bpmn:documentation>FR-CAKE-06 and FR-DEL-16. Set the proposed cake specifications, feasible fulfillment date, owner-managed delivery address and terms, and the final price including any case-by-case design/customization and delivery charges. Reassess any changed terms on revision. If no revision is issued, the request remains in its applicable review or quoted state.</bpmn:documentation>
+      <bpmn:documentation>FR-CAKE-06 and FR-DEL-16. Set the proposed cake specifications, feasible fulfillment date, bakery pickup or owner-managed delivery with an agreed address and fee, and the final price including any case-by-case design/customization and delivery charges. Reassess any changed terms on revision. If no revision is issued, the request remains in its applicable review or quoted state.</bpmn:documentation>
       <bpmn:incoming>Flow_5</bpmn:incoming>
       <bpmn:incoming>Flow_9</bpmn:incoming>
       <bpmn:outgoing>Flow_6</bpmn:outgoing>
@@ -66,13 +66,13 @@
       <bpmn:incoming>Flow_6</bpmn:incoming>
       <bpmn:outgoing>Flow_7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Read" name="Review the quoted design, delivery terms and total">
+    <bpmn:userTask id="Read" name="Review quoted design, fulfillment terms and total">
       <bpmn:documentation>The issued version awaits customer review and can remain pending while unanswered. The customer may discuss changes with the bakery before accepting.</bpmn:documentation>
-      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming><bpmn:incoming>Flow_AcceptanceReview</bpmn:incoming>
       <bpmn:outgoing>Flow_8</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:boundaryEvent id="Expiry" attachedToRef="Read" cancelActivity="true">
-      <bpmn:documentation>FR-CAKE-10. Interrupt review when the expiry timestamp for this unanswered quotation version is reached, 48 hours after issuance. Each revised version has its own issuance and expiry timestamps.</bpmn:documentation>
+      <bpmn:documentation>FR-CAKE-10. Interrupt review when the expiry timestamp for this unanswered quotation version is reached, 48 hours after issuance. Each revised version has its own issuance and expiry timestamps. Accepted offers follow the separate checkout and payment rules.</bpmn:documentation>
       <bpmn:outgoing>Flow_13</bpmn:outgoing>
       <bpmn:timerEventDefinition id="QuoteValidityTimer">
         <bpmn:timeDate xsi:type="bpmn:tFormalExpression">quotation.validUntil</bpmn:timeDate>
@@ -101,9 +101,11 @@
       <bpmn:incoming>Flow_10</bpmn:incoming>
       <bpmn:outgoing>Flow_14</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="AcceptanceSaved" name="Acceptance saved?"><bpmn:incoming>Flow_14</bpmn:incoming><bpmn:outgoing>Flow_AcceptanceYes</bpmn:outgoing><bpmn:outgoing>Flow_AcceptanceNo</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AcceptanceIssue" name="Show current offer or retry message"><bpmn:incoming>Flow_AcceptanceNo</bpmn:incoming><bpmn:outgoing>Flow_AcceptanceReview</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:endEvent id="Accepted" name="Quotation accepted">
-      <bpmn:documentation>Handoff: purchase type, request and accepted quotation IDs, cake specifications, agreed date and owner-managed delivery terms, and saved payable total. BPMN-09 owns the definitive checks and temporary reservation. Shared payment follows. BPMN-10 links the paid quotation to the confirmed order under FR-CAKE-09.</bpmn:documentation>
-      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:documentation>Handoff: purchase type, request and accepted quotation IDs, cake specifications, agreed date and pickup or owner-managed delivery terms, and saved payable total. BPMN-09 owns the definitive checks and temporary reservation. If reservation fails, preserve acceptance and permit retry using the agreed version. Shared payment follows. BPMN-10 links the paid quotation to the confirmed order under FR-CAKE-09.</bpmn:documentation>
+      <bpmn:incoming>Flow_AcceptanceYes</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Review"/>
     <bpmn:sequenceFlow id="Flow_2" sourceRef="Review" targetRef="Feasible"/>
@@ -118,7 +120,10 @@
     <bpmn:sequenceFlow id="Flow_11" sourceRef="Response" targetRef="Decline" name="Decline"/>
     <bpmn:sequenceFlow id="Flow_12" sourceRef="Decline" targetRef="Declined"/>
     <bpmn:sequenceFlow id="Flow_13" sourceRef="Expiry" targetRef="Expired" name="48-hour expiry timestamp reached"/>
-    <bpmn:sequenceFlow id="Flow_14" sourceRef="Accept" targetRef="Accepted"/>
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Accept" targetRef="AcceptanceSaved"/>
+    <bpmn:sequenceFlow id="Flow_AcceptanceYes" sourceRef="AcceptanceSaved" targetRef="Accepted" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_AcceptanceNo" sourceRef="AcceptanceSaved" targetRef="AcceptanceIssue" name="No"/>
+    <bpmn:sequenceFlow id="Flow_AcceptanceReview" sourceRef="AcceptanceIssue" targetRef="Read" name="Review current offer or retry"/>
     <bpmn:textAnnotation id="Next"><bpmn:text>Refer to BPMN-09 — Ingredient and Capacity Validation and Purchase Reservation.
 Continue with shared payment only after reservation. BPMN-10 links the paid quotation to the confirmed order.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="NextReference" sourceRef="Accepted" targetRef="Next"/>
@@ -143,7 +148,9 @@ Continue with shared payment only after reservation. BPMN-10 links the paid quot
       <bpmndi:BPMNShape id="Shape_Decline" bpmnElement="Decline"><dc:Bounds x="1042" y="991" width="156" height="78"/></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Declined" bpmnElement="Declined"><dc:Bounds x="1102" y="1122" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="1035" y="1162" width="170" height="36"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Accept" bpmnElement="Accept"><dc:Bounds x="465" y="991" width="180" height="78"/></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Accepted" bpmnElement="Accepted"><dc:Bounds x="537" y="1122" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="445" y="1162" width="220" height="28"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AcceptanceSaved" bpmnElement="AcceptanceSaved"><dc:Bounds x="530" y="1100" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="445" y="1080" width="118" height="19"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AcceptanceIssue" bpmnElement="AcceptanceIssue"><dc:Bounds x="685" y="1086" width="166" height="78"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Accepted" bpmnElement="Accepted"><dc:Bounds x="537" y="1190" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="445" y="1230" width="220" height="28"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Next" bpmnElement="Next"><dc:Bounds x="900" y="1230" width="360" height="105"/></bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_1" bpmnElement="Flow_1"><di:waypoint x="300" y="163"/><di:waypoint x="300" y="202"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_2" bpmnElement="Flow_2"><di:waypoint x="300" y="278"/><di:waypoint x="300" y="310"/></bpmndi:BPMNEdge>
@@ -158,8 +165,11 @@ Continue with shared payment only after reservation. BPMN-10 links the paid quot
       <bpmndi:BPMNEdge id="Edge_Flow_11" bpmnElement="Flow_11"><di:waypoint x="1075" y="865"/><di:waypoint x="1120" y="865"/><di:waypoint x="1120" y="991"/><bpmndi:BPMNLabel><dc:Bounds x="1130" y="875" width="65" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_12" bpmnElement="Flow_12"><di:waypoint x="1120" y="1069"/><di:waypoint x="1120" y="1122"/></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_13" bpmnElement="Flow_13"><di:waypoint x="1148" y="784"/><di:waypoint x="1280" y="784"/><di:waypoint x="1280" y="1012"/><bpmndi:BPMNLabel><dc:Bounds x="1140" y="910" width="130" height="40"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_14" bpmnElement="Flow_14"><di:waypoint x="555" y="1069"/><di:waypoint x="555" y="1122"/></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_NextReference" bpmnElement="NextReference"><di:waypoint x="573" y="1140"/><di:waypoint x="665" y="1140"/><di:waypoint x="665" y="1300"/><di:waypoint x="900" y="1300"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_14" bpmnElement="Flow_14"><di:waypoint x="555" y="1069"/><di:waypoint x="555" y="1100"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_AcceptanceYes" bpmnElement="Flow_AcceptanceYes"><di:waypoint x="555" y="1150"/><di:waypoint x="555" y="1190"/><bpmndi:BPMNLabel><dc:Bounds x="560" y="1160" width="52" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_AcceptanceNo" bpmnElement="Flow_AcceptanceNo"><di:waypoint x="580" y="1125"/><di:waypoint x="685" y="1125"/><bpmndi:BPMNLabel><dc:Bounds x="612" y="1100" width="50" height="20"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_AcceptanceReview" bpmnElement="Flow_AcceptanceReview"><di:waypoint x="851" y="1125"/><di:waypoint x="915" y="1125"/><di:waypoint x="915" y="747"/><di:waypoint x="947" y="747"/><bpmndi:BPMNLabel><dc:Bounds x="751" y="952" width="158" height="28"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_NextReference" bpmnElement="NextReference"><di:waypoint x="573" y="1208"/><di:waypoint x="665" y="1208"/><di:waypoint x="665" y="1300"/><di:waypoint x="900" y="1300"/></bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

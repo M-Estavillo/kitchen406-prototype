@@ -131,7 +131,7 @@
       <bpmn:outgoing>Flow_21</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Explain" name="Show why checkout is blocked and how to proceed">
-      <bpmn:documentation>Show the specific validation failure or save conflict, block payment, and preserve prior state without creating a new or partial hold. Offer changes or retry as applicable and preserve reviewed details where possible.</bpmn:documentation>
+      <bpmn:documentation>Show the specific validation failure or save conflict, block payment, and preserve prior state without creating a new or partial hold. Offer changes or retry as applicable and preserve reviewed details where possible. A failed cake reservation preserves the accepted quotation for retry.</bpmn:documentation>
       <bpmn:incoming>Flow_19</bpmn:incoming>
       <bpmn:incoming>Flow_22</bpmn:incoming>
       <bpmn:incoming>Flow_23</bpmn:incoming>
@@ -154,7 +154,7 @@
       <bpmn:incoming>Flow_28</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:endEvent id="Ready" name="Pending purchase ready for payment (BPMN-10)">
-      <bpmn:documentation>Pass the purchase ID, saved payable amount, reservations and hold expiry to BPMN-10 for payment and purchase confirmation.</bpmn:documentation>
+      <bpmn:documentation>Pass the purchase ID, saved payable amount, reservations and their 32-minute hold deadline to BPMN-10. QR Ph payment has a separate 30-minute deadline.</bpmn:documentation>
       <bpmn:incoming>Flow_21</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Start" targetRef="Load"/>
@@ -205,7 +205,7 @@ Cake: 2 per week on distinct dates.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_CapacityRules" sourceRef="Capacity" targetRef="CapacityRules"/>
     <bpmn:textAnnotation id="MaterialRules"><bpmn:text>Refer to BPMN-22 for BoM quantities. Available stock is stock on hand minus existing reservations. Checkout checks ingredients for the first subscription fulfillment only.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_MaterialRules" sourceRef="Materials" targetRef="MaterialRules"/>
-    <bpmn:textAnnotation id="PaymentHandoff"><bpmn:text>Continue to BPMN-10 for QR Ph payment, hold-expiry checks, and purchase confirmation or release.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:textAnnotation id="PaymentHandoff"><bpmn:text>BPMN-10 opens a 30-minute QR Ph session. Capacity and ingredients stay held for up to 32 minutes for final verification.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="Reference_PaymentHandoff" sourceRef="Ready" targetRef="PaymentHandoff"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_09">

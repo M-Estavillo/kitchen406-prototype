@@ -19,12 +19,12 @@
         <bpmn:flowNodeRef>CompleteEnd</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Start" name="Completion received from BPMN-14 or BPMN-16">
-      <bpmn:documentation>BPMN-14 owns pickup completion; BPMN-16 owns courier completion. Input: saved subscription ID, fulfillment ID and actual completion timestamp. These processes have already completed the fulfillment; do not invoke them again.</bpmn:documentation>
+    <bpmn:startEvent id="Start" name="Completion or reversal saved in BPMN-14, BPMN-16 or BPMN-19">
+      <bpmn:documentation>BPMN-14 owns pickup completion; BPMN-16 owns courier completion. BPMN-19 owns authorized reversal and audit. Recalculate against the resulting saved fulfillment state. Input: subscription ID, fulfillment ID, and actual completion timestamp when completed. Do not invoke these upstream processes again.</bpmn:documentation>
       <bpmn:outgoing>F1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Load" name="Read completed fulfillment and subscription">
-      <bpmn:documentation>Read the authoritative completed fulfillment and its paid subscription with four linked fulfillments established by BPMN-04. Validate linkage and saved completion status. Invalid or inconsistent input preserves prior state and is logged for recovery; it does not advance. Completion eligibility and timestamp recording belong to BPMN-14/16.</bpmn:documentation>
+    <bpmn:serviceTask id="Load" name="Verify fulfillment and paid subscription links">
+      <bpmn:documentation>Read the authoritative fulfillment and its paid subscription with four linked fulfillments established by BPMN-04. Verify four distinct, correctly linked fulfillments and current statuses. Use the saved completion timestamp for a completed fulfillment. A reversed fulfillment no longer counts as completed. Invalid or inconsistent input preserves prior state and is logged for recovery; it does not advance. Completion eligibility and timestamp recording belong to BPMN-14/16.</bpmn:documentation>
       <bpmn:incoming>F1</bpmn:incoming>
       <bpmn:outgoing>F2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -66,21 +66,23 @@
     <bpmn:sequenceFlow id="F7" sourceRef="Complete" targetRef="CompleteEnd"></bpmn:sequenceFlow>
     <bpmn:textAnnotation id="References"><bpmn:text>Related BPMNs (references only):
 04 - Four fulfillments, original amounts and prepaid link
-16 - Preparing-owner allocations
-18 / 20 - Pickup / courier completion (upstream)
-34 - Customer status inquiry
-43 - Sales and payment reporting
-23 - Authorized accidental reversal
+12 - Preparing-owner allocations
+14 / 16 - Pickup / courier completion
+30 - Customer status inquiry
+39 - Sales and payment reporting
+19 - Authorized reversal and audit
 
 05 updates progress only; no repeat payment or renewal.</bpmn:text></bpmn:textAnnotation>
     <bpmn:association id="ReferenceAssociation" sourceRef="Load" targetRef="References" associationDirection="None" />
+  <bpmn:textAnnotation id="Safeguards"><bpmn:text>Invalid links leave progress unchanged. On a failed save, retain the prior state and retry the update. An authorized reversal clears current completion and can reopen the cycle. A subsequent completion uses its new timestamp.</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="SafeguardAssociation" sourceRef="Active" targetRef="Safeguards" associationDirection="None" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_05">
     <bpmndi:BPMNPlane id="Plane_05" bpmnElement="Collaboration_05">
       <bpmndi:BPMNShape id="Shape_Participant_05" bpmnElement="Participant_05" isHorizontal="false"><dc:Bounds x="40" y="40" width="800" height="950" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane05_0" bpmnElement="Lane05_0" isHorizontal="false"><dc:Bounds x="40" y="70" width="350" height="920" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane05_1" bpmnElement="Lane05_1" isHorizontal="false"><dc:Bounds x="390" y="70" width="450" height="920" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="192" y="150" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="192" y="150" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="80" y="194" width="260" height="47" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Load" bpmnElement="Load"><dc:Bounds x="100" y="250" width="220" height="80" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Count" bpmnElement="Count"><dc:Bounds x="440" y="390" width="220" height="90" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_All" bpmnElement="All"><dc:Bounds x="525" y="540" width="50" height="50" /></bpmndi:BPMNShape>
@@ -89,6 +91,8 @@
       <bpmndi:BPMNShape id="Shape_ActiveEnd" bpmnElement="ActiveEnd"><dc:Bounds x="482" y="850" width="36" height="36" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_CompleteEnd" bpmnElement="CompleteEnd"><dc:Bounds x="702" y="850" width="36" height="36" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_References" bpmnElement="References"><dc:Bounds x="80" y="420" width="270" height="230" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Safeguards" bpmnElement="Safeguards"><dc:Bounds x="80" y="675" width="270" height="190" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Safeguards" bpmnElement="SafeguardAssociation"><di:waypoint x="415" y="722" /><di:waypoint x="350" y="722" /></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F1" bpmnElement="F1"><di:waypoint x="210" y="186" /><di:waypoint x="210" y="250" /></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F2" bpmnElement="F2"><di:waypoint x="320" y="290" /><di:waypoint x="550" y="290" /><di:waypoint x="550" y="390" /></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_F3" bpmnElement="F3"><di:waypoint x="550" y="480" /><di:waypoint x="550" y="540" /></bpmndi:BPMNEdge>

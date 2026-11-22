@@ -53,7 +53,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start" name="Enter Payment Page">
-      <bpmn:documentation>The customer enters with a reviewed purchase after BPMN-09 reserves resources, or reopens the same purchase after an attempt. Use the original purchase and hold details.</bpmn:documentation>
+      <bpmn:documentation>The customer enters with a reviewed purchase after BPMN-09 reserves resources, or reopens the same purchase after an attempt. Reuse its original deadlines and check an uncertain attempt before offering another QR.</bpmn:documentation>
       <bpmn:outgoing>F_Start_ShowQR</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="ShowQR" name="Request and display QR Ph and amount due">
@@ -78,8 +78,8 @@
         <bpmn:timeDate xsi:type="bpmn:tFormalExpression">paymentSession.expiresAt</bpmn:timeDate>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
-    <bpmn:startEvent id="Hold" name="32-minute hold expires">
-      <bpmn:documentation>Use the original hold expiry from BPMN-09.</bpmn:documentation>
+    <bpmn:startEvent id="Hold" name="Check same attempt at minute 32">
+      <bpmn:documentation>Schedule one final check at the original hold expiry from BPMN-09. Correlate the timer to the existing purchase ID and payment attempt. It does not start another checkout.</bpmn:documentation>
       <bpmn:outgoing>F_Hold_Merge</bpmn:outgoing>
       <bpmn:timerEventDefinition id="Hold_Definition">
         <bpmn:timeDate xsi:type="bpmn:tFormalExpression">checkoutHold.expiresAt</bpmn:timeDate>
@@ -109,7 +109,7 @@
       <bpmn:outgoing>F_Held_Late</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:exclusiveGateway id="ReleaseEligible" name="Can reservations be released?" default="F_ReleaseEligible_Status">
-      <bpmn:documentation>Release is permitted after the final check completes without verified full payment at hold expiry, or for an eligible customer cancellation after checking the original attempt. A lookup error does not establish eligibility.</bpmn:documentation>
+      <bpmn:documentation>Release is permitted after the final check completes without verified full payment at hold expiry, or for an eligible customer cancellation after checking the original attempt. A lookup error before hold expiry pauses cancellation. If the final lookup fails at expiry, cancel and release resources, flag the attempt for owner reconciliation, and block a fresh attempt until its outcome is known.</bpmn:documentation>
       <bpmn:incoming>F_Paid_ReleaseEligible</bpmn:incoming>
       <bpmn:outgoing>F_ReleaseEligible_Cancel</bpmn:outgoing>
       <bpmn:outgoing>F_ReleaseEligible_Status</bpmn:outgoing>
@@ -121,7 +121,7 @@
       <bpmn:incoming>F_ConfirmRecovery_Retry</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:subProcess id="Late" name="Recheck and reserve original resources&#10;Refer to BPMN-09">
-      <bpmn:documentation>Apply the applicable BPMN-09 checks to the same purchase and agreed fulfillment details: original scheduling constraints, blocked dates, capacity and ingredients. Restore all applicable reservations together. For subscriptions, reserve capacity for all four commitments and ingredients for the first fulfillment. For cakes, preserve the accepted quotation and the original submission timing. No new purchase, checkout hold or payment attempt. Return a definitive availability result; signal a technical error separately. On retry, read the current state under the same guard and reuse any reservations already restored for this purchase.</bpmn:documentation>
+      <bpmn:documentation>If final verification failed because PayMongo was unreachable, do not try to restore resources after later verification. Return the external-refund outcome. Otherwise, apply the applicable BPMN-09 checks to the same purchase and agreed fulfillment details: original scheduling constraints, blocked dates, capacity and ingredients. Restore all applicable reservations together. For subscriptions, reserve capacity for all four commitments and ingredients for the first fulfillment. For cakes, preserve the accepted quotation and the original submission timing. No new purchase, checkout hold or payment attempt. Return a definitive availability result; signal a technical error separately. On retry, read the current state under the same guard and reuse any reservations already restored for this purchase.</bpmn:documentation>
       <bpmn:incoming>F_Held_Late</bpmn:incoming>
       <bpmn:outgoing>F_Late_Restored</bpmn:outgoing>
       <bpmn:startEvent id="Late_Start">
@@ -146,12 +146,12 @@ Restore reservations together for the original purchase. Report technical errors
       <bpmn:association id="Ref_LateRules" sourceRef="Late_Work" targetRef="LateRules" />
     </bpmn:subProcess>
     <bpmn:serviceTask id="Cancel" name="Cancel purchase and release reservations">
-      <bpmn:documentation>Cancel only an unconfirmed purchase; release its temporary capacity and ingredient reservations once.</bpmn:documentation>
+      <bpmn:documentation>Cancel only an unconfirmed purchase and release its temporary capacity and ingredient reservations once. If the final lookup failed, preserve the attempt and flag it for owner reconciliation. If payment is later verified for that attempt, retain cancellation and notify the customer of external refund eligibility.</bpmn:documentation>
       <bpmn:incoming>F_ReleaseEligible_Cancel</bpmn:incoming>
       <bpmn:outgoing>F_Cancel_Status</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Status" name="Show payment status and available actions">
-      <bpmn:documentation>Show the recorded outcome and offer only actions allowed by the current purchase, reservation, and provider state. Verification may resume following a customer status check or a later provider update. Reuse a payable QR for the same attempt. A new session requires a definitive outcome for the previous attempt and enough time under the original hold. A fresh checkout requires BPMN-09. Neither deadline is extended.</bpmn:documentation>
+      <bpmn:documentation>Show the recorded outcome and offer only actions allowed by the current purchase, reservation, and provider state. Verification may resume following a customer status check or a later provider update. Reuse the same QR only while payable. A new QR always requires fresh validation and reservation through BPMN-09 after the old attempt is resolved. Checking the existing attempt does not extend either deadline.</bpmn:documentation>
       <bpmn:incoming>F_ReleaseEligible_Status</bpmn:incoming>
       <bpmn:incoming>F_Cancel_Status</bpmn:incoming>
       <bpmn:outgoing>F_Status_ReviewStatus</bpmn:outgoing>
@@ -167,7 +167,7 @@ Restore reservations together for the original purchase. Report technical errors
       <bpmn:outgoing>F_ViewPurchase_End</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="ReviewStatus" name="Review payment status and choose next action">
-      <bpmn:documentation>While payment is unresolved, check the existing attempt again or leave and revisit its status. Use the same payable QR only while valid, or request a replacement QR when eligible. If payment has been resolved and a new attempt is eligible, follow the retry option, returning to BPMN-09 when new reservations are required. If the purchase is already confirmed, open its details from the status page. A status refresh uses the existing attempt and does not extend either deadline.</bpmn:documentation>
+      <bpmn:documentation>While payment is unresolved, check the existing attempt again or leave and revisit its status. Use the same payable QR only while valid, or request a fresh checkout through BPMN-09 when eligible. If payment has been resolved and a new attempt is eligible, follow the retry option, returning to BPMN-09 when new reservations are required. If the purchase is already confirmed, open its details from the status page. A status refresh uses the existing attempt and does not extend either deadline.</bpmn:documentation>
       <bpmn:incoming>F_Status_ReviewStatus</bpmn:incoming>
       <bpmn:outgoing>F_ReviewStatus_NextAction</bpmn:outgoing>
     </bpmn:userTask>
@@ -246,7 +246,7 @@ Restore reservations together for the original purchase. Report technical errors
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">reservationsReleased and purchaseCancelled and latePaymentUnreconciled</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F_ReleaseEligible_Cancel" sourceRef="ReleaseEligible" targetRef="Cancel" name="Yes">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">unconfirmedPurchase and reservationsNotReleased and finalCheckCompleted and (holdExpiredWithoutVerifiedFullPayment or (cancellationRequested and cancellationEligible and noSuccessfulOrUnresolvedPayment))</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">unconfirmedPurchase and reservationsNotReleased and ((holdExpired and finalLookupFailed) or (finalCheckCompleted and (holdExpiredWithoutVerifiedFullPayment or (cancellationRequested and cancellationEligible and noSuccessfulOrUnresolvedPayment))))</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F_ReleaseEligible_Status" sourceRef="ReleaseEligible" targetRef="Status" name="No" />
     <bpmn:sequenceFlow id="F_Cancel_Status" sourceRef="Cancel" targetRef="Status" />
@@ -283,8 +283,8 @@ Restore reservations together for the original purchase. Report technical errors
     <bpmn:sequenceFlow id="F_NextAction_Verify" sourceRef="NextAction" targetRef="Check" name="Check again">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">paymentVerificationOutstanding and verificationRequestedOrProviderUpdated</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="F_NextAction_ShowQR" sourceRef="NextAction" targetRef="ShowQR" name="Use valid QR or regenerate if eligible">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerRequestedPayment and checkoutEligible and originalHoldActive and (existingQrPayable or (previousAttemptDefinitivelyResolvedWithoutPayment and sufficientTimeForNewSession))</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="F_NextAction_ShowQR" sourceRef="NextAction" targetRef="ShowQR" name="Use the existing valid QR">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerRequestedPayment and checkoutEligible and originalHoldActive and existingQrPayable</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="F_NextAction_Validate" sourceRef="NextAction" targetRef="ReturnToCheckout" name="Start fresh checkout">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">customerRequestedFreshCheckout and requiresNewReservations and noSuccessfulOrUnresolvedPayment</bpmn:conditionExpression>
@@ -294,8 +294,8 @@ Restore reservations together for the original purchase. Report technical errors
     <bpmn:sequenceFlow id="F_ConfirmRecovery_Retry" sourceRef="ConfirmRecovery" targetRef="Confirm" />
     <bpmn:textAnnotation id="PaymentRules">
       <bpmn:text>Verification outstanding: check the same payment again.
-Active hold: reuse a payable QR or retry only after the previous attempt is resolved and time permits.
-New reservations: return to BPMN-09.
+Reuse the existing QR while payable. A new QR always goes through BPMN-09.
+Lookup fails at minute 32: release holds and flag for owner reconciliation. Verified payment then requires an external refund.
 The original deadlines still apply.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Ref_PaymentRules" sourceRef="Status" targetRef="PaymentRules" />
