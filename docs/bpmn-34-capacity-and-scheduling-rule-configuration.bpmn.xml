@@ -1,0 +1,564 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_34" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_34">
+    <bpmn:participant id="Participant_34" name="BPMN-34 | Capacity and Scheduling Rule Configuration" processRef="Process_34" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_34" name="Capacity and Scheduling Rule Configuration" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-34, related processes and reuse rules; Chapters/Kitchen406 - Capstone Paper.md SRS FR-CAP-01-13,19-21 and FR-SUB-05; supporting NFR-SEC-03,08, NFR-REL-03,05-06. Website: index.html loads app/capacity-state.js Q.save/block/saveSchedule/preserveSchedule, app/owner-scheduling.js configuration and blocked-date warnings, app/scheduling.js and app/owner-subscriptions.js. Reviewed existing BPMN-06/09/11/33 conventions and catalog ownership. The SRS is authoritative: current preview accepts generic hour/day lead values and configurable cake daily capacity; proposed validation must preserve mandatory noon/day rules, seven-calendar-day cake submission lead and distinct cake fulfillment dates. Configurable baselines do not erase existing allocations. Entry precondition: authenticated, authorized Admin/Owner page access, handled by sign-in and protected-page routing. No repeated Owner-access decision is modeled here; protected reads and saves still enforce permissions automatically. Input: current configuration version and one requested settings/block/unblock/subscription-schedule change. Output: current future-facing rules saved while commitments are preserved, or correction/retry/cancellation. Separate capacity pools apply by fulfillment date: standard daily varieties/units; subscription weekly per product; cake weekly with distinct fulfillment dates. Existing prepaid preparation/fulfillment schedules are snapshotted/preserved when settings or offering schedules change. This bounded process does not invoke checkout reservation, release a hold, create paid fulfillments, take payment or apply customer deferment. BPMN-09 consumes configured rules, BPMN-06 checks permitted deferment capacity, BPMN-03 displays offerings and BPMN-04 retains agreed confirmed schedule. These are references to completed/downstream ownership, not calls of their whole workflows. No currently authored BPMN defines a global configuration validator, so local validation is explicit rather than an unresolved call. Internal Owner/System lanes use sequence flows; no external messaging is necessary. Save errors keep a visible correction/resubmission or close path. Outdated settings require closing and reopening the form to view current values. The prototype has no dedicated reload-and-preserve-draft operation; that extra branch is omitted at the user’s request. Ordinary resubmission retains automatic validation and version safeguards. Proposed reliability safeguards are process behavior, not a claim every UI/backend control already exists.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_34">
+      <bpmn:lane id="Lane_34_owner" name="Admin/Owner">
+        <bpmn:flowNodeRef>Start_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LoadReview_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LoadRetry_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Edit_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ImpactReview_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ImpactConfirmed_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewError_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Recovery_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stop_34</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_34_system" name="Kitchen406 System — Capacity and Scheduling">
+        <bpmn:flowNodeRef>Load_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AccessError_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AccessEnd_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InputError_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Impact_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Affected_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveError_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Refresh_34</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_34</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_34" name="Owner opens capacity/scheduling configuration">
+      <bpmn:outgoing>Flow_34_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load_34" name="Load current rules, version and commitments">
+      <bpmn:documentation>Authorized Owner page access is an entry precondition. Read independent pool limits, timing rules, blocked dates/reasons, subscription product schedule/status and current active/held allocations for context. Existing schedule snapshots must not be discarded. Staff cannot configure these rules.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_30</bpmn:incoming>
+      <bpmn:incoming>Flow_34_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed_34" name="Configuration loaded successfully?">
+      <bpmn:incoming>Flow_34_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="AccessError_34" name="Explain loading issue; retain configuration">
+      <bpmn:documentation>A failed read is not an empty or successful configuration load. Preserve saved settings and commitments. When recovery follows an earlier edit/save problem, keep the unsaved draft separately and identify any previously displayed records as old data. Offer retry or close; do not write settings from failed or stale reads.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="LoadReview_34" name="Review loading error; retry or close">
+      <bpmn:documentation>Retry reads the latest rules, versions and commitments through Load_34, preserving any unsaved draft separately. After successful loading, review current values and reconcile the draft before resubmitting; no silent overwrite or repeated initial choices. Closing ends this attempt without changing saved configuration or commitments.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_29</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="LoadRetry_34" name="Retry loading?">
+      <bpmn:incoming>Flow_34_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_30</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_31</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="AccessEnd_34" name="Closed; saved settings and commitments unchanged">
+      <bpmn:incoming>Flow_34_31</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Edit_34" name="Edit pool limits/timing, block/unblock a date, or maintain offering schedule">
+      <bpmn:documentation>Choose applicable change. Edit separate baselines and timing rather than one shared capacity total. Blocking includes valid date and supported reason (prototype reason category/details); unblocking removes only that block. Subscription schedule maintenance selects eligible product, preparation/fulfillment weekdays and active/inactive status. Deactivation affects new enrollment, not ongoing prepaid subscriptions. Preserve unrelated fields. Defaults: standard four varieties/day and ten units/variety; subscription ten/product/week; cake two/week with distinct dates, subject to permitted owner baseline changes.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_25</bpmn:incoming>
+      <bpmn:incoming>Flow_34_15</bpmn:incoming>
+      <bpmn:incoming>Flow_34_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_34" name="Owner submits/confirms changes?">
+      <bpmn:incoming>Flow_34_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_34" name="Cancelled; prior settings and commitments retained">
+      <bpmn:incoming>Flow_34_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Validate_34" name="Validate selected configuration, separate pools and mandatory timing rules">
+      <bpmn:documentation>FR-CAP-01-13,19-21. Recognize requested settings/block/unblock/schedule operation and validate applicable fields/targets only. Baselines are positive whole counts; standard daily varieties and units/variety, subscription weekly units/product, cake weekly count with each cake assigned a distinct fulfillment date. Timing values/units and times must be valid; interpret business times in Asia/Manila. Standard latest permitted cutoff is noon at least one day before fulfillment, or an earlier product-specific preparation deadline. Subscription noon cutoff is at least one day before first preparation based on product lead time. Cake requests need at least seven calendar days before fulfillment; timely submitted request does not become late solely during review. Configurable rules may reflect stricter applicable preparation needs but cannot override mandatory SRS constraints. Validate blocked date/reason and subscription product/weekdays/status; do not invent mandatory preparation-to-delivery offset or fixed calendar dates beyond SRS. Unknown/missing target is a correction issue.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_9</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Valid_34" name="Configuration and mandatory rules valid?">
+      <bpmn:incoming>Flow_34_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="InputError_34" name="Explain invalid field/rule; keep draft and saved settings">
+      <bpmn:documentation>Display the specific capacity, date, target or cutoff/lead violation. Existing rules/allocations unchanged. Correct the same draft and resubmit or stop; do not silently normalize an invalid business rule.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Impact_34" name="Evaluate new-booking impact and protect existing commitments">
+      <bpmn:documentation>FR-SUB-05; FR-CAP-10-13. Compare proposed limits/blocks/schedule changes with active allocations and confirmed subscription schedule snapshots. Lower capacity or blocking a committed date is not permission to cancel/release/move existing work. Existing allocations may exceed new baseline; future booking checks then show no available capacity until allowed by current commitments. Preserve agreed subscription preparation/fulfillment dates and existing original quantities/amounts; configuration/schedule deactivation applies prospectively. Do not require no existing commitments as an invented save condition. Detect inconsistent record/config version for safe review.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_12</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Affected_34" name="Does the change affect existing commitments?">
+      <bpmn:documentation>Check whether the proposed limits, blocked dates or offering schedule affect existing allocations or confirmed subscription schedules. Yes requires showing affected work and its preservation. No proceeds directly to saving. Both paths preserve existing commitments; this is not permission to cancel or reschedule paid work. Save_34 rechecks current commitments before its protected write.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_32</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ImpactReview_34" name="Review affected work; existing commitments stay unchanged">
+      <bpmn:documentation>Show impact including already scheduled work and any over-limit condition. Existing work remains due as agreed. This review is not approval to reschedule paid commitments. Prototype shows a warning when blocking a date with preparation/fulfillment and states lower limits preserve allocations. Changes without affected work bypass this impact review and go directly to saving. Existing work is preserved regardless of the branch taken. Choosing not to keep the proposed change returns directly to Edit_34 to revise the draft; no separate stop decision is required here.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_32</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_13</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ImpactConfirmed_34" name="Keep proposed change?">
+      <bpmn:incoming>Flow_34_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Save_34" name="Recheck version; preserve snapshots and save future rules consistently">
+      <bpmn:documentation>Recheck Owner permission, current configuration and applicable target/dependency version, current mandatory-rule validity and commitments at commit. Preserve confirmed subscription schedule snapshots before changing mutable defaults or offering records. Save only requested pool/timing/block/unblock/schedule operation and related metadata/version consistently. Retain allocation identities/status, original dates/amounts and unrelated rules. Reject stale update without overwriting independently committed newer state. Failed combined update commits no partial setting/snapshot mutation. Safe repeated submission cannot duplicate a schedule/block; known matching saved operation returns its saved result. No hold release, refund, auto deferment or resource reservation.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_33</bpmn:incoming>
+      <bpmn:incoming>Flow_34_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_18</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Saved_34" name="Settings saved or matching result retained?">
+      <bpmn:incoming>Flow_34_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SaveError_34" name="Explain conflict/save failure; preserve current settings and draft">
+      <bpmn:documentation>On stale version, explain that the Owner must close and reopen the form to review current data. Ordinary failed submissions keep entries available for correction and another Save; automatic controls revalidate each submission. Preserve newer independent changes and existing commitments. No partial configuration/snapshot update.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Refresh_34" name="Show saved rules, blocked dates and preserved work for future checks">
+      <bpmn:documentation>Display saved baselines/timing/blocks/offering schedule and existing work, including over-limit state if applicable. New bookings use available capacity by fulfillment date; blocked/full dates cannot be selected through BPMN-02/09 and applicable BPMN-06 rules. BPMN-03 uses current offering for new selections; BPMN-04/confirmed records retain agreed schedule. Refresh does not create allocations or alter past paid transactions.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="End_34" name="Future rules configured; existing commitments preserved">
+      <bpmn:incoming>Flow_34_21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="ReviewError_34" name="Review error; correct entries or close and reopen">
+      <bpmn:documentation>The prototype retains the form and displays an error after failed submission, allowing correction and another Save. Settings and subscription-schedule saves reject outdated versions. When saved data has changed, close and reopen the settings/form to read current values before re-entering changes; do not bypass the version check. No dedicated reload-and-merge-draft or automatic safe-retry operation is claimed. Reopening may discard the unsaved draft, depending on the form.</bpmn:documentation>
+      <bpmn:incoming>Flow_34_23</bpmn:incoming>
+      <bpmn:incoming>Flow_34_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_24</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Recovery_34" name="Owner recovery choice?">
+      <bpmn:incoming>Flow_34_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_34_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_34_26</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Stop_34" name="Stopped for now; saved settings/work retained">
+      <bpmn:incoming>Flow_34_26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_34_29" sourceRef="LoadReview_34" targetRef="LoadRetry_34" />
+    <bpmn:sequenceFlow id="Flow_34_30" sourceRef="LoadRetry_34" targetRef="Load_34" name="Yes / retry" />
+    <bpmn:sequenceFlow id="Flow_34_31" sourceRef="LoadRetry_34" targetRef="AccessEnd_34" name="No / close" />
+    <bpmn:sequenceFlow id="Flow_34_1" sourceRef="Start_34" targetRef="Load_34" />
+    <bpmn:sequenceFlow id="Flow_34_2" sourceRef="Load_34" targetRef="Allowed_34" />
+    <bpmn:sequenceFlow id="Flow_34_3" sourceRef="Allowed_34" targetRef="AccessError_34" name="No" />
+    <bpmn:sequenceFlow id="Flow_34_4" sourceRef="AccessError_34" targetRef="LoadReview_34" />
+    <bpmn:sequenceFlow id="Flow_34_5" sourceRef="Allowed_34" targetRef="Edit_34" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_34_6" sourceRef="Edit_34" targetRef="Confirm_34" />
+    <bpmn:sequenceFlow id="Flow_34_7" sourceRef="Confirm_34" targetRef="Cancel_34" name="No / cancel" />
+    <bpmn:sequenceFlow id="Flow_34_8" sourceRef="Confirm_34" targetRef="Validate_34" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_34_9" sourceRef="Validate_34" targetRef="Valid_34" />
+    <bpmn:sequenceFlow id="Flow_34_10" sourceRef="Valid_34" targetRef="InputError_34" name="No" />
+    <bpmn:sequenceFlow id="Flow_34_11" sourceRef="Valid_34" targetRef="Impact_34" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_34_12" sourceRef="Impact_34" targetRef="Affected_34" />
+    <bpmn:sequenceFlow id="Flow_34_32" sourceRef="Affected_34" targetRef="ImpactReview_34" name="Yes / show affected work" />
+    <bpmn:sequenceFlow id="Flow_34_33" sourceRef="Affected_34" targetRef="Save_34" name="No / save future rules" />
+    <bpmn:sequenceFlow id="Flow_34_13" sourceRef="ImpactReview_34" targetRef="ImpactConfirmed_34" />
+    <bpmn:sequenceFlow id="Flow_34_14" sourceRef="ImpactConfirmed_34" targetRef="Save_34" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_34_15" sourceRef="ImpactConfirmed_34" targetRef="Edit_34" name="No / revise" />
+    <bpmn:sequenceFlow id="Flow_34_18" sourceRef="Save_34" targetRef="Saved_34" />
+    <bpmn:sequenceFlow id="Flow_34_19" sourceRef="Saved_34" targetRef="SaveError_34" name="No" />
+    <bpmn:sequenceFlow id="Flow_34_20" sourceRef="Saved_34" targetRef="Refresh_34" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_34_21" sourceRef="Refresh_34" targetRef="End_34" />
+    <bpmn:sequenceFlow id="Flow_34_22" sourceRef="InputError_34" targetRef="ReviewError_34" />
+    <bpmn:sequenceFlow id="Flow_34_23" sourceRef="SaveError_34" targetRef="ReviewError_34" />
+    <bpmn:sequenceFlow id="Flow_34_24" sourceRef="ReviewError_34" targetRef="Recovery_34" />
+    <bpmn:sequenceFlow id="Flow_34_25" sourceRef="Recovery_34" targetRef="Edit_34" name="Correct entries / save again" />
+    <bpmn:sequenceFlow id="Flow_34_26" sourceRef="Recovery_34" targetRef="Stop_34" name="Close / reopen if needed" />
+    <bpmn:textAnnotation id="PoolRules_34">
+      <bpmn:text>Separate pool / mandatory rules
+Standard: daily varieties and units/variety; default 4 × 10.
+Subscription: weekly per product; default 10.
+Cake: default 2/week, distinct fulfillment dates.
+Positive whole capacity counts.
+Standard cutoff: noon at least 1 day before fulfillment, or earlier preparation deadline.
+Subscription: noon at least 1 day before first preparation, per lead time.
+Cake submission: at least 7 calendar days; timely review is not a new submission.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_PoolRules_34" sourceRef="Validate_34" targetRef="PoolRules_34" associationDirection="None" />
+    <bpmn:textAnnotation id="Commitments_34">
+      <bpmn:text>Preserve committed work
+Lower limits may leave existing allocations above the new limit; do not cancel or erase them.
+New block prevents NEW bookings, not existing preparation/fulfillment.
+Preserve confirmed subscription preparation and fulfillment dates before configuration/schedule edits.
+Deactivating an offering stops new enrollments, not prepaid deliveries.
+No automatic deferment, hold release, cancellation or refund.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Commitments_34" sourceRef="Impact_34" targetRef="Commitments_34" associationDirection="None" />
+    <bpmn:textAnnotation id="Reuse_34">
+      <bpmn:text>Rule consumers (separate processes)
+BPMN-09: new purchase/resource validation.
+BPMN-06: permitted deferment-date capacity check.
+BPMN-03: new offering/schedule selection.
+BPMN-04: preserved confirmed fulfillment records.
+BPMN-26: authentication precondition.
+Configuration does not execute any of these workflows.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Reuse_34" sourceRef="Refresh_34" targetRef="Reuse_34" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_34">
+    <bpmndi:BPMNPlane id="Plane_34" bpmnElement="Collaboration_34">
+      <bpmndi:BPMNShape id="Shape_Participant_34" bpmnElement="Participant_34" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1510" height="4120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_34_owner" bpmnElement="Lane_34_owner" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="4090" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_34_system" bpmnElement="Lane_34_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1060" height="4090" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_34" bpmnElement="Start_34">
+        <dc:Bounds x="262" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="185" width="310" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_34" bpmnElement="Load_34">
+        <dc:Bounds x="670" y="280" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allowed_34" bpmnElement="Allowed_34">
+        <dc:Bounds x="785" y="480" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="480" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AccessError_34" bpmnElement="AccessError_34">
+        <dc:Bounds x="1100" y="465" width="270" height="100" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AccessEnd_34" bpmnElement="AccessEnd_34">
+        <dc:Bounds x="1217" y="650" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1110" y="695" width="240" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LoadReview_34" bpmnElement="LoadReview_34">
+        <dc:Bounds x="140" y="340" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LoadRetry_34" bpmnElement="LoadRetry_34">
+        <dc:Bounds x="255" y="550" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="545" width="160" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Edit_34" bpmnElement="Edit_34">
+        <dc:Bounds x="140" y="760" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_34" bpmnElement="Confirm_34">
+        <dc:Bounds x="255" y="990" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="990" width="160" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_34" bpmnElement="Cancel_34">
+        <dc:Bounds x="262" y="1200" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="1245" width="250" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate_34" bpmnElement="Validate_34">
+        <dc:Bounds x="670" y="1220" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid_34" bpmnElement="Valid_34">
+        <dc:Bounds x="785" y="1450" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1450" width="230" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InputError_34" bpmnElement="InputError_34">
+        <dc:Bounds x="1100" y="1435" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Impact_34" bpmnElement="Impact_34">
+        <dc:Bounds x="670" y="1710" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Affected_34" bpmnElement="Affected_34">
+        <dc:Bounds x="785" y="1940" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="850" y="1940" width="230" height="80" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ImpactReview_34" bpmnElement="ImpactReview_34">
+        <dc:Bounds x="140" y="1920" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ImpactConfirmed_34" bpmnElement="ImpactConfirmed_34">
+        <dc:Bounds x="255" y="2140" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="2140" width="160" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Save_34" bpmnElement="Save_34">
+        <dc:Bounds x="670" y="2400" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Saved_34" bpmnElement="Saved_34">
+        <dc:Bounds x="785" y="2640" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="2640" width="230" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveError_34" bpmnElement="SaveError_34">
+        <dc:Bounds x="1100" y="2625" width="270" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Refresh_34" bpmnElement="Refresh_34">
+        <dc:Bounds x="670" y="2910" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_34" bpmnElement="End_34">
+        <dc:Bounds x="792" y="3180" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="3225" width="270" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviewError_34" bpmnElement="ReviewError_34">
+        <dc:Bounds x="140" y="3480" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Recovery_34" bpmnElement="Recovery_34">
+        <dc:Bounds x="255" y="3700" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="3700" width="160" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Stop_34" bpmnElement="Stop_34">
+        <dc:Bounds x="262" y="3940" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="3985" width="250" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_PoolRules_34" bpmnElement="PoolRules_34">
+        <dc:Bounds x="1100" y="870" width="300" height="380" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Commitments_34" bpmnElement="Commitments_34">
+        <dc:Bounds x="1100" y="1750" width="300" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reuse_34" bpmnElement="Reuse_34">
+        <dc:Bounds x="1100" y="2890" width="300" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_1" bpmnElement="Flow_34_1">
+        <di:waypoint x="280" y="166" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="810" y="220" />
+        <di:waypoint x="810" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_2" bpmnElement="Flow_34_2">
+        <di:waypoint x="810" y="390" />
+        <di:waypoint x="810" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_3" bpmnElement="Flow_34_3">
+        <di:waypoint x="835" y="505" />
+        <di:waypoint x="1100" y="505" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="475" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_4" bpmnElement="Flow_34_4">
+        <di:waypoint x="1235" y="565" />
+        <di:waypoint x="1235" y="620" />
+        <di:waypoint x="470" y="620" />
+        <di:waypoint x="470" y="400" />
+        <di:waypoint x="420" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_29" bpmnElement="Flow_34_29">
+        <di:waypoint x="280" y="460" />
+        <di:waypoint x="280" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_30" bpmnElement="Flow_34_30">
+        <di:waypoint x="305" y="575" />
+        <di:waypoint x="440" y="575" />
+        <di:waypoint x="440" y="260" />
+        <di:waypoint x="810" y="260" />
+        <di:waypoint x="810" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="450" y="285" width="140" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_31" bpmnElement="Flow_34_31">
+        <di:waypoint x="280" y="600" />
+        <di:waypoint x="280" y="640" />
+        <di:waypoint x="1235" y="640" />
+        <di:waypoint x="1235" y="650" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="300" y="650" width="140" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_5" bpmnElement="Flow_34_5">
+        <di:waypoint x="810" y="530" />
+        <di:waypoint x="810" y="680" />
+        <di:waypoint x="280" y="680" />
+        <di:waypoint x="280" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="595" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_6" bpmnElement="Flow_34_6">
+        <di:waypoint x="280" y="890" />
+        <di:waypoint x="280" y="990" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_7" bpmnElement="Flow_34_7">
+        <di:waypoint x="280" y="1040" />
+        <di:waypoint x="280" y="1200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1100" width="110" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_8" bpmnElement="Flow_34_8">
+        <di:waypoint x="305" y="1015" />
+        <di:waypoint x="810" y="1015" />
+        <di:waypoint x="810" y="1220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="985" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_9" bpmnElement="Flow_34_9">
+        <di:waypoint x="810" y="1350" />
+        <di:waypoint x="810" y="1450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_10" bpmnElement="Flow_34_10">
+        <di:waypoint x="835" y="1475" />
+        <di:waypoint x="1100" y="1475" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="1445" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_11" bpmnElement="Flow_34_11">
+        <di:waypoint x="810" y="1500" />
+        <di:waypoint x="810" y="1710" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="1590" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_12" bpmnElement="Flow_34_12">
+        <di:waypoint x="810" y="1840" />
+        <di:waypoint x="810" y="1940" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_32" bpmnElement="Flow_34_32">
+        <di:waypoint x="785" y="1965" />
+        <di:waypoint x="460" y="1965" />
+        <di:waypoint x="460" y="1985" />
+        <di:waypoint x="420" y="1985" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="505" y="1920" width="260" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_33" bpmnElement="Flow_34_33">
+        <di:waypoint x="810" y="1990" />
+        <di:waypoint x="810" y="2070" />
+        <di:waypoint x="1000" y="2070" />
+        <di:waypoint x="1000" y="2465" />
+        <di:waypoint x="950" y="2465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="2030" width="240" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_13" bpmnElement="Flow_34_13">
+        <di:waypoint x="280" y="2050" />
+        <di:waypoint x="280" y="2140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_14" bpmnElement="Flow_34_14">
+        <di:waypoint x="305" y="2165" />
+        <di:waypoint x="810" y="2165" />
+        <di:waypoint x="810" y="2400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="2135" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_15" bpmnElement="Flow_34_15">
+        <di:waypoint x="280" y="2190" />
+        <di:waypoint x="280" y="2280" />
+        <di:waypoint x="75" y="2280" />
+        <di:waypoint x="75" y="825" />
+        <di:waypoint x="140" y="825" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="115" y="2240" width="150" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_18" bpmnElement="Flow_34_18">
+        <di:waypoint x="810" y="2530" />
+        <di:waypoint x="810" y="2640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_19" bpmnElement="Flow_34_19">
+        <di:waypoint x="835" y="2665" />
+        <di:waypoint x="1100" y="2665" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="2635" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_20" bpmnElement="Flow_34_20">
+        <di:waypoint x="810" y="2690" />
+        <di:waypoint x="810" y="2910" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="2790" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_21" bpmnElement="Flow_34_21">
+        <di:waypoint x="810" y="3040" />
+        <di:waypoint x="810" y="3180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_22" bpmnElement="Flow_34_22">
+        <di:waypoint x="1370" y="1495" />
+        <di:waypoint x="1440" y="1495" />
+        <di:waypoint x="1440" y="3380" />
+        <di:waypoint x="350" y="3380" />
+        <di:waypoint x="350" y="3480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_23" bpmnElement="Flow_34_23">
+        <di:waypoint x="1370" y="2685" />
+        <di:waypoint x="1470" y="2685" />
+        <di:waypoint x="1470" y="3420" />
+        <di:waypoint x="210" y="3420" />
+        <di:waypoint x="210" y="3480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_24" bpmnElement="Flow_34_24">
+        <di:waypoint x="280" y="3610" />
+        <di:waypoint x="280" y="3700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_25" bpmnElement="Flow_34_25">
+        <di:waypoint x="255" y="3725" />
+        <di:waypoint x="80" y="3725" />
+        <di:waypoint x="80" y="825" />
+        <di:waypoint x="140" y="825" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="90" y="3650" width="150" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_34_26" bpmnElement="Flow_34_26">
+        <di:waypoint x="280" y="3750" />
+        <di:waypoint x="280" y="3940" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="3830" width="130" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_PoolRules_34" bpmnElement="Assoc_PoolRules_34">
+        <di:waypoint x="950" y="1285" />
+        <di:waypoint x="1000" y="1285" />
+        <di:waypoint x="1000" y="1040" />
+        <di:waypoint x="1100" y="1040" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Commitments_34" bpmnElement="Assoc_Commitments_34">
+        <di:waypoint x="950" y="1775" />
+        <di:waypoint x="1100" y="1775" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Reuse_34" bpmnElement="Assoc_Reuse_34">
+        <di:waypoint x="950" y="2975" />
+        <di:waypoint x="1100" y="2975" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_35" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_35">
+    <bpmn:participant id="Participant_35" name="BPMN-35 | Recipe and Bill of Materials Maintenance" processRef="Process_35" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_35" name="Recipe and Bill of Materials Maintenance" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-35 and catalog process ownership; Chapters/Kitchen406 - Capstone Paper.md SRS 4.13 FR-BOM-01-14; supporting NFR-SEC-03,08, NFR-REL-03,05-06. Website: index.html loads app/pricing-state.js P.save, I.recipe and P.saveStaffRecipe, app/owner-products.js materialRecipe/material rows and combined product save, app/inventory-state.js recipe/material calculations and app/cake-data.js supported cake ingredients/configuration. Current XMLs reviewed, particularly BPMN-22/26/33/34. SRS is primary: show supported cake-option mappings even where website editor coverage is partial. Scope: recipe definition maintenance for one product variant or supported cake option and authorized read-only production reference. Recipes directly reference inventory base ingredients; no nested recipes/prepared-component inventory. Owner alone may create/change rows/quantities; Staff can view but is denied mutation. Authentication is upstream BPMN-26; role checked at load and commit. Each saved mapping may reference an ingredient also used in other recipes, with no global ingredient exclusivity. Recipe change does not consume/reserve stock, procure supplies, alter paid order material/amount snapshots or approve a new final price. Website also edits overhead in recipe/pricing UI: overhead, costing and price decisions remain BPMN-36, not expanded here. BPMN-22 uses recipe quantities for planning; BPMN-09/11 for reservation; BPMN-13 for production consumption. These are rule/data-consumer references, not calls of whole transactions when a definition is saved. All local validation/failure/recovery paths are on the main diagram. Internal roles use sequence flows within one pool; no external participant/message flow or broadcast is needed. Recoverable field/save conflicts return to explicit review, correction, reload/retry or stopping. Proposed consistent-save safeguards follow SRS reliability even if preview is only in-memory. Do not invent universal recipe version pinning or automatic recalculation/replacement of existing fulfillments.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_35">
+      <bpmn:lane id="Lane_35_owner" name="Admin/Owner (edit) or authorized Staff (view)">
+        <bpmn:flowNodeRef>Start_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>View_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EditRequested_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ViewEnd_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Edit_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewError_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Recovery_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stop_35</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_35_system" name="Kitchen406 System — Recipe / BoM Management">
+        <bpmn:flowNodeRef>Load_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Denied_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DeniedEnd_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Owner_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InputError_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveError_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Available_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reload_35</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryAllowed_35</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_35" name="Recipe viewing or maintenance requested">
+      <bpmn:outgoing>Flow_35_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Load_35" name="Check role; load selected variant/cake mapping and inventory references">
+      <bpmn:documentation>FR-BOM-01,05-06,10-12. Load applicable product variant or supported cake configuration option, saved ingredient rows/quantities, inventory units and record version. Authenticated Owner may maintain; authorized Staff may view production reference only. Unsupported/missing target or unauthorized access gives a safe reason. Inventory quantities/costs may be displayed only as permitted; Staff never receives restricted financial access.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed_35" name="Authorized reference access and target valid?">
+      <bpmn:incoming>Flow_35_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Denied_35" name="Explain permission/target issue; keep recipe unchanged">
+      <bpmn:incoming>Flow_35_29</bpmn:incoming>
+      <bpmn:incoming>Flow_35_9</bpmn:incoming>
+      <bpmn:incoming>Flow_35_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="DeniedEnd_35" name="Request denied; saved definition retained">
+      <bpmn:incoming>Flow_35_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="View_35" name="Review recipe/base-ingredient quantities and units">
+      <bpmn:documentation>FR-BOM-10. Owner/authorized Staff reviews production details; Staff has read-only controls. Read-only reference does not compute consumption or alter stored mappings.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="EditRequested_35" name="Modification requested?">
+      <bpmn:incoming>Flow_35_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="ViewEnd_35" name="Recipe viewed; no changes">
+      <bpmn:incoming>Flow_35_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Owner_35" name="Acting account is Admin/Owner?">
+      <bpmn:documentation>FR-BOM-11-12. Recheck mutation authority; read-only access does not grant editing permission. Staff mutation attempts are rejected server-side.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Edit_35" name="Review current recipe against draft; edit ingredient rows and quantities">
+      <bpmn:documentation>Select existing base inventory ingredients with supported quantities/units for this variant or cake option. Multiple rows are supported; another recipe may use the same ingredient. Adding/removing a row changes this recipe only, not the ingredient inventory record. No nested/subrecipe selector or intermediate preparation stock is allowed. Confirm intended composition before save; cancel retains prior definition. Missing inventory item creation is separate inventory maintenance, not invented inside recipe save. On recovery, explicitly compare the retained draft with freshly loaded recipe/version before reconciling and resubmitting. This is not blind stale-data replacement.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_28</bpmn:incoming>
+      <bpmn:incoming>Flow_35_24</bpmn:incoming>
+      <bpmn:incoming>Flow_35_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_11</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Confirm_35" name="Owner confirms recipe changes?">
+      <bpmn:incoming>Flow_35_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Cancel_35" name="Cancelled; prior recipe retained">
+      <bpmn:incoming>Flow_35_12</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:businessRuleTask id="Validate_35" name="Validate inventory links, positive quantities and single-level recipe structure">
+      <bpmn:documentation>FR-BOM-02-06,13-14. Require applicable saved/current target and sufficient configured rows for a valid usable recipe/mapping; standalone recipe editor requires at least one ingredient. Every row references a supported existing base ingredient/inventory item, quantity is finite positive and uses the associated unit/compatible supported conversion. No repeated ingredient row within this recipe (prototype materialRecipe/P.save); sharing ingredients across distinct recipes is allowed. Reject nested/intermediate component mappings. Validate allowed changes and current record/dependency version. Availability/cost shortage alone does not invalidate a recipe definition: missing cost is reported downstream by BPMN-36, not treated as zero. A draft product with no configured recipe remains unready for ordering through BPMN-33; it is not falsely saved here as a complete usable recipe.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_14</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Valid_35" name="All recipe rules and current version valid?">
+      <bpmn:incoming>Flow_35_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="InputError_35" name="Explain invalid row/unit/structure or stale target; retain draft">
+      <bpmn:documentation>Show exact required correction: missing/invalid target, repeated or unsupported ingredient, nonpositive quantity, incompatible unit, nested structure or stale version. No saved recipe/inventory mutation. Correct fields, explicitly reload/review changed data, or stop.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save_35" name="Recheck Owner/version; save ingredient mapping and quantities consistently">
+      <bpmn:documentation>FR-BOM-01-06,11-14; NFR-REL-03,05-06. Recheck role/target/current version and row validation at protected commit. Save recipe-to-inventory links and quantities together with change/version context; Owner is actor. Preserve other variant/cake mappings and existing requirement/material-consumption/order amount snapshots. A failed combined update preserves prior saved recipe and dependent state; do not apply only part of the row set. If recipe draft accompanies BPMN-33 product save, participate consistently with that caller without independently committing ahead of a failed product update. Existing recipe identity prevents repeated submit from duplicating rows. No change to recorded stock, reservations, actual consumption, final selling price or allocations.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Saved_35" name="Recipe changes saved?">
+      <bpmn:incoming>Flow_35_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SaveError_35" name="Explain conflict/save failure; preserve latest definition and draft">
+      <bpmn:documentation>Retain latest independently committed recipe, not a stale snapshot. A stale record requires reload and explicit review. Transient save error may be safely retried after revalidation; avoid duplicate rows or partial saved mappings.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Available_35" name="Display saved recipe; make quantities available to dependent modules">
+      <bpmn:documentation>FR-BOM-07-10. Expose saved variant/cake-option ingredient quantities to inventory requirements/reservation/consumption consumers and current recipe/cost inputs to pricing. Staff may view production quantities but may not edit definitions or see restricted costing analytics. Actual material calculations are BPMN-22/09/11/13; costing/final price is BPMN-36. Changing recipe may affect current cost estimates under pricing rules but never automatically overwrites final selling prices or original paid amounts. No automatic rewrite of existing confirmed material snapshots or historical consumption is introduced.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_20</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="End_35" name="Valid recipe/mapping saved and available for authorized reuse">
+      <bpmn:incoming>Flow_35_20</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="ReviewError_35" name="Review error/current values; correct, reload/retry, or stop">
+      <bpmn:documentation>Owner recovery path, not Staff edit authority. Retain draft separately; correcting invalid input returns to recipe editor. Stale version requires reload/current-data review before resubmission. Retry checks current role/version/rules. No automatic overwrite or unbounded automatic retry loop.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_22</bpmn:incoming>
+      <bpmn:incoming>Flow_35_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_23</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Recovery_35" name="Owner recovery choice?">
+      <bpmn:incoming>Flow_35_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_26</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Stop_35" name="Stopped for now; saved recipe unchanged">
+      <bpmn:incoming>Flow_35_25</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reload_35" name="Reload current recipe/version and recheck Owner edit permission">
+      <bpmn:documentation>Recovery only: refresh current recipe/target and expected version; retain unsaved draft separately. Recheck authenticated Owner modification permission server-side. No new login or manual approval is required. Missing/unsupported target or revoked permission cannot authorize editing. If permitted, go directly to Owner review of current data against draft in Edit, bypassing initial read-only viewing and modification-request choices. Do not silently merge or save a stale draft.</bpmn:documentation>
+      <bpmn:incoming>Flow_35_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_27</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_35_1" sourceRef="Start_35" targetRef="Load_35" />
+    <bpmn:sequenceFlow id="Flow_35_2" sourceRef="Load_35" targetRef="Allowed_35" />
+    <bpmn:sequenceFlow id="Flow_35_3" sourceRef="Allowed_35" targetRef="Denied_35" name="No" />
+    <bpmn:sequenceFlow id="Flow_35_4" sourceRef="Denied_35" targetRef="DeniedEnd_35" />
+    <bpmn:sequenceFlow id="Flow_35_5" sourceRef="Allowed_35" targetRef="View_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_6" sourceRef="View_35" targetRef="EditRequested_35" />
+    <bpmn:sequenceFlow id="Flow_35_7" sourceRef="EditRequested_35" targetRef="ViewEnd_35" name="No — view only" />
+    <bpmn:sequenceFlow id="Flow_35_8" sourceRef="EditRequested_35" targetRef="Owner_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_9" sourceRef="Owner_35" targetRef="Denied_35" name="No — Staff cannot edit" />
+    <bpmn:sequenceFlow id="Flow_35_10" sourceRef="Owner_35" targetRef="Edit_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_11" sourceRef="Edit_35" targetRef="Confirm_35" />
+    <bpmn:sequenceFlow id="Flow_35_12" sourceRef="Confirm_35" targetRef="Cancel_35" name="No / cancel" />
+    <bpmn:sequenceFlow id="Flow_35_13" sourceRef="Confirm_35" targetRef="Validate_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_14" sourceRef="Validate_35" targetRef="Valid_35" />
+    <bpmn:sequenceFlow id="Flow_35_15" sourceRef="Valid_35" targetRef="InputError_35" name="No" />
+    <bpmn:sequenceFlow id="Flow_35_16" sourceRef="Valid_35" targetRef="Save_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_17" sourceRef="Save_35" targetRef="Saved_35" />
+    <bpmn:sequenceFlow id="Flow_35_18" sourceRef="Saved_35" targetRef="SaveError_35" name="No" />
+    <bpmn:sequenceFlow id="Flow_35_19" sourceRef="Saved_35" targetRef="Available_35" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_35_20" sourceRef="Available_35" targetRef="End_35" />
+    <bpmn:sequenceFlow id="Flow_35_21" sourceRef="InputError_35" targetRef="ReviewError_35" />
+    <bpmn:sequenceFlow id="Flow_35_22" sourceRef="SaveError_35" targetRef="ReviewError_35" />
+    <bpmn:sequenceFlow id="Flow_35_23" sourceRef="ReviewError_35" targetRef="Recovery_35" />
+    <bpmn:sequenceFlow id="Flow_35_24" sourceRef="Recovery_35" targetRef="Edit_35" name="Correct draft" />
+    <bpmn:sequenceFlow id="Flow_35_25" sourceRef="Recovery_35" targetRef="Stop_35" name="Stop / cancel" />
+    <bpmn:sequenceFlow id="Flow_35_26" sourceRef="Recovery_35" targetRef="Reload_35" name="Reload / safe retry" />
+    <bpmn:sequenceFlow id="Flow_35_27" sourceRef="Reload_35" targetRef="RetryAllowed_35" />
+    <bpmn:textAnnotation id="RecipeRules_35">
+      <bpmn:text>Recipe validation (FR-BOM-01–14)
+Target: product variant or supported cake option.
+Multiple existing base inventory ingredients with positive quantities and correct units.
+Use each ingredient once per definition; other recipes may use it too.
+No nested recipes or intermediate/prepared inventory.
+Owner alone edits; Staff views only.
+Check current record/version.
+Stock/cost shortage is not a reason to invent recipe quantities or auto-change final price.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_RecipeRules_35" sourceRef="Validate_35" targetRef="RecipeRules_35" associationDirection="None" />
+    <bpmn:textAnnotation id="Reuse_35">
+      <bpmn:text>Separate consumer processes
+BPMN-22: material planning.
+BPMN-09/11: applicable reservations.
+BPMN-13: production reference/consumption.
+BPMN-36: costing/final-price approval.
+BPMN-33: catalog/variant maintenance.
+BPMN-26: authentication precondition.
+Saving a recipe does not execute these processes or move stock.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Reuse_35" sourceRef="Available_35" targetRef="Reuse_35" associationDirection="None" />
+    <bpmn:exclusiveGateway id="RetryAllowed_35" name="Owner edit permission and target still valid?">
+      <bpmn:incoming>Flow_35_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_35_28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_35_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_35_28" sourceRef="RetryAllowed_35" targetRef="Edit_35" name="Yes — review/edit current recipe" />
+    <bpmn:sequenceFlow id="Flow_35_29" sourceRef="RetryAllowed_35" targetRef="Denied_35" name="No — reject modification" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_35">
+    <bpmndi:BPMNPlane id="Plane_35" bpmnElement="Collaboration_35">
+      <bpmndi:BPMNShape id="Shape_Participant_35" bpmnElement="Participant_35" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1510" height="4120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_35_owner" bpmnElement="Lane_35_owner" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="4090" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_35_system" bpmnElement="Lane_35_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1060" height="4090" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_35" bpmnElement="Start_35">
+        <dc:Bounds x="262" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="185" width="310" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_35" bpmnElement="Load_35">
+        <dc:Bounds x="670" y="280" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allowed_35" bpmnElement="Allowed_35">
+        <dc:Bounds x="785" y="480" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="480" width="230" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Denied_35" bpmnElement="Denied_35">
+        <dc:Bounds x="1100" y="465" width="270" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_DeniedEnd_35" bpmnElement="DeniedEnd_35">
+        <dc:Bounds x="1217" y="660" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1110" y="705" width="240" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_View_35" bpmnElement="View_35">
+        <dc:Bounds x="140" y="770" width="280" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EditRequested_35" bpmnElement="EditRequested_35">
+        <dc:Bounds x="255" y="980" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="980" width="160" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ViewEnd_35" bpmnElement="ViewEnd_35">
+        <dc:Bounds x="262" y="1170" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="1215" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Owner_35" bpmnElement="Owner_35">
+        <dc:Bounds x="785" y="1210" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1210" width="230" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Edit_35" bpmnElement="Edit_35">
+        <dc:Bounds x="140" y="1460" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm_35" bpmnElement="Confirm_35">
+        <dc:Bounds x="255" y="1690" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="1690" width="160" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel_35" bpmnElement="Cancel_35">
+        <dc:Bounds x="262" y="1880" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="1925" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate_35" bpmnElement="Validate_35">
+        <dc:Bounds x="670" y="1930" width="280" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid_35" bpmnElement="Valid_35">
+        <dc:Bounds x="785" y="2170" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="2170" width="230" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InputError_35" bpmnElement="InputError_35">
+        <dc:Bounds x="1100" y="2155" width="270" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Save_35" bpmnElement="Save_35">
+        <dc:Bounds x="670" y="2440" width="280" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Saved_35" bpmnElement="Saved_35">
+        <dc:Bounds x="785" y="2690" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="2690" width="230" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SaveError_35" bpmnElement="SaveError_35">
+        <dc:Bounds x="1100" y="2675" width="270" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Available_35" bpmnElement="Available_35">
+        <dc:Bounds x="670" y="2960" width="280" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_35" bpmnElement="End_35">
+        <dc:Bounds x="792" y="3220" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="3265" width="270" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviewError_35" bpmnElement="ReviewError_35">
+        <dc:Bounds x="140" y="3490" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Recovery_35" bpmnElement="Recovery_35">
+        <dc:Bounds x="255" y="3720" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="3720" width="160" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Stop_35" bpmnElement="Stop_35">
+        <dc:Bounds x="262" y="3960" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="4005" width="250" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reload_35" bpmnElement="Reload_35">
+        <dc:Bounds x="670" y="3530" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RecipeRules_35" bpmnElement="RecipeRules_35">
+        <dc:Bounds x="1100" y="1450" width="300" height="430" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reuse_35" bpmnElement="Reuse_35">
+        <dc:Bounds x="1100" y="2940" width="300" height="300" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_1" bpmnElement="Flow_35_1">
+        <di:waypoint x="280" y="166" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="810" y="220" />
+        <di:waypoint x="810" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_2" bpmnElement="Flow_35_2">
+        <di:waypoint x="810" y="390" />
+        <di:waypoint x="810" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_3" bpmnElement="Flow_35_3">
+        <di:waypoint x="835" y="505" />
+        <di:waypoint x="1100" y="505" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="475" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_4" bpmnElement="Flow_35_4">
+        <di:waypoint x="1235" y="575" />
+        <di:waypoint x="1235" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_5" bpmnElement="Flow_35_5">
+        <di:waypoint x="810" y="530" />
+        <di:waypoint x="810" y="690" />
+        <di:waypoint x="280" y="690" />
+        <di:waypoint x="280" y="770" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="605" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_6" bpmnElement="Flow_35_6">
+        <di:waypoint x="280" y="880" />
+        <di:waypoint x="280" y="980" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_7" bpmnElement="Flow_35_7">
+        <di:waypoint x="280" y="1030" />
+        <di:waypoint x="280" y="1170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1090" width="120" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_8" bpmnElement="Flow_35_8">
+        <di:waypoint x="305" y="1005" />
+        <di:waypoint x="810" y="1005" />
+        <di:waypoint x="810" y="1210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="975" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_9" bpmnElement="Flow_35_9">
+        <di:waypoint x="835" y="1235" />
+        <di:waypoint x="1420" y="1235" />
+        <di:waypoint x="1420" y="520" />
+        <di:waypoint x="1370" y="520" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1120" y="1200" width="235" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_10" bpmnElement="Flow_35_10">
+        <di:waypoint x="810" y="1260" />
+        <di:waypoint x="810" y="1390" />
+        <di:waypoint x="280" y="1390" />
+        <di:waypoint x="280" y="1460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="1320" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_11" bpmnElement="Flow_35_11">
+        <di:waypoint x="280" y="1590" />
+        <di:waypoint x="280" y="1690" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_12" bpmnElement="Flow_35_12">
+        <di:waypoint x="280" y="1740" />
+        <di:waypoint x="280" y="1880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1800" width="110" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_13" bpmnElement="Flow_35_13">
+        <di:waypoint x="305" y="1715" />
+        <di:waypoint x="810" y="1715" />
+        <di:waypoint x="810" y="1930" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1685" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_14" bpmnElement="Flow_35_14">
+        <di:waypoint x="810" y="2070" />
+        <di:waypoint x="810" y="2170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_15" bpmnElement="Flow_35_15">
+        <di:waypoint x="835" y="2195" />
+        <di:waypoint x="1100" y="2195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="2165" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_16" bpmnElement="Flow_35_16">
+        <di:waypoint x="810" y="2220" />
+        <di:waypoint x="810" y="2440" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="2310" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_17" bpmnElement="Flow_35_17">
+        <di:waypoint x="810" y="2580" />
+        <di:waypoint x="810" y="2690" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_18" bpmnElement="Flow_35_18">
+        <di:waypoint x="835" y="2715" />
+        <di:waypoint x="1100" y="2715" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="2685" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_19" bpmnElement="Flow_35_19">
+        <di:waypoint x="810" y="2740" />
+        <di:waypoint x="810" y="2960" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="2830" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_20" bpmnElement="Flow_35_20">
+        <di:waypoint x="810" y="3100" />
+        <di:waypoint x="810" y="3220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_21" bpmnElement="Flow_35_21">
+        <di:waypoint x="1370" y="2220" />
+        <di:waypoint x="1440" y="2220" />
+        <di:waypoint x="1440" y="3390" />
+        <di:waypoint x="350" y="3390" />
+        <di:waypoint x="350" y="3490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_22" bpmnElement="Flow_35_22">
+        <di:waypoint x="1370" y="2740" />
+        <di:waypoint x="1470" y="2740" />
+        <di:waypoint x="1470" y="3430" />
+        <di:waypoint x="210" y="3430" />
+        <di:waypoint x="210" y="3490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_23" bpmnElement="Flow_35_23">
+        <di:waypoint x="280" y="3620" />
+        <di:waypoint x="280" y="3720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_24" bpmnElement="Flow_35_24">
+        <di:waypoint x="255" y="3745" />
+        <di:waypoint x="100" y="3745" />
+        <di:waypoint x="100" y="1525" />
+        <di:waypoint x="140" y="1525" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="110" y="3670" width="130" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_25" bpmnElement="Flow_35_25">
+        <di:waypoint x="280" y="3770" />
+        <di:waypoint x="280" y="3960" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="3850" width="130" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_26" bpmnElement="Flow_35_26">
+        <di:waypoint x="305" y="3745" />
+        <di:waypoint x="810" y="3745" />
+        <di:waypoint x="810" y="3660" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="475" y="3700" width="220" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_27" bpmnElement="Flow_35_27">
+        <di:waypoint x="950" y="3595" />
+        <di:waypoint x="1135" y="3595" />
+        <di:waypoint x="1135" y="3830" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_RecipeRules_35" bpmnElement="Assoc_RecipeRules_35">
+        <di:waypoint x="950" y="2000" />
+        <di:waypoint x="1000" y="2000" />
+        <di:waypoint x="1000" y="1600" />
+        <di:waypoint x="1100" y="1600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_Reuse_35" bpmnElement="Assoc_Reuse_35">
+        <di:waypoint x="950" y="3030" />
+        <di:waypoint x="1100" y="3030" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_RetryAllowed_35" bpmnElement="RetryAllowed_35">
+        <dc:Bounds x="1110" y="3830" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="900" y="3820" width="190" height="80" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_28" bpmnElement="Flow_35_28">
+        <di:waypoint x="1135" y="3880" />
+        <di:waypoint x="1135" y="4080" />
+        <di:waypoint x="1530" y="4080" />
+        <di:waypoint x="1530" y="1420" />
+        <di:waypoint x="280" y="1420" />
+        <di:waypoint x="280" y="1460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1150" y="3920" width="210" height="50" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_35_29" bpmnElement="Flow_35_29">
+        <di:waypoint x="1160" y="3855" />
+        <di:waypoint x="1480" y="3855" />
+        <di:waypoint x="1480" y="520" />
+        <di:waypoint x="1370" y="520" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1210" y="3810" width="220" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
