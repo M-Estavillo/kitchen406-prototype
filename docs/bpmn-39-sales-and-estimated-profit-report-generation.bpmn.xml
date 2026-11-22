@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_39" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_39">
+    <bpmn:participant id="Participant_39" name="BPMN-39 | Sales and Estimated Profit Report Generation" processRef="Process_39" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_39" name="Sales and Estimated Profit Report Generation" isExecutable="false">
+    <bpmn:documentation>Sources: docs/proposed-bpmn-catalog.md BPMN-39 and cross-process ownership; Chapters/Kitchen406 - Capstone Paper.md SRS 4.19 FR-ANL-01-27, FR-PRICE-15-18, FR-SUB-15-18; supporting NFR-SEC-03, NFR-REL-03,05-06. Website: index.html loads app/owner-analytics.js defaults/range/transactions/report/profit/charts, app/earnings-allocation.js N.transactions and owner-share/cost logic, app/pricing-state.js P.breakdown, app/owner.js analytics controls. Existing XMLs/catalog reviewed, particularly BPMN-04/05/12/19/35/36. SRS primary where preview lacks labels, missing-timestamp handling or complete data-quality cases. Entry precondition: authenticated Admin/Owner already granted Sales Analytics access through BPMN-26 and protected-page routing (FR-ANL-01; NFR-SEC-03). No repeated access decision is modeled here. Server-side permission enforcement still applies to each protected report request. Owner only; no Staff/customer financial access. Default: Fulfilled sales, current month-to-date, all owners/products/order types; dates in Asia/Manila. Inputs are basis, period, applicable filters and read-only current source records. Output is correctly labeled descriptive report, valid empty state, partial report with data-quality warnings or retriable load failure. No payment, reservation, fulfillment completion, allocation edit, final price approval, payroll, payout, withdrawal, refund or advanced forecast is performed. Fulfilled sales and Recorded payments are different stages and must never be added into a combined sales total. BPMN-36 costing rules are read-only rule references, not invocation of its settings/final-price workflow; BPMN-35 supplies saved BoM. BPMN-04 establishes original subscription apportionment, BPMN-12 saved owner percentages, BPMN-19 authorized reversal; do not rerun them to calculate a report. All local branches/calculation rules and owner correction/retry/filter-change paths visible in one diagram. Internal lanes share sequence flows; no external message flow/broadcast needed. Report requests never create transactions; reread/recalculate on changes with a consistent source snapshot and preserve saved source data.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_39">
+      <bpmn:lane id="Lane_39_owner" name="Admin/Owner">
+        <bpmn:flowNodeRef>Start_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Select_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Continue_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stop_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Review_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Again_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_39</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_39_system" name="Kitchen406 System — Reports and Analytics">
+        <bpmn:flowNodeRef>Access_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Load_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Loaded_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReadError_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Basis_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fulfilled_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Payments_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Filter_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Any_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Empty_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cost_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Metrics_39</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Display_39</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_39" name="Authorized Owner opens analytics or requests a changed report">
+      <bpmn:outgoing>Flow_39_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Access_39" name="Initialize defaults or retain requested filters">
+      <bpmn:documentation>FR-ANL-03. Owner access is an entry precondition handled upstream, not a repeated decision in this workflow. First open/Clear filters = Fulfilled sales, Asia/Manila current month-to-date, all owners/products/types. An ordinary recalculation retains requested selections, not reset defaults. No source transaction changes.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Select_39" name="Choose basis, period, products/type and applicable Owner filter; or clear/leave">
+      <bpmn:documentation>FR-ANL-03-08,26. Supported day/week/month/quarter/year/custom/current/selected periods; Asia/Manila. Standard/subscription/cake and product filters. Fulfilled sales permits All owners/A/B/Unallocated; Recorded payments disables Owner filters rather than applying shares to upfront payments. Clear restores defaults. View changes request recalculation; leaving stops. No export/email scheduling feature is invented.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_25</bpmn:incoming>
+      <bpmn:incoming>Flow_39_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Continue_39" name="Generate/recalculate report?">
+      <bpmn:incoming>Flow_39_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Stop_39" name="Reporting closed; source records unchanged">
+      <bpmn:incoming>Flow_39_7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Load_39" name="Validate filters; read consistent payment/fulfillment/allocation and cost data">
+      <bpmn:documentation>FR-ANL-02,04,26. Recheck current Owner permission. Validate supported basis/filter combinations and valid chronological date range. Resolve Asia/Manila inclusive reporting dates from actual timestamps. Read current successful payment/fulfillment/item/Owner allocation/costing data consistently; read failure is not an empty dataset. Detect missing links/amounts/timestamps as data-quality issues; preserve known reliable values rather than inventing zeros or dates. Recalculate safely on repeated requests without mutating source records.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_27</bpmn:incoming>
+      <bpmn:incoming>Flow_39_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Loaded_39" name="Request valid and source read successful?">
+      <bpmn:incoming>Flow_39_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ReadError_39" name="Explain filter/read problem; retain selection for correction or retry">
+      <bpmn:documentation>Invalid ranges/filter inputs require correction; transient source failure allows retry. Recheck Owner access before any data disclosure. Never show failed read as zero sales or overwrite source records. Any older visible report must remain clearly identified as previous data, not a new successful result.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_23</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Basis_39" name="Selected reporting basis?">
+      <bpmn:incoming>Flow_39_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="Fulfilled_39" name="Select paid Completed fulfillments; apply saved amounts and Owner shares">
+      <bpmn:documentation>FR-ANL-05,08-11,16-18,20,24-25. Use actual valid completion timestamp, never paid/placed/scheduled/preparation/booking date. Exclude pending/preparing/ready/cancelled/undelivered and missing completion timestamp; flag missing date for investigation. Authorized reversal to incomplete removes sale; a later valid completion counts once on new completion time. Standard/cake product amount excludes delivery, cake includes accepted product charges. Subscription counts each completed weekly operational fulfillment using original apportioned prepaid product amount, no parent extra sale/current price recalculation/deferment amount change. All owners includes full amounts/units and unassigned historical items. Owner A/B use stored line percentage for amount and units; Unallocated contains missing allocations only, never silently attributed. Consistent rounding/remainders ensure A+B+Unallocated = All owners product sales, and original four apportionments sum to prepaid product total.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_14</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="Payments_39" name="Select successful paid purchases; apply payment/product fee rules without Owner shares">
+      <bpmn:documentation>FR-ANL-06,08,16,19,21-23. Use actual successful paid date; exclude unsuccessful attempts and duplicate processing. Count original prepaid subscription payment once; fulfillment children do not add payments. Identify successful payments tied to later cancellation/unresolved reconciliation separately from ordinary fulfilled activity. No Owner shares/filters. Product revenue and product-margin estimate always exclude delivery fees. With all products included, charts/type breakdown/average use full recorded payment including delivery; with product filter, those use selected product amounts only and exclude delivery. Leading products always rank product-sales amounts excluding fees. Keep payment count as matching paid purchases, not weekly child orders. Do not add payments and fulfilled totals together.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_15</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="Filter_39" name="Apply selected Manila period, product/type filters and data-quality flags">
+      <bpmn:documentation>FR-ANL-04,07,25-26. Apply same requested period and relevant product/type constraints to selected basis. Retain basis-specific source dates/amount rules and flagged invalid/incomplete records; do not manufacture missing consideration, dates or owner percentages. No matched eligible records yields a valid empty result, while invalid data is explicitly identified. Data-quality warnings can accompany valid report portions.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_15</bpmn:incoming>
+      <bpmn:incoming>Flow_39_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Any_39" name="Any matching eligible report records?">
+      <bpmn:incoming>Flow_39_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Empty_39" name="Display basis-specific empty state and any data-quality warnings">
+      <bpmn:documentation>FR-ANL-25-26. Distinguish no completed fulfillments from no successful payments under these filters; explain exclusions/invalid timestamps where applicable. No divide-by-zero or fabricated profit. Preserve filters for adjustment and show no transactions rather than conflating a valid empty result with a load failure.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Cost_39" name="Use BPMN-36 costing rules; calculate applicable costs/profit or Unavailable">
+      <bpmn:documentation>FR-ANL-12-15,23; FR-PRICE-15-18. Read-only reuse of BPMN-36 current recipe/configuration, ingredient/packaging and override/default utility-overhead calculation; do not run final-price approval/settings. Scale by item quantity and variant/accepted cake configuration, exclude delivery/marketing/nonproduction costs. Fulfilled Owner estimates apply same stored percentages to cost and sales; profit=allocated sales-allocated estimated cost. Payment basis has no shares and labels estimate as payment-period product-margin. Missing any required cost means affected profit total Unavailable, not zero; reliable sales stay visible. Show negative estimates. Current cost changes may alter older estimates but never locked Owner percentages or original selling amounts. Flags do not silently repair source data.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_19</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="Metrics_39" name="Calculate totals, matching-order average, quantities, trends/type mix and top five products">
+      <bpmn:documentation>FR-ANL-18-24. Average=numerator appropriate to basis/product/Owner filters divided by matching distinct operational fulfillments or paid purchases. Fulfilled subscription count is matching weekly fulfillment orders; payments count paid purchases. Units=full under All owners, quantity×share under Owner and unassigned quantity for Unallocated. Trends/type mix use fulfilled allocated product amounts or payment fee rules; group daily/weekly/monthly per span. Leading products up to five always by product sales excluding delivery. Maintain consistent currency/remainder totals without duplicating transactions. Zero denominator handled as no applicable average/clearly labeled empty state. No advanced forecasting or combined payments+fulfilled sum.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_20</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="Display_39" name="Display correctly labeled report, current-cost estimate caveat and investigation flags">
+      <bpmn:documentation>FR-ANL-14-15,19,22-23,25-27. Labels/legends/average/empty text must match basis and whether delivery fees included. Show actual completion-date basis versus paid-date basis, Owner applicability, Unallocated items and missing timestamp exclusions. State current-cost estimated profit, not complete accounting profit or payout. Payment-period product-margin is distinct from owner fulfilled profit. Costs/Unavailable do not hide reliable sales. Do not disclose Staff/customer financial data or automatically change any source transaction.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Review_39" name="Review report/empty/error result; change filters, clear defaults, retry or close">
+      <bpmn:documentation>Common report interaction after successful, valid empty or failed request. Change relevant filters or Clear defaults; invalid selection corrected; failed read may retry same settings. Missing-cost/source-quality investigation uses owning workflows separately, then refresh report. Closing ends this read-only process. No new business transaction from repeated calculation.</bpmn:documentation>
+      <bpmn:incoming>Flow_39_23</bpmn:incoming>
+      <bpmn:incoming>Flow_39_22</bpmn:incoming>
+      <bpmn:incoming>Flow_39_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_24</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Again_39" name="Owner report action?">
+      <bpmn:incoming>Flow_39_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_39_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_26</bpmn:outgoing>
+      <bpmn:outgoing>Flow_39_27</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="End_39" name="Report review finished; transactions/allocations unchanged">
+      <bpmn:incoming>Flow_39_26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_39_1" sourceRef="Start_39" targetRef="Access_39" />
+    <bpmn:sequenceFlow id="Flow_39_5" sourceRef="Access_39" targetRef="Select_39" />
+    <bpmn:sequenceFlow id="Flow_39_6" sourceRef="Select_39" targetRef="Continue_39" />
+    <bpmn:sequenceFlow id="Flow_39_7" sourceRef="Continue_39" targetRef="Stop_39" name="No / leave" />
+    <bpmn:sequenceFlow id="Flow_39_8" sourceRef="Continue_39" targetRef="Load_39" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_39_9" sourceRef="Load_39" targetRef="Loaded_39" />
+    <bpmn:sequenceFlow id="Flow_39_10" sourceRef="Loaded_39" targetRef="ReadError_39" name="No" />
+    <bpmn:sequenceFlow id="Flow_39_11" sourceRef="Loaded_39" targetRef="Basis_39" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_39_12" sourceRef="Basis_39" targetRef="Fulfilled_39" name="Fulfilled sales" />
+    <bpmn:sequenceFlow id="Flow_39_13" sourceRef="Basis_39" targetRef="Payments_39" name="Recorded payments" />
+    <bpmn:sequenceFlow id="Flow_39_14" sourceRef="Fulfilled_39" targetRef="Filter_39" />
+    <bpmn:sequenceFlow id="Flow_39_15" sourceRef="Payments_39" targetRef="Filter_39" />
+    <bpmn:sequenceFlow id="Flow_39_16" sourceRef="Filter_39" targetRef="Any_39" />
+    <bpmn:sequenceFlow id="Flow_39_17" sourceRef="Any_39" targetRef="Empty_39" name="No" />
+    <bpmn:sequenceFlow id="Flow_39_18" sourceRef="Any_39" targetRef="Cost_39" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_39_19" sourceRef="Cost_39" targetRef="Metrics_39" />
+    <bpmn:sequenceFlow id="Flow_39_20" sourceRef="Metrics_39" targetRef="Display_39" />
+    <bpmn:sequenceFlow id="Flow_39_21" sourceRef="Display_39" targetRef="Review_39" />
+    <bpmn:sequenceFlow id="Flow_39_22" sourceRef="Empty_39" targetRef="Review_39" />
+    <bpmn:sequenceFlow id="Flow_39_23" sourceRef="ReadError_39" targetRef="Review_39" />
+    <bpmn:sequenceFlow id="Flow_39_24" sourceRef="Review_39" targetRef="Again_39" />
+    <bpmn:sequenceFlow id="Flow_39_25" sourceRef="Again_39" targetRef="Select_39" name="Change filters / clear defaults" />
+    <bpmn:sequenceFlow id="Flow_39_26" sourceRef="Again_39" targetRef="End_39" name="Close" />
+    <bpmn:sequenceFlow id="Flow_39_27" sourceRef="Again_39" targetRef="Load_39" name="Refresh / retry current request" />
+    <bpmn:textAnnotation id="BasisRules_39">
+      <bpmn:text>Basis and date rules
+Default: Fulfilled sales, current month-to-date, All owners/products/types.
+Periods: day/week/month/quarter/year/custom in Asia/Manila.
+Fulfilled: paid Completed operational orders, actual valid completion timestamp.
+Payments: successful paid purchases, actual paid date.
+Do not substitute scheduled/payment dates for missing completion.
+Never add the two bases together.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_BasisRules_39" sourceRef="Load_39" targetRef="BasisRules_39" associationDirection="None" />
+    <bpmn:textAnnotation id="SubscriptionRules_39">
+      <bpmn:text>Subscription and Owner rules
+Original prepaid payment counted once.
+Completed weekly fulfillments use original apportioned product amounts; no parent extra fulfilled sale.
+Owner A/B use stored line shares for sales, cost and units; Unallocated stays unassigned.
+A + B + Unallocated = All owners.
+Product-price changes/deferments do not alter apportionment.
+Reversal to incomplete removes fulfilled sale; later completion uses new actual time.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_SubscriptionRules_39" sourceRef="Filter_39" targetRef="SubscriptionRules_39" associationDirection="None" />
+    <bpmn:textAnnotation id="FeeRules_39">
+      <bpmn:text>Amount and estimate labels
+Product revenue/top products/profit exclude delivery fees.
+Recorded-payment charts/type mix/average include fees only with All products; selected-product filter excludes fees.
+Owner filters disabled for payments.
+Payment profit = payment-period product-margin estimate.
+Missing cost: affected profit Unavailable, reliable sales visible.
+Negative profit remains visible; estimates use current costs.
+No payout/refund/forecasting.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Assoc_FeeRules_39" sourceRef="Display_39" targetRef="FeeRules_39" associationDirection="None" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_39">
+    <bpmndi:BPMNPlane id="Plane_39" bpmnElement="Collaboration_39">
+      <bpmndi:BPMNShape id="Shape_Participant_39" bpmnElement="Participant_39" isHorizontal="false">
+        <dc:Bounds x="40" y="40" width="1510" height="4610" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_39_owner" bpmnElement="Lane_39_owner" isHorizontal="false">
+        <dc:Bounds x="70" y="70" width="420" height="4580" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_39_system" bpmnElement="Lane_39_system" isHorizontal="false">
+        <dc:Bounds x="490" y="70" width="1060" height="4580" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_39" bpmnElement="Start_39">
+        <dc:Bounds x="262" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="185" width="310" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Access_39" bpmnElement="Access_39">
+        <dc:Bounds x="670" y="280" width="280" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Select_39" bpmnElement="Select_39">
+        <dc:Bounds x="140" y="790" width="280" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Continue_39" bpmnElement="Continue_39">
+        <dc:Bounds x="255" y="1040" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="1040" width="160" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Stop_39" bpmnElement="Stop_39">
+        <dc:Bounds x="262" y="1250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="1295" width="250" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Load_39" bpmnElement="Load_39">
+        <dc:Bounds x="670" y="1280" width="280" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Loaded_39" bpmnElement="Loaded_39">
+        <dc:Bounds x="785" y="1540" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1540" width="230" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReadError_39" bpmnElement="ReadError_39">
+        <dc:Bounds x="1100" y="1525" width="270" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Basis_39" bpmnElement="Basis_39">
+        <dc:Bounds x="785" y="1820" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1820" width="230" height="55" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Fulfilled_39" bpmnElement="Fulfilled_39">
+        <dc:Bounds x="670" y="2070" width="280" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Payments_39" bpmnElement="Payments_39">
+        <dc:Bounds x="1100" y="2070" width="280" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Filter_39" bpmnElement="Filter_39">
+        <dc:Bounds x="670" y="2390" width="280" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Any_39" bpmnElement="Any_39">
+        <dc:Bounds x="785" y="2620" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="2620" width="230" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Empty_39" bpmnElement="Empty_39">
+        <dc:Bounds x="1100" y="2605" width="280" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cost_39" bpmnElement="Cost_39">
+        <dc:Bounds x="670" y="2880" width="280" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Metrics_39" bpmnElement="Metrics_39">
+        <dc:Bounds x="670" y="3160" width="280" height="170" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Display_39" bpmnElement="Display_39">
+        <dc:Bounds x="670" y="3460" width="280" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Review_39" bpmnElement="Review_39">
+        <dc:Bounds x="140" y="3880" width="280" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Again_39" bpmnElement="Again_39">
+        <dc:Bounds x="255" y="4150" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="4150" width="160" height="65" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_39" bpmnElement="End_39">
+        <dc:Bounds x="262" y="4410" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="4455" width="250" height="75" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_BasisRules_39" bpmnElement="BasisRules_39">
+        <dc:Bounds x="1100" y="900" width="300" height="360" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SubscriptionRules_39" bpmnElement="SubscriptionRules_39">
+        <dc:Bounds x="1100" y="2850" width="300" height="340" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_FeeRules_39" bpmnElement="FeeRules_39">
+        <dc:Bounds x="1100" y="3390" width="300" height="330" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_1" bpmnElement="Flow_39_1">
+        <di:waypoint x="280" y="166" />
+        <di:waypoint x="280" y="220" />
+        <di:waypoint x="810" y="220" />
+        <di:waypoint x="810" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_5" bpmnElement="Flow_39_5">
+        <di:waypoint x="810" y="400" />
+        <di:waypoint x="810" y="710" />
+        <di:waypoint x="280" y="710" />
+        <di:waypoint x="280" y="790" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_6" bpmnElement="Flow_39_6">
+        <di:waypoint x="280" y="940" />
+        <di:waypoint x="280" y="1040" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_7" bpmnElement="Flow_39_7">
+        <di:waypoint x="280" y="1090" />
+        <di:waypoint x="280" y="1250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="1160" width="120" height="35" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_8" bpmnElement="Flow_39_8">
+        <di:waypoint x="305" y="1065" />
+        <di:waypoint x="810" y="1065" />
+        <di:waypoint x="810" y="1280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="1035" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_9" bpmnElement="Flow_39_9">
+        <di:waypoint x="810" y="1430" />
+        <di:waypoint x="810" y="1540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_10" bpmnElement="Flow_39_10">
+        <di:waypoint x="835" y="1565" />
+        <di:waypoint x="1100" y="1565" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="1535" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_11" bpmnElement="Flow_39_11">
+        <di:waypoint x="810" y="1590" />
+        <di:waypoint x="810" y="1820" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="1690" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_12" bpmnElement="Flow_39_12">
+        <di:waypoint x="810" y="1870" />
+        <di:waypoint x="810" y="2070" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="1940" width="150" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_13" bpmnElement="Flow_39_13">
+        <di:waypoint x="835" y="1845" />
+        <di:waypoint x="1240" y="1845" />
+        <di:waypoint x="1240" y="2070" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="970" y="1810" width="200" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_14" bpmnElement="Flow_39_14">
+        <di:waypoint x="810" y="2230" />
+        <di:waypoint x="810" y="2390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_15" bpmnElement="Flow_39_15">
+        <di:waypoint x="1240" y="2240" />
+        <di:waypoint x="1240" y="2310" />
+        <di:waypoint x="1000" y="2310" />
+        <di:waypoint x="1000" y="2455" />
+        <di:waypoint x="950" y="2455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_16" bpmnElement="Flow_39_16">
+        <di:waypoint x="810" y="2520" />
+        <di:waypoint x="810" y="2620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_17" bpmnElement="Flow_39_17">
+        <di:waypoint x="835" y="2645" />
+        <di:waypoint x="1100" y="2645" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="960" y="2615" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_18" bpmnElement="Flow_39_18">
+        <di:waypoint x="810" y="2670" />
+        <di:waypoint x="810" y="2880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="820" y="2760" width="40" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_19" bpmnElement="Flow_39_19">
+        <di:waypoint x="810" y="3040" />
+        <di:waypoint x="810" y="3160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_20" bpmnElement="Flow_39_20">
+        <di:waypoint x="810" y="3330" />
+        <di:waypoint x="810" y="3460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_21" bpmnElement="Flow_39_21">
+        <di:waypoint x="810" y="3620" />
+        <di:waypoint x="810" y="3780" />
+        <di:waypoint x="280" y="3780" />
+        <di:waypoint x="280" y="3880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_22" bpmnElement="Flow_39_22">
+        <di:waypoint x="1380" y="2680" />
+        <di:waypoint x="1440" y="2680" />
+        <di:waypoint x="1440" y="3810" />
+        <di:waypoint x="350" y="3810" />
+        <di:waypoint x="350" y="3880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_23" bpmnElement="Flow_39_23">
+        <di:waypoint x="1370" y="1590" />
+        <di:waypoint x="1470" y="1590" />
+        <di:waypoint x="1470" y="3840" />
+        <di:waypoint x="210" y="3840" />
+        <di:waypoint x="210" y="3880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_24" bpmnElement="Flow_39_24">
+        <di:waypoint x="280" y="4030" />
+        <di:waypoint x="280" y="4150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_25" bpmnElement="Flow_39_25">
+        <di:waypoint x="255" y="4175" />
+        <di:waypoint x="100" y="4175" />
+        <di:waypoint x="100" y="865" />
+        <di:waypoint x="140" y="865" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="110" y="4080" width="140" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_26" bpmnElement="Flow_39_26">
+        <di:waypoint x="280" y="4200" />
+        <di:waypoint x="280" y="4410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="290" y="4290" width="100" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_39_27" bpmnElement="Flow_39_27">
+        <di:waypoint x="305" y="4175" />
+        <di:waypoint x="1500" y="4175" />
+        <di:waypoint x="1500" y="1270" />
+        <di:waypoint x="810" y="1270" />
+        <di:waypoint x="810" y="1280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="900" y="4130" width="300" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_BasisRules_39" bpmnElement="Assoc_BasisRules_39">
+        <di:waypoint x="950" y="1355" />
+        <di:waypoint x="1030" y="1355" />
+        <di:waypoint x="1030" y="1030" />
+        <di:waypoint x="1100" y="1030" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_SubscriptionRules_39" bpmnElement="Assoc_SubscriptionRules_39">
+        <di:waypoint x="950" y="2455" />
+        <di:waypoint x="1030" y="2455" />
+        <di:waypoint x="1030" y="2960" />
+        <di:waypoint x="1100" y="2960" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Assoc_FeeRules_39" bpmnElement="Assoc_FeeRules_39">
+        <di:waypoint x="950" y="3540" />
+        <di:waypoint x="1100" y="3540" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
