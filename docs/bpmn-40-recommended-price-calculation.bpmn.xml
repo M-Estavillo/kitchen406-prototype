@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_40" targetNamespace="https://kitchen406.local/bpmn">
+  <bpmn:collaboration id="Collaboration_40">
+    <bpmn:participant id="Participant_40" name="BPMN-40 | Recommended Price Calculation" processRef="Process_40" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_40" name="Recommended Price Calculation" isExecutable="false">
+    <bpmn:documentation>Calculation detail for BPMN-36. Sources: SRS 4.14 FR-PRICE-01–14, FR-PRICE-16 and FR-PRICE-18; app/pricing-state.js P.breakdown and P.cost. Authorized Owner access is a precondition. Read current saved inputs when the owner views product details. Validate positive recipe quantities, available nonnegative recorded costs and utility overhead, and valid configured markup. Count each applicable packaging item once. Missing required data yields Unavailable. Exclude delivery, marketing and other nonproduction costs. Preserve precision through calculation; calculate the recommendation as 5 × ceiling(raw price ÷ 5). Exact multiples of ₱5 stay the same. This proposed Kitchen406 rule uses a smaller upward adjustment than ₱10 increments; the prototype rounds to two decimals. Local price-point example: the Mary Grace menu lists Butter Chiffon at ₱75 per piece and Banana Bread at ₱85 per slice (https://dkghjxf1hor4.cloudfront.net/web/production/pdfs/sitecontent/5/mg-website-menu-122025_rev.pdf). These examples illustrate price points, not the bakery’s rounding policy. Margin shown here uses the rounded recommendation and is unavailable if that value is zero. The owner can apply the recommendation or enter a different price. Use the positive-price validation and current-record checks from BPMN-36 before saving the selected final price separately from the recommendation. On validation or save failure, retain the current saved price and allow the owner to retry the price selection or finish by viewing the current product price. The recommendation is calculated once per flow.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_40">
+      <bpmn:lane id="owner_40" name="Admin/Owner">
+        <bpmn:flowNodeRef>Start_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Select_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>View_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Choice_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Override_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewError_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Retry_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ViewPrice_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unavailable_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UnavailableEnd_40</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="system_40" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Load_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Check_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Issue_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Materials_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cost_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Markup_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Round_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Display_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Merge_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved_40</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SaveError_40</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_40">
+      <bpmn:outgoing>Flow_40_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Select_40" name="View product details">
+      <bpmn:incoming>Flow_40_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Load_40" name="Load current recipe, unit costs, utility settings and markup">
+      <bpmn:incoming>Flow_40_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Check_40" name="Check product, recipe quantities, recorded costs, overhead and markup">
+      <bpmn:incoming>Flow_40_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_4</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Valid_40" name="Inputs loaded and valid?">
+      <bpmn:incoming>Flow_40_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_40_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Issue_40" name="Show Unavailable and identify the load error or missing or invalid inputs">
+      <bpmn:incoming>Flow_40_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_12</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Materials_40" name="Multiply each quantity by its unit cost; sum ingredient and packaging costs once">
+      <bpmn:incoming>Flow_40_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_7</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="Cost_40" name="Add utility overhead to get production cost; use the product override (including zero) or the default">
+      <bpmn:incoming>Flow_40_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_8</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="Markup_40" name="Calculate raw price = production cost × (1 + markup % ÷ 100)">
+      <bpmn:incoming>Flow_40_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_9</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="Round_40" name="Round up to a multiple of ₱5: 5 × ceiling(raw price ÷ 5). Exact multiples stay the same.">
+      <bpmn:incoming>Flow_40_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_10</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="Display_40" name="Show cost, markup, raw price, rounded recommendation and estimated margin at that price">
+      <bpmn:incoming>Flow_40_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_11</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="View_40" name="View recommendation">
+      <bpmn:incoming>Flow_40_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_14</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Choice_40" name="Apply recommended price?">
+      <bpmn:incoming>Flow_40_24</bpmn:incoming>
+      <bpmn:incoming>Flow_40_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_40_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Override_40" name="Enter a different price">
+      <bpmn:incoming>Flow_40_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_17</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Merge_40" name="">
+      <bpmn:incoming>Flow_40_17</bpmn:incoming>
+      <bpmn:incoming>Flow_40_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Save_40" name="Validate selected price and current record; save final product price">
+      <bpmn:incoming>Flow_40_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Saved_40" name="Price saved?">
+      <bpmn:incoming>Flow_40_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_40_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="SaveError_40" name="Show validation or save issue and retain current saved price">
+      <bpmn:incoming>Flow_40_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="ReviewError_40" name="View issue; retry price selection or finish">
+      <bpmn:incoming>Flow_40_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_23</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Retry_40" name="Retry price selection?">
+      <bpmn:incoming>Flow_40_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_40_25</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ViewPrice_40" name="View applied product price">
+      <bpmn:incoming>Flow_40_25</bpmn:incoming>
+      <bpmn:incoming>Flow_40_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_26</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="End_40" name="Product price viewed">
+      <bpmn:incoming>Flow_40_26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Unavailable_40" name="View unavailable recommendation">
+      <bpmn:incoming>Flow_40_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_40_13</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="UnavailableEnd_40" name="Unavailable result viewed">
+      <bpmn:incoming>Flow_40_13</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_40_1" sourceRef="Start_40" targetRef="Select_40" />
+    <bpmn:sequenceFlow id="Flow_40_2" sourceRef="Select_40" targetRef="Load_40" />
+    <bpmn:sequenceFlow id="Flow_40_3" sourceRef="Load_40" targetRef="Check_40" />
+    <bpmn:sequenceFlow id="Flow_40_4" sourceRef="Check_40" targetRef="Valid_40" />
+    <bpmn:sequenceFlow id="Flow_40_5" sourceRef="Valid_40" targetRef="Issue_40" name="No" />
+    <bpmn:sequenceFlow id="Flow_40_6" sourceRef="Valid_40" targetRef="Materials_40" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_40_7" sourceRef="Materials_40" targetRef="Cost_40" />
+    <bpmn:sequenceFlow id="Flow_40_8" sourceRef="Cost_40" targetRef="Markup_40" />
+    <bpmn:sequenceFlow id="Flow_40_9" sourceRef="Markup_40" targetRef="Round_40" />
+    <bpmn:sequenceFlow id="Flow_40_10" sourceRef="Round_40" targetRef="Display_40" />
+    <bpmn:sequenceFlow id="Flow_40_11" sourceRef="Display_40" targetRef="View_40" />
+    <bpmn:sequenceFlow id="Flow_40_12" sourceRef="Issue_40" targetRef="Unavailable_40" />
+    <bpmn:sequenceFlow id="Flow_40_13" sourceRef="Unavailable_40" targetRef="UnavailableEnd_40" />
+    <bpmn:sequenceFlow id="Flow_40_14" sourceRef="View_40" targetRef="Choice_40" />
+    <bpmn:sequenceFlow id="Flow_40_15" sourceRef="Choice_40" targetRef="Merge_40" name="Apply" />
+    <bpmn:sequenceFlow id="Flow_40_16" sourceRef="Choice_40" targetRef="Override_40" name="Override with different price" />
+    <bpmn:sequenceFlow id="Flow_40_17" sourceRef="Override_40" targetRef="Merge_40" />
+    <bpmn:sequenceFlow id="Flow_40_18" sourceRef="Merge_40" targetRef="Save_40" />
+    <bpmn:sequenceFlow id="Flow_40_19" sourceRef="Save_40" targetRef="Saved_40" />
+    <bpmn:sequenceFlow id="Flow_40_20" sourceRef="Saved_40" targetRef="SaveError_40" name="No" />
+    <bpmn:sequenceFlow id="Flow_40_21" sourceRef="Saved_40" targetRef="ViewPrice_40" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_40_22" sourceRef="SaveError_40" targetRef="ReviewError_40" />
+    <bpmn:sequenceFlow id="Flow_40_23" sourceRef="ReviewError_40" targetRef="Retry_40" />
+    <bpmn:sequenceFlow id="Flow_40_24" sourceRef="Retry_40" targetRef="Choice_40" name="Retry" />
+    <bpmn:sequenceFlow id="Flow_40_25" sourceRef="Retry_40" targetRef="ViewPrice_40" name="Finish" />
+    <bpmn:sequenceFlow id="Flow_40_26" sourceRef="ViewPrice_40" targetRef="End_40" />
+    <bpmn:textAnnotation id="Example_40">
+      <bpmn:text>Worked example
+Ingredients ₱42.00 + packaging ₱3.00 + utilities ₱10.00 = ₱55.00
+16% markup: ₱55.00 × 1.16 = ₱63.80
+Round up to ₱65.00
+Estimated margin: 15.38%</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Example_link_40" sourceRef="Round_40" targetRef="Example_40" />
+    <bpmn:textAnnotation id="Margin_40">
+      <bpmn:text>Estimated margin = (rounded price − production cost) ÷ rounded price × 100</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Margin_link_40" sourceRef="Display_40" targetRef="Margin_40" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_40">
+    <bpmndi:BPMNPlane id="Plane_40" bpmnElement="Collaboration_40">
+      <bpmndi:BPMNShape id="Participant_40_di" bpmnElement="Participant_40" isHorizontal="true">
+        <dc:Bounds x="30" y="92" width="1625" height="2110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="owner_40_di" bpmnElement="owner_40" isHorizontal="true">
+        <dc:Bounds x="60" y="92" width="480" height="2110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="system_40_di" bpmnElement="system_40" isHorizontal="true">
+        <dc:Bounds x="540" y="92" width="1115" height="2110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_40_di" bpmnElement="Start_40">
+        <dc:Bounds x="270.0" y="130.0" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Select_40_di" bpmnElement="Select_40">
+        <dc:Bounds x="115.0" y="200.0" width="350" height="74" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Load_40_di" bpmnElement="Load_40">
+        <dc:Bounds x="665.0" y="200.0" width="490" height="74" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Check_40_di" bpmnElement="Check_40">
+        <dc:Bounds x="665.0" y="308.0" width="490" height="74" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Valid_40_di" bpmnElement="Valid_40">
+        <dc:Bounds x="883.0" y="420.0" width="54" height="54" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="943" y="394" width="210" height="26" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Issue_40_di" bpmnElement="Issue_40">
+        <dc:Bounds x="1260.0" y="401.0" width="360" height="92" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Materials_40_di" bpmnElement="Materials_40">
+        <dc:Bounds x="665.0" y="511.0" width="490" height="78" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Cost_40_di" bpmnElement="Cost_40">
+        <dc:Bounds x="665.0" y="617.0" width="490" height="86" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Markup_40_di" bpmnElement="Markup_40">
+        <dc:Bounds x="665.0" y="731.0" width="490" height="78" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Round_40_di" bpmnElement="Round_40">
+        <dc:Bounds x="665.0" y="841.0" width="490" height="78" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Display_40_di" bpmnElement="Display_40">
+        <dc:Bounds x="665.0" y="948.0" width="490" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Example_40_di" bpmnElement="Example_40">
+        <dc:Bounds x="1260" y="728" width="360" height="196" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Margin_40_di" bpmnElement="Margin_40">
+        <dc:Bounds x="1260" y="948" width="360" height="86" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_40_1_di" bpmnElement="Flow_40_1">
+        <di:waypoint x="290" y="170" />
+        <di:waypoint x="290" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_2_di" bpmnElement="Flow_40_2">
+        <di:waypoint x="465" y="237" />
+        <di:waypoint x="665" y="237" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_3_di" bpmnElement="Flow_40_3">
+        <di:waypoint x="910" y="274" />
+        <di:waypoint x="910" y="308" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_4_di" bpmnElement="Flow_40_4">
+        <di:waypoint x="910" y="382" />
+        <di:waypoint x="910" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_5_di" bpmnElement="Flow_40_5">
+        <di:waypoint x="937" y="447" />
+        <di:waypoint x="1260" y="447" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1061.0" y="413" width="48" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_6_di" bpmnElement="Flow_40_6">
+        <di:waypoint x="910" y="474" />
+        <di:waypoint x="910" y="511" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="923.0" y="478" width="48" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_7_di" bpmnElement="Flow_40_7">
+        <di:waypoint x="910" y="589" />
+        <di:waypoint x="910" y="617" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_8_di" bpmnElement="Flow_40_8">
+        <di:waypoint x="910" y="703" />
+        <di:waypoint x="910" y="731" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_9_di" bpmnElement="Flow_40_9">
+        <di:waypoint x="910" y="809" />
+        <di:waypoint x="910" y="841" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_10_di" bpmnElement="Flow_40_10">
+        <di:waypoint x="910" y="919" />
+        <di:waypoint x="910" y="948" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Example_link_40_di" bpmnElement="Example_link_40">
+        <di:waypoint x="1155" y="880" />
+        <di:waypoint x="1260" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Margin_link_40_di" bpmnElement="Margin_link_40">
+        <di:waypoint x="1155" y="990" />
+        <di:waypoint x="1260" y="990" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="View_40_di" bpmnElement="View_40">
+        <dc:Bounds x="115" y="1080" width="350" height="64" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Choice_40_di" bpmnElement="Choice_40">
+        <dc:Bounds x="263" y="1193" width="54" height="54" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="63" y="1192" width="185" height="48" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Override_40_di" bpmnElement="Override_40">
+        <dc:Bounds x="115" y="1300" width="350" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Merge_40_di" bpmnElement="Merge_40">
+        <dc:Bounds x="883" y="1307" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Save_40_di" bpmnElement="Save_40">
+        <dc:Bounds x="665" y="1410" width="490" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Saved_40_di" bpmnElement="Saved_40">
+        <dc:Bounds x="883" y="1530" width="54" height="54" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="950" y="1536" width="140" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SaveError_40_di" bpmnElement="SaveError_40">
+        <dc:Bounds x="1235" y="1512" width="385" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReviewError_40_di" bpmnElement="ReviewError_40">
+        <dc:Bounds x="115" y="1620" width="350" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Retry_40_di" bpmnElement="Retry_40">
+        <dc:Bounds x="263" y="1730" width="54" height="54" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="326" y="1735" width="180" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ViewPrice_40_di" bpmnElement="ViewPrice_40">
+        <dc:Bounds x="115" y="1880" width="350" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_40_di" bpmnElement="End_40">
+        <dc:Bounds x="270" y="2000" width="40" height="40" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="2046" width="260" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Unavailable_40_di" bpmnElement="Unavailable_40">
+        <dc:Bounds x="115" y="524" width="350" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UnavailableEnd_40_di" bpmnElement="UnavailableEnd_40">
+        <dc:Bounds x="270" y="635" width="40" height="40" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="150" y="680" width="280" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_40_11_di" bpmnElement="Flow_40_11">
+        <di:waypoint x="910" y="1032" />
+        <di:waypoint x="910" y="1112" />
+        <di:waypoint x="465" y="1112" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_12_di" bpmnElement="Flow_40_12">
+        <di:waypoint x="1440" y="493" />
+        <di:waypoint x="1440" y="501" />
+        <di:waypoint x="570" y="501" />
+        <di:waypoint x="570" y="559" />
+        <di:waypoint x="465" y="559" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_13_di" bpmnElement="Flow_40_13">
+        <di:waypoint x="290" y="594" />
+        <di:waypoint x="290" y="635" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_14_di" bpmnElement="Flow_40_14">
+        <di:waypoint x="290" y="1144" />
+        <di:waypoint x="290" y="1193" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_15_di" bpmnElement="Flow_40_15">
+        <di:waypoint x="317" y="1220" />
+        <di:waypoint x="910" y="1220" />
+        <di:waypoint x="910" y="1307" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="515" y="1190" width="85" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_16_di" bpmnElement="Flow_40_16">
+        <di:waypoint x="290" y="1247" />
+        <di:waypoint x="290" y="1300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="306" y="1261" width="250" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_17_di" bpmnElement="Flow_40_17">
+        <di:waypoint x="465" y="1334" />
+        <di:waypoint x="883" y="1334" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_18_di" bpmnElement="Flow_40_18">
+        <di:waypoint x="910" y="1361" />
+        <di:waypoint x="910" y="1410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_19_di" bpmnElement="Flow_40_19">
+        <di:waypoint x="910" y="1486" />
+        <di:waypoint x="910" y="1530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_20_di" bpmnElement="Flow_40_20">
+        <di:waypoint x="937" y="1557" />
+        <di:waypoint x="1235" y="1557" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1090" y="1526" width="45" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_21_di" bpmnElement="Flow_40_21">
+        <di:waypoint x="910" y="1584" />
+        <di:waypoint x="910" y="1598" />
+        <di:waypoint x="565" y="1598" />
+        <di:waypoint x="565" y="1915" />
+        <di:waypoint x="465" y="1915" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="932" y="1600" width="48" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_22_di" bpmnElement="Flow_40_22">
+        <di:waypoint x="1427" y="1602" />
+        <di:waypoint x="1427" y="1655" />
+        <di:waypoint x="620" y="1655" />
+        <di:waypoint x="620" y="1610" />
+        <di:waypoint x="510" y="1610" />
+        <di:waypoint x="510" y="1655" />
+        <di:waypoint x="465" y="1655" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_23_di" bpmnElement="Flow_40_23">
+        <di:waypoint x="290" y="1690" />
+        <di:waypoint x="290" y="1730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_24_di" bpmnElement="Flow_40_24">
+        <di:waypoint x="263" y="1757" />
+        <di:waypoint x="72" y="1757" />
+        <di:waypoint x="72" y="1240" />
+        <di:waypoint x="248" y="1240" />
+        <di:waypoint x="263" y="1220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="127" y="1725" width="78" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_25_di" bpmnElement="Flow_40_25">
+        <di:waypoint x="290" y="1784" />
+        <di:waypoint x="290" y="1880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="310" y="1812" width="80" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_40_26_di" bpmnElement="Flow_40_26">
+        <di:waypoint x="290" y="1950" />
+        <di:waypoint x="290" y="2000" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
