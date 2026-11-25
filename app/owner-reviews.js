@@ -15,18 +15,11 @@ R.capture=()=>{
   if(!A.account.owns(order)||!A.commerce.orders.reviewable(order))return false;
   item=order.items.find(i=>order.id+':'+i.key===key);orderId=order.id;
  }
- R.records.push({id:crypto.randomUUID(),key,orderId,subscriptionId,productId:item.productId,product:item.name,variant:item.variant,customer:A.account.name(),rating:s.rating,comment:A.$('reviewCommentInput').value,images:s.photos.filter(Boolean).map(()=>item.image).filter(Boolean),created:new Date().toISOString(),hidden:false,history:[],version:0});
+ R.records.push({id:crypto.randomUUID(),key,orderId,subscriptionId,productId:item.productId,product:item.name,variant:item.variant,customer:A.account.name(),rating:s.rating,comment:A.$('reviewCommentInput').value,images:[],created:new Date().toISOString(),hidden:false,history:[],version:0});
  return true;
 };
 R.public=()=>{
- const node=A.$('reviewsPopulatedState');if(!node)return;const id=A.product.state.id,product=A.products.find(p=>p.id===id),rows=R.records.filter(r=>r.productId===id&&!r.hidden);
- const samples={
-  1:['The chocolate filling is generous and the loaf is wonderfully soft.','Delicious toasted with coffee the next morning.'],
-  2:['A crisp crust with a lovely chewy centre.','The tangy flavour makes excellent toast.'],
-  3:['Flaky, buttery layers with just the right amount of cardamom.','The caramelised edges were my favourite part.'],
-  4:['Soft and fluffy, perfect for sandwiches.','Beautiful thick slices and a gentle milky flavour.']
- };
- if(!R.records.some(r=>r.productId===id)&&samples[id])rows.push(...samples[id].map((comment,index)=>({customer:index?'Paolo R.':'Mika S.',rating:index?4:5,product:product.name,variant:product.variants[0].label,comment,images:index?[]:[product.image]})));
+ const node=A.$('reviewsPopulatedState');if(!node)return;const id=A.product.state.id,rows=R.records.filter(r=>r.productId===id&&!r.hidden);
  node.innerHTML=rows.map(r=>`<article class="commerce-card"><strong>${E(r.customer)}</strong><p>${r.rating} / 5 · ${E(r.product)} · ${E(r.variant||'')}</p><p>${E(r.comment)}</p>${r.images.map(src=>`<a href="${E(src)}" target="_blank" rel="noopener"><img class="owner-review-thumb" src="${E(src)}" alt="Customer review photo"></a>`).join('')}</article>`).join('')||'<p>No reviews yet.</p>';
  A.$('review-summary').textContent=rows.length?`${(rows.reduce((n,r)=>n+r.rating,0)/rows.length).toFixed(1)} / 5 · ${rows.length} reviews`:'No reviews yet.';
  return rows.length;

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_StockRestocking" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_StockRestocking">
+    <bpmn:participant id="Participant_StockRestocking" name="Inventory Stock Restocking" processRef="Process_StockRestocking" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_StockRestocking" name="Inventory Stock Restocking" isExecutable="false">
+    <bpmn:documentation>Record an actual delivery of stock for an existing material. The owner opens the material through Edit. Staff can use their inventory stock controls.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_StockRestocking">
+      <bpmn:lane id="Lane_Operator" name="Owner or Staff">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Enter</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reopen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Outcome</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Correction</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Success</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Blocked</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Prior</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Stock action opened">
+      <bpmn:outgoing>Flow_Start_Enter</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Enter" name="Enter quantity received, total cost, and optional notes">
+      <bpmn:incoming>Flow_Start_Enter</bpmn:incoming>
+      <bpmn:incoming>Flow_Reopen_Enter</bpmn:incoming>
+      <bpmn:incoming>Flow_Correction_Enter</bpmn:incoming>
+      <bpmn:outgoing>Flow_Enter_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Reopen" name="Reopen the stock form">
+      <bpmn:documentation>Reload the material and use the latest information before submitting.</bpmn:documentation>
+      <bpmn:incoming>Flow_Outcome_Reopen</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reopen_Enter</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Check" name="Check access, material, and version">
+      <bpmn:documentation>Only an active authorized owner or staff member can submit. An archived material must be restored by an owner before stock is recorded. If the same operation already succeeded, return its saved result.</bpmn:documentation>
+      <bpmn:incoming>Flow_Enter_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Outcome</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Outcome" name="Request state?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Check_Outcome</bpmn:incoming>
+      <bpmn:outgoing>Flow_Outcome_Validate</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Outcome_Reopen</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Outcome_Blocked</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Outcome_Prior</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Validate" name="Validate and convert quantity and cost">
+      <bpmn:documentation>Check positive quantity and nonnegative total cost. Validate allowed precision and convert kilograms to grams or liters to milliliters where applicable.</bpmn:documentation>
+      <bpmn:incoming>Flow_Outcome_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Input valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Correction</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Save</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Correction" name="Show input error">
+      <bpmn:documentation>Keep the entered values so the operator can correct them and resubmit or close the form.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Correction</bpmn:incoming>
+      <bpmn:outgoing>Flow_Correction_Enter</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save" name="Update stock and log restock">
+      <bpmn:documentation>Recalculate weighted average cost and stock status. Update the stock and append the movement with the actor in the same transaction.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Success</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Success" name="Updated inventory shown">
+      <bpmn:incoming>Flow_Save_Success</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Blocked" name="Stock action blocked">
+      <bpmn:incoming>Flow_Outcome_Blocked</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Prior" name="Return saved result">
+      <bpmn:incoming>Flow_Outcome_Prior</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Enter" sourceRef="Start" targetRef="Enter" />
+    <bpmn:sequenceFlow id="Flow_Enter_Check" sourceRef="Enter" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Check_Outcome" sourceRef="Check" targetRef="Outcome" />
+    <bpmn:sequenceFlow id="Flow_Outcome_Validate" sourceRef="Outcome" targetRef="Validate" name="Current" />
+    <bpmn:sequenceFlow id="Flow_Outcome_Reopen" sourceRef="Outcome" targetRef="Reopen" name="Stale" />
+    <bpmn:sequenceFlow id="Flow_Reopen_Enter" sourceRef="Reopen" targetRef="Enter" />
+    <bpmn:sequenceFlow id="Flow_Outcome_Blocked" sourceRef="Outcome" targetRef="Blocked" name="Archived / unauthorized" />
+    <bpmn:sequenceFlow id="Flow_Outcome_Prior" sourceRef="Outcome" targetRef="Prior" name="Already saved" />
+    <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Correction" sourceRef="Valid" targetRef="Correction" name="No" />
+    <bpmn:sequenceFlow id="Flow_Correction_Enter" sourceRef="Correction" targetRef="Enter" name="Correct and resubmit" />
+    <bpmn:sequenceFlow id="Flow_Valid_Save" sourceRef="Valid" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Save_Success" sourceRef="Save" targetRef="Success" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_StockRestocking">
+    <bpmndi:BPMNPlane id="Plane_StockRestocking" bpmnElement="Collaboration_StockRestocking">
+      <bpmndi:BPMNShape id="Shape_Participant_StockRestocking" bpmnElement="Participant_StockRestocking" isHorizontal="true">
+        <dc:Bounds x="30" y="12" width="1550" height="758" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Operator" bpmnElement="Lane_Operator" isHorizontal="true">
+        <dc:Bounds x="60" y="12" width="1520" height="203" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="60" y="215" width="1520" height="555" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="122" y="72" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="71" y="115" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Enter" bpmnElement="Enter">
+        <dc:Bounds x="265" y="56" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reopen" bpmnElement="Reopen">
+        <dc:Bounds x="685" y="56" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Check" bpmnElement="Check">
+        <dc:Bounds x="265" y="321" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Outcome" bpmnElement="Outcome" isMarkerVisible="true">
+        <dc:Bounds x="525" y="330" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="475" y="299" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate">
+        <dc:Bounds x="685" y="321" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="960" y="330" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="910" y="299" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Correction" bpmnElement="Correction">
+        <dc:Bounds x="900" y="496" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Save" bpmnElement="Save">
+        <dc:Bounds x="1120" y="321" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Success" bpmnElement="Success">
+        <dc:Bounds x="1452" y="337" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1401" y="380" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Blocked" bpmnElement="Blocked">
+        <dc:Bounds x="532" y="522" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="481" y="565" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Prior" bpmnElement="Prior">
+        <dc:Bounds x="532" y="657" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="481" y="700" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Enter" bpmnElement="Flow_Start_Enter">
+        <di:waypoint x="158" y="90" />
+        <di:waypoint x="265" y="90" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Enter_Check" bpmnElement="Flow_Enter_Check">
+        <di:waypoint x="350" y="124" />
+        <di:waypoint x="350" y="321" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Check_Outcome" bpmnElement="Flow_Check_Outcome">
+        <di:waypoint x="435" y="355" />
+        <di:waypoint x="525" y="355" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Outcome_Validate" bpmnElement="Flow_Outcome_Validate">
+        <di:waypoint x="575" y="355" />
+        <di:waypoint x="685" y="355" />
+        <bpmndi:BPMNLabel><dc:Bounds x="605.5" y="332" width="49" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Outcome_Reopen" bpmnElement="Flow_Outcome_Reopen">
+        <di:waypoint x="550" y="330" />
+        <di:waypoint x="550" y="90" />
+        <di:waypoint x="685" y="90" />
+        <bpmndi:BPMNLabel><dc:Bounds x="568" y="154" width="43" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Reopen_Enter" bpmnElement="Flow_Reopen_Enter">
+        <di:waypoint x="770" y="56" />
+        <di:waypoint x="770" y="25" />
+        <di:waypoint x="350" y="25" />
+        <di:waypoint x="350" y="56" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Outcome_Blocked" bpmnElement="Flow_Outcome_Blocked">
+        <di:waypoint x="550" y="380" />
+        <di:waypoint x="550" y="522" />
+        <bpmndi:BPMNLabel><dc:Bounds x="560" y="456" width="100" height="31" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Outcome_Prior" bpmnElement="Flow_Outcome_Prior">
+        <di:waypoint x="537.5" y="367.5" />
+        <di:waypoint x="497" y="367.5" />
+        <di:waypoint x="497" y="618" />
+        <di:waypoint x="550" y="618" />
+        <di:waypoint x="550" y="657" />
+        <bpmndi:BPMNLabel><dc:Bounds x="420" y="599" width="85" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Validate_Valid" bpmnElement="Flow_Validate_Valid">
+        <di:waypoint x="855" y="355" />
+        <di:waypoint x="960" y="355" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Correction" bpmnElement="Flow_Valid_Correction">
+        <di:waypoint x="985" y="380" />
+        <di:waypoint x="985" y="496" />
+        <bpmndi:BPMNLabel><dc:Bounds x="995" y="457" width="29" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Correction_Enter" bpmnElement="Flow_Correction_Enter">
+        <di:waypoint x="900" y="530" />
+        <di:waypoint x="658" y="530" />
+        <di:waypoint x="658" y="150" />
+        <di:waypoint x="475" y="150" />
+        <di:waypoint x="475" y="90" />
+        <di:waypoint x="435" y="90" />
+        <bpmndi:BPMNLabel><dc:Bounds x="671" y="505" width="129" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Save" bpmnElement="Flow_Valid_Save">
+        <di:waypoint x="1010" y="355" />
+        <di:waypoint x="1120" y="355" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1053" y="332" width="24" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Save_Success" bpmnElement="Flow_Save_Success">
+        <di:waypoint x="1290" y="355" />
+        <di:waypoint x="1452" y="355" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

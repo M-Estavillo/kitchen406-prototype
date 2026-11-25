@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_ProductCostingAndFinalSellingPrice" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_ProductCostingAndFinalSellingPrice">
+    <bpmn:participant id="Participant_ProductCostingAndFinalSellingPrice" name="Product Costing and Final Selling Price" processRef="Process_ProductCostingAndFinalSellingPrice" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_ProductCostingAndFinalSellingPrice" name="Product Costing and Final Selling Price" isExecutable="false">
+    <bpmn:documentation>This workflow estimates production cost for one sellable pack. Products can have different recipes and selling prices for the 6-pack and 12-pack. Utility overhead is the browser default estimate or a stored variant override. The recommendation does not automatically change the selling price.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_ProductCostingAndFinalSellingPrice">
+      <bpmn:lane id="Lane_Administrator" name="Administrator">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Select</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Inputs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Calculate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unavailable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Error</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Variant price needed">
+      <bpmn:outgoing>Flow_Start_Select</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Select" name="Open variant costing or pricing">
+      <bpmn:incoming>Flow_Start_Select</bpmn:incoming>
+      <bpmn:outgoing>Flow_Select_Inputs</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Inputs" name="Read recipe, material costs and settings">
+      <bpmn:documentation>Read per-unit material costs, ingredient and packaging quantities, estimated utility overhead, and markup.</bpmn:documentation>
+      <bpmn:incoming>Flow_Select_Inputs</bpmn:incoming>
+      <bpmn:outgoing>Flow_Inputs_Complete</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Complete" name="Cost inputs complete?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Inputs_Complete</bpmn:incoming>
+      <bpmn:outgoing>Flow_Complete_Calculate</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Complete_Unavailable</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Calculate" name="Show costs and recommended price">
+      <bpmn:documentation>Sum ingredient and packaging costs and utility overhead. Apply the configured markup to the estimated production cost. Show the recommendation and estimated margin when available.</bpmn:documentation>
+      <bpmn:incoming>Flow_Complete_Calculate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Calculate_Review</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Unavailable" name="Show recommendation unavailable">
+      <bpmn:documentation>Avoid treating missing recipe or cost inputs as zero. The owner can provide a final selling price, subject to the usual product and recipe save rules.</bpmn:documentation>
+      <bpmn:incoming>Flow_Complete_Unavailable</bpmn:incoming>
+      <bpmn:outgoing>Flow_Unavailable_Review</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Review" name="Enter or confirm the final selling price">
+      <bpmn:documentation>Review the recommendation if present. The administrator sets the final price for the selected variant.</bpmn:documentation>
+      <bpmn:incoming>Flow_Calculate_Review</bpmn:incoming>
+      <bpmn:incoming>Flow_Unavailable_Review</bpmn:incoming>
+      <bpmn:incoming>Flow_Error_Review</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Validate" name="Validate final price">
+      <bpmn:documentation>The selling price must be a positive amount. Check that the saved record has not changed.</bpmn:documentation>
+      <bpmn:incoming>Flow_Review_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Price valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Save</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Error</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Error" name="Show price error">
+      <bpmn:incoming>Flow_Valid_Error</bpmn:incoming>
+      <bpmn:outgoing>Flow_Error_Review</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save" name="Record the final variant price">
+      <bpmn:documentation>Commit the final price through the product editor and store it on ProductVariant. The catalog uses this saved value. Default markup and utility overhead are browser settings.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Final price recorded">
+      <bpmn:incoming>Flow_Save_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Select" sourceRef="Start" targetRef="Select" />
+    <bpmn:sequenceFlow id="Flow_Select_Inputs" sourceRef="Select" targetRef="Inputs" />
+    <bpmn:sequenceFlow id="Flow_Inputs_Complete" sourceRef="Inputs" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Complete_Calculate" sourceRef="Complete" targetRef="Calculate" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Complete_Unavailable" sourceRef="Complete" targetRef="Unavailable" name="No" />
+    <bpmn:sequenceFlow id="Flow_Calculate_Review" sourceRef="Calculate" targetRef="Review" />
+    <bpmn:sequenceFlow id="Flow_Unavailable_Review" sourceRef="Unavailable" targetRef="Review" />
+    <bpmn:sequenceFlow id="Flow_Review_Validate" sourceRef="Review" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Save" sourceRef="Valid" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Valid_Error" sourceRef="Valid" targetRef="Error" name="No" />
+    <bpmn:sequenceFlow id="Flow_Error_Review" sourceRef="Error" targetRef="Review" name="Correct or reopen" />
+    <bpmn:sequenceFlow id="Flow_Save_Done" sourceRef="Save" targetRef="Done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_ProductCostingAndFinalSellingPrice" name="Product Costing and Final Selling Price">
+    <bpmndi:BPMNPlane id="Plane_ProductCostingAndFinalSellingPrice" bpmnElement="Collaboration_ProductCostingAndFinalSellingPrice">
+      <bpmndi:BPMNShape id="Participant_ProductCostingAndFinalSellingPrice_di" bpmnElement="Participant_ProductCostingAndFinalSellingPrice" isHorizontal="true">
+        <dc:Bounds x="20" y="50" width="1864" height="620" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1834" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="50" y="320" width="1834" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
+        <dc:Bounds x="92" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="48" y="144" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Select_di" bpmnElement="Select">
+        <dc:Bounds x="199" y="87" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Inputs_di" bpmnElement="Inputs">
+        <dc:Bounds x="394" y="372" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Complete_di" bpmnElement="Complete" isMarkerVisible="true">
+        <dc:Bounds x="627" y="382" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="585" y="358" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Calculate_di" bpmnElement="Calculate">
+        <dc:Bounds x="764" y="335" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Unavailable_di" bpmnElement="Unavailable">
+        <dc:Bounds x="764" y="472" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Review_di" bpmnElement="Review">
+        <dc:Bounds x="974" y="87" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Validate_di" bpmnElement="Validate">
+        <dc:Bounds x="1159" y="372" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="1372" y="382" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1330" y="358" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Error_di" bpmnElement="Error">
+        <dc:Bounds x="1319" y="512" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Save_di" bpmnElement="Save">
+        <dc:Bounds x="1509" y="372" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Done_di" bpmnElement="Done">
+        <dc:Bounds x="1742" y="387" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1698" y="429" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Select_di" bpmnElement="Flow_Start_Select">
+        <di:waypoint x="128" y="120" />
+        <di:waypoint x="199" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Select_Inputs_di" bpmnElement="Flow_Select_Inputs">
+        <di:waypoint x="351" y="120" />
+        <di:waypoint x="380" y="120" />
+        <di:waypoint x="380" y="405" />
+        <di:waypoint x="394" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Inputs_Complete_di" bpmnElement="Flow_Inputs_Complete">
+        <di:waypoint x="546" y="405" />
+        <di:waypoint x="627" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Complete_Calculate_di" bpmnElement="Flow_Complete_Calculate">
+        <di:waypoint x="673" y="405" />
+        <di:waypoint x="729" y="405" />
+        <di:waypoint x="729" y="368" />
+        <di:waypoint x="764" y="368" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="686.5" y="386" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Complete_Unavailable_di" bpmnElement="Flow_Complete_Unavailable">
+        <di:waypoint x="650" y="428" />
+        <di:waypoint x="650" y="505" />
+        <di:waypoint x="764" y="505" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="689" y="486" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Calculate_Review_di" bpmnElement="Flow_Calculate_Review">
+        <di:waypoint x="916" y="368" />
+        <di:waypoint x="955" y="368" />
+        <di:waypoint x="955" y="120" />
+        <di:waypoint x="974" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Unavailable_Review_di" bpmnElement="Flow_Unavailable_Review">
+        <di:waypoint x="916" y="505" />
+        <di:waypoint x="985" y="505" />
+        <di:waypoint x="985" y="180" />
+        <di:waypoint x="1050" y="180" />
+        <di:waypoint x="1050" y="153" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_Validate_di" bpmnElement="Flow_Review_Validate">
+        <di:waypoint x="1126" y="120" />
+        <di:waypoint x="1155" y="120" />
+        <di:waypoint x="1155" y="405" />
+        <di:waypoint x="1159" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Validate_Valid_di" bpmnElement="Flow_Validate_Valid">
+        <di:waypoint x="1311" y="405" />
+        <di:waypoint x="1372" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Save_di" bpmnElement="Flow_Valid_Save">
+        <di:waypoint x="1418" y="405" />
+        <di:waypoint x="1509" y="405" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1449" y="386" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Error_di" bpmnElement="Flow_Valid_Error">
+        <di:waypoint x="1395" y="428" />
+        <di:waypoint x="1395" y="512" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1402" y="462" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Error_Review_di" bpmnElement="Flow_Error_Review">
+        <di:waypoint x="1395" y="578" />
+        <di:waypoint x="1395" y="623" />
+        <di:waypoint x="1050" y="623" />
+        <di:waypoint x="1050" y="180" />
+        <di:waypoint x="1050" y="153" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1167.5" y="604" width="110" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Save_Done_di" bpmnElement="Flow_Save_Done">
+        <di:waypoint x="1661" y="405" />
+        <di:waypoint x="1742" y="405" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

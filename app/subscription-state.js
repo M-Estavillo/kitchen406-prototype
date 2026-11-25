@@ -1,7 +1,7 @@
 /* In-memory subscription commitments; no live payment or courier calls. */
 (() => {
 const A=K406,C=A.commerce,D=A.schedule;
-const blank=()=>({productId:null,variant:'standard',quantity:1,scheduleId:'friday',start:'',addressId:'home',method:'delivery',quote:'ok',revision:0});
+const blank=()=>({productId:null,variant:'standard',quantity:1,scheduleId:'friday',start:'',addressId:'',method:'delivery',quote:'ok',revision:0});
 const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 // Keep the shared schedule IDs available for historical enrollment snapshots.
 const legacySchedules=[5,6,2].map(day=>({id:weekdays[day].toLowerCase(),label:'Weekly '+weekdays[day],day,fulfillment_day:day,preparation_day:(day+6)%7,status:'active'}));
@@ -15,13 +15,20 @@ B.active=()=>B.routes.includes(A.route);
 B.address=()=>C.state.addresses.find(a=>a.address_id===S.draft.addressId&&a.status==='active');
 B.product=()=>A.products.find(p=>p.id===S.draft.productId);
 B.variant=()=>A.variant(S.draft.productId,S.draft.variant);
-B.availableSchedules=(productId=S.draft.productId)=>B.schedules.filter(s=>s.product_id===Number(productId)&&s.status!=='inactive');
+B.availableSchedules=(productId=S.draft.productId)=>{
+ const rows=B.schedules.filter(s=>s.product_id===Number(productId));
+ const configured=rows.filter(s=>s.inventoryVersion);
+ if(!rows.length&&A.products.some(p=>p.id===Number(productId)&&p.subscription)){
+  return [{...defaultSchedule,id:'friday-'+productId,product_id:Number(productId)}];
+ }
+ return (configured.length?configured:rows).filter(s=>s.status!=='inactive');
+};
 B.schedule=()=>B.availableSchedules()[0];
 B.dates=(d=S.draft)=>d.start?Array.from({length:4},(_,i)=>D.add(d.start,i*7)):[];
 B.offering=id=>B.offeringSettings?.[id]===false?'unavailable':B.offeringSettings?.[id]===true?'available':B.mock.catalog==='full'?'full':B.mock.catalog==='unavailable'?'unavailable':B.mock.catalog==='available'?'available':Number(id)===2?'full':Number(id)===5?'unavailable':'available';
 B.enrollmentReason=(productId,quantity,dates,schedule,exclude)=>{
  if(!dates.length||!Number.isInteger(schedule?.preparation_day))return 'The bakery schedule is unavailable.';
- if(Date.parse(D.config.clock)>=D.enrollmentCutoff(dates[0],productId,schedule.preparation_day))return 'Enrollment for this cycle has closed. Return to the subscription catalog to start with a later cycle.';
+ if(D.now()>=D.enrollmentCutoff(dates[0],productId,schedule.preparation_day))return 'Enrollment for this cycle has closed. Return to the subscription catalog to start with a later cycle.';
  return D.subscription(productId,quantity,dates,exclude);
 };
 B.starts=()=>{
@@ -36,13 +43,19 @@ B.starts=()=>{
 };
 B.pending=()=>S.purchases.find(p=>p.id===S.draft.purchaseId);
 B.locked=()=>S.purchases.some(p=>['detected','delayed'].includes(p.payment)||C.confirmationWindow(p));
-B.change=()=>{if(B.locked()){A.toast('Payment verification is pending. Check its status before changing your subscription.');return false;}const p=B.pending();if(p&&!p.paid&&p.payment!=='cancelled'){p.payment='revalidation';D.release(p.id);}S.draft.revision++;B.message='';return true;};
+B.change=()=>{if(B.locked()){A.toast('Payment verification is pending. Check its status before changing your subscription.');return false;}const p=B.pending();if(p&&!p.persistedSubscription&&!p.paid&&p.payment!=='cancelled'){p.payment='revalidation';D.release(p.id);}S.draft.revision++;B.message='';return true;};
 B.begin=(id,variant,quantity=1)=>{if(!B.change())return false;const p=A.products.find(p=>p.id===Number(id));variant??=p?.variants.find(v=>v.active!==false)?.id;if(!p?.subscription||B.offering(p.id)!=='available'||A.variant(id,variant)?.active===false)return false;S.draft={...blank(),productId:p.id,variant:A.variant(id,variant)?variant:'standard',quantity:Math.min(D.subscriptionLimit(id),Math.max(1,quantity)),addressId:C.state.addresses.find(a=>a.is_default&&a.status==='active')?.address_id||C.state.addresses.find(a=>a.status==='active')?.address_id||''};S.draft.scheduleId=B.availableSchedules()[0]?.id||'';S.draft.start=B.starts()[0]||'';B.deliveryRoute?.reset();B.addressUI.form=null;B.mock.review='normal';B.mock.price='normal';return true;};
 B.configReason=()=>{if(!B.product()?.subscription||!B.variant())return 'Choose a subscription product and variant.';if(B.offering(S.draft.productId)!=='available')return 'This product is currently unavailable for subscription enrollment.';if(B.mock.schedule!=='normal')return 'The bakery schedule is currently unavailable.';const schedule=B.schedule();if(!schedule||!S.draft.start||D.day(S.draft.start)!==schedule.day)return 'The bakery schedule or first delivery date is unavailable.';return B.enrollmentReason(S.draft.productId,S.draft.quantity,B.dates(),schedule,B.pending()?.paid?null:B.pending()?.id);};
-B.totals=(unit=(B.variant()?.price||0)+(B.mock.price==='updated'?20:0),quantity=S.draft.quantity,fee=S.draft.method==='pickup'?0:A.quoteFee())=>({method:S.draft.method,unit,quantity,fee,products:unit*quantity*4,delivery:fee*4,total:unit*quantity*4+fee*4});
-B.ready=()=>!B.configReason()&&(S.draft.method==='pickup'||S.draft.method==='delivery'&&C.addressValid(B.address())&&B.deliveryRoute?.eligible()&&S.draft.quote==='ok'&&!B.addressUI.form);
+B.totals=(unit=(B.variant()?.price||0)+(B.mock.price==='updated'?20:0),quantity=S.draft.quantity,fee=0)=>{
+ const quotations=S.draft.method==='delivery'?B.deliveryRoute?.quotations?.()||[]:[];
+ const fees=quotations.length?quotations.map(quote=>quote.fee):null;
+ const delivery=fees?fees.reduce((cents,amount)=>cents+Math.round(amount*100),0)/100:fee*4;
+ const products=unit*quantity*4;
+ return {method:S.draft.method,unit,quantity,fee,fees,quotations,delivery,products,total:Math.round((products+delivery)*100)/100};
+};
+B.ready=()=>!B.configReason()&&(S.draft.method==='pickup'||S.draft.method==='delivery'&&C.addressValid(B.address())&&B.deliveryRoute?.eligible()&&(B.deliveryRoute?.provider?.()||S.draft.quote==='ok')&&!B.addressUI.form);
 B.setMethod=method=>{if(!['delivery','pickup'].includes(method)||method===S.draft.method||!B.change())return false;S.draft.method=method;B.addressUI.form=null;B.addressUI.editing=null;B.deliveryRoute?.reset();return true;};
-B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:B.schedule().id,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:S.draft.method==='pickup'?null:C.copy(B.address()),...B.totals()});
+B.snapshot=()=>({productId:S.draft.productId,variantId:S.draft.variant,name:B.product().name,image:B.product().image,variant:B.variant().label,quantity:S.draft.quantity,scheduleId:B.schedule().id,schedule:B.schedule().label,scheduleSnapshot:C.copy(B.schedule()),dates:B.dates(),address:S.draft.method==='pickup'?null:C.copy(B.address()),courierDestination:C.copy(B.deliveryRoute?.destination?.()||null),...B.totals()});
 B.reserveAttempt=(candidate,previous)=>{
  const snap=candidate.snapshot,exclude=previous?[candidate.id,previous.id]:candidate.id;
  const schedule=B.availableSchedules(snap.productId).find(s=>s.id===snap.scheduleId);
@@ -67,8 +80,9 @@ B.reserveAttempt=(candidate,previous)=>{
 B.createPurchase=()=>{
  if(A.auth!=='signedin'||!B.ready()||B.mock.review!=='normal'||B.locked())return null;
  const snapshot=B.snapshot(),old=B.pending();
+ if(snapshot.method==='delivery'&&B.deliveryRoute?.provider?.()&&snapshot.quotations.length!==snapshot.dates.length)return null;
  if(old?.reconciliationRequired){B.message=old.paymentCheckMessage;return null;}
- if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&C.holdUntil(old)>Date.now()&&old.snapshot.unit===snapshot.unit&&old.snapshot.fee===snapshot.fee)return old;
+ if(old&&!old.paid&&old.payment==='waiting'&&old.revision===S.draft.revision&&C.holdUntil(old)>Date.now()&&old.snapshot.unit===snapshot.unit&&old.snapshot.fee===snapshot.fee&&JSON.stringify(old.snapshot.fees||null)===JSON.stringify(snapshot.fees||null)&&JSON.stringify(old.snapshot.quotations||[])===JSON.stringify(snapshot.quotations))return old;
  const p={id:'SUB-PAY-'+(++S.serial),snapshot,revision:S.draft.revision,payment:'waiting',paid:false,created:Date.now(),attempts:[]};
  C.beginAttempt(p,p.created);
  const reason=B.reserveAttempt(p,old&&!old.paid?old:null);
@@ -111,10 +125,11 @@ B.pay=(p,state)=>{
   const productAmount=(Math.round(productCents*cycle/4)-Math.round(productCents*index/4))/100;
   const preparationDay=snap.scheduleSnapshot?.preparation_day;
   const preparationDate=Number.isInteger(preparationDay)?D.add(date,-((D.day(date)-preparationDay+7)%7)):null;
+  const fee=snap.fees?.[index]??snap.fee;
   record.deliveries.push({id,cycle,date,originalDate:date,preparationDate,status:'pending',orderId});
   return {id:orderId,type:'subscription',subscriptionId:record.id,deliveryId:id,prepaid:true,customer_id:p.customer_id,
    items:[{key:snap.productId+':'+snap.variantId,productId:snap.productId,name:snap.name,image:snap.image,variant:snap.variant,quantity:snap.quantity,price:snap.unit,productAmount}],
-   fulfillment:{method:snap.method||'delivery',date,preparationDate},address:C.copy(snap.address),fee:snap.fee,total:Math.round((productAmount+snap.fee)*100)/100,
+   fulfillment:{method:snap.method||'delivery',date,preparationDate},address:C.copy(snap.address),fee,total:Math.round((productAmount+fee)*100)/100,courierQuotation:C.copy(snap.quotations?.[index]||null),courierDestination:C.copy(snap.courierDestination||null),
    paid:true,paidAt,status:'confirmed',payment:'confirmed',created:p.created,reference:p.id,attempts:[],activity:[{text:'Included in prepaid subscription '+record.id,at:paidAt}]};
  });
  let resources;
@@ -200,7 +215,7 @@ B.replacementReason=(record,delivery,date)=>{
 };
 B.deferEligibility=(record,delivery)=>{
  if(!record||!delivery||!record.deliveries.includes(delivery))return 'Delivery not found.';
- const order=(A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);
+ const order=(record.persistedSubscription?C.state.orders:A.inventory?.allOrders()||C.state.orders).find(o=>o.id===delivery.orderId);
  if(record.deferments.length||B.mock.defer==='used')return 'Your one deferment has already been used.';
  if(record.status!=='active'||delivery.status==='fulfilled'||delivery.date<=D.today()||order?.status!=='confirmed')return 'This delivery can no longer be deferred.';
  const preparation=delivery.preparationDate||order.fulfillment.preparationDate||B.preparationDate?.(order);

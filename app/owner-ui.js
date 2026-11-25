@@ -62,10 +62,10 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('#owner-order-range[open]')){e.preventDefault();closeRange(true);}});
 function updateCompactFilter(e){
  if(!e.target.closest('.owner-order-filters')||!A.session.ownerAllowed())return;
- const name=e.target.name;if(!['query','sort','stock','category','type','product'].includes(name))return;
+ const name=e.target.name;if(!['query','sort','stock','category','type','product','lifecycle','product-type'].includes(name))return;
  const start=e.target.selectionStart,end=e.target.selectionEnd;A.owner.filters[name]=e.target.value;A.owner.page=1;A.owner.render();
  const input=document.querySelector('.owner-order-filters [name="'+name+'"]');input?.focus();if(name==='query'&&start!==null)input.setSelectionRange(start,end);
 }
 document.addEventListener('input',e=>{if(e.target.name==='query')updateCompactFilter(e);});
-document.addEventListener('change',e=>{if(['sort','stock','category','type','product'].includes(e.target.name))updateCompactFilter(e);});
+document.addEventListener('change',e=>{if(['sort','stock','category','type','product','lifecycle','product-type'].includes(e.target.name))updateCompactFilter(e);});
 })();

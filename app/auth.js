@@ -1,176 +1,333 @@
-/* UI-only authentication. No credentials are persisted or sent to a service. */
+/* Frontend for the local account API. */
 (() => {
 const A=K406,$=A.$,esc=A.escape;
-const S={view:'sign-in',mode:'default',values:{},errors:{},attempts:0,deadline:Date.now()+600000,code:'',generation:0,resetValid:false};
-const titles={'sign-in':'Welcome back',register:'Create your account',verify:'Verify your email',forgot:'Forgot your password?',reset:'Reset your password'};
-const field=(name,label,type='text',autocomplete='')=>'<div class="field"><label for="auth-'+name+'">'+label+'</label><div class="'+(type==='password'?'password-wrap':'')+'"><input id="auth-'+name+'" name="'+name+'" type="'+type+'" autocomplete="'+autocomplete+'" value="'+esc(S.values[name]||'')+'" aria-describedby="error-'+name+'" '+(S.errors[name]?'aria-invalid="true"':'')+(busy()?' disabled':'')+'>'+(type==='password'?'<button type="button" data-eye="'+name+'" aria-label="Show '+label.toLowerCase()+'"><span class="material-symbols-outlined">visibility</span></button>':'')+'</div><p class="field-error" id="error-'+name+'">'+esc(S.errors[name]||'')+'</p></div>';
-const busy=()=>['loading','verifying','resending','disabled'].includes(S.mode);
+const S={view:'sign-in',mode:'default',values:{},errors:{},generation:0};
+const titles={'sign-in':'Welcome back',register:'Create your account',verify:'Verify your email',forgot:'Forgot your password?',reset:'Reset your password','staff-setup':'Set your staff password','change-password':'Want to change your password?'};
 const link=(route,label)=>'<a href="#/'+route+'">'+label+'</a>';
-function alertBox(){
- const messages={
- error:'We couldn’t complete this request. Please try again.',servererror:'We couldn’t connect right now. Please try again.',
- autherror:'Sign in failed. Check your email and password and make sure your account is active.',
- accountexists:'An account with this email already exists. '+link('sign-in','Sign in instead')+' or '+link('forgot','reset password')+'.',
- unverified:'Please verify your email before signing in. <a href="#/verify" class="font-semibold underline underline-offset-2">Verify email</a>',
- incorrect:'The code you entered is incorrect. '+Math.max(0,5-S.attempts)+' attempts remaining.',
- expired:S.view==='verify'?'This verification code has expired. Request a new code.':'This password reset link has expired. '+link('forgot','Request a new link'),
- invalid:'This password reset link is invalid. '+link('forgot','Request a new link'),
- max_attempts:'Too many incorrect attempts. Request a fresh code.',
- resend_error:'We couldn’t send a new code right now. Please try again.',
- resend_sent:'Demo: a new verification code is ready. No email was sent.',
- resending:'Sending verification code…',
- success:S.view==='forgot'?'If an account exists for this email, a reset link would be sent. This is a demo; no email was sent.':S.view==='reset'?'Password reset preview complete. No real password was changed.':S.view==='verify'?'Email verified. Please sign in to continue.':'Signed in for this demo.',
- loading:'Please wait…',verifying:'Verifying…',disabled:'This form is disabled in the current preview.',
- verified_notice:'Email verified. Enter your password to sign in.'
- };
- const text=messages[S.mode];
- return text?'<div class="alert '+(['success','resend_sent','verified_notice'].includes(S.mode)?'success':busy()?'':'error')+'" role="status">'+text+'</div>':'';
+const busy=()=>S.mode==='loading';
+const disabled=()=>busy()?' disabled':'';
+
+async function api(action,input){
+ const response=await fetch('/api/auth/'+action,input===undefined?undefined:{
+  method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)
+ });
+ const data=await response.json();
+ if(!response.ok)throw Error(data.error);
+ return data;
+}
+function applyAccount(account){
+ A.email=account.email;
+ if(account.role==='staff'&&!account.is_temp_pass_changed){
+  clearAuthSession();
+  A.email=account.email;
+  S.staffSetup=true;
+  return;
+ }
+ S.staffSetup=false;
+ A.notifications.bind(account);
+ A.session.invalidate();
+ A.staff.account=null;
+ A.session.owner=null;
+ A.inventory.useDatabase(['staff','admin'].includes(account.role)?account:null);
+ if(account.role==='staff'){
+  A.staff.role='staff';
+  A.staff.account={...account,id:account.staff_id,setup:true};
+  A.setAuth('signedin');
+  if(A.staff.allowed())A.inventory.refresh();
+  A.shell.sync();
+  return;
+ }
+ if(account.role==='admin'){
+  A.staff.role='admin';
+  A.session.owner={...account,id:account.admin_id,setup:true};
+  A.setAuth('signedin');
+  if(A.session.ownerAllowed())A.inventory.refresh();
+  A.shell.sync();
+  return;
+ }
+ A.staff.role='customer';
+ A.session.owner=null;
+ const cached=A.account.records.find(record=>record.account_id===account.account_id);
+ if(cached)Object.assign(cached,account);
+ else A.account.records.push(account);
+ A.setAuth('signedin');
+ A.shell.sync();
+}
+const challengeKey=view=>'k406-'+view;
+function setChallenge(view,email,data){
+ sessionStorage.setItem(challengeKey(view),JSON.stringify({...data,email}));
+}
+function challenge(view){
+ try{
+  const pending=JSON.parse(sessionStorage.getItem(challengeKey(view)));
+  return pending;
+ }catch{return null;}
 }
 function remember(){
  document.querySelectorAll('#auth-form input[name]').forEach(el=>{S.values[el.name]=el.value;});
- if(/^\S+@\S+\.\S+$/.test((S.values.email||'').trim()))A.email=S.values.email.trim();
 }
+
+function formField(name,label,{type='text',autocomplete='',max=128,value='',error='',attributes=''}={}){
+ const password=type==='password',id='auth-'+name;
+ const toggle=password?'<button type="button" data-eye="'+name+'" aria-label="Show '+esc(label.toLowerCase())+'"><span class="material-symbols-outlined">visibility</span></button>':'';
+ return '<div class="field"><label for="'+id+'">'+esc(label)+'</label><div class="'+(password?'password-wrap':'')+'"><input id="'+id+'" name="'+name+'" type="'+type+'" autocomplete="'+autocomplete+'" maxlength="'+max+'" value="'+(password?'':esc(value))+'" aria-describedby="error-'+name+'" '+(error?'aria-invalid="true"':'')+' '+attributes+(name==='code'?' inputmode="numeric" pattern="[0-9]{6}"':'')+'>'+toggle+'</div><p class="field-error" id="error-'+name+'">'+esc(error)+'</p></div>';
+}
+function field(name,label,type='text',autocomplete='',max=128){
+ return formField(name,label,{type,autocomplete,max,value:S.values[name],error:S.errors[name],attributes:disabled()});
+}
+const primaryButton=(label,attributes='')=>'<button class="btn primary wide"'+attributes+'>'+esc(label)+'</button>';
+function updateResendButton(button){
+ const seconds=Math.max(0,Math.ceil((Number(button.dataset.resendAt)-Date.now())/1000));
+ if(!Number.isFinite(seconds))return;
+ button.disabled=seconds>0||button.dataset.busy==='true';
+ const label=button.dataset.resendLabel;
+ button.textContent=seconds>0?label+' in '+seconds+'s':label;
+}
+function updateResendButtons(){
+ if(A.modal==='auth-modal')$('auth-card-content').querySelectorAll('[data-resend-at]').forEach(updateResendButton);
+}
+function resendButton(label,resendAt,attributes='',loading=false){
+ const until=Number(resendAt)||0;
+ const seconds=Math.max(0,Math.ceil((until-Date.now())/1000));
+ return '<button class="text-link" type="button" data-resend-at="'+until+'" data-resend-label="'+esc(label)+'" data-busy="'+loading+'" '+attributes+
+  (seconds>0||loading?' disabled':'')+'>'+esc(seconds>0?label+' in '+seconds+'s':label)+'</button>';
+}
+setInterval(updateResendButtons,250);
+const codeOutbox=id=>'<p class="muted auth-outbox">Open <code>.data/outbox/'+esc(id)+'.txt</code> for the code.</p>';
+function renderForm({id,title,subtitle,body,footer='',feedback='',attributes=''}){
+ $('auth-card-content').innerHTML='<h2 id="auth-title">'+esc(title)+'</h2><p>'+esc(subtitle)+'</p>'+feedback+
+  '<form id="'+id+'" class="auth-form" '+attributes+'>'+body+'</form>'+(footer?'<div class="auth-links">'+footer+'</div>':'');
+}
+function openForm(options){
+ renderForm(options);
+ A.openModal('auth-modal');
+ requestAnimationFrame(()=>{if(A.modal==='auth-modal')$(options.id)?.querySelector('input:not([type=hidden])')?.focus();});
+}
+function feedback(){
+ const messages={
+  loading:'Please wait…',
+  error:'Unable to reach the local account service. Start the local server and try again.',
+  'server-error':'The account service could not complete this request. Please try again.',
+  'invalid-credentials':'Sign in failed. Check your email and password.',
+  'verification-required':'Verify your email before signing in. '+link('verify','Verify email'),
+  'account-exists':'An account already uses this email. '+link('sign-in','Sign in')+' or '+link('verify','Request a verification code')+'.',
+  'invalid-code':'This code is incorrect, expired, or already used. Check the code or request a new one.',
+  'invalid-email':'Enter a valid email address.',
+  'recovery-account-not-found':'No active customer account was found for that email address.',
+  'sign-in-required':'Your session expired. '+link('sign-in','Sign in again')+' to continue.',
+  'invalid-registration':'Check your contact information and password.',
+  'invalid-password':'Use 8–128 characters with at least one letter and one number.',
+  'try-later':'Too many sign-in attempts. Try again in a minute.',
+  'same-password':S.view==='staff-setup'?'Choose a password different from your temporary password.':'Choose a password different from your current password.',
+  'incorrect-password':'The current password is incorrect.',
+  'password-mismatch':'The new passwords do not match.',
+  'staff-setup-complete':'Password setup is already complete. Sign in with your new password.',
+  resent:'If a new code was needed, it is in the local outbox.',
+  success:S.view==='verify'?'Email verified. You can now sign in.':'Password updated. Sign in with your new password.'
+ };
+ return messages[S.mode]?'<div class="alert '+(['success','resent'].includes(S.mode)?'success':busy()?'':'error')+'" role="status">'+messages[S.mode]+'</div>':'';
+}
+
 function render(){
- const view=S.view,done=S.mode==='success',locked=busy()||['expired','max_attempts','invalid'].includes(S.mode);
- let title=titles[view],body='',subtitle='';
+ const done=S.mode==='success',view=S.view;
+ const pending=challenge(view);
+ let subtitle='',body='';
+ const email=()=>field('email','Email','email','email',254);
+ const password=()=>field('password','New password','password','new-password')+field('confirm','Confirm password','password','new-password');
+ const submit=label=>primaryButton(label,disabled());
+ const resend=resendButton('Resend code',(pending?.resendAt??(pending?.expiresAt-570000)),'data-auth-action="resend"',busy());
+ const outbox=pending?codeOutbox(pending.challengeId):'';
  if(view==='sign-in'){
-  title=A.context==='header'?'Welcome back':'Sign in to continue';
-  subtitle=A.context==='review'?'Sign in to review your completed purchase.':'Sign in to your Kitchen406 account.';
-  body=field('email','Email','email','email')+field('password','Password','password','current-password')+'<div class="text-right">'+link('forgot','Forgot password?')+'</div><button class="btn primary wide" '+(busy()?'disabled':'')+'>Sign In</button>';
+  subtitle=A.context==='header'?'Sign in to your Kitchen406 account.':'Sign in to continue.';
+  body=email()+field('password','Password','password','current-password')+'<div class="text-right">'+link('forgot','Forgot password?')+'</div>'+submit('Sign in');
+ }else if(view==='staff-setup'){
+  subtitle='Replace the temporary password before opening the staff workspace.';
+  body=password()+submit('Set password');
  }else if(view==='register'){
-  subtitle='Create an account to order, subscribe, request custom cakes, and keep track of your Kitchen406 purchases.';
-  body='<div class="name-row">'+field('firstName','First name','text','given-name')+field('lastName','Last name','text','family-name')+'</div>'+field('email','Email','email','email')+field('mobile','Mobile number (+63)','tel','tel-national')+field('password','Password','password','new-password')+field('confirm','Confirm password','password','new-password')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Create Account</button>';
+  subtitle='Create an account to order, subscribe, and track your purchases.';
+  body='<div class="name-row">'+field('firstName','First name','text','given-name',80)+field('lastName','Last name','text','family-name',80)+'</div>'+email()+field('mobile','Mobile number (+63)','tel','tel-national',25)+password()+submit('Create account');
  }else if(view==='verify'){
-  title=done?'Email verified':'Verify your email';
-  subtitle=done?'Your Kitchen406 account is now active in this preview. Sign in to continue.':'Enter the 6-digit verification code for '+esc(A.email||'your email address')+'.';
-  body=done?'<a class="btn primary wide" href="#/sign-in">Sign In</a>':'<div class="otp-row">'+Array.from({length:6},(_,i)=>'<input aria-label="Code digit '+(i+1)+'" data-digit="'+i+'" inputmode="numeric" autocomplete="'+(i===0?'one-time-code':'off')+'" maxlength="1" value="'+(S.code[i]||'')+'" '+(locked?'disabled':'')+'>').join('')+'</div><p class="center muted">This code expires in <strong id="otp-clock"></strong></p><button id="verify-submit" class="btn primary wide" '+(locked||S.code.length!==6?'disabled':'')+'>'+(S.mode==='verifying'?'Verifying…':'Verify Email')+'</button><p class="center"><button class="text-link" type="button" data-auth-action="resend" '+(busy()?'disabled':'')+'>Resend code</button></p>';
+  if(done)body='<a class="btn primary wide" href="#/sign-in">Sign in</a>';
+  else if(pending){
+   subtitle='Enter the 6-digit code for '+pending.email+'.';
+   body=outbox+field('code','Verification code','text','one-time-code',6)+submit('Verify email')+resend+' <button class="text-link" type="button" data-auth-action="different-email"'+disabled()+'>Use a different email</button>';
+  }else{
+   subtitle='Enter your email to request a verification code.';
+   body=email()+submit('Request code');
+  }
+ }else if(view==='change-password'){
+  body=field('currentPassword','Current password','password','current-password')+
+   field('password','New password','password','new-password')+
+   field('confirm','Confirm new password','password','new-password')+submit('Change password');
  }else if(view==='forgot'){
-  subtitle='Enter your email address to request password reset instructions.';
-  body=done?'<p class="email-pill">'+esc(A.email)+'</p><p class="muted">Check your inbox and spam folder in a live checkout. Preview the email-link handoff:</p><button class="btn wide" data-auth-action="reset-link" type="button">Open demo reset link</button><button class="text-link" data-auth-action="resend-reset" type="button">Resend email instructions</button>':field('email','Email','email','email')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Send Reset Link</button>';
- }else if(view==='reset'){
-  subtitle=done?'You can now return to sign in.':'Choose a new password for your Kitchen406 account.';
-  body=done?'<a class="btn primary wide" href="#/sign-in">Back to Sign In</a>':['invalid','expired'].includes(S.mode)?'<a class="btn primary wide" href="#/forgot">Request a new reset link</a>':field('password','New password','password','new-password')+field('confirm','Confirm password','password','new-password')+'<button class="btn primary wide" '+(busy()?'disabled':'')+'>Reset Password</button>';
+  subtitle='Enter your email address to request a password reset code.';
+  body=email()+submit('Request reset code');
+ }else if(done){
+  body='<a class="btn primary wide" href="#/sign-in">Sign in</a>';
+ }else if(pending){
+  subtitle='Enter the reset code for '+pending.email+'.';
+  body=outbox+field('code','Reset code','text','one-time-code',6)+password()+submit('Reset password')+resend+' '+link('forgot','Use a different email');
+ }else{
+  body='<a class="btn primary wide" href="#/forgot">Request a reset code</a>';
  }
- $('auth-card-content').innerHTML=(view==='verify'?'<div class="auth-symbol"><span class="material-symbols-outlined">'+(done?'verified':'mark_email_read')+'</span></div>':'')+'<h2 id="auth-title">'+title+'</h2><p>'+subtitle+'</p>'+alertBox()+'<form id="auth-form" class="auth-form" novalidate>'+body+'</form><div class="auth-links">'+(view==='sign-in'?'New to Kitchen406? '+link('register','Create an account'):view==='register'?'Already have a Kitchen406 account? '+link('sign-in','Sign in'):link('sign-in','Back to Sign In'))+'</div>';
- $('auth-form').addEventListener('submit',submit);
- if(view==='verify')setupCode();
- tick();A.inspector?.();
+ const footer=view==='sign-in'?'New to Kitchen406? '+link('register','Create an account'):['reset','change-password'].includes(view)?'':link('sign-in','Back to Sign In');
+ renderForm({id:'auth-form',title:titles[view],subtitle,body,footer,feedback:feedback(),attributes:'novalidate'});
+ $('auth-form').addEventListener('submit',submitForm);
 }
 function show(view){
- S.generation++;S.view=view;S.mode=view==='reset'?(S.resetValid?'default':'invalid'):view==='sign-in'&&A.verified?'verified_notice':'default';S.errors={};
- S.values={email:A.email};S.code='';
- if(view==='verify'&&S.deadline<=Date.now()){S.mode='expired';}
- render();A.openModal('auth-modal');
+ S.generation++;
+ S.view=view;
+ S.mode='default';
+ S.errors={};
+ S.values={email:A.email};
+ render();
+ A.openModal('auth-modal');
 }
-function close(){S.generation++;S.values={};A.closeModal();location.hash=A.returnRoute||'#/shop';}
-function simulate(mode){
- S.generation++;remember();S.errors={};
- if(S.view==='verify'){
-  if(['default','waiting','partial','complete','resend_sent'].includes(mode)){S.deadline=Date.now()+600000;S.attempts=0;}
-  if(mode==='partial')S.code='406';
-  if(mode==='complete')S.code='406892';
-  if(mode==='waiting'||mode==='default')S.code='';
-  if(mode==='incorrect'){S.code='999999';S.attempts=Math.max(1,S.attempts);}
-  if(mode==='expired')S.deadline=Date.now();
-  if(mode==='max_attempts')S.attempts=5;
-  if(mode==='verified')mode='success';
-  if(mode==='success'){A.verified=true;A.pendingEmail='';}
+function close(returnRoute=A.returnRoute){
+ if(!$('auth-form')){A.closeModal();return;}
+ S.generation++;
+ S.values={};
+ A.closeModal();
+ location.hash=returnRoute||'#/shop';
+}
+function validate(action,values){
+ const errors={};
+ if(['sign-in','register','verification-code','forgot'].includes(action)&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email?.trim()||''))errors.email='Enter a valid email address.';
+ if(action==='register'){
+  if(!values.firstName?.trim())errors.firstName='First name is required.';
+  if(!values.lastName?.trim())errors.lastName='Last name is required.';
+  if(!A.account.mobile(values.mobile))errors.mobile='Enter a valid Philippine mobile number.';
  }
- if(S.view==='reset'&&mode==='default')S.resetValid=true;
- S.mode=mode;
- if(mode==='validation'){
-  S.values={email:'invalid'};validate();
+ if(action==='sign-in'&&!values.password)errors.password='Password is required.';
+ if(action==='change-password'&&!values.currentPassword)errors.currentPassword='Enter your current password.';
+ if(['register','reset','staff-setup','change-password'].includes(action)){
+  if(!A.account.passwordValid(values.password)||values.password.length>128)errors.password='Use 8–128 characters with a letter and a number.';
+  if(!values.confirm||values.confirm!==values.password)errors.confirm='Passwords do not match.';
+ }
+ if(['verify','reset'].includes(action)&&!/^\d{6}$/.test(values.code||''))errors.code='Enter the 6-digit code.';
+ S.errors=errors;
+ return !Object.keys(errors).length;
+}
+
+async function submitForm(event){
+ event.preventDefault();
+ if(busy()||S.mode==='success')return;
+ remember();
+ const view=S.view,pending=challenge(view);
+ const action=view==='verify'&&!pending?'verification-code':view;
+ if(!validate(action,S.values)){
+  S.mode='default';
+  render();
+  $('auth-form').querySelector('[aria-invalid=true]')?.focus();
+  return;
+ }
+ const input=action==='change-password'?{currentPassword:S.values.currentPassword,password:S.values.password,confirm:S.values.confirm}:{...S.values,challengeId:pending?.challengeId};
+ if(action!=='change-password')delete input.confirm;
+ delete S.values.currentPassword;
+ delete S.values.password;
+ delete S.values.confirm;
+ await perform(action,input);
+}
+async function perform(action,input,resend=false){
+ const generation=++S.generation;
+ S.mode='loading';
+ S.errors={};
+ render();
+ try{
+  const result=await api(action==='staff-setup'?'staff/setup':action,input);
+  if(action==='reset'||action==='change-password'){
+   const email=result.email||challenge('reset')?.email||'';
+   if(action==='reset')sessionStorage.removeItem(challengeKey('reset'));
+   clearAuthSession();
+   A.email=email;
+   A.toast('Password updated. Sign in with your new password.');
+   location.replace('#/sign-in');
+   return;
+  }
+  if(generation!==S.generation)return;
+  if(action==='sign-in'||action==='staff-setup'){
+   applyAccount(result.account);
+   if(S.staffSetup){close('#/staff-setup');return;}
+   const role=result.account.role;
+   close(role==='staff'?'#/staff':role==='admin'?(A.returnRoute.startsWith('#/owner')?A.returnRoute:'#/owner'):undefined);
+   A.toast(action==='staff-setup'?'Password set.':'Signed in.');
+   return;
+  }
+  if(['register','verification-code','forgot'].includes(action)){
+   const next=action==='forgot'?'reset':'verify';
+   A.email=result.email||input.email.trim().toLowerCase();
+   setChallenge(next,A.email,result);
+   S.values={email:A.email};
+   if(S.view!==next){location.hash='#/'+next;return;}
+   S.mode=resend?'resent':'default';
+  }else{
+   sessionStorage.removeItem(challengeKey(S.view));
+   S.mode='success';
+   S.values={};
+  }
+ }catch(error){
+  if(generation!==S.generation)return;
+  S.mode=error.message;
+  if(!['server-error','invalid-credentials','verification-required','account-exists','invalid-code','invalid-email','invalid-registration','invalid-password','try-later','sign-in-required','recovery-account-not-found','same-password','incorrect-password','password-mismatch','staff-setup-complete'].includes(S.mode))S.mode='error';
  }
  render();
 }
-function validate(){
- S.errors={};const v=S.values;
- if(['sign-in','register','forgot'].includes(S.view)&&!/^\S+@\S+\.\S+$/.test((v.email||'').trim()))S.errors.email='Please enter a valid email address.';
- if(['sign-in','register','reset'].includes(S.view)&&!v.password)S.errors.password='Password is required.';
- if(['register','reset'].includes(S.view)&&(!v.confirm||v.confirm!==v.password))S.errors.confirm='Passwords do not match.';
- if(['register','reset'].includes(S.view)&&A.account&&!A.account.passwordValid(v.password))S.errors.password='Use at least 8 characters with letters and numbers.';
- if(S.view==='register'){
-  if(A.ownerAccounts?.duplicate((v.email||'').trim()))S.errors.email='This email is already in use.';
-  if(!v.firstName?.trim())S.errors.firstName='First name is required.';
-  if(!v.lastName?.trim())S.errors.lastName='Last name is required.';
-  if(!/^(?:\+?63|0)?9\d{9}$/.test((v.mobile||'').replace(/[\s()-]/g,'')))S.errors.mobile='Enter a valid Philippine mobile number.';
- }
- return Object.keys(S.errors).length===0;
-}
-function later(fn){
- const generation=++S.generation;
- setTimeout(()=>{if(generation===S.generation&&A.modal==='auth-modal')fn();},650);
-}
-function submit(e){
- e.preventDefault();if(busy()||['expired','invalid','max_attempts','success'].includes(S.mode))return;
- remember();
- if(S.view==='verify'){
-  if(S.code.length!==6||S.deadline<=Date.now())return;
-  const code=S.code;S.mode='verifying';render();
-  later(()=>{if(S.deadline<=Date.now()){S.mode='expired';}else if(code==='406892'){S.mode='success';A.verified=true;A.pendingEmail='';}else{S.attempts++;S.mode=S.attempts>=5?'max_attempts':'incorrect';}render();});return;
- }
- if(!validate()){render();$('auth-form').querySelector('[aria-invalid=true]')?.focus();return;}
- if(S.view==='sign-in'&&(S.mode==='unverified'||A.pendingEmail&&A.pendingEmail===A.email&&!A.verified)){S.mode='unverified';render();return;}
- const view=S.view;S.mode='loading';render();
- const values={...S.values};
- later(async()=>{
-  const generation=S.generation;
-  if(view==='sign-in'){
-   const hash=await A.account.hash(values.password),known=A.account.records.find(p=>p.email.toLowerCase()===values.email.toLowerCase());
-   if(S.generation!==generation||A.modal!=='auth-modal')return;
-   if(A.session && values.email.toLowerCase()===A.session.owner.email.toLowerCase()){
-    const owner=A.session.owner,expected=owner.hash||await A.account.hash('Kitchen406!');
-    if(S.generation!==generation||A.modal!=='auth-modal')return;
-    if(hash!==expected||owner.status!=='active'||!owner.setup){S.mode='autherror';render();return;}
-    S.values={};close();A.session.enter();return;
-   }
-   const staffAccount=A.staff?.accounts?.find(r=>r.email.toLowerCase()===values.email.toLowerCase())||(A.staff&&values.email.toLowerCase()===A.staff.account.email.toLowerCase()?A.staff.account:null);
-   if(staffAccount){
-    const staff=A.staff,expected=staffAccount.hash||await A.account.hash('Kitchen406!');
-    if(S.generation!==generation||A.modal!=='auth-modal')return;
-    if(hash!==expected||staffAccount.status!=='active'||!staffAccount.setup){S.mode='autherror';render();return;}
-    A.session.invalidate();staff.account=staffAccount;S.values={};staff.role='staff';A.auth='signedin';close();location.hash=A.returnRoute.startsWith('#/staff')?A.returnRoute:'#/staff';A.shell.sync();return;
-   }
-   if(known&&(known.status!=='active'||known.passwordHash&&known.passwordHash!==hash)){S.mode='autherror';render();return;}
-   A.setAuth('signedin');A.account.current.passwordHash=hash;
-   if(A.account.registration?.email.toLowerCase()===A.email.toLowerCase()){const v=A.account.registration;Object.assign(A.account.current,{first_name:v.firstName,last_name:v.lastName,mobile_number:A.account.mobile(v.mobile)});A.account.registration=null;}
-   S.values={};close();A.toast('Signed in for this demo.');
-  }
-  if(view==='register'){A.account.registration={firstName:values.firstName,lastName:values.lastName,mobile:values.mobile,email:values.email};A.verified=false;A.pendingEmail=A.email;S.deadline=Date.now()+600000;S.attempts=0;S.values={};location.hash='#/verify';}
-  if(view==='forgot'||view==='reset'){
-   if(view==='reset'){const owner=A.account.records.find(p=>p.email.toLowerCase()===A.email.toLowerCase());const hash=await A.account.hash(values.password);if(S.generation!==generation)return;if(owner){owner.passwordHash=hash;owner.password_changed_at=new Date().toISOString();owner.passwordVersion++;A.notifications.emit('reset-'+owner.passwordVersion,'account','Password changed','Your password was reset in this preview.','account/profile',owner.customer_id,{email:'sent'});}S.resetValid=false;}
-   S.mode='success';S.values={email:A.email};render();
-  }
- });
-}
-function setupCode(){
- const cells=[...document.querySelectorAll('[data-digit]')];
- const sync=()=>{S.code=cells.map(c=>c.value||' ').join('').trimEnd();$('verify-submit').disabled=!/^\d{6}$/.test(S.code)||busy()||S.deadline<=Date.now()||S.attempts>=5;};
- cells.forEach((c,i)=>{
-  c.addEventListener('input',()=>{c.value=c.value.replace(/\D/g,'').slice(-1);sync();if(c.value)cells[i+1]?.focus();});
-  c.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!c.value&&i){cells[i-1].value='';cells[i-1].focus();sync();}if(e.key==='ArrowLeft')cells[i-1]?.focus();if(e.key==='ArrowRight')cells[i+1]?.focus();});
-  c.addEventListener('paste',e=>{e.preventDefault();const digits=e.clipboardData.getData('text').replace(/\D/g,'').slice(0,6);cells.forEach((cell,j)=>cell.value=digits[j]||'');sync();cells[Math.min(digits.length,5)].focus();});
- });
-}
-function tick(){
- const clock=$('otp-clock');if(!clock)return;
- const seconds=Math.max(0,Math.ceil((S.deadline-Date.now())/1000));clock.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
- if(!seconds&&!['expired','success'].includes(S.mode)&&S.view==='verify'){S.generation++;S.mode='expired';render();}
-}
-setInterval(tick,1000);
+
 $('auth-modal').addEventListener('click',e=>{
  const eye=e.target.closest('[data-eye]');
- if(eye){const input=$('auth-'+eye.dataset.eye);input.type=input.type==='password'?'text':'password';eye.setAttribute('aria-label',(input.type==='password'?'Show ':'Hide ')+eye.dataset.eye);eye.querySelector('span').textContent=input.type==='password'?'visibility':'visibility_off';}
- const action=e.target.closest('[data-auth-action]')?.dataset.authAction;
- if(action==='resend'&&!busy()){S.mode='resending';render();later(()=>{S.attempts=0;S.code='';S.deadline=Date.now()+600000;S.mode='resend_sent';render();});}
- if(action==='resend-reset'&&!busy()){S.mode='loading';render();later(()=>{S.mode='success';render();A.toast('Reset instructions resent in this demo. No email was sent.');});}
- if(action==='reset-link'){S.resetValid=true;location.hash='#/reset';}
+ if(eye){
+  const input=$('auth-'+eye.dataset.eye);
+  input.type=input.type==='password'?'text':'password';
+  eye.setAttribute('aria-label',input.type==='password'?'Show password':'Hide password');
+  eye.querySelector('span').textContent=input.type==='password'?'visibility':'visibility_off';
+ }
+ if(e.target.closest('[data-auth-action="different-email"]')&&!busy()){
+  sessionStorage.removeItem('k406-verify');
+  show('verify');
+ }
+ const resend=e.target.closest('[data-auth-action="resend"]');
+ if(resend&&!resend.disabled&&!busy()){
+  const pending=challenge(S.view);
+  if(pending)perform(S.view==='verify'?'verification-code':'forgot',{email:pending.email},true);
+ }
  if(e.target===$('auth-modal')||e.target.closest('[data-auth-close]'))close();
 });
-$('auth-modal').addEventListener('input',e=>{
- if(e.target.name){S.values[e.target.name]=e.target.value;delete S.errors[e.target.name];e.target.removeAttribute('aria-invalid');const error=$('error-'+e.target.name);if(error)error.textContent='';}
-});
-A.authUI={show,close,simulate,state:S,remember,
- fill(){S.values={firstName:'Elena',lastName:'Ramos',email:'elena@example.com',mobile:'917 123 4567',password:'BakingMetroCebu2025!',confirm:'BakingMetroCebu2025!'};A.email=S.values.email;S.errors={};S.mode='default';if(S.view==='verify'){S.code='406892';S.deadline=Date.now()+600000;S.attempts=0;}render();}
+
+function clearAuthSession(){
+ A.notifications.bind(null);
+ A.closeModal();
+ A.session.invalidate();
+ A.session.owner=null;
+ A.account.editing=false;
+ A.staff.account=null;
+ A.inventory.useDatabase(null);
+ S.staffSetup=false;
+ A.staff.role='customer';
+ A.email='';
+ A.setAuth('guest');
+ A.shell.sync();
+}
+
+A.authUI={
+ show,close,state:S,remember,formField,primaryButton,codeOutbox,resendButton,openForm,api,
+ requestEmailChange:input=>api('email-change',input),
+ verifyEmailChange:input=>api('email-change/verify',input),
+ async saveProfile(input){return (await api('profile',input)).account;},
+ async restore(){
+  const {account}=await api('session');
+  if(account)applyAccount(account);
+  if(S.staffSetup)history.replaceState(history.state,'','#/staff-setup');
+ },
+ async signOut(){
+  const workspace=A.session.workspace();
+  try{await api('sign-out',{});}catch{A.toast('Could not sign out. Please try again.');return;}
+  clearAuthSession();
+  if(workspace){
+   A.productAdmin.loadCatalog().catch(()=>{});
+   A[workspace].render();
+   location.hash='#/sign-in';
+  }
+  A.toast('Signed out.');
+ }
 };
 })();

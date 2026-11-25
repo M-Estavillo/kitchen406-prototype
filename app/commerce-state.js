@@ -1,13 +1,8 @@
 /* Shared, in-memory prototype data. Never submits payments or personal details. */
 (() => {
 const A=K406;
-// Sample coordinates are preview fixtures, not verified delivery destinations.
-const addresses=()=>[
- {address_id:'home',customer_id:'preview-customer',label:'Home',add_line_1:'A.S. Fortuna St., Banilad',add_line_2:'Unit 402, Oakridge Residences',city:'Mandaue City',postal_code:'6014',landmark:'Please leave with condo lobby reception if not answering.',latitude:10.3408,longitude:123.9224,is_default:true,created_at:'2026-10-01T00:00:00Z',updated_at:'2026-10-01T00:00:00Z',status:'active'},
- {address_id:'work',customer_id:'preview-customer',label:'Work',add_line_1:'Cebu IT Park, Lahug',add_line_2:'Room 3B, The Company CEBU',city:'Cebu City',postal_code:'6000',landmark:'Front desk accepts food parcels 9am to 6pm.',latitude:10.3297,longitude:123.9063,is_default:false,created_at:'2026-10-01T00:00:00Z',updated_at:'2026-10-01T00:00:00Z',status:'active'}
-];
-const draft=()=>({method:'',date:'',addressId:'home',service:'ok',quote:'ok'});
-const S={cart:[],addresses:addresses(),draft:draft(),orders:[],activeId:null,revision:0,serial:1000,removed:null};
+const draft=()=>({method:'',date:'',addressId:'',service:'ok',quote:'ok'});
+const S={cart:[],addresses:[],draft:draft(),orders:[],activeId:null,revision:0,serial:1000,removed:null};
 const M={page:'normal',stock:'normal',calendar:'normal',dates:'normal',validation:'normal',review:'normal',price:'normal',payment:'waiting',courier:'prebooking',dataset:'all'};
 const C=A.commerce={paymentSessionMs:30*60*1000,state:S,mock:M,routes:['cart','checkout','payment','confirmation','orders'],step:'',orderId:null};
 C.checkoutHoldMs=32*60*1000;
@@ -54,7 +49,7 @@ C.address=()=>S.addresses.find(a=>a.address_id===S.draft.addressId&&a.status==='
 C.currentOrder=()=>S.orders.find(o=>o.id===(C.orderId||S.activeId));
 C.count=(items=S.cart)=>items.reduce((n,i)=>n+i.quantity,0);
 C.subtotal=(items=S.cart)=>items.reduce((n,i)=>n+(i.productAmount??i.price*i.quantity),0);
-C.fee=()=>S.draft.method==='pickup'?0:C.address()&&C.deliveryRoute?.eligible()&&S.draft.quote==='ok'?A.quoteFee():null;
+C.fee=()=>S.draft.method==='pickup'?0:C.deliveryRoute?.quotations()[0]?.fee??null;
 C.sync=()=>{A.bag=new Set(S.cart.map(item=>item.productId)).size;const b=A.$('header-cart-badge');b.textContent=A.bag;b.classList.toggle('hidden',!A.bag||A.auth!=='signedin');};
 C.locked=()=>S.orders.some(o=>['detected','delayed'].includes(o.payment)||C.confirmationWindow(o));
 C.change=()=>{if(C.locked()){A.toast('Payment verification is pending. Check its status before changing checkout.');return false;}S.revision++;return true;};
@@ -98,21 +93,27 @@ C.cartIssue=()=>{
 };
 C.cartValid=()=>!C.cartIssue();
 C.dateValid=()=>A.schedule.valid(S.draft.date)&&C.dateReason(S.draft.date)==='';
-C.dateReason=value=>A.schedule.standard(value,S.cart.map(item=>({...item,available:!C.lineIssue(item)})),M.dates);
+C.dateReason=value=>{
+ const active=S.orders.find(order=>order.id===S.activeId);
+ const exclude=active?.persistedPickup&&active.paid?null:S.activeId;
+ return A.schedule.standard(value,S.cart.map(item=>({...item,available:!C.lineIssue(item)})),M.dates,exclude);
+};
 C.fulfillmentReady=()=>C.cartValid()&&['pickup','delivery'].includes(S.draft.method)&&C.dateValid()&&M.calendar==='normal'&&M.validation==='normal';
 C.coordinatesValid=a=>!!a&&Number.isFinite(a.latitude)&&Math.abs(a.latitude)<=90&&Number.isFinite(a.longitude)&&Math.abs(a.longitude)<=180;
 C.addressValid=a=>!!a&&['label','add_line_1','city','postal_code'].every(k=>typeof a[k]==='string'&&!!a[k].trim());
-C.ready=()=>C.fulfillmentReady()&&(S.draft.method==='pickup'||C.addressValid(C.address())&&C.deliveryRoute?.eligible()&&S.draft.quote==='ok');
+C.ready=()=>C.fulfillmentReady()&&(S.draft.method==='pickup'||C.addressValid(C.address())&&C.fee()!==null);
 C.unpaid=o=>o&&!o.paid&&!o.reconciliationRequired&&(['pending-payment','payment-failed'].includes(o.status)||o.checkoutClosed&&['failed','expired'].includes(o.payment))&&!['detected','delayed'].includes(o.payment);
 C.setStatus=(o,status)=>{if(!o)return;o.status=status;o.activity.unshift({text:status.replaceAll('-',' '),at:new Date().toLocaleString()});};
 C.createOrder=()=>{
  if(C.locked()||!C.ready()||M.review!=='normal')return null;
+ const fee=C.fee(),quotation=C.deliveryRoute?.quotations?.()[0]||null;
+ if(fee===null||S.draft.method==='delivery'&&C.deliveryRoute?.provider?.()&&!quotation)return null;
  let o=S.orders.find(o=>o.id===S.activeId);
  if(o?.reconciliationRequired){C.checkout.message=o.paymentCheckMessage;return null;}
- if(o&&o.revision===S.revision&&o.fee===C.fee()&&o.payment==='waiting'&&!o.paid&&o.status!=='cancelled'&&C.holdUntil(o)>Date.now())return o;
+ if(o&&o.revision===S.revision&&o.fee===fee&&(o.courierQuotation?.quotationId||null)===(quotation?.quotationId||null)&&o.payment==='waiting'&&!o.paid&&o.status!=='cancelled'&&C.holdUntil(o)>Date.now())return o;
  const previous=C.unpaid(o)?o:null;
  const id='K406-'+(++S.serial);
- o={id,type:'standard',items:C.copy(S.cart),fulfillment:C.copy(S.draft),address:C.copy(C.address()||{}),fee:C.fee(),total:C.subtotal()+C.fee(),status:'pending-payment',payment:'waiting',deadline:Date.now()+C.paymentSessionMs,created:Date.now(),revision:S.revision,reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Demo order placed',at:new Date().toLocaleString()}]};
+ o={id,type:'standard',items:C.copy(S.cart),fulfillment:C.copy(S.draft),address:C.copy(C.address()||{}),fee,total:C.subtotal()+fee,courierQuotation:C.copy(quotation),courierDestination:C.copy(C.deliveryRoute?.destination?.()||null),status:'pending-payment',payment:'waiting',deadline:Date.now()+C.paymentSessionMs,created:Date.now(),revision:S.revision,reference:'DEMO-QR-'+S.serial,attempts:[],activity:[{text:'Demo order placed',at:new Date().toLocaleString()}]};
  C.beginAttempt(o,o.created);
  const failure=C.reserveStandard?.(o,previous?.id);
  if(failure){C.checkout.message=failure;return null;}
@@ -129,7 +130,7 @@ C.setPayment=(o,value)=>{
   C.setStatus(o,'confirmed');
   o.paid=true;o.paidAt=new Date().toLocaleString();
   const cartState=o.customer_id&&A.account?.id()!==o.customer_id?A.account?.buckets.get(o.customer_id)?.commerce:S;
-  if(cartState&&!o.fixture&&!o.cartSettled){
+  if(cartState&&!o.cartSettled){
    o.items.forEach(item=>{const live=cartState.cart.find(i=>i.key===item.key);if(live)live.quantity=Math.max(0,live.quantity-item.quantity);});
    cartState.cart=cartState.cart.filter(i=>i.quantity>0);o.cartSettled=true;cartState.revision++;
    if(cartState===S)C.sync();
@@ -138,11 +139,5 @@ C.setPayment=(o,value)=>{
  else if(value==='revalidation')C.setStatus(o,'payment-failed');
  else C.setStatus(o,'pending-payment');
 };
-C.reset=()=>{A.subscriptions?.reset();C.deliveryRoute?.reset();S.cart=[];S.addresses=addresses();S.draft=draft();S.orders=[];S.activeId=null;S.removed=null;S.revision++;C.orderId=null;Object.keys(M).forEach(k=>M[k]=k==='payment'?'waiting':k==='courier'?'prebooking':k==='dataset'?'all':'normal');C.sync();};
-C.sampleCart=()=>{if(!C.change())return;S.cart=[C.line(1,'standard',2),C.line(2,'standard',1)];M.page='normal';M.stock='normal';C.sync();};
-C.sampleOrders=()=>{
- const role=A.staff.role;
- try{A.staff.role='admin';A.owner.seed();}finally{A.staff.role=role;}
-
-};
+C.reset=()=>{A.subscriptions?.reset();C.deliveryRoute?.reset();S.cart=[];S.addresses=[];S.draft=draft();S.orders=[];S.activeId=null;S.removed=null;S.revision++;C.orderId=null;Object.keys(M).forEach(k=>M[k]=k==='payment'?'waiting':k==='courier'?'prebooking':k==='dataset'?'all':'normal');C.sync();};
 })();

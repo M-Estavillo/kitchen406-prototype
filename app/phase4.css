@@ -95,10 +95,10 @@
 .cake-option-footer>span{font-size:12px;line-height:1.4}
 .cake-option-footer>b{flex-shrink:0;font-size:13px;color:var(--ink);white-space:nowrap}
 .customer-profile{display:grid;gap:14px}
-.phase4-view .customer-profile>.commerce-card{padding:18px 20px;margin:0}
+.customer-profile>.commerce-card{padding:18px 20px;margin:0}
 .customer-profile .commerce-card-heading{margin-bottom:10px;gap:10px;flex-wrap:wrap}
-.phase4-view .customer-profile .commerce-card h2{font-size:20px}
-.phase4-view .customer-profile .commerce-card p{margin:5px 0 0;font-size:13px;line-height:1.5}
+.customer-profile .commerce-card h2{font-size:20px}
+.customer-profile .commerce-card p{margin:5px 0 0;font-size:13px;line-height:1.5}
 .customer-profile .profile-details{gap:12px 24px;margin-bottom:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .customer-profile .profile-details dt{margin-bottom:4px}
 .customer-profile .profile-details dd{font-size:14px}

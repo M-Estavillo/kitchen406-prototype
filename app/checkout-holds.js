@@ -85,6 +85,7 @@ H.simulate=(purchase,state,settle)=>{
  return settle(purchase,state);
 };
 H.advance=(purchase,settle)=>{
+ if(purchase?.persistedPickup||purchase?.persistedSubscription)return false;
  if(!purchase||purchase.paid||purchase.status==='cancelled'||!['waiting','detected','delayed'].includes(purchase.payment))return false;
  const attempt=purchase.attempts?.at(-1),now=Date.now();
  if(now>=C.holdUntil(purchase)){
@@ -120,6 +121,6 @@ setInterval(()=>{
  let changed=false;
  for(const order of orders)if(H.advance(order,C.setPayment)&&C.currentOrder()===order)changed=true;
  for(const purchase of purchases)if(H.advance(purchase,B.pay)&&B.state.purchases.includes(purchase))changed=true;
- if(changed){C.render();if(B.active())B.render();A.inspector?.();}
+ if(changed){C.render();if(B.active())B.render();}
 },1000);
 })();

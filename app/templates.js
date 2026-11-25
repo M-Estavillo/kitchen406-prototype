@@ -19,24 +19,18 @@ const pageTemplates = {
 <div class="flex items-center gap-1.5 overflow-x-auto min-w-0 max-w-full scrollbar-none py-0.5" id="category-tabs">
 <button class="cat-pill active px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all bg-primary text-on-primary shadow-sm flex items-center gap-1.5 whitespace-nowrap" data-category="all" type="button">
 <span>All Products</span>
-<span class="text-[11px] opacity-80 px-1.5 py-0.2 bg-white/20 rounded-full" id="count-all">20</span>
+<span class="text-[11px] opacity-80 px-1.5 py-0.2 bg-white/20 rounded-full" id="count-all">0</span>
 </button>
-<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="breads" type="button">
-<span>Breads</span>
-<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-breads">9</span>
+<template id="category-tab-template">
+<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all hover:text-on-surface flex items-center gap-1.5 whitespace-nowrap" type="button">
+<span></span>
+<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full">0</span>
 </button>
-<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="pastries" type="button">
-<span>Pastries</span>
-<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pastries">8</span>
-</button>
-<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low flex items-center gap-1.5 whitespace-nowrap" data-category="pantry" type="button">
-<span>Pantry</span>
-<span class="text-[11px] opacity-70 px-1.5 py-0.2 bg-surface-container rounded-full" id="count-pantry">3</span>
-</button>
+</template>
 </div>
 <div id="catalog-summary-section" class="ml-auto">
 <p class="font-body-sm text-body-sm text-on-surface-variant text-right whitespace-nowrap ml-auto" aria-live="polite" id="catalog-results-label">
-            Showing <span class="font-semibold text-on-surface" id="visible-range">1–8</span> of <span class="font-semibold text-on-surface" id="total-count">20</span> products
+            Showing <span class="font-semibold text-on-surface" id="visible-range">0</span> of <span class="font-semibold text-on-surface" id="total-count">0</span> products
           </p>
 </div>
 </div>
@@ -181,7 +175,7 @@ const pageTemplates = {
 <span class="text-outline-variant">/</span>
 <a class="hover:text-primary transition-colors" href="#" id="product-breadcrumb-category">Breads</a>
 <span class="text-outline-variant">/</span>
-<span class="text-on-surface font-title-sm" id="product-breadcrumb-name">Braided Chocolate Babka</span>
+<span class="text-on-surface font-title-sm" id="product-breadcrumb-name"></span>
 </nav>
 </section>
 <!-- Page Root State Container (Handles Normal / Loading / Error / Not Found) -->
@@ -233,7 +227,7 @@ const pageTemplates = {
 <!-- LEFT COLUMN: Image Gallery & Badging -->
 <div class="lg:col-span-7 flex flex-col gap-space-md">
 <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container shadow-sm group">
-<img alt="Braided Chocolate Babka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="assets/braided-chocolate-babka.png"/>
+<img alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" id="mainProductImg" src="assets/product-placeholder.svg"/>
 <!-- Badging Overlay Area -->
 <div class="absolute top-4 left-4 flex flex-col items-start gap-2 z-10 pointer-events-none">
 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-wider bg-[#EBF0EC] text-[#3D5941] shadow-sm" id="productBadgeAvailability">
@@ -247,53 +241,29 @@ const pageTemplates = {
 </div>
 </div>
 <!-- Thumbnails -->
-<div id="product-gallery" class="flex items-center gap-space-md">
-<button class="thumb-btn active relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container ring-2 ring-primary transition-all" onclick="switchProductThumb('assets/braided-chocolate-babka.png', 0)">
-<img alt="Braided Chocolate Babka loaf view" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
-</button>
-<button class="thumb-btn relative w-24 h-20 rounded-lg overflow-hidden bg-surface-container opacity-70 hover:opacity-100 transition-all" onclick="switchProductThumb('assets/braided-chocolate-babka.png', 1)">
-<img alt="Braided Chocolate Babka" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
-</button>
-</div>
+<div id="product-gallery" class="flex items-center gap-space-md"></div>
 </div>
 <!-- RIGHT COLUMN: Details, Variants, Action & Pricing -->
 <div class="lg:col-span-5 flex flex-col">
 <div class="mb-space-xs flex items-center justify-between">
-<span class="font-label-md text-label-md text-primary uppercase tracking-wider" id="product-category">Breads • Sweet &amp; Enriched</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider" id="product-category"></span>
 <a id="product-rating-link" href="#/product/1/reviews" class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
 <span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="font-title-sm text-on-surface">4.6</span>
-<span>(18 reviews)</span>
+<span>Reviews</span>
 </a>
 </div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Braided Chocolate Babka</h1>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2"></h1>
 <div class="flex items-baseline gap-space-sm mb-space-md">
-<span class="font-price-lg text-price-lg text-primary" id="productPriceDisplay">₱340</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded" id="productWeightBadge">650g Standard</span>
+<span class="font-price-lg text-price-lg text-primary" id="productPriceDisplay"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded" id="productWeightBadge"></span>
 </div>
 <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-lg">
-            Soft, brioche-style braided loaf generously swirled with bittersweet Belgian chocolate ganache and crumbly streusel topping. Prepared fresh to order for your confirmed Metro Cebu fulfillment date.
           </p>
 <!-- Variant Selector Container -->
 <div class="mb-space-lg" id="variantSection">
-<label class="block font-title-sm text-title-sm text-on-surface mb-space-xs">Select Loaf Size</label>
+<label class="block font-title-sm text-title-sm text-on-surface mb-space-xs">Choose a variant</label>
 <div class="grid grid-cols-2 gap-space-sm">
-<button class="variant-option flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all" id="variantBtnStd" onclick="selectVariant('standard')">
-<span class="font-title-sm text-title-sm text-on-surface flex justify-between items-center">
-                  Standard Loaf
-                  <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
-</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">650g • Serves 4–6</span>
-<span class="font-title-sm text-title-sm text-primary mt-1">₱340</span>
-</button>
-<button class="variant-option flex flex-col text-left p-space-sm rounded-lg bg-surface-container-low border-2 border-transparent hover:bg-surface-container transition-all" id="variantBtnLrg" onclick="selectVariant('large')">
-<span class="font-title-sm text-title-sm text-on-surface flex justify-between items-center">
-                  Large Sharing
-                  <span class="material-symbols-outlined text-outline-variant text-[18px] opacity-40">radio_button_unchecked</span>
-</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">950g • Serves 8–10</span>
-<span class="font-title-sm text-title-sm text-on-surface mt-1">₱480</span>
-</button>
+<button class="variant-option flex flex-col text-left p-space-sm rounded-lg bg-surface-container-lowest border-2 border-primary shadow-sm transition-all" id="variantBtnStd" onclick="selectVariant('standard')"></button>
 </div>
 </div>
 <!-- Quantity Stepper & Subtotal Row -->
@@ -310,7 +280,7 @@ const pageTemplates = {
 </div>
 <div class="text-right">
 <span class="font-body-sm text-body-sm text-on-surface-variant block">Item Subtotal</span>
-<span class="font-price-md text-price-md text-primary font-semibold" id="subtotalDisplay">₱340</span>
+<span class="font-price-md text-price-md text-primary font-semibold" id="subtotalDisplay"></span>
 </div>
 </div>
 <!-- Primary Add to Cart Button & Alerts -->
@@ -363,63 +333,7 @@ const pageTemplates = {
 <!-- LEFT SUB-COLUMN: Rating Overview & Composer Invitation Card -->
 <div class="lg:col-span-4 flex flex-col gap-space-lg">
 <!-- Rating Breakdown Card -->
-<div id="review-summary" class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
-<div class="flex items-baseline gap-2 mb-1">
-<span class="font-display text-display text-on-surface leading-none">4.6</span>
-<span class="font-body-md text-body-md text-outline">/ 5.0</span>
-</div>
-<div class="flex items-center gap-1 text-primary mb-2">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">star_half</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant ml-2">Based on 18 reviews</span>
-</div>
-<!-- Star Distribution Bars -->
-<div class="space-y-2 mt-space-md pt-space-md border-t border-surface-container">
-<!-- 5 Stars -->
-<div class="flex items-center gap-2 font-body-sm text-body-sm">
-<span class="w-12 text-on-surface-variant">5 stars</span>
-<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 66%;"></div>
-</div>
-<span class="w-6 text-right text-outline">12</span>
-</div>
-<!-- 4 Stars -->
-<div class="flex items-center gap-2 font-body-sm text-body-sm">
-<span class="w-12 text-on-surface-variant">4 stars</span>
-<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 22%;"></div>
-</div>
-<span class="w-6 text-right text-outline">4</span>
-</div>
-<!-- 3 Stars -->
-<div class="flex items-center gap-2 font-body-sm text-body-sm">
-<span class="w-12 text-on-surface-variant">3 stars</span>
-<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 6%;"></div>
-</div>
-<span class="w-6 text-right text-outline">1</span>
-</div>
-<!-- 2 Stars -->
-<div class="flex items-center gap-2 font-body-sm text-body-sm">
-<span class="w-12 text-on-surface-variant">2 stars</span>
-<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 6%;"></div>
-</div>
-<span class="w-6 text-right text-outline">1</span>
-</div>
-<!-- 1 Star -->
-<div class="flex items-center gap-2 font-body-sm text-body-sm">
-<span class="w-12 text-on-surface-variant">1 star</span>
-<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 0%;"></div>
-</div>
-<span class="w-6 text-right text-outline">0</span>
-</div>
-</div>
-</div>
+<div id="review-summary" class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm"></div>
 <!-- "Write a Review" Card (Dynamic states based on Auth & Eligibility) -->
 <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
 <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Share your thoughts</h3>
@@ -486,104 +400,7 @@ const pageTemplates = {
 <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mx-auto">Be the first to share your thoughts after your completed batch fulfillment.</p>
 </div>
 <!-- STATE: REVIEWS POPULATED (Default) -->
-<div class="flex flex-col gap-space-md" id="reviewsPopulatedState">
-<!-- Review Item 1 -->
-<article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
-<div class="flex items-start justify-between">
-<div>
-<div class="flex items-center gap-1 text-primary mb-1">
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<div class="flex items-center gap-2 font-label-sm text-label-sm text-outline">
-<span>Anonymous Customer</span>
-<span>•</span>
-<span class="text-[#3D5941] flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">check_circle</span>
-                        From a completed Kitchen406 order
-                      </span>
-</div>
-</div>
-<span class="font-body-sm text-body-sm text-outline">Nov 12, 2025</span>
-</div>
-<div class="inline-block self-start font-body-sm text-body-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">
-                  Purchased: Standard Loaf (650g)
-                </div>
-<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-1">
-                  The chocolate swirl is intensely rich without feeling cloying, and warming a slice in the oven made the whole kitchen smell like heaven. Crumb structure was delightfully soft!
-                </p>
-<!-- Attached Photos (Clickable Mock) -->
-<div class="flex gap-space-sm mt-space-xs">
-<div class="w-16 h-16 rounded bg-surface-container overflow-hidden cursor-pointer hover:opacity-90 transition-opacity" onclick="previewCustomerPhoto(this)">
-<img alt="Customer Babka slice photo" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
-</div>
-<div class="w-16 h-16 rounded bg-surface-container overflow-hidden cursor-pointer hover:opacity-90 transition-opacity" onclick="previewCustomerPhoto(this)">
-<img alt="Braided Chocolate Babka review photo" class="w-full h-full object-cover" src="assets/braided-chocolate-babka.png"/>
-</div>
-</div>
-</article>
-<!-- Review Item 2 -->
-<article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
-<div class="flex items-start justify-between">
-<div>
-<div class="flex items-center gap-1 text-primary mb-1">
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<div class="flex items-center gap-2 font-label-sm text-label-sm text-outline">
-<span>Anonymous Customer</span>
-<span>•</span>
-<span class="text-[#3D5941] flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">check_circle</span>
-                        From a completed Kitchen406 order
-                      </span>
-</div>
-</div>
-<span class="font-body-sm text-body-sm text-outline">Nov 04, 2025</span>
-</div>
-<div class="inline-block self-start font-body-sm text-body-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">
-                  Purchased: Large Sharing Loaf (950g)
-                </div>
-<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-1">
-                  Shared this for our Sunday family brunch in Cebu City. The streusel on top gave it a distinct tactile crisp that pairs so well with pour-over coffee.
-                </p>
-</article>
-<!-- Review Item 3 -->
-<article class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm flex flex-col gap-space-xs">
-<div class="flex items-start justify-between">
-<div>
-<div class="flex items-center gap-1 text-primary mb-1">
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">star</span>
-</div>
-<div class="flex items-center gap-2 font-label-sm text-label-sm text-outline">
-<span>Anonymous Customer</span>
-<span>•</span>
-<span class="text-[#3D5941] flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">check_circle</span>
-                        From a completed Kitchen406 order
-                      </span>
-</div>
-</div>
-<span class="font-body-sm text-body-sm text-outline">Oct 28, 2025</span>
-</div>
-<div class="inline-block self-start font-body-sm text-body-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">
-                  Purchased: Standard Loaf (650g)
-                </div>
-<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-1">
-                  Arrived right on the scheduled delivery window. Very fresh crust, deeply fragrant butter aroma. Will definitely subscribe for the 4-week cycle.
-                </p>
-</article>
-</div>
+<div class="flex flex-col gap-space-md" id="reviewsPopulatedState"></div>
 </div>
 </div>
 </div>
@@ -598,9 +415,9 @@ const pageTemplates = {
 <!-- Modal Header -->
 <div class="p-space-md sm:p-space-lg bg-surface-container-low border-b border-surface-container flex items-start justify-between">
 <div>
-<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Verified Order #KC-8921</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Verified purchase</span>
 <h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Review your purchase</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Braided Chocolate Babka (Standard Loaf)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant"></p>
 </div>
 <button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container text-on-surface-variant transition-colors" aria-label="Close review" onclick="closeReviewModal()">
 <span class="material-symbols-outlined text-[20px]">close</span>
@@ -642,26 +459,6 @@ const pageTemplates = {
 <textarea class="w-full p-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline border border-outline-variant/40 focus:outline-none focus:border-primary transition-colors resize-none" id="reviewCommentInput" maxlength="300" aria-describedby="review-comment-limit" placeholder="How was the texture, flavor, and delivery condition?" rows="4"></textarea>
 <p id="review-comment-limit" class="font-body-sm text-body-sm text-on-surface-variant">Maximum 300 characters.</p>
 </div>
-<!-- Photo Upload Slots (Up to 2 max) -->
-<div>
-<div class="flex items-center justify-between mb-1">
-<label class="font-title-sm text-title-sm text-on-surface">Add Photos <span class="text-outline font-normal">(Up to 2 photos)</span></label>
-<span class="font-body-sm text-body-sm text-outline" id="photoCountLabel">0 / 2 selected</span>
-</div>
-<div class="grid grid-cols-2 gap-space-sm">
-<!-- Upload Slot 1 -->
-<div class="h-24 rounded-lg bg-surface-container-low border border-dashed border-outline hover:border-primary flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group" id="slotPhoto1" onclick="toggleMockPhoto(1)">
-<span class="material-symbols-outlined text-[24px] text-outline group-hover:text-primary">add_a_photo</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Select Photo</span>
-</div>
-<!-- Upload Slot 2 -->
-<div class="h-24 rounded-lg bg-surface-container-low border border-dashed border-outline hover:border-primary flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group" id="slotPhoto2" onclick="toggleMockPhoto(2)">
-<span class="material-symbols-outlined text-[24px] text-outline group-hover:text-primary">add_a_photo</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Select Photo</span>
-</div>
-</div>
-</div>
-<!-- Inline Submission Error Banner -->
 <div class="hidden p-3 bg-error-container text-on-error-container rounded-lg font-body-sm text-body-sm flex items-center gap-2" id="modalSubmitError">
 <span class="material-symbols-outlined text-[18px]">error</span>
 <span>Simulation error: Submission timed out. Please try clicking submit again.</span>

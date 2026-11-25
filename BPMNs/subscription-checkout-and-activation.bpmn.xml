@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_SubscriptionCheckoutAndActivation" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_SubscriptionCheckoutAndActivation">
+    <bpmn:participant id="Participant_SubscriptionCheckoutAndActivation" name="Subscription Checkout and Activation" processRef="Process_SubscriptionCheckoutAndActivation" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_SubscriptionCheckoutAndActivation" name="Subscription Checkout and Activation" isExecutable="false">
+    <bpmn:documentation>Current SQLite v6 enrollment from a single eligible variant through one prepaid purchase and four fulfillment orders. Courier Address and Fulfillment describes the delivery quotation step. Subscription Cycle Fulfillment and Deferment describes each activated order.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_SubscriptionCheckoutAndActivation">
+      <bpmn:lane id="Lane_0" name="Customer">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Select</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Payment</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Rejected</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Hold</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Paid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Release</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Closed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Customer chooses a subscription">
+      <bpmn:outgoing>Flow_Start_Select</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Select" name="Select variant, quantity, start date, and method">
+      <bpmn:incoming>Flow_Start_Select</bpmn:incoming>
+      <bpmn:outgoing>Flow_Select_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Validate" name="Validate schedule, price, capacity, and stock">
+      <bpmn:documentation>Use the active schedule or the default preparation and fulfillment weekdays when no schedule is configured. Recheck lead time, cutoff, blocked dates, four cycle capacities, first-cycle stock, and the signed quote and fees for all four dates if delivery is selected.</bpmn:documentation>
+      <bpmn:incoming>Flow_Select_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Checkout valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Rejected</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Hold</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Rejected" name="Return to setup for corrections">
+      <bpmn:incoming>Flow_Valid_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Hold" name="Save prepaid checkout and hold resources">
+      <bpmn:documentation>Snapshot the selected schedule, address and fees. Hold capacity on all four dates and reserve materials for the first cycle. Create a demo payment with a 30-minute window and a hold with a 32-minute window.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Hold</bpmn:incoming>
+      <bpmn:outgoing>Flow_Hold_Payment</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Payment" name="Confirm or cancel demo payment">
+      <bpmn:incoming>Flow_Hold_Payment</bpmn:incoming>
+      <bpmn:outgoing>Flow_Payment_Paid</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Paid" name="Payment outcome?" gatewayDirection="Diverging">
+      <bpmn:documentation>When the payment window closes, confirmation is blocked. A pending checkout keeps its resource hold until cancellation or until the server processes hold expiry.</bpmn:documentation>
+      <bpmn:incoming>Flow_Payment_Paid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Paid_Release</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Paid_Activate</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Release" name="Close checkout and release resources">
+      <bpmn:incoming>Flow_Paid_Release</bpmn:incoming>
+      <bpmn:outgoing>Flow_Release_Closed</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Closed" name="Checkout closed">
+      <bpmn:incoming>Flow_Release_Closed</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activate" name="Record payment and activate four fulfillment orders">
+      <bpmn:documentation>Atomically confirm the purchase and holds; create the Subscription and four SubscriptionDelivery rows linked to their fulfillment orders; move first-cycle requirements to its fulfillment order and save later-cycle requirements. Each fulfillment order has zero payable amount and its share of the prepaid product revenue.</bpmn:documentation>
+      <bpmn:incoming>Flow_Paid_Activate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Activate_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Subscription active">
+      <bpmn:incoming>Flow_Activate_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Select" sourceRef="Start" targetRef="Select" />
+    <bpmn:sequenceFlow id="Flow_Select_Validate" sourceRef="Select" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Rejected" name="No" sourceRef="Valid" targetRef="Rejected" />
+    <bpmn:sequenceFlow id="Flow_Valid_Hold" name="Yes" sourceRef="Valid" targetRef="Hold" />
+    <bpmn:sequenceFlow id="Flow_Hold_Payment" sourceRef="Hold" targetRef="Payment" />
+    <bpmn:sequenceFlow id="Flow_Payment_Paid" sourceRef="Payment" targetRef="Paid" />
+    <bpmn:sequenceFlow id="Flow_Paid_Release" name="Cancelled or hold expired" sourceRef="Paid" targetRef="Release" />
+    <bpmn:sequenceFlow id="Flow_Release_Closed" sourceRef="Release" targetRef="Closed" />
+    <bpmn:sequenceFlow id="Flow_Paid_Activate" name="Confirmed before payment expiry" sourceRef="Paid" targetRef="Activate" />
+    <bpmn:sequenceFlow id="Flow_Activate_Done" sourceRef="Activate" targetRef="Done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_SubscriptionCheckoutAndActivation">
+    <bpmndi:BPMNPlane id="Plane_SubscriptionCheckoutAndActivation" bpmnElement="Collaboration_SubscriptionCheckoutAndActivation">
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_SubscriptionCheckoutAndActivation" isHorizontal="true">
+        <dc:Bounds x="18" y="30" width="2200" height="496" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="48" y="30" width="2170" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="48" y="278" width="2170" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="132" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="61" y="230" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Select" bpmnElement="Select">
+        <dc:Bounds x="297" y="169" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate">
+        <dc:Bounds x="527" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="814" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rejected" bpmnElement="Rejected">
+        <dc:Bounds x="822" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Hold" bpmnElement="Hold">
+        <dc:Bounds x="987" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Payment" bpmnElement="Payment">
+        <dc:Bounds x="1217" y="169" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Paid" bpmnElement="Paid" isMarkerVisible="true">
+        <dc:Bounds x="1504" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1441" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Release" bpmnElement="Release">
+        <dc:Bounds x="1677" y="294" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Closed" bpmnElement="Closed">
+        <dc:Bounds x="1972" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1901" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Activate" bpmnElement="Activate">
+        <dc:Bounds x="1677" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
+        <dc:Bounds x="1972" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1901" y="478" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Start_Select" bpmnElement="Flow_Start_Select">
+        <di:waypoint x="168" y="207" />
+        <di:waypoint x="297" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Select_Validate" bpmnElement="Flow_Select_Validate">
+        <di:waypoint x="463" y="207" />
+        <di:waypoint x="495" y="207" />
+        <di:waypoint x="495" y="455" />
+        <di:waypoint x="527" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Validate_Valid" bpmnElement="Flow_Validate_Valid">
+        <di:waypoint x="693" y="455" />
+        <di:waypoint x="814" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Valid_Rejected" bpmnElement="Flow_Valid_Rejected">
+        <di:waypoint x="840" y="429" />
+        <di:waypoint x="840" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="760" y="380" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Valid_Hold" bpmnElement="Flow_Valid_Hold">
+        <di:waypoint x="866" y="455" />
+        <di:waypoint x="987" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="431" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Hold_Payment" bpmnElement="Flow_Hold_Payment">
+        <di:waypoint x="1153" y="455" />
+        <di:waypoint x="1185" y="455" />
+        <di:waypoint x="1185" y="207" />
+        <di:waypoint x="1217" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Payment_Paid" bpmnElement="Flow_Payment_Paid">
+        <di:waypoint x="1383" y="207" />
+        <di:waypoint x="1444" y="207" />
+        <di:waypoint x="1444" y="455" />
+        <di:waypoint x="1504" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Paid_Release" bpmnElement="Flow_Paid_Release">
+        <di:waypoint x="1556" y="455" />
+        <di:waypoint x="1617" y="455" />
+        <di:waypoint x="1617" y="332" />
+        <di:waypoint x="1677" y="332" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1572" y="309" width="150" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Release_Closed" bpmnElement="Flow_Release_Closed">
+        <di:waypoint x="1843" y="332" />
+        <di:waypoint x="1972" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Paid_Activate" bpmnElement="Flow_Paid_Activate">
+        <di:waypoint x="1556" y="455" />
+        <di:waypoint x="1677" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1537" y="431" width="160" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Activate_Done" bpmnElement="Flow_Activate_Done">
+        <di:waypoint x="1843" y="455" />
+        <di:waypoint x="1972" y="455" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

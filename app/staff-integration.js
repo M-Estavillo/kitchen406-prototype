@@ -18,7 +18,7 @@ C.reserveStandard=(o,previous)=>I.reserve(o,false,false,previous?[o.id,previous]
 const create=C.createOrder;C.createOrder=()=>{C.state.serial=Math.max(C.state.serial,...I.allOrders().map(o=>Number(o.id.match(/^K406-(\d+)$/)?.[1])||0));return create();};
 C.retryPayment=o=>{
  if(!o||!A.account.owns(o)||o.paid||o.reconciliationRequired||!['failed','expired'].includes(o.payment))return;
- if(!o.fixture&&o.revision!==C.state.revision){C.setPayment(o,'revalidation');return;}
+ if(o.revision!==C.state.revision){C.setPayment(o,'revalidation');return;}
  const issue=o.items.map(item=>C.lineIssue(item,item.quantity,o.id)).find(Boolean)||A.schedule.standard(o.fulfillment.date,o.items.map(item=>({...item,available:true})),'normal',o.id);
  if(issue){o.resolution=issue;return;}
  const candidate={...o,attempts:[...o.attempts]};C.beginAttempt(candidate);
@@ -50,7 +50,7 @@ B.reserveIngredients=(p,exclude)=>I.reserve(B.materialOrder(p),false,false,exclu
 const createPurchase=B.createPurchase;B.createPurchase=()=>{B.syncSerial();return createPurchase();};
 const cancel=B.cancel;B.cancel=p=>{const result=cancel(p);if(result)I.release(p.id);return result;};
 const change=B.change;B.change=()=>{const pending=B.pending(),result=change();if(result&&pending&&!pending.paid)I.release(pending.id);return result;};
-B.allRecords=()=>[...new Map([...Array.from(A.account.buckets.values()).flatMap(b=>b.subscription?.records||[]),...B.state.records].map(r=>[r.id,r])).values()];
+B.allRecords=()=>[...new Map([...Array.from(A.account.buckets.values()).flatMap(b=>(b.subscription?.records||[]).filter(r=>!r.persistedSubscription)),...B.state.records.filter(r=>!r.persistedSubscription||A.account.allowed()),...(B.persistence?.records()||[])].map(r=>[r.id,r])).values()];
 // Demonstration schedule defaults; the owner will maintain these in production.
 B.preparationDate=o=>{const r=B.allRecords().find(r=>r.id===o.subscriptionId),schedule=r?.snapshot.scheduleSnapshot||B.scheduleById(r?.snapshot.scheduleId);if(!schedule||!Number.isInteger(schedule.preparation_day))return null;const days=(A.schedule.day(o.fulfillment.date)-schedule.preparation_day+7)%7;return A.schedule.add(o.fulfillment.date,-days);};
 B.prepareActivation=(p,orders)=>{
@@ -175,7 +175,7 @@ B.reserveNext=(record,ingredientId)=>{
  }
  return updated;
 };
-B.retryIngredientShortages=id=>{for(const record of B.allRecords())B.reserveNext(record,id);};
+B.retryIngredientShortages=id=>{for(const record of B.allRecords())if(!record.persistedSubscription)B.reserveNext(record,id);};
 const pay=B.pay;B.pay=(p,state)=>{
  if(!p||p.paid||p.payment==='cancelled'&&state!=='confirmed')return;
  C.state.serial=Math.max(C.state.serial,...I.allOrders().map(o=>Number(o.id.match(/^K406-(\d+)$/)?.[1])||0));
@@ -193,7 +193,7 @@ let availabilitySignature='';setInterval(()=>{
  const pickupsChanged=A.fulfillment.checkPickupCutoffs();
  if(pickupsChanged&&A.route==='orders')C.render();
  let updated=pickupsChanged;
- for(const record of B.allRecords())if(B.reserveNext(record))updated=true;
+ for(const record of B.allRecords())if(!record.persistedSubscription&&B.reserveNext(record))updated=true;
  if(updated){S.render?.();A.owner?.render();A.shell?.sync();}
  const signature=I.items.map(i=>I.available(i.id)).join(',');
  if(signature===availabilitySignature)return;

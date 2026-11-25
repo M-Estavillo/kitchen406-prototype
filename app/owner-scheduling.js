@@ -53,7 +53,7 @@ function blockedCalendar(){
  const start=D.week(O.calendarMode==='month'?O.date.slice(0,7)+'-01':O.date),count=O.calendarMode==='month'?42:7,blocked=D.config.blocked.includes(O.date);
  return `<section class="commerce-card owner-blocked-calendar"><h2>Blocked dates</h2>${calendarHeading()}<div class="staff-calendar-controls">${dateNavigation()}</div><div class="owner-block-grid"><div class="owner-block-weekdays">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<span>${d}</span>`).join('')}</div><div class="owner-block-days">${Array.from({length:count},(_,i)=>{const date=D.add(start,i),isBlocked=D.config.blocked.includes(date);return `<button type="button" data-owner="calendar-date" data-date="${date}" class="${isBlocked?'is-blocked':''} ${O.calendarMode==='month'&&date.slice(0,7)!==O.date.slice(0,7)?'outside':''}" aria-pressed="${date===O.date}" aria-label="${E(V.date(date))}, ${isBlocked?'blocked':'open'}">${Number(date.slice(-2))}${isBlocked?'<span>Blocked</span>':''}</button>`;}).join('')}</div></div><div class="owner-block-selection"><span>${V.date(O.date)}</span><span>${blocked?'Blocked':'Open for bookings'}</span></div>${blocked&&Q.blocks.get(O.date)?.reason?`<p class="owner-block-reason">${E(Q.blocks.get(O.date).reason)}</p>`:''}<div class="owner-block-actions">${V.button('block-date','Block date',blocked?'disabled':'',true)}${V.button('unblock','Unblock date',`data-date="${O.date}" ${blocked?'':'disabled'}`)}</div></section>`;
 }
-A.ownerPages.scheduling=()=>V.intro('Calendar Settings','Manage blocked dates, capacity limits and booking lead times.')+`<div class="owner-calendar-settings-page"><div class="owner-cake-back">${V.link('capacity','Back to calendar')}</div><div class="staff-stack">${blockedCalendar()}${V.panel('General capacity and timing',V.form('settings',`<p>Lower limits preserve existing allocations and prevent additional bookings when full.</p><div class="staff-grid">${V.field('standardUnits','Standard units per product / day',D.config.standardUnits,'number','min="1" step="1" required')}${V.field('standardVarieties','Standard varieties per day',D.config.standardVarieties,'number','min="1" step="1" required')}${V.field('maxPerDay','Cakes per day',A.cakeData.config.maxPerDay,'number','min="1" step="1" required')}${V.field('maxPerWeek','Cakes per week',A.cakeData.config.maxPerWeek,'number','min="1" step="1" required')}${V.field('subscriptionUnits','Subscription units per product / week',D.config.subscriptionUnits,'number','min="1" step="1" required')}</div>${rule('standard','Standard orders')}${rule('cake','Custom cakes')}<div class="owner-settings-actions">${V.button('discard','Discard edits')}<button class="btn primary" type="submit">Save changes</button></div>`,`data-version="${Q.version}"`).replace('<button class="btn primary" type="submit">Save changes</button></form>','</form>'))}${V.panel('Subscriptions','<p>Subscription commitments and capacity remain visible in the calendar. Set the default weekly capacity above. Manage schedules, offerings and product-specific capacity in Subscriptions.</p>',V.link('subscriptions','View subscriptions'))}</div></div>`;
+A.ownerPages.scheduling=()=>V.intro('Calendar Settings','Manage blocked dates, capacity limits and booking lead times.')+`<div class="owner-calendar-settings-page"><div class="owner-cake-back">${V.link('capacity','Back to calendar')}</div><div class="staff-stack">${blockedCalendar()}${V.panel('General capacity and timing',V.form('settings',`<p>Lower limits preserve existing allocations and prevent additional bookings when full.</p><div class="staff-grid">${V.field('standardUnits','Standard units per product / day',D.config.standardUnits,'number','min="1" step="1" required')}${V.field('standardVarieties','Standard varieties per day',D.config.standardVarieties,'number','min="1" step="1" required')}${V.field('maxPerDay','Cakes per day',A.cakeData.config.maxPerDay,'number','min="1" step="1" required')}${V.field('maxPerWeek','Cakes per week',A.cakeData.config.maxPerWeek,'number','min="1" step="1" required')}${V.field('subscriptionUnits','Subscription units per product / week',D.config.subscriptionUnits,'number','min="1" step="1" required')}</div><p>Standard orders close at noon Manila time on the day before fulfillment.</p>${rule('cake','Custom cakes')}<div class="owner-settings-actions">${V.button('discard','Discard edits')}<button class="btn primary" type="submit">Save changes</button></div>`,`data-version="${Q.version}"`).replace('<button class="btn primary" type="submit">Save changes</button></form>','</form>'))}${V.panel('Subscriptions','<p>Subscription commitments and capacity remain visible in the calendar. Set the default weekly capacity above. Edit subscription eligibility and schedules in Products.</p>',V.link('products','View products'))}</div></div>`;
 
 
 A.ownerScheduleUI={
@@ -63,85 +63,6 @@ A.ownerScheduleUI={
   const hasPreparation=A.subscriptionBatches.orders().some(({order,preparation})=>preparation===date&&['confirmed','preparing'].includes(A.operations.status(order)));
   const warning=hasFulfillment||hasPreparation?'<p class="owner-block-warning"><strong>Work is already scheduled for this date.</strong> Blocking it prevents new bookings. Confirmed preparation and fulfillment stay on the schedule and must be completed as planned.</p>':'';
   A.owner.open('Block date',`<div class="owner-block-dialog"><p>Block new bookings for <strong>${V.date(date)}</strong>?</p>${warning}<form class="staff-form" data-owner-form="block" data-id="${date}"><input type="hidden" name="date" value="${date}">${V.select('category','Reason category',[['','Select a reason'],['Bakery closure','Bakery closure'],['Holiday','Holiday'],['Maintenance','Maintenance'],['Staff availability','Staff availability'],['Other','Other']],'','required')}${V.field('reason','Reason details','','text','required maxlength="300" placeholder="Briefly explain the block"')}${V.error()}<div class="owner-settings-actions">${V.button('cancel-cake-modal','Cancel')}<button type="submit" class="btn primary">Block date</button></div></form></div>`);
- },
- open(id, productForm){
- const product=productForm&&A.products.find(p=>p.id===Number(productForm.dataset.id));
- const s=id?B.schedules.find(s=>s.id===id):undefined;
- if(id&&!s)return;
- const days=B.weekdays.map((day,index)=>[index,day]);
- const products=A.products.filter(p=>p.subscription).map(p=>[p.id,p.name]);
- const productField=product
-  ? `<div class="field owner-schedule-product"><span>Product</span><p>${E(productForm.elements.name.value.trim()||product.name)}</p></div><input type="hidden" name="product_id" value="${product.id}">`
-  : V.select('product_id','Product',[['','Select a product'],...products],s?.product_id??'','required');
- const preparationDay=V.select('preparation_day','Preparation day',days,s?.preparation_day??4);
- const fulfillmentDay=V.select('day','Fulfillment day',days,s?.day??5);
- const dayFields=preparationDay+fulfillmentDay;
- const status=product?'':`<div class="owner-schedule-status"><span>Status</span><label class="owner-schedule-toggle"><input type="checkbox" role="switch" aria-label="Offering active" name="status" value="active" ${s?.status!=='inactive'?'checked':''}><span class="owner-toggle-track" aria-hidden="true"></span><span class="owner-toggle-label"></span></label></div>`;
- A.owner.open(product?'Set up subscription':id?'Edit offering':'Add offering',`<form data-owner-form="schedule" class="staff-form" data-id="${E(id||'')}" data-version="${Q.version}">${productField}${dayFields}${status}${V.error()}<div class="owner-settings-actions">${V.button('cancel-cake-modal','Cancel')}<button class="btn primary" type="submit">Save changes</button></div></form>`);
- if(product){
-  const form=A.$('owner-dialog-body').querySelector('form');
-  form.addEventListener('submit',event=>{
-   event.preventDefault();event.stopPropagation();
-   if(!A.session.ownerAllowed()||!productForm.isConnected||form.dataset.generation!==String(A.session.generation))return;
-   productForm.elements['subscription-schedule'].value=JSON.stringify({id:id||'',product_id:product.id,preparation_day:Number(form.elements.preparation_day.value),day:Number(form.elements.day.value),status:'active',version:Number(form.dataset.version)});
-   productForm.elements.subscription.checked=true;
-   A.owner.capture(productForm);
-   A.closeModal(true);
-  });
- }
  }
 };
-
-function confirmDeactivation(deactivate,cancel){
- A.owner.open('Deactivate subscription?',`<div class="owner-order-confirm"><p>New subscriptions will no longer be accepted. Ongoing subscriptions cannot be cancelled here and must still be fulfilled.</p>${V.error()}<div class="owner-order-confirm-actions">${V.button('subscription-deactivation-cancel','Cancel')}${V.button('subscription-deactivation-confirm','Deactivate','',true)}</div></div>`);
- const body=A.$('owner-dialog-body');
- body.querySelector('[data-owner=subscription-deactivation-cancel]').addEventListener('click',cancel);
- body.querySelector('[data-owner=subscription-deactivation-confirm]').addEventListener('click',()=>{
-  if(!A.session.ownerAllowed())return;
-  const error=deactivate();
-  if(error)body.querySelector('.owner-error').textContent=error;
- });
-}
-
-document.addEventListener('input',event=>{
- const toggle=event.target,form=toggle.form;
- if(!form||!A.session.ownerAllowed())return;
- if(form.dataset.ownerForm==='product'&&form.dataset.id&&toggle.name==='subscription'){
-  const enabling=toggle.checked;
-  toggle.checked=!enabling;
-  if(enabling){
-   const schedules=B.schedules.filter(s=>s.product_id===Number(form.dataset.id));
-   A.ownerScheduleUI.open((schedules.find(s=>s.status!=='inactive')||schedules[0])?.id,form);
-  }else{
-   confirmDeactivation(()=>{
-    if(form.isConnected){
-     toggle.checked=false;
-     form.elements['subscription-schedule'].value='';
-     A.owner.capture(form);
-    }
-    A.closeModal(true);
-   },()=>A.closeModal(true));
-  }
- }
- if(form.dataset.ownerForm==='schedule'&&toggle.name==='status'&&!toggle.checked){
-  toggle.checked=true;
-  const title=A.$('owner-dialog-title').textContent;
-  const restore=()=>{
-   A.$('owner-dialog-title').textContent=title;
-   A.$('owner-dialog-body').replaceChildren(form);
-   toggle.focus();
-  };
-  confirmDeactivation(()=>{
-   if(!form.dataset.id){toggle.checked=false;restore();return;}
-   if(A.owner.saveError)return 'The change could not be saved. Please retry.';
-   const schedule=B.schedules.find(s=>s.id===form.dataset.id);
-   if(!schedule)return 'This offering is unavailable. Reopen the list.';
-   const error=Q.saveSchedule({...schedule,status:'inactive'},Number(form.dataset.version));
-   if(error)return error;
-   A.closeModal(true);
-   A.operations.changed();
-   A.toast('Subscription offering deactivated.');
-  },restore);
- }
-});
 })();

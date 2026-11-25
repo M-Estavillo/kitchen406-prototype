@@ -14,8 +14,9 @@ F.cart=()=>{
 };
 F.calendar=()=>{
  if(M.calendar!=='normal')return U.alert(M.calendar==='loading'?'Loading available dates…':'We could not load the calendar.',M.calendar==='error')+U.button('calendar-retry','Retry calendar');
- const first=new Date(2026,F.month,1),days=new Date(2026,F.month+1,0).getDate();
- return `<div class="calendar-heading">${U.button('month-prev','‹',F.month===9,'aria-label="Previous month"')}<h3>${first.toLocaleDateString('en-PH',{month:'long',year:'numeric'})}</h3>${U.button('month-next','›',F.month===11,'aria-label="Next month"')}</div><div class="calendar-grid">${['Su','Mo','Tu','We','Th','Fr','Sa'].map(x=>`<span class="muted">${x}</span>`).join('')}${'<span></span>'.repeat(first.getDay())}${Array.from({length:days},(_,i)=>{const date=`2026-${String(F.month+1).padStart(2,'0')}-${String(i+1).padStart(2,'0')}`,reason=C.dateReason(date);return `<button type="button" data-date="${date}" ${reason?'disabled':''} aria-label="${U.date(date)}${reason?' '+reason:''}" aria-pressed="${S.draft.date===date}">${i+1}<small>${reason||'Open'}</small></button>`;}).join('')}</div>`;
+ const base=new Date(A.schedule.today()+'T12:00:00');
+ const first=new Date(base.getFullYear(),base.getMonth()+F.month-9,1),days=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+ return `<div class="calendar-heading">${U.button('month-prev','‹',F.month===9,'aria-label="Previous month"')}<h3>${first.toLocaleDateString('en-PH',{month:'long',year:'numeric'})}</h3>${U.button('month-next','›',F.month===11,'aria-label="Next month"')}</div><div class="calendar-grid">${['Su','Mo','Tu','We','Th','Fr','Sa'].map(x=>`<span class="muted">${x}</span>`).join('')}${'<span></span>'.repeat(first.getDay())}${Array.from({length:days},(_,i)=>{const date=`${first.getFullYear()}-${String(first.getMonth()+1).padStart(2,'0')}-${String(i+1).padStart(2,'0')}`,reason=C.dateReason(date);return `<button type="button" data-date="${date}" ${reason?'disabled':''} aria-label="${U.date(date)}${reason?' '+reason:''}" aria-pressed="${S.draft.date===date}">${i+1}<small>${reason||'Open'}</small></button>`;}).join('')}</div>`;
 };
 F.fulfillment=()=>U.page('Choose your fulfillment','Pick a fulfillment method and an available date for your order.',U.columns(
  U.panel('How would you like to receive your order?',`<div class="fulfillment-choices">${[['pickup','storefront','Bakery pickup','Collect directly from Kitchen406. Free.'],['delivery','local_shipping','Courier delivery','Delivery fee calculated after address selection.']].map(([v,icon,title,desc])=>`<button class="fulfillment-choice" data-method="${v}" aria-pressed="${S.draft.method===v}"><span class="material-symbols-outlined">${icon}</span><strong>${title}</strong><span>${desc}</span></button>`).join('')}</div>`)+
@@ -33,7 +34,7 @@ F.address=()=>{
  d.method==='pickup'?U.panel('Pick up your order',U.fulfillment())+U.button('switch-delivery','Switch back to delivery'):
  U.panel('Choose a delivery address',A.addresses.active().length?A.addresses.active().map(addr=>`<div class="address-choice ${addr.address_id===d.addressId?'selected':''}"><label><input type="radio" name="delivery-address" value="${E(addr.address_id)}" ${addr.address_id===d.addressId?'checked':''}><strong>${E(addr.label)}</strong>${U.address(addr)}</label>${U.button('address-edit','Edit',false,`data-id="${E(addr.address_id)}"`)}</div>`).join(''):'<p>No saved addresses yet. Add an address to continue.</p>',U.button('address-add','Add new address')+U.button('switch-pickup','Switch to bakery pickup'))+
  (F.form?F.addressForm():'')+
- (a&&!F.form?U.panel('Your delivery location',F.mapPanel(false)+U.alert(C.deliveryRoute.message(),['outside','unreachable','error','unconfigured'].includes(C.deliveryRoute.status()))+(['error','unreachable'].includes(C.deliveryRoute.status())?U.button('service-retry','Retry delivery availability'):'')):'') ,U.summary()+U.button('address-next','Continue to review',!C.ready()||!!F.form)+U.link('checkout/fulfillment','Back to fulfillment')),'checkout/address');
+ (a&&!F.form?U.panel('Your delivery location',F.mapPanel(false)+U.alert(C.deliveryRoute.message(),['outside','invalid','unreachable','error','unconfigured','schedule-unavailable','quote-unavailable','expired'].includes(C.deliveryRoute.status()))+(['error','unreachable','quote-unavailable','expired','unconfigured'].includes(C.deliveryRoute.status())?U.button('service-retry','Retry delivery availability'):'')):'') ,U.summary()+U.button('address-next','Continue to review',!C.ready()||!!F.form)+U.link('checkout/fulfillment','Back to fulfillment')),'checkout/address');
 };
 F.review=()=>{
  C.refreshCheckoutPrices();
@@ -44,7 +45,7 @@ F.review=()=>{
  U.panel('Payment method','<p><span class="material-symbols-outlined">qr_code_2</span> QR Ph · Bank / e-wallet transfer</p>'),
  U.summary()+(F.message?U.alert(F.message,true)+U.link('cart','Edit bag')+U.link('checkout/fulfillment','Change date'):'')+(M.review!=='normal'?U.alert({stock:'Requested quantity is no longer available. Edit your bag.',capacity:'Selected date is full. Choose another fulfillment date.',error:'We could not verify this order. Your selections are saved.',checking:'Checking stock and schedule…'}[M.review],true)+U.button('review-retry','Retry verification'):'')+((C.priceNotice()||S.draft.priceMessage)?U.alert(C.priceNotice()||S.draft.priceMessage):'')+U.button('pay','Proceed to payment',!C.ready()||M.review!=='normal')+U.link(S.draft.method==='pickup'?'checkout/fulfillment':'checkout/address','Back to '+(S.draft.method==='pickup'?'fulfillment':'delivery details'))),'checkout/review');
 };
-F.action=(action,el)=>{
+F.action=async(action,el)=>{
  const index=Number(el.dataset.index),item=S.cart[index];
  if(['remove','switch-pickup','switch-delivery'].includes(action)&&!C.change())return;
  if((action==='increase'||action==='decrease')&&item){
@@ -66,8 +67,8 @@ F.action=(action,el)=>{
   F.message=!S.draft.method?'Please select a fulfillment method.':!C.dateValid()?'Please select an available fulfillment date.':'';
   if(C.fulfillmentReady())location.hash=S.draft.method==='pickup'?'#/checkout/review':'#/checkout/address';
  }
- if(action==='switch-pickup'){S.draft.method='pickup';F.form=null;location.hash='#/checkout/review';}
- if(action==='switch-delivery'){S.draft.method='delivery';}
+ if(action==='switch-pickup'){C.deliveryRoute.reset();S.draft.method='pickup';F.form=null;location.hash='#/checkout/review';}
+ if(action==='switch-delivery'){C.deliveryRoute.reset();S.draft.method='delivery';}
  if(action==='address-add'){F.editing=null;F.mapBusy=false;F.form={is_default:A.addresses.active().length===0};}
  if(action==='address-edit'){F.editing=el.dataset.id;F.mapBusy=false;F.form=C.copy(S.addresses.find(a=>a.address_id===F.editing));}
  if(action==='address-cancel'){F.form=null;F.editing=null;}
@@ -79,20 +80,28 @@ F.action=(action,el)=>{
   F.message='';
   if(C.ready()&&!C.refreshCheckoutPrices()){
    if(C.fee()!==F.reviewedFee)S.draft.priceMessage='The delivery fee changed. Review the updated total before proceeding.';
-   else {const order=C.createOrder();if(order){S.draft.priceMessage='';location.hash='#/payment/'+order.id;}}
+   else {
+    const order=await A.pickup.create(el);
+    if(order){S.draft.priceMessage='';location.hash='#/payment/'+order.id;}
+   }
   }
  }
- C.sync();C.render();A.inspector();
+ C.sync();C.render();
 };
-document.addEventListener('submit',e=>{
+document.addEventListener('submit',async e=>{
  if(e.target.id!=='delivery-address-form')return;e.preventDefault();
  const ctx=C.addressContext(),F=ctx.editor;
  const data=Object.fromEntries(new FormData(e.target));Object.keys(data).forEach(k=>data[k]=data[k].trim());
  Object.assign(data,{latitude:F.form?.latitude,longitude:F.form?.longitude,is_default:e.target.elements.is_default.checked});
  if(F.mapBusy||!C.addressValid(data)){A.$('address-error').textContent='Complete all required address fields.';return;}
  if(!ctx.change())return;
- const result=A.addresses.save(data,F.editing);
- if(result.error){A.$('address-error').textContent=result.error;return;}
+ const editorForm=F.form,button=e.target.querySelector('[type=submit]');
+ if(button.disabled)return;
+ button.disabled=true;
+ const result=await A.addresses.save(data,F.editing);
+ button.disabled=F.mapBusy||!C.addressValid(F.form);
+ if(F.form!==editorForm)return;
+ if(result.error){const error=e.target.querySelector('#address-error');error.textContent=result.error;return;}
  ctx.draft.addressId=result.record.address_id;ctx.draft.quote='ok';F.form=null;F.editing=null;ctx.render();
 });
 document.addEventListener('input',e=>{

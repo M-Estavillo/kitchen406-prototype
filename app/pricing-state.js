@@ -3,7 +3,11 @@
 const A=K406,I=A.inventory;
 const P=A.pricing={recipes:new Map(),overheads:new Map(),markup:30,overhead:25,version:0};
 const recipe=I.recipe;
-I.recipe=(id,variant='standard')=>{const saved=P.recipes.get(id+':'+variant);return saved?{...saved}:A.variant(id,variant)?.customRecipe?null:recipe(id,variant);};
+I.recipe=(id,variant='standard')=>{
+ const key=id+':'+variant;
+ const saved=P.recipes.get(key)||(!I.databaseAccount&&I.customerRecipes.get(key));
+ return saved?{...saved}:A.variant(id,variant)?.customRecipe?null:recipe(id,variant);
+};
 P.breakdown=(bom,overhead,price)=>{
  if(!bom||!Object.keys(bom).length)return null;
  let ingredients=0,packaging=0;

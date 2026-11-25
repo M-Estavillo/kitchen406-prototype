@@ -25,32 +25,47 @@
       const navSearchInput = document.getElementById('nav-search-input');
       const clearSearchBtn = document.getElementById('clear-search-btn');
       const subToggle = document.getElementById('subscription-toggle');
-      let catButtons = document.querySelectorAll('#category-tabs .cat-pill');
+      const categoryTabs = document.getElementById('category-tabs');
+      const categoryTemplate = document.getElementById('category-tab-template');
       const visibleRangeEl = document.getElementById('visible-range');
       const totalCountEl = document.getElementById('total-count');
       const catalogSummarySection = document.getElementById('catalog-summary-section');
       const resetFiltersBtn = document.getElementById('catalog-reset-filters-btn');
       const errorRetryBtn = document.getElementById('error-retry-btn');
 
-      // Update tab badge counters
-      function updateCategoryCounters() {
-        if(K406.productCategories){
-          const tabs=document.getElementById('category-tabs'),template=tabs.querySelector('[data-category="breads"]');
-          tabs.querySelectorAll('[data-added-category]').forEach(b=>{if(!K406.productCategories.some(c=>c.id===b.dataset.category))b.remove();});
-          for(const c of K406.productCategories){let button=[...tabs.querySelectorAll('[data-category]')].find(b=>b.dataset.category===c.id);if(!button){button=template.cloneNode(true);button.classList.remove('active','bg-primary','text-on-primary','shadow-sm');button.dataset.category=c.id;button.dataset.addedCategory='true';button.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));tabs.append(button);}button.firstElementChild.textContent=c.name;button.lastElementChild.textContent=protoState==='empty'?0:PRODUCTS_DATA.filter(p=>p.active!==false&&p.category===c.id).length;}
-          catButtons=tabs.querySelectorAll('.cat-pill');
+      function renderCategoryTabs() {
+        const categories = (K406.productCategories || []).filter(category => category.status === 'active');
+        const activeIds = new Set(categories.map(category => category.id));
+        if (currentCategory !== 'all' && !activeIds.has(currentCategory)) {
+          currentCategory = 'all';
+          currentPage = 1;
         }
 
-        const countedProducts = protoState === 'empty' ? [] : PRODUCTS_DATA.filter(p=>p.active!==false);
-        const countAll = countedProducts.length;
-        const countBreads = countedProducts.filter(p => p.category === 'breads').length;
-        const countPastries = countedProducts.filter(p => p.category === 'pastries').length;
-        const countPantry = countedProducts.filter(p => p.category === 'pantry').length;
-
-        document.getElementById('count-all').textContent = countAll;
-        document.getElementById('count-breads').textContent = countBreads;
-        document.getElementById('count-pastries').textContent = countPastries;
-        document.getElementById('count-pantry').textContent = countPantry;
+        const buttons = new Map();
+        for (const button of categoryTabs.querySelectorAll('[data-category]')) {
+          const id = button.dataset.category;
+          if (id === 'all' || activeIds.has(id)) buttons.set(id, button);
+          else button.remove();
+        }
+        const products = protoState === 'empty' ? [] : PRODUCTS_DATA.filter(product => product.active !== false);
+        for (const {id, name} of [{id:'all', name:'All Products'}, ...categories]) {
+          let button = buttons.get(id);
+          if (!button) {
+            button = categoryTemplate.content.firstElementChild.cloneNode(true);
+            button.dataset.category = id;
+            button.lastElementChild.id = 'count-' + id;
+            categoryTabs.append(button);
+          }
+          const selected = id === currentCategory;
+          button.setAttribute('aria-pressed', selected);
+          for (const className of ['active', 'bg-primary', 'text-on-primary', 'shadow-sm']) {
+            button.classList.toggle(className, selected);
+          }
+          button.classList.toggle('text-on-surface-variant', !selected);
+          button.classList.toggle('hover:bg-surface-container-low', !selected);
+          button.firstElementChild.textContent = name;
+          button.lastElementChild.textContent = id === 'all' ? products.length : products.filter(product => product.category === id).length;
+        }
       }
 
       // Filtered items computation
@@ -72,6 +87,7 @@
 
       // Render product card HTML
       function createProductCard(item) {
+        const escape = K406.escape;
         const isUnavailable = !item.available;
         const badge = isUnavailable
           ? `<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded shadow-sm">Temporarily unavailable</span>`
@@ -87,21 +103,21 @@
         return `
           <article class="product-card group flex flex-col bg-surface border border-surface-container hover:border-outline-variant transition-all duration-300 rounded-lg overflow-hidden ${cardOpacity}">
             <div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
-              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-500 ease-out ${imgFilter}" loading="lazy"/>
-              
+              <img src="${escape(item.image)}" alt="${escape(item.name)}" class="w-full h-full object-cover transition-transform duration-500 ease-out ${imgFilter}" loading="lazy"/>
+
               ${badge ? `<div class="absolute top-2.5 left-2.5">${badge}</div>` : ''}
             </div>
 
             <div class="p-4 flex flex-col flex-1 justify-between">
               <div>
                 <div class="flex items-center justify-between gap-2 mb-1">
-                  <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${item.categoryLabel}</span>
+                  <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${escape(item.categoryLabel)}</span>
                 </div>
                 <h3 class="font-title-md text-title-md ${titleClass} transition-colors">
-                  <a href="#/product/${item.id}">${item.name}</a>
+                  <a href="#/product/${item.id}">${escape(item.name)}</a>
                 </h3>
                 <p class="mt-1.5 font-body-sm text-body-sm ${isUnavailable ? 'text-outline' : 'text-on-surface-variant'} line-clamp-2 leading-relaxed">
-                  ${item.description}
+                  ${escape(item.description)}
                 </p>
               </div>
 
@@ -164,7 +180,7 @@
 
       // Main Render Routine
       function renderCatalog() {
-        updateCategoryCounters();
+        renderCategoryTabs();
         // Reset container views
         loadingEl.classList.add('hidden');
         loadingEl.classList.remove('grid');
@@ -234,10 +250,9 @@
       }
 
       // Category filter buttons
-      document.getElementById('category-tabs').addEventListener('click',e=>{
+      categoryTabs.addEventListener('click',e=>{
         const btn=e.target.closest('[data-category]');if(!btn)return;
-        catButtons.forEach(b=>{b.classList.remove('active','bg-primary','text-on-primary','shadow-sm');b.classList.add('text-on-surface-variant','hover:bg-surface-container-low');});
-        btn.classList.add('active','bg-primary','text-on-primary','shadow-sm');btn.classList.remove('text-on-surface-variant','hover:bg-surface-container-low');currentCategory=btn.dataset.category;currentPage=1;renderCatalog();
+        currentCategory=btn.dataset.category;currentPage=1;renderCatalog();
       });
 
       // Search filters
@@ -310,12 +325,11 @@
       K406.catalog = {
         refresh() { renderCatalog(); },
         card: createProductCard,
-        setState(value) { protoState=value; renderCatalog(); K406.inspector?.(); },
+        setState(value) { protoState=value; renderCatalog();  },
         state() { return protoState; },
         reset() { protoState='normal'; resetFiltersBtn.click(); },
       };
       // Initial execution
-      updateCategoryCounters();
       renderCatalog();
     })();
-  
+

@@ -1,6 +1,6 @@
 (() => {
 const A=K406,B=A.subscriptions,C=A.commerce,U=C.ui,V=B.ui,E=A.escape,S=B.state,D=A.schedule;
-B.deliveryRoute=C.createDeliveryRoute({address:B.address,draft:()=>S.draft,refresh:()=>{if(B.active()&&A.auth==='signedin'&&!B.addressUI.form)B.render();}});
+B.deliveryRoute=C.createDeliveryRoute({address:B.address,draft:()=>S.draft,dates:()=>B.dates(),refresh:()=>{if(B.active()&&A.auth==='signedin'&&!B.addressUI.form)B.render();}});
 const purchase=()=>S.purchases.find(p=>p.id===B.parts[2]);
 const record=()=>{const r=S.records.find(r=>r.id===B.parts[1]);return r||null;};
 const count=r=>r.completedCount??r.deliveries.filter(d=>d.status==='fulfilled').length;
@@ -9,7 +9,7 @@ B.catalog=()=>{
  const mode=B.mock.catalog,products=A.products.filter(p=>p.subscription&&(!B.category||B.category==='all'||p.category===B.category));
  const cards=products.map(p=>{const availability=B.offering(p.id),unit=(p.variants.find(v=>v.active!==false)||p.variants[0]).price;return `<article class="subscription-card"><div class="subscription-card-image"><img src="${E(p.image)}" alt="${E(p.name)}">${availability==='available'?'':`<span class="subscription-card-status${availability==='full'?' is-full':''}">${availability==='full'?'Slots Full':'Temporarily Unavailable'}</span>`}</div><div class="subscription-card-content"><h2>${E(p.name)}</h2><p class="muted">${E(p.description)}</p><div class="subscription-card-price"><div class="subscription-card-price-line"><strong>${C.money(unit*4)}</strong><span class="subscription-card-plan">4 weekly deliveries</span></div><p class="muted">Delivery fees calculated during setup.</p></div>${V.button('begin','Set Up Subscription',availability!=='available',`data-id="${p.id}"`,true)}${p.available?U.link('product/'+p.id,'Buy Once in Shop'):'<button class="btn" type="button" disabled>Buy Once in Shop</button>'}</div></article>`;}).join('');
  const faqs=[['Can I buy these products once?','Yes. Buy Once uses the regular cart and standard checkout. Subscription enrollment is a separate four-delivery prepaid commitment.'],['Does a subscription renew automatically?','No. After four deliveries, you can choose to enroll in a new subscription at current prices and availability.'],['What do I pay upfront?','The product price multiplied by your quantity and four deliveries, plus courier fees if you choose delivery. Pick-up has no delivery fee.'],['Why might a subscription be unavailable?','Subscription schedules, weekly capacity, blocked dates, and ingredient availability are checked separately from standard-order availability.'],['Can I defer a delivery?','One delivery can be deferred once per subscription, before its preparation day begins. Choose the next day or one week after the final scheduled fulfillment, subject to availability.']];
- return `<section class="subscription-hero"><h1 class="hero-title">Fresh bakes,<br>week after week.</h1><p>Choose a product for four scheduled weekly deliveries. Prefer a one-time purchase? You can also buy these products through the regular Shop. One upfront payment, with no automatic renewal.</p></section><div class="commerce-actions order-tabs">${['all','breads','pastries'].map(category=>`<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all whitespace-nowrap ${(B.category||'all')===category?'active bg-primary text-on-primary shadow-sm':'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'}" data-sub="category" data-value="${category}" aria-pressed="${(B.category||'all')===category}" type="button">${category==='all'?'All products':category[0].toUpperCase()+category.slice(1)}</button>`).join('')}</div>${mode==='empty'?U.empty('No subscriptions currently available','You can still browse the Shop for one-time purchases.'):mode==='loading'?B.loading():mode==='error'?U.empty('Unable to load subscription products','Please try again.',V.button('catalog-retry','Try again')):`<div class="subscription-catalog">${cards}</div>`}<section class="subscription-terms">${[['calendar_today','Four weekly deliveries','Choose your quantity and review the four dates we propose.'],['payments','Paid upfront','Your payment includes the products and any applicable delivery fees.'],['shopping_bag','Also available Buy Once','Use the regular Shop for a single fulfillment date.'],['event_busy','No automatic renewal','Your subscription completes after four deliveries.']].map(([icon,title,text])=>`<div><span class="material-symbols-outlined" aria-hidden="true">${icon}</span><h3>${title}</h3><p>${text}</p></div>`).join('')}</section><section class="subscription-faq"><h2>Before you subscribe</h2>${faqs.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</section>`;
+ return `<section class="subscription-hero"><h1 class="hero-title">Fresh bakes,<br>week after week.</h1><p>Choose a product for four scheduled weekly deliveries. Prefer a one-time purchase? You can also buy these products through the regular Shop. One upfront payment, with no automatic renewal.</p></section><div class="commerce-actions order-tabs">${['all','breads','pastries'].map(category=>`<button class="cat-pill px-3.5 py-1.5 rounded-full font-title-sm text-title-sm transition-all whitespace-nowrap ${(B.category||'all')===category?'active bg-primary text-on-primary shadow-sm':'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'}" data-sub="category" data-value="${category}" aria-pressed="${(B.category||'all')===category}" type="button">${category==='all'?'All products':category[0].toUpperCase()+category.slice(1)}</button>`).join('')}</div>${mode==='empty'?U.empty('No subscriptions currently available','You can still browse the Shop for one-time purchases.'):mode==='loading'?B.loading():mode==='error'?U.empty('Unable to load subscription products','Please try again.',V.button('catalog-retry','Try again')):cards?`<div class="subscription-catalog">${cards}</div>`:U.empty('No subscriptions currently available','Available subscription products will appear here.')}<section class="subscription-terms">${[['calendar_today','Four weekly deliveries','Choose your quantity and review the four dates we propose.'],['payments','Paid upfront','Your payment includes the products and any applicable delivery fees.'],['shopping_bag','Also available Buy Once','Use the regular Shop for a single fulfillment date.'],['event_busy','No automatic renewal','Your subscription completes after four deliveries.']].map(([icon,title,text])=>`<div><span class="material-symbols-outlined" aria-hidden="true">${icon}</span><h3>${title}</h3><p>${text}</p></div>`).join('')}</section><section class="subscription-faq"><h2>Before you subscribe</h2>${faqs.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</section>`;
 };
 B.listLoading=()=>U.page('My Subscriptions','View your prepaid commitments and track each scheduled delivery.','<p class="muted" role="status">Loading subscriptions...</p><div class="orders-loading" aria-hidden="true">'+Array.from({length:3},()=>'<div class="commerce-card"><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-item"><div class="cart-loading-block cart-loading-image"></div><div class="cart-loading-copy"><div class="cart-loading-block cart-loading-title"></div><div class="cart-loading-block cart-loading-detail"></div></div></div></div>').join('')+'</div>');
 B.list=()=>{
@@ -64,7 +64,7 @@ B.render=()=>{
  else if(A.route==='subscriptions')html=B.parts[2]==='defer'?B.deferView(record()):B.details(record());
  else if(step==='payment')html=V.payment(purchase());
  else if(!B.product())html=U.empty('Choose a subscription product','Your setup is unavailable after reloading the demo.',U.link('subscriptions','Browse subscriptions',true));
- else if(B.locked()){const p=S.purchases.find(p=>['detected','delayed'].includes(p.payment));html=U.empty('Payment verification is pending','Check this payment before changing your setup.',U.link('subscription/payment/'+p.id,'Check payment status',true));}
+ else if(B.locked()){const p=S.purchases.find(p=>['detected','delayed'].includes(p.payment)||C.confirmationWindow(p));html=U.empty('Payment verification is pending','Check this payment before changing your setup.',U.link('subscription/payment/'+p.id,'Check payment status',true));}
  else if(step==='configure')html=V.config();
  else if(B.configReason())html=U.empty('Review your configuration',B.configReason(),U.link('subscription/configure','Edit configuration',true));
  else if(step==='address'){if(S.draft.method==='delivery'&&!B.addressUI.form)void B.deliveryRoute.check();html=V.address();}
@@ -84,35 +84,7 @@ B.show=parts=>{
  }
  B.render();
 };
-B.inspector=select=>{
- let html=select('mock-sub-page','Page state',['normal','loading','error',...(A.route==='my-subscriptions'?['empty']:[])],B.mock.page);
- if(A.route==='subscriptions'&&!B.parts[1])html+=select('mock-sub-catalog','Subscription offerings',['normal','available','full','unavailable','empty','loading','error'],B.mock.catalog);
- if(A.route==='subscription'){
-  if(B.parts[1]==='configure')html+=select('mock-sub-schedule','Schedules',['normal','loading','error','unavailable'],B.mock.schedule);
-  if(B.parts[1]==='address')html+=select('mock-sub-quote','Courier quotation',['ok','loading','failed'],S.draft.quote);
-  if(B.parts[1]==='review')html+=select('mock-sub-review','Availability',['normal','checking','capacity','stock','error'],B.mock.review)+select('mock-sub-price','Price',['normal','updated'],B.mock.price);
-  if(B.parts[1]==='payment')html+=select('mock-sub-payment','Payment simulation',['waiting','detected','delayed','failed','expired','revalidation','confirmed'],purchase()?.payment||'waiting')+select('mock-sub-final-check','Result at hold expiry',['not-paid','unresolved','confirmed','failed','expired','lookup-error'],purchase()?.attempts?.at(-1)?.verification_outcome||'unresolved');
- }
- if(B.parts[2]==='defer')html+=select('mock-sub-defer','Deferment availability',['normal','day','week','unavailable','used','loading','error','save-error'],B.mock.defer);
- return html+'<div class="mock-actions">'+V.button('samples','Load sample subscriptions')+V.button('reset-states','Reset screen states')+'</div><p class="muted">Demo clock: '+E(D.config.clock)+'. Payments and courier fees are simulated. Reset preview clears all subscriptions.</p>';
-};
-B.samples=()=>{
- [4,1].forEach((id,index)=>{if(B.allRecords().some(r=>r.customer_id===A.account.id()&&r.fixture&&r.snapshot.productId===id))return;const product=A.products.find(p=>p.id===id),start=index===1?'2026-09-04':'2026-10-16',dates=Array.from({length:4},(_,n)=>D.add(start,n*7));const p={id:'SUB-PAY-'+(++S.serial),snapshot:{productId:id,variantId:'standard',name:product.name,image:product.image,variant:product.variants[0].label,quantity:1,scheduleId:'friday',schedule:'Weekly Friday',dates,address:C.copy(C.state.addresses[0]),...B.totals(product.variants[0].price,1)},revision:0,payment:'waiting',created:Date.now()-index*86400000,deadline:Date.now()+C.paymentSessionMs,attempts:[{state:'waiting',at:'Sample'}]};
-  if(!p.snapshot.address)return;
-  S.purchases.push(p);const clock=D.config.clock;D.config.clock='2026-09-01T12:00:00+08:00';const r=B.pay(p,'confirmed');D.config.clock=clock;
-  if(r){
-   r.fixture=true;
-   if(index===1)r.deliveries.forEach(d=>{
-    const order=C.state.orders.find(o=>o.id===d.orderId);
-    A.inventory.release(order.id);
-    C.setStatus(order,'completed');
-    order.completedAt=Date.parse(d.date+'T12:00:00+08:00');
-   });
-   B.sync(r);
-  }
- });
-};
-document.addEventListener('click',e=>{
+document.addEventListener('click',async e=>{
  const el=e.target.closest('[data-sub]');if(!el||el.disabled)return;
  const action=el.dataset.sub,d=S.draft;
  if(action==='begin'){if(B.begin(el.dataset.id)){location.hash='#/subscription/configure';}return;}
@@ -126,8 +98,9 @@ document.addEventListener('click',e=>{
  if(action==='review-next'&&B.ready())location.hash='#/subscription/review';
  if(action==='pay'){
   B.message='';
-  const {unit,fee}=B.totals();
-  if(unit!==V.reviewedTotals?.unit||fee!==V.reviewedTotals?.fee)B.message='The price or delivery fee changed. Review the updated total before proceeding.';
+  const {unit,fee,fees}=B.totals();
+  if(unit!==V.reviewedTotals?.unit||fee!==V.reviewedTotals?.fee||JSON.stringify(fees)!==JSON.stringify(V.reviewedTotals?.fees))B.message='The price or delivery fee changed. Review the updated total before proceeding.';
+  else if(B.persistence)await B.persistence.create(el);
   else {const p=B.createPurchase();if(p)location.hash='#/subscription/payment/'+p.id;}
  }
  if(action==='address-add'&&B.change()){B.addressUI.editing=null;B.addressUI.form={is_default:!C.state.addresses.length};}
@@ -137,13 +110,27 @@ document.addEventListener('click',e=>{
  if(action==='quote-retry')d.quote='ok';
  if(action==='schedule-retry')B.mock.schedule='normal';
  if(action==='review-retry')B.mock.review='normal';
- if(action==='simulate-payment'&&purchase()&&C.qrOpen(purchase())){const p=purchase();B.pay(p,'detected');setTimeout(()=>{if(S.purchases.includes(p)&&p.payment==='detected'){A.checkoutHolds.simulate(p,'confirmed',B.pay);B.render();A.inspector();}},900);}
- if(action==='check-payment'&&A.account.owns(purchase()))A.checkoutHolds.check(purchase());
- if(action==='retry-payment')B.retry(purchase());
- if(action==='cancel-setup'){const p=S.purchases.find(p=>p.id===el.dataset.id);if(A.account.owns(p)){A.checkoutHolds.check(p,'cancel');B.message=p.payment==='cancelled'?'Unpaid setup cancelled.':p.paymentCheckMessage;}}
+ const payment=action==='cancel-setup'?S.purchases.find(p=>p.id===el.dataset.id):purchase();
+ if(payment?.persistedSubscription&&['simulate-payment','check-payment','retry-payment','cancel-setup'].includes(action)){
+  if(action==='retry-payment'){
+   S.draft={...blankDraft(payment.snapshot),purchaseId:payment.id,revision:payment.revision+1||0};
+   B.deliveryRoute.reset();location.hash='#/subscription/review';
+  }else{
+   const result=action==='check-payment'?await B.persistence.refresh().then(()=>({})).catch(error=>({error:error.message})):
+    await B.persistence.run('payment',{id:payment.id,action:action==='cancel-setup'?'cancel':'confirm'},el);
+   if(result.error)A.toast(result.error);
+  }
+ }else{
+  if(action==='simulate-payment'&&payment&&C.qrOpen(payment)){B.pay(payment,'detected');setTimeout(()=>{if(S.purchases.includes(payment)&&payment.payment==='detected'){A.checkoutHolds.simulate(payment,'confirmed',B.pay);B.render();}},900);}
+  if(action==='check-payment'&&A.account.owns(payment))A.checkoutHolds.check(payment);
+  if(action==='retry-payment')B.retry(payment);
+  if(action==='cancel-setup'&&A.account.owns(payment)){A.checkoutHolds.check(payment,'cancel');B.message=payment.payment==='cancelled'?'Unpaid setup cancelled.':payment.paymentCheckMessage;}
+ }
  if(action==='resume'){
-  const p=S.purchases.find(p=>p.id===el.dataset.id);if(p&&!p.paid&&B.change()){
-   const snap=p.snapshot;S.draft={...blankDraft(snap),purchaseId:p.id,revision:p.revision+1};p.payment='revalidation';D.release(p.id);B.deliveryRoute.reset();location.hash='#/subscription/review';
+  const p=el.dataset.id?S.purchases.find(p=>p.id===el.dataset.id):purchase();if(p&&!p.paid&&B.change()){
+   const snap=p.snapshot;S.draft={...blankDraft(snap),purchaseId:p.id,revision:p.revision+1||0};
+   if(!p.persistedSubscription){p.payment='revalidation';D.release(p.id);}
+   B.deliveryRoute.reset();location.hash='#/subscription/review';
   }
  }
  if(action==='review-enrollment'){
@@ -169,32 +156,34 @@ document.addEventListener('click',e=>{
  if(action==='defer-apply'){
   const confirmation=B.confirmation,r=S.records.find(r=>r.id===confirmation?.recordId),delivery=r?.deliveries.find(d=>d.id===confirmation?.deliveryId);
   B.confirmation=null;
-  const reason=!r||!delivery?'Delivery not found.':delivery.date!==confirmation.originalDate||delivery.capacityAllocationId!==confirmation.allocationId||B.deferTarget(r,delivery,confirmation.option)!==confirmation.target?'Availability changed. Review the replacement date again.':B.defer(r,delivery,confirmation.option);
+  let reason=!r||!delivery?'Delivery not found.':delivery.date!==confirmation.originalDate||delivery.capacityAllocationId!==confirmation.allocationId||B.deferTarget(r,delivery,confirmation.option)!==confirmation.target?'Availability changed. Review the replacement date again.':'';
+  if(!reason)reason=r.persistedSubscription?(await B.persistence.run('defer',{id:delivery.orderId,option:confirmation.option,originalDate:delivery.date},el)).error:B.defer(r,delivery,confirmation.option);
   A.closeModal();B.message=reason||'Your fulfillment has been rescheduled.';
   if(!reason){location.hash='#/subscriptions/'+r.id;A.toast('Fulfillment rescheduled.');}
  }
  if(action==='defer-retry')B.mock.defer='normal';
  if(action==='catalog-retry')B.mock.catalog='normal';
  if(action==='page-retry')B.mock.page='normal';
- if(action==='samples')B.samples();
- if(action==='reset-states'){Object.keys(B.mock).forEach(k=>B.mock[k]='normal');d.quote='ok';B.message='';}
- B.render();A.inspector();
+ B.render();
 });
 function blankDraft(snap){return {productId:snap.productId,variant:snap.variantId,quantity:snap.quantity,scheduleId:snap.scheduleId,start:snap.dates[0],addressId:snap.address?.address_id||'',method:snap.method||'delivery',quote:'ok'};}
 document.addEventListener('change',e=>{
  const id=e.target.id;
- if(id.startsWith('mock-sub-')){
-  const key=id.slice(9),value=e.target.value;
-  if(key==='price'){if(!B.change())return;B.mock.price=value;}else if(key==='payment')A.checkoutHolds.simulate(purchase(),value,B.pay);else if(key==='final-check'){const attempt=purchase()?.attempts?.at(-1);if(attempt)attempt.verification_outcome=value;}else if(key==='quote')S.draft.quote=value;else B.mock[key]=value;
- }else if(id==='subscription-start'&&B.change())S.draft.start=e.target.value;
+ if(id==='subscription-start'&&B.change())S.draft.start=e.target.value;
  else if(e.target.name==='subscription-address'&&B.change()){S.draft.addressId=e.target.value;S.draft.quote='ok';B.deliveryRoute.reset();}
  else if(id==='subscription-sort')B.sort=e.target.value;
  else return;
- B.render();A.inspector();
+ B.render();
 });
 document.addEventListener('input',e=>{if(e.target.id==='subscription-search'){const pos=e.target.selectionStart;B.query=e.target.value;B.render();const input=A.$('subscription-search');input.focus();input.setSelectionRange(pos,pos);}});
 setInterval(()=>{
  const clock=A.$('subscription-payment-clock'),p=purchase();if(clock&&p){const seconds=Math.max(0,Math.ceil((p.deadline-Date.now())/1000));clock.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');}
+ if(B.active()&&p?.persistedSubscription&&p.payment==='waiting'&&Date.now()>=p.deadline){
+  if(Date.now()>=p.holdDeadline&&B.persistence.expiryCheck!==p.id){
+   B.persistence.expiryCheck=p.id;
+   void B.persistence.refresh().then(()=>B.render()).catch(()=>{B.persistence.expiryCheck=null;});
+  }else if(clock?.textContent==='00:00')B.render();
+ }
 },1000);
 const modal=document.createElement('div');modal.id='subscription-confirm-modal';modal.className='overlay hidden';modal.hidden=true;modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','subscription-confirm-title');modal.innerHTML='<div class="dialog-card"><button class="dialog-close" data-close-modal aria-label="Close confirmation">×</button><h2 id="subscription-confirm-title">Confirm this delivery change?</h2><p id="subscription-confirm-body"></p><div class="commerce-actions"><button class="btn" data-close-modal>Go Back</button>'+V.button('defer-apply','Submit Request',false,'',true)+'</div></div>';document.body.append(modal);
 })();

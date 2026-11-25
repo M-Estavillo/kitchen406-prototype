@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_ProductCategoryManagement" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_ProductCategoryManagement">
+    <bpmn:participant id="Participant_ProductCategoryManagement" name="Product Category Management" processRef="Process_ProductCategoryManagement" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_ProductCategoryManagement" name="Product Category Management" isExecutable="false">
+    <bpmn:documentation>Entry condition: an authorized administrator opens Manage categories from Products. Active categories appear in the customer Shop filter. Hiding a category removes its filter while its active products still appear under All Products. The standard and subscription checkout APIs currently reject products in hidden categories.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_ProductCategoryManagement">
+      <bpmn:lane id="Lane_Administrator" name="Administrator">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Choose</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Change</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Remove</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Blocked</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Manage categories opened">
+      <bpmn:outgoing>Flow_Start_Choose</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Choose" name="Choose a category action">
+      <bpmn:incoming>Flow_Start_Choose</bpmn:incoming>
+      <bpmn:incoming>Flow_Blocked_Choose</bpmn:incoming>
+      <bpmn:outgoing>Flow_Choose_Action</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Action" name="Which action?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Choose_Action</bpmn:incoming>
+      <bpmn:outgoing>Flow_Action_Change</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Remove</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Cancel</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Change" name="Add, rename, hide or show category">
+      <bpmn:documentation>Enter the name or confirm the visibility change. Names must be unique regardless of capitalization.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Change</bpmn:incoming>
+      <bpmn:outgoing>Flow_Change_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Remove" name="Request removal and confirm">
+      <bpmn:incoming>Flow_Action_Remove</bpmn:incoming>
+      <bpmn:outgoing>Flow_Remove_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Cancel" name="No change requested">
+      <bpmn:incoming>Flow_Action_Cancel</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Check" name="Check name, status or product assignments">
+      <bpmn:documentation>Check owner access and the current version. For removal, check for any assigned product, including an inactive one. An assigned product must be reassigned before the category can be removed.</bpmn:documentation>
+      <bpmn:incoming>Flow_Change_Check</bpmn:incoming>
+      <bpmn:incoming>Flow_Remove_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Allowed</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed" name="Change allowed?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Check_Allowed</bpmn:incoming>
+      <bpmn:outgoing>Flow_Allowed_Save</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Allowed_Blocked</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Blocked" name="Explain validation or removal block">
+      <bpmn:documentation>The category stays as it was. Correct the name, reopen a stale form, or reassign all affected products before retrying removal.</bpmn:documentation>
+      <bpmn:incoming>Flow_Allowed_Blocked</bpmn:incoming>
+      <bpmn:outgoing>Flow_Blocked_Choose</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save" name="Save change and update Shop filters">
+      <bpmn:documentation>Commit the category change. Existing product labels follow a rename. Standard and subscription checkout require the product category to be active. A removed category disappears from administration and the Shop.</bpmn:documentation>
+      <bpmn:incoming>Flow_Allowed_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Category list updated">
+      <bpmn:incoming>Flow_Save_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Choose" sourceRef="Start" targetRef="Choose" />
+    <bpmn:sequenceFlow id="Flow_Choose_Action" sourceRef="Choose" targetRef="Action" />
+    <bpmn:sequenceFlow id="Flow_Action_Change" sourceRef="Action" targetRef="Change" name="Add / rename / visibility" />
+    <bpmn:sequenceFlow id="Flow_Action_Remove" sourceRef="Action" targetRef="Remove" name="Remove" />
+    <bpmn:sequenceFlow id="Flow_Action_Cancel" sourceRef="Action" targetRef="Cancel" name="Cancel" />
+    <bpmn:sequenceFlow id="Flow_Change_Check" sourceRef="Change" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Remove_Check" sourceRef="Remove" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Check_Allowed" sourceRef="Check" targetRef="Allowed" />
+    <bpmn:sequenceFlow id="Flow_Allowed_Save" sourceRef="Allowed" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Allowed_Blocked" sourceRef="Allowed" targetRef="Blocked" name="No" />
+    <bpmn:sequenceFlow id="Flow_Save_Done" sourceRef="Save" targetRef="Done" />
+    <bpmn:sequenceFlow id="Flow_Blocked_Choose" sourceRef="Blocked" targetRef="Choose" name="Return to category list" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_ProductCategoryManagement" name="Product Category Management">
+    <bpmndi:BPMNPlane id="Plane_ProductCategoryManagement" bpmnElement="Collaboration_ProductCategoryManagement">
+      <bpmndi:BPMNShape id="Participant_ProductCategoryManagement_di" bpmnElement="Participant_ProductCategoryManagement" isHorizontal="true">
+        <dc:Bounds x="20" y="50" width="1474" height="620" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1444" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="50" y="320" width="1444" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
+        <dc:Bounds x="92" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="48" y="154" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Choose_di" bpmnElement="Choose">
+        <dc:Bounds x="194" y="97" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Action_di" bpmnElement="Action" isMarkerVisible="true">
+        <dc:Bounds x="407" y="107" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="365" y="83" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Change_di" bpmnElement="Change">
+        <dc:Bounds x="554" y="79" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Remove_di" bpmnElement="Remove">
+        <dc:Bounds x="554" y="202" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Cancel_di" bpmnElement="Cancel">
+        <dc:Bounds x="412" y="247" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="368" y="289" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Check_di" bpmnElement="Check">
+        <dc:Bounds x="749" y="362" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Allowed_di" bpmnElement="Allowed" isMarkerVisible="true">
+        <dc:Bounds x="977" y="372" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="935" y="348" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Blocked_di" bpmnElement="Blocked">
+        <dc:Bounds x="924" y="507" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Save_di" bpmnElement="Save">
+        <dc:Bounds x="1114" y="362" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Done_di" bpmnElement="Done">
+        <dc:Bounds x="1352" y="377" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1308" y="419" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Choose_di" bpmnElement="Flow_Start_Choose">
+        <di:waypoint x="128" y="130" />
+        <di:waypoint x="194" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Choose_Action_di" bpmnElement="Flow_Choose_Action">
+        <di:waypoint x="346" y="130" />
+        <di:waypoint x="407" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Change_di" bpmnElement="Flow_Action_Change">
+        <di:waypoint x="430" y="107" />
+        <di:waypoint x="430" y="70" />
+        <di:waypoint x="630" y="70" />
+        <di:waypoint x="630" y="79" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="458" y="52" width="142" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Remove_di" bpmnElement="Flow_Action_Remove">
+        <di:waypoint x="453" y="130" />
+        <di:waypoint x="500" y="130" />
+        <di:waypoint x="500" y="235" />
+        <di:waypoint x="554" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="505" y="216" width="44" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Cancel_di" bpmnElement="Flow_Action_Cancel">
+        <di:waypoint x="430" y="153" />
+        <di:waypoint x="430" y="247" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="437" y="192" width="44" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Change_Check_di" bpmnElement="Flow_Change_Check">
+        <di:waypoint x="706" y="112" />
+        <di:waypoint x="825" y="112" />
+        <di:waypoint x="825" y="362" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Remove_Check_di" bpmnElement="Flow_Remove_Check">
+        <di:waypoint x="706" y="235" />
+        <di:waypoint x="738" y="235" />
+        <di:waypoint x="738" y="395" />
+        <di:waypoint x="749" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Check_Allowed_di" bpmnElement="Flow_Check_Allowed">
+        <di:waypoint x="901" y="395" />
+        <di:waypoint x="977" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Allowed_Save_di" bpmnElement="Flow_Allowed_Save">
+        <di:waypoint x="1023" y="395" />
+        <di:waypoint x="1114" y="395" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1054" y="376" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Allowed_Blocked_di" bpmnElement="Flow_Allowed_Blocked">
+        <di:waypoint x="1000" y="418" />
+        <di:waypoint x="1000" y="507" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1007" y="454.5" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Save_Done_di" bpmnElement="Flow_Save_Done">
+        <di:waypoint x="1266" y="395" />
+        <di:waypoint x="1352" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Blocked_Choose_di" bpmnElement="Flow_Blocked_Choose">
+        <di:waypoint x="1000" y="573" />
+        <di:waypoint x="1000" y="623" />
+        <di:waypoint x="270" y="623" />
+        <di:waypoint x="270" y="190" />
+        <di:waypoint x="270" y="163" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="562" y="604" width="146" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

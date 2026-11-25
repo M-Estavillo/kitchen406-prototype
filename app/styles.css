@@ -89,3 +89,5 @@ body.modal-open{overflow:hidden}footer{padding-bottom:70px}
 #mock-panel .mock-actions button{flex:0 1 auto;width:auto;min-height:28px;padding:5px 8px;font-size:11px;line-height:1.4;margin:0}
 #mock-panel .mock-jumps .mock-actions{margin-top:8px;gap:8px 12px;font-size:11px}
 @media(max-width:380px){#mock-panel .mock-fields{grid-template-columns:1fr}}
+
+.auth-outbox code{overflow-wrap:anywhere}

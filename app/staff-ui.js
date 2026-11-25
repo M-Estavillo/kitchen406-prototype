@@ -21,7 +21,7 @@ const card=o=>`<article class="commerce-card staff-order"><h3><a class="text-lin
 function cycleLabel(id){for(const r of [...A.subscriptions.state.records,...[...A.account.buckets.values()].flatMap(b=>b.subscription?.records||[])]){const d=r.deliveries.find(d=>d.orderId===id);if(d)return 'Delivery '+d.cycle+' of 4'+(d.date!==d.originalDate?' (moved from '+date(d.originalDate)+')':'');}return 'Weekly fulfillment';}
 U.productionOrderCard=(o,production,actions)=>`<article class="staff-dashboard-order"><div class="staff-dashboard-order-copy"><div class="staff-dashboard-order-heading"><span>${E(o.id)}</span>${production?badge(o.type==='subscription'?'Subscription delivery':o.type==='cake'?'Custom cake':'Standard'):''}${badge(o.status)}</div><p>${date(o.date)} · ${method(o)}</p><p class="muted">${o.items.map(i=>`${E(i.name)} · ${E(i.variant)} × ${i.quantity}`).join(' / ')}</p>${production&&o.subscriptionId?`<p>${E(o.subscriptionId)} · ${cycleLabel(o.id)}</p>`:''}${o.materialIssue?`<p class="staff-dashboard-warning">${E(o.materialIssue)}</p>`:''}</div><div class="staff-dashboard-row-actions">${actions}</div></article>`;
 const dashboardRow=(o,production=false,showDetails=true)=>U.productionOrderCard(o,production,action(o)+(showDetails?link('staff/production/'+o.id,'Details'):''));
-function dashboard(){const today=A.schedule.today(),end=today,orders=S.list().filter(o=>o.date>=today&&o.date<=end),alerts=I.items.filter(i=>I.available(i.id)<=i.threshold),upcoming=S.list().filter(o=>o.date>end&&o.status!=='completed').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+function dashboard(){const today=A.schedule.today(),end=today,orders=S.list().filter(o=>o.date>=today&&o.date<=end),alerts=I.items.filter(i=>!i.archivedAt&&I.available(i.id)<=i.threshold),upcoming=S.list().filter(o=>o.date>end&&o.status!=='completed').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
  return U.pageIntro({title:'Staff Dashboard',subtitle:'Production and fulfillment at Kitchen406.'})+`<div class="staff-stats">${[['Confirmed',orders.filter(o=>o.status==='confirmed').length],['Preparing',orders.filter(o=>o.status==='preparing').length],['Ready',orders.filter(o=>o.status==='ready').length],['Current stock alerts',alerts.length]].map(([label,value])=>U.stat({label,value})).join('')}</div><div class="staff-stack staff-dashboard-sections">${panel('Scheduled orders',orders.length?orders.map(o=>dashboardRow(o)).join(''):'<p>No orders scheduled today.</p>',link('staff/production','View All'))}<section class="commerce-card staff-upcoming"><div class="commerce-card-heading"><h2>Upcoming production</h2>${link('staff/calendar','View Calendar')}</div>${upcoming.length?`<ul>${upcoming.map(o=>`<li><div class="staff-dashboard-order-copy"><div class="staff-dashboard-order-heading"><span>${E(o.id)}</span>${badge(o.status)}</div><p>${method(o)} · ${o.items.map(i=>`${E(i.name)} × ${i.quantity}`).join(', ')}</p></div><div class="staff-dashboard-row-actions"><span class="staff-upcoming-date">${date(o.date)}</span>${link('staff/production/'+o.id,'Details')}</div></li>`).join('')}</ul>`:'<p>No upcoming work.</p>'}</section></div>`;
 }
 function queue(){const orders=S.filtered();return U.pageIntro({title:'Production Queue',subtitle:'Prepare paid orders, stage finished products, and complete pickups.'})+filters()+(orders.length?`<div class="staff-production-list">${orders.map(o=>dashboardRow(o,true)).join('')}</div>`:empty());}
@@ -37,7 +37,11 @@ function details(){const active=S.orders().find(order=>order.id===S.parts[2]),ar
  return `<div class="staff-detail-back">${link('staff/production','Back to queue')}</div><div class="staff-stack"><div class="staff-production-list">${dashboardRow(o,true,false)}</div>${spec}${A.earnings?.panel(S.orders().find(row=>row.id===o.id))||''}${panel('Ingredient requirements',materialTable(o.requirements,o.id)+`<p class="staff-ingredient-note">${['preparing','ready','completed'].includes(o.status)?'Ingredients recorded as used when preparation started.':'Starting preparation records this order’s reserved ingredients as used.'}</p>`)}${panel('Fulfillment',`<p>${method(o)}</p><p>${o.method==='pickup'?(raw.cancellationReason?'Pickup cancelled: '+E(raw.cancellationReason)+' ? '+E(stamp(raw.cancelledAt))+'.':raw.pickupArrivedAt?'Arrival recorded at '+E(stamp(raw.pickupArrivedAt))+'. Confirm pickup after handover.':E(A.fulfillment.pickupArrivalHint(raw)||(A.fulfillment.scheduledPickup(raw)?'':'Confirm pickup after handover.'))):o.type==='cake'?'The owner handles delivery.':'Courier status: '+E(o.courier)+'.'}</p>`)}${panel('Production history',o.history.length?`<ol class="staff-history">${o.history.map(h=>`<li><div class="staff-history-update"><strong>${E(h.changed_by_account_id===S.account.id?S.name():h.actor)}</strong><span class="staff-history-verb">moved to</span>${badge(h.status)}</div><time datetime="${new Date(h.at).toISOString()}">${new Date(h.at).toLocaleString('en-PH',{timeZone:'Asia/Manila',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true})}</time></li>`).join('')}</ol>`:'<p>No staff transitions recorded in this preview.</p>')}${panel('Preparation checklist',`<p class="muted">Optional local reminders; these checks are not an audit record.</p>${['Check quantities and specifications','Check packaging','Stage for handoff'].map(t=>`<p><label><input type="checkbox"> ${t}</label></p>`).join('')}`)}</div>`;
 }
 function inventory(){
- const items=I.items.filter(i=>i.name.toLowerCase().includes(S.query.toLowerCase())&&(S.status==='active'||S.status==='all'||I.status(i)===S.status));
+ if(I.databaseAccount&&I.loadState!=='ready'){
+  return U.pageIntro({title:'Inventory',actionsHtml:I.loadState==='error'?btn('inventory-retry','Retry'):''})+
+   '<p role="status">'+(I.loadState==='error'?'Inventory could not be loaded.':'Loading inventory…')+'</p>';
+ }
+ const items=I.items.filter(i=>!i.archivedAt&&i.name.toLowerCase().includes(S.query.toLowerCase())&&(S.status==='active'||S.status==='all'||I.status(i)===S.status));
  items.sort((a,b)=>S.sort==='name'?a.name.localeCompare(b.name):S.sort==='name-desc'?b.name.localeCompare(a.name):(S.sort==='available-desc'?I.available(b.id)-I.available(a.id):I.available(a.id)-I.available(b.id))||a.name.localeCompare(b.name));
  const pages=Math.max(1,Math.ceil(items.length/10));S.page=Math.max(1,Math.min(S.page,pages));
  const rows=items.slice((S.page-1)*10,S.page*10).map(i=>`<tr><td>${E(i.name)}</td><td>${E(i.unit)}</td><td>${i.stock}</td><td>${I.reserved(i.id)}</td><td>${I.available(i.id)}</td><td>${i.threshold}</td><td><span class="order-badge staff-stock-status ${I.status(i)==='Available'?'available':I.status(i)==='Low stock'?'low':'out'}">${E(I.status(i))}</span></td><td><div class="staff-inventory-actions">${link('staff/inventory/'+encodeURIComponent(i.id),'Details')}${btn('restock','Restock',`data-id="${E(i.id)}"`)}${btn('adjust','Adjust',`data-id="${E(i.id)}"`)}</div></td></tr>`);
@@ -94,11 +98,12 @@ function calendar(){
  return U.pageIntro({title:'Production Calendar',subtitle:'Plan production and review the orders scheduled for each day.'})+`<div class="staff-calendar-workspace"><div class="staff-toolbar staff-calendar-filters">${select('type','Order type',[['all','All types'],['standard','Standard'],['subscription','Subscription'],['cake','Custom cake']],S.type)}${select('calendarStatus','Status',[['all','All statuses'],['confirmed','Confirmed'],['preparing','Preparing'],['ready','Ready'],['completed','Completed']],S.calendarStatus||'all')}</div><section class="commerce-card staff-calendar-panel"><div class="staff-calendar-head"><div class="staff-calendar-title"><h2>${title}</h2><p>${S.calendarBasis==='preparation'?'Subscription preparation dates':'Fulfillment dates'}</p></div><div class="staff-calendar-views" role="group" aria-label="Calendar view">${['week','month'].map(v=>btn('calendar-view',v[0].toUpperCase()+v.slice(1),`data-view="${v}" aria-pressed="${v===S.calendarView}"`)).join('')}</div></div><div class="staff-calendar-controls"><label class="staff-calendar-completed"><input type="checkbox" data-staff-filter="includeCompleted" ${S.includeCompleted?'checked':''}> Show completed</label></div>${grid}${navigation}</section>${A.materialRequirementsPanel(chosen)}${A.subscriptionBatches.panel(chosen)}<section class="commerce-card staff-calendar-agenda"><div class="commerce-card-heading"><div><h2>Agenda</h2><p>${date(chosen)}</p></div><span class="staff-agenda-count">${selected.length} ${selected.length===1?'order':'orders'} · ${selected.reduce((n,o)=>n+o.items.reduce((n,i)=>n+i.quantity,0),0)} units</span></div>${selected.length?selected.map(o=>dashboardRow(o,true)).join(''):'<p class="staff-calendar-empty">No commitments for this date.</p>'}</section>${A.calendarCapacity(chosen)}</div>`;
 }
 function notifications(){
- const events=S.events.filter(e=>S.notificationFilter==='all'||S.notificationFilter==='unread'&&!e.read||e.type===S.notificationFilter),unread=S.events.filter(e=>!e.read).length;
+ const all=S.notifications(),events=all.filter(e=>S.notificationFilter==='all'||S.notificationFilter==='unread'&&!e.read||e.type===S.notificationFilter),unread=all.filter(e=>!e.read).length;
+ const feedback=A.notifications.feedback(btn('retry-notifications','Retry'));
  const readIcon='<span class="staff-notification-read" role="img" aria-label="Read"><svg width="20" height="14" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 8 4 4L16 2M11 10l2 2L23 2"/></svg></span>';
- return U.pageIntro({title:'Notifications',subtitle:'Order and inventory updates for your team.'})+`<div class="staff-notification-toolbar"><div class="staff-notification-controls">${select('notificationFilter','Filter',[['all','All'],['unread','Unread'],['orders','Orders'],['inventory','Inventory']],S.notificationFilter)}${btn('read-all','Mark all as read',unread?'':'disabled',true)}</div></div>`+panel('Operational updates',`<div class="staff-notification-list">${events.map(e=>`<article class="staff-notification ${e.read?'':'unread'}"><div class="staff-notification-copy"><strong>${E(e.message)}</strong><div class="staff-notification-meta"><time datetime="${new Date(e.at).toISOString()}">${stamp(e.at)}</time>${e.read?readIcon:''}</div></div><div class="staff-notification-actions">${btn('notification-view','View details',`data-id="${E(e.id)}"`,true)}</div></article>`).join('')||'<p class="muted">No matching updates.</p>'}</div>`,`<span class="staff-unread-count" aria-live="polite">${unread} unread</span>`);
+ return U.pageIntro({title:'Notifications',subtitle:'Order and inventory updates for your team.'})+`<div class="staff-notification-toolbar"><div class="staff-notification-controls">${select('notificationFilter','Filter',[['all','All'],['unread','Unread'],['orders','Orders'],['inventory','Inventory']],S.notificationFilter)}${btn('read-all','Mark all as read',unread?'':'disabled',true)}</div></div>`+panel('Operational updates',`<div class="staff-notification-list">${feedback}${events.map(e=>`<article class="staff-notification ${e.read?'':'unread'}"><div class="staff-notification-copy"><strong>${E(e.message)}</strong><div class="staff-notification-meta"><time datetime="${new Date(e.at).toISOString()}">${stamp(e.at)}</time>${e.read?readIcon:''}</div></div><div class="staff-notification-actions">${btn('notification-view','View details',`data-id="${E(e.id)}"`,true)}</div></article>`).join('')||(feedback?'':'<p class="muted">No matching updates.</p>')}</div>`,`<span class="staff-unread-count" aria-live="polite">${unread} unread</span>`);
 }
-function settings(){return U.pageIntro({title:'Staff Account',subtitle:'Manage your permitted account details.'})+`<div class="staff-stack staff-account-panels">${panel('Profile',`<form class="staff-form" data-staff-form="profile"><div class="staff-account-name-row">${field('first_name','First name',S.account.first_name,'text','required maxlength="80"')}${field('last_name','Last name',S.account.last_name,'text','required maxlength="80"')}</div>${field('email','Login email',S.account.email,'email','readonly')}<p class="muted">Your role and login email are managed by the owner.</p><p class="field-error staff-error" role="alert"></p><div class="staff-account-actions"><button class="btn primary">Save changes</button></div></form>`)}${panel('Change password',`<form class="staff-form" data-staff-form="password">${field('current','Current password','','password','required autocomplete="current-password"')}${field('next','New password','','password','required minlength="8" autocomplete="new-password"')}${field('confirm','Confirm password','','password','required autocomplete="new-password"')}<p class="muted">Use at least 8 characters with letters and numbers.</p><p class="field-error staff-error" role="alert"></p><div class="staff-account-actions"><button class="btn primary">Update password</button></div></form>`)}</div>`;}
+function settings(){return U.pageIntro({title:'My Profile',subtitle:'View and manage your personal and account information.'})+A.account.profileContent(S.account);}
 S.loading=()=>{
  const view=S.parts[1]||'',title=view==='production'&&S.parts[2]?'Production details':links.find(([path])=>path===view)?.[1]||'Staff workspace';
  const block=(kind='line')=>`<div class="staff-skeleton staff-skeleton-${kind}"></div>`;
@@ -120,55 +125,69 @@ S.render=()=>{if(A.route!=='staff')return;const root=A.$('staff-view');if(!root)
 };
 S.open=(title,body,compact=false,inventory=false)=>{A.$('staff-modal').classList.toggle('staff-inventory-modal',inventory);A.$('staff-modal').classList.toggle('staff-confirm-modal',compact);A.$('staff-dialog-title').textContent=title;A.$('staff-dialog-body').innerHTML=body;A.openModal('staff-modal');};
 function stockForm(id,type,original=''){
- const i=I.item(id);if(!i)return;
+  const i=I.item(id);if(!i)return;
  const restock=type==='restock',step=i.unit==='pcs'?'1':'0.001';
  const unit=`<div class="field"><label for="staff-unit">Unit</label><select id="staff-unit" name="unit">${I.stockUnits(i.unit).map(u=>`<option>${E(u)}</option>`).join('')}</select></div>`;
  const details=restock?field('totalCost','Total cost (PHP)','','number','required min="0" step="0.01"'):
   '<div class="field"><label for="staff-reason">Reason</label><select id="staff-reason" name="reason">'+
   ['miscount','spoilage','damage','theft','correction','other'].map(v=>`<option ${original&&v==='correction'?'selected':''}>${v}</option>`).join('')+'</select></div>';
  S.formKey=crypto.randomUUID();
- S.open(restock?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${E(i.id)}" data-type="${type}">
+ S.open(restock?'Record restock':'Adjust physical count',`<form class="staff-form staff-stock-form" data-staff-form="stock" data-id="${E(i.id)}" data-type="${type}" data-version="${E(i.version||'')}" data-operation="${S.formKey}">
   <p>${E(i.name)} · ${i.stock} ${E(i.unit)} on hand</p>
   <div class="staff-stock-quantity">${field('quantity',restock?'Quantity added':'Physical count',restock?'':i.stock,'number',`required min="${restock?step:'0'}" step="${step}"`)}${unit}</div>
-  ${details}${field('notes','Note',original?'Correction for '+original:'')}
+  ${details}${field('notes','Note',original?'Correction for '+original:'','text','maxlength="500"')}
   <p class="field-error staff-error" role="alert"></p>
   <div class="staff-stock-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button type="submit" class="btn primary">${restock?'Confirm restock':'Adjust'}</button></div>
  </form>`,false,true);
 }
 document.addEventListener('click',e=>{if(e.target.id==='staff-range'&&e.target.type==='date'){try{e.target.showPicker?.();}catch{}}});
 document.addEventListener('change',e=>{const key=e.target.dataset.staffFilter;if(!key||!S.allowed())return;S[key]=e.target.type==='checkbox'?e.target.checked:e.target.value;S.page=1;S.render();});
-document.addEventListener('click',e=>{
+document.addEventListener('click',async e=>{
  const el=e.target.closest('[data-staff]');if(!el||el.disabled)return;const actionName=el.dataset.staff,id=el.dataset.id;
- if(actionName==='enter'){S.enter();return;}if(actionName==='customer'){S.leave();return;}if(!S.allowed())return;
+ if(actionName==='enter'){S.enter();return;}if(!S.allowed())return;
+ if(actionName==='inventory-retry'){I.refresh();S.render();return;}
  if(actionName.startsWith('recipe-'))return;
- if(actionName==='signout'){S.generation++;S.role='customer';A.setAuth('guest');location.hash='#/staff';window.dispatchEvent(new HashChangeEvent('hashchange'));return;}
+ if(actionName==='signout'){A.authUI.signOut();return;}
  if(actionName==='clear-production-filters'){S.query='';S.type='all';S.status='active';S.range='all';S.page=1;S.render();return;}
  if(actionName==='clear-fulfillment-date'){S.range='all';S.page=1;S.render();return;}
- if(actionName==='seed')S.seed();
- if(actionName==='seed-attention'){I.items.slice(0,3).forEach((item,index)=>{const quantity=I.reserved(item.id)+(index?Math.floor(item.threshold/2):0);if(item.stock!==quantity)I.change({id:item.id,quantity,type:'adjustment',reason:'other',notes:'Mock attention example',key:crypto.randomUUID()});});S.mode='normal';A.toast('Sample stock alerts loaded.');}
  if(actionName==='retry')S.mode='normal';
- if(actionName==='record-arrival'){A.toast(A.fulfillment.recordArrival(id,Number(el.dataset.version))||'Arrival recorded.');return;}
- if(actionName==='transition'){S.formKey=crypto.randomUUID();S.open(el.textContent,`<p>${el.dataset.target==='preparing'?'This records the reserved ingredients as used.':el.dataset.target==='completed'?'Confirm that this pickup has been handed over.':'Confirm the order is prepared and staged.'}</p>${el.dataset.target==='preparing'?A.earnings.preparationEditor(A.operations.find(id)):''}<p class="field-error staff-error" role="alert"></p><div class="staff-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${btn('confirm-transition','Confirm',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`,true)}</div>`,true);return;}
+ if(actionName==='record-arrival'){const error=A.operations.find(id)?.persistedSubscription?await A.subscriptions.persistence.fulfill(id,'arrival',el):A.operations.find(id)?.persistedPickup?await A.pickup.fulfill(id,'arrival',el):A.fulfillment.recordArrival(id,Number(el.dataset.version));A.toast(error||'Arrival recorded.');return;}
+ if(actionName==='transition'){S.formKey=crypto.randomUUID();S.open(el.textContent,`<p>${el.dataset.target==='preparing'?'This records the reserved ingredients as used.':el.dataset.target==='completed'?'Confirm that this pickup has been handed over.':'Confirm the order is prepared and staged.'}</p>${A.fulfillment.productionReview(A.operations.find(id),el.dataset.target,'staff')}<p class="field-error staff-error" role="alert"></p><div class="staff-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${btn('confirm-transition','Confirm',`data-id="${E(id)}" data-target="${el.dataset.target}" data-version="${el.dataset.version}"`,true)}</div>`,true);return;}
  if(actionName==='edit-allocation'){const o=A.operations.find(id);if(!A.earnings.editable(o))return;S.formKey=crypto.randomUUID();S.open('Edit Allocation',`${A.earnings.editor(o)}<p class="field-error staff-error" role="alert"></p><div class="staff-confirm-actions"><button type="button" class="btn" data-close-modal>Cancel</button>${btn('confirm-allocation','Save Allocation',`data-id="${E(id)}" data-version="${el.dataset.version}"`,true)}</div>`,true);return;}
  if(actionName==='confirm-allocation'){const error=A.fulfillment.editAllocation(id,Number(el.dataset.version),S.formKey);if(error){document.querySelector('#staff-modal .staff-error').textContent=error;return;}A.closeModal();A.toast('Allocation saved.');return;}
- if(actionName==='confirm-transition'){const error=S.transition(id,el.dataset.target,Number(el.dataset.version),S.formKey);if(error){document.querySelector('#staff-modal .staff-error').textContent=error;return;}A.closeModal();A.toast('Order updated.');}
+ if(actionName==='refresh-production'){
+  const dialog=A.$('staff-dialog-body');
+  dialog.querySelector('.staff-error').textContent=A.fulfillment.refreshProduction(dialog,el,'staff');
+  return;
+ }
+ if(actionName==='confirm-transition'){const error=A.operations.find(id)?.persistedSubscription?await A.subscriptions.persistence.fulfill(id,el.dataset.target,el):A.operations.find(id)?.persistedPickup?await A.pickup.fulfill(id,el.dataset.target,el):S.transition(id,el.dataset.target,Number(el.dataset.version),S.formKey);if(error){const dialog=A.$('staff-dialog-body');A.fulfillment.productionConflict(dialog,el);dialog.querySelector('.staff-error').textContent=error;return;}A.closeModal();A.toast('Order updated.');}
  if(actionName==='restock'||actionName==='adjust'){stockForm(id,actionName==='restock'?'restock':'adjustment');return;}
  if(actionName==='page-prev')S.page=Math.max(1,S.page-1);if(actionName==='page-next')S.page++;
  if(actionName==='day')S.calendarDate=el.dataset.date;
  if(actionName==='calendar-view')S.calendarView=el.dataset.view;
  if(actionName==='calendar-prev'||actionName==='calendar-next'){const direction=actionName==='calendar-prev'?-1:1;if(S.calendarView==='month'){const d=new Date(S.calendarDate.slice(0,7)+'-01T12:00:00Z');d.setUTCMonth(d.getUTCMonth()+direction);S.calendarDate=d.toISOString().slice(0,10);}else S.calendarDate=A.schedule.add(S.calendarDate,direction*(S.calendarView==='week'?7:1));}
- if(actionName==='notification-view'){
- const notification=S.events.find(x=>x.id===id);if(!notification)return;
- if(!notification.read){if(S.saveError){A.toast('Read status could not be saved. Please retry.');return;}notification.read=true;notification.is_read=true;notification.read_at=Date.now();}
- S.render();A.shell.sync();location.hash='#/'+notification.path;return;
+ if(actionName==='retry-notifications'){A.notifications.refresh();return;}
+ if(['notification-view','read','read-all'].includes(actionName)){
+  const notification=S.notifications().find(x=>x.id===id),N=A.notifications;
+  const all=actionName==='read-all',stored=notification&&N.saved.includes(notification);
+  if(!all&&!notification)return;
+  if(S.saveError){A.toast('Read status could not be saved. Please retry.');return;}
+  if((all||stored&&!notification.read)&&!await N.acknowledge(all?undefined:id))return;
+  if(all||!stored){
+   S.notifications().filter(x=>!x.read&&(all||x===notification)&&!N.saved.includes(x)).forEach(x=>{
+    x.read=true;x.is_read=true;x.read_at=Date.now();
+   });
+  }
+  if(actionName==='notification-view')location.hash='#/'+notification.path;
  }
- if(actionName==='read'||actionName==='read-all'){if(S.saveError){A.toast('Acknowledgement could not be saved. Retry.');return;}S.events.filter(x=>!x.read&&(actionName==='read-all'||x.id===id)).forEach(x=>{x.read=true;x.is_read=true;x.read_at=Date.now();});}
  S.render();A.shell.sync();
 });
 document.addEventListener('submit',async e=>{const form=e.target;if(!form.dataset.staffForm)return;e.preventDefault();if(!S.allowed())return;const data=Object.fromEntries(new FormData(form)),kind=form.dataset.staffForm;let error='';const submit=form.querySelector('button[type="submit"],button:not([type])');if(submit)submit.disabled=true;
- if(kind==='stock')error=S.saveError?'The stock update could not be saved.':I.change({id:form.dataset.id,quantity:form.elements.quantity.valueAsNumber,unit:data.unit,type:form.dataset.type,totalCost:form.elements.totalCost?.valueAsNumber,reason:data.reason,notes:data.notes,key:S.formKey});
- if(kind==='profile'){if(!data.first_name.trim()||!data.last_name.trim())error='Enter your first and last name.';else if(S.saveError)error='Your profile could not be saved.';else Object.assign(S.account,{first_name:data.first_name.trim(),last_name:data.last_name.trim()});}
- if(kind==='password')error=await S.password(data.current,data.next,data.confirm);
- if(submit)submit.disabled=false;if(!form.isConnected)return;if(error){form.querySelector('.staff-error').textContent=error;return;}if(kind==='stock')A.closeModal();else S.render();A.shell.sync();A.toast('Changes saved in this preview.');
+ if(kind==='stock'){
+  const input={id:form.dataset.id,version:form.dataset.version,quantity:form.elements.quantity.valueAsNumber,unit:data.unit,type:form.dataset.type,totalCost:form.elements.totalCost?.valueAsNumber,reason:data.reason,notes:data.notes,key:form.dataset.operation};
+  error=S.saveError?'The stock update could not be saved.':I.databaseAccount?await I.save('stock',input):I.change(input);
+  if(!error&&I.databaseAccount)A.operations.changed();
+ }
+ if(submit)submit.disabled=false;if(!form.isConnected||A.$('staff-modal').hidden)return;if(error){form.querySelector('.staff-error').textContent=error;return;}if(kind==='stock')A.closeModal();else S.render();A.shell.sync();A.toast('Changes saved.');
 });
 })();

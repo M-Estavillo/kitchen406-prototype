@@ -98,7 +98,7 @@ function refresh(focus){
  if(focus?.id)A.$(focus.id)?.focus();
  else if(focus?.hasAttribute('data-batch-order'))document.querySelector(`[data-batch-order][value="${CSS.escape(focus.value)}"]`)?.focus();
 }
-function execute(picks,date,key,generation,operation,retry){
+async function execute(picks,date,key,generation,operation,retry){
  if(running||!inCalendar()||calendarDate()!==date||context!==key||A.session.generation!==generation)return;
  const current=new Map(forDate(orders(),date).map(row=>[row.order.id,row]));
  const view=workspace();
@@ -113,13 +113,14 @@ function execute(picks,date,key,generation,operation,retry){
    let failure=error;
    if(!failure&&action==='courier'){
     const outcome=mixed?(simulateFailure?'failure':'success'):A.deliveries.outcome;
-    failure=view.saveError?'The booking could not be saved.':A.deliveries.book(pick.id,operation+':'+pick.id,pick.version,outcome);
+    failure=view.saveError?'The booking could not be saved.':await A.deliveries.book(pick.id,operation+':'+pick.id,pick.version,outcome);
     simulateFailure=false;
    }else if(!failure){
-    failure=A.fulfillment.transition(pick.id,action,pick.version,operation+':'+pick.id);
+    failure=row.order.persistedSubscription?await A.subscriptions.persistence.fulfill(pick.id,action):
+     A.fulfillment.transition(pick.id,action,pick.version,operation+':'+pick.id);
    }
    if(failure){results.set(pick.id,{status:'failed',message:failure});continue;}
-   const status=action==='courier'?row.order.delivery.status:action;
+   const status=action==='courier'?A.operations.find(pick.id)?.delivery?.status:action;
    const messages={booked:'Courier booked.',pending:'Booking pending. Check the order for updates.',failed:'Courier booking failed.',cancelled:'Courier cancelled the booking.',preparing:'Preparation started.',ready:'Marked ready.'};
    results.set(pick.id,{status:status==='cancelled'?'failed':status,message:messages[status]});
   }

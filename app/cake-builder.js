@@ -1,30 +1,7 @@
 (() => {
 const A=K406,K=A.cakes,S=K.state,T=A.cakeData,C=A.commerce,U=C.ui,V=A.phase4,E=A.escape;
 const B=K.builder={busy:false};
-const cakeReviews=[
- {name:'Mika S.',photo:'Pink buttercream cake with cherries',quote:'The vintage piping was lovely, and the cake tasted as good as it looked. It was the highlight of our birthday table.'},
- {name:'Paolo R.',photo:'Ivory buttercream cake with lavender flowers',quote:'The little lavender flowers matched our celebration perfectly. The bakery made the whole process easy, from the first sketch to pickup.'},
- {name:'Jenna L.',photo:'Chocolate cake with curls and gold accents',quote:'The chocolate cake was rich without being too sweet. Everyone asked for another slice, and the gold details looked beautiful in photos.'},
- {name:'Ana M.',photo:'Lemon yellow cake with piped daisies',quote:'The daisies were even prettier in person. The lemon cake was light and fresh, and our guests loved it.'},
- {name:'Luis D.',photo:'Pale blue cake with clouds and white stars',quote:'The clouds and stars were perfect for our baby shower. The cake was ready right on time and tasted wonderful.'}
-];
-function reviewCards(){
- return cakeReviews.map((review,index)=>{
-  return `<article class="cake-review-card">
-   <div class="cake-review-photo cake-review-photo-${index}" role="img" aria-label="${E(review.photo)}"></div>
-   <div class="cake-review-copy"><div class="cake-review-person"><span class="cake-review-avatar" aria-hidden="true"><span class="material-symbols-outlined">person</span></span><h3>${E(review.name)}</h3></div>
-   <blockquote>${E(review.quote)}</blockquote></div>
-  </article>`;
- }).join('');
-}
-function cakeReviewSection(){
- return `<section id="cake-reviews" class="cake-reviews" aria-labelledby="cake-reviews-title" tabindex="-1">
-  <h2 id="cake-reviews-title">Custom cake reviews</h2><p>Sample reviews and cake photos for this preview.</p>
-  <div class="cake-review-stage">${reviewCards()}</div>
-  <div class="cake-review-cta">${V.button('cake-start','Create my custom cake',false,'',true)}</div>
- </section>`;
-}
-B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}<a class="btn" href="#cake-reviews">See cake reviews</a></div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add reference photos if you have them.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>${cakeReviewSection()}`;
+B.landing=()=>`<section class="cake-hero"><div><h1 class="hero-title">Something worth<br>celebrating.</h1><p>Choose your cake, share your inspiration, and let Kitchen406 bring the details together. Every request is reviewed by the bakery before a final quotation.</p><div class="commerce-actions">${V.button('cake-start','Request a custom cake',false,'',true)}</div></div><img src="assets/custom-cake.png" alt="A handcrafted celebration cake"></section><div class="cake-how">${[['01','Make it yours','Choose cake options and add reference photos if you have them.'],['02','Bakery review','We review the design, requested date, and ingredients.'],['03','Review your quotation','Check the final design, delivery details, and total.'],['04','Accept and pay','Full payment confirms the order after availability checks.']].map(([n,title,copy])=>`<article><span>${n}</span><h2>${title}</h2><p>${copy}</p></article>`).join('')}</div>`;
 B.summary=()=>{
  const d=S.draft,estimate=K.estimate();
  return U.panel('Your cake request',`<dl class="cake-summary"><div><dt>Requested Date</dt><dd>${d.date?U.date(d.date):'Choose a requested date'}</dd></div>${T.categories.map(type=>`<div><dt>${E(type)}</dt><dd>${E(K.selected().find(o=>o.type===type)?.name||'Not selected')}</dd></div>`).join('')}</dl><dl class="commerce-totals"><div><dt>Cake options</dt><dd>${K.money(estimate.base)}</dd></div><div class="grand-total"><dt>Preliminary estimate</dt><dd>${estimate.complete?K.money(estimate.total):'—'}</dd></div></dl><p class="muted">The owner confirms the final price, design charges, and delivery fee after review.</p>`);
@@ -46,12 +23,13 @@ B.details=()=>{
  `<div class="cake-step-actions">${V.button('cake-next','Continue to cake options',!!K.fulfillmentReason()||!!K.addressUI.form,'data-step="options"',true)}${V.button('cake-cancel','Cancel request')}</div>`);
 };
 B.options=()=>{
+ if(!T.options.length)return U.empty('No cake options currently available','Check back when the bakery has configured its cake options.',U.link('custom-cakes','Back to custom cakes'));
  if(K.mock.options==='loading')return B.loading();
  if(K.mock.options!=='normal')return U.empty(K.mock.options==='loading'?'Loading cake options…':'Cake options could not be loaded','Your selections are preserved.',V.button('cake-retry','Try again'));
  return U.columns(T.categories.map(type=>U.panel('Cake '+type,`<p class="muted">Choose one · Required</p><div class="cake-options">${T.options.filter(o=>o.type===type).map(o=>`<button class="cake-option" type="button" data-p4="cake-option" data-type="${type}" data-id="${o.id}" aria-pressed="${S.draft.selections[type]===o.id}" ${o.available?'':'disabled'}><strong>${E(o.name)}</strong><span class="cake-option-footer"><span>${E(o.description)}</span><b>${o.price?K.money(o.price):'Included · '+K.money(0)}</b></span>${o.available?'':'<small>Unavailable</small>'}</button>`).join('')}</div>`,S.draft.selections[type]?'':'<span class="cake-required">Required*</span>')).join(''),
  B.summary()+(K.optionsReason()?U.alert(K.optionsReason()):'')+V.button('cake-next','Continue to references',!!K.optionsReason(),'data-step="references"',true)+U.link('custom-cakes/request/details','Back to fulfillment'));
 };
-B.photos=(images,editable=false)=>`<div class="cake-photos ${editable?'cake-reference-previews':''}">${images.map((item,index)=>item?`<section class="cake-reference-photo"><button type="button" class="cake-image-button" data-p4="cake-enlarge" data-url="${E(item.url)}" data-name="${E(item.name)}" aria-label="${E('Preview '+item.name)}"><img src="${E(item.url)}" alt="${E(item.name)}"></button><p class="cake-reference-name">${E(item.name)}</p>${editable?`<p class="muted" role="status">${item.status==='loading'?'Checking image?':item.size?(item.size/1024/1024).toFixed(1)+' MB':'Sample image'}</p><div class="cake-photo-actions"><button type="button" class="cake-photo-icon" data-p4="cake-image-add" data-slot="${index}" title="Replace image" aria-label="Replace ${E(item.name)}"><span class="material-symbols-outlined" aria-hidden="true">edit</span></button><button type="button" class="cake-photo-icon" data-p4="cake-image-remove" data-slot="${index}" aria-label="${E('Remove '+item.name)}" title="Remove image"><span class="material-symbols-outlined" aria-hidden="true">delete</span></button></div>`:''}</section>`:'').join('')}</div>`;
+B.photos=(images,editable=false)=>`<div class="cake-photos ${editable?'cake-reference-previews':''}">${images.map((item,index)=>item?`<section class="cake-reference-photo"><button type="button" class="cake-image-button" data-p4="cake-enlarge" data-url="${E(item.url)}" data-name="${E(item.name)}" aria-label="${E('Preview '+item.name)}"><img src="${E(item.url)}" alt="${E(item.name)}"></button><p class="cake-reference-name">${E(item.name)}</p>${editable?`<p class="muted" role="status">${item.status==='loading'?'Checking image?':item.size?(item.size/1024/1024).toFixed(1)+' MB':'Image ready'}</p><div class="cake-photo-actions"><button type="button" class="cake-photo-icon" data-p4="cake-image-add" data-slot="${index}" title="Replace image" aria-label="Replace ${E(item.name)}"><span class="material-symbols-outlined" aria-hidden="true">edit</span></button><button type="button" class="cake-photo-icon" data-p4="cake-image-remove" data-slot="${index}" aria-label="${E('Remove '+item.name)}" title="Remove image"><span class="material-symbols-outlined" aria-hidden="true">delete</span></button></div>`:''}</section>`:'').join('')}</div>`;
 B.references=()=>{
  const slot=S.draft.images.findIndex(image=>!image),reason=S.draft.imageError||K.referencesReason();
  return U.columns(U.panel('Reference images',`<p class="muted">Optional. Add up to three JPEG, PNG, or WebP images, up to 5 MB each.</p><input id="cake-reference-file" type="file" accept="image/jpeg,image/png,image/webp" hidden><button type="button" class="cake-reference-upload ${S.draft.images.some(Boolean)?'is-compact':''}" data-p4="cake-image-add" data-slot="${slot}" ${slot<0?'hidden disabled':S.draft.imageCheck?'disabled':''}><span class="material-symbols-outlined" aria-hidden="true">add_photo_alternate</span><span>${S.draft.images.some(Boolean)?'Add another image':'Add reference image'}</span></button>${B.photos(S.draft.images,true)}<p class="muted">Reference photos guide the design; they do not change your selected cake options.</p>`)+
@@ -107,7 +85,7 @@ document.addEventListener('click',e=>{
   if(B.busy)return;B.busy=true;V.render();const draft=S.draft,customer=A.account.id();
   setTimeout(()=>{B.busy=false;if(S.draft!==draft||customer!==A.account.id()||!A.account.allowed())return;const r=K.submit();if(r){location.hash='#/cake-requests/'+r.id;A.toast('Cake request submitted. Awaiting owner review.');}else V.render();},350);return;
  }
- if(action.startsWith('cake-')){V.render();A.inspector();}
+ if(action.startsWith('cake-')){V.render();}
 });
 document.addEventListener('input',e=>{if(e.target.id==='cake-notes'){S.draft.notes=e.target.value;A.$('cake-note-count').textContent=S.draft.notes.length;}});
 async function previewReference(file){

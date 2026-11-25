@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_InventoryMaterialMaintenance" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_InventoryMaterialMaintenance">
+    <bpmn:participant id="Participant_InventoryMaterialMaintenance" name="Inventory Material Maintenance" processRef="Process_InventoryMaterialMaintenance" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_InventoryMaterialMaintenance" name="Inventory Material Maintenance" isExecutable="false">
+    <bpmn:documentation>The owner maintains ingredient and packaging records. Existing materials are opened through Edit on the inventory list. The material page also shows recipe usage, browser-session reservations, and movement history with type and date filters.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_InventoryMaterialMaintenance">
+      <bpmn:lane id="Lane_Operator" name="Owner">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Choose</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Add</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Edit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Lifecycle</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Correct</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Details</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Duplicate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Invalid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Opening</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>WithStock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DetailsOnly</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Saved</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LifecycleCheck</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LifecycleAllowed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LifecycleSave</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LifecycleDone</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>LifecycleBlocked</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Inventory opened">
+      <bpmn:outgoing>Flow_Start_Choose</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Choose" name="Choose an inventory action">
+      <bpmn:incoming>Flow_Start_Choose</bpmn:incoming>
+      <bpmn:incoming>Flow_Invalid_Choose</bpmn:incoming>
+      <bpmn:outgoing>Flow_Choose_Action</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Action" name="Action?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Choose_Action</bpmn:incoming>
+      <bpmn:outgoing>Flow_Action_Add</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Edit</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Lifecycle</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Add" name="Enter new material details">
+      <bpmn:documentation>Enter the name, type, base unit, threshold, opening quantity, and total opening cost.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Add</bpmn:incoming>
+      <bpmn:outgoing>Flow_Add_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Edit" name="Edit existing material details">
+      <bpmn:documentation>The form may lock the unit for a known material requirement. The SQLite edit API locks the unit after a movement or recipe use.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Edit</bpmn:incoming>
+      <bpmn:outgoing>Flow_Edit_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Lifecycle" name="Select Archive, Restore, or Remove and confirm">
+      <bpmn:documentation>Open the material details. Cancel closes the confirmation without making a change.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Lifecycle</bpmn:incoming>
+      <bpmn:outgoing>Flow_Lifecycle_LifecycleCheck</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Validate" name="Check owner access, name, and form">
+      <bpmn:documentation>Compare names without regard to capitalization across both ingredients and packaging. Check input values and edit version. Positive opening cost requires positive opening stock. A stale edit must be reopened.</bpmn:documentation>
+      <bpmn:incoming>Flow_Add_Validate</bpmn:incoming>
+      <bpmn:incoming>Flow_Edit_Validate</bpmn:incoming>
+      <bpmn:incoming>Flow_Correct_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Details</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Details" name="Validation result?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Details</bpmn:incoming>
+      <bpmn:outgoing>Flow_Details_Duplicate</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Details_Invalid</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Details_Opening</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Duplicate" name="Show duplicate-name error">
+      <bpmn:documentation>Keep the submitted values and highlight that the name already exists.</bpmn:documentation>
+      <bpmn:incoming>Flow_Details_Duplicate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Duplicate_Correct</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Invalid" name="Show what needs correction">
+      <bpmn:documentation>Retain form values for invalid input. Ask the owner to reopen a stale form or sign in again if needed.</bpmn:documentation>
+      <bpmn:incoming>Flow_Details_Invalid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Invalid_Choose</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Opening" name="New material with opening stock?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Details_Opening</bpmn:incoming>
+      <bpmn:outgoing>Flow_Opening_DetailsOnly</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Opening_WithStock</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="WithStock" name="Create material and record opening restock">
+      <bpmn:documentation>Calculate opening cost per base unit. Save the material and its movement together in one transaction.</bpmn:documentation>
+      <bpmn:incoming>Flow_Opening_WithStock</bpmn:incoming>
+      <bpmn:outgoing>Flow_WithStock_Saved</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="DetailsOnly" name="Save material details">
+      <bpmn:documentation>Create a zero-stock row or update the existing material. Recalculate stock status.</bpmn:documentation>
+      <bpmn:incoming>Flow_Opening_DetailsOnly</bpmn:incoming>
+      <bpmn:outgoing>Flow_DetailsOnly_Saved</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Saved" name="Inventory details updated">
+      <bpmn:incoming>Flow_DetailsOnly_Saved</bpmn:incoming>
+      <bpmn:incoming>Flow_WithStock_Saved</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="LifecycleCheck" name="Check lifecycle rules and record version">
+      <bpmn:documentation>The server checks for zero physical stock and active SQLite reservations before archiving. Restore clears the archive date. Removal requires zero stock and no movement, recipe, or material requirement references.</bpmn:documentation>
+      <bpmn:incoming>Flow_Lifecycle_LifecycleCheck</bpmn:incoming>
+      <bpmn:outgoing>Flow_LifecycleCheck_LifecycleAllowed</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="LifecycleAllowed" name="Action allowed?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_LifecycleCheck_LifecycleAllowed</bpmn:incoming>
+      <bpmn:outgoing>Flow_LifecycleAllowed_LifecycleSave</bpmn:outgoing>
+      <bpmn:outgoing>Flow_LifecycleAllowed_LifecycleBlocked</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="LifecycleSave" name="Archive, restore, or remove material">
+      <bpmn:documentation>Archive sets the archive date and retains movement history and recipe links. Restore clears the archive date. Permanent removal is limited to unused materials.</bpmn:documentation>
+      <bpmn:incoming>Flow_LifecycleAllowed_LifecycleSave</bpmn:incoming>
+      <bpmn:outgoing>Flow_LifecycleSave_LifecycleDone</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="LifecycleDone" name="Inventory refreshed">
+      <bpmn:incoming>Flow_LifecycleSave_LifecycleDone</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="LifecycleBlocked" name="Action blocked or form must be reopened">
+      <bpmn:incoming>Flow_LifecycleAllowed_LifecycleBlocked</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Correct" name="Correct the name and resubmit">
+      <bpmn:documentation>The owner can correct the name in the current form or cancel.</bpmn:documentation>
+      <bpmn:incoming>Flow_Duplicate_Correct</bpmn:incoming>
+      <bpmn:outgoing>Flow_Correct_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_Start_Choose" sourceRef="Start" targetRef="Choose" />
+    <bpmn:sequenceFlow id="Flow_Choose_Action" sourceRef="Choose" targetRef="Action" />
+    <bpmn:sequenceFlow id="Flow_Action_Add" sourceRef="Action" targetRef="Add" name="Add" />
+    <bpmn:sequenceFlow id="Flow_Action_Edit" sourceRef="Action" targetRef="Edit" name="Edit" />
+    <bpmn:sequenceFlow id="Flow_Action_Lifecycle" sourceRef="Action" targetRef="Lifecycle" name="Archive / restore / remove" />
+    <bpmn:sequenceFlow id="Flow_Add_Validate" sourceRef="Add" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Edit_Validate" sourceRef="Edit" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Validate_Details" sourceRef="Validate" targetRef="Details" />
+    <bpmn:sequenceFlow id="Flow_Details_Duplicate" sourceRef="Details" targetRef="Duplicate" name="Duplicate name" />
+    <bpmn:sequenceFlow id="Flow_Details_Invalid" sourceRef="Details" targetRef="Invalid" name="Invalid / stale" />
+    <bpmn:sequenceFlow id="Flow_Invalid_Choose" sourceRef="Invalid" targetRef="Choose" name="Correct or reopen" />
+    <bpmn:sequenceFlow id="Flow_Details_Opening" sourceRef="Details" targetRef="Opening" name="Valid" />
+    <bpmn:sequenceFlow id="Flow_Opening_DetailsOnly" sourceRef="Opening" targetRef="DetailsOnly" name="No" />
+    <bpmn:sequenceFlow id="Flow_Opening_WithStock" sourceRef="Opening" targetRef="WithStock" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_DetailsOnly_Saved" sourceRef="DetailsOnly" targetRef="Saved" />
+    <bpmn:sequenceFlow id="Flow_WithStock_Saved" sourceRef="WithStock" targetRef="Saved" />
+    <bpmn:sequenceFlow id="Flow_Lifecycle_LifecycleCheck" sourceRef="Lifecycle" targetRef="LifecycleCheck" />
+    <bpmn:sequenceFlow id="Flow_LifecycleCheck_LifecycleAllowed" sourceRef="LifecycleCheck" targetRef="LifecycleAllowed" />
+    <bpmn:sequenceFlow id="Flow_LifecycleAllowed_LifecycleSave" sourceRef="LifecycleAllowed" targetRef="LifecycleSave" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_LifecycleAllowed_LifecycleBlocked" sourceRef="LifecycleAllowed" targetRef="LifecycleBlocked" name="No" />
+    <bpmn:sequenceFlow id="Flow_LifecycleSave_LifecycleDone" sourceRef="LifecycleSave" targetRef="LifecycleDone" />
+    <bpmn:sequenceFlow id="Flow_Duplicate_Correct" sourceRef="Duplicate" targetRef="Correct" />
+    <bpmn:sequenceFlow id="Flow_Correct_Validate" sourceRef="Correct" targetRef="Validate" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_InventoryMaterialMaintenance">
+    <bpmndi:BPMNPlane id="Plane_InventoryMaterialMaintenance" bpmnElement="Collaboration_InventoryMaterialMaintenance">
+      <bpmndi:BPMNShape id="Shape_Participant_InventoryMaterialMaintenance" bpmnElement="Participant_InventoryMaterialMaintenance" isHorizontal="true">
+        <dc:Bounds x="30" y="12" width="1660" height="1018" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Operator" bpmnElement="Lane_Operator" isHorizontal="true">
+        <dc:Bounds x="60" y="12" width="1630" height="288" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="60" y="300" width="1630" height="730" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="112" y="107" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="61" y="150" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Choose" bpmnElement="Choose">
+        <dc:Bounds x="175" y="91" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Action" bpmnElement="Action" isMarkerVisible="true">
+        <dc:Bounds x="395" y="100" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="345" y="69" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Add" bpmnElement="Add">
+        <dc:Bounds x="535" y="34" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Edit" bpmnElement="Edit">
+        <dc:Bounds x="535" y="91" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lifecycle" bpmnElement="Lifecycle">
+        <dc:Bounds x="507.5" y="228" width="225" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate">
+        <dc:Bounds x="535" y="386" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Details" bpmnElement="Details" isMarkerVisible="true">
+        <dc:Bounds x="795" y="395" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="745" y="364" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Duplicate" bpmnElement="Duplicate">
+        <dc:Bounds x="735" y="501" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Invalid" bpmnElement="Invalid">
+        <dc:Bounds x="950" y="316" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Opening" bpmnElement="Opening" isMarkerVisible="true">
+        <dc:Bounds x="1025" y="395" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="975" y="364" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_WithStock" bpmnElement="WithStock">
+        <dc:Bounds x="1190" y="476" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_DetailsOnly" bpmnElement="DetailsOnly">
+        <dc:Bounds x="1190" y="386" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Saved" bpmnElement="Saved">
+        <dc:Bounds x="1492" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1441" y="445" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LifecycleCheck" bpmnElement="LifecycleCheck">
+        <dc:Bounds x="535" y="671" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LifecycleAllowed" bpmnElement="LifecycleAllowed" isMarkerVisible="true">
+        <dc:Bounds x="845" y="680" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="795" y="649" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LifecycleSave" bpmnElement="LifecycleSave">
+        <dc:Bounds x="1025" y="671" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LifecycleDone" bpmnElement="LifecycleDone">
+        <dc:Bounds x="1362" y="687" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1311" y="730" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_LifecycleBlocked" bpmnElement="LifecycleBlocked">
+        <dc:Bounds x="852" y="847" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="801" y="890" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Correct" bpmnElement="Correct">
+        <dc:Bounds x="1126.5" y="93" width="187" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Choose" bpmnElement="Flow_Start_Choose">
+        <di:waypoint x="148" y="125" />
+        <di:waypoint x="175" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Choose_Action" bpmnElement="Flow_Choose_Action">
+        <di:waypoint x="345" y="125" />
+        <di:waypoint x="395" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Action_Add" bpmnElement="Flow_Action_Add">
+        <di:waypoint x="420" y="100" />
+        <di:waypoint x="420" y="68" />
+        <di:waypoint x="535" y="68" />
+        <bpmndi:BPMNLabel><dc:Bounds x="408" y="77" width="24" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Action_Edit" bpmnElement="Flow_Action_Edit">
+        <di:waypoint x="445" y="125" />
+        <di:waypoint x="535" y="125" />
+        <bpmndi:BPMNLabel><dc:Bounds x="476" y="102" width="28" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Action_Lifecycle" bpmnElement="Flow_Action_Lifecycle">
+        <di:waypoint x="420" y="150" />
+        <di:waypoint x="420" y="262" />
+        <di:waypoint x="507.5" y="262" />
+        <bpmndi:BPMNLabel><dc:Bounds x="431" y="239" width="136" height="19" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Add_Validate" bpmnElement="Flow_Add_Validate">
+        <di:waypoint x="705" y="68" />
+        <di:waypoint x="752" y="68" />
+        <di:waypoint x="752" y="345" />
+        <di:waypoint x="493" y="345" />
+        <di:waypoint x="493" y="420" />
+        <di:waypoint x="535" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Edit_Validate" bpmnElement="Flow_Edit_Validate">
+        <di:waypoint x="705" y="125" />
+        <di:waypoint x="860" y="125" />
+        <di:waypoint x="860" y="387" />
+        <di:waypoint x="620" y="387" />
+        <di:waypoint x="620" y="386" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Validate_Details" bpmnElement="Flow_Validate_Details">
+        <di:waypoint x="705" y="420" />
+        <di:waypoint x="795" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Details_Duplicate" bpmnElement="Flow_Details_Duplicate">
+        <di:waypoint x="820" y="445" />
+        <di:waypoint x="820" y="501" />
+        <bpmndi:BPMNLabel><dc:Bounds x="830" y="471" width="97" height="19" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Details_Invalid" bpmnElement="Flow_Details_Invalid">
+        <di:waypoint x="832.5" y="407.5" />
+        <di:waypoint x="855" y="407.5" />
+        <di:waypoint x="855" y="350" />
+        <di:waypoint x="950" y="350" />
+        <bpmndi:BPMNLabel><dc:Bounds x="887" y="328" width="105" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Invalid_Choose" bpmnElement="Flow_Invalid_Choose">
+        <di:waypoint x="1035" y="316" />
+        <di:waypoint x="1035" y="24" />
+        <di:waypoint x="260" y="24" />
+        <di:waypoint x="260" y="91" />
+        <bpmndi:BPMNLabel><dc:Bounds x="275" y="43" width="130" height="19" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Details_Opening" bpmnElement="Flow_Details_Opening">
+        <di:waypoint x="845" y="420" />
+        <di:waypoint x="1025" y="420" />
+        <bpmndi:BPMNLabel><dc:Bounds x="906" y="398" width="44" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Opening_DetailsOnly" bpmnElement="Flow_Opening_DetailsOnly">
+        <di:waypoint x="1075" y="420" />
+        <di:waypoint x="1190" y="420" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1140" y="398" width="28" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Opening_WithStock" bpmnElement="Flow_Opening_WithStock">
+        <di:waypoint x="1050" y="445" />
+        <di:waypoint x="1050" y="510" />
+        <di:waypoint x="1190" y="510" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1070" y="488" width="28" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_DetailsOnly_Saved" bpmnElement="Flow_DetailsOnly_Saved">
+        <di:waypoint x="1360" y="420" />
+        <di:waypoint x="1492" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_WithStock_Saved" bpmnElement="Flow_WithStock_Saved">
+        <di:waypoint x="1360" y="510" />
+        <di:waypoint x="1510" y="510" />
+        <di:waypoint x="1510" y="438" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Lifecycle_LifecycleCheck" bpmnElement="Flow_Lifecycle_LifecycleCheck">
+        <di:waypoint x="620" y="296" />
+        <di:waypoint x="620" y="308" />
+        <di:waypoint x="335" y="308" />
+        <di:waypoint x="335" y="705" />
+        <di:waypoint x="535" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_LifecycleCheck_LifecycleAllowed" bpmnElement="Flow_LifecycleCheck_LifecycleAllowed">
+        <di:waypoint x="705" y="705" />
+        <di:waypoint x="845" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_LifecycleAllowed_LifecycleSave" bpmnElement="Flow_LifecycleAllowed_LifecycleSave">
+        <di:waypoint x="895" y="705" />
+        <di:waypoint x="1025" y="705" />
+        <bpmndi:BPMNLabel><dc:Bounds x="948" y="682" width="24" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_LifecycleAllowed_LifecycleBlocked" bpmnElement="Flow_LifecycleAllowed_LifecycleBlocked">
+        <di:waypoint x="870" y="730" />
+        <di:waypoint x="870" y="847" />
+        <bpmndi:BPMNLabel><dc:Bounds x="879" y="789" width="28" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_LifecycleSave_LifecycleDone" bpmnElement="Flow_LifecycleSave_LifecycleDone">
+        <di:waypoint x="1195" y="705" />
+        <di:waypoint x="1362" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Duplicate_Correct" bpmnElement="Flow_Duplicate_Correct">
+        <di:waypoint x="820" y="569" />
+        <di:waypoint x="820" y="597" />
+        <di:waypoint x="1440" y="597" />
+        <di:waypoint x="1440" y="225" />
+        <di:waypoint x="1220" y="225" />
+        <di:waypoint x="1220" y="161" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Correct_Validate" bpmnElement="Flow_Correct_Validate">
+        <di:waypoint x="1126.5" y="127" />
+        <di:waypoint x="962" y="127" />
+        <di:waypoint x="962" y="316" />
+        <di:waypoint x="620" y="316" />
+        <di:waypoint x="620" y="386" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

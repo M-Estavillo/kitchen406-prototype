@@ -1,7 +1,7 @@
 /* Custom requests, versioned quotations, and simulated resource holds. */
 (() => {
 const A=K406,C=A.commerce,D=A.schedule,P=A.account,T=A.cakeData;
-const K=A.cakes={state:{draft:null,requests:[],quotations:[],serial:4000},orders:[],holds:[],addressUI:{form:null,editing:null,mapBusy:false},mock:{page:'normal',availability:'normal',options:'normal',upload:'normal',submit:'normal',accept:'normal'},message:'',month:9,year:2026};
+const K=A.cakes={state:{draft:null,requests:[],quotations:[],serial:4000},orders:[],holds:[],addressUI:{form:null,editing:null,mapBusy:false},mock:{page:'normal',availability:'normal',options:'normal',upload:'normal',submit:'normal',accept:'normal'},message:'',month:Number(D.today().slice(5,7))-1,year:Number(D.today().slice(0,4))};
 const S=K.state;
 K.blank=()=>({method:'',date:'',addressId:A.addresses?.active().find(a=>a.is_default)?.address_id||'',selections:{},addons:{},images:[null,null,null],notes:'',reviewedPrice:null,submittedId:null});S.draft=K.blank();
 K.money=cents=>C.money(cents/100);
@@ -26,7 +26,7 @@ K.dateReason=(date,exclude)=>{
 };
 K.requestLeadReason=date=>{
  if(!D.valid(date)||date<D.add(D.today(),7))return 'Choose a date at least seven calendar days after submission.';
- if(D.config.timing?.cake&&Date.parse(D.config.clock)>=D.cutoff(date,null,'cake'))return 'The configured submission cutoff has passed for this date.';
+ if(D.config.timing?.cake&&D.now()>=D.cutoff(date,null,'cake'))return 'The configured submission cutoff has passed for this date.';
  return '';
 };
 K.availabilityTarget=()=>{

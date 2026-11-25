@@ -16,7 +16,7 @@ N.read=o=>{
 };
 N.required=o=>N.assigned(o)?'':'Valid preparing-owner allocations are required. Use Edit Allocation to correct the product lines.';
 N.locked=o=>['pending','booked','in_transit','unknown','delivered'].includes(o.delivery?.status)||A.operations.status(o)==='completed';
-N.editable=o=>o?.paid&&['standard','subscription','cake'].includes(o.type)&&['confirmed','preparing','ready'].includes(A.operations.status(o))&&!N.locked(o);
+N.editable=o=>o?.paid&&!o.persistedPickup&&!o.persistedSubscription&&['standard','subscription','cake'].includes(o.type)&&['confirmed','preparing','ready'].includes(A.operations.status(o))&&!N.locked(o);
 N.updateLock=(o,at=Date.now())=>{
  const locked=N.locked(o);
  if(locked===(o.allocationLockedAt!=null))return;

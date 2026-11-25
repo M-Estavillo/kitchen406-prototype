@@ -5,6 +5,7 @@ A.$('site-header-mount').outerHTML="<header class=\"fixed top-0 inset-x-0 z-40 b
 A.$('site-footer-mount').outerHTML="<footer class=\"w-full bg-surface-container-low border-t border-surface-container\">\n<div class=\"max-w-[1240px] mx-auto px-gutter-mobile lg:px-margin pt-space-xl pb-space-lg\">\n<div class=\"flex flex-col md:flex-row md:items-start md:justify-between gap-space-xl\">\n<div class=\"max-w-md\">\n<p class=\"font-headline-sm text-headline-sm text-on-surface mb-space-xs\">Kitchen406</p>\n<p class=\"font-body-md text-body-md text-on-surface-variant leading-relaxed\">\n            Home-based bakery in Metro Cebu. Made-to-order breads, pastries, and pantry items.\n          </p>\n</div>\n<div class=\"flex flex-col gap-space-sm\">\n<p class=\"font-label-md text-label-md text-on-surface uppercase tracking-wider\">Pantry &amp; Bakery</p>\n<div class=\"flex flex-wrap gap-x-space-lg gap-y-space-xs\">\n<a class=\"font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors\" data-path=\"shop\" href=\"#\">Shop</a>\n<a class=\"font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors\" data-path=\"subscriptions\" href=\"#\">Subscriptions</a>\n<a class=\"font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors\" data-path=\"custom-cakes\" href=\"#\">Custom Cake Requests</a>\n<a class=\"font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors\" data-path=\"fulfillment\" href=\"#\">How Fulfillment Works</a>\n<a class=\"font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors\" data-path=\"terms-and-policies\" href=\"#/terms-and-policies\">Terms &amp; Policies</a>\n</div>\n</div>\n</div>\n<div class=\"mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-outline\">\n<p>\u00a9 2026 Kitchen406. All rights reserved.</p>\n</div>\n</div>\n</footer>";
 const header=document.querySelector('#app-shell>header'),nav=header.querySelector('nav'),customerNav=nav.innerHTML;
 const footerNav=document.querySelector('footer .flex.flex-wrap'),customerFooter=footerNav.innerHTML;
+const brand=header.querySelector('[data-path="shop"]'),footerShop=document.querySelector('footer a[data-path="shop"]').closest('.flex-col');
 const staffNotifications=document.createElement('a');
 staffNotifications.id='staff-header-notifications';staffNotifications.href='#/staff/notifications';staffNotifications.className='relative inline-flex items-center justify-center p-space-xs text-on-surface-variant hover:text-on-surface transition-colors';staffNotifications.hidden=true;staffNotifications.title='Notifications';staffNotifications.setAttribute('aria-label','Notifications');staffNotifications.innerHTML='<span class="material-symbols-outlined text-[24px]" aria-hidden="true">notifications</span><span class="staff-header-unread" hidden></span>';
 A.$('header-auth-user').before(staffNotifications);
@@ -13,7 +14,7 @@ A.$('header-auth-user').before(ownerNotifications);
 A.shell={sync(){
  const staff=A.route==='staff',owner=A.route==='owner',workspace=staff||owner,mode=owner?'owner':staff?'staff':'customer',S=A.staff;
  header.classList.toggle('staff-brand-header',staff);staffNotifications.hidden=!staff||!S?.allowed();
- const unread=S?.events.filter(e=>!e.read).length||0,unreadBadge=staffNotifications.querySelector('.staff-header-unread');unreadBadge.hidden=!unread;unreadBadge.textContent=unread>99?'99+':unread;staffNotifications.setAttribute('aria-label',unread?'Notifications, '+unread+' unread':'Notifications');
+ const unread=S?.notifications().filter(e=>!e.read).length||0,unreadBadge=staffNotifications.querySelector('.staff-header-unread');unreadBadge.hidden=!unread;unreadBadge.textContent=unread>99?'99+':unread;staffNotifications.setAttribute('aria-label',unread?'Notifications, '+unread+' unread':'Notifications');
  header.classList.toggle('owner-brand-header',owner);
  ownerNotifications.hidden=!owner||!A.session?.ownerAllowed();
  const ownerUnread=owner&&A.session?.ownerAllowed()?(A.owner?.notifications?.()||[]).filter(n=>!n.read).length:0,ownerBadge=ownerNotifications.querySelector('.staff-header-unread');
@@ -23,7 +24,11 @@ A.shell={sync(){
  if(nav.dataset.mode!==mode){
  nav.innerHTML=owner?'<a href="#/owner">Dashboard</a><a href="#/owner/orders">Orders</a><a href="#/owner/inventory">Inventory</a>':staff?'':customerNav;
  footerNav.innerHTML=owner?'<a href="#/owner">Owner workspace</a><a href="#/owner/capacity">Capacity calendar</a><a href="#/owner/scheduling">Scheduling</a>':staff?'<a href="#/staff">Staff workspace</a><a href="#/staff/notifications">Notifications</a><a href="#/staff/account">Account settings</a>':customerFooter;
- nav.dataset.mode=mode;
+  brand.href=workspace?'#/'+mode:'#/shop';
+  if(workspace)delete brand.dataset.path;
+  else brand.dataset.path='shop';
+  footerShop.hidden=workspace;
+  nav.dataset.mode=mode;
  }
  A.$('nav-search-input')?.parentElement?.classList.toggle('staff-hidden',workspace);
  header.querySelector('[data-path="cart"]')?.classList.toggle('staff-hidden',workspace);
@@ -32,8 +37,8 @@ A.shell={sync(){
  A.$('header-auth-user').classList.toggle('hidden',A.auth!=='signedin');
  const menu=A.$('account-menu');if(menu){menu.classList.toggle('staff-account-menu',staff);menu.classList.toggle('owner-account-menu',owner);
  if(owner&&A.session?.ownerAllowed())menu.innerHTML='<a href="#/owner/settings">'+A.escape(A.session.owner.first_name+' '+A.session.owner.last_name)+'</a><a href="#/owner/notifications">Notifications ('+ownerUnread+')</a><button class="btn" data-owner="signout">Sign Out</button>';
- else if(staff&&S?.allowed())menu.innerHTML='<a href="#/staff/account">'+A.escape(S.name())+'</a><a href="#/staff/notifications">Notifications ('+S.events.filter(e=>!e.read).length+')</a><button class="btn" data-staff="signout">Sign Out</button>';
- else if(A.phase4)menu.innerHTML=A.phase4.links.map(([path,,label])=>'<a href="#/'+path+'">'+label+'</a>').join('')+A.phase4.button('sign-out','Sign Out');
+ else if(staff&&S?.allowed())menu.innerHTML='<a href="#/staff/account">'+A.escape(S.name())+'</a><a href="#/staff/notifications">Notifications ('+unread+')</a><button class="btn" data-staff="signout">Sign Out</button>';
+ else if(A.phase4)menu.innerHTML=A.phase4.links.map(([path,,label])=>'<a href="#/'+path+'">'+label+(path==='account/notifications'&&A.account.allowed()?' ('+A.notifications.list().filter(n=>!n.read_at).length+')':'')+'</a>').join('')+A.phase4.button('sign-out','Sign Out');
  }
 }};
 })();

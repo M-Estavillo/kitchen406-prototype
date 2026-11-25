@@ -31,6 +31,20 @@ test('cancelled pickup week is excluded from upcoming and completed fulfillments
  assert.equal(r.completedCount,0);
  assert.equal(r.status,'active');
 });
+test('provider quotes preserve distinct weekly fees and the prepaid total',()=>{
+ const {B,C}=setup();
+ const rows=B.dates().map((date,index)=>({date,fee:101+index,quotationId:'quote-'+index}));
+ B.deliveryRoute={provider:()=>true,eligible:()=>true,quotations:()=>rows,destination:()=>({address:'Validated address'})};
+ const purchase=B.createPurchase();
+ assert.equal(purchase.snapshot.delivery,410);
+ assert.equal(purchase.snapshot.total,purchase.snapshot.products+410);
+ assert(B.pay(purchase,'confirmed'));
+ for(const row of rows){
+  const order=C.state.orders.find(o=>o.fulfillment.date===row.date);
+  assert.equal(order.fee,row.fee);
+  assert.equal(order.courierQuotation.quotationId,row.quotationId);
+ }
+});
 test('paid snapshots survive product and saved address edits',()=>{const {B,C}=setup();const p=B.createPurchase();B.pay(p,'confirmed');B.variant().price=900;C.state.addresses[0].city='Changed';assert.equal(p.snapshot.total,1520);assert.equal(p.snapshot.unit,280);assert.equal(p.snapshot.address.city,'Mandaue City');});
 test('verification prevents edits, cancellation, and retry',()=>{const {B}=setup();const p=B.createPurchase();B.pay(p,'detected');assert(!B.change());assert(!B.cancel(p));assert(!B.retry(p));assert.equal(B.createPurchase(),null);});
 test('late payment after released hold requires resolution when full',()=>{const {B,D}=setup();const p=B.createPurchase();B.pay(p,'expired');D.reserve('other',4,10,p.snapshot.dates,true);B.pay(p,'confirmed');assert.equal(p.payment,'resolution');assert(p.paid);assert.equal(B.state.records.length,0);assert(!B.retry(p));});

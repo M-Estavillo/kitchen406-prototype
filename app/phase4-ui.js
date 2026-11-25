@@ -39,8 +39,8 @@ V.render=()=>{
 A.account.render=V.render;
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-p4]');if(!el||el.disabled)return;const action=el.dataset.p4;
- if(action==='sign-out'){A.closeModal();A.account.verification=null;A.setAuth('guest');A.toast('Signed out. Your demo records remain in this tab.');}
- if(action==='retry-page'){A.account.mock.page='normal';A.cakes.mock.page='normal';V.render();A.inspector();}
+ if(action==='sign-out')A.authUI.signOut();
+ if(action==='retry-page'){A.account.mock.page='normal';A.cakes.mock.page='normal';V.render();}
  if(action==='close'){A.closeModal();}
 });
 })();

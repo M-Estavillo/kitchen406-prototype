@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_StaffCreation" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_StaffCreation">
+    <bpmn:participant id="Participant_StaffCreation" name="Staff Account Creation" processRef="Process_StaffCreation" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_StaffCreation" name="Staff Account Creation" isExecutable="false">
+    <bpmn:documentation>The admin starts from Staff Accounts. A successful save records the creating admin and the account is shown as Pending until first sign-in setup is complete. In local mode, sending the welcome message means writing it to the local outbox. If sending fails, the saved account remains available and the admin can copy its temporary password.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_StaffCreation">
+      <bpmn:lane id="Lane_Admin" name="Admin / Owner">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Enter</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Allowed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Mail</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Sent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Rejected</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failed</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Staff account needed">
+      <bpmn:outgoing>Flow_Start_Enter</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Enter" name="Enter staff details and generate or enter temporary password">
+      <bpmn:incoming>Flow_Start_Enter</bpmn:incoming>
+      <bpmn:outgoing>Flow_Enter_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Check" name="Check admin access, details, and email uniqueness">
+      <bpmn:incoming>Flow_Enter_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Allowed</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Allowed" name="Can create account?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Check_Allowed</bpmn:incoming>
+      <bpmn:outgoing>Flow_Allowed_Save</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Allowed_Rejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Save" name="Save Pending account and record creating admin">
+      <bpmn:incoming>Flow_Allowed_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Mail</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Mail" name="Send welcome message with sign-in email and temporary password">
+      <bpmn:incoming>Flow_Save_Mail</bpmn:incoming>
+      <bpmn:outgoing>Flow_Mail_Sent</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Sent" name="Message submitted?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Mail_Sent</bpmn:incoming>
+      <bpmn:outgoing>Flow_Sent_Ready</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Sent_Failed</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Ready" name="Pending account created">
+      <bpmn:incoming>Flow_Sent_Ready</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Rejected" name="Show validation or access error">
+      <bpmn:incoming>Flow_Allowed_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Failed" name="Account saved; show delivery warning">
+      <bpmn:incoming>Flow_Sent_Failed</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Enter" sourceRef="Start" targetRef="Enter" />
+    <bpmn:sequenceFlow id="Flow_Enter_Check" sourceRef="Enter" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Check_Allowed" sourceRef="Check" targetRef="Allowed" />
+    <bpmn:sequenceFlow id="Flow_Allowed_Save" sourceRef="Allowed" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Allowed_Rejected" sourceRef="Allowed" targetRef="Rejected" name="No" />
+    <bpmn:sequenceFlow id="Flow_Save_Mail" sourceRef="Save" targetRef="Mail" />
+    <bpmn:sequenceFlow id="Flow_Mail_Sent" sourceRef="Mail" targetRef="Sent" />
+    <bpmn:sequenceFlow id="Flow_Sent_Ready" sourceRef="Sent" targetRef="Ready" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Sent_Failed" sourceRef="Sent" targetRef="Failed" name="No" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_StaffCreation">
+    <bpmndi:BPMNPlane id="Plane_StaffCreation" bpmnElement="Collaboration_StaffCreation">
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_StaffCreation" isHorizontal="true">
+        <dc:Bounds x="30" y="20" width="1442" height="390" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Admin" bpmnElement="Lane_Admin" isHorizontal="true">
+        <dc:Bounds x="60" y="20" width="1412" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="60" y="170" width="1412" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="112" y="72" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="58" y="113" width="144" height="35" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Enter" bpmnElement="Enter">
+        <dc:Bounds x="186" y="56" width="198" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Check" bpmnElement="Check">
+        <dc:Bounds x="377.5" y="194" width="175" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Allowed" bpmnElement="Allowed" isMarkerVisible="true">
+        <dc:Bounds x="595" y="203" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="553" y="165" width="134" height="32" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Save" bpmnElement="Save">
+        <dc:Bounds x="709" y="194" width="182" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Mail" bpmnElement="Mail">
+        <dc:Bounds x="924" y="194" width="202" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Sent" bpmnElement="Sent" isMarkerVisible="true">
+        <dc:Bounds x="1170" y="203" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1128" y="165" width="134" height="32" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ready" bpmnElement="Ready">
+        <dc:Bounds x="1332" y="210" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1278" y="251" width="144" height="35" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rejected" bpmnElement="Rejected">
+        <dc:Bounds x="602" y="322" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="548" y="363" width="144" height="35" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failed" bpmnElement="Failed">
+        <dc:Bounds x="1177" y="322" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1123" y="363" width="144" height="35" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Enter" bpmnElement="Flow_Start_Enter">
+        <di:waypoint x="148" y="90" />
+        <di:waypoint x="186" y="90" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Enter_Check" bpmnElement="Flow_Enter_Check">
+        <di:waypoint x="384" y="90" />
+        <di:waypoint x="405" y="90" />
+        <di:waypoint x="405" y="182" />
+        <di:waypoint x="465" y="182" />
+        <di:waypoint x="465" y="194" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Check_Allowed" bpmnElement="Flow_Check_Allowed">
+        <di:waypoint x="552.5" y="228" />
+        <di:waypoint x="595" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Allowed_Save" bpmnElement="Flow_Allowed_Save">
+        <di:waypoint x="645" y="228" />
+        <di:waypoint x="709" y="228" />
+        <bpmndi:BPMNLabel><dc:Bounds x="662.5" y="208" width="29" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Allowed_Rejected" bpmnElement="Flow_Allowed_Rejected">
+        <di:waypoint x="620" y="253" />
+        <di:waypoint x="620" y="322" />
+        <bpmndi:BPMNLabel><dc:Bounds x="628" y="278.5" width="22" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Save_Mail" bpmnElement="Flow_Save_Mail">
+        <di:waypoint x="891" y="228" />
+        <di:waypoint x="924" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Mail_Sent" bpmnElement="Flow_Mail_Sent">
+        <di:waypoint x="1126" y="228" />
+        <di:waypoint x="1170" y="228" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Sent_Ready" bpmnElement="Flow_Sent_Ready">
+        <di:waypoint x="1220" y="228" />
+        <di:waypoint x="1332" y="228" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1261.5" y="208" width="29" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Sent_Failed" bpmnElement="Flow_Sent_Failed">
+        <di:waypoint x="1195" y="253" />
+        <di:waypoint x="1195" y="322" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1203" y="278.5" width="22" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

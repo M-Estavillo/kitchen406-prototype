@@ -16,10 +16,15 @@ T.open=(title,message,actions)=>{
  const body=`<div class="courier-dialog"><p role="status">${E(message)}</p><div class="courier-dialog-actions">${actions}</div></div>`;
  if(A.route==='owner')A.owner.open(title,body);else A.staff.open(title,body,true);
 };
-T.track=id=>{
+T.track=async id=>{
  if(!A.session.operational())return;
  const o=A.operations.find(id);
- if(active(o))T.open('Delivery status','Latest saved courier status: '+o.delivery.status.replaceAll('_',' ')+'.',close);
+ if(o?.persistedSubscription&&['booked','in_transit'].includes(o.delivery?.status)){
+  const error=await A.deliveries.refresh(id);
+  if(error){T.open('Delivery status',error,close);return;}
+ }
+ const latest=A.operations.find(id);
+ if(active(latest))T.open('Delivery status','Latest saved courier status: '+latest.delivery.status.replaceAll('_',' ')+'.',close);
 };
 T.book=(id,reviewVersion)=>{
  if(!A.session.ownerAllowed())return;
@@ -32,16 +37,16 @@ T.book=(id,reviewVersion)=>{
  const attrs=`${orderAttr(id)} data-version="${reviewVersion}" data-key="${crypto.randomUUID()}" data-generation="${A.session.generation}"`;
  T.open('Review courier booking','Saved destination: '+destination+'. Confirm to book this delivery.',cancel+button('confirm','Confirm booking',attrs));
 };
-T.confirm=(id,reviewVersion,key)=>{
+T.confirm=async(id,reviewVersion,key)=>{
  if(!A.session.ownerAllowed())return;
- const error=A.owner.saveError?'We could not save your booking. Review the order and try again.':A.deliveries.book(id,key,reviewVersion);
+ const error=A.owner.saveError?'We could not save your booking. Review the order and try again.':await A.deliveries.book(id,key,reviewVersion);
  A.owner.render();
  if(error){T.open('Booking unsuccessful',error,close);return;}
  showOutcome(id);
 };
-T.check=id=>{
+T.check=async id=>{
  if(!A.session.ownerAllowed())return;
- const error=A.deliveries.reconcile(id);
+ const error=await A.deliveries.reconcile(id);
  A.owner.render();
  if(error){T.open('Booking status',error,close+(pending(A.operations.find(id))?button('check','Check booking status',orderAttr(id)):''));return;}
  showOutcome(id);

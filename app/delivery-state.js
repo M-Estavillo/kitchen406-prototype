@@ -2,12 +2,14 @@
 (() => {
 const A=K406,R=A.operations;
 const V=A.deliveries={outcome:'success',lookupOutcome:'unknown',results:new Map(),serial:0};
-V.reason=o=>!o?'Order not found.':!['standard','subscription'].includes(o.type)||o.fulfillment.method!=='delivery'?'Only standard and subscription deliveries use courier booking.':!o.paid||R.status(o)!=='ready'?'Only paid, Ready fulfillment orders can be booked.':!A.commerce.addressValid(o.address)?'The checkout delivery address is incomplete.':A.earnings.required(o);
+V.reason=o=>!o?'Order not found.':!['standard','subscription'].includes(o.type)||o.fulfillment.method!=='delivery'?'Only standard and subscription deliveries use courier booking.':!o.paid||R.status(o)!=='ready'?'Only paid, Ready fulfillment orders can be booked.':!A.commerce.addressValid(o.address)?'The checkout delivery address is incomplete.':o.persistedSubscription||o.persistedPickup?'':A.earnings.required(o);
 V.book=(id,key,version,outcome=V.outcome==='one-failure'?'success':V.outcome)=>{
  if(!A.session.ownerAllowed())return 'Admin/Owner access required.';if(!key)return 'Operation identifier required.';
  if(V.results.has(key))return V.results.get(key)===id?'':'This operation belongs to another order.';
  const o=R.find(id),reason=V.reason(o);if(reason)return reason;
  if((A.staff.versions.get(id)||0)!==version)return 'Order changed. Review its current state.';
+ if(o.persistedSubscription)return A.subscriptions.persistence.courier(id,'book',outcome,key);
+ if(o.persistedPickup)return A.pickup.courier(id,'book',outcome,key);
  if(o.delivery&&!['failed','cancelled'].includes(o.delivery.status))return 'An active booking already exists. View its delivery status before retrying.';
  const at=Date.now();
  const status=({failure:'failed',error:'failed',cancelled:'cancelled',unavailable:'failed',unknown:'pending'})[outcome]||'booked';
@@ -20,6 +22,8 @@ V.reconcile=id=>{
  const o=R.find(id),attempt=o?.delivery;
  if(!['pending','unknown'].includes(attempt?.status))return 'There is no unresolved booking to check.';
  const outcome=V.lookupOutcome;
+ if(o.persistedSubscription)return A.subscriptions.persistence.courier(id,'reconcile',outcome);
+ if(o.persistedPickup)return A.pickup.courier(id,'reconcile',outcome);
  if(outcome==='error')return 'Could not retrieve the booking status. The booking remains unresolved.';
  if(outcome==='unknown')return 'The booking is still unresolved. Check it again later.';
  if(A.owner?.saveError)return 'The result could not be saved. The booking remains unresolved.';
@@ -40,6 +44,8 @@ V.refresh=id=>{
  const o=R.find(id),d=o?.delivery;
  if(!d)return 'Booking not found.';
  if(['pending','unknown'].includes(d.status))return V.reconcile(id);
+ if(o.persistedSubscription)return A.subscriptions.persistence.courier(id,'track',V.outcome,undefined,d.status);
+ if(o.persistedPickup)return A.pickup.courier(id,'track',V.outcome,undefined,d.status);
  if(V.outcome==='failure')return 'Could not retrieve booking status. The previous state is retained.';
  if(V.outcome==='unknown')return 'Provider outcome is still unknown. Do not submit another booking.';
  const next=({booked:'in_transit',in_transit:'delivered'})[d.status];

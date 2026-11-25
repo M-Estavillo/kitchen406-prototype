@@ -6,9 +6,9 @@ F.preparationIssue=o=>{
  const date=o.fulfillment.preparationDate||(subscription?A.subscriptions.preparationDate?.(o):null);
  if((subscription||date)&&!A.schedule.valid(date))return 'The preparation date is missing or invalid. Review the fulfillment schedule.';
  if(date&&date>A.schedule.today())return 'Preparation is scheduled for '+date+' (Manila).';
- return I.preparationIssue(o);
+ return o.persistedSubscription?'':I.preparationIssue(o);
 };
-const pickupClock=()=>Date.parse(A.schedule.config.clock);
+const pickupClock=()=>A.schedule.now();
 F.scheduledPickup=o=>o?.paid&&o.fulfillment?.method==='pickup'&&['standard','subscription'].includes(o.type);
 const cutoff=o=>Date.parse(o.fulfillment.date+'T19:00:00+08:00');
 const timelyArrival=o=>Number.isFinite(o.pickupArrivedAt)&&o.pickupArrivedAt<=cutoff(o);
@@ -41,7 +41,7 @@ function save(o,target,progress,update,restoreInventory){
  try{
   const error=update?.();if(error)return error;
   C.setStatus(o,target,{deferNotification:true,preserveMaterials:target==='cancelled'});
-  if(target==='completed')A.earnings.updateLock(o,o.completedAt);
+  if(target==='completed')A.earnings.updateLock(o,o.type==='cake'&&o.fulfillment.method==='delivery'?Date.now():o.completedAt);
   progress.commit?.();
  }catch(failure){
   restoreInventory?.();progress.rollback?.();
@@ -57,7 +57,7 @@ F.checkPickupCutoffs=()=>{
  let changed=false;
  const now=pickupClock();
  for(const o of S.orders()){
-  if(!F.scheduledPickup(o)||S.orderStatus(o)!=='ready'||timelyArrival(o)||!(now>cutoff(o)))continue;
+  if(o.persistedSubscription||!F.scheduledPickup(o)||S.orderStatus(o)!=='ready'||timelyArrival(o)||!(now>cutoff(o)))continue;
   const progress=o.type==='subscription'?A.subscriptions.progressForOrder(o,'cancelled',null):{};
   if(progress.error)continue;
   const error=save(o,'cancelled',progress,()=>{
@@ -72,16 +72,24 @@ F.checkPickupCutoffs=()=>{
  }
  return changed;
 };
-F.transition=(id,target,version,key)=>{
+F.transition=(id,target,version,key,handoffAt)=>{
  if(!A.session.operational())return 'Operational access required.';if(!key)return 'An operation identifier is required.';
  if(S.results.has(key))return S.results.get(key).id===id&&S.results.get(key).target===target?'':'This operation belongs to another update.';
  if(A.session.ownerAllowed()?A.owner?.saveError:S.saveError)return 'The update could not be saved. Retry.';
  const o=S.orders().find(o=>o.id===id);if(!o)return 'Order not found.';
  if((S.versions.get(id)||0)!==version)return 'This order changed. Review its current status.';
  const status=S.orderStatus(o);if(!(status==='confirmed'&&target==='preparing'||status==='preparing'&&target==='ready'||status==='ready'&&target==='completed'&&(o.fulfillment.method==='pickup'||A.session.ownerAllowed()&&o.type==='cake')))return 'This transition is not allowed.';
+ if(target!=='completed'&&A.earnings.locked(o))return 'This fulfillment is locked. Review its current status.';
  const pickup=target==='completed'&&F.scheduledPickup(o);
  if(pickup&&!F.canConfirmPickup(o))return 'Record the customer?s arrival before confirming pickup.';
- const completedAt=target==='completed'?(pickup?Math.max(pickupClock(),o.pickupArrivedAt):Date.now()):null;
+ const cakeHandoff=target==='completed'&&o.type==='cake'&&o.fulfillment.method==='delivery';
+ const now=Date.now();
+ if(cakeHandoff&&handoffAt!==undefined){
+  const paidAt=o.attempts?.find(attempt=>attempt.state==='confirmed'&&Number.isFinite(attempt.paid_at))?.paid_at;
+  if(!Number.isFinite(handoffAt)||handoffAt<=0||handoffAt>now)return 'Enter a valid handoff time that is not in the future.';
+  if(Number.isFinite(paidAt)&&handoffAt<Math.floor(paidAt/1000)*1000)return 'Handoff time cannot be before payment confirmation.';
+ }
+ const completedAt=target==='completed'?(pickup?Math.max(pickupClock(),o.pickupArrivedAt):cakeHandoff?(handoffAt??now):now):null;
  const progress=o.type==='subscription'?A.subscriptions.progressForOrder(o,target,completedAt):{};if(progress.error)return progress.error;
  let draft;
  if(target==='preparing'&&!A.earnings.assigned(o)){
@@ -106,6 +114,37 @@ F.transition=(id,target,version,key)=>{
  if(target==='preparing')I.notify();
  S.emit('order:'+id+':'+target,'orders',id+' is '+target+'.','staff/production/'+id);S.changed();return '';
 };
+F.productionReview=(order,target,workspace)=>{
+ if(!order||order.persistedPickup||order.persistedSubscription||!['preparing','ready'].includes(target))return '';
+ const details=target==='preparing'&&!A.earnings.assigned(order)?A.earnings.preparationEditor(order):A.earnings.summary(order);
+ return `<div data-production-review data-lines="${A.escape(JSON.stringify(order.items))}">${details}</div><button type="button" class="btn" data-${workspace}="refresh-production" hidden>Refresh order</button>`;
+};
+F.productionConflict=(dialog,button)=>{
+ const refresh=dialog.querySelector('[data-owner="refresh-production"],[data-staff="refresh-production"]');
+ if(refresh&&Number(button.dataset.version)!==(S.versions.get(button.dataset.id)||0)){
+  refresh.hidden=false;
+  button.disabled=true;
+ }
+};
+F.refreshProduction=(dialog,refresh,workspace)=>{
+ const confirm=dialog.querySelector(`[data-${workspace}="confirm-transition"]`);
+ const order=A.operations.find(confirm.dataset.id),target=confirm.dataset.target;
+ A.operations.changed();
+ if(!order?.paid||S.orderStatus(order)!==(target==='preparing'?'confirmed':'preparing')||A.earnings.locked(order)){
+  return 'This order is no longer eligible for this action. Close this dialog and review the current order.';
+ }
+ const details=dialog.querySelector('[data-production-review]');
+ const lines=JSON.stringify(order.items),changed=lines!==details.dataset.lines;
+ const needsDraft=target==='preparing'&&!A.earnings.assigned(order);
+ if(changed||!needsDraft||!details.querySelector('[data-allocation-order]')){
+  details.innerHTML=needsDraft?A.earnings.preparationEditor(order):A.earnings.summary(order);
+ }
+ details.dataset.lines=lines;
+ confirm.dataset.version=S.versions.get(order.id)||0;
+ confirm.disabled=false;
+ refresh.hidden=true;
+ return changed?'Product lines changed. Review the current lines and confirm again.':'Order refreshed. Review the details and confirm again.';
+};
 F.editAllocation=(id,version,key)=>{
  if(!A.session.operational())return 'Operational access required.';
  if(!key)return 'An operation identifier is required.';
@@ -120,7 +159,7 @@ F.editAllocation=(id,version,key)=>{
  S.versions.set(id,version+1);S.results.set(key,{id,target:'allocation'});S.changed();return '';
 };
 // Operational corrections reverse one operational step, never courier progress.
-F.previous=o=>o?.paid&&!['pending','booked','in_transit','delivered','unknown'].includes(o.delivery?.status)?({preparing:'confirmed',ready:'preparing',completed:'ready'})[S.orderStatus(o)]:null;
+F.previous=o=>o?.paid&&!o.persistedPickup&&!o.persistedSubscription&&!['pending','booked','in_transit','delivered','unknown'].includes(o.delivery?.status)?({preparing:'confirmed',ready:'preparing',completed:'ready'})[S.orderStatus(o)]:null;
 F.revert=(id,version,key)=>{
  if(!A.session.operational())return 'Operational access required.';
  if(!key)return 'An operation identifier is required.';

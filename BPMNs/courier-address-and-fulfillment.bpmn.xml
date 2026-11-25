@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_CourierAddressAndFulfillment" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_CourierAddressAndFulfillment">
+    <bpmn:participant id="Participant_CourierAddressAndFulfillment" name="Courier Address and Fulfillment" processRef="Process_CourierAddressAndFulfillment" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_CourierAddressAndFulfillment" name="Courier Address and Fulfillment" isExecutable="false">
+    <bpmn:documentation>Current SQLite v6 behavior for standard and subscription courier delivery. Quotation validates eligibility and returns signed fees. Booking, reconciliation, and tracking use the local simulator. Owner-managed cake delivery follows a separate design.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_CourierAddressAndFulfillment">
+      <bpmn:lane id="Lane_0" name="Customer">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Address</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Quote</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Eligible</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Issue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Snapshot</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Result</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Resolved</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Pending</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Retry</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Delivered</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Admin or Eligible Staff">
+        <bpmn:flowNodeRef>Ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Book</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reconcile</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Track</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Customer chooses delivery">
+      <bpmn:outgoing>Flow_Start_Address</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Address" name="Choose an address or manage saved addresses">
+      <bpmn:documentation>The customer can save, edit, remove, or change the default address in their own address book.</bpmn:documentation>
+      <bpmn:incoming>Flow_Start_Address</bpmn:incoming>
+      <bpmn:outgoing>Flow_Address_Quote</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Quote" name="Check route and quote fees by date">
+      <bpmn:documentation>Return a signed checkout quote tied to the address, dates, fees, and expiry. Standard checkout needs one date. Subscription checkout needs four.</bpmn:documentation>
+      <bpmn:incoming>Flow_Address_Quote</bpmn:incoming>
+      <bpmn:outgoing>Flow_Quote_Eligible</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Eligible" name="Usable quotation?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Quote_Eligible</bpmn:incoming>
+      <bpmn:outgoing>Flow_Eligible_Issue</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Eligible_Snapshot</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Issue" name="Show address or quotation issue">
+      <bpmn:incoming>Flow_Eligible_Issue</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Snapshot" name="Validate quote and save checkout snapshot">
+      <bpmn:documentation>The standard and subscription checkout flows persist their own address and fee snapshots. Quote failure or expiration returns the customer to obtain a fresh quotation.</bpmn:documentation>
+      <bpmn:incoming>Flow_Eligible_Snapshot</bpmn:incoming>
+      <bpmn:outgoing>Flow_Snapshot_Ready</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Ready" name="Prepare paid fulfillment and mark ready">
+      <bpmn:incoming>Flow_Snapshot_Ready</bpmn:incoming>
+      <bpmn:outgoing>Flow_Ready_Book</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Book" name="Admin requests simulated booking">
+      <bpmn:documentation>Only admins book or reconcile. Use an operation key and prevent duplicate active bookings.</bpmn:documentation>
+      <bpmn:incoming>Flow_Ready_Book</bpmn:incoming>
+      <bpmn:outgoing>Flow_Book_Result</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Result" name="Booking outcome?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Book_Result</bpmn:incoming>
+      <bpmn:outgoing>Flow_Result_Reconcile</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Result_Retry</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Result_Track</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Reconcile" name="Admin reconciles pending booking">
+      <bpmn:documentation>The admin checks the simulated result for a pending booking. It stays pending when the outcome is still unknown.</bpmn:documentation>
+      <bpmn:incoming>Flow_Result_Reconcile</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reconcile_Resolved</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Resolved" name="Reconciliation result?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Reconcile_Resolved</bpmn:incoming>
+      <bpmn:outgoing>Flow_Resolved_Pending</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Resolved_Retry</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Resolved_Track</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Pending" name="Keep booking pending for later check">
+      <bpmn:incoming>Flow_Resolved_Pending</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Retry" name="Booking failed or cancelled. Admin may retry.">
+      <bpmn:incoming>Flow_Result_Retry</bpmn:incoming>
+      <bpmn:incoming>Flow_Resolved_Retry</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Track" name="Track booked and in-transit updates">
+      <bpmn:documentation>An admin or eligible staff member can record tracking updates. On a tracking error, the saved state is retained for retry.</bpmn:documentation>
+      <bpmn:incoming>Flow_Result_Track</bpmn:incoming>
+      <bpmn:incoming>Flow_Resolved_Track</bpmn:incoming>
+      <bpmn:outgoing>Flow_Track_Done</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Done" name="Record delivery and complete fulfillment">
+      <bpmn:documentation>Persist the courier transition to delivered. Complete a standard order in StandardCourierDelivery or a subscription cycle in SubscriptionDelivery and write order status history.</bpmn:documentation>
+      <bpmn:incoming>Flow_Track_Done</bpmn:incoming>
+      <bpmn:outgoing>Flow_Done_Delivered</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Delivered" name="Delivery completed">
+      <bpmn:incoming>Flow_Done_Delivered</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Address" sourceRef="Start" targetRef="Address" />
+    <bpmn:sequenceFlow id="Flow_Address_Quote" sourceRef="Address" targetRef="Quote" />
+    <bpmn:sequenceFlow id="Flow_Quote_Eligible" sourceRef="Quote" targetRef="Eligible" />
+    <bpmn:sequenceFlow id="Flow_Eligible_Issue" name="No" sourceRef="Eligible" targetRef="Issue" />
+    <bpmn:sequenceFlow id="Flow_Eligible_Snapshot" name="Yes" sourceRef="Eligible" targetRef="Snapshot" />
+    <bpmn:sequenceFlow id="Flow_Snapshot_Ready" name="Payment confirmed in checkout" sourceRef="Snapshot" targetRef="Ready" />
+    <bpmn:sequenceFlow id="Flow_Ready_Book" sourceRef="Ready" targetRef="Book" />
+    <bpmn:sequenceFlow id="Flow_Book_Result" sourceRef="Book" targetRef="Result" />
+    <bpmn:sequenceFlow id="Flow_Result_Reconcile" name="Unknown outcome" sourceRef="Result" targetRef="Reconcile" />
+    <bpmn:sequenceFlow id="Flow_Result_Retry" name="Failed or cancelled" sourceRef="Result" targetRef="Retry" />
+    <bpmn:sequenceFlow id="Flow_Result_Track" name="Booked" sourceRef="Result" targetRef="Track" />
+    <bpmn:sequenceFlow id="Flow_Reconcile_Resolved" sourceRef="Reconcile" targetRef="Resolved" />
+    <bpmn:sequenceFlow id="Flow_Resolved_Pending" name="Still unknown" sourceRef="Resolved" targetRef="Pending" />
+    <bpmn:sequenceFlow id="Flow_Resolved_Retry" name="Failed or cancelled" sourceRef="Resolved" targetRef="Retry" />
+    <bpmn:sequenceFlow id="Flow_Resolved_Track" name="Booked" sourceRef="Resolved" targetRef="Track" />
+    <bpmn:sequenceFlow id="Flow_Track_Done" name="Delivered" sourceRef="Track" targetRef="Done" />
+    <bpmn:sequenceFlow id="Flow_Done_Delivered" sourceRef="Done" targetRef="Delivered" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_CourierAddressAndFulfillment">
+    <bpmndi:BPMNPlane id="Plane_CourierAddressAndFulfillment" bpmnElement="Collaboration_CourierAddressAndFulfillment">
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_CourierAddressAndFulfillment" isHorizontal="true">
+        <dc:Bounds x="18" y="30" width="3120" height="744" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="48" y="30" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="48" y="278" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_2" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="48" y="526" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="132" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="61" y="230" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Address" bpmnElement="Address">
+        <dc:Bounds x="297" y="169" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Quote" bpmnElement="Quote">
+        <dc:Bounds x="527" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Eligible" bpmnElement="Eligible" isMarkerVisible="true">
+        <dc:Bounds x="814" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Issue" bpmnElement="Issue">
+        <dc:Bounds x="822" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Snapshot" bpmnElement="Snapshot">
+        <dc:Bounds x="987" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ready" bpmnElement="Ready">
+        <dc:Bounds x="1217" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Book" bpmnElement="Book">
+        <dc:Bounds x="1447" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Result" bpmnElement="Result" isMarkerVisible="true">
+        <dc:Bounds x="1734" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1671" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reconcile" bpmnElement="Reconcile">
+        <dc:Bounds x="1907" y="542" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Resolved" bpmnElement="Resolved" isMarkerVisible="true">
+        <dc:Bounds x="2194" y="306" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2131" y="363" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Pending" bpmnElement="Pending">
+        <dc:Bounds x="2432" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2361" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Retry" bpmnElement="Retry">
+        <dc:Bounds x="1972" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1901" y="478" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Track" bpmnElement="Track">
+        <dc:Bounds x="2367" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
+        <dc:Bounds x="2597" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Delivered" bpmnElement="Delivered">
+        <dc:Bounds x="2892" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2821" y="478" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Start_Address" bpmnElement="Flow_Start_Address">
+        <di:waypoint x="168" y="207" />
+        <di:waypoint x="297" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Address_Quote" bpmnElement="Flow_Address_Quote">
+        <di:waypoint x="463" y="207" />
+        <di:waypoint x="495" y="207" />
+        <di:waypoint x="495" y="455" />
+        <di:waypoint x="527" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Quote_Eligible" bpmnElement="Flow_Quote_Eligible">
+        <di:waypoint x="693" y="455" />
+        <di:waypoint x="814" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Eligible_Issue" bpmnElement="Flow_Eligible_Issue">
+        <di:waypoint x="840" y="429" />
+        <di:waypoint x="840" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="760" y="380" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Eligible_Snapshot" bpmnElement="Flow_Eligible_Snapshot">
+        <di:waypoint x="866" y="455" />
+        <di:waypoint x="987" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="431" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Snapshot_Ready" bpmnElement="Flow_Snapshot_Ready">
+        <di:waypoint x="1153" y="455" />
+        <di:waypoint x="1185" y="455" />
+        <di:waypoint x="1185" y="703" />
+        <di:waypoint x="1217" y="703" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1121" y="680" width="160" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Ready_Book" bpmnElement="Flow_Ready_Book">
+        <di:waypoint x="1383" y="703" />
+        <di:waypoint x="1447" y="703" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Book_Result" bpmnElement="Flow_Book_Result">
+        <di:waypoint x="1613" y="703" />
+        <di:waypoint x="1674" y="703" />
+        <di:waypoint x="1674" y="455" />
+        <di:waypoint x="1734" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Result_Reconcile" bpmnElement="Flow_Result_Reconcile">
+        <di:waypoint x="1786" y="455" />
+        <di:waypoint x="1789" y="455" />
+        <di:waypoint x="1789" y="580" />
+        <di:waypoint x="1907" y="580" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1803" y="557" width="90" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Result_Retry" bpmnElement="Flow_Result_Retry">
+        <di:waypoint x="1786" y="455" />
+        <di:waypoint x="1972" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1822" y="431" width="114" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Result_Track" bpmnElement="Flow_Result_Track">
+        <di:waypoint x="1760" y="481" />
+        <di:waypoint x="1760" y="487" />
+        <di:waypoint x="1870" y="487" />
+        <di:waypoint x="1870" y="759" />
+        <di:waypoint x="2450" y="759" />
+        <di:waypoint x="2450" y="741" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2141" y="737" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Reconcile_Resolved" bpmnElement="Flow_Reconcile_Resolved">
+        <di:waypoint x="2073" y="580" />
+        <di:waypoint x="2134" y="580" />
+        <di:waypoint x="2134" y="332" />
+        <di:waypoint x="2194" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Resolved_Pending" bpmnElement="Flow_Resolved_Pending">
+        <di:waypoint x="2246" y="332" />
+        <di:waypoint x="2432" y="332" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2300" y="308" width="78" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Resolved_Retry" bpmnElement="Flow_Resolved_Retry">
+        <di:waypoint x="2194" y="332" />
+        <di:waypoint x="1990" y="332" />
+        <di:waypoint x="1990" y="437" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2035" y="306" width="114" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Resolved_Track" bpmnElement="Flow_Resolved_Track">
+        <di:waypoint x="2246" y="332" />
+        <di:waypoint x="2249" y="332" />
+        <di:waypoint x="2249" y="703" />
+        <di:waypoint x="2367" y="703" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2289" y="680" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Track_Done" bpmnElement="Flow_Track_Done">
+        <di:waypoint x="2533" y="703" />
+        <di:waypoint x="2565" y="703" />
+        <di:waypoint x="2565" y="455" />
+        <di:waypoint x="2597" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2554" y="432" width="54" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Done_Delivered" bpmnElement="Flow_Done_Delivered">
+        <di:waypoint x="2763" y="455" />
+        <di:waypoint x="2892" y="455" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

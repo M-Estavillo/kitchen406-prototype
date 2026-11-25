@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_ProductAndVariantMaintenance" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_ProductAndVariantMaintenance">
+    <bpmn:participant id="Participant_ProductAndVariantMaintenance" name="Product and Variant Maintenance" processRef="Process_ProductAndVariantMaintenance" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_ProductAndVariantMaintenance" name="Product and Variant Maintenance" isExecutable="false">
+    <bpmn:documentation>Entry condition: an authorized administrator has opened Products. For the detailed recipe and price workflows, see Variant Recipe Maintenance and Product Costing and Final Selling Price. Product updates are saved together with the selected variants, recipes, cover and subscription schedule in the database-backed editor.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_ProductAndVariantMaintenance">
+      <bpmn:lane id="Lane_Administrator" name="Administrator">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Choose</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Form</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Status</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancel</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Error</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Products opened">
+      <bpmn:outgoing>Flow_Start_Choose</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Choose" name="Choose a product action">
+      <bpmn:incoming>Flow_Start_Choose</bpmn:incoming>
+      <bpmn:incoming>Flow_Error_Choose</bpmn:incoming>
+      <bpmn:outgoing>Flow_Choose_Action</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Action" name="Which action?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Choose_Action</bpmn:incoming>
+      <bpmn:outgoing>Flow_Action_Form</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Status</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Cancel</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Form" name="Create product or open and edit existing product">
+      <bpmn:documentation>Enter shared product details and optionally add a JPEG, PNG, or WebP cover up to 2 MB. Select the 6-pack, 12-pack, or both. Enter a recipe and selling price for every selected pack. For subscription-eligible products, set weekly preparation and delivery weekdays.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Form</bpmn:incoming>
+      <bpmn:outgoing>Flow_Form_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Status" name="Confirm activation or deactivation">
+      <bpmn:documentation>Confirm a status change for an existing product. Cancel leaves the product as it was.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Status</bpmn:incoming>
+      <bpmn:outgoing>Flow_Status_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Cancel" name="No change requested">
+      <bpmn:incoming>Flow_Action_Cancel</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Validate" name="Validate requested change">
+      <bpmn:documentation>Check owner access and stale data. Verify applicable fields, category, image, positive prices, at least one valid recipe material per selected variant, and valid weekdays if eligible. An older product can be deactivated even if its recipe is incomplete.</bpmn:documentation>
+      <bpmn:incoming>Flow_Form_Validate</bpmn:incoming>
+      <bpmn:incoming>Flow_Status_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Change valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Save</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Error</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Error" name="Show error and retain saved data">
+      <bpmn:documentation>For invalid data, correct and retry. For a stale form, reopen the product. An unsuccessful transactional save leaves the prior saved record in place.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Error</bpmn:incoming>
+      <bpmn:outgoing>Flow_Error_Choose</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Save" name="Save and refresh the catalog">
+      <bpmn:documentation>Persist the product or status change. Deactivation removes the product from the customer Shop. Activation still depends on variant and stock checks for purchase availability. Existing subscription commitments are preserved.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Catalog updated">
+      <bpmn:incoming>Flow_Save_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Choose" sourceRef="Start" targetRef="Choose" />
+    <bpmn:sequenceFlow id="Flow_Choose_Action" sourceRef="Choose" targetRef="Action" />
+    <bpmn:sequenceFlow id="Flow_Action_Form" sourceRef="Action" targetRef="Form" name="Create or edit" />
+    <bpmn:sequenceFlow id="Flow_Action_Status" sourceRef="Action" targetRef="Status" name="Change status" />
+    <bpmn:sequenceFlow id="Flow_Action_Cancel" sourceRef="Action" targetRef="Cancel" name="Cancel" />
+    <bpmn:sequenceFlow id="Flow_Form_Validate" sourceRef="Form" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Status_Validate" sourceRef="Status" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Save" sourceRef="Valid" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Valid_Error" sourceRef="Valid" targetRef="Error" name="No" />
+    <bpmn:sequenceFlow id="Flow_Save_Done" sourceRef="Save" targetRef="Done" />
+    <bpmn:sequenceFlow id="Flow_Error_Choose" sourceRef="Error" targetRef="Choose" name="Correct or reopen" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_ProductAndVariantMaintenance" name="Product and Variant Maintenance">
+    <bpmndi:BPMNPlane id="Plane_ProductAndVariantMaintenance" bpmnElement="Collaboration_ProductAndVariantMaintenance">
+      <bpmndi:BPMNShape id="Participant_ProductAndVariantMaintenance_di" bpmnElement="Participant_ProductAndVariantMaintenance" isHorizontal="true">
+        <dc:Bounds x="20" y="50" width="1464" height="620" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1434" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="50" y="320" width="1434" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
+        <dc:Bounds x="92" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="48" y="154" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Choose_di" bpmnElement="Choose">
+        <dc:Bounds x="199" y="97" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Action_di" bpmnElement="Action" isMarkerVisible="true">
+        <dc:Bounds x="412" y="107" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="370" y="83" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Form_di" bpmnElement="Form">
+        <dc:Bounds x="544" y="79" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Status_di" bpmnElement="Status">
+        <dc:Bounds x="544" y="202" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Cancel_di" bpmnElement="Cancel">
+        <dc:Bounds x="417" y="247" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="373" y="289" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Validate_di" bpmnElement="Validate">
+        <dc:Bounds x="749" y="367" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="977" y="377" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="935" y="353" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Error_di" bpmnElement="Error">
+        <dc:Bounds x="924" y="512" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Save_di" bpmnElement="Save">
+        <dc:Bounds x="1104" y="367" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Done_di" bpmnElement="Done">
+        <dc:Bounds x="1342" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1298" y="424" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Choose_di" bpmnElement="Flow_Start_Choose">
+        <di:waypoint x="128" y="130" />
+        <di:waypoint x="199" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Choose_Action_di" bpmnElement="Flow_Choose_Action">
+        <di:waypoint x="351" y="130" />
+        <di:waypoint x="412" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Form_di" bpmnElement="Flow_Action_Form">
+        <di:waypoint x="435" y="107" />
+        <di:waypoint x="435" y="70" />
+        <di:waypoint x="620" y="70" />
+        <di:waypoint x="620" y="79" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="470" y="52" width="115" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Status_di" bpmnElement="Flow_Action_Status">
+        <di:waypoint x="458" y="130" />
+        <di:waypoint x="502" y="130" />
+        <di:waypoint x="502" y="235" />
+        <di:waypoint x="544" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="437" y="111" width="86" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Cancel_di" bpmnElement="Flow_Action_Cancel">
+        <di:waypoint x="435" y="153" />
+        <di:waypoint x="435" y="247" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="442" y="192" width="44" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Form_Validate_di" bpmnElement="Flow_Form_Validate">
+        <di:waypoint x="696" y="112" />
+        <di:waypoint x="825" y="112" />
+        <di:waypoint x="825" y="367" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Status_Validate_di" bpmnElement="Flow_Status_Validate">
+        <di:waypoint x="696" y="235" />
+        <di:waypoint x="738" y="235" />
+        <di:waypoint x="738" y="400" />
+        <di:waypoint x="749" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Validate_Valid_di" bpmnElement="Flow_Validate_Valid">
+        <di:waypoint x="901" y="400" />
+        <di:waypoint x="977" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Save_di" bpmnElement="Flow_Valid_Save">
+        <di:waypoint x="1023" y="400" />
+        <di:waypoint x="1104" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1049" y="381" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Error_di" bpmnElement="Flow_Valid_Error">
+        <di:waypoint x="1000" y="423" />
+        <di:waypoint x="1000" y="512" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1007" y="459.5" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Save_Done_di" bpmnElement="Flow_Save_Done">
+        <di:waypoint x="1256" y="400" />
+        <di:waypoint x="1342" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Error_Choose_di" bpmnElement="Flow_Error_Choose">
+        <di:waypoint x="1000" y="578" />
+        <di:waypoint x="1000" y="624" />
+        <di:waypoint x="275" y="624" />
+        <di:waypoint x="275" y="190" />
+        <di:waypoint x="275" y="163" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="582.5" y="605" width="110" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

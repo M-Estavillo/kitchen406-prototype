@@ -2,49 +2,11 @@
 (() => {
 const A=K406,C=A.commerce;
 const I=A.inventory={items:[],requirements:new Map(),requirementRows:new Map(),reservationHistory:[],reservations:new Map(),movements:[],operations:new Set(),changeResults:new Map(),serial:0,holdSerial:0};
-const seed=[['flour','Bread flour','g',50000,2000],['butter','Unsalted butter','g',5000,1000],['cocoa','Cocoa','g',5000,500],['vanilla','Vanilla','g',1000,100],['tint','Food coloring','g',100,10],['water','Water','ml',20000,2000],['sugar','Sugar','g',10000,1000],['yeast','Yeast','g',1000,100],['salt','Salt','g',1000,100],['milk','Milk','ml',10000,1000],['box','Packaging','pcs',200,20]];
-seed.push(...[['egg','Egg','g'],['cardamom','Cardamom','g'],['ube','Ube','g'],['oil','Olive oil','ml'],['rosemary','Rosemary','g'],['honey','Honey','g'],['herbs','Herbs','g'],['cinnamon','Cinnamon','g'],['banana','Banana','g'],['walnut','Walnuts','g'],['olive','Olives','g'],['almond','Almonds','g'],['garlic','Garlic','g'],['cream','Cream','ml']].map(([id,name,unit])=>[id,name,unit,5000,250]));
-// Illustrative demo costs in PHP per gram, milliliter, or piece.
-const demoCosts={
- flour:0.082,butter:0.58,cocoa:0.78,vanilla:1.2,tint:1.6,water:0.002,
- sugar:0.09,yeast:0.64,salt:0.035,milk:0.105,box:14,egg:0.19,
- cardamom:2.4,ube:0.23,oil:0.49,rosemary:1.5,honey:0.48,herbs:0.95,
- cinnamon:0.85,banana:0.08,walnut:0.95,olive:0.42,almond:0.69,garlic:0.16,cream:0.28
-};
-I.reset=()=>{I.items=seed.map(([id,name,unit,stock,threshold])=>({id,name,unit,stock,threshold,opening:stock,cost:demoCosts[id]}));I.requirements.clear();I.requirementRows.clear();I.reservationHistory=[];I.reservations.clear();I.movements=[];I.operations.clear();I.changeResults.clear();I.serial=0;I.holdSerial=0;};I.reset();
+I.reset=()=>{I.items=[];I.requirements.clear();I.requirementRows.clear();I.reservationHistory=[];I.reservations.clear();I.movements=[];I.operations.clear();I.changeResults.clear();I.serial=0;I.holdSerial=0;};I.reset();
 I.item=id=>I.items.find(i=>i.id===id);
 I.stockUnits=unit=>[unit,...(unit==='g'?['kg']:unit==='ml'?['l']:[])];
-I.allOrders=()=>{const map=new Map();for(const o of [...[...A.account.buckets.values()].flatMap(b=>b.commerce?.orders||[]),...C.state.orders])map.set(o.id,o);return [...map.values()];};
-I.recipe=(productId,variant='standard')=>{
- if(!A.variant(productId,variant))return null;
- // Explicit demo recipes, not client-approved production formulations.
- const factor=variant==='large'?950/650:1;
- const recipes={
-  1:{flour:400,milk:180,butter:80,cocoa:60,sugar:50,yeast:4,salt:6},
-  2:{flour:460,water:330,salt:9},
-  3:{flour:150,water:75,butter:100,sugar:80,salt:3,yeast:2,cardamom:2},
-  4:{flour:300,milk:180,butter:30,sugar:25,yeast:4,salt:6},
-  5:{flour:65,milk:25,butter:40,sugar:15,yeast:1,salt:1,ube:30},
-  6:{flour:70,milk:250,egg:60,butter:20,sugar:100,vanilla:2,salt:1},
-  7:{flour:300,water:230,oil:35,rosemary:3,salt:6,yeast:3},
-  8:{butter:180,honey:18,herbs:2},
-  9:{flour:250,milk:140,butter:25,sugar:30,yeast:3,salt:4},
-  10:{flour:250,milk:140,butter:70,sugar:80,cinnamon:6,yeast:3,salt:4},
-  11:{flour:100,cocoa:60,butter:120,sugar:150,egg:100,salt:2},
-  12:{flour:180,butter:100,sugar:70,egg:30,vanilla:2,salt:2},
-  13:{flour:250,milk:100,butter:60,egg:60,sugar:25,yeast:3,salt:4},
-  14:{flour:200,banana:200,walnut:60,butter:80,egg:100,sugar:90,salt:3},
-  15:{flour:440,water:310,olive:90,salt:7},
-  16:{flour:65,milk:25,butter:55,sugar:30,egg:20,almond:30,yeast:1,salt:1},
-  17:{flour:180,water:125,salt:4,yeast:1},
-  18:{flour:300,water:230,oil:35,garlic:30,salt:6,yeast:3},
-  19:{flour:45,butter:35,sugar:50,cream:30,egg:10,salt:1},
-  20:{butter:198,salt:2}
- };
- if(!recipes[productId])return null;
- const base={...recipes[productId],box:1};
- return Object.fromEntries(Object.entries(base).map(([id,q])=>[id,id==='box'?q:Math.round(q*factor*1000)/1000]));
-};
+I.allOrders=()=>{const map=new Map();for(const o of [...[...A.account.buckets.values()].flatMap(b=>b.commerce?.orders||[]),...C.state.orders])if(!o.persistedPickup&&!o.persistedSubscription)map.set(o.id,o);return [...map.values()];};
+I.recipe=()=>null;
 I.materials=o=>{
  if(o.quotationId){const q=A.cakes.state.quotations.find(q=>q.id===o.quotationId);return q?{...q.materials,box:o.items.reduce((n,i)=>n+i.quantity,0)}:null;}
  if(o.type==='cake')return null;
@@ -74,7 +36,7 @@ I.active=r=>r.status==='confirmed'||r.status==='held'&&(A.checkoutHolds?.retaine
 I.reserved=(id,exclude)=>[...I.reservations.values()].filter(r=>!(Array.isArray(exclude)?exclude.includes(r.orderId):r.orderId===exclude)&&I.active(r)).reduce((n,r)=>n+(r.materials[id]||0),0);
 I.available=(id,exclude)=>I.item(id).stock-I.reserved(id,exclude);
 I.status=i=>I.available(i.id)<=0?'Out of stock':I.available(i.id)<=i.threshold?'Low stock':'Available';
-I.reason=(materials,exclude)=>!materials?'Recipe requirements are not configured.':Object.entries(materials).some(([id,q])=>!I.item(id)||!Number.isFinite(q)||q<0)?'Invalid ingredient requirements.':Object.entries(materials).find(([id,q])=>I.available(id,exclude)+1e-8<q)?'Insufficient available ingredients. Review inventory before continuing.':'';
+I.reason=(materials,exclude)=>!materials?'Recipe requirements are not configured.':Object.entries(materials).some(([id,q])=>!I.item(id)||!Number.isFinite(q)||q<0)?'Invalid ingredient requirements.':Object.entries(materials).some(([id,q])=>q>0&&I.item(id).archivedAt)?'A required material is archived. Review the recipe before continuing.':Object.entries(materials).find(([id,q])=>I.available(id,exclude)+1e-8<q)?'Insufficient available ingredients. Review inventory before continuing.':'';
 I.plan=(o,materials)=>{if(!I.requirements.has(o.id)){const m=materials===undefined?I.materials(o):materials;if(!m)return null;I.requirements.set(o.id,m);for(const [id,quantity] of Object.entries(m))I.requirementRows.set(o.id+':'+id,{requirement_id:o.id+':'+id,order_id:o.id,inventory_id:id,quantity_required:quantity,fulfillment_date:o.fulfillment?.date||null,reserve_at:o.reserveAt||null,created_at:Date.now()});}return I.requirements.get(o.id);};
 I.notify=()=>{A.staff?.checkStockAlerts?.();};
 I.retime=(o,reserveAt)=>{I.plan(o);for(const row of I.requirementRows.values())if(row.order_id===o.id){row.fulfillment_date=o.fulfillment.date;row.reserve_at=reserveAt;}};
@@ -175,5 +137,137 @@ I.change=({id,quantity,unit,type,totalCost,reason='',notes='',key})=>{
  }
  I.move(id,delta,type,A.session.actor().name,null,reason,notes,key,restock?totalCost:null);
  I.operations.add(key);I.changeResults.set(key,signature);if(restock)A.subscriptions?.retryIngredientShortages?.(id);A.staff.changed();return '';
+};
+I.databaseAccount=null;
+I.loadState='idle';
+I.recipeVariants=new Map();
+I.recipeVersion=0;
+let queue=Promise.resolve();
+let customerStock;
+I.customerRecipes=new Map();
+
+function stockDeltas(){
+ const deltas=new Map();
+ for(const movement of I.movements){
+  if(!movement.persisted)deltas.set(movement.ingredientId,(deltas.get(movement.ingredientId)||0)+movement.delta);
+ }
+ return deltas;
+}
+
+function applyCustomerStock(){
+ if(!customerStock)return;
+ const deltas=stockDeltas();
+ I.items=customerStock.map(row=>({
+  id:row.inventory_id,archivedAt:Boolean(row.archived),
+  stock:Math.round((row.stock_on_hand+(deltas.get(row.inventory_id)||0))*1000)/1000
+ }));
+}
+
+I.syncCustomerAvailability=({stock,requirements})=>{
+ customerStock=stock;
+ I.customerRecipes.clear();
+ for(const row of requirements){
+  if(!I.customerRecipes.has(row.variant_id))I.customerRecipes.set(row.variant_id,{});
+  I.customerRecipes.get(row.variant_id)[row.inventory_id]=row.quantity_required;
+ }
+ if(!I.databaseAccount)applyCustomerStock();
+};
+
+I.useDatabase=account=>{
+ const id=account?.account_id||null;
+ if(id===I.databaseAccount)return;
+ I.items=[];
+ I.movements=I.movements.filter(m=>!m.persisted);
+ for(const id of I.recipeVariants.keys()){A.pricing.recipes.delete(id);A.pricing.overheads.delete(id);}
+ I.recipeVariants.clear();
+ I.recipeVersion=0;
+ I.databaseAccount=id;
+ if(!id)applyCustomerStock();
+ I.loadState=id?'loading':'idle';
+ queue=Promise.resolve();
+};
+
+function applySnapshot({items,movements,recipes,bom,recipeVersion,products,categories,schedules=[]}){
+ const local=I.movements.filter(m=>!m.persisted);
+ const deltas=stockDeltas();
+ I.items=items.map(i=>({
+  id:i.inventory_id,name:i.name,category:i.material_type,unit:i.unit,threshold:i.reorder_threshold,
+  stock:Math.round((i.stock_on_hand+(deltas.get(i.inventory_id)||0))*1000)/1000,
+  cost:i.cost_per_unit,version:i.updated_at,archivedAt:i.archived_at
+ }));
+ const materialUnits=new Map(I.items.map(i=>[i.id,i.unit]));
+ I.movements=[...local,...movements.map(m=>({
+  id:m.movement_id,ingredientId:m.inventory_id,type:m.movement_type,delta:m.quantity_change,
+  before:m.before,after:m.after,unit_cost_snapshot:m.unit_cost_snapshot,
+  unit_cost_snapshot_unit:materialUnits.get(m.inventory_id),performed_by_account_id:m.performed_by_account_id,
+  actor:m.actor,orderId:m.order_id,reason:m.reason,notes:m.notes,at:Date.parse(m.occurred_at),persisted:true
+ }))].sort((a,b)=>b.at-a.at);
+ for(const id of I.recipeVariants.keys()){A.pricing.recipes.delete(id);A.pricing.overheads.delete(id);}
+ I.recipeVariants=new Map(recipes.map(v=>[v.variant_id,v]));
+ I.recipeVersion=recipeVersion;
+ for(const v of recipes){
+  if(v.utility_overhead!==null)A.pricing.overheads.set(v.variant_id,v.utility_overhead);
+ }
+ for(const row of bom){
+  if(!A.pricing.recipes.has(row.variant_id))A.pricing.recipes.set(row.variant_id,{});
+  A.pricing.recipes.get(row.variant_id)[row.inventory_id]=row.quantity_required;
+ }
+ A.productAdmin.syncInventoryCatalog(products,categories,recipes);
+ A.capacity.syncSchedules(schedules);
+ A.pricing.version++;
+ I.loadState='ready';
+}
+
+function request(action,input){
+ const account=I.databaseAccount,generation=A.session.generation;
+ const current=()=>I.databaseAccount===account&&A.session.generation===generation;
+ const run=async()=>{
+  if(!current())return 'This session changed. Reopen the form.';
+  try{
+   const snapshot=await A.authUI.api('inventory'+(action?'/'+action:''),input);
+   if(!current())return 'This session changed. Reopen the form.';
+   applySnapshot(snapshot);
+   return '';
+  }catch(error){
+   if(current()&&!action)I.loadState='error';
+   if(!current())return 'This session changed. Reopen the form.';
+   return error.message==='server-error'||error instanceof TypeError||error instanceof SyntaxError
+    ?'Inventory could not be reached. Please try again.':error.message;
+  }
+ };
+ const result=queue.then(run);
+ queue=result.catch(()=>{});
+ return result;
+}
+
+I.refresh=async()=>{
+ if(!I.databaseAccount)return;
+ if(I.loadState!=='ready')I.loadState='loading';
+ const account=I.databaseAccount,generation=A.session.generation;
+ await request();
+ if(I.databaseAccount===account&&A.session.generation===generation)A.operations.changed();
+};
+I.unitLocked=id=>I.movements.some(m=>m.ingredientId===id)||
+ [...A.pricing.recipes.values(),...I.requirements.values()].some(materials=>Object.hasOwn(materials,id))||
+ A.cakes.state.quotations.some(q=>Object.hasOwn(q.materials||{},id))||
+ [...A.cakeData.options,...A.cakeData.addons].some(option=>Object.hasOwn(option.ingredients||{},id));
+I.activeReservations=id=>[...I.reservations.values()].filter(r=>I.active(r)&&r.materials[id]>0);
+I.saveRecipes=async(product,recipes,key,coverUpload,schedule)=>{
+ const action=schedule?'recipe/schedule':coverUpload?'recipe/cover':'recipe';
+ const error=await I.save(action,{product,recipes,key,recipeVersion:I.recipeVersion,coverUpload,schedule});
+ if(schedule&&error==='not-found')return 'Restart the local server and reload the page to enable subscription schedule editing.';
+ if(coverUpload&&error==='not-found')return 'Restart the local server and reload the page to enable cover uploads.';
+ return error;
+};
+I.save=async(action,input)=>{
+ const item=I.item(input.id);
+ if(action==='archive'&&item&&(item.stock||I.activeReservations(item.id).length))return 'Clear physical stock and active reservations before archiving this material.';
+ if(action==='remove'&&item&&(item.stock||I.unitLocked(item.id)))return 'Only unused materials with no stock can be removed.';
+ if(action==='edit'&&item&&input.unit!==item.unit&&I.unitLocked(item.id))return 'The unit is locked because this material is already in use.';
+ if(action==='stock'&&input.type==='adjustment'&&I.movements.some(m=>m.ingredientId===input.id&&!m.persisted))return 'This material has preview production movements. Reload inventory before recording a physical count.';
+ const error=await request(action,input);
+ if(error==='Inventory changed. Close and reopen the form.'||error==='Recipes changed. Close and reopen the editor.')await I.refresh();
+ if(!error&&action==='stock'&&input.type==='restock')A.subscriptions?.retryIngredientShortages?.(input.id);
+ return error;
 };
 })();

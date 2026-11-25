@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_VariantRecipeMaintenance" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_VariantRecipeMaintenance">
+    <bpmn:participant id="Participant_VariantRecipeMaintenance" name="Variant Recipe Maintenance" processRef="Process_VariantRecipeMaintenance" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_VariantRecipeMaintenance" name="Variant Recipe Maintenance" isExecutable="false">
+    <bpmn:documentation>Use this flow when configuring the recipe for a selected 6-pack or 12-pack. Each pack has its own bill of materials. Open the product editor for the selected variant. The editor commits the recipe and the rest of the product form together to SQLite.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_VariantRecipeMaintenance">
+      <bpmn:lane id="Lane_Administrator" name="Administrator">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Select</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Materials</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Submit</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Error</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Apply</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Recipe editing needed">
+      <bpmn:outgoing>Flow_Start_Select</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Select" name="Select the pack to configure">
+      <bpmn:incoming>Flow_Start_Select</bpmn:incoming>
+      <bpmn:outgoing>Flow_Select_Materials</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Materials" name="Add or update recipe materials">
+      <bpmn:documentation>Choose ingredients or packaging from inventory, and specify the quantity for one sellable pack using the material base unit. Remove rows that are no longer needed.</bpmn:documentation>
+      <bpmn:incoming>Flow_Select_Materials</bpmn:incoming>
+      <bpmn:incoming>Flow_Error_Materials</bpmn:incoming>
+      <bpmn:outgoing>Flow_Materials_Submit</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Submit" name="Submit the recipe">
+      <bpmn:incoming>Flow_Materials_Submit</bpmn:incoming>
+      <bpmn:outgoing>Flow_Submit_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Validate" name="Validate materials and quantities">
+      <bpmn:documentation>Require at least one material. Each material must be valid and unique within the recipe. Quantities must be positive, with up to three decimal places on save. An archived material on an existing recipe may retain its saved quantity. Replace it before changing that quantity.</bpmn:documentation>
+      <bpmn:incoming>Flow_Submit_Validate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Recipe valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Apply</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Error</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Error" name="Point out the recipe error">
+      <bpmn:incoming>Flow_Valid_Error</bpmn:incoming>
+      <bpmn:outgoing>Flow_Error_Materials</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Apply" name="Save validated recipe with the product">
+      <bpmn:documentation>Commit the variant bill of materials with the product form. The updated recipe applies to future stock requirements. Existing order material snapshots retain their saved quantities.</bpmn:documentation>
+      <bpmn:incoming>Flow_Valid_Apply</bpmn:incoming>
+      <bpmn:outgoing>Flow_Apply_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Recipe accepted">
+      <bpmn:incoming>Flow_Apply_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Select" sourceRef="Start" targetRef="Select" />
+    <bpmn:sequenceFlow id="Flow_Select_Materials" sourceRef="Select" targetRef="Materials" />
+    <bpmn:sequenceFlow id="Flow_Materials_Submit" sourceRef="Materials" targetRef="Submit" />
+    <bpmn:sequenceFlow id="Flow_Submit_Validate" sourceRef="Submit" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Apply" sourceRef="Valid" targetRef="Apply" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Apply_Done" sourceRef="Apply" targetRef="Done" />
+    <bpmn:sequenceFlow id="Flow_Valid_Error" sourceRef="Valid" targetRef="Error" name="No" />
+    <bpmn:sequenceFlow id="Flow_Error_Materials" sourceRef="Error" targetRef="Materials" name="Correct the recipe" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_VariantRecipeMaintenance" name="Variant Recipe Maintenance">
+    <bpmndi:BPMNPlane id="Plane_VariantRecipeMaintenance" bpmnElement="Collaboration_VariantRecipeMaintenance">
+      <bpmndi:BPMNShape id="Participant_VariantRecipeMaintenance_di" bpmnElement="Participant_VariantRecipeMaintenance" isHorizontal="true">
+        <dc:Bounds x="20" y="50" width="1484" height="620" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1454" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="50" y="320" width="1454" height="350" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
+        <dc:Bounds x="92" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="48" y="154" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Select_di" bpmnElement="Select">
+        <dc:Bounds x="199" y="97" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Materials_di" bpmnElement="Materials">
+        <dc:Bounds x="414" y="97" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Submit_di" bpmnElement="Submit">
+        <dc:Bounds x="614" y="97" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Validate_di" bpmnElement="Validate">
+        <dc:Bounds x="764" y="362" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="997" y="372" width="46" height="46" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="955" y="348" width="130" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Error_di" bpmnElement="Error">
+        <dc:Bounds x="944" y="512" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Apply_di" bpmnElement="Apply">
+        <dc:Bounds x="1124" y="362" width="152" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Done_di" bpmnElement="Done">
+        <dc:Bounds x="1362" y="377" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1318" y="419" width="124" height="30" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Select_di" bpmnElement="Flow_Start_Select">
+        <di:waypoint x="128" y="130" />
+        <di:waypoint x="199" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Select_Materials_di" bpmnElement="Flow_Select_Materials">
+        <di:waypoint x="351" y="130" />
+        <di:waypoint x="414" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Materials_Submit_di" bpmnElement="Flow_Materials_Submit">
+        <di:waypoint x="566" y="130" />
+        <di:waypoint x="614" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Submit_Validate_di" bpmnElement="Flow_Submit_Validate">
+        <di:waypoint x="690" y="163" />
+        <di:waypoint x="690" y="395" />
+        <di:waypoint x="764" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Validate_Valid_di" bpmnElement="Flow_Validate_Valid">
+        <di:waypoint x="916" y="395" />
+        <di:waypoint x="997" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Apply_di" bpmnElement="Flow_Valid_Apply">
+        <di:waypoint x="1043" y="395" />
+        <di:waypoint x="1124" y="395" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1069" y="376" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Apply_Done_di" bpmnElement="Flow_Apply_Done">
+        <di:waypoint x="1276" y="395" />
+        <di:waypoint x="1362" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Error_di" bpmnElement="Flow_Valid_Error">
+        <di:waypoint x="1020" y="418" />
+        <di:waypoint x="1020" y="512" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1027" y="457" width="29" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Error_Materials_di" bpmnElement="Flow_Error_Materials">
+        <di:waypoint x="1020" y="578" />
+        <di:waypoint x="1020" y="623" />
+        <di:waypoint x="490" y="623" />
+        <di:waypoint x="490" y="190" />
+        <di:waypoint x="490" y="163" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="697" y="604" width="116" height="18" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

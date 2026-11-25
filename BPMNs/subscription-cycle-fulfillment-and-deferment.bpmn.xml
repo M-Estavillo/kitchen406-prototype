@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_SubscriptionCycleFulfillment" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_SubscriptionCycleFulfillment">
+    <bpmn:participant id="Participant_SubscriptionCycleFulfillment" name="Subscription Cycle Fulfillment and Deferment" processRef="Process_SubscriptionCycleFulfillment" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_SubscriptionCycleFulfillment" name="Subscription Cycle Fulfillment and Deferment" isExecutable="false">
+    <bpmn:documentation>Current SQLite v6 flow for one paid subscription cycle. Subscription API activity checks due reservations and missed pickups. A deferred cycle retains its prepaid amounts. Courier Address and Fulfillment covers the delivery handoff.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_SubscriptionCycleFulfillment">
+      <bpmn:lane id="Lane_0" name="Customer">
+        <bpmn:flowNodeRef>Request</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Defer</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Deferred</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Consume</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Prepared</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Shortage</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Missed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Cancelled</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_2" name="Admin or Eligible Staff">
+        <bpmn:flowNodeRef>Prepare</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Method</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Courier</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Arrival</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Handoff</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Subscription cycle scheduled">
+      <bpmn:outgoing>Flow_Start_Action</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Action" name="Deferment requested?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Start_Action</bpmn:incoming>
+      <bpmn:outgoing>Flow_Action_Request</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Reserve</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Request" name="Request next day or next week">
+      <bpmn:incoming>Flow_Action_Request</bpmn:incoming>
+      <bpmn:outgoing>Flow_Request_Defer</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Defer" name="Validate and apply eligible deferment">
+      <bpmn:documentation>Check customer ownership, one deferment per subscription, scheduled status, and that preparation has not reached its scheduled date. The replacement is the next day or one week after the latest cycle. Check the cutoff, blocked date, and capacity. On success, release the old allocation, create its replacement, and update the fulfillment and material dates together. The cycle remains scheduled and follows the usual reservation and preparation flow for the new date.</bpmn:documentation>
+      <bpmn:incoming>Flow_Request_Defer</bpmn:incoming>
+      <bpmn:outgoing>Flow_Defer_Deferred</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Deferred" name="Return updated dates or validation issue">
+      <bpmn:incoming>Flow_Defer_Deferred</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reserve" name="Check due material reservations">
+      <bpmn:documentation>First cycle uses checkout reservations. For later cycles, subscription API activity attempts reservation from the day before preparation. Shortages can be retried during a later request.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Reserve</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reserve_Prepare</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Prepare" name="Start preparation on or after the preparation date">
+      <bpmn:incoming>Flow_Reserve_Prepare</bpmn:incoming>
+      <bpmn:outgoing>Flow_Prepare_Consume</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Consume" name="Retry shortage and consume confirmed stock">
+      <bpmn:documentation>Reserve outstanding requirements when stock is sufficient, consume confirmed reservations, and move to Preparing in one transaction. A stock conflict leaves the cycle scheduled.</bpmn:documentation>
+      <bpmn:incoming>Flow_Prepare_Consume</bpmn:incoming>
+      <bpmn:outgoing>Flow_Consume_Prepared</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Prepared" name="Preparation started?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Consume_Prepared</bpmn:incoming>
+      <bpmn:outgoing>Flow_Prepared_Shortage</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Prepared_Ready</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Shortage" name="Keep cycle scheduled for retry">
+      <bpmn:incoming>Flow_Prepared_Shortage</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Ready" name="Mark cycle ready">
+      <bpmn:incoming>Flow_Prepared_Ready</bpmn:incoming>
+      <bpmn:outgoing>Flow_Ready_Method</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Method" name="Fulfillment method?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Ready_Method</bpmn:incoming>
+      <bpmn:outgoing>Flow_Method_Courier</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Method_Arrival</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Courier" name="Ready for courier booking">
+      <bpmn:incoming>Flow_Method_Courier</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Arrival" name="Pickup arrival recorded in time?" gatewayDirection="Diverging">
+      <bpmn:documentation>Arrival can be recorded on the scheduled date through 7:00 p.m. Manila time. Before the cutoff the Ready cycle can await arrival.</bpmn:documentation>
+      <bpmn:incoming>Flow_Method_Arrival</bpmn:incoming>
+      <bpmn:outgoing>Flow_Arrival_Missed</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Arrival_Handoff</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Missed" name="Cancel missed pickup on subscription API activity">
+      <bpmn:documentation>Cancel only a Ready pickup that has no recorded arrival after the Manila cutoff. Release its capacity and record cancellation in order history.</bpmn:documentation>
+      <bpmn:incoming>Flow_Arrival_Missed</bpmn:incoming>
+      <bpmn:outgoing>Flow_Missed_Cancelled</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Cancelled" name="Cycle cancelled">
+      <bpmn:incoming>Flow_Missed_Cancelled</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Handoff" name="Confirm pickup handoff">
+      <bpmn:incoming>Flow_Arrival_Handoff</bpmn:incoming>
+      <bpmn:outgoing>Flow_Handoff_Complete</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Complete" name="Record fulfilled cycle">
+      <bpmn:documentation>Save fulfilled_at. Mark the subscription completed once all four cycles are fulfilled.</bpmn:documentation>
+      <bpmn:incoming>Flow_Handoff_Complete</bpmn:incoming>
+      <bpmn:outgoing>Flow_Complete_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Cycle fulfilled">
+      <bpmn:incoming>Flow_Complete_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Action" sourceRef="Start" targetRef="Action" />
+    <bpmn:sequenceFlow id="Flow_Action_Request" name="Yes" sourceRef="Action" targetRef="Request" />
+    <bpmn:sequenceFlow id="Flow_Request_Defer" sourceRef="Request" targetRef="Defer" />
+    <bpmn:sequenceFlow id="Flow_Defer_Deferred" sourceRef="Defer" targetRef="Deferred" />
+    <bpmn:sequenceFlow id="Flow_Action_Reserve" name="Proceed with scheduled cycle" sourceRef="Action" targetRef="Reserve" />
+    <bpmn:sequenceFlow id="Flow_Reserve_Prepare" sourceRef="Reserve" targetRef="Prepare" />
+    <bpmn:sequenceFlow id="Flow_Prepare_Consume" sourceRef="Prepare" targetRef="Consume" />
+    <bpmn:sequenceFlow id="Flow_Consume_Prepared" sourceRef="Consume" targetRef="Prepared" />
+    <bpmn:sequenceFlow id="Flow_Prepared_Shortage" name="No" sourceRef="Prepared" targetRef="Shortage" />
+    <bpmn:sequenceFlow id="Flow_Prepared_Ready" name="Yes" sourceRef="Prepared" targetRef="Ready" />
+    <bpmn:sequenceFlow id="Flow_Ready_Method" sourceRef="Ready" targetRef="Method" />
+    <bpmn:sequenceFlow id="Flow_Method_Courier" name="Delivery" sourceRef="Method" targetRef="Courier" />
+    <bpmn:sequenceFlow id="Flow_Method_Arrival" name="Pickup" sourceRef="Method" targetRef="Arrival" />
+    <bpmn:sequenceFlow id="Flow_Arrival_Missed" name="Cutoff passed without arrival" sourceRef="Arrival" targetRef="Missed" />
+    <bpmn:sequenceFlow id="Flow_Missed_Cancelled" sourceRef="Missed" targetRef="Cancelled" />
+    <bpmn:sequenceFlow id="Flow_Arrival_Handoff" name="Arrival recorded" sourceRef="Arrival" targetRef="Handoff" />
+    <bpmn:sequenceFlow id="Flow_Handoff_Complete" sourceRef="Handoff" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Complete_Done" sourceRef="Complete" targetRef="Done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_SubscriptionCycleFulfillment">
+    <bpmndi:BPMNPlane id="Plane_SubscriptionCycleFulfillment" bpmnElement="Collaboration_SubscriptionCycleFulfillment">
+      <bpmndi:BPMNShape id="Shape_Participant" bpmnElement="Participant_SubscriptionCycleFulfillment" isHorizontal="true">
+        <dc:Bounds x="18" y="30" width="3120" height="744" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_0" bpmnElement="Lane_0" isHorizontal="true">
+        <dc:Bounds x="48" y="30" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_1" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="48" y="278" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_2" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="48" y="526" width="3090" height="248" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="132" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="61" y="478" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Action" bpmnElement="Action" isMarkerVisible="true">
+        <dc:Bounds x="354" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="291" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Request" bpmnElement="Request">
+        <dc:Bounds x="527" y="169" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Defer" bpmnElement="Defer">
+        <dc:Bounds x="757" y="294" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Deferred" bpmnElement="Deferred">
+        <dc:Bounds x="1052" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="981" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reserve" bpmnElement="Reserve">
+        <dc:Bounds x="757" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Prepare" bpmnElement="Prepare">
+        <dc:Bounds x="987" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Consume" bpmnElement="Consume">
+        <dc:Bounds x="1217" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Prepared" bpmnElement="Prepared" isMarkerVisible="true">
+        <dc:Bounds x="1504" y="429" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1441" y="486" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Shortage" bpmnElement="Shortage">
+        <dc:Bounds x="1512" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1441" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Ready" bpmnElement="Ready">
+        <dc:Bounds x="1677" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Method" bpmnElement="Method" isMarkerVisible="true">
+        <dc:Bounds x="1964" y="677" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1901" y="734" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Courier" bpmnElement="Courier">
+        <dc:Bounds x="2202" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2131" y="603" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Arrival" bpmnElement="Arrival" isMarkerVisible="true">
+        <dc:Bounds x="2194" y="677" width="52" height="52" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2131" y="734" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Missed" bpmnElement="Missed">
+        <dc:Bounds x="2367" y="294" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancelled" bpmnElement="Cancelled">
+        <dc:Bounds x="2662" y="314" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2591" y="355" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Handoff" bpmnElement="Handoff">
+        <dc:Bounds x="2367" y="665" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete">
+        <dc:Bounds x="2597" y="417" width="166" height="76" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
+        <dc:Bounds x="2892" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2821" y="478" width="178" height="34" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Start_Action" bpmnElement="Flow_Start_Action">
+        <di:waypoint x="168" y="455" />
+        <di:waypoint x="354" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Action_Request" bpmnElement="Flow_Action_Request">
+        <di:waypoint x="406" y="455" />
+        <di:waypoint x="572" y="455" />
+        <di:waypoint x="572" y="207" />
+        <di:waypoint x="527" y="207" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="531" y="184" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Request_Defer" bpmnElement="Flow_Request_Defer">
+        <di:waypoint x="693" y="207" />
+        <di:waypoint x="665" y="207" />
+        <di:waypoint x="665" y="332" />
+        <di:waypoint x="757" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Defer_Deferred" bpmnElement="Flow_Defer_Deferred">
+        <di:waypoint x="923" y="332" />
+        <di:waypoint x="1052" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Action_Reserve" bpmnElement="Flow_Action_Reserve">
+        <di:waypoint x="406" y="455" />
+        <di:waypoint x="757" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="502" y="431" width="160" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Reserve_Prepare" bpmnElement="Flow_Reserve_Prepare">
+        <di:waypoint x="923" y="455" />
+        <di:waypoint x="955" y="455" />
+        <di:waypoint x="955" y="703" />
+        <di:waypoint x="987" y="703" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Prepare_Consume" bpmnElement="Flow_Prepare_Consume">
+        <di:waypoint x="1153" y="703" />
+        <di:waypoint x="1185" y="703" />
+        <di:waypoint x="1185" y="455" />
+        <di:waypoint x="1217" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Consume_Prepared" bpmnElement="Flow_Consume_Prepared">
+        <di:waypoint x="1383" y="455" />
+        <di:waypoint x="1504" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Prepared_Shortage" bpmnElement="Flow_Prepared_Shortage">
+        <di:waypoint x="1530" y="429" />
+        <di:waypoint x="1530" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="380" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Prepared_Ready" bpmnElement="Flow_Prepared_Ready">
+        <di:waypoint x="1556" y="455" />
+        <di:waypoint x="1617" y="455" />
+        <di:waypoint x="1617" y="703" />
+        <di:waypoint x="1677" y="703" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1628" y="680" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Ready_Method" bpmnElement="Flow_Ready_Method">
+        <di:waypoint x="1843" y="703" />
+        <di:waypoint x="1964" y="703" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Method_Courier" bpmnElement="Flow_Method_Courier">
+        <di:waypoint x="2016" y="703" />
+        <di:waypoint x="2109" y="703" />
+        <di:waypoint x="2109" y="580" />
+        <di:waypoint x="2202" y="580" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2132" y="557" width="48" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Method_Arrival" bpmnElement="Flow_Method_Arrival">
+        <di:waypoint x="2016" y="703" />
+        <di:waypoint x="2194" y="703" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2086" y="679" width="38" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Arrival_Missed" bpmnElement="Flow_Arrival_Missed">
+        <di:waypoint x="2246" y="703" />
+        <di:waypoint x="2307" y="703" />
+        <di:waypoint x="2307" y="332" />
+        <di:waypoint x="2367" y="332" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2257" y="309" width="160" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Missed_Cancelled" bpmnElement="Flow_Missed_Cancelled">
+        <di:waypoint x="2533" y="332" />
+        <di:waypoint x="2662" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Arrival_Handoff" bpmnElement="Flow_Arrival_Handoff">
+        <di:waypoint x="2246" y="703" />
+        <di:waypoint x="2367" y="703" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2259" y="679" width="96" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Handoff_Complete" bpmnElement="Flow_Handoff_Complete">
+        <di:waypoint x="2533" y="703" />
+        <di:waypoint x="2565" y="703" />
+        <di:waypoint x="2565" y="455" />
+        <di:waypoint x="2597" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Complete_Done" bpmnElement="Flow_Complete_Done">
+        <di:waypoint x="2763" y="455" />
+        <di:waypoint x="2892" y="455" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

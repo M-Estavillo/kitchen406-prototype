@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_StockValidationAndReservation" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_StockValidationAndReservation">
+    <bpmn:participant id="Participant_StockValidationAndReservation" name="Stock Validation and Reservation" processRef="Process_StockValidationAndReservation" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_StockValidationAndReservation" name="Stock Validation and Reservation" isExecutable="false">
+    <bpmn:documentation>SQLite reserves stock for standard pickup and delivery checkout and for subscription fulfillment. Checkout creates held reservations. Demo payment confirms the hold and its reservations, while cancellation or hold expiry closes them and releases the stock. Starting preparation consumes confirmed quantities and writes linked InventoryMovement rows in the same transaction. Subscription API activity checks later cycles once their reservation time is due, and starting preparation retries any remaining shortage. Accepted cake quotation reservations remain planned.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_StockValidationAndReservation">
+      <bpmn:lane id="Lane_Operator" name="Calling Workflow">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Request</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Requirements</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Missing</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Archived</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Mode</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Advisory</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AdvisoryDone</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Result</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Success</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unavailable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Failed</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start" name="Stock check needed">
+      <bpmn:outgoing>Flow_Start_Request</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Request" name="Request stock check or reservation">
+      <bpmn:documentation>Pass the fulfillment or variant requirements and the requested mode.</bpmn:documentation>
+      <bpmn:incoming>Flow_Start_Request</bpmn:incoming>
+      <bpmn:outgoing>Flow_Request_Requirements</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:serviceTask id="Requirements" name="Resolve material requirements">
+      <bpmn:documentation>Use the saved variant recipe for a new checkout or an OrderMaterialRequirement snapshot for existing fulfillment. Accepted quotation ingredients are part of the custom cake design.</bpmn:documentation>
+      <bpmn:incoming>Flow_Request_Requirements</bpmn:incoming>
+      <bpmn:outgoing>Flow_Requirements_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Requirements usable?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Requirements_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Mode</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Missing</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Archived</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Missing" name="Return missing recipe or requirement data">
+      <bpmn:incoming>Flow_Valid_Missing</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Archived" name="Return archived material issue">
+      <bpmn:incoming>Flow_Valid_Archived</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Mode" name="Reservation requested?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Valid_Mode</bpmn:incoming>
+      <bpmn:outgoing>Flow_Mode_Advisory</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Mode_Reserve</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Advisory" name="Check currently available stock">
+      <bpmn:documentation>For server availability, subtract active held and unconsumed confirmed reservations from physical stock. Catalog availability is advisory and uses a physical stock snapshot. Checkout performs its own availability check.</bpmn:documentation>
+      <bpmn:incoming>Flow_Mode_Advisory</bpmn:incoming>
+      <bpmn:outgoing>Flow_Advisory_AdvisoryDone</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="AdvisoryDone" name="Return advisory availability">
+      <bpmn:incoming>Flow_Advisory_AdvisoryDone</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Reserve" name="Recheck stock and attempt reservation">
+      <bpmn:documentation>Within one database transaction, recheck that materials are active and have sufficient unreserved stock. Reuse an existing applicable reservation, or write a held or confirmed reservation linked to CheckoutHold. An active hold supplies the expiry for a held reservation.</bpmn:documentation>
+      <bpmn:incoming>Flow_Mode_Reserve</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reserve_Result</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Result" name="Reservation outcome?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Reserve_Result</bpmn:incoming>
+      <bpmn:outgoing>Flow_Result_Success</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Result_Unavailable</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Result_Failed</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Success" name="Return reservation">
+      <bpmn:incoming>Flow_Result_Success</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Unavailable" name="Return shortage or inactive material">
+      <bpmn:incoming>Flow_Result_Unavailable</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Failed" name="Return retryable save error">
+      <bpmn:incoming>Flow_Result_Failed</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Request" sourceRef="Start" targetRef="Request" />
+    <bpmn:sequenceFlow id="Flow_Request_Requirements" sourceRef="Request" targetRef="Requirements" />
+    <bpmn:sequenceFlow id="Flow_Requirements_Valid" sourceRef="Requirements" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Mode" sourceRef="Valid" targetRef="Mode" name="Usable" />
+    <bpmn:sequenceFlow id="Flow_Valid_Missing" sourceRef="Valid" targetRef="Missing" name="Missing" />
+    <bpmn:sequenceFlow id="Flow_Valid_Archived" sourceRef="Valid" targetRef="Archived" name="Archived" />
+    <bpmn:sequenceFlow id="Flow_Mode_Advisory" sourceRef="Mode" targetRef="Advisory" name="No" />
+    <bpmn:sequenceFlow id="Flow_Advisory_AdvisoryDone" sourceRef="Advisory" targetRef="AdvisoryDone" />
+    <bpmn:sequenceFlow id="Flow_Mode_Reserve" sourceRef="Mode" targetRef="Reserve" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Reserve_Result" sourceRef="Reserve" targetRef="Result" />
+    <bpmn:sequenceFlow id="Flow_Result_Success" sourceRef="Result" targetRef="Success" name="Reserved / reused" />
+    <bpmn:sequenceFlow id="Flow_Result_Unavailable" sourceRef="Result" targetRef="Unavailable" name="Unavailable" />
+    <bpmn:sequenceFlow id="Flow_Result_Failed" sourceRef="Result" targetRef="Failed" name="Save failed" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_StockValidationAndReservation">
+    <bpmndi:BPMNPlane id="Plane_StockValidationAndReservation" bpmnElement="Collaboration_StockValidationAndReservation">
+      <bpmndi:BPMNShape id="Shape_Participant_StockValidationAndReservation" bpmnElement="Participant_StockValidationAndReservation" isHorizontal="true">
+        <dc:Bounds x="30" y="12" width="1710" height="708" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Operator" bpmnElement="Lane_Operator" isHorizontal="true">
+        <dc:Bounds x="60" y="12" width="1680" height="178" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="60" y="190" width="1680" height="530" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="122" y="72" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="71" y="115" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Request" bpmnElement="Request">
+        <dc:Bounds x="275" y="56" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Requirements" bpmnElement="Requirements">
+        <dc:Bounds x="275" y="326" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="545" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="495" y="304" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Missing" bpmnElement="Missing">
+        <dc:Bounds x="482" y="557" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="431" y="600" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Archived" bpmnElement="Archived">
+        <dc:Bounds x="667" y="557" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="616" y="600" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Mode" bpmnElement="Mode" isMarkerVisible="true">
+        <dc:Bounds x="765" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="715" y="304" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Advisory" bpmnElement="Advisory">
+        <dc:Bounds x="925" y="256" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_AdvisoryDone" bpmnElement="AdvisoryDone">
+        <dc:Bounds x="1242" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1191" y="315" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Reserve" bpmnElement="Reserve">
+        <dc:Bounds x="955" y="456" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Result" bpmnElement="Result" isMarkerVisible="true">
+        <dc:Bounds x="1275" y="465" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1225" y="434" width="150" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Success" bpmnElement="Success">
+        <dc:Bounds x="1562" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1511" y="515" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Unavailable" bpmnElement="Unavailable">
+        <dc:Bounds x="1462" y="622" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1411" y="665" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Failed" bpmnElement="Failed">
+        <dc:Bounds x="1202" y="622" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1151" y="665" width="138" height="40" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Request" bpmnElement="Flow_Start_Request">
+        <di:waypoint x="158" y="90" />
+        <di:waypoint x="275" y="90" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Request_Requirements" bpmnElement="Flow_Request_Requirements">
+        <di:waypoint x="360" y="124" />
+        <di:waypoint x="360" y="326" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Requirements_Valid" bpmnElement="Flow_Requirements_Valid">
+        <di:waypoint x="445" y="360" />
+        <di:waypoint x="545" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Mode" bpmnElement="Flow_Valid_Mode">
+        <di:waypoint x="595" y="360" />
+        <di:waypoint x="765" y="360" />
+        <bpmndi:BPMNLabel><dc:Bounds x="659" y="337" width="42" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Missing" bpmnElement="Flow_Valid_Missing">
+        <di:waypoint x="570" y="385" />
+        <di:waypoint x="570" y="477" />
+        <di:waypoint x="500" y="477" />
+        <di:waypoint x="500" y="557" />
+        <bpmndi:BPMNLabel><dc:Bounds x="498" y="453" width="55" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Archived" bpmnElement="Flow_Valid_Archived">
+        <di:waypoint x="582.5" y="372.5" />
+        <di:waypoint x="685" y="372.5" />
+        <di:waypoint x="685" y="557" />
+        <bpmndi:BPMNLabel><dc:Bounds x="696" y="467" width="62" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Mode_Advisory" bpmnElement="Flow_Mode_Advisory">
+        <di:waypoint x="790" y="335" />
+        <di:waypoint x="790" y="290" />
+        <di:waypoint x="925" y="290" />
+        <bpmndi:BPMNLabel><dc:Bounds x="860" y="268" width="30" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Advisory_AdvisoryDone" bpmnElement="Flow_Advisory_AdvisoryDone">
+        <di:waypoint x="1095" y="290" />
+        <di:waypoint x="1242" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Mode_Reserve" bpmnElement="Flow_Mode_Reserve">
+        <di:waypoint x="790" y="385" />
+        <di:waypoint x="790" y="490" />
+        <di:waypoint x="955" y="490" />
+        <bpmndi:BPMNLabel><dc:Bounds x="865" y="468" width="30" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Reserve_Result" bpmnElement="Flow_Reserve_Result">
+        <di:waypoint x="1125" y="490" />
+        <di:waypoint x="1275" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Result_Success" bpmnElement="Flow_Result_Success">
+        <di:waypoint x="1325" y="490" />
+        <di:waypoint x="1562" y="490" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1385" y="467" width="115" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Result_Unavailable" bpmnElement="Flow_Result_Unavailable">
+        <di:waypoint x="1312.5" y="502.5" />
+        <di:waypoint x="1480" y="502.5" />
+        <di:waypoint x="1480" y="622" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1390" y="509" width="91" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Result_Failed" bpmnElement="Flow_Result_Failed">
+        <di:waypoint x="1287.5" y="502.5" />
+        <di:waypoint x="1220" y="502.5" />
+        <di:waypoint x="1220" y="622" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1226" y="515" width="76" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
