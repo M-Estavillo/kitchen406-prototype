@@ -91,137 +91,136 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_ProductCategoryManagement" name="Product Category Management">
     <bpmndi:BPMNPlane id="Plane_ProductCategoryManagement" bpmnElement="Collaboration_ProductCategoryManagement">
-      <bpmndi:BPMNShape id="Participant_ProductCategoryManagement_di" bpmnElement="Participant_ProductCategoryManagement" isHorizontal="true">
-        <dc:Bounds x="20" y="50" width="1474" height="620" />
+      <bpmndi:BPMNShape id="Participant_ProductCategoryManagement_di" bpmnElement="Participant_ProductCategoryManagement" isHorizontal="false">
+        <dc:Bounds x="30" y="25" width="1085" height="1739" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="true">
-        <dc:Bounds x="50" y="50" width="1444" height="270" />
+      <bpmndi:BPMNShape id="Lane_Administrator_di" bpmnElement="Lane_Administrator" isHorizontal="false">
+        <dc:Bounds x="30" y="55" width="472" height="1709" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
-        <dc:Bounds x="50" y="320" width="1444" height="350" />
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="false">
+        <dc:Bounds x="502" y="55" width="613" height="1709" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
-        <dc:Bounds x="92" y="112" width="36" height="36" />
+        <dc:Bounds x="152" y="113" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="48" y="154" width="124" height="30" />
+          <dc:Bounds x="196" y="116" width="124" height="30" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Choose_di" bpmnElement="Choose">
-        <dc:Bounds x="194" y="97" width="152" height="66" />
+        <dc:Bounds x="94" y="287" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Action_di" bpmnElement="Action" isMarkerVisible="true">
-        <dc:Bounds x="407" y="107" width="46" height="46" />
+        <dc:Bounds x="147" y="486" width="46" height="46" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="365" y="83" width="130" height="20" />
+          <dc:Bounds x="55" y="592" width="130" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Change_di" bpmnElement="Change">
-        <dc:Bounds x="554" y="79" width="152" height="66" />
+        <dc:Bounds x="62" y="712" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Remove_di" bpmnElement="Remove">
-        <dc:Bounds x="554" y="202" width="152" height="66" />
+        <dc:Bounds x="278" y="712" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Cancel_di" bpmnElement="Cancel">
-        <dc:Bounds x="412" y="247" width="36" height="36" />
+        <dc:Bounds x="388" y="491" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="368" y="289" width="124" height="30" />
+          <dc:Bounds x="369" y="453" width="124" height="30" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Check_di" bpmnElement="Check">
-        <dc:Bounds x="749" y="362" width="152" height="66" />
+        <dc:Bounds x="558" y="942" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Allowed_di" bpmnElement="Allowed" isMarkerVisible="true">
-        <dc:Bounds x="977" y="372" width="46" height="46" />
+        <dc:Bounds x="611" y="1158" width="46" height="46" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="935" y="348" width="130" height="20" />
+          <dc:Bounds x="665" y="1155" width="130" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Blocked_di" bpmnElement="Blocked">
-        <dc:Bounds x="924" y="507" width="152" height="66" />
+        <dc:Bounds x="812" y="1148" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Save_di" bpmnElement="Save">
-        <dc:Bounds x="1114" y="362" width="152" height="66" />
+        <dc:Bounds x="558" y="1373" width="152" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Done_di" bpmnElement="Done">
-        <dc:Bounds x="1352" y="377" width="36" height="36" />
+        <dc:Bounds x="616" y="1600" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1308" y="419" width="124" height="30" />
+          <dc:Bounds x="660" y="1603" width="124" height="30" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_Start_Choose_di" bpmnElement="Flow_Start_Choose">
-        <di:waypoint x="128" y="130" />
-        <di:waypoint x="194" y="130" />
+        <di:waypoint x="170" y="149" />
+        <di:waypoint x="170" y="287" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Choose_Action_di" bpmnElement="Flow_Choose_Action">
-        <di:waypoint x="346" y="130" />
-        <di:waypoint x="407" y="130" />
+        <di:waypoint x="170" y="353" />
+        <di:waypoint x="170" y="486" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Action_Change_di" bpmnElement="Flow_Action_Change">
-        <di:waypoint x="430" y="107" />
-        <di:waypoint x="430" y="70" />
-        <di:waypoint x="630" y="70" />
-        <di:waypoint x="630" y="79" />
+        <di:waypoint x="147" y="509" />
+        <di:waypoint x="53" y="509" />
+        <di:waypoint x="53" y="745" />
+        <di:waypoint x="62" y="745" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="458" y="52" width="142" height="18" />
+          <dc:Bounds x="58" y="630" width="142" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Action_Remove_di" bpmnElement="Flow_Action_Remove">
-        <di:waypoint x="453" y="130" />
-        <di:waypoint x="500" y="130" />
-        <di:waypoint x="500" y="235" />
-        <di:waypoint x="554" y="235" />
+        <di:waypoint x="170" y="532" />
+        <di:waypoint x="170" y="591" />
+        <di:waypoint x="354" y="591" />
+        <di:waypoint x="354" y="712" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="505" y="216" width="44" height="18" />
+          <dc:Bounds x="304" y="615" width="44" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Action_Cancel_di" bpmnElement="Flow_Action_Cancel">
-        <di:waypoint x="430" y="153" />
-        <di:waypoint x="430" y="247" />
+        <di:waypoint x="193" y="509" />
+        <di:waypoint x="388" y="509" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="437" y="192" width="44" height="18" />
+          <dc:Bounds x="278" y="533" width="44" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Change_Check_di" bpmnElement="Flow_Change_Check">
-        <di:waypoint x="706" y="112" />
-        <di:waypoint x="825" y="112" />
-        <di:waypoint x="825" y="362" />
+        <di:waypoint x="138" y="778" />
+        <di:waypoint x="138" y="975" />
+        <di:waypoint x="558" y="975" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Remove_Check_di" bpmnElement="Flow_Remove_Check">
-        <di:waypoint x="706" y="235" />
-        <di:waypoint x="738" y="235" />
-        <di:waypoint x="738" y="395" />
-        <di:waypoint x="749" y="395" />
+        <di:waypoint x="354" y="778" />
+        <di:waypoint x="354" y="872" />
+        <di:waypoint x="634" y="872" />
+        <di:waypoint x="634" y="942" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Check_Allowed_di" bpmnElement="Flow_Check_Allowed">
-        <di:waypoint x="901" y="395" />
-        <di:waypoint x="977" y="395" />
+        <di:waypoint x="634" y="1008" />
+        <di:waypoint x="634" y="1158" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Allowed_Save_di" bpmnElement="Flow_Allowed_Save">
-        <di:waypoint x="1023" y="395" />
-        <di:waypoint x="1114" y="395" />
+        <di:waypoint x="634" y="1204" />
+        <di:waypoint x="634" y="1373" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1054" y="376" width="29" height="18" />
+          <dc:Bounds x="600" y="1246" width="29" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Allowed_Blocked_di" bpmnElement="Flow_Allowed_Blocked">
-        <di:waypoint x="1000" y="418" />
-        <di:waypoint x="1000" y="507" />
+        <di:waypoint x="657" y="1181" />
+        <di:waypoint x="812" y="1181" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1007" y="454.5" width="29" height="18" />
+          <dc:Bounds x="727.5" y="1197" width="29" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Save_Done_di" bpmnElement="Flow_Save_Done">
-        <di:waypoint x="1266" y="395" />
-        <di:waypoint x="1352" y="395" />
+        <di:waypoint x="634" y="1439" />
+        <di:waypoint x="634" y="1600" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Blocked_Choose_di" bpmnElement="Flow_Blocked_Choose">
-        <di:waypoint x="1000" y="573" />
-        <di:waypoint x="1000" y="623" />
-        <di:waypoint x="270" y="623" />
-        <di:waypoint x="270" y="190" />
-        <di:waypoint x="270" y="163" />
+        <di:waypoint x="964" y="1181" />
+        <di:waypoint x="1033" y="1181" />
+        <di:waypoint x="1033" y="320" />
+        <di:waypoint x="246" y="320" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="562" y="604" width="146" height="18" />
+          <dc:Bounds x="882" y="785" width="146" height="18" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
