@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_CustomRequestProcess" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="Collaboration_CustomRequestProcess">
+    <bpmn:participant id="Participant_CustomRequestProcess" name="Custom Request Process" processRef="Process_CustomRequestProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_CustomRequestProcess" name="Custom Request Process" isExecutable="false">
+    <bpmn:documentation>This process covers custom cake requests from creation through quotation, full payment, preparation, and pickup or owner delivery.</bpmn:documentation>
+    <bpmn:laneSet id="Lanes_CustomRequestProcess">
+      <bpmn:lane id="Lane_Customer" name="Customer">
+        <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Create</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Submit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Read</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Accepted</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Closed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Pay</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Correct</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Paid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unpaid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Confirm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Team" name="Owner or Eligible Staff">
+        <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Possible</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Rejected</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Quote</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Prepare</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Method</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Pickup</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Delivery</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Join</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="Start" name="Custom cake request started">
+      <bpmn:outgoing>Flow_Start_Create</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Create" name="Create the custom cake request">
+      <bpmn:documentation>Choose cake options, add reference images and notes, and enter the requested date and pickup or delivery details.</bpmn:documentation>
+      <bpmn:incoming>Flow_Start_Create</bpmn:incoming>
+      <bpmn:incoming>Flow_Correct_Create</bpmn:incoming>
+      <bpmn:outgoing>Flow_Create_Submit</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Submit" name="Review the estimate and submit the request">
+      <bpmn:documentation>Sign in before submitting the request.</bpmn:documentation>
+      <bpmn:incoming>Flow_Create_Submit</bpmn:incoming>
+      <bpmn:outgoing>Flow_Submit_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Check" name="Check the request details">
+      <bpmn:documentation>Check that the customer is signed in and that required details, reference images, and date are valid.</bpmn:documentation>
+      <bpmn:incoming>Flow_Submit_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Valid</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Valid" name="Request details valid?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Check_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Correct</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Review</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Correct" name="Show what needs to be corrected">
+      <bpmn:incoming>Flow_Valid_Correct</bpmn:incoming>
+      <bpmn:outgoing>Flow_Correct_Create</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Review" name="Review the design, ingredients, and schedule">
+      <bpmn:incoming>Flow_Valid_Review</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_Possible</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Possible" name="Can the bakery fulfill the request?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Review_Possible</bpmn:incoming>
+      <bpmn:outgoing>Flow_Possible_Rejected</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Possible_Quote</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Rejected" name="Request declined">
+      <bpmn:documentation>The owner gives the customer a reason.</bpmn:documentation>
+      <bpmn:incoming>Flow_Possible_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Quote" name="Send the final quotation">
+      <bpmn:documentation>Include the agreed design, pickup or delivery date, final price, and any owner delivery fee. The owner can revise the quotation before acceptance.</bpmn:documentation>
+      <bpmn:incoming>Flow_Possible_Quote</bpmn:incoming>
+      <bpmn:outgoing>Flow_Quote_Read</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Read" name="Review and respond to the quotation">
+      <bpmn:documentation>The customer can discuss changes with the bakery before accepting.</bpmn:documentation>
+      <bpmn:incoming>Flow_Quote_Read</bpmn:incoming>
+      <bpmn:outgoing>Flow_Read_Accepted</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Accepted" name="Quotation accepted before expiry?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Read_Accepted</bpmn:incoming>
+      <bpmn:outgoing>Flow_Accepted_Closed</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Accepted_Pay</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Closed" name="Quotation closed">
+      <bpmn:incoming>Flow_Accepted_Closed</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Pay" name="Pay the full amount">
+      <bpmn:incoming>Flow_Accepted_Pay</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pay_Paid</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Paid" name="Payment confirmed?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Pay_Paid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Paid_Unpaid</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Paid_Confirm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Unpaid" name="Checkout closed">
+      <bpmn:documentation>If payment can still be retried, checkout remains open.</bpmn:documentation>
+      <bpmn:incoming>Flow_Paid_Unpaid</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Confirm" name="Confirm the custom cake order">
+      <bpmn:documentation>Confirm the agreed date and availability before releasing the paid order for production.</bpmn:documentation>
+      <bpmn:incoming>Flow_Paid_Confirm</bpmn:incoming>
+      <bpmn:outgoing>Flow_Confirm_Prepare</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Prepare" name="Prepare the cake and mark it ready">
+      <bpmn:incoming>Flow_Confirm_Prepare</bpmn:incoming>
+      <bpmn:outgoing>Flow_Prepare_Method</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Method" name="Pickup or owner delivery?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Prepare_Method</bpmn:incoming>
+      <bpmn:outgoing>Flow_Method_Pickup</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Method_Delivery</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Pickup" name="Confirm bakery pickup">
+      <bpmn:incoming>Flow_Method_Pickup</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pickup_Join</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Delivery" name="Deliver the cake and confirm handoff">
+      <bpmn:documentation>The owner handles delivery. If the handoff fails, record the reason and confirm completion only after a successful handoff.</bpmn:documentation>
+      <bpmn:incoming>Flow_Method_Delivery</bpmn:incoming>
+      <bpmn:outgoing>Flow_Delivery_Join</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Join" gatewayDirection="Converging">
+      <bpmn:incoming>Flow_Pickup_Join</bpmn:incoming>
+      <bpmn:incoming>Flow_Delivery_Join</bpmn:incoming>
+      <bpmn:outgoing>Flow_Join_Complete</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Complete" name="Mark the order completed">
+      <bpmn:incoming>Flow_Join_Complete</bpmn:incoming>
+      <bpmn:outgoing>Flow_Complete_Done</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Done" name="Order completed">
+      <bpmn:incoming>Flow_Complete_Done</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Create" sourceRef="Start" targetRef="Create" />
+    <bpmn:sequenceFlow id="Flow_Create_Submit" sourceRef="Create" targetRef="Submit" />
+    <bpmn:sequenceFlow id="Flow_Submit_Check" sourceRef="Submit" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Check_Valid" sourceRef="Check" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Correct" name="No" sourceRef="Valid" targetRef="Correct" />
+    <bpmn:sequenceFlow id="Flow_Correct_Create" sourceRef="Correct" targetRef="Create" />
+    <bpmn:sequenceFlow id="Flow_Valid_Review" name="Yes" sourceRef="Valid" targetRef="Review" />
+    <bpmn:sequenceFlow id="Flow_Review_Possible" sourceRef="Review" targetRef="Possible" />
+    <bpmn:sequenceFlow id="Flow_Possible_Rejected" name="No" sourceRef="Possible" targetRef="Rejected" />
+    <bpmn:sequenceFlow id="Flow_Possible_Quote" name="Yes" sourceRef="Possible" targetRef="Quote" />
+    <bpmn:sequenceFlow id="Flow_Quote_Read" sourceRef="Quote" targetRef="Read" />
+    <bpmn:sequenceFlow id="Flow_Read_Accepted" sourceRef="Read" targetRef="Accepted" />
+    <bpmn:sequenceFlow id="Flow_Accepted_Closed" name="Declined or expired" sourceRef="Accepted" targetRef="Closed" />
+    <bpmn:sequenceFlow id="Flow_Accepted_Pay" name="Yes" sourceRef="Accepted" targetRef="Pay" />
+    <bpmn:sequenceFlow id="Flow_Pay_Paid" sourceRef="Pay" targetRef="Paid" />
+    <bpmn:sequenceFlow id="Flow_Paid_Unpaid" name="Canceled or expired" sourceRef="Paid" targetRef="Unpaid" />
+    <bpmn:sequenceFlow id="Flow_Paid_Confirm" name="Yes" sourceRef="Paid" targetRef="Confirm" />
+    <bpmn:sequenceFlow id="Flow_Confirm_Prepare" sourceRef="Confirm" targetRef="Prepare" />
+    <bpmn:sequenceFlow id="Flow_Prepare_Method" sourceRef="Prepare" targetRef="Method" />
+    <bpmn:sequenceFlow id="Flow_Method_Pickup" name="Pickup" sourceRef="Method" targetRef="Pickup" />
+    <bpmn:sequenceFlow id="Flow_Method_Delivery" name="Owner delivery" sourceRef="Method" targetRef="Delivery" />
+    <bpmn:sequenceFlow id="Flow_Pickup_Join" sourceRef="Pickup" targetRef="Join" />
+    <bpmn:sequenceFlow id="Flow_Delivery_Join" sourceRef="Delivery" targetRef="Join" />
+    <bpmn:sequenceFlow id="Flow_Join_Complete" sourceRef="Join" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Complete_Done" sourceRef="Complete" targetRef="Done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_CustomRequestProcess">
+    <bpmndi:BPMNPlane id="Plane_CustomRequestProcess" bpmnElement="Collaboration_CustomRequestProcess">
+      <bpmndi:BPMNShape id="Shape_Participant_CustomRequestProcess" bpmnElement="Participant_CustomRequestProcess" isHorizontal="false">
+        <dc:Bounds x="17" y="15" width="1160" height="1395" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Customer" bpmnElement="Lane_Customer" isHorizontal="false">
+        <dc:Bounds x="17" y="45" width="323" height="1365" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false">
+        <dc:Bounds x="340" y="45" width="430" height="1365" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Team" bpmnElement="Lane_Team" isHorizontal="false">
+        <dc:Bounds x="770" y="45" width="407" height="1365" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
+        <dc:Bounds x="182" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="100" y="57" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Create" bpmnElement="Create">
+        <dc:Bounds x="122" y="157" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Submit" bpmnElement="Submit">
+        <dc:Bounds x="122" y="257" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Check" bpmnElement="Check">
+        <dc:Bounds x="482" y="257" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="536" y="361" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="590" y="349" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Correct" bpmnElement="Correct">
+        <dc:Bounds x="351" y="352" width="148" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Review" bpmnElement="Review">
+        <dc:Bounds x="872" y="412" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Possible" bpmnElement="Possible" isMarkerVisible="true">
+        <dc:Bounds x="926" y="521" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="983" y="489" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Rejected" bpmnElement="Rejected">
+        <dc:Bounds x="1112" y="527" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1066" y="575" width="108" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Quote" bpmnElement="Quote">
+        <dc:Bounds x="872" y="607" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Read" bpmnElement="Read">
+        <dc:Bounds x="122" y="607" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Accepted" bpmnElement="Accepted" isMarkerVisible="true">
+        <dc:Bounds x="176" y="711" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="232" y="680" width="104" height="30" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Closed" bpmnElement="Closed">
+        <dc:Bounds x="47" y="717" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="21" y="765" width="90" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Pay" bpmnElement="Pay">
+        <dc:Bounds x="122" y="802" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Paid" bpmnElement="Paid" isMarkerVisible="true">
+        <dc:Bounds x="536" y="811" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="585" y="785" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Unpaid" bpmnElement="Unpaid">
+        <dc:Bounds x="717" y="817" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="664" y="864" width="103" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Confirm" bpmnElement="Confirm">
+        <dc:Bounds x="482" y="902" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Prepare" bpmnElement="Prepare">
+        <dc:Bounds x="872" y="902" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Method" bpmnElement="Method" isMarkerVisible="true">
+        <dc:Bounds x="926" y="1006" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="980" y="989" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Pickup" bpmnElement="Pickup">
+        <dc:Bounds x="777" y="1097" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Delivery" bpmnElement="Delivery">
+        <dc:Bounds x="992" y="1097" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Join" bpmnElement="Join" isMarkerVisible="true">
+        <dc:Bounds x="926" y="1216" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete">
+        <dc:Bounds x="482" y="1207" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
+        <dc:Bounds x="542" y="1317" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="492" y="1363" width="140" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Create" bpmnElement="Flow_Start_Create">
+        <di:waypoint x="200" y="123" />
+        <di:waypoint x="200" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Create_Submit" bpmnElement="Flow_Create_Submit">
+        <di:waypoint x="200" y="223" />
+        <di:waypoint x="200" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Submit_Check" bpmnElement="Flow_Submit_Check">
+        <di:waypoint x="278" y="290" />
+        <di:waypoint x="482" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Check_Valid" bpmnElement="Flow_Check_Valid">
+        <di:waypoint x="560" y="323" />
+        <di:waypoint x="560" y="361" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Correct" bpmnElement="Flow_Valid_Correct">
+        <di:waypoint x="536" y="385" />
+        <di:waypoint x="499" y="385" />
+        <bpmndi:BPMNLabel><dc:Bounds x="500" y="362" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Correct_Create" bpmnElement="Flow_Correct_Create">
+        <di:waypoint x="351" y="385" />
+        <di:waypoint x="104" y="385" />
+        <di:waypoint x="104" y="190" />
+        <di:waypoint x="122" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Review" bpmnElement="Flow_Valid_Review">
+        <di:waypoint x="560" y="409" />
+        <di:waypoint x="560" y="445" />
+        <di:waypoint x="872" y="445" />
+        <bpmndi:BPMNLabel><dc:Bounds x="578" y="423" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Review_Possible" bpmnElement="Flow_Review_Possible">
+        <di:waypoint x="950" y="478" />
+        <di:waypoint x="950" y="521" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Possible_Rejected" bpmnElement="Flow_Possible_Rejected">
+        <di:waypoint x="974" y="545" />
+        <di:waypoint x="1112" y="545" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1021" y="523" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Possible_Quote" bpmnElement="Flow_Possible_Quote">
+        <di:waypoint x="950" y="569" />
+        <di:waypoint x="950" y="607" />
+        <bpmndi:BPMNLabel><dc:Bounds x="958" y="575" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Quote_Read" bpmnElement="Flow_Quote_Read">
+        <di:waypoint x="872" y="640" />
+        <di:waypoint x="278" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Read_Accepted" bpmnElement="Flow_Read_Accepted">
+        <di:waypoint x="200" y="673" />
+        <di:waypoint x="200" y="711" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Accepted_Closed" bpmnElement="Flow_Accepted_Closed">
+        <di:waypoint x="176" y="735" />
+        <di:waypoint x="83" y="735" />
+        <bpmndi:BPMNLabel><dc:Bounds x="47" y="695" width="120" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Accepted_Pay" bpmnElement="Flow_Accepted_Pay">
+        <di:waypoint x="200" y="759" />
+        <di:waypoint x="200" y="802" />
+        <bpmndi:BPMNLabel><dc:Bounds x="208" y="771" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Pay_Paid" bpmnElement="Flow_Pay_Paid">
+        <di:waypoint x="278" y="835" />
+        <di:waypoint x="536" y="835" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Paid_Unpaid" bpmnElement="Flow_Paid_Unpaid">
+        <di:waypoint x="584" y="835" />
+        <di:waypoint x="717" y="835" />
+        <bpmndi:BPMNLabel><dc:Bounds x="586" y="847" width="120" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Paid_Confirm" bpmnElement="Flow_Paid_Confirm">
+        <di:waypoint x="560" y="859" />
+        <di:waypoint x="560" y="902" />
+        <bpmndi:BPMNLabel><dc:Bounds x="567" y="870" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Confirm_Prepare" bpmnElement="Flow_Confirm_Prepare">
+        <di:waypoint x="638" y="935" />
+        <di:waypoint x="872" y="935" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Prepare_Method" bpmnElement="Flow_Prepare_Method">
+        <di:waypoint x="950" y="968" />
+        <di:waypoint x="950" y="1006" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Method_Pickup" bpmnElement="Flow_Method_Pickup">
+        <di:waypoint x="926" y="1030" />
+        <di:waypoint x="855" y="1030" />
+        <di:waypoint x="855" y="1097" />
+        <bpmndi:BPMNLabel><dc:Bounds x="864" y="1006" width="50" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Method_Delivery" bpmnElement="Flow_Method_Delivery">
+        <di:waypoint x="950" y="1054" />
+        <di:waypoint x="950" y="1081" />
+        <di:waypoint x="1070" y="1081" />
+        <di:waypoint x="1070" y="1097" />
+        <bpmndi:BPMNLabel><dc:Bounds x="969" y="1059" width="120" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Pickup_Join" bpmnElement="Flow_Pickup_Join">
+        <di:waypoint x="855" y="1163" />
+        <di:waypoint x="855" y="1194" />
+        <di:waypoint x="950" y="1194" />
+        <di:waypoint x="950" y="1216" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Delivery_Join" bpmnElement="Flow_Delivery_Join">
+        <di:waypoint x="1070" y="1163" />
+        <di:waypoint x="1070" y="1240" />
+        <di:waypoint x="974" y="1240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Join_Complete" bpmnElement="Flow_Join_Complete">
+        <di:waypoint x="926" y="1240" />
+        <di:waypoint x="638" y="1240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Complete_Done" bpmnElement="Flow_Complete_Done">
+        <di:waypoint x="560" y="1273" />
+        <di:waypoint x="560" y="1317" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

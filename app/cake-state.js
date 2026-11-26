@@ -12,7 +12,7 @@ K.list=()=>P.allowed()?S.requests.filter(r=>r.customer_id===P.id()):[];
 K.versions=r=>S.quotations.filter(q=>q.requestId===r.id).sort((a,b)=>b.version-a.version);
 K.selected=(draft=S.draft)=>T.categories.map(type=>T.options.find(o=>o.id===draft.selections[type]&&o.type===type)).filter(Boolean);
 K.extras=(draft=S.draft)=>T.addons.filter(a=>draft.addons[a.id]>0).map(a=>({...a,quantity:draft.addons[a.id]}));
-K.estimate=(draft=S.draft)=>{const options=K.selected(draft),addons=K.extras(draft),base=options.reduce((s,o)=>s+o.price,0),extra=addons.reduce((s,o)=>s+o.price*o.quantity,0);return {base,extra,total:base+extra,complete:options.length===5};};
+K.estimate=(draft=S.draft)=>{const options=K.selected(draft),addons=K.extras(draft),base=options.reduce((s,o)=>s+o.price,0),extra=addons.reduce((s,o)=>s+o.price*o.quantity,0);return {base,extra,total:base+extra,complete:options.length===T.categories.length};};
 K.serviceable=a=>C.addressValid(a);
 K.offerValidityMs=48*60*60*1000;
 K.activeHolds=()=>K.holds.filter(h=>h.status==='confirmed'||h.status==='held'&&(A.checkoutHolds?.retained(h.orderId,h.expires_at)??h.expires_at>Date.now()));
@@ -56,7 +56,8 @@ K.fulfillmentReason=()=>{
 };
 K.optionsReason=()=>{
  if(K.mock.options!=='normal')return K.mock.options==='loading'?'Loading cake options…':'Cake options are unavailable. Please retry.';
- if(K.selected().length!==5)return 'Choose one option in each required category.';
+ if(K.selected().length!==T.categories.length)return 'Choose one option in each required category.';
+ if(T.pairs&&!T.pairs.some(([size,tier])=>size===S.draft.selections.size&&tier===S.draft.selections.tier))return 'Choose an available size and tier combination.';
  if(K.selected().some(o=>!o.available))return 'A selected option is no longer available. Choose another option.';
  if(Object.entries(S.draft.addons).some(([id,q])=>!Number.isInteger(q)||q<0||q>20||!T.addons.some(a=>a.id===id&&a.available)))return 'Choose available add-ons with quantities from 0 to 20.';
  return '';

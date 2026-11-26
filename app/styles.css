@@ -91,3 +91,15 @@ body.modal-open{overflow:hidden}footer{padding-bottom:70px}
 @media(max-width:380px){#mock-panel .mock-fields{grid-template-columns:1fr}}
 
 .auth-outbox code{overflow-wrap:anywhere}
+.catalog-date-filter{position:relative;font-size:13px;color:var(--ink,#29221d)}
+.catalog-date-filter summary{display:flex;align-items:center;gap:6px;min-height:34px;padding:5px 10px;list-style:none;white-space:nowrap;cursor:pointer;border:1px solid var(--line,#ded5ca);border-radius:8px;background:#fff}
+.catalog-date-filter summary::-webkit-details-marker{display:none}
+.catalog-date-filter summary .material-symbols-outlined{font-size:16px}
+.catalog-date-popover{position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:min(256px,calc(100vw - 32px));padding:10px;background:#fff;border:1px solid var(--line,#ded5ca);border-radius:10px;box-shadow:0 8px 24px #34221226}
+.catalog-date-heading,.catalog-date-footer{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.catalog-date-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;margin:6px 0;text-align:center}
+.catalog-date-grid>span{font-size:11px;line-height:24px}
+.catalog-date-popover button{min-height:30px;padding:3px 6px;border-radius:5px}
+.catalog-date-popover button:not(:disabled):hover{background:#f3ebe2}
+.catalog-date-popover button[aria-pressed=true],.catalog-date-popover button[aria-pressed=true]:hover{background:var(--accent,#814b23);color:#fff}
+.catalog-date-popover button:disabled{opacity:.4;cursor:default}

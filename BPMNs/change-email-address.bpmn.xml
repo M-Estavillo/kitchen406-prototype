@@ -14,34 +14,34 @@
       <bpmn:lane id="Lane_User" name="User (Customer, Staff, or Admin)">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Input</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Enter</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Retry</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>NoRequest</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Enter</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryCode</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Resend</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Cancel</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
         <bpmn:flowNodeRef>Validate</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DetailsError</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Role</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IssueCustomer</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IssueTeam</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Apply</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Applied</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>DetailsError</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CodeError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExpiredCode</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-
     <bpmn:startEvent id="Start" name="Email change requested">
       <bpmn:outgoing>Flow_Start_Input</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="Input" name="Enter new email and current password">
       <bpmn:incoming>Flow_Start_Input</bpmn:incoming>
-      <bpmn:incoming>Flow_Action_Input</bpmn:incoming>
       <bpmn:incoming>Flow_Retry_Input</bpmn:incoming>
+      <bpmn:incoming>Flow_Resend_Input</bpmn:incoming>
       <bpmn:outgoing>Flow_Input_Validate</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="Validate" name="Check session, password, and new email">
@@ -50,9 +50,17 @@
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Ready" name="Details valid?" gatewayDirection="Diverging" default="Flow_Ready_DetailsError">
       <bpmn:incoming>Flow_Validate_Ready</bpmn:incoming>
-      <bpmn:outgoing>Flow_Ready_Role</bpmn:outgoing>
       <bpmn:outgoing>Flow_Ready_DetailsError</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Ready_Role</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="DetailsError" name="Show why the request cannot proceed">
+      <bpmn:incoming>Flow_Ready_DetailsError</bpmn:incoming>
+      <bpmn:outgoing>Flow_DetailsError_Retry</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="Retry" name="View reason and adjust input">
+      <bpmn:incoming>Flow_DetailsError_Retry</bpmn:incoming>
+      <bpmn:outgoing>Flow_Retry_Input</bpmn:outgoing>
+    </bpmn:task>
     <bpmn:exclusiveGateway id="Role" name="Account role?" gatewayDirection="Diverging">
       <bpmn:incoming>Flow_Ready_Role</bpmn:incoming>
       <bpmn:outgoing>Flow_Role_IssueCustomer</bpmn:outgoing>
@@ -73,258 +81,257 @@
       <bpmn:incoming>Flow_IssueTeam_Join</bpmn:incoming>
       <bpmn:outgoing>Flow_Join_Enter</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Enter" name="Enter code or choose to resend">
+    <bpmn:userTask id="Enter" name="Enter Code">
       <bpmn:incoming>Flow_Join_Enter</bpmn:incoming>
-      <bpmn:incoming>Flow_CodeError_Enter</bpmn:incoming>
-      <bpmn:outgoing>Flow_Enter_Action</bpmn:outgoing>
+      <bpmn:incoming>Flow_RetryCode_Enter</bpmn:incoming>
+      <bpmn:outgoing>Flow_Enter_Apply</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Action" name="Code action?" gatewayDirection="Diverging" default="Flow_Action_Cancel">
-      <bpmn:incoming>Flow_Enter_Action</bpmn:incoming>
-      <bpmn:outgoing>Flow_Action_Apply</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Action_Input</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Action_Cancel</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Apply" name="Verify code and save new email if available">
+    <bpmn:serviceTask id="Apply" name="Verify Code and Update Email">
       <bpmn:documentation>Validate the challenge for the signed-in account and recheck email uniqueness. Set email_verified_at for customers. Clear email_verified_at for staff and admins because their code was delivered to their current address.</bpmn:documentation>
-      <bpmn:incoming>Flow_Action_Apply</bpmn:incoming>
+      <bpmn:incoming>Flow_Enter_Apply</bpmn:incoming>
       <bpmn:outgoing>Flow_Apply_Applied</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Applied" name="Email updated?" gatewayDirection="Diverging" default="Flow_Applied_CodeError">
+    <bpmn:exclusiveGateway id="Applied" name="Verification result?" gatewayDirection="Diverging" default="Flow_Applied_CodeError">
       <bpmn:incoming>Flow_Apply_Applied</bpmn:incoming>
       <bpmn:outgoing>Flow_Applied_Done</bpmn:outgoing>
       <bpmn:outgoing>Flow_Applied_CodeError</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Applied_ExpiredCode</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="CodeError" name="Show verification code error">
+      <bpmn:incoming>Flow_Applied_CodeError</bpmn:incoming>
+      <bpmn:outgoing>Flow_CodeError_RetryCode</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="RetryCode" name="Retry with correct code">
+      <bpmn:incoming>Flow_CodeError_RetryCode</bpmn:incoming>
+      <bpmn:outgoing>Flow_RetryCode_Enter</bpmn:outgoing>
+    </bpmn:task>
     <bpmn:endEvent id="Done" name="Email address updated">
       <bpmn:incoming>Flow_Applied_Done</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="DetailsError" name="Show why the request cannot proceed">
-      <bpmn:incoming>Flow_Ready_DetailsError</bpmn:incoming>
-      <bpmn:outgoing>Flow_DetailsError_Retry</bpmn:outgoing>
+    <bpmn:serviceTask id="ExpiredCode" name="Show code expired message">
+      <bpmn:documentation>Tell the user that the code has expired. They can request a new code after the cooldown or leave. Reuse the existing validation and role-based sending steps for a new code.</bpmn:documentation>
+      <bpmn:incoming>Flow_Applied_ExpiredCode</bpmn:incoming>
+      <bpmn:outgoing>Flow_ExpiredCode_Resend</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Retry" name="Try again?" gatewayDirection="Diverging" default="Flow_Retry_NoRequest">
-      <bpmn:incoming>Flow_DetailsError_Retry</bpmn:incoming>
-      <bpmn:outgoing>Flow_Retry_Input</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Retry_NoRequest</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Resend" name="Request a new code?" gatewayDirection="Diverging" default="Flow_Resend_Cancel">
+      <bpmn:incoming>Flow_ExpiredCode_Resend</bpmn:incoming>
+      <bpmn:outgoing>Flow_Resend_Input</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Resend_Cancel</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="NoRequest" name="Request closed">
-      <bpmn:incoming>Flow_Retry_NoRequest</bpmn:incoming>
+    <bpmn:endEvent id="Cancel" name="Email change canceled">
+      <bpmn:incoming>Flow_Resend_Cancel</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:endEvent id="Cancel" name="Current email retained">
-      <bpmn:incoming>Flow_Action_Cancel</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:serviceTask id="CodeError" name="Show code or email availability error">
-      <bpmn:incoming>Flow_Applied_CodeError</bpmn:incoming>
-      <bpmn:outgoing>Flow_CodeError_Enter</bpmn:outgoing>
-    </bpmn:serviceTask>
-
     <bpmn:sequenceFlow id="Flow_Start_Input" sourceRef="Start" targetRef="Input" />
     <bpmn:sequenceFlow id="Flow_Input_Validate" sourceRef="Input" targetRef="Validate" />
     <bpmn:sequenceFlow id="Flow_Validate_Ready" sourceRef="Validate" targetRef="Ready" />
-    <bpmn:sequenceFlow id="Flow_Ready_Role" name="Yes" sourceRef="Ready" targetRef="Role" />
     <bpmn:sequenceFlow id="Flow_Ready_DetailsError" name="No" sourceRef="Ready" targetRef="DetailsError" />
     <bpmn:sequenceFlow id="Flow_DetailsError_Retry" sourceRef="DetailsError" targetRef="Retry" />
     <bpmn:sequenceFlow id="Flow_Retry_Input" name="Retry" sourceRef="Retry" targetRef="Input" />
-    <bpmn:sequenceFlow id="Flow_Retry_NoRequest" name="Close" sourceRef="Retry" targetRef="NoRequest" />
+    <bpmn:sequenceFlow id="Flow_Ready_Role" name="Yes" sourceRef="Ready" targetRef="Role" />
     <bpmn:sequenceFlow id="Flow_Role_IssueCustomer" name="Customer" sourceRef="Role" targetRef="IssueCustomer" />
-    <bpmn:sequenceFlow id="Flow_Role_IssueTeam" name="Staff or admin" sourceRef="Role" targetRef="IssueTeam" />
+    <bpmn:sequenceFlow id="Flow_Role_IssueTeam" name="Staff / Admin" sourceRef="Role" targetRef="IssueTeam" />
     <bpmn:sequenceFlow id="Flow_IssueCustomer_Join" sourceRef="IssueCustomer" targetRef="Join" />
     <bpmn:sequenceFlow id="Flow_IssueTeam_Join" sourceRef="IssueTeam" targetRef="Join" />
     <bpmn:sequenceFlow id="Flow_Join_Enter" sourceRef="Join" targetRef="Enter" />
-    <bpmn:sequenceFlow id="Flow_Enter_Action" sourceRef="Enter" targetRef="Action" />
-    <bpmn:sequenceFlow id="Flow_Action_Apply" name="Submit" sourceRef="Action" targetRef="Apply" />
-    <bpmn:sequenceFlow id="Flow_Action_Input" name="Resend after cooldown" sourceRef="Action" targetRef="Input" />
-    <bpmn:sequenceFlow id="Flow_Action_Cancel" name="Leave" sourceRef="Action" targetRef="Cancel" />
+    <bpmn:sequenceFlow id="Flow_Enter_Apply" sourceRef="Enter" targetRef="Apply" />
     <bpmn:sequenceFlow id="Flow_Apply_Applied" sourceRef="Apply" targetRef="Applied" />
-    <bpmn:sequenceFlow id="Flow_Applied_Done" name="Yes" sourceRef="Applied" targetRef="Done" />
-    <bpmn:sequenceFlow id="Flow_Applied_CodeError" name="No" sourceRef="Applied" targetRef="CodeError" />
-    <bpmn:sequenceFlow id="Flow_CodeError_Enter" sourceRef="CodeError" targetRef="Enter" />
+    <bpmn:sequenceFlow id="Flow_Applied_Done" name="Successful" sourceRef="Applied" targetRef="Done" />
+    <bpmn:sequenceFlow id="Flow_Applied_CodeError" name="Wrong Code" sourceRef="Applied" targetRef="CodeError" />
+    <bpmn:sequenceFlow id="Flow_CodeError_RetryCode" sourceRef="CodeError" targetRef="RetryCode" />
+    <bpmn:sequenceFlow id="Flow_RetryCode_Enter" sourceRef="RetryCode" targetRef="Enter" />
+    <bpmn:sequenceFlow id="Flow_Applied_ExpiredCode" name="Code Expired" sourceRef="Applied" targetRef="ExpiredCode" />
+    <bpmn:sequenceFlow id="Flow_ExpiredCode_Resend" sourceRef="ExpiredCode" targetRef="Resend" />
+    <bpmn:sequenceFlow id="Flow_Resend_Input" name="YES" sourceRef="Resend" targetRef="Input" />
+    <bpmn:sequenceFlow id="Flow_Resend_Cancel" name="No" sourceRef="Resend" targetRef="Cancel" />
   </bpmn:process>
-
   <bpmndi:BPMNDiagram id="Diagram_ChangeEmailAddress">
     <bpmndi:BPMNPlane id="Plane_ChangeEmailAddress" bpmnElement="Collaboration_ChangeEmailAddress">
       <bpmndi:BPMNShape id="Shape_Participant_ChangeEmailAddress" bpmnElement="Participant_ChangeEmailAddress" isHorizontal="false">
-        <dc:Bounds x="30" y="25" width="1050" height="2266" />
+        <dc:Bounds x="17" y="10" width="1021" height="1340" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_UserLane" bpmnElement="Lane_User" isHorizontal="false">
-        <dc:Bounds x="30" y="55" width="525" height="2236" />
+      <bpmndi:BPMNShape id="Shape_Lane_User" bpmnElement="Lane_User" isHorizontal="false">
+        <dc:Bounds x="17" y="40" width="511" height="1310" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_SystemLane" bpmnElement="Lane_System" isHorizontal="false">
-        <dc:Bounds x="555" y="55" width="525" height="2236" />
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false">
+        <dc:Bounds x="528" y="40" width="510" height="1310" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
-        <dc:Bounds x="227" y="114" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="271" y="116" width="114" height="32" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="208" y="77" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="266" y="72" width="82" height="31" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Input" bpmnElement="Input">
-        <dc:Bounds x="169" y="279" width="152" height="72" />
+        <dc:Bounds x="152" y="176" width="148" height="69" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate">
-        <dc:Bounds x="598" y="521" width="152" height="72" />
+        <dc:Bounds x="702" y="176" width="148" height="69" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Ready" bpmnElement="Ready" isMarkerVisible="true">
-        <dc:Bounds x="649" y="750" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="707" y="744" width="118" height="30" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Role" bpmnElement="Role" isMarkerVisible="true">
-        <dc:Bounds x="649" y="886" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="575" y="848" width="98" height="30" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_IssueCustomer" bpmnElement="IssueCustomer">
-        <dc:Bounds x="598" y="1101" width="152" height="72" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_IssueTeam" bpmnElement="IssueTeam">
-        <dc:Bounds x="841" y="1101" width="152" height="72" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Join" bpmnElement="Join" isMarkerVisible="true">
-        <dc:Bounds x="649" y="1293" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Enter" bpmnElement="Enter">
-        <dc:Bounds x="169" y="1306" width="152" height="72" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Action" bpmnElement="Action" isMarkerVisible="true">
-        <dc:Bounds x="220" y="1541" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="100" y="1592" width="112" height="32" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Apply" bpmnElement="Apply">
-        <dc:Bounds x="598" y="1742" width="152" height="72" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Applied" bpmnElement="Applied" isMarkerVisible="true">
-        <dc:Bounds x="649" y="1966" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="707" y="1960" width="118" height="30" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
-        <dc:Bounds x="656" y="2168" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="700" y="2170" width="114" height="32" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="752" y="318" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="735" y="264" width="82" height="20" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_DetailsError" bpmnElement="DetailsError">
-        <dc:Bounds x="852" y="739" width="152" height="72" />
+        <dc:Bounds x="595" y="429" width="148" height="69" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Retry" bpmnElement="Retry" isMarkerVisible="true">
-        <dc:Bounds x="407" y="538" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="392" y="628" width="80" height="25" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Shape_Retry" bpmnElement="Retry">
+        <dc:Bounds x="177" y="425" width="98" height="77" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_NoRequest" bpmnElement="NoRequest">
-        <dc:Bounds x="414" y="297" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="425" y="257" width="114" height="32" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Shape_Role" bpmnElement="Role" isMarkerVisible="true">
+        <dc:Bounds x="878" y="439" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="955" y="449" width="76" height="20" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Cancel" bpmnElement="Cancel">
-        <dc:Bounds x="414" y="1548" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="425" y="1508" width="114" height="32" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Shape_IssueCustomer" bpmnElement="IssueCustomer">
+        <dc:Bounds x="604" y="614" width="148" height="69" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IssueTeam" bpmnElement="IssueTeam">
+        <dc:Bounds x="828" y="614" width="148" height="69" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Join" bpmnElement="Join" isMarkerVisible="true">
+        <dc:Bounds x="655" y="751" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Enter" bpmnElement="Enter">
+        <dc:Bounds x="234" y="740" width="148" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Apply" bpmnElement="Apply">
+        <dc:Bounds x="691" y="823" width="148" height="69" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Applied" bpmnElement="Applied" isMarkerVisible="true">
+        <dc:Bounds x="741" y="978" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="712" y="923" width="106" height="20" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_CodeError" bpmnElement="CodeError">
-        <dc:Bounds x="852" y="1955" width="152" height="72" />
+        <dc:Bounds x="852" y="1110" width="148" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_RetryCode" bpmnElement="RetryCode">
+        <dc:Bounds x="274" y="1242" width="98" height="77" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
+        <dc:Bounds x="747" y="1186" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="697" y="1231" width="136" height="22" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExpiredCode" bpmnElement="ExpiredCode">
+        <dc:Bounds x="556" y="1110" width="148" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Resend" bpmnElement="Resend" isMarkerVisible="true">
+        <dc:Bounds x="299" y="1121" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="256" y="1174" width="134" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Cancel" bpmnElement="Cancel">
+        <dc:Bounds x="305" y="984" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="250" y="957" width="146" height="20" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_Start_Input" bpmnElement="Flow_Start_Input">
-        <di:waypoint x="245" y="150" />
-        <di:waypoint x="245" y="279" />
+        <di:waypoint x="226" y="113" />
+        <di:waypoint x="226" y="176" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Input_Validate" bpmnElement="Flow_Input_Validate">
-        <di:waypoint x="245" y="351" />
-        <di:waypoint x="245" y="439" />
-        <di:waypoint x="674" y="439" />
-        <di:waypoint x="674" y="521" />
+        <di:waypoint x="300" y="210" />
+        <di:waypoint x="702" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Validate_Ready" bpmnElement="Flow_Validate_Ready">
-        <di:waypoint x="674" y="593" />
-        <di:waypoint x="674" y="750" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Ready_Role" bpmnElement="Flow_Ready_Role">
-        <di:waypoint x="674" y="800" />
-        <di:waypoint x="674" y="886" />
-        <bpmndi:BPMNLabel><dc:Bounds x="634" y="818" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="776" y="245" />
+        <di:waypoint x="776" y="318" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Ready_DetailsError" bpmnElement="Flow_Ready_DetailsError">
-        <di:waypoint x="699" y="775" />
-        <di:waypoint x="852" y="775" />
-        <bpmndi:BPMNLabel><dc:Bounds x="774" y="785" width="18" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="752" y="342" />
+        <di:waypoint x="669" y="342" />
+        <di:waypoint x="669" y="429" />
+        <bpmndi:BPMNLabel><dc:Bounds x="691" y="346" width="30" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_DetailsError_Retry" bpmnElement="Flow_DetailsError_Retry">
-        <di:waypoint x="928" y="739" />
-        <di:waypoint x="928" y="657" />
-        <di:waypoint x="524" y="657" />
-        <di:waypoint x="524" y="563" />
-        <di:waypoint x="457" y="563" />
+        <di:waypoint x="595" y="463" />
+        <di:waypoint x="275" y="463" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Retry_Input" bpmnElement="Flow_Retry_Input">
-        <di:waypoint x="407" y="563" />
-        <di:waypoint x="138" y="563" />
-        <di:waypoint x="138" y="315" />
-        <di:waypoint x="169" y="315" />
-        <bpmndi:BPMNLabel><dc:Bounds x="97" y="419" width="36" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="226" y="425" />
+        <di:waypoint x="226" y="245" />
+        <bpmndi:BPMNLabel><dc:Bounds x="185" y="314" width="38" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Retry_NoRequest" bpmnElement="Flow_Retry_NoRequest">
-        <di:waypoint x="432" y="538" />
-        <di:waypoint x="432" y="333" />
-        <bpmndi:BPMNLabel><dc:Bounds x="391" y="417" width="36" height="16" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Edge_Flow_Ready_Role" bpmnElement="Flow_Ready_Role">
+        <di:waypoint x="800" y="342" />
+        <di:waypoint x="902" y="342" />
+        <di:waypoint x="902" y="439" />
+        <bpmndi:BPMNLabel><dc:Bounds x="829" y="346" width="30" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Role_IssueCustomer" bpmnElement="Flow_Role_IssueCustomer">
-        <di:waypoint x="674" y="936" />
-        <di:waypoint x="674" y="1101" />
-        <bpmndi:BPMNLabel><dc:Bounds x="605" y="978" width="64" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="878" y="463" />
+        <di:waypoint x="795" y="463" />
+        <di:waypoint x="795" y="551" />
+        <di:waypoint x="678" y="551" />
+        <di:waypoint x="678" y="614" />
+        <bpmndi:BPMNLabel><dc:Bounds x="718" y="527" width="62" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Role_IssueTeam" bpmnElement="Flow_Role_IssueTeam">
-        <di:waypoint x="699" y="911" />
-        <di:waypoint x="917" y="911" />
-        <di:waypoint x="917" y="1101" />
-        <bpmndi:BPMNLabel><dc:Bounds x="822" y="960" width="90" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="902" y="487" />
+        <di:waypoint x="902" y="614" />
+        <bpmndi:BPMNLabel><dc:Bounds x="914" y="532" width="72" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_IssueCustomer_Join" bpmnElement="Flow_IssueCustomer_Join">
-        <di:waypoint x="674" y="1173" />
-        <di:waypoint x="674" y="1293" />
+        <di:waypoint x="678" y="683" />
+        <di:waypoint x="678" y="729" />
+        <di:waypoint x="679" y="729" />
+        <di:waypoint x="679" y="751" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_IssueTeam_Join" bpmnElement="Flow_IssueTeam_Join">
-        <di:waypoint x="917" y="1173" />
-        <di:waypoint x="917" y="1318" />
-        <di:waypoint x="699" y="1318" />
+        <di:waypoint x="902" y="683" />
+        <di:waypoint x="902" y="775" />
+        <di:waypoint x="703" y="775" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Join_Enter" bpmnElement="Flow_Join_Enter">
-        <di:waypoint x="649" y="1318" />
-        <di:waypoint x="488" y="1318" />
-        <di:waypoint x="488" y="1342" />
-        <di:waypoint x="321" y="1342" />
+        <di:waypoint x="655" y="775" />
+        <di:waypoint x="382" y="775" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Enter_Action" bpmnElement="Flow_Enter_Action">
-        <di:waypoint x="245" y="1378" />
-        <di:waypoint x="245" y="1541" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Action_Apply" bpmnElement="Flow_Action_Apply">
-        <di:waypoint x="245" y="1591" />
-        <di:waypoint x="245" y="1778" />
-        <di:waypoint x="598" y="1778" />
-        <bpmndi:BPMNLabel><dc:Bounds x="198" y="1686" width="42" height="16" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Action_Input" bpmnElement="Flow_Action_Input">
-        <di:waypoint x="220" y="1566" />
-        <di:waypoint x="160" y="1566" />
-        <di:waypoint x="160" y="315" />
-        <di:waypoint x="169" y="315" />
-        <bpmndi:BPMNLabel><dc:Bounds x="165" y="870" width="132" height="16" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Action_Cancel" bpmnElement="Flow_Action_Cancel">
-        <di:waypoint x="270" y="1566" />
-        <di:waypoint x="414" y="1566" />
-        <bpmndi:BPMNLabel><dc:Bounds x="317" y="1590" width="36" height="16" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Edge_Flow_Enter_Apply" bpmnElement="Flow_Enter_Apply">
+        <di:waypoint x="308" y="810" />
+        <di:waypoint x="308" y="857" />
+        <di:waypoint x="691" y="857" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Apply_Applied" bpmnElement="Flow_Apply_Applied">
-        <di:waypoint x="674" y="1814" />
-        <di:waypoint x="674" y="1966" />
+        <di:waypoint x="765" y="892" />
+        <di:waypoint x="765" y="978" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Applied_Done" bpmnElement="Flow_Applied_Done">
-        <di:waypoint x="674" y="2016" />
-        <di:waypoint x="674" y="2168" />
-        <bpmndi:BPMNLabel><dc:Bounds x="634" y="2076" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="765" y="1026" />
+        <di:waypoint x="765" y="1186" />
+        <bpmndi:BPMNLabel><dc:Bounds x="733" y="1043" width="64" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Applied_CodeError" bpmnElement="Flow_Applied_CodeError">
-        <di:waypoint x="699" y="1991" />
-        <di:waypoint x="852" y="1991" />
-        <bpmndi:BPMNLabel><dc:Bounds x="774" y="2001" width="18" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="789" y="1002" />
+        <di:waypoint x="957" y="1002" />
+        <di:waypoint x="957" y="1110" />
+        <bpmndi:BPMNLabel><dc:Bounds x="891" y="972" width="76" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_CodeError_Enter" bpmnElement="Flow_CodeError_Enter">
-        <di:waypoint x="928" y="1955" />
-        <di:waypoint x="928" y="1350" />
-        <di:waypoint x="330" y="1350" />
-        <di:waypoint x="330" y="1342" />
-        <di:waypoint x="321" y="1342" />
+      <bpmndi:BPMNEdge id="Edge_Flow_CodeError_RetryCode" bpmnElement="Flow_CodeError_RetryCode">
+        <di:waypoint x="926" y="1180" />
+        <di:waypoint x="926" y="1280" />
+        <di:waypoint x="372" y="1280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RetryCode_Enter" bpmnElement="Flow_RetryCode_Enter">
+        <di:waypoint x="274" y="1280" />
+        <di:waypoint x="131" y="1280" />
+        <di:waypoint x="131" y="775" />
+        <di:waypoint x="234" y="775" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Applied_ExpiredCode" bpmnElement="Flow_Applied_ExpiredCode">
+        <di:waypoint x="741" y="1002" />
+        <di:waypoint x="592" y="1002" />
+        <di:waypoint x="592" y="1110" />
+        <bpmndi:BPMNLabel><dc:Bounds x="595" y="972" width="76" height="17" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ExpiredCode_Resend" bpmnElement="Flow_ExpiredCode_Resend">
+        <di:waypoint x="556" y="1145" />
+        <di:waypoint x="347" y="1145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Resend_Input" bpmnElement="Flow_Resend_Input">
+        <di:waypoint x="299" y="1145" />
+        <di:waypoint x="92" y="1145" />
+        <di:waypoint x="92" y="210" />
+        <di:waypoint x="152" y="210" />
+        <bpmndi:BPMNLabel><dc:Bounds x="237" y="1124" width="36" height="17" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Resend_Cancel" bpmnElement="Flow_Resend_Cancel">
+        <di:waypoint x="323" y="1121" />
+        <di:waypoint x="323" y="1020" />
+        <bpmndi:BPMNLabel><dc:Bounds x="329" y="1066" width="26" height="17" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -104,11 +104,17 @@ G.syncInventoryCatalog=(products,savedCategories,variants)=>{
  }
 };
 G.loadCatalog=async()=>{
- const {products,categories,variants,schedules=[],availability}=await A.authUI.api('catalog');
+ const [{products,categories,variants,schedules=[],availability},cake]=await Promise.all([
+  A.authUI.api('catalog'),A.authUI.api('cake-options').catch(()=>null)
+ ]);
  if(I.databaseAccount)return;
+ if(cake)A.pricing.applyCakeCatalog(cake);
  G.syncInventoryCatalog(products,categories,variants);
  A.capacity.syncSchedules(schedules);
- if(availability)I.syncCustomerAvailability(availability);
+ if(availability){
+  const stock=[...new Map([...availability.stock,...cake?.stock||[]].map(row=>[row.inventory_id,row])).values()];
+  I.syncCustomerAvailability({...availability,stock});
+ }
  A.catalog.refresh();
  if(A.route==='product')A.product.refreshAvailability();
  if(A.route==='subscriptions')A.subscriptions.render();
@@ -225,10 +231,11 @@ function variantChoices(p,selectedId){
  const legacy=variants.filter(v=>(v.active!==false||v.id===selectedId)&&!choices.some(choice=>choice.variant===v));
  return [...choices,...legacy.map(variant=>({key:'saved:'+variant.id,label:variant.label,variant}))];
 }
-function recommendedPrice(label,cost,overhead){
- const rows=[['Ingredients',cost?V.money(cost.ingredients):'—'],['Packaging',cost?V.money(cost.packaging):'—'],
-  ['Utility overhead',V.money(overhead)],
-  ['Markup ('+P.markup+'%)',cost?V.money(cost.suggested-cost.total):'—'],['Profit per unit',cost?V.money(cost.suggested-cost.total):'—'],['Recommended price',cost?V.money(cost.suggested):'Unavailable']];
+function recommendedPrice(label,cost){
+ if(!cost)return '<p class="muted">Set recipe materials, times and costing rates.</p>';
+ const rows=[['Materials',V.money(cost.materials)],['Estimated labor',V.money(cost.labor)],
+  ['Utility cost',V.money(cost.overhead)],['Estimated cost',V.money(cost.total)],
+  ['Markup',V.money(cost.markupAmount)],['Recommended price',V.money(cost.suggested)]];
  return `<h4>${E(label)}</h4><dl>${rows.map(([name,value])=>`<div><dt>${E(name)}</dt><dd>${E(value)}</dd></div>`).join('')}</dl>`;
 }
 function materialRows(value){
@@ -260,8 +267,7 @@ function refreshRecommendation(form,section){
  const key=section.dataset.productVariant;
  const costPanel=[...form.querySelectorAll('.owner-product-cost [data-product-variant]')].find(panel=>panel.dataset.productVariant===key);
  const recipe=materialRecipe(materialRows(section.querySelector('input[type=hidden]').value));
- const overhead=Number(section.dataset.overhead);
- costPanel.innerHTML=recommendedPrice(section.dataset.variantLabel,P.breakdown(recipe,overhead),overhead);
+ costPanel.innerHTML=recommendedPrice(section.dataset.variantLabel,P.recommend(recipe,P.readTiming(form)));
 }
 function syncVariantFields(form){
  const selected=new Set([...form.querySelectorAll('[name=variants]:checked')].map(input=>input.value));
@@ -305,8 +311,7 @@ function productEditor(p,variantId){
  const recipeFields=({key,label,variant})=>{
   const recipe=variant?I.recipe(p.id,variant.id):null;
   const rows=Object.entries(recipe||{}).map(([id,quantity])=>({id,quantity}));
-  const overhead=variant?(P.overheads.get(p.id+':'+variant.id)??P.overhead):P.overhead;
-  return `<section class="owner-product-materials-variant" data-product-variant="${E(key)}" data-variant-label="${E(label)}" data-overhead="${overhead}"><input type="hidden" name="bom-${E(key)}" value="${E(JSON.stringify(rows))}"><div class="owner-material-heading"><h3>Recipe</h3>${V.button('product-add-material','+ Add material')}</div><div class="owner-material-table"></div></section>`;
+  return `<section class="owner-product-materials-variant" data-product-variant="${E(key)}" data-variant-label="${E(label)}"><input type="hidden" name="bom-${E(key)}" value="${E(JSON.stringify(rows))}"><div class="owner-material-heading"><h3>Recipe</h3>${V.button('product-add-material','+ Add material')}</div><div class="owner-material-table"></div></section>`;
  };
  const stateFields=`<input type="hidden" name="schedule-id" value="${E(schedule?.id||'')}"><input type="hidden" name="schedule-version" value="${A.capacity.version}"><input type="hidden" name="schedule-inventory-version" value="${E(schedule?.inventoryVersion||'')}"><input type="hidden" name="pricing-version" value="${P.version}">`;
  const cards=variants.map(choice=>{
@@ -315,12 +320,15 @@ function productEditor(p,variantId){
   return `<article class="owner-edit-pack" data-edit-pack="${E(key)}" ${variant && variant.id===variantId?'data-variant-target tabindex="-1"':''}>
    <label class="owner-edit-pack-choice"><input type="checkbox" name="variants" value="${E(key)}" ${enabled?'checked':''}> <span>${E(label)}</span></label>
    <fieldset aria-label="${E(label)} pricing and recipe" ${enabled?'':'hidden disabled'}>
-    <div class="owner-edit-pack-prices"><div class="owner-edit-pack-price">${V.field('price-'+key,'Selling price',variant?.price??'','number','required min="0.01" step="0.01"')}</div>
-    <section class="owner-product-cost"><h3>Recommended selling price</h3><div data-product-variant="${E(key)}"></div></section></div>
+    <div class="owner-edit-pack-prices">
+    <section class="owner-product-cost"><h3>Recommended selling price</h3><div data-product-variant="${E(key)}"></div></section>
+    <div class="owner-edit-pack-price">${V.field('price-'+key,'Selling price',variant?.price??'','number','required min="0.01" step="0.01"')}</div></div>
     ${recipeFields(choice)}
    </fieldset>
   </article>`;
  }).join('');
+ const timing=P.productTimings.get(p?.id);
+ const times=P.timingFields(timing);
  const details=`<div class="owner-edit-shared-fields"><div>${name}${category}</div><div>${description}${switches}</div>${scheduleFields}</div>`;
  return `<div class="owner-product-editor owner-edit-product">
   <form class="staff-form owner-edit-product-form" data-owner-form="product" data-id="${p?.id||''}" data-version="${G.version}">
@@ -330,7 +338,8 @@ function productEditor(p,variantId){
    </div>
    ${V.error()}<fieldset class="owner-edit-product-fields" data-product-edit-fields aria-label="Product details and pack sizes" ${fresh?'':'disabled'}>
     <div class="owner-edit-summary">${V.panel('Product details',details)}${V.panel('Product image',imageSection)}</div>
-    <section class="commerce-card owner-edit-pack-sizes"><header><h2>Pack sizes</h2><p>Enable one or both pack sizes. Each has its own price and recipe.</p></header><div class="owner-edit-pack-grid">${cards}</div></section>
+    <section class="commerce-card owner-edit-pack-sizes"><header><h2>Pack sizes</h2><p>Enable one or both pack sizes. Each has its own price and recipe.</p></header><div class="owner-edit-pack-grid">${cards}</div>
+    <section class="owner-product-recipe-times"><h3>Recipe times</h3><div>${times}</div></section></section>
    </fieldset>
   </form></div>`;
 }
@@ -387,7 +396,11 @@ G.initEditor=form=>{
 };
 document.addEventListener('input',e=>{
  const field=e.target,form=field.form,section=field.closest('.owner-product-materials-variant');
- if(form?.dataset.ownerForm!=='product'||!section||!field.dataset.materialField)return;
+ if(form?.dataset.ownerForm!=='product')return;
+ if(['preparation-time','oven-time'].includes(field.name)){
+  form.querySelectorAll('.owner-product-materials-variant').forEach(section=>refreshRecommendation(form,section));
+ }
+ if(!section||!field.dataset.materialField)return;
  const row=field.closest('[data-material-row]'),input=section.querySelector('input[type=hidden]'),rows=materialRows(input.value);
  const material=rows[Number(row.dataset.materialRow)];
  material[field.dataset.materialField]=field.value;
@@ -498,6 +511,7 @@ document.addEventListener('submit',async e=>{const form=e.target.closest('[data-
   const coverFile=form.elements['cover-upload'].files[0];
   let coverUpload;
   const eligible=get('subscription')==='true';
+  const timing=P.readTiming(form);
   const targetId=p?.id??Math.max(0,...A.products.map(p=>p.id))+1;
   const schedule=eligible?{id:get('schedule-id'),product_id:targetId,status:'active',
    preparation_day:get('preparation_day')===''?NaN:Number(get('preparation_day')),
@@ -517,6 +531,7 @@ document.addEventListener('submit',async e=>{const form=e.target.closest('[data-
    form.querySelector(`.owner-product-materials-variant[data-product-variant="${CSS.escape(missing.key)}"] [data-owner=product-add-material]`)?.focus();
   }
   else if(selected.some(v=>!Number.isFinite(v.price)||v.price<0.01))error='Enter a positive selling price for each selected variant.';
+  else if((P.productTimings.has(targetId)||get('preparation-time')!==''||get('oven-time')!=='')&&!P.validTiming(timing))error='Enter both recipe times.';
   else if(schedule)error=A.capacity.scheduleError(schedule,scheduleVersion,true);
   if(!error&&coverFile){
    const generation=A.session.generation,submit=form.querySelector('button[type=submit]');
@@ -531,7 +546,7 @@ document.addEventListener('submit',async e=>{const form=e.target.closest('[data-
    const savedSchedule=schedule?{...schedule,id:schedule.id||'schedule-'+form.dataset.operation,
     inventoryVersion:get('schedule-inventory-version')||null}:undefined;
    if(!error){
-    const product={id:targetId,name:get('name'),description:get('description'),category,image:cover,active:get('active')==='true',subscription:eligible};
+    const product={id:targetId,name:get('name'),description:get('description'),category,image:cover,active:get('active')==='true',subscription:eligible,...(P.validTiming(timing)?{timing}:{})};
     const variants=selected.map(choice=>({
      variant:choice.variant?.id||choice.id,
      variantName:choice.label,price:Math.round(choice.price*100)/100,active:true,
@@ -557,6 +572,7 @@ document.addEventListener('submit',async e=>{const form=e.target.closest('[data-
   }else if(!error){
    if(p?.subscription&&!eligible)A.capacity.deactivateProductSchedules(p.id);
    const target=p||{id:targetId,variants:[]};
+   if(P.validTiming(timing))P.productTimings.set(targetId,timing);
    const retained=new Set(selected.map(v=>v.variant));
    for(const variant of target.variants)variant.active=retained.has(variant);
    for(const choice of selected){

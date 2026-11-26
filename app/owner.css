@@ -239,6 +239,15 @@
 #owner-modal :is([data-owner-form=category],[data-owner-form=pricing-settings],[data-owner-form=stock]){gap:12px}
 #owner-modal :is([data-owner-form=category],[data-owner-form=pricing-settings],[data-owner-form=stock]) :is(input,select){width:100%;min-height:38px;padding:7px 9px;font-size:13px;background:#fff}
 #owner-modal :is([data-owner-form=category],[data-owner-form=pricing-settings],[data-owner-form=stock],.owner-category-list,.owner-category-actions) .btn{min-height:36px;padding:6px 11px;font-size:13px}
+.owner-costing-actions{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px}
+#owner-modal .owner-costing-actions .btn{width:auto;min-height:36px;padding:6px 12px;font-size:13px}
+.owner-cake-tools{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+.owner-cake-tools .btn,.owner-cake-options-page .btn{min-height:32px;padding:5px 10px;font-size:12px;white-space:nowrap}
+.owner-cake-options-page .staff-table{width:100%;min-width:360px}
+.owner-cake-options-page .staff-table :is(th,td){padding:10px 12px;vertical-align:middle}
+.owner-cake-options-page .staff-table :is(th,td):last-child{text-align:right;width:1%;white-space:nowrap}
+.owner-cake-options-page .staff-table :is(th,td):nth-child(3){white-space:nowrap}
+@media(max-width:760px){.owner-cake-tools{margin-top:12px}}
 #owner-modal .dialog-card:has(.owner-category-manager){max-width:560px;padding:clamp(18px,4vw,34px);background:#fcf7ef}
 #owner-modal .dialog-card:has(.owner-category-manager,[data-owner-form=category]) h2{font-family:inherit;font-size:24px;font-weight:600;margin:0 28px 8px 0}
 .owner-category-manager>p{margin:0 0 22px;color:var(--muted)}
@@ -387,6 +396,11 @@
 .owner-quote-breakdown dl>div{display:flex;justify-content:space-between;gap:16px}
 .owner-quote-breakdown dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
 .owner-quote-breakdown dl>div:last-child{border-top:1px solid var(--line);padding-top:10px;font-weight:600;font-size:16px}
+#owner-modal [data-owner-form=quotation]>fieldset{grid-column:1/-1;min-width:0}
+.owner-costing-material{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto;gap:8px;align-items:end;margin-bottom:8px}
+.owner-costing-material .field{min-width:0;margin:0}
+.owner-costing-material select{width:100%}
+@media(max-width:400px){.owner-costing-material{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.owner-costing-material .field:first-child{grid-column:1/-1}}
 /* Owner capacity follows the approved staff calendar geometry. */
 .owner-capacity-workspace{min-width:0}
 .owner-capacity-workspace .staff-calendar-filters{grid-template-columns:repeat(2,minmax(0,220px))}
@@ -953,7 +967,7 @@
 .owner-edit-product .owner-edit-pack-choice{display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;font:600 22px/1.2 'Playfair Display',serif;color:#442510}
 .owner-edit-pack-choice input{appearance:auto;width:18px;height:18px;accent-color:var(--accent)}
 .owner-edit-pack fieldset{min-width:0;padding:0;margin:10px 0 0;border:0}
-.owner-edit-pack-prices{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4fr);align-items:start;gap:12px;margin-bottom:12px}
+.owner-edit-pack-prices{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-bottom:12px}
 .owner-edit-pack-price .field{position:relative}
 .owner-edit-pack-price .field::after{content:"₱";position:absolute;left:10px;bottom:9px;pointer-events:none}
 .owner-edit-product .owner-edit-pack-price input{padding-left:25px}
@@ -969,9 +983,12 @@
 .owner-edit-pack .staff-table :is(input,select){min-height:32px;padding:4px}
 .owner-edit-pack .staff-table .owner-edit-remove{min-width:0;padding:4px 6px;color:#ad211d}
 .owner-edit-remove .material-symbols-outlined{font-size:16px}
+.owner-product-recipe-times{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.owner-product-recipe-times h3{font-size:16px;margin:0 0 8px}
+.owner-product-recipe-times>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:480px}
 @media(max-width:960px){.owner-edit-summary,.owner-edit-pack-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:540px){.owner-edit-shared-fields>div{grid-template-columns:minmax(0,1fr)}.owner-edit-toolbar>div{margin-left:auto}}
-@media(max-width:400px){.owner-edit-pack-prices{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:400px){.owner-product-recipe-times>div{grid-template-columns:minmax(0,1fr)}}
 
 .owner-capacity-workspace .staff-calendar-panel .staff-day.blocked{background:#fce7e5;color:#a12622}
 .owner-capacity-workspace .staff-day.blocked .staff-day-count{color:#a12622}

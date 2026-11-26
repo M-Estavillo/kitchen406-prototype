@@ -29,9 +29,10 @@ const pageTemplates = {
 </template>
 </div>
 <div id="catalog-summary-section" class="ml-auto">
-<p class="font-body-sm text-body-sm text-on-surface-variant text-right whitespace-nowrap ml-auto" aria-live="polite" id="catalog-results-label">
-            Showing <span class="font-semibold text-on-surface" id="visible-range">0</span> of <span class="font-semibold text-on-surface" id="total-count">0</span> products
-          </p>
+<details id="catalog-date-filter" class="catalog-date-filter">
+<summary><span class="material-symbols-outlined" aria-hidden="true">calendar_today</span><span data-date-label>Filter by date</span></summary>
+<div class="catalog-date-popover" data-date-calendar></div>
+</details>
 </div>
 </div>
 </section>
@@ -109,8 +110,8 @@ const pageTemplates = {
 <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3 text-outline">
 <span class="material-symbols-outlined text-[24px]">search_off</span>
 </div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface">No products match your search.</h3>
-<p class="mt-1 font-body-md text-body-md text-on-surface-variant">Try modifying your keywords or resetting filters.</p>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No products match your filters.</h3>
+<p class="mt-1 font-body-md text-body-md text-on-surface-variant">Try different dates or reset your filters.</p>
 <button class="mt-5 px-4 py-2 bg-primary text-on-primary font-title-sm text-title-sm rounded-lg hover:bg-primary-container transition-colors" id="catalog-reset-filters-btn" type="button">
             Clear Search
           </button>

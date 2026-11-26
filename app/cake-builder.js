@@ -26,7 +26,7 @@ B.options=()=>{
  if(!T.options.length)return U.empty('No cake options currently available','Check back when the bakery has configured its cake options.',U.link('custom-cakes','Back to custom cakes'));
  if(K.mock.options==='loading')return B.loading();
  if(K.mock.options!=='normal')return U.empty(K.mock.options==='loading'?'Loading cake options…':'Cake options could not be loaded','Your selections are preserved.',V.button('cake-retry','Try again'));
- return U.columns(T.categories.map(type=>U.panel('Cake '+type,`<p class="muted">Choose one · Required</p><div class="cake-options">${T.options.filter(o=>o.type===type).map(o=>`<button class="cake-option" type="button" data-p4="cake-option" data-type="${type}" data-id="${o.id}" aria-pressed="${S.draft.selections[type]===o.id}" ${o.available?'':'disabled'}><strong>${E(o.name)}</strong><span class="cake-option-footer"><span>${E(o.description)}</span><b>${o.price?K.money(o.price):'Included · '+K.money(0)}</b></span>${o.available?'':'<small>Unavailable</small>'}</button>`).join('')}</div>`,S.draft.selections[type]?'':'<span class="cake-required">Required*</span>')).join(''),
+ return U.columns(T.categories.map(type=>U.panel(type==='tier'?'Tier count':'Cake '+type,`<p class="muted">Choose one · Required</p><div class="cake-options">${T.options.filter(o=>o.type===type&&(!T.pairs||!['size','tier'].includes(type)||T.pairs.some(([size,tier])=>type==='size'?size===o.id:tier===o.id&&(!S.draft.selections.size||size===S.draft.selections.size)))).map(o=>`<button class="cake-option" type="button" data-p4="cake-option" data-type="${type}" data-id="${o.id}" aria-pressed="${S.draft.selections[type]===o.id}" ${o.available?'':'disabled'}><strong>${E(o.name)}</strong><span class="cake-option-footer"><span>${E(o.description)}</span><b>${o.price?K.money(o.price):'Included · '+K.money(0)}</b></span>${o.available?'':'<small>Unavailable</small>'}</button>`).join('')}</div>`,S.draft.selections[type]?'':'<span class="cake-required">Required*</span>')).join(''),
  B.summary()+(K.optionsReason()?U.alert(K.optionsReason()):'')+V.button('cake-next','Continue to references',!!K.optionsReason(),'data-step="references"',true)+U.link('custom-cakes/request/details','Back to fulfillment'));
 };
 B.photos=(images,editable=false)=>`<div class="cake-photos ${editable?'cake-reference-previews':''}">${images.map((item,index)=>item?`<section class="cake-reference-photo"><button type="button" class="cake-image-button" data-p4="cake-enlarge" data-url="${E(item.url)}" data-name="${E(item.name)}" aria-label="${E('Preview '+item.name)}"><img src="${E(item.url)}" alt="${E(item.name)}"></button><p class="cake-reference-name">${E(item.name)}</p>${editable?`<p class="muted" role="status">${item.status==='loading'?'Checking image?':item.size?(item.size/1024/1024).toFixed(1)+' MB':'Image ready'}</p><div class="cake-photo-actions"><button type="button" class="cake-photo-icon" data-p4="cake-image-add" data-slot="${index}" title="Replace image" aria-label="Replace ${E(item.name)}"><span class="material-symbols-outlined" aria-hidden="true">edit</span></button><button type="button" class="cake-photo-icon" data-p4="cake-image-remove" data-slot="${index}" aria-label="${E('Remove '+item.name)}" title="Remove image"><span class="material-symbols-outlined" aria-hidden="true">delete</span></button></div>`:''}</section>`:'').join('')}</div>`;
@@ -61,7 +61,14 @@ document.addEventListener('click',e=>{
  if(action==='cake-month'){const date=new Date(Date.UTC(K.year,K.month+Number(el.dataset.delta),1));K.year=date.getUTCFullYear();K.month=date.getUTCMonth();}
  if(action==='cake-method'&&['pickup','delivery'].includes(el.dataset.value)){S.draft.method=el.dataset.value;K.addressUI.form=null;K.addressUI.editing=null;}
  if(action==='cake-date'){if(K.requestDateReason(el.dataset.value))return;S.draft.date=el.dataset.value;}
- if(action==='cake-option'){S.draft.selections[el.dataset.type]=el.dataset.id;S.draft.reviewedPrice=null;}
+ if(action==='cake-option'){
+  const {type,id}=el.dataset,selections=S.draft.selections;
+  selections[type]=id;
+  if(T.pairs&&type==='size'&&selections.tier&&!T.pairs.some(([size,tier])=>size===id&&tier===selections.tier)){
+   delete selections.tier;
+  }
+  S.draft.reviewedPrice=null;
+ }
  if(action==='cake-addon'){const id=el.dataset.id;S.draft.addons[id]=Math.max(0,Math.min(20,(S.draft.addons[id]||0)+Number(el.dataset.delta)));S.draft.reviewedPrice=null;}
  if(action==='cake-image-add'){
   const index=Number(el.dataset.slot),input=A.$('cake-reference-file');

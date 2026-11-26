@@ -187,7 +187,7 @@ I.useDatabase=account=>{
  queue=Promise.resolve();
 };
 
-function applySnapshot({items,movements,recipes,bom,recipeVersion,products,categories,schedules=[]}){
+function applySnapshot({items,movements,recipes,bom,recipeVersion,products,categories,schedules=[],pricing,productTimings=[]}){
  const local=I.movements.filter(m=>!m.persisted);
  const deltas=stockDeltas();
  I.items=items.map(i=>({
@@ -212,6 +212,8 @@ function applySnapshot({items,movements,recipes,bom,recipeVersion,products,categ
   if(!A.pricing.recipes.has(row.variant_id))A.pricing.recipes.set(row.variant_id,{});
   A.pricing.recipes.get(row.variant_id)[row.inventory_id]=row.quantity_required;
  }
+ A.pricing.applySettings(pricing);
+ A.pricing.productTimings=new Map(productTimings.map(t=>[t.product_id,t]));
  A.productAdmin.syncInventoryCatalog(products,categories,recipes);
  A.capacity.syncSchedules(schedules);
  A.pricing.version++;

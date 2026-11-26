@@ -10,6 +10,9 @@
       let subscriptionOnly = false;
       let currentPage = 1;
       const PAGE_SIZE = 8;
+      const selectedDates = new Set();
+      const schedule = K406.schedule;
+      let calendarMonth;
 
       // DOM Elements
       const grid = document.getElementById('product-grid');
@@ -27,8 +30,8 @@
       const subToggle = document.getElementById('subscription-toggle');
       const categoryTabs = document.getElementById('category-tabs');
       const categoryTemplate = document.getElementById('category-tab-template');
-      const visibleRangeEl = document.getElementById('visible-range');
-      const totalCountEl = document.getElementById('total-count');
+      const dateFilter = document.getElementById('catalog-date-filter');
+      const dateCalendar = dateFilter.querySelector('[data-date-calendar]');
       const catalogSummarySection = document.getElementById('catalog-summary-section');
       const resetFiltersBtn = document.getElementById('catalog-reset-filters-btn');
       const errorRetryBtn = document.getElementById('error-retry-btn');
@@ -81,7 +84,9 @@
             item.description.toLowerCase().includes(query) || 
             item.categoryLabel.toLowerCase().includes(query);
 
-          return item.active!==false && matchCat && matchSub && matchSearch;
+          const matchDate = !selectedDates.size || [...selectedDates].some(date =>
+            !schedule.standard(date,[{productId:item.id,quantity:1,available:item.available}],'normal',null));
+          return item.active!==false && matchCat && matchSub && matchSearch && matchDate;
         });
       }
 
@@ -238,8 +243,6 @@
         const pageItems = filtered.slice(startIndex, endIndex);
 
         // Update range counters
-        visibleRangeEl.textContent = `${startIndex + 1}–${endIndex}`;
-        totalCountEl.textContent = `${totalItems}`;
 
         // Render Cards
         grid.innerHTML = pageItems.map(createProductCard).join('');
@@ -304,7 +307,68 @@
       });
 
       // Reset filters button
+      function renderDateCalendar(focus) {
+        calendarMonth ??= schedule.today().slice(0,7);
+        const first = new Date(calendarMonth+'-01T00:00:00Z');
+        const format = (date,options) => new Intl.DateTimeFormat('en-PH',{timeZone:'UTC',...options}).format(date);
+        const days = new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();
+        dateFilter.querySelector('[data-date-label]').textContent = selectedDates.size
+          ? selectedDates.size + (selectedDates.size===1?' date selected':' dates selected') : 'Filter by date';
+        dateCalendar.innerHTML = `<div class="catalog-date-heading">
+          <button type="button" data-calendar-action="prev" aria-label="Previous month" ${calendarMonth<=schedule.today().slice(0,7)?'disabled':''}>‹</button>
+          <strong aria-live="polite">${format(first,{month:'long',year:'numeric'})}</strong>
+          <button type="button" data-calendar-action="next" aria-label="Next month">›</button>
+          </div><div class="catalog-date-grid">${['Su','Mo','Tu','We','Th','Fr','Sa'].map(day=>`<span>${day}</span>`).join('')}
+          ${'<span></span>'.repeat(first.getUTCDay())}${Array.from({length:days},(_,i)=>{
+            const date = schedule.add(calendarMonth+'-01',i);
+            const unavailable = schedule.base(date,0);
+            return `<button type="button" data-shop-date="${date}" aria-label="${format(new Date(date+'T00:00:00Z'),{dateStyle:'full'})}"
+              aria-pressed="${selectedDates.has(date)}" ${unavailable&&!selectedDates.has(date)?'disabled':''}>${i+1}</button>`;
+          }).join('')}</div><div class="catalog-date-footer"><button type="button" data-calendar-action="clear" ${selectedDates.size?'':'disabled'}>Clear dates</button>
+          <button type="button" data-calendar-action="done">Done</button></div>`;
+        if(focus)dateCalendar.querySelector(focus)?.focus();
+      }
+      dateFilter.addEventListener('toggle',()=>{
+        if(!dateFilter.open)return;
+        renderDateCalendar();
+        K406.pickup?.calendar().then(()=>{
+          if(dateFilter.open&&!dateCalendar.contains(document.activeElement))renderDateCalendar();
+          if(selectedDates.size)renderCatalog();
+        }).catch(()=>{});
+      });
+      dateCalendar.addEventListener('click',e=>{
+        const button=e.target.closest('button');
+        if(!button)return;
+        const {shopDate,calendarAction}=button.dataset;
+        if(shopDate){
+          if(selectedDates.has(shopDate))selectedDates.delete(shopDate);else selectedDates.add(shopDate);
+          renderDateCalendar(`[data-shop-date="${shopDate}"]`);
+        }else if(calendarAction==='done'){
+          dateFilter.open=false;
+          dateFilter.querySelector('summary').focus();
+          return;
+        }else if(calendarAction==='clear'){
+          selectedDates.clear();
+          renderDateCalendar('[data-calendar-action="done"]');
+        }else{
+          const date=new Date(calendarMonth+'-01T00:00:00Z');
+          date.setUTCMonth(date.getUTCMonth()+(calendarAction==='prev'?-1:1));
+          calendarMonth=date.toISOString().slice(0,7);
+          renderDateCalendar(`[data-calendar-action="${calendarAction}"]:not(:disabled)`);
+          return;
+        }
+        currentPage=1;
+        renderCatalog();
+      });
+      document.addEventListener('click',e=>{if(dateFilter.open&&!dateFilter.contains(e.target))dateFilter.open=false;});
+      dateFilter.addEventListener('keydown',e=>{
+        if(e.key!=='Escape'||!dateFilter.open)return;
+        dateFilter.open=false;
+        dateFilter.querySelector('summary').focus();
+      });
       resetFiltersBtn.addEventListener('click', () => {
+        selectedDates.clear();
+        renderDateCalendar();
         searchQuery = '';
         if (searchInput) searchInput.value = '';
         if (navSearchInput) navSearchInput.value = '';

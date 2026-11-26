@@ -118,7 +118,7 @@ document.addEventListener('click',async e=>{
  if(action==='add-bom'){A.$('owner-bom').insertAdjacentHTML('beforeend',A.ownerInventory.row());return;}
  if(action==='remove-bom'){el.closest('.owner-bom-row').remove();return;}
  if(action==='price'){O.open('Update selling price',V.form('price',V.field('price','New selling price (PHP)',A.variant(Number(id),el.dataset.variant).price,'number','required min="0.01" step="0.01"')+'<p>Existing purchases and quotations retain their saved prices.</p>',`data-id="${E(id)}" data-variant="${E(el.dataset.variant)}" data-version="${P.version}"`,'Confirm selling price'));return;}
- if(action==='pricing-settings'){O.open('Costing settings',V.form('pricing-settings',V.select('markup','Markup',Array.from({length:8},(_,i)=>[30+i*10,(30+i*10)+'%']),P.markup)+V.field('overhead','Default utility overhead (PHP)',P.overhead,'number','required min="0" step="0.01"')+V.button('discard-modal','Cancel'),`data-version="${P.version}"`));return;}
+ if(action==='pricing-settings'){A.ownerPricing.openRates();return;}
  if(action==='create-quotation'){A.ownerCakeUI.open(id);return;}
  if(action==='cancel-cake-modal'){A.closeModal();return;}
  if(action==='reject-request'){A.ownerCakeUI.openRejection(id,Number(el.dataset.version));return;}
@@ -135,7 +135,6 @@ document.addEventListener('click',async e=>{
  if(action.startsWith('calendar-'))O.render();
 });
 document.addEventListener('change',e=>{
- if(e.target.id==='owner-overhead-mode'){const input=e.target.form.elements.overhead;input.disabled=e.target.value==='default';input.required=!input.disabled;}
  if(e.target.id==='mock-owner-mode'){O.mode=e.target.value;O.render();}
  if(e.target.id==='mock-owner-save')O.saveError=e.target.value==='error';
  if(e.target.id==='mock-owner-courier')A.deliveries.outcome=e.target.value;
@@ -169,7 +168,7 @@ document.addEventListener('submit',async e=>{
     else{
      const record=G.inventoryVariant(product.id,variant);
      if(action==='price')record.price=Math.round(num('price')*100)/100;
-     else Object.assign(record,{overhead:get('overhead-mode')==='default'?null:num('overhead'),rows});
+     else record.rows=rows;
      error=await I.saveRecipes(G.inventoryProduct(product),[record],key);
     }
    }else error=await I.save(action,input);
@@ -195,9 +194,15 @@ document.addEventListener('submit',async e=>{
   else if(unit!==item.unit&&I.unitLocked(item.id))error='The unit is locked because this material is already in use.';
   else{Object.assign(item,{name,unit,threshold,category:get('category')||item.category});P.version++;}
  }
- else if(kind==='recipe')error=P.save({id:Number(form.dataset.id),variant:form.dataset.variant,version:Number(form.dataset.version),overhead:get('overhead-mode')==='default'?null:num('overhead'),rows:[...form.querySelectorAll('.owner-bom-row')].map(row=>({id:row.querySelector('[data-bom-id]').value,quantity:Number(row.querySelector('[data-bom-quantity]').value)}))});
+ else if(kind==='recipe')error=P.save({id:Number(form.dataset.id),variant:form.dataset.variant,version:Number(form.dataset.version),overhead:P.overheads.get(form.dataset.id+':'+form.dataset.variant)??null,rows:[...form.querySelectorAll('.owner-bom-row')].map(row=>({id:row.querySelector('[data-bom-id]').value,quantity:Number(row.querySelector('[data-bom-quantity]').value)}))});
  else if(kind==='price')error=P.setPrice(Number(form.dataset.id),form.dataset.variant,num('price'),Number(form.dataset.version));
- else if(kind==='pricing-settings'){if(Number(form.dataset.version)!==P.version)error='Settings changed. Reopen the form.';else if(![num('markup'),num('overhead')].every(n=>Number.isFinite(n)&&n>=0))error='Enter nonnegative markup and overhead.';else{P.markup=num('markup');P.overhead=num('overhead');P.version++;}}
+ else if(['pricing-settings','cake-price-option','cake-price-time'].includes(kind)){
+  if(form.dataset.saving)return;
+  form.dataset.saving='true';
+  try{error=await A.ownerPricing.save(form);}
+  finally{delete form.dataset.saving;}
+  if(!form.isConnected||Number(form.dataset.generation)!==A.session.generation)return;
+ }
  else if(kind==='quotation')error=A.ownerCakes.issue(form.dataset.id,A.ownerCakeUI.input(form),Number(form.dataset.version),form.dataset.operation);
  else if(kind==='block'){const categories=['Bakery closure','Holiday','Maintenance','Staff availability','Other'];error=!categories.includes(get('category'))||!get('reason').trim()?'Choose a reason category and enter reason details.':await Q.block(get('date'),get('category')+': '+get('reason'));}
  else if(kind==='settings'){const input=Object.fromEntries(['standardUnits','standardVarieties','subscriptionUnits','maxPerWeek','maxPerDay'].map(key=>[key,num(key)]));for(const type of ['subscription','cake'])input[type]={value:num(type+'-value'),unit:get(type+'-unit'),cutoff:get(type+'-cutoff')};if(!form.elements.namedItem('subscriptionUnits')){input.subscriptionUnits=A.schedule.config.subscriptionUnits;}if(!form.elements.namedItem('subscription-value')){input.subscription=A.schedule.config.timing?.subscription||{value:A.schedule.config.leadDays,unit:'days',cutoff:String(A.schedule.config.cutoffHour).padStart(2,'0')+':00'};}error=await Q.save(input,Number(form.dataset.version));}

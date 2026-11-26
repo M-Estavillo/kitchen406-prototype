@@ -136,6 +136,8 @@ module.exports = function inventoryEndpoints(db, transaction, signedInAccount, H
   const record = db.prepare('INSERT INTO InventoryOperation VALUES (?, ?, ?)');
   const fail = (message, code = 400) => { throw new HttpError(code, message); };
 
+  const pricing = require("./pricing-config.cjs")(db, fail);
+
   function coverPath(path, upload) {
     if (upload !== undefined) {
       const match = typeof upload === 'string' && /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/]+={0,2})$/.exec(upload);
@@ -173,6 +175,7 @@ module.exports = function inventoryEndpoints(db, transaction, signedInAccount, H
   function read() {
     return { items: allItems.all(), recipes: listRecipes.all(), bom: listBOM.all(),
       products: listProducts.all(), categories: listCategories.all(), schedules: listSchedules.all(),
+      pricing: pricing.read(), productTimings: pricing.products(),
       recipeVersion: recipeVersion.get().version, movements: history.all().map(row => ({
       ...row, before: round(row.balance - row.quantity_change), after: round(row.balance)
     })) };
@@ -222,6 +225,7 @@ module.exports = function inventoryEndpoints(db, transaction, signedInAccount, H
     const image = coverPath(product.image, input.coverUpload);
     saveProduct.run(product.id, category.id, product.name, product.description, image,
       Number(product.subscription), product.active ? 'active' : 'inactive', stamp, stamp);
+    if (product.timing !== undefined) pricing.saveProduct(product.id, product.timing);
     if (input.schedule !== undefined) {
       writeSubscriptionSchedule(input.schedule, product.id, actor);
     }
@@ -310,6 +314,8 @@ module.exports = function inventoryEndpoints(db, transaction, signedInAccount, H
 
       if (action === 'recipe') {
         writeRecipes(input, actor);
+      } else if (action === 'pricing') {
+        pricing.update(input);
       } else if (action === 'schedule') {
         writeSubscriptionSchedule(input, input.product_id, actor);
       } else if (action === 'category') {
@@ -382,6 +388,18 @@ module.exports = function inventoryEndpoints(db, transaction, signedInAccount, H
   }
 
   return {
+    'GET cake-options': (_input, request) => transaction(() => {
+      const {options, timings} = pricing.read();
+      const active = options.filter(option => option.available);
+      const materialIds = new Set(active.flatMap(option => Object.keys(option.ingredients)));
+      const customer = signedInAccount(request)?.role === 'customer';
+      const stock = allItems.all().filter(item => materialIds.has(item.inventory_id) || (active.length && customer)).map(item => ({
+        inventory_id: item.inventory_id, stock_on_hand: item.archived_at ? 0 : item.stock_on_hand,
+        archived: !!item.archived_at
+      }));
+      return {options: active, pairs: timings.filter(t => !t.shape && !t.icing).map(t => [t.size, t.tier]), stock};
+    }),
+    'POST inventory/pricing': (input, request) => write(input, request, 'pricing'),
     'GET catalog': () => transaction(() => ({
       products: listProducts.all(), categories: listCategories.all(), variants: publicVariants.all(), schedules: listSchedules.all(),
       availability: { stock: catalogStock.all(), requirements: listBOM.all() }

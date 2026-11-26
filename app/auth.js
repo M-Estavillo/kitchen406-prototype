@@ -52,6 +52,7 @@ function applyAccount(account){
  else A.account.records.push(account);
  A.setAuth('signedin');
  A.shell.sync();
+ A.productAdmin.loadCatalog().catch(()=>{});
 }
 const challengeKey=view=>'k406-'+view;
 function setChallenge(view,email,data){
