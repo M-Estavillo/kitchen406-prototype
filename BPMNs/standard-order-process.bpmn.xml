@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-  id="Definitions_StandardOrderProcess" targetNamespace="https://kitchen406.example/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_StandardOrderProcess" targetNamespace="https://kitchen406.example/bpmn">
   <bpmn:collaboration id="Collaboration_StandardOrderProcess">
     <bpmn:participant id="Participant_StandardOrderProcess" name="Standard Order Process" processRef="Process_StandardOrderProcess" />
   </bpmn:collaboration>
   <bpmn:process id="Process_StandardOrderProcess" name="Standard Order Process" isExecutable="false">
     <bpmn:documentation>Standard orders start when the customer selects Add to Cart. A confirmed payment sends the order to the bakery for preparation. The order is completed after pickup handoff or confirmed courier delivery.</bpmn:documentation>
-
     <bpmn:laneSet id="Lanes_StandardOrderProcess">
       <bpmn:lane id="Lane_Customer" name="Customer">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SelectProduct</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProceedCheckout</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ContinueBrowsing</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>SignIn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Pay</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReceiveCompletion</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviseCheckout</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
         <bpmn:flowNodeRef>SignedIn</bpmn:flowNodeRef>
@@ -26,6 +26,8 @@
         <bpmn:flowNodeRef>PaymentOutcome</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Closed</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Confirm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecordCourier</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ConfirmDelivery</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
       </bpmn:lane>
@@ -34,13 +36,26 @@
         <bpmn:flowNodeRef>Method</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Pickup</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Delivery</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Fulfilled</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-
-    <bpmn:startEvent id="Start" name="Customer selects Add to Cart">
-      <bpmn:outgoing>Flow_Start_SignedIn</bpmn:outgoing>
+    <bpmn:startEvent id="Start" name="Start shopping">
+      <bpmn:outgoing>Flow_Start_SelectProduct</bpmn:outgoing>
     </bpmn:startEvent>
+    <bpmn:userTask id="SelectProduct" name="Add Product to Cart">
+      <bpmn:documentation>The customer selects a product and requests Add to Cart. The system checks sign-in before adding the item.</bpmn:documentation>
+      <bpmn:incoming>Flow_Start_SelectProduct</bpmn:incoming>
+      <bpmn:incoming>Flow_ContinueBrowsing_SelectProduct</bpmn:incoming>
+      <bpmn:outgoing>Flow_SelectProduct_SignedIn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ProceedCheckout" name="Proceed to checkout?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Add_ProceedCheckout</bpmn:incoming>
+      <bpmn:outgoing>Flow_ProceedCheckout_Validate</bpmn:outgoing>
+      <bpmn:outgoing>Flow_ProceedCheckout_ContinueBrowsing</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ContinueBrowsing" name="Continue Browsing">
+      <bpmn:incoming>Flow_ProceedCheckout_ContinueBrowsing</bpmn:incoming>
+      <bpmn:outgoing>Flow_ContinueBrowsing_SelectProduct</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:userTask id="SignIn" name="Sign in and retry Add to Cart">
       <bpmn:documentation>After signing in, return to the product and select Add to Cart again.</bpmn:documentation>
       <bpmn:incoming>Flow_SignedIn_SignIn</bpmn:incoming>
@@ -48,39 +63,39 @@
     </bpmn:userTask>
     <bpmn:userTask id="Review" name="Review cart and choose pickup or delivery">
       <bpmn:documentation>Review the items and quantities, choose a fulfillment date, and provide a delivery address for courier delivery. Review the order total before proceeding to payment.</bpmn:documentation>
-      <bpmn:incoming>Flow_Add_Review</bpmn:incoming>
-      <bpmn:incoming>Flow_Issue_Review</bpmn:incoming>
-      <bpmn:outgoing>Flow_Review_Validate</bpmn:outgoing>
+      <bpmn:incoming>Flow_Valid_Review</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_Pay</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Pay" name="Pay for the order">
       <bpmn:documentation>The customer can retry an unsuccessful payment if checkout is still available.</bpmn:documentation>
-      <bpmn:incoming>Flow_Valid_Pay</bpmn:incoming>
+      <bpmn:incoming>Flow_Review_Pay</bpmn:incoming>
       <bpmn:outgoing>Flow_Pay_PaymentOutcome</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="SignedIn" name="Signed in?" gatewayDirection="Diverging">
-      <bpmn:incoming>Flow_Start_SignedIn</bpmn:incoming>
+      <bpmn:incoming>Flow_SelectProduct_SignedIn</bpmn:incoming>
       <bpmn:outgoing>Flow_SignedIn_SignIn</bpmn:outgoing>
       <bpmn:outgoing>Flow_SignedIn_Add</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Add" name="Add item to cart">
       <bpmn:incoming>Flow_SignedIn_Add</bpmn:incoming>
       <bpmn:incoming>Flow_SignIn_Add</bpmn:incoming>
-      <bpmn:outgoing>Flow_Add_Review</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Add_ProceedCheckout</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Validate" name="Check cart, date, and delivery details">
       <bpmn:documentation>Check item availability, quantities, and prices. Check that the chosen date is open for orders and has enough capacity. For courier delivery, check that the address can be served and the delivery fee is current.</bpmn:documentation>
-      <bpmn:incoming>Flow_Review_Validate</bpmn:incoming>
+      <bpmn:incoming>Flow_ProceedCheckout_Validate</bpmn:incoming>
+      <bpmn:incoming>Flow_Revise_Validate</bpmn:incoming>
       <bpmn:outgoing>Flow_Validate_Valid</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Valid" name="Checkout valid?" gatewayDirection="Diverging">
       <bpmn:incoming>Flow_Validate_Valid</bpmn:incoming>
       <bpmn:outgoing>Flow_Valid_Issue</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Valid_Pay</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Review</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="Issue" name="Show checkout issue">
       <bpmn:documentation>The customer can revise the cart or fulfillment details and try again.</bpmn:documentation>
       <bpmn:incoming>Flow_Valid_Issue</bpmn:incoming>
-      <bpmn:outgoing>Flow_Issue_Review</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Issue_Revise</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="PaymentOutcome" name="Payment outcome?" gatewayDirection="Diverging">
       <bpmn:incoming>Flow_Pay_PaymentOutcome</bpmn:incoming>
@@ -90,13 +105,16 @@
     <bpmn:endEvent id="Closed" name="Checkout closed">
       <bpmn:incoming>Flow_PaymentOutcome_Closed</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Confirm" name="Confirm order">
+    <bpmn:serviceTask id="Confirm" name="Confirm order and allocate ingredients">
       <bpmn:incoming>Flow_PaymentOutcome_Confirm</bpmn:incoming>
       <bpmn:outgoing>Flow_Confirm_Prepare</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Complete" name="Mark order completed">
-      <bpmn:incoming>Flow_Fulfilled_Complete</bpmn:incoming>
+    <bpmn:serviceTask id="Complete" name="Record completion and notify customer">
+      <bpmn:documentation>After confirmed pickup handoff or successful courier delivery, set fulfillment to completed, save the completion time and status history, and notify the customer. Courier delivery notifications report the delivered status.</bpmn:documentation>
+      <bpmn:incoming>Flow_Pickup_Fulfilled</bpmn:incoming>
+      <bpmn:incoming>Flow_Delivery_Fulfilled</bpmn:incoming>
       <bpmn:outgoing>Flow_Complete_Done</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Complete_ReceiveCompletion</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Done" name="Order completed">
       <bpmn:incoming>Flow_Complete_Done</bpmn:incoming>
@@ -115,27 +133,29 @@
       <bpmn:incoming>Flow_Method_Pickup</bpmn:incoming>
       <bpmn:outgoing>Flow_Pickup_Fulfilled</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Delivery" name="Arrange and confirm courier delivery">
-      <bpmn:documentation>An admin books the courier. Confirm delivery once the order has reached the customer.</bpmn:documentation>
+    <bpmn:userTask id="Delivery" name="Arrange courier delivery">
+      <bpmn:documentation>An admin confirms the courier booking for a Ready order. Booking alone does not complete the order.</bpmn:documentation>
       <bpmn:incoming>Flow_Method_Delivery</bpmn:incoming>
+      <bpmn:outgoing>Flow_Delivery_RecordCourier</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="RecordCourier" name="Record courier booking and progress">
+      <bpmn:documentation>Save the courier booking and subsequent tracking updates (booked, in transit, and delivered), record status history, and notify the customer. This high-level task summarizes the courier tracking interaction; unsuccessful or unresolved bookings do not authorize completion.</bpmn:documentation>
+      <bpmn:incoming>Flow_Delivery_RecordCourier</bpmn:incoming>
+      <bpmn:outgoing>Flow_RecordCourier_ConfirmDelivery</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="ConfirmDelivery" name="Confirm successful courier delivery">
+      <bpmn:documentation>Within the system, admin or eligible staff checks courier tracking until successful delivery is confirmed. This system-lane user task represents the tracking interaction in the reference diagram. In the prototype, checking status advances simulated tracking; the delivered update triggers completion in the same operation.</bpmn:documentation>
+      <bpmn:incoming>Flow_RecordCourier_ConfirmDelivery</bpmn:incoming>
       <bpmn:outgoing>Flow_Delivery_Fulfilled</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Fulfilled" gatewayDirection="Converging">
-      <bpmn:incoming>Flow_Pickup_Fulfilled</bpmn:incoming>
-      <bpmn:incoming>Flow_Delivery_Fulfilled</bpmn:incoming>
-      <bpmn:outgoing>Flow_Fulfilled_Complete</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-
-    <bpmn:sequenceFlow id="Flow_Start_SignedIn" sourceRef="Start" targetRef="SignedIn" />
     <bpmn:sequenceFlow id="Flow_SignedIn_SignIn" name="No" sourceRef="SignedIn" targetRef="SignIn" />
     <bpmn:sequenceFlow id="Flow_SignedIn_Add" name="Yes" sourceRef="SignedIn" targetRef="Add" />
     <bpmn:sequenceFlow id="Flow_SignIn_Add" sourceRef="SignIn" targetRef="Add" />
-    <bpmn:sequenceFlow id="Flow_Add_Review" sourceRef="Add" targetRef="Review" />
-    <bpmn:sequenceFlow id="Flow_Review_Validate" sourceRef="Review" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_Review_Pay" sourceRef="Review" targetRef="Pay" />
     <bpmn:sequenceFlow id="Flow_Validate_Valid" sourceRef="Validate" targetRef="Valid" />
     <bpmn:sequenceFlow id="Flow_Valid_Issue" name="No" sourceRef="Valid" targetRef="Issue" />
-    <bpmn:sequenceFlow id="Flow_Issue_Review" sourceRef="Issue" targetRef="Review" />
-    <bpmn:sequenceFlow id="Flow_Valid_Pay" name="Yes" sourceRef="Valid" targetRef="Pay" />
+    <bpmn:sequenceFlow id="Flow_Issue_Revise" sourceRef="Issue" targetRef="ReviseCheckout" />
+    <bpmn:sequenceFlow id="Flow_Valid_Review" name="Yes" sourceRef="Valid" targetRef="Review" />
     <bpmn:sequenceFlow id="Flow_Pay_PaymentOutcome" sourceRef="Pay" targetRef="PaymentOutcome" />
     <bpmn:sequenceFlow id="Flow_PaymentOutcome_Closed" name="Canceled or expired" sourceRef="PaymentOutcome" targetRef="Closed" />
     <bpmn:sequenceFlow id="Flow_PaymentOutcome_Confirm" name="Confirmed" sourceRef="PaymentOutcome" targetRef="Confirm" />
@@ -143,196 +163,301 @@
     <bpmn:sequenceFlow id="Flow_Prepare_Method" sourceRef="Prepare" targetRef="Method" />
     <bpmn:sequenceFlow id="Flow_Method_Pickup" name="Pickup" sourceRef="Method" targetRef="Pickup" />
     <bpmn:sequenceFlow id="Flow_Method_Delivery" name="Courier delivery" sourceRef="Method" targetRef="Delivery" />
-    <bpmn:sequenceFlow id="Flow_Pickup_Fulfilled" sourceRef="Pickup" targetRef="Fulfilled" />
-    <bpmn:sequenceFlow id="Flow_Delivery_Fulfilled" sourceRef="Delivery" targetRef="Fulfilled" />
-    <bpmn:sequenceFlow id="Flow_Fulfilled_Complete" sourceRef="Fulfilled" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Pickup_Fulfilled" sourceRef="Pickup" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Delivery_RecordCourier" sourceRef="Delivery" targetRef="RecordCourier" />
+    <bpmn:sequenceFlow id="Flow_RecordCourier_ConfirmDelivery" sourceRef="RecordCourier" targetRef="ConfirmDelivery" />
+    <bpmn:sequenceFlow id="Flow_Delivery_Fulfilled" sourceRef="ConfirmDelivery" targetRef="Complete" />
+    <bpmn:sequenceFlow id="Flow_Start_SelectProduct" sourceRef="Start" targetRef="SelectProduct" />
+    <bpmn:sequenceFlow id="Flow_SelectProduct_SignedIn" sourceRef="SelectProduct" targetRef="SignedIn" />
+    <bpmn:sequenceFlow id="Flow_ContinueBrowsing_SelectProduct" sourceRef="ContinueBrowsing" targetRef="SelectProduct" />
+    <bpmn:sequenceFlow id="Flow_Add_ProceedCheckout" sourceRef="Add" targetRef="ProceedCheckout" />
+    <bpmn:sequenceFlow id="Flow_ProceedCheckout_Validate" name="Yes" sourceRef="ProceedCheckout" targetRef="Validate" />
+    <bpmn:sequenceFlow id="Flow_ProceedCheckout_ContinueBrowsing" name="No" sourceRef="ProceedCheckout" targetRef="ContinueBrowsing" />
     <bpmn:sequenceFlow id="Flow_Complete_Done" sourceRef="Complete" targetRef="Done" />
+    <bpmn:task id="ReceiveCompletion" name="Receive order completed notification">
+      <bpmn:documentation>The customer receives the completion notification sent by the system after pickup handoff or successful courier delivery.</bpmn:documentation>
+      <bpmn:incoming>Flow_Complete_ReceiveCompletion</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_Complete_ReceiveCompletion" sourceRef="Complete" targetRef="ReceiveCompletion" />
+    <bpmn:userTask id="ReviseCheckout" name="Revise cart or checkout details">
+      <bpmn:documentation>Correct the cart, fulfillment date, delivery address, or other details identified in the checkout issue, then submit them for validation again.</bpmn:documentation>
+      <bpmn:incoming>Flow_Issue_Revise</bpmn:incoming>
+      <bpmn:outgoing>Flow_Revise_Validate</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_Revise_Validate" sourceRef="ReviseCheckout" targetRef="Validate" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_StandardOrderProcess">
     <bpmndi:BPMNPlane id="Plane_StandardOrderProcess" bpmnElement="Collaboration_StandardOrderProcess">
       <bpmndi:BPMNShape id="Shape_Participant_StandardOrderProcess" bpmnElement="Participant_StandardOrderProcess" isHorizontal="false">
-        <dc:Bounds x="17" y="16" width="1340" height="1300" />
+        <dc:Bounds x="17" y="16" width="1340" height="1910" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_Customer" bpmnElement="Lane_Customer" isHorizontal="false">
-        <dc:Bounds x="17" y="46" width="343" height="1270" />
+        <dc:Bounds x="17" y="46" width="343" height="1880" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false">
-        <dc:Bounds x="360" y="46" width="533" height="1270" />
+        <dc:Bounds x="360" y="46" width="533" height="1880" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_Team" bpmnElement="Lane_Team" isHorizontal="false">
-        <dc:Bounds x="893" y="46" width="464" height="1270" />
+        <dc:Bounds x="893" y="46" width="464" height="1880" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
         <dc:Bounds x="202" y="110" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="58" y="114" width="134" height="32" /></bpmndi:BPMNLabel>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="58" y="114" width="134" height="32" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_SignIn" bpmnElement="SignIn">
-        <dc:Bounds x="142" y="191" width="156" height="66" />
+        <dc:Bounds x="142" y="311" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Review" bpmnElement="Review">
-        <dc:Bounds x="142" y="439" width="156" height="66" />
+        <dc:Bounds x="142" y="900" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Pay" bpmnElement="Pay">
-        <dc:Bounds x="142" y="679" width="156" height="66" />
+        <dc:Bounds x="142" y="999" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_SignedIn" bpmnElement="SignedIn" isMarkerVisible="true">
-        <dc:Bounds x="601" y="200" width="48" height="48" />
-        <bpmndi:BPMNLabel><dc:Bounds x="643" y="176" width="100" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="601" y="320" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="643" y="296" width="100" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Add" bpmnElement="Add">
-        <dc:Bounds x="547" y="311" width="156" height="66" />
+        <dc:Bounds x="547" y="431" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Validate" bpmnElement="Validate">
-        <dc:Bounds x="547" y="439" width="156" height="66" />
+        <dc:Bounds x="547" y="650" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true">
-        <dc:Bounds x="601" y="548" width="48" height="48" />
-        <bpmndi:BPMNLabel><dc:Bounds x="655" y="552" width="110" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="601" y="789" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="658" y="790" width="120" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Issue" bpmnElement="Issue">
-        <dc:Bounds x="409" y="539" width="132" height="66" />
+        <dc:Bounds x="409" y="780" width="132" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_PaymentOutcome" bpmnElement="PaymentOutcome" isMarkerVisible="true">
-        <dc:Bounds x="601" y="688" width="48" height="48" />
-        <bpmndi:BPMNLabel><dc:Bounds x="558" y="657" width="134" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="601" y="1008" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="558" y="977" width="134" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Closed" bpmnElement="Closed">
-        <dc:Bounds x="788" y="694" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="741" y="745" width="130" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="788" y="1014" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="741" y="1065" width="130" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Confirm" bpmnElement="Confirm">
-        <dc:Bounds x="547" y="791" width="156" height="66" />
+        <dc:Bounds x="547" y="1111" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete">
-        <dc:Bounds x="547" y="1121" width="156" height="66" />
+        <dc:Bounds x="547" y="1731" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
-        <dc:Bounds x="607" y="1232" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="560" y="1280" width="130" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="607" y="1842" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="560" y="1890" width="130" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Prepare" bpmnElement="Prepare">
-        <dc:Bounds x="1047" y="791" width="156" height="66" />
+        <dc:Bounds x="1047" y="1111" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Method" bpmnElement="Method" isMarkerVisible="true">
-        <dc:Bounds x="1101" y="902" width="48" height="48" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1156" y="906" width="140" height="20" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="1101" y="1222" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1156" y="1226" width="140" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Pickup" bpmnElement="Pickup">
-        <dc:Bounds x="924" y="999" width="156" height="66" />
+        <dc:Bounds x="924" y="1319" width="156" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Delivery" bpmnElement="Delivery">
-        <dc:Bounds x="1170" y="999" width="156" height="66" />
+        <dc:Bounds x="1170" y="1319" width="156" height="66" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Fulfilled" bpmnElement="Fulfilled" isMarkerVisible="true">
-        <dc:Bounds x="1101" y="1130" width="48" height="48" />
+      <bpmndi:BPMNShape id="Shape_RecordCourier" bpmnElement="RecordCourier">
+        <dc:Bounds x="710" y="1420" width="156" height="76" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Edge_Flow_Start_SignedIn" bpmnElement="Flow_Start_SignedIn">
-        <di:waypoint x="220" y="146" />
-        <di:waypoint x="220" y="168" />
-        <di:waypoint x="625" y="168" />
-        <di:waypoint x="625" y="200" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_ConfirmDelivery" bpmnElement="ConfirmDelivery">
+        <dc:Bounds x="710" y="1540" width="156" height="66" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_SignedIn_SignIn" bpmnElement="Flow_SignedIn_SignIn">
-        <di:waypoint x="601" y="224" />
-        <di:waypoint x="298" y="224" />
-        <bpmndi:BPMNLabel><dc:Bounds x="427" y="202" width="28" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="601" y="344" />
+        <di:waypoint x="298" y="344" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="427" y="322" width="28" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_SignedIn_Add" bpmnElement="Flow_SignedIn_Add">
-        <di:waypoint x="625" y="248" />
-        <di:waypoint x="625" y="311" />
-        <bpmndi:BPMNLabel><dc:Bounds x="634" y="264" width="30" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="625" y="368" />
+        <di:waypoint x="625" y="431" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="634" y="384" width="30" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_SignIn_Add" bpmnElement="Flow_SignIn_Add">
-        <di:waypoint x="220" y="257" />
-        <di:waypoint x="220" y="287" />
-        <di:waypoint x="581" y="287" />
-        <di:waypoint x="581" y="311" />
+        <di:waypoint x="220" y="377" />
+        <di:waypoint x="220" y="407" />
+        <di:waypoint x="581" y="407" />
+        <di:waypoint x="581" y="431" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Add_Review" bpmnElement="Flow_Add_Review">
-        <di:waypoint x="625" y="377" />
-        <di:waypoint x="625" y="420" />
-        <di:waypoint x="260" y="420" />
-        <di:waypoint x="260" y="439" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Review_Validate" bpmnElement="Flow_Review_Validate">
-        <di:waypoint x="298" y="472" />
-        <di:waypoint x="547" y="472" />
+      <bpmndi:BPMNEdge id="Edge_Flow_Review_Pay" bpmnElement="Flow_Review_Pay">
+        <di:waypoint x="220" y="966" />
+        <di:waypoint x="220" y="999" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Validate_Valid" bpmnElement="Flow_Validate_Valid">
-        <di:waypoint x="625" y="505" />
-        <di:waypoint x="625" y="548" />
+        <di:waypoint x="625" y="716" />
+        <di:waypoint x="625" y="789" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Valid_Issue" bpmnElement="Flow_Valid_Issue">
-        <di:waypoint x="601" y="572" />
-        <di:waypoint x="541" y="572" />
-        <bpmndi:BPMNLabel><dc:Bounds x="556" y="550" width="30" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="601" y="813" />
+        <di:waypoint x="541" y="813" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="791" width="32" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Issue_Review" bpmnElement="Flow_Issue_Review">
-        <di:waypoint x="475" y="605" />
-        <di:waypoint x="475" y="610" />
-        <di:waypoint x="220" y="610" />
-        <di:waypoint x="220" y="505" />
+      <bpmndi:BPMNEdge id="Edge_Flow_Issue_Revise" bpmnElement="Flow_Issue_Revise">
+        <di:waypoint x="409" y="813" />
+        <di:waypoint x="298" y="813" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Pay" bpmnElement="Flow_Valid_Pay">
-        <di:waypoint x="625" y="596" />
-        <di:waypoint x="625" y="626" />
-        <di:waypoint x="220" y="626" />
-        <di:waypoint x="220" y="679" />
-        <bpmndi:BPMNLabel><dc:Bounds x="549" y="604" width="32" height="17" /></bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Review" bpmnElement="Flow_Valid_Review">
+        <di:waypoint x="625" y="837" />
+        <di:waypoint x="625" y="933" />
+        <di:waypoint x="298" y="933" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="870" width="32" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Pay_PaymentOutcome" bpmnElement="Flow_Pay_PaymentOutcome">
-        <di:waypoint x="298" y="712" />
-        <di:waypoint x="601" y="712" />
+        <di:waypoint x="298" y="1032" />
+        <di:waypoint x="601" y="1032" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_PaymentOutcome_Closed" bpmnElement="Flow_PaymentOutcome_Closed">
-        <di:waypoint x="649" y="712" />
-        <di:waypoint x="788" y="712" />
-        <bpmndi:BPMNLabel><dc:Bounds x="653" y="688" width="132" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="649" y="1032" />
+        <di:waypoint x="788" y="1032" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="653" y="1008" width="132" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_PaymentOutcome_Confirm" bpmnElement="Flow_PaymentOutcome_Confirm">
-        <di:waypoint x="625" y="736" />
-        <di:waypoint x="625" y="791" />
-        <bpmndi:BPMNLabel><dc:Bounds x="635" y="751" width="75" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="625" y="1056" />
+        <di:waypoint x="625" y="1111" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="1071" width="75" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Confirm_Prepare" bpmnElement="Flow_Confirm_Prepare">
-        <di:waypoint x="703" y="824" />
-        <di:waypoint x="1047" y="824" />
+        <di:waypoint x="703" y="1144" />
+        <di:waypoint x="1047" y="1144" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Prepare_Method" bpmnElement="Flow_Prepare_Method">
-        <di:waypoint x="1125" y="857" />
-        <di:waypoint x="1125" y="902" />
+        <di:waypoint x="1125" y="1177" />
+        <di:waypoint x="1125" y="1222" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Method_Pickup" bpmnElement="Flow_Method_Pickup">
-        <di:waypoint x="1101" y="926" />
-        <di:waypoint x="1002" y="926" />
-        <di:waypoint x="1002" y="999" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1012" y="903" width="63" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1101" y="1246" />
+        <di:waypoint x="1002" y="1246" />
+        <di:waypoint x="1002" y="1319" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1012" y="1223" width="63" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Method_Delivery" bpmnElement="Flow_Method_Delivery">
-        <di:waypoint x="1125" y="950" />
-        <di:waypoint x="1125" y="970" />
-        <di:waypoint x="1248" y="970" />
-        <di:waypoint x="1248" y="999" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1154" y="947" width="94" height="17" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1125" y="1270" />
+        <di:waypoint x="1125" y="1290" />
+        <di:waypoint x="1248" y="1290" />
+        <di:waypoint x="1248" y="1319" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1154" y="1267" width="94" height="17" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Pickup_Fulfilled" bpmnElement="Flow_Pickup_Fulfilled">
-        <di:waypoint x="1002" y="1065" />
-        <di:waypoint x="1002" y="1104" />
-        <di:waypoint x="1125" y="1104" />
-        <di:waypoint x="1125" y="1130" />
+        <di:waypoint x="924" y="1352" />
+        <di:waypoint x="625" y="1352" />
+        <di:waypoint x="625" y="1731" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Delivery_RecordCourier" bpmnElement="Flow_Delivery_RecordCourier">
+        <di:waypoint x="1248" y="1385" />
+        <di:waypoint x="1248" y="1400" />
+        <di:waypoint x="788" y="1400" />
+        <di:waypoint x="788" y="1420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RecordCourier_ConfirmDelivery" bpmnElement="Flow_RecordCourier_ConfirmDelivery">
+        <di:waypoint x="788" y="1496" />
+        <di:waypoint x="788" y="1540" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Delivery_Fulfilled" bpmnElement="Flow_Delivery_Fulfilled">
-        <di:waypoint x="1248" y="1065" />
-        <di:waypoint x="1248" y="1154" />
-        <di:waypoint x="1149" y="1154" />
+        <di:waypoint x="788" y="1606" />
+        <di:waypoint x="788" y="1764" />
+        <di:waypoint x="703" y="1764" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Fulfilled_Complete" bpmnElement="Flow_Fulfilled_Complete">
-        <di:waypoint x="1101" y="1154" />
-        <di:waypoint x="703" y="1154" />
+      <bpmndi:BPMNShape id="Shape_SelectProduct" bpmnElement="SelectProduct">
+        <dc:Bounds x="142" y="191" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ProceedCheckout" bpmnElement="ProceedCheckout" isMarkerVisible="true">
+        <dc:Bounds x="196" y="540" width="48" height="48" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="65" y="600" width="170" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ContinueBrowsing" bpmnElement="ContinueBrowsing">
+        <dc:Bounds x="40" y="444" width="130" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_SelectProduct" bpmnElement="Flow_Start_SelectProduct">
+        <di:waypoint x="220" y="146" />
+        <di:waypoint x="220" y="191" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_SelectProduct_SignedIn" bpmnElement="Flow_SelectProduct_SignedIn">
+        <di:waypoint x="298" y="224" />
+        <di:waypoint x="625" y="224" />
+        <di:waypoint x="625" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Add_ProceedCheckout" bpmnElement="Flow_Add_ProceedCheckout">
+        <di:waypoint x="625" y="497" />
+        <di:waypoint x="625" y="564" />
+        <di:waypoint x="244" y="564" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ProceedCheckout_Validate" bpmnElement="Flow_ProceedCheckout_Validate">
+        <di:waypoint x="220" y="588" />
+        <di:waypoint x="220" y="620" />
+        <di:waypoint x="625" y="620" />
+        <di:waypoint x="625" y="650" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="422" y="598" width="32" height="17" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ProceedCheckout_ContinueBrowsing" bpmnElement="Flow_ProceedCheckout_ContinueBrowsing">
+        <di:waypoint x="196" y="564" />
+        <di:waypoint x="105" y="564" />
+        <di:waypoint x="105" y="504" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="132" y="540" width="32" height="17" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ContinueBrowsing_SelectProduct" bpmnElement="Flow_ContinueBrowsing_SelectProduct">
+        <di:waypoint x="40" y="474" />
+        <di:waypoint x="30" y="474" />
+        <di:waypoint x="30" y="224" />
+        <di:waypoint x="142" y="224" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Complete_Done" bpmnElement="Flow_Complete_Done">
-        <di:waypoint x="625" y="1187" />
-        <di:waypoint x="625" y="1232" />
+        <di:waypoint x="625" y="1797" />
+        <di:waypoint x="625" y="1842" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_ReceiveCompletion" bpmnElement="ReceiveCompletion">
+        <dc:Bounds x="150" y="1724" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Complete_ReceiveCompletion" bpmnElement="Flow_Complete_ReceiveCompletion">
+        <di:waypoint x="547" y="1764" />
+        <di:waypoint x="250" y="1764" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_ReviseCheckout" bpmnElement="ReviseCheckout">
+        <dc:Bounds x="142" y="780" width="156" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Revise_Validate" bpmnElement="Flow_Revise_Validate">
+        <di:waypoint x="220" y="780" />
+        <di:waypoint x="220" y="683" />
+        <di:waypoint x="547" y="683" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
