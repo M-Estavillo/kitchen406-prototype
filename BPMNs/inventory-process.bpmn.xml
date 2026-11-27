@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_InventoryProcess" targetNamespace="https://kitchen406.example/bpmn">
+  <bpmn:collaboration id="InventoryCollaboration">
+    <bpmn:participant id="InventoryPool" name="Inventory Process" processRef="InventoryProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="InventoryProcess" name="Inventory Process" isExecutable="false">
+    <bpmn:laneSet id="InventoryLanes">
+      <bpmn:lane id="Lane_Admin" name="Admin">
+        <bpmn:flowNodeRef>Open</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Materials</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Stock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Join</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>Access</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Denied</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Updated</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Explain</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Need</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Available</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Settled</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Issue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Unavailable</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Open" name="Open Inventory">
+      <bpmn:outgoing>Flow_Open_Access</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Access" name="Signed in as Admin?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Open_Access</bpmn:incoming>
+      <bpmn:outgoing>Flow_Access_Denied</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Access_Review</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Denied" name="Access denied">
+      <bpmn:incoming>Flow_Access_Denied</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Review" name="Review materials and stock">
+      <bpmn:incoming>Flow_Access_Review</bpmn:incoming>
+      <bpmn:incoming>Flow_Explain_Review</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_Action</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Action" name="What needs updating?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Review_Action</bpmn:incoming>
+      <bpmn:outgoing>Flow_Action_Materials</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Action_Stock</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Materials" name="Manage ingredients and packaging">
+      <bpmn:documentation>Add or edit ingredients and packaging. Archive, restore, or remove materials as allowed.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Materials</bpmn:incoming>
+      <bpmn:outgoing>Flow_Materials_Join</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Stock" name="Restock or adjust stock">
+      <bpmn:documentation>Record a restock or enter the actual physical count.</bpmn:documentation>
+      <bpmn:incoming>Flow_Action_Stock</bpmn:incoming>
+      <bpmn:outgoing>Flow_Stock_Join</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Join" gatewayDirection="Converging">
+      <bpmn:incoming>Flow_Materials_Join</bpmn:incoming>
+      <bpmn:incoming>Flow_Stock_Join</bpmn:incoming>
+      <bpmn:outgoing>Flow_Join_Valid</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Valid" name="Change valid?" gatewayDirection="Diverging">
+      <bpmn:documentation>Check material details and quantities. Apply stock, reservation, and recipe restrictions where relevant.</bpmn:documentation>
+      <bpmn:incoming>Flow_Join_Valid</bpmn:incoming>
+      <bpmn:outgoing>Flow_Valid_Save</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Valid_Explain</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Save" name="Update inventory">
+      <bpmn:incoming>Flow_Valid_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_Save_Updated</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Updated" name="Inventory updated">
+      <bpmn:incoming>Flow_Save_Updated</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Explain" name="Show why the change was blocked">
+      <bpmn:incoming>Flow_Valid_Explain</bpmn:incoming>
+      <bpmn:outgoing>Flow_Explain_Review</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="Need" name="Stock needed for an order">
+      <bpmn:outgoing>Flow_Need_Check</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Check" name="Check required materials and available stock">
+      <bpmn:incoming>Flow_Need_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Available</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Available" name="Can stock be reserved?" gatewayDirection="Diverging">
+      <bpmn:documentation>Required materials must be active, have defined quantities, and have enough available stock.</bpmn:documentation>
+      <bpmn:incoming>Flow_Check_Available</bpmn:incoming>
+      <bpmn:outgoing>Flow_Available_Reserve</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Available_Issue</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Reserve" name="Reserve stock">
+      <bpmn:incoming>Flow_Available_Reserve</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reserve_Settled</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Settled" name="Stock reserved">
+      <bpmn:incoming>Flow_Reserve_Settled</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Issue" name="Report the stock issue">
+      <bpmn:incoming>Flow_Available_Issue</bpmn:incoming>
+      <bpmn:outgoing>Flow_Issue_Unavailable</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Unavailable" name="Stock could not be reserved">
+      <bpmn:incoming>Flow_Issue_Unavailable</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Open_Access" sourceRef="Open" targetRef="Access" />
+    <bpmn:sequenceFlow id="Flow_Access_Denied" sourceRef="Access" targetRef="Denied" name="No" />
+    <bpmn:sequenceFlow id="Flow_Access_Review" sourceRef="Access" targetRef="Review" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Review_Action" sourceRef="Review" targetRef="Action" />
+    <bpmn:sequenceFlow id="Flow_Action_Materials" sourceRef="Action" targetRef="Materials" name="Materials" />
+    <bpmn:sequenceFlow id="Flow_Action_Stock" sourceRef="Action" targetRef="Stock" name="Stock" />
+    <bpmn:sequenceFlow id="Flow_Materials_Join" sourceRef="Materials" targetRef="Join" />
+    <bpmn:sequenceFlow id="Flow_Stock_Join" sourceRef="Stock" targetRef="Join" />
+    <bpmn:sequenceFlow id="Flow_Join_Valid" sourceRef="Join" targetRef="Valid" />
+    <bpmn:sequenceFlow id="Flow_Valid_Save" sourceRef="Valid" targetRef="Save" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Valid_Explain" sourceRef="Valid" targetRef="Explain" name="No" />
+    <bpmn:sequenceFlow id="Flow_Save_Updated" sourceRef="Save" targetRef="Updated" />
+    <bpmn:sequenceFlow id="Flow_Explain_Review" sourceRef="Explain" targetRef="Review" />
+    <bpmn:sequenceFlow id="Flow_Need_Check" sourceRef="Need" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Check_Available" sourceRef="Check" targetRef="Available" />
+    <bpmn:sequenceFlow id="Flow_Available_Reserve" sourceRef="Available" targetRef="Reserve" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Available_Issue" sourceRef="Available" targetRef="Issue" name="No" />
+    <bpmn:sequenceFlow id="Flow_Issue_Unavailable" sourceRef="Issue" targetRef="Unavailable" />
+    <bpmn:sequenceFlow id="Flow_Reserve_Settled" sourceRef="Reserve" targetRef="Settled" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="InventoryDiagram">
+    <bpmndi:BPMNPlane id="InventoryPlane" bpmnElement="InventoryCollaboration">
+      <bpmndi:BPMNShape id="InventoryPool_di" bpmnElement="InventoryPool" isHorizontal="false">
+        <dc:Bounds x="70" y="60" width="1410" height="1570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Admin_di" bpmnElement="Lane_Admin" isHorizontal="false">
+        <dc:Bounds x="70" y="90" width="440" height="1540" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="false">
+        <dc:Bounds x="510" y="90" width="970" height="1540" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Open_di" bpmnElement="Open">
+        <dc:Bounds x="272" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="316" y="167" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Access_di" bpmnElement="Access" isMarkerVisible="true">
+        <dc:Bounds x="605" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="447" y="302" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Denied_di" bpmnElement="Denied">
+        <dc:Bounds x="612" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="656" y="477" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Review_di" bpmnElement="Review">
+        <dc:Bounds x="210" y="457" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Action_di" bpmnElement="Action" isMarkerVisible="true">
+        <dc:Bounds x="265" y="615" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="323" y="627" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Materials_di" bpmnElement="Materials">
+        <dc:Bounds x="80" y="802" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Stock_di" bpmnElement="Stock">
+        <dc:Bounds x="330" y="802" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Join_di" bpmnElement="Join" isMarkerVisible="true">
+        <dc:Bounds x="265" y="960" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Valid_di" bpmnElement="Valid" isMarkerVisible="true">
+        <dc:Bounds x="605" y="1055" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="447" y="1067" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Save_di" bpmnElement="Save">
+        <dc:Bounds x="550" y="1237" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Updated_di" bpmnElement="Updated">
+        <dc:Bounds x="612" y="1522" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="656" y="1527" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Explain_di" bpmnElement="Explain">
+        <dc:Bounds x="760" y="1237" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Need_di" bpmnElement="Need">
+        <dc:Bounds x="1112" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1156" y="167" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Check_di" bpmnElement="Check">
+        <dc:Bounds x="1050" y="347" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Available_di" bpmnElement="Available" isMarkerVisible="true">
+        <dc:Bounds x="1105" y="575" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="947" y="587" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Reserve_di" bpmnElement="Reserve">
+        <dc:Bounds x="1050" y="802" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Settled_di" bpmnElement="Settled">
+        <dc:Bounds x="1112" y="974" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1156" y="979" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Issue_di" bpmnElement="Issue">
+        <dc:Bounds x="1260" y="802" width="160" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Unavailable_di" bpmnElement="Unavailable">
+        <dc:Bounds x="1322" y="1062" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1366" y="1067" width="150" height="32" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Open_Access_di" bpmnElement="Flow_Open_Access">
+        <di:waypoint x="290" y="198" />
+        <di:waypoint x="290" y="250" />
+        <di:waypoint x="630" y="250" />
+        <di:waypoint x="630" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Access_Denied_di" bpmnElement="Flow_Access_Denied">
+        <di:waypoint x="630" y="340" />
+        <di:waypoint x="630" y="472" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="638" y="388" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Access_Review_di" bpmnElement="Flow_Access_Review">
+        <di:waypoint x="605" y="315" />
+        <di:waypoint x="290" y="315" />
+        <di:waypoint x="290" y="457" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="298" y="368" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_Action_di" bpmnElement="Flow_Review_Action">
+        <di:waypoint x="290" y="523" />
+        <di:waypoint x="290" y="615" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Materials_di" bpmnElement="Flow_Action_Materials">
+        <di:waypoint x="265" y="640" />
+        <di:waypoint x="160" y="640" />
+        <di:waypoint x="160" y="802" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="168" y="703" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Action_Stock_di" bpmnElement="Flow_Action_Stock">
+        <di:waypoint x="315" y="640" />
+        <di:waypoint x="410" y="640" />
+        <di:waypoint x="410" y="802" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="703" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Materials_Join_di" bpmnElement="Flow_Materials_Join">
+        <di:waypoint x="160" y="868" />
+        <di:waypoint x="160" y="985" />
+        <di:waypoint x="265" y="985" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Stock_Join_di" bpmnElement="Flow_Stock_Join">
+        <di:waypoint x="410" y="868" />
+        <di:waypoint x="410" y="985" />
+        <di:waypoint x="315" y="985" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Join_Valid_di" bpmnElement="Flow_Join_Valid">
+        <di:waypoint x="290" y="1010" />
+        <di:waypoint x="290" y="1080" />
+        <di:waypoint x="605" y="1080" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Save_di" bpmnElement="Flow_Valid_Save">
+        <di:waypoint x="630" y="1105" />
+        <di:waypoint x="630" y="1237" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="638" y="1153" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Valid_Explain_di" bpmnElement="Flow_Valid_Explain">
+        <di:waypoint x="655" y="1080" />
+        <di:waypoint x="840" y="1080" />
+        <di:waypoint x="840" y="1237" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="848" y="1140.5" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Save_Updated_di" bpmnElement="Flow_Save_Updated">
+        <di:waypoint x="630" y="1303" />
+        <di:waypoint x="630" y="1522" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Explain_Review_di" bpmnElement="Flow_Explain_Review">
+        <di:waypoint x="920" y="1270" />
+        <di:waypoint x="935" y="1270" />
+        <di:waypoint x="935" y="550" />
+        <di:waypoint x="395" y="550" />
+        <di:waypoint x="395" y="490" />
+        <di:waypoint x="370" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Need_Check_di" bpmnElement="Flow_Need_Check">
+        <di:waypoint x="1130" y="198" />
+        <di:waypoint x="1130" y="347" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Check_Available_di" bpmnElement="Flow_Check_Available">
+        <di:waypoint x="1130" y="413" />
+        <di:waypoint x="1130" y="575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Available_Reserve_di" bpmnElement="Flow_Available_Reserve">
+        <di:waypoint x="1130" y="625" />
+        <di:waypoint x="1130" y="802" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1138" y="695.5" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Available_Issue_di" bpmnElement="Flow_Available_Issue">
+        <di:waypoint x="1155" y="600" />
+        <di:waypoint x="1340" y="600" />
+        <di:waypoint x="1340" y="802" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1348" y="683" width="65" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Issue_Unavailable_di" bpmnElement="Flow_Issue_Unavailable">
+        <di:waypoint x="1340" y="868" />
+        <di:waypoint x="1340" y="1062" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Reserve_Settled_di" bpmnElement="Flow_Reserve_Settled">
+        <di:waypoint x="1130" y="868" />
+        <di:waypoint x="1130" y="974" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
