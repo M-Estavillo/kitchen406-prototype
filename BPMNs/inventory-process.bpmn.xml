@@ -5,8 +5,11 @@
   </bpmn:collaboration>
   <bpmn:process id="InventoryProcess" name="Inventory Process" isExecutable="false">
     <bpmn:laneSet id="InventoryLanes">
-      <bpmn:lane id="Lane_Admin" name="Admin">
+      <bpmn:lane id="Lane_Admin" name="Owner/Staff">
+        <bpmn:flowNodeRef>Resolve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReceiveLow</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Open</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Access</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Review</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Action</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Materials</bpmn:flowNodeRef>
@@ -14,25 +17,33 @@
         <bpmn:flowNodeRef>Join</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
-        <bpmn:flowNodeRef>Access</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Available</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Shortage</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DisplayUnavailable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NotifyShortage</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Low</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>DisplayLow</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Denied</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Save</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Updated</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Explain</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Need</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Available</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Reserve</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Settled</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Issue</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Customer" name="Customer">
+        <bpmn:flowNodeRef>OrderStart</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Place</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReceiveUnavailable</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Unavailable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Continue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Settled</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Open" name="Open Inventory">
       <bpmn:outgoing>Flow_Open_Access</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="Access" name="Signed in as Admin?" gatewayDirection="Diverging">
+    <bpmn:exclusiveGateway id="Access" name="Signed in as Owner/Staff?" gatewayDirection="Diverging">
       <bpmn:incoming>Flow_Open_Access</bpmn:incoming>
       <bpmn:outgoing>Flow_Access_Denied</bpmn:outgoing>
       <bpmn:outgoing>Flow_Access_Review</bpmn:outgoing>
@@ -82,33 +93,6 @@
       <bpmn:incoming>Flow_Valid_Explain</bpmn:incoming>
       <bpmn:outgoing>Flow_Explain_Review</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:startEvent id="Need" name="Stock needed for an order">
-      <bpmn:outgoing>Flow_Need_Check</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:task id="Check" name="Check required materials and available stock">
-      <bpmn:incoming>Flow_Need_Check</bpmn:incoming>
-      <bpmn:outgoing>Flow_Check_Available</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="Available" name="Can stock be reserved?" gatewayDirection="Diverging">
-      <bpmn:documentation>Required materials must be active, have defined quantities, and have enough available stock.</bpmn:documentation>
-      <bpmn:incoming>Flow_Check_Available</bpmn:incoming>
-      <bpmn:outgoing>Flow_Available_Reserve</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Available_Issue</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="Reserve" name="Reserve stock">
-      <bpmn:incoming>Flow_Available_Reserve</bpmn:incoming>
-      <bpmn:outgoing>Flow_Reserve_Settled</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="Settled" name="Stock reserved">
-      <bpmn:incoming>Flow_Reserve_Settled</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:task id="Issue" name="Report the stock issue">
-      <bpmn:incoming>Flow_Available_Issue</bpmn:incoming>
-      <bpmn:outgoing>Flow_Issue_Unavailable</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="Unavailable" name="Stock could not be reserved">
-      <bpmn:incoming>Flow_Issue_Unavailable</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_Open_Access" sourceRef="Open" targetRef="Access" />
     <bpmn:sequenceFlow id="Flow_Access_Denied" sourceRef="Access" targetRef="Denied" name="No" />
     <bpmn:sequenceFlow id="Flow_Access_Review" sourceRef="Access" targetRef="Review" name="Yes" />
@@ -122,23 +106,97 @@
     <bpmn:sequenceFlow id="Flow_Valid_Explain" sourceRef="Valid" targetRef="Explain" name="No" />
     <bpmn:sequenceFlow id="Flow_Save_Updated" sourceRef="Save" targetRef="Updated" />
     <bpmn:sequenceFlow id="Flow_Explain_Review" sourceRef="Explain" targetRef="Review" />
-    <bpmn:sequenceFlow id="Flow_Need_Check" sourceRef="Need" targetRef="Check" />
+    <bpmn:startEvent id="OrderStart" name="Customer starts an order">
+      <bpmn:outgoing>Flow_OrderStart_Place</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Place" name="Place an order for a specific date">
+      <bpmn:incoming>Flow_OrderStart_Place</bpmn:incoming>
+      <bpmn:outgoing>Flow_Place_Check</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="Check" name="Check required materials and available stock">
+      <bpmn:incoming>Flow_Place_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_Check_Available</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Available" name="Can stock be reserved?" gatewayDirection="Diverging">
+      <bpmn:documentation>Required materials must be active, have defined quantities, and have enough available stock.</bpmn:documentation>
+      <bpmn:incoming>Flow_Check_Available</bpmn:incoming>
+      <bpmn:outgoing>Flow_Available_Shortage</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Available_Low</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Shortage" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_Available_Shortage</bpmn:incoming>
+      <bpmn:outgoing>Flow_Shortage_DisplayUnavailable</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Shortage_NotifyShortage</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="DisplayUnavailable" name="Display Item/s Unavailable Message">
+      <bpmn:incoming>Flow_Shortage_DisplayUnavailable</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:receiveTask id="ReceiveUnavailable" name="Receive Item/s Unavailable Notification">
+      <bpmn:outgoing>Flow_ReceiveUnavailable_Unavailable</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:endEvent id="Unavailable" name="Item/s Unavailable">
+      <bpmn:incoming>Flow_ReceiveUnavailable_Unavailable</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="NotifyShortage" name="Notify Owner/Staff of Insufficient Stock">
+      <bpmn:incoming>Flow_Shortage_NotifyShortage</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:receiveTask id="Resolve" name="Receive Insufficient Stock Alert">
+    </bpmn:receiveTask>
+    <bpmn:exclusiveGateway id="Low" name="Low-stock threshold met?" gatewayDirection="Diverging">
+      <bpmn:documentation>Check whether the reservation would leave available stock at or below the low-stock threshold.</bpmn:documentation>
+      <bpmn:incoming>Flow_Available_Low</bpmn:incoming>
+      <bpmn:outgoing>Flow_Low_DisplayLow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Low_Reserve</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="DisplayLow" name="Display Low-Stock Notification">
+      <bpmn:incoming>Flow_Low_DisplayLow</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:receiveTask id="ReceiveLow" name="Receive Low-Stock Alert">
+      <bpmn:outgoing>Flow_ReceiveLow_Reserve</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:task id="Reserve" name="Update inventory count with reserved ingredients">
+      <bpmn:documentation>Record the reservation and reduce the stock available for other orders.</bpmn:documentation>
+      <bpmn:incoming>Flow_ReceiveLow_Reserve</bpmn:incoming>
+      <bpmn:incoming>Flow_Low_Reserve</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reserve_Continue</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:userTask id="Continue" name="Continue Order Process">
+      <bpmn:incoming>Flow_Reserve_Continue</bpmn:incoming>
+      <bpmn:outgoing>Flow_Continue_Settled</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Settled" name="Order Placed Successfully">
+      <bpmn:incoming>Flow_Continue_Settled</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_OrderStart_Place" sourceRef="OrderStart" targetRef="Place" />
+    <bpmn:sequenceFlow id="Flow_Place_Check" sourceRef="Place" targetRef="Check" />
     <bpmn:sequenceFlow id="Flow_Check_Available" sourceRef="Check" targetRef="Available" />
-    <bpmn:sequenceFlow id="Flow_Available_Reserve" sourceRef="Available" targetRef="Reserve" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_Available_Issue" sourceRef="Available" targetRef="Issue" name="No" />
-    <bpmn:sequenceFlow id="Flow_Issue_Unavailable" sourceRef="Issue" targetRef="Unavailable" />
-    <bpmn:sequenceFlow id="Flow_Reserve_Settled" sourceRef="Reserve" targetRef="Settled" />
+    <bpmn:sequenceFlow id="Flow_Available_Shortage" sourceRef="Available" targetRef="Shortage" name="No" />
+    <bpmn:sequenceFlow id="Flow_Available_Low" sourceRef="Available" targetRef="Low" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_Shortage_DisplayUnavailable" sourceRef="Shortage" targetRef="DisplayUnavailable" />
+    <bpmn:sequenceFlow id="Flow_ReceiveUnavailable_Unavailable" sourceRef="ReceiveUnavailable" targetRef="Unavailable" />
+    <bpmn:sequenceFlow id="Flow_Shortage_NotifyShortage" sourceRef="Shortage" targetRef="NotifyShortage" />
+    <bpmn:sequenceFlow id="Flow_Low_DisplayLow" sourceRef="Low" targetRef="DisplayLow" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_ReceiveLow_Reserve" sourceRef="ReceiveLow" targetRef="Reserve" />
+    <bpmn:sequenceFlow id="Flow_Low_Reserve" sourceRef="Low" targetRef="Reserve" name="No" />
+    <bpmn:sequenceFlow id="Flow_Reserve_Continue" sourceRef="Reserve" targetRef="Continue" />
+    <bpmn:sequenceFlow id="Flow_Continue_Settled" sourceRef="Continue" targetRef="Settled" />
+    <bpmn:association id="Association_NotifyShortage_Resolve" sourceRef="NotifyShortage" targetRef="Resolve" associationDirection="One" />
+    <bpmn:association id="Association_DisplayUnavailable_ReceiveUnavailable" sourceRef="DisplayUnavailable" targetRef="ReceiveUnavailable" associationDirection="One" />
+    <bpmn:association id="Association_DisplayLow_ReceiveLow" sourceRef="DisplayLow" targetRef="ReceiveLow" associationDirection="One" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="InventoryDiagram">
     <bpmndi:BPMNPlane id="InventoryPlane" bpmnElement="InventoryCollaboration">
       <bpmndi:BPMNShape id="InventoryPool_di" bpmnElement="InventoryPool" isHorizontal="false">
-        <dc:Bounds x="70" y="60" width="1410" height="1570" />
+        <dc:Bounds x="70" y="60" width="1830" height="2160" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_Admin_di" bpmnElement="Lane_Admin" isHorizontal="false">
-        <dc:Bounds x="70" y="90" width="440" height="1540" />
+        <dc:Bounds x="70" y="90" width="440" height="2130" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="false">
-        <dc:Bounds x="510" y="90" width="970" height="1540" />
+        <dc:Bounds x="510" y="90" width="970" height="2130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Customer_di" bpmnElement="Lane_Customer" isHorizontal="false">
+        <dc:Bounds x="1480" y="90" width="420" height="2130" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Open_di" bpmnElement="Open">
         <dc:Bounds x="272" y="162" width="36" height="36" />
@@ -147,9 +205,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Access_di" bpmnElement="Access" isMarkerVisible="true">
-        <dc:Bounds x="605" y="290" width="50" height="50" />
+        <dc:Bounds x="265" y="290" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="447" y="302" width="150" height="32" />
+          <dc:Bounds x="158" y="248" width="124" height="32" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Denied_di" bpmnElement="Denied">
@@ -194,55 +252,20 @@
       <bpmndi:BPMNShape id="Explain_di" bpmnElement="Explain">
         <dc:Bounds x="760" y="1237" width="160" height="66" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Need_di" bpmnElement="Need">
-        <dc:Bounds x="1112" y="162" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1156" y="167" width="150" height="32" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Check_di" bpmnElement="Check">
-        <dc:Bounds x="1050" y="347" width="160" height="66" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Available_di" bpmnElement="Available" isMarkerVisible="true">
-        <dc:Bounds x="1105" y="575" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="947" y="587" width="150" height="32" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Reserve_di" bpmnElement="Reserve">
-        <dc:Bounds x="1050" y="802" width="160" height="66" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Settled_di" bpmnElement="Settled">
-        <dc:Bounds x="1112" y="974" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1156" y="979" width="150" height="32" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Issue_di" bpmnElement="Issue">
-        <dc:Bounds x="1260" y="802" width="160" height="66" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Unavailable_di" bpmnElement="Unavailable">
-        <dc:Bounds x="1322" y="1062" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1366" y="1067" width="150" height="32" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_Open_Access_di" bpmnElement="Flow_Open_Access">
         <di:waypoint x="290" y="198" />
-        <di:waypoint x="290" y="250" />
-        <di:waypoint x="630" y="250" />
-        <di:waypoint x="630" y="290" />
+        <di:waypoint x="290" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Access_Denied_di" bpmnElement="Flow_Access_Denied">
-        <di:waypoint x="630" y="340" />
+        <di:waypoint x="315" y="315" />
+        <di:waypoint x="630" y="315" />
         <di:waypoint x="630" y="472" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="638" y="388" width="65" height="16" />
+          <dc:Bounds x="461" y="291" width="65" height="16" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Access_Review_di" bpmnElement="Flow_Access_Review">
-        <di:waypoint x="605" y="315" />
-        <di:waypoint x="290" y="315" />
+        <di:waypoint x="290" y="340" />
         <di:waypoint x="290" y="457" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="298" y="368" width="65" height="16" />
@@ -310,36 +333,131 @@
         <di:waypoint x="395" y="490" />
         <di:waypoint x="370" y="490" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Need_Check_di" bpmnElement="Flow_Need_Check">
-        <di:waypoint x="1130" y="198" />
-        <di:waypoint x="1130" y="347" />
+      <bpmndi:BPMNShape id="OrderStart_di" bpmnElement="OrderStart">
+        <dc:Bounds x="1672" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1720" y="163" width="153" height="30" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Place_di" bpmnElement="Place">
+        <dc:Bounds x="1606" y="257" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Check_di" bpmnElement="Check">
+        <dc:Bounds x="1046" y="257" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Available_di" bpmnElement="Available" isMarkerVisible="true">
+        <dc:Bounds x="1106" y="406" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="957" y="385" width="153" height="30" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shortage_di" bpmnElement="Shortage">
+        <dc:Bounds x="1326" y="406" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DisplayUnavailable_di" bpmnElement="DisplayUnavailable">
+        <dc:Bounds x="1266" y="532" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveUnavailable_di" bpmnElement="ReceiveUnavailable">
+        <dc:Bounds x="1606" y="532" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Unavailable_di" bpmnElement="Unavailable">
+        <dc:Bounds x="1672" y="685" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1623" y="730" width="134" height="23" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyShortage_di" bpmnElement="NotifyShortage">
+        <dc:Bounds x="1266" y="892" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Resolve_di" bpmnElement="Resolve">
+        <dc:Bounds x="206" y="1677" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Low_di" bpmnElement="Low" isMarkerVisible="true">
+        <dc:Bounds x="1106" y="636" width="48" height="48" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1158" y="617" width="162" height="24" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DisplayLow_di" bpmnElement="DisplayLow">
+        <dc:Bounds x="956" y="1807" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveLow_di" bpmnElement="ReceiveLow">
+        <dc:Bounds x="206" y="1807" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Reserve_di" bpmnElement="Reserve">
+        <dc:Bounds x="1046" y="1977" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Continue_di" bpmnElement="Continue">
+        <dc:Bounds x="1606" y="1977" width="168" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Settled_di" bpmnElement="Settled">
+        <dc:Bounds x="1672" y="2112" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1607" y="2158" width="166" height="24" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_OrderStart_Place_di" bpmnElement="Flow_OrderStart_Place">
+        <di:waypoint x="1690" y="198" />
+        <di:waypoint x="1690" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Place_Check_di" bpmnElement="Flow_Place_Check">
+        <di:waypoint x="1606" y="290" />
+        <di:waypoint x="1214" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Check_Available_di" bpmnElement="Flow_Check_Available">
-        <di:waypoint x="1130" y="413" />
-        <di:waypoint x="1130" y="575" />
+        <di:waypoint x="1130" y="323" />
+        <di:waypoint x="1130" y="406" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Available_Reserve_di" bpmnElement="Flow_Available_Reserve">
-        <di:waypoint x="1130" y="625" />
-        <di:waypoint x="1130" y="802" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1138" y="695.5" width="65" height="16" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_Available_Shortage_di" bpmnElement="Flow_Available_Shortage">
+        <di:waypoint x="1154" y="430" />
+        <di:waypoint x="1326" y="430" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1218" y="406" width="28" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Available_Issue_di" bpmnElement="Flow_Available_Issue">
-        <di:waypoint x="1155" y="600" />
-        <di:waypoint x="1340" y="600" />
-        <di:waypoint x="1340" y="802" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1348" y="683" width="65" height="16" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_Available_Low_di" bpmnElement="Flow_Available_Low">
+        <di:waypoint x="1130" y="454" />
+        <di:waypoint x="1130" y="636" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1140" y="520" width="28" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Issue_Unavailable_di" bpmnElement="Flow_Issue_Unavailable">
-        <di:waypoint x="1340" y="868" />
-        <di:waypoint x="1340" y="1062" />
+      <bpmndi:BPMNEdge id="Flow_Shortage_DisplayUnavailable_di" bpmnElement="Flow_Shortage_DisplayUnavailable">
+        <di:waypoint x="1350" y="454" />
+        <di:waypoint x="1350" y="532" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_Reserve_Settled_di" bpmnElement="Flow_Reserve_Settled">
-        <di:waypoint x="1130" y="868" />
-        <di:waypoint x="1130" y="974" />
+      <bpmndi:BPMNEdge id="Association_DisplayUnavailable_ReceiveUnavailable_di" bpmnElement="Association_DisplayUnavailable_ReceiveUnavailable">
+        <di:waypoint x="1434" y="565" />
+        <di:waypoint x="1606" y="565" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReceiveUnavailable_Unavailable_di" bpmnElement="Flow_ReceiveUnavailable_Unavailable">
+        <di:waypoint x="1690" y="598" />
+        <di:waypoint x="1690" y="685" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Shortage_NotifyShortage_di" bpmnElement="Flow_Shortage_NotifyShortage">
+        <di:waypoint x="1374" y="430" />
+        <di:waypoint x="1460" y="430" />
+        <di:waypoint x="1460" y="925" />
+        <di:waypoint x="1434" y="925" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_NotifyShortage_Resolve_di" bpmnElement="Association_NotifyShortage_Resolve">
+        <di:waypoint x="1350" y="958" />
+        <di:waypoint x="1350" y="1710" />
+        <di:waypoint x="374" y="1710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Low_DisplayLow_di" bpmnElement="Flow_Low_DisplayLow">
+        <di:waypoint x="1106" y="660" />
+        <di:waypoint x="1040" y="660" />
+        <di:waypoint x="1040" y="1807" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1060" y="636" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_DisplayLow_ReceiveLow_di" bpmnElement="Association_DisplayLow_ReceiveLow">
+        <di:waypoint x="956" y="1840" />
+        <di:waypoint x="374" y="1840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReceiveLow_Reserve_di" bpmnElement="Flow_ReceiveLow_Reserve">
+        <di:waypoint x="290" y="1873" />
+        <di:waypoint x="290" y="2010" />
+        <di:waypoint x="1046" y="2010" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Low_Reserve_di" bpmnElement="Flow_Low_Reserve">
+        <di:waypoint x="1130" y="684" />
+        <di:waypoint x="1130" y="1977" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1139" y="730" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Reserve_Continue_di" bpmnElement="Flow_Reserve_Continue">
+        <di:waypoint x="1214" y="2010" />
+        <di:waypoint x="1606" y="2010" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Continue_Settled_di" bpmnElement="Flow_Continue_Settled">
+        <di:waypoint x="1690" y="2043" />
+        <di:waypoint x="1690" y="2112" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
