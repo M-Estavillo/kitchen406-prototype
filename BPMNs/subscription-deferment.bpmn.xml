@@ -11,6 +11,8 @@
     <bpmn:documentation>Deferment allows a customer to move one scheduled subscription order to a later date. The system checks the order and the replacement date before approving the change.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_SubscriptionDeferment">
       <bpmn:lane id="Lane_Customer" name="Customer">
+        <bpmn:flowNodeRef>ViewUpdatedSchedule</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Request</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Week</bpmn:flowNodeRef>
@@ -19,6 +21,7 @@
         <bpmn:flowNodeRef>Choose</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
+        <bpmn:flowNodeRef>DisplayUpdatedSchedule</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Check</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Eligible</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>AllowanceUsed</bpmn:flowNodeRef>
@@ -27,37 +30,36 @@
         <bpmn:flowNodeRef>DatesUnavailable</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>DisplayDates</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Approve</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Done</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
 
     <bpmn:startEvent id="Start" name="Customer wants to defer an order">
       <bpmn:outgoing>Flow_Start_Request</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Request" name="Select a scheduled subscription order to defer">
+    <bpmn:userTask id="Request" name="Select a subscription to defer">
       <bpmn:incoming>Flow_Start_Request</bpmn:incoming>
-      <bpmn:outgoing>Flow_Request_Week</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Request_Check</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Week" name="Select subscription week to defer">
-      <bpmn:incoming>Flow_Request_Week</bpmn:incoming>
-      <bpmn:outgoing>Flow_Week_Check</bpmn:outgoing>
+      <bpmn:incoming>Flow_Eligible_Week</bpmn:incoming>
+      <bpmn:outgoing>Flow_Week_Availability</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="Check" name="Check remaining deferment allowance">
       <bpmn:documentation>A customer has one deferment per subscription.</bpmn:documentation>
-      <bpmn:incoming>Flow_Week_Check</bpmn:incoming>
+      <bpmn:incoming>Flow_Request_Check</bpmn:incoming>
       <bpmn:outgoing>Flow_Check_Eligible</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Eligible" name="Deferment allowance unused?" gatewayDirection="Diverging">
+    <bpmn:exclusiveGateway id="Eligible" name="Deferment allowance available?" gatewayDirection="Diverging">
       <bpmn:incoming>Flow_Check_Eligible</bpmn:incoming>
       <bpmn:outgoing>Flow_Eligible_AllowanceUsed</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Eligible_Availability</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Eligible_Week</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="AllowanceUsed" name="Display Deferment Allowance Used Message">
       <bpmn:incoming>Flow_Eligible_AllowanceUsed</bpmn:incoming>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Availability" name="Check If Dates Available for Deferment">
       <bpmn:documentation>Check that the signed-in customer owns the active subscription, the selected order is still scheduled, and its preparation day has not arrived. Check the date cutoff, blocked dates, and capacity for each replacement option.</bpmn:documentation>
-      <bpmn:incoming>Flow_Eligible_Availability</bpmn:incoming>
+      <bpmn:incoming>Flow_Week_Availability</bpmn:incoming>
       <bpmn:outgoing>Flow_Availability_Available</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Available" name="Dates available?" gatewayDirection="Diverging">
@@ -68,10 +70,10 @@
     <bpmn:serviceTask id="DatesUnavailable" name="Display Dates Unavailable Message">
       <bpmn:incoming>Flow_Available_DatesUnavailable</bpmn:incoming>
     </bpmn:serviceTask>
-    <bpmn:receiveTask id="FailedMessage" name="Receive Deferment Failed Message">
+    <bpmn:receiveTask id="FailedMessage" name="Receive Deferment Unavailable Message">
       <bpmn:outgoing>Flow_FailedMessage_Failed</bpmn:outgoing>
     </bpmn:receiveTask>
-    <bpmn:endEvent id="Failed" name="Deferment Failed">
+    <bpmn:endEvent id="Failed" name="Deferment Unavailable">
       <bpmn:incoming>Flow_FailedMessage_Failed</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="DisplayDates" name="Display Available Dates">
@@ -83,40 +85,50 @@
       <bpmn:incoming>Flow_DisplayDates_Choose</bpmn:incoming>
       <bpmn:outgoing>Flow_Choose_Approve</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Approve" name="Approve deferment and update subscription schedule">
+    <bpmn:serviceTask id="Approve" name="Update subscription schedule according to deferment">
       <bpmn:documentation>Recheck eligibility and date availability before applying the change. Update the preparation date, keep the order prepaid, and notify the customer.</bpmn:documentation>
       <bpmn:incoming>Flow_Choose_Approve</bpmn:incoming>
-      <bpmn:outgoing>Flow_Approve_Done</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Approve_DisplayUpdatedSchedule</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Done" name="Deferment approved">
-      <bpmn:incoming>Flow_Approve_Done</bpmn:incoming>
+      <bpmn:incoming>Flow_ViewUpdatedSchedule_Done</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_Start_Request" sourceRef="Start" targetRef="Request" />
-    <bpmn:sequenceFlow id="Flow_Request_Week" sourceRef="Request" targetRef="Week" />
-    <bpmn:sequenceFlow id="Flow_Week_Check" sourceRef="Week" targetRef="Check" />
     <bpmn:sequenceFlow id="Flow_Check_Eligible" sourceRef="Check" targetRef="Eligible" />
     <bpmn:sequenceFlow id="Flow_Eligible_AllowanceUsed" name="No" sourceRef="Eligible" targetRef="AllowanceUsed" />
-    <bpmn:sequenceFlow id="Flow_Eligible_Availability" name="Yes" sourceRef="Eligible" targetRef="Availability" />
     <bpmn:sequenceFlow id="Flow_Availability_Available" sourceRef="Availability" targetRef="Available" />
     <bpmn:sequenceFlow id="Flow_Available_DatesUnavailable" name="No" sourceRef="Available" targetRef="DatesUnavailable" />
     <bpmn:sequenceFlow id="Flow_FailedMessage_Failed" sourceRef="FailedMessage" targetRef="Failed" />
     <bpmn:sequenceFlow id="Flow_Available_DisplayDates" name="Yes" sourceRef="Available" targetRef="DisplayDates" />
     <bpmn:sequenceFlow id="Flow_DisplayDates_Choose" sourceRef="DisplayDates" targetRef="Choose" />
     <bpmn:sequenceFlow id="Flow_Choose_Approve" sourceRef="Choose" targetRef="Approve" />
-    <bpmn:sequenceFlow id="Flow_Approve_Done" sourceRef="Approve" targetRef="Done" />
+    <bpmn:serviceTask id="DisplayUpdatedSchedule" name="Display updated subscription delivery schedule">
+      <bpmn:incoming>Flow_Approve_DisplayUpdatedSchedule</bpmn:incoming>
+      <bpmn:outgoing>Flow_DisplayUpdatedSchedule_ViewUpdatedSchedule</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="ViewUpdatedSchedule" name="View Updated Delivery Schedule">
+      <bpmn:incoming>Flow_DisplayUpdatedSchedule_ViewUpdatedSchedule</bpmn:incoming>
+      <bpmn:outgoing>Flow_ViewUpdatedSchedule_Done</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_Request_Check" sourceRef="Request" targetRef="Check" />
+    <bpmn:sequenceFlow id="Flow_Eligible_Week" name="Yes" sourceRef="Eligible" targetRef="Week" />
+    <bpmn:sequenceFlow id="Flow_Week_Availability" sourceRef="Week" targetRef="Availability" />
+    <bpmn:sequenceFlow id="Flow_Approve_DisplayUpdatedSchedule" sourceRef="Approve" targetRef="DisplayUpdatedSchedule" />
+    <bpmn:sequenceFlow id="Flow_DisplayUpdatedSchedule_ViewUpdatedSchedule" sourceRef="DisplayUpdatedSchedule" targetRef="ViewUpdatedSchedule" />
+    <bpmn:sequenceFlow id="Flow_ViewUpdatedSchedule_Done" sourceRef="ViewUpdatedSchedule" targetRef="Done" />
     <bpmn:association id="Association_AllowanceUsed_FailedMessage" sourceRef="AllowanceUsed" targetRef="FailedMessage" associationDirection="One" />
     <bpmn:association id="Association_DatesUnavailable_FailedMessage" sourceRef="DatesUnavailable" targetRef="FailedMessage" associationDirection="One" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_SubscriptionDeferment">
     <bpmndi:BPMNPlane id="Plane_SubscriptionDeferment" bpmnElement="Collaboration_SubscriptionDeferment">
       <bpmndi:BPMNShape id="Shape_Participant_SubscriptionDeferment" bpmnElement="Participant_SubscriptionDeferment" isHorizontal="false">
-        <dc:Bounds x="17" y="15" width="763" height="1110" />
+        <dc:Bounds x="17" y="15" width="763" height="1330" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_Customer" bpmnElement="Lane_Customer" isHorizontal="false">
-        <dc:Bounds x="17" y="45" width="323" height="1080" />
+        <dc:Bounds x="17" y="45" width="323" height="1300" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false">
-        <dc:Bounds x="340" y="45" width="440" height="1080" />
+        <dc:Bounds x="340" y="45" width="440" height="1300" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start">
         <dc:Bounds x="202" y="77" width="36" height="36" />
@@ -126,7 +138,7 @@
         <dc:Bounds x="130" y="147" width="180" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Week" bpmnElement="Week">
-        <dc:Bounds x="130" y="249" width="180" height="66" />
+        <dc:Bounds x="130" y="461" width="180" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Check" bpmnElement="Check">
         <dc:Bounds x="490" y="249" width="180" height="66" />
@@ -165,20 +177,12 @@
         <dc:Bounds x="490" y="920" width="180" height="66" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Done" bpmnElement="Done">
-        <dc:Bounds x="562" y="1038" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="500" y="1083" width="160" height="22" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="202" y="1250" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="140" y="1296" width="160" height="24" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Edge_Flow_Start_Request" bpmnElement="Flow_Start_Request">
         <di:waypoint x="220" y="113" />
         <di:waypoint x="220" y="147" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Request_Week" bpmnElement="Flow_Request_Week">
-        <di:waypoint x="220" y="213" />
-        <di:waypoint x="220" y="249" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Week_Check" bpmnElement="Flow_Week_Check">
-        <di:waypoint x="310" y="282" />
-        <di:waypoint x="490" y="282" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Check_Eligible" bpmnElement="Flow_Check_Eligible">
         <di:waypoint x="580" y="315" />
@@ -188,11 +192,6 @@
         <di:waypoint x="556" y="386" />
         <di:waypoint x="535" y="386" />
         <bpmndi:BPMNLabel><dc:Bounds x="538" y="342" width="24" height="16" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Eligible_Availability" bpmnElement="Flow_Eligible_Availability">
-        <di:waypoint x="580" y="410" />
-        <di:waypoint x="580" y="461" />
-        <bpmndi:BPMNLabel><dc:Bounds x="589" y="426" width="28" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Availability_Available" bpmnElement="Flow_Availability_Available">
         <di:waypoint x="580" y="527" />
@@ -205,9 +204,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Association_AllowanceUsed_FailedMessage" bpmnElement="Association_AllowanceUsed_FailedMessage">
         <di:waypoint x="355" y="386" />
-        <di:waypoint x="329" y="386" />
-        <di:waypoint x="329" y="695" />
-        <di:waypoint x="310" y="695" />
+        <di:waypoint x="104" y="386" />
+        <di:waypoint x="104" y="655" />
+        <di:waypoint x="220" y="655" />
+        <di:waypoint x="220" y="677" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Association_DatesUnavailable_FailedMessage" bpmnElement="Association_DatesUnavailable_FailedMessage">
         <di:waypoint x="445" y="633" />
@@ -232,9 +232,40 @@
         <di:waypoint x="220" y="953" />
         <di:waypoint x="490" y="953" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Approve_Done" bpmnElement="Flow_Approve_Done">
+      <bpmndi:BPMNShape id="Shape_DisplayUpdatedSchedule" bpmnElement="DisplayUpdatedSchedule">
+        <dc:Bounds x="490" y="1040" width="180" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ViewUpdatedSchedule" bpmnElement="ViewUpdatedSchedule">
+        <dc:Bounds x="130" y="1040" width="180" height="66" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_Request_Check" bpmnElement="Flow_Request_Check">
+        <di:waypoint x="310" y="180" />
+        <di:waypoint x="457" y="180" />
+        <di:waypoint x="457" y="282" />
+        <di:waypoint x="490" y="282" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Eligible_Week" bpmnElement="Flow_Eligible_Week">
+        <di:waypoint x="580" y="410" />
+        <di:waypoint x="580" y="438" />
+        <di:waypoint x="220" y="438" />
+        <di:waypoint x="220" y="461" />
+        <bpmndi:BPMNLabel><dc:Bounds x="464" y="416" width="28" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Week_Availability" bpmnElement="Flow_Week_Availability">
+        <di:waypoint x="310" y="494" />
+        <di:waypoint x="490" y="494" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Approve_DisplayUpdatedSchedule" bpmnElement="Flow_Approve_DisplayUpdatedSchedule">
         <di:waypoint x="580" y="986" />
-        <di:waypoint x="580" y="1038" />
+        <di:waypoint x="580" y="1040" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_DisplayUpdatedSchedule_ViewUpdatedSchedule" bpmnElement="Flow_DisplayUpdatedSchedule_ViewUpdatedSchedule">
+        <di:waypoint x="490" y="1073" />
+        <di:waypoint x="310" y="1073" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ViewUpdatedSchedule_Done" bpmnElement="Flow_ViewUpdatedSchedule_Done">
+        <di:waypoint x="220" y="1106" />
+        <di:waypoint x="220" y="1250" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
