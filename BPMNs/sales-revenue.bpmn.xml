@@ -4,27 +4,32 @@
     <bpmn:participant id="Participant_SalesRevenue" name="Sales Revenue" processRef="Process_SalesRevenue" />
   </bpmn:collaboration>
   <bpmn:process id="Process_SalesRevenue" name="Sales Revenue" isExecutable="false">
-    <bpmn:documentation>Follow a confirmed order or scheduled subscription fulfillment from preparation through owner-attributed fulfilled sales.</bpmn:documentation>
+    <bpmn:documentation>Follow a confirmed order or scheduled subscription fulfillment through owner revenue allocation, or open Sales Analytics to review revenue independently.</bpmn:documentation>
     <bpmn:laneSet id="Lanes_SalesRevenue">
-      <bpmn:lane id="Lane_Team" name="Owner or Authorized Staff">
+      <bpmn:lane id="Lane_Team" name="Owner and Staff">
         <bpmn:flowNodeRef>Start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Open</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Allocate</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Correct</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Fulfill</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_Bakers" name="Preparing Owners">
         <bpmn:flowNodeRef>Prepare</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_System" name="Kitchen406 System">
-        <bpmn:flowNodeRef>Access</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Denied</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Valid</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Complete</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Pending</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Record</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Attribute</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>End</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ShowSales</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Owner" name="Owner">
+        <bpmn:flowNodeRef>ReviewStart</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>OpenAnalytics</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SelectFilters</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewSales</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ChangeFilters</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ReviewEnd</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start" name="Order ready for preparation">
@@ -32,34 +37,15 @@
     </bpmn:startEvent>
     <bpmn:userTask id="Open" name="Open order to start preparation">
       <bpmn:incoming>Flow_Start_Open</bpmn:incoming>
-      <bpmn:outgoing>Flow_Open_Access</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Open_Allocate</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Access" name="Signed in and authorized?" gatewayDirection="Diverging">
-      <bpmn:incoming>Flow_Open_Access</bpmn:incoming>
-      <bpmn:outgoing>Flow_Access_Denied</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Access_Allocate</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Denied" name="Preparation action blocked">
-      <bpmn:incoming>Flow_Access_Denied</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:userTask id="Allocate" name="Choose preparing owners and shares per item">
-      <bpmn:documentation>Choose the baking owners who will prepare each item. One owner receives 100%. For two owners, the default is 50/50 and the shares can be adjusted. Staff can record the allocation within their permissions.</bpmn:documentation>
-      <bpmn:incoming>Flow_Access_Allocate</bpmn:incoming>
-      <bpmn:incoming>Flow_Correct_Allocate</bpmn:incoming>
-      <bpmn:outgoing>Flow_Allocate_Valid</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Valid" name="Valid allocation for every item?" gatewayDirection="Diverging">
-      <bpmn:documentation>Every item must have one or two eligible baking owners whose shares total 100%.</bpmn:documentation>
-      <bpmn:incoming>Flow_Allocate_Valid</bpmn:incoming>
-      <bpmn:outgoing>Flow_Valid_Correct</bpmn:outgoing>
-      <bpmn:outgoing>Flow_Valid_Prepare</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Correct" name="Correct owner allocation">
-      <bpmn:incoming>Flow_Valid_Correct</bpmn:incoming>
-      <bpmn:outgoing>Flow_Correct_Allocate</bpmn:outgoing>
+      <bpmn:documentation>Choose the baking owners who will prepare each item. One owner receives 100%. For two owners, the default is 50/50 and the shares can be adjusted. Staff can record the allocation.</bpmn:documentation>
+      <bpmn:incoming>Flow_Open_Allocate</bpmn:incoming>
+      <bpmn:outgoing>Flow_Allocate_Prepare</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:manualTask id="Prepare" name="Prepare assigned items">
-      <bpmn:incoming>Flow_Valid_Prepare</bpmn:incoming>
+      <bpmn:incoming>Flow_Allocate_Prepare</bpmn:incoming>
       <bpmn:outgoing>Flow_Prepare_Fulfill</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:task id="Fulfill" name="Fulfill order by pickup or delivery">
@@ -85,37 +71,65 @@
       <bpmn:incoming>Flow_Record_Attribute</bpmn:incoming>
       <bpmn:outgoing>Flow_Attribute_End</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:endEvent id="End" name="Owner revenue reflected in Sales Analytics">
+    <bpmn:endEvent id="End" name="Revenue attributed to preparing owners">
       <bpmn:incoming>Flow_Attribute_End</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_Start_Open" sourceRef="Start" targetRef="Open" />
-    <bpmn:sequenceFlow id="Flow_Open_Access" sourceRef="Open" targetRef="Access" />
-    <bpmn:sequenceFlow id="Flow_Access_Denied" sourceRef="Access" targetRef="Denied" name="No" />
-    <bpmn:sequenceFlow id="Flow_Access_Allocate" sourceRef="Access" targetRef="Allocate" name="Yes" />
-    <bpmn:sequenceFlow id="Flow_Allocate_Valid" sourceRef="Allocate" targetRef="Valid" />
-    <bpmn:sequenceFlow id="Flow_Valid_Correct" sourceRef="Valid" targetRef="Correct" name="No" />
-    <bpmn:sequenceFlow id="Flow_Correct_Allocate" sourceRef="Correct" targetRef="Allocate" />
-    <bpmn:sequenceFlow id="Flow_Valid_Prepare" sourceRef="Valid" targetRef="Prepare" name="Yes" />
     <bpmn:sequenceFlow id="Flow_Prepare_Fulfill" sourceRef="Prepare" targetRef="Fulfill" />
     <bpmn:sequenceFlow id="Flow_Fulfill_Complete" sourceRef="Fulfill" targetRef="Complete" />
     <bpmn:sequenceFlow id="Flow_Complete_Pending" sourceRef="Complete" targetRef="Pending" name="No" />
     <bpmn:sequenceFlow id="Flow_Complete_Record" sourceRef="Complete" targetRef="Record" name="Yes" />
     <bpmn:sequenceFlow id="Flow_Record_Attribute" sourceRef="Record" targetRef="Attribute" />
     <bpmn:sequenceFlow id="Flow_Attribute_End" sourceRef="Attribute" targetRef="End" />
+    <bpmn:startEvent id="ReviewStart" name="Sales review needed">
+      <bpmn:outgoing>Flow_ReviewStart_OpenAnalytics</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="OpenAnalytics" name="Open Sales Analytics">
+      <bpmn:incoming>Flow_ReviewStart_OpenAnalytics</bpmn:incoming>
+      <bpmn:outgoing>Flow_OpenAnalytics_SelectFilters</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="SelectFilters" name="Choose period, sales basis and filters">
+      <bpmn:documentation>The Owner can choose Recorded payments or Fulfilled sales and filter by product or order type. Fulfilled sales also supports filtering by preparing owner.</bpmn:documentation>
+      <bpmn:incoming>Flow_ChangeFilters_SelectFilters</bpmn:incoming>
+      <bpmn:incoming>Flow_OpenAnalytics_SelectFilters</bpmn:incoming>
+      <bpmn:outgoing>Flow_SelectFilters_ShowSales</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="ShowSales" name="Show sales and estimated profit">
+      <bpmn:documentation>Recorded payments uses payment dates. Fulfilled sales uses completion dates and shows preparing-owner shares. Show an empty result when no sales match. Show estimated profit as unavailable when cost information is missing.</bpmn:documentation>
+      <bpmn:incoming>Flow_SelectFilters_ShowSales</bpmn:incoming>
+      <bpmn:outgoing>Flow_ShowSales_ReviewSales</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:userTask id="ReviewSales" name="Review sales results">
+      <bpmn:incoming>Flow_ShowSales_ReviewSales</bpmn:incoming>
+      <bpmn:outgoing>Flow_ReviewSales_ChangeFilters</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ChangeFilters" name="Change filters?" gatewayDirection="Diverging">
+      <bpmn:incoming>Flow_ReviewSales_ChangeFilters</bpmn:incoming>
+      <bpmn:outgoing>Flow_ChangeFilters_SelectFilters</bpmn:outgoing>
+      <bpmn:outgoing>Flow_ChangeFilters_ReviewEnd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="ReviewEnd" name="Sales review complete">
+      <bpmn:incoming>Flow_ChangeFilters_ReviewEnd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_ReviewStart_OpenAnalytics" sourceRef="ReviewStart" targetRef="OpenAnalytics" />
+    <bpmn:sequenceFlow id="Flow_ShowSales_ReviewSales" sourceRef="ShowSales" targetRef="ReviewSales" />
+    <bpmn:sequenceFlow id="Flow_ReviewSales_ChangeFilters" sourceRef="ReviewSales" targetRef="ChangeFilters" />
+    <bpmn:sequenceFlow id="Flow_ChangeFilters_SelectFilters" sourceRef="ChangeFilters" targetRef="SelectFilters" name="Yes" />
+    <bpmn:sequenceFlow id="Flow_ChangeFilters_ReviewEnd" sourceRef="ChangeFilters" targetRef="ReviewEnd" name="No" />
+    <bpmn:sequenceFlow id="Flow_Open_Allocate" sourceRef="Open" targetRef="Allocate" />
+    <bpmn:sequenceFlow id="Flow_Allocate_Prepare" sourceRef="Allocate" targetRef="Prepare" />
+    <bpmn:sequenceFlow id="Flow_OpenAnalytics_SelectFilters" sourceRef="OpenAnalytics" targetRef="SelectFilters" />
+    <bpmn:sequenceFlow id="Flow_SelectFilters_ShowSales" sourceRef="SelectFilters" targetRef="ShowSales" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_SalesRevenue">
     <bpmndi:BPMNPlane id="Plane_SalesRevenue" bpmnElement="Collaboration_SalesRevenue">
-      <bpmndi:BPMNShape id="Shape_Participant_SalesRevenue" bpmnElement="Participant_SalesRevenue" isHorizontal="false"><dc:Bounds x="20" y="20" width="980" height="940" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_Team" bpmnElement="Lane_Team" isHorizontal="false"><dc:Bounds x="20" y="50" width="300" height="910" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_Bakers" bpmnElement="Lane_Bakers" isHorizontal="false"><dc:Bounds x="320" y="50" width="240" height="910" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false"><dc:Bounds x="560" y="50" width="440" height="910" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_SalesRevenue" bpmnElement="Participant_SalesRevenue" isHorizontal="false"><dc:Bounds x="20" y="20" width="1280" height="1660" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Team" bpmnElement="Lane_Team" isHorizontal="false"><dc:Bounds x="20" y="50" width="300" height="1630" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Bakers" bpmnElement="Lane_Bakers" isHorizontal="false"><dc:Bounds x="320" y="50" width="240" height="1630" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_System" bpmnElement="Lane_System" isHorizontal="false"><dc:Bounds x="560" y="50" width="440" height="1630" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Start" bpmnElement="Start"><dc:Bounds x="152" y="64" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="65" y="104" width="210" height="20" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Open" bpmnElement="Open"><dc:Bounds x="75" y="136" width="190" height="68" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Access" bpmnElement="Access" isMarkerVisible="true"><dc:Bounds x="676" y="146" width="48" height="48" /><bpmndi:BPMNLabel><dc:Bounds x="590" y="119" width="220" height="20" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Denied" bpmnElement="Denied"><dc:Bounds x="902" y="152" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="848" y="192" width="144" height="20" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Allocate" bpmnElement="Allocate"><dc:Bounds x="75" y="266" width="190" height="68" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Valid" bpmnElement="Valid" isMarkerVisible="true"><dc:Bounds x="676" y="276" width="48" height="48" /><bpmndi:BPMNLabel><dc:Bounds x="590" y="249" width="220" height="20" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Shape_Correct" bpmnElement="Correct"><dc:Bounds x="75" y="376" width="190" height="68" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Prepare" bpmnElement="Prepare"><dc:Bounds x="345" y="396" width="190" height="68" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Fulfill" bpmnElement="Fulfill"><dc:Bounds x="75" y="516" width="190" height="68" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Shape_Complete" bpmnElement="Complete" isMarkerVisible="true"><dc:Bounds x="676" y="526" width="48" height="48" /><bpmndi:BPMNLabel><dc:Bounds x="590" y="499" width="220" height="20" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
@@ -126,46 +140,6 @@
       <bpmndi:BPMNEdge id="Edge_Flow_Start_Open" bpmnElement="Flow_Start_Open">
         <di:waypoint x="170" y="100" />
         <di:waypoint x="170" y="136" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Open_Access" bpmnElement="Flow_Open_Access">
-        <di:waypoint x="265" y="170" />
-        <di:waypoint x="676" y="170" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Access_Denied" bpmnElement="Flow_Access_Denied">
-        <di:waypoint x="724" y="170" />
-        <di:waypoint x="902" y="170" />
-        <bpmndi:BPMNLabel><dc:Bounds x="805" y="146" width="36" height="18" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Access_Allocate" bpmnElement="Flow_Access_Allocate">
-        <di:waypoint x="700" y="194" />
-        <di:waypoint x="700" y="235" />
-        <di:waypoint x="170" y="235" />
-        <di:waypoint x="170" y="266" />
-        <bpmndi:BPMNLabel><dc:Bounds x="710" y="212" width="36" height="18" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Allocate_Valid" bpmnElement="Flow_Allocate_Valid">
-        <di:waypoint x="265" y="300" />
-        <di:waypoint x="676" y="300" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Correct" bpmnElement="Flow_Valid_Correct">
-        <di:waypoint x="700" y="324" />
-        <di:waypoint x="700" y="374" />
-        <di:waypoint x="265" y="374" />
-        <di:waypoint x="265" y="410" />
-        <bpmndi:BPMNLabel><dc:Bounds x="390" y="350" width="36" height="18" /></bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Correct_Allocate" bpmnElement="Flow_Correct_Allocate">
-        <di:waypoint x="75" y="410" />
-        <di:waypoint x="45" y="410" />
-        <di:waypoint x="45" y="300" />
-        <di:waypoint x="75" y="300" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Edge_Flow_Valid_Prepare" bpmnElement="Flow_Valid_Prepare">
-        <di:waypoint x="724" y="300" />
-        <di:waypoint x="817" y="300" />
-        <di:waypoint x="817" y="430" />
-        <di:waypoint x="535" y="430" />
-        <bpmndi:BPMNLabel><dc:Bounds x="777" y="346" width="36" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Edge_Flow_Prepare_Fulfill" bpmnElement="Flow_Prepare_Fulfill">
         <di:waypoint x="440" y="464" />
@@ -194,6 +168,56 @@
       <bpmndi:BPMNEdge id="Edge_Flow_Attribute_End" bpmnElement="Flow_Attribute_End">
         <di:waypoint x="700" y="819" />
         <di:waypoint x="700" y="862" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_Lane_Owner" bpmnElement="Lane_Owner" isHorizontal="false"><dc:Bounds x="1000" y="50" width="300" height="1630" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviewStart" bpmnElement="ReviewStart"><dc:Bounds x="1132" y="967" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1060" y="1007" width="180" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_OpenAnalytics" bpmnElement="OpenAnalytics"><dc:Bounds x="1060" y="1053" width="180" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_SelectFilters" bpmnElement="SelectFilters"><dc:Bounds x="1060" y="1176" width="180" height="68" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ShowSales" bpmnElement="ShowSales"><dc:Bounds x="675" y="1378" width="190" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviewSales" bpmnElement="ReviewSales"><dc:Bounds x="1060" y="1378" width="180" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ChangeFilters" bpmnElement="ChangeFilters" isMarkerVisible="true"><dc:Bounds x="1126" y="1496" width="48" height="48" /><bpmndi:BPMNLabel><dc:Bounds x="1055" y="1471" width="190" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ReviewEnd" bpmnElement="ReviewEnd"><dc:Bounds x="1132" y="1607" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1060" y="1647" width="180" height="18" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_ReviewStart_OpenAnalytics" bpmnElement="Flow_ReviewStart_OpenAnalytics">
+        <di:waypoint x="1150" y="1003" />
+        <di:waypoint x="1150" y="1053" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ShowSales_ReviewSales" bpmnElement="Flow_ShowSales_ReviewSales">
+        <di:waypoint x="865" y="1410" />
+        <di:waypoint x="1060" y="1410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ReviewSales_ChangeFilters" bpmnElement="Flow_ReviewSales_ChangeFilters">
+        <di:waypoint x="1150" y="1442" />
+        <di:waypoint x="1150" y="1496" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ChangeFilters_SelectFilters" bpmnElement="Flow_ChangeFilters_SelectFilters">
+        <di:waypoint x="1174" y="1520" />
+        <di:waypoint x="1270" y="1520" />
+        <di:waypoint x="1270" y="1210" />
+        <di:waypoint x="1240" y="1210" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1230" y="1496" width="36" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ChangeFilters_ReviewEnd" bpmnElement="Flow_ChangeFilters_ReviewEnd">
+        <di:waypoint x="1150" y="1544" />
+        <di:waypoint x="1150" y="1607" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1160" y="1569" width="36" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Open_Allocate" bpmnElement="Flow_Open_Allocate">
+        <di:waypoint x="170" y="204" />
+        <di:waypoint x="170" y="266" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Allocate_Prepare" bpmnElement="Flow_Allocate_Prepare">
+        <di:waypoint x="265" y="300" />
+        <di:waypoint x="440" y="300" />
+        <di:waypoint x="440" y="396" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_OpenAnalytics_SelectFilters" bpmnElement="Flow_OpenAnalytics_SelectFilters">
+        <di:waypoint x="1150" y="1117" />
+        <di:waypoint x="1150" y="1176" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_SelectFilters_ShowSales" bpmnElement="Flow_SelectFilters_ShowSales">
+        <di:waypoint x="1060" y="1210" />
+        <di:waypoint x="770" y="1210" />
+        <di:waypoint x="770" y="1378" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
